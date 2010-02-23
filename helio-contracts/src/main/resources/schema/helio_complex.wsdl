@@ -12,8 +12,8 @@
 
 	<xs:complexType name="Query">
 		<xs:sequence>
-			<xs:element minOccurs="0" name="STARTTIME" type="xs:dateTime"/>
-			<xs:element minOccurs="0" name="ENDTIME" type="xs:dateTime"/>
+			<xs:element minOccurs="0" name="STARTTIME" type="xs:string"/>
+			<xs:element minOccurs="0" name="ENDTIME" type="xs:string"/>
 			<xs:element minOccurs="1" name="FROM" type="xs:string"/>
 			<xs:element minOccurs="0" name="WHERE" type="xs:string"/>
 			<xs:element minOccurs="0" name="INSTRUMENT" type="ins:instrument"/>
@@ -24,8 +24,8 @@
 	
 	<xs:complexType name="TimeQuery">
 		<xs:sequence>
-			<xs:element minOccurs="1" name="STARTTIME" type="xs:dateTime"/>
-			<xs:element minOccurs="1" name="ENDTIME" type="xs:dateTime"/>
+			<xs:element minOccurs="0" name="STARTTIME" type="xs:string"/>
+			<xs:element minOccurs="0" name="ENDTIME" type="xs:string"/>
 			<xs:element minOccurs="1" name="FROM" type="xs:string"/>
 			<xs:element minOccurs="0" name="MAXRECORDS" type="xs:int"/>
 			<xs:element minOccurs="0" name="STARTINDEX" type="xs:int"/>
