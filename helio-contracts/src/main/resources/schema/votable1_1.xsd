@@ -163,7 +163,7 @@
       <xs:extension base="xs:string">
         <xs:attribute name="ID" type="xs:ID"/>
         <xs:attribute name="name" type="xs:token" use="required"/>
-        <xs:attribute name="value" type="xs:string" use="required"/>
+        <xs:attribute name="valueinfo" type="xs:string" use="required"/>
       </xs:extension>
     </xs:simpleContent></xs:complexType>
   </xs:element>
@@ -185,7 +185,7 @@
       <xs:attribute name="name" type="xs:token" use="required"/>
       <xs:attribute name="ucd" type="ucdType"/>
       <xs:attribute name="utype" type="xs:string"/>
-      <xs:attribute name="value" type="xs:string" use="required"/>
+      <xs:attribute name="valueparam" type="xs:string" use="required"/>
       <xs:attribute name="arraysize" type="arrayDEF"/>
     </xs:complexType>
   </xs:element>
@@ -311,13 +311,13 @@
   </xs:element>
   <xs:element name="MIN">
     <xs:complexType>
-      <xs:attribute name="value" type="xs:string" use="required"/>
+      <xs:attribute name="valuemin" type="xs:string" use="required"/>
       <xs:attribute name="inclusive" type="yesno" default="yes"/>
     </xs:complexType>
   </xs:element>
   <xs:element name="MAX">
     <xs:complexType>
-      <xs:attribute name="value" type="xs:string" use="required"/>
+      <xs:attribute name="valuemax" type="xs:string" use="required"/>
       <xs:attribute name="inclusive" type="yesno" default="yes"/>
     </xs:complexType>
   </xs:element>
@@ -327,7 +327,7 @@
         <xs:element ref="OPTION" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
       <xs:attribute name="name" type="xs:token"/>
-      <xs:attribute name="value" type="xs:string" use="required"/>
+      <xs:attribute name="valueopt" type="xs:string" use="required"/>
     </xs:complexType>
   </xs:element>
 
@@ -347,7 +347,7 @@
       </xs:attribute>
       <xs:attribute name="content-type" type="xs:token"/>
       <xs:attribute name="title" type="xs:string"/>
-      <xs:attribute name="value" type="xs:string"/>
+      <xs:attribute name="valuelink" type="xs:string"/>
       <xs:attribute name="href" type="xs:anyURI"/>
       <xs:attribute name="gref" type="xs:token"/><!-- Deprecated in V1.1 -->
       <xs:attribute name="action" type="xs:anyURI"/>
