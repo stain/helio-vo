@@ -1,68 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.heliovo</groupId>
-  <artifactId>heliovo</artifactId>
-  <packaging>pom</packaging>
-  <name>Heliophysics Intergrated Observatory (HELIO)</name>
-  <version>0.0.1-SNAPSHOT</version>
-  <description>Project root of HELIO</description>
-  	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-  	<modules>
-  		<module>helio-shared</module>
-  		<module>helio-queryservice</module>
-    <module>helio-contracts</module>
-  </modules>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.heliovo</groupId>
+    <artifactId>heliovo</artifactId>
+    <packaging>pom</packaging>
+    <name>Heliophysics Intergrated Observatory (HELIO)</name>
+    <version>0.0.1-SNAPSHOT</version>
+    <description>Project root of HELIO</description>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <modules>
+        <module>helio-shared</module>
+        <module>helio-queryservice</module>
+        <module>helio-contracts</module>
+    </modules>
 
-	<repositories>
-		<repository>
-			<releases>
-				<updatePolicy>daily</updatePolicy>
-			</releases>
-			<snapshots>
-				<updatePolicy>daily</updatePolicy>
-			</snapshots>
-			<id>devjavanet</id>
-			<name>java net</name>
-			<url>http://download.java.net/maven/2</url>
-		</repository>
-		<repository>
-			<releases>
-				<updatePolicy>daily</updatePolicy>
-			</releases>
-			<snapshots>
-				<updatePolicy>daily</updatePolicy>
-			</snapshots>
-			<id>helio-vo-repository</id>
-			<name>helio-vo Repository</name>
-			<url>https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/maven-repository/</url>
-		</repository>
-	</repositories>
+    <repositories>
+        <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
+        <repository>
+            <id>atlassian-repo</id>
+            <name>Altassian-Ibilio-Maven-2</name>
+            <url>https://maven.atlassian.com/3rdparty/</url>
+        </repository>
+        <repository>
+            <id>codehaus</id>
+            <name>codehaus</name>
+            <url>http://dist.codehaus.org</url>
+            <layout>legacy</layout>
+        </repository>
+        <repository>
+            <id>devjavanet</id>
+            <name>java net</name>
+            <url>http://download.java.net/maven/2</url>
+            <releases>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ibiblio-maven2</id>
+            <name>Ibilio Maven 2</name>
+            <url>http://mirrors.ibiblio.org/pub/mirrors/maven2/</url>
+        </repository>
+        <repository>
+            <id>helio-vo-repository</id>
+            <name>helio-vo Repository</name>
+            <url>https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/maven-repository/</url>
+            <releases>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>daily</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>maven2.java.net</id>
-			<name>Java.net Maven2 Repository</name>
-			<url>http://download.java.net/maven/2</url>
-		</pluginRepository>
-	</pluginRepositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archiveClasses>true</archiveClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven2.java.net</id>
+            <name>Java.net Maven2 Repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>maven2.java.net</id>
+            <name>Java.net Maven2 Repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
