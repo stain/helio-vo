@@ -19,7 +19,8 @@
         <module>helio-shared</module>
         <module>helio-queryservice</module>
         <module>helio-contracts</module>
-    </modules>
+    	<module>helio-monitoring</module>
+  </modules>
 
     <repositories>
         <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
