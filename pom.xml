@@ -19,7 +19,7 @@
         <module>helio-shared</module>
         <module>helio-queryservice</module>
         <module>helio-contracts</module>
-    	<module>helio-monitoring</module>
+    	<!--module>helio-monitoring</module-->
   </modules>
 
     <repositories>
