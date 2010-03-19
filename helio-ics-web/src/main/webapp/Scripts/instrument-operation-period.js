@@ -14,19 +14,21 @@ function getInsDescDetails(obj){
 		
 		 document.frmInstrumentAdmin.insOpsName.value=obj.value;
 		var sSelected=obj.value;
-			//alert(obj.value+" : ID : "+document.frmInstrumentAdmin.insOpsName.value+" sSelected : "+sSelected);
-		try{
-				request=new ActiveXObject("Microsoft.XMLHTTP");
+		//alert(obj.value+" : ID : "+document.frmInstrumentAdmin.insOpsName.value+" sSelected : "+sSelected);
+		
+		if(window.ActiveXObject){
+			request = new ActiveXObject("Microsoft.XMLHTTP");
 		}
-		catch(other){
-			try{
-			    	request=new XMLHttpRequest();
-				}
-			 catch(browser){alert("Ajax Not Supported")}
-		 }
+		else if(window.XMLHttpRequest){
+			request = new XMLHttpRequest();
+		}
+
 	   if(request!=null){
+		//alert(" before call ");
 		commonAjaxOpen(request, "getInsDescDetails.action?insID="+sSelected);
+		//alert(" after call ");
 		request.onreadystatechange=insDescLoadCallback;
+		//alert(" setting call ");
 		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		request.send(null);
 	 }
@@ -35,7 +37,7 @@ function getInsDescDetails(obj){
 
 function insDescLoadCallback()
 {
-	
+	//alert(" load call back");
 	var ready=request.readyState;
 	
 	if(ready == 4)
@@ -46,17 +48,19 @@ function insDescLoadCallback()
 		
 		var instruments=request.responseXML.getElementsByTagName("instrument");
 	
+		//alert("cmbInsDes "+cmbInsDes+" instruments"+instruments);
+		
 		removeOptions(cmbInsDes);
 		var opt=document.createElement('option');
 			opt.value="s";
 			opt.text="--Select--";
-			cmbInsDes.add(opt);
+			cmbInsDes.appendChild(opt);
 		for(var i=0;i<instruments.length;i++){
 			//Populating Combo box
 			var opt=document.createElement('option');
 			opt.value=getNodeValue(instruments[i],"execN");
 			opt.text=getNodeValue(instruments[i],"displayN");
-			cmbInsDes.add(opt);
+			cmbInsDes.appendChild(opt);
 			
 			
 		}
