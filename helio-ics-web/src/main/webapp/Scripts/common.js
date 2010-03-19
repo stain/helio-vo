@@ -37,7 +37,7 @@ function commonAjaxOpen(request, url) {
 	
 	var s = "&"
 	if (url.indexOf("?") == -1) s = "?";
-	request.open("POST",url + s + (new Date()).getTime(),false);
+	request.open("POST",url + s + (new Date()).getTime(),true);
 }
 
 function trim(stringToTrim) {
