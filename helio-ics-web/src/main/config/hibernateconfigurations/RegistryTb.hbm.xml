@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="eu.heliovo.ics.common.model.hibernate.RegistryTb" table="REGISTRY">                
+        <id name="id" column="ID">
+            <generator class="increment"/>
+        </id> 
+        <property name="regInsId" column="REG_INS_ID"/>
+        <property name="regObsId" column="REG_OBS_ID"/>	
+	    <property name="regOpsPosition">
+		    	<column name="REG_OBS_POSITION" />
+	    </property>
+	    <property name="regObsElement">
+		    	<column name="REG_OBS_ELEMEN" />
+	    </property>
+	    <property name="regObsLocation">
+		    	<column name="REG_OBS_LOCATION" />
+	    </property>
+	    
+	    <property name="regObsEntElement">
+		    	<column name="REG_OBS_ENT_ELEMENT" />
+	    </property>
+	    <property name="regObsEntType">
+		    	<column name="REG_OBS_ENT_TYPE" />
+	    </property>
+	    <property name="regObsFd">
+		    	<column name="REG_OBS_FD" />
+	    </property>
+	    
+	    <property name="regObsNd">
+		    	<column name="REG_OBS_ND" />
+	    </property>
+	    
+	    <property name="regObsType1">
+		    	<column name="REG_OBS_TYPE1" />
+	    </property>
+	    <property name="regObsType2">
+		    	<column name="REG_OBS_TYPE2" />
+	    </property>
+	    <property name="regObsType3">
+		    	<column name="REG_OBS_TYPE3" />
+	    </property>
+	    <property name="regObsType4">
+		    	<column name="REG_OBS_TYPE4" />
+	    </property>
+	    <property name="regObsType5">
+		    	<column name="REG_OBS_TYPE5" />
+	    </property>
+	</class>
+</hibernate-mapping>
