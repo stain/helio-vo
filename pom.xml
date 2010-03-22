@@ -4,9 +4,84 @@
     <groupId>eu.heliovo</groupId>
     <artifactId>heliovo</artifactId>
     <packaging>pom</packaging>
-    <name>Heliophysics Intergrated Observatory (HELIO)</name>
-    <version>0.0.1-SNAPSHOT</version>
-    <description>Project root of HELIO</description>
+    <name>helio-parent</name>
+    <description>Heliophysics Intergrated Observatory (HELIO) parent project is the super project of all helio sub projects managed by the build system. 
+    The Heliophysics Integrated Observatory, HELIO, will deploy a distributed network of services that will address the needs of a broad community
+    of researchers in heliophysics. HELIO will provide the most comprehensive integrated information system in this domain; 
+    it will coordinate access to the resources needed by the community, and will provide access to services to mine and analyze the data. 
+    </description>
+    <url>http://www.helio-vo.eu/</url>
+    
+    <version>0.0.1-SNAPSHOT</version>    
+    
+    <issueManagement>
+      <system>Sourceforge</system>
+      <url>https://sourceforge.net/tracker/?group_id=268068</url>
+    </issueManagement>
+    
+    <ciManagement>
+      <system>Hudson</system>
+      <url>http://helio-dev.i4ds.technik.fhnw.ch/hudson/</url>
+      <notifiers>
+         <notifier>
+            <type>mail</type>
+            <address>marco.soldati@fhnw.ch</address>
+         </notifier>
+      </notifiers>
+    </ciManagement>
+
+    <developers>
+      <developer>
+          <id>gabmera</id>
+          <name>Gabriele Pierantoni</name>
+          <organization>TCD-CAG</organization>
+          <email>gabriele.pierantoni@cs.tcd.ie</email>
+          <timezone>0</timezone>
+      </developer>
+	  <developer>
+          <id>mercuron</id>
+          <name>Marco Soldati</name>
+          <organization>i4ds@FHNW</organization>
+          <email>marco.soldati@fhnw.ch</email>
+          <timezone>+1</timezone>
+      </developer>
+	  <developer>
+          <id>anjaleblanc</id>
+          <name>Anja Le Blanc</name>
+          <organization>University of Manchester</organization>
+          <email>anja.leblanc@manchester.ac.uk</email>
+          <timezone>0</timezone>
+      </developer>
+	  <developer>
+          <id>dkfellows</id>
+          <name>Donal K. Fellows</name>
+          <organization>University of Manchester</organization>
+          <email>donal.k.fellows@manchester.ac.uk</email>
+          <timezone>0</timezone>
+      </developer>
+	  <developer>
+          <id>coanvo</id>
+          <name>Antonio Volpicelli</name>
+          <organization>INAF-Torino</organization>
+          <email>volpicelli@oato.inaf.it</email>
+          <timezone>+1</timezone>
+      </developer>
+	  <developer>
+          <id>de_iru_ch</id>
+          <name>Simon Felix</name>
+          <organization>i4ds@FHNW</organization>
+          <email>de@iru.ch</email>
+          <timezone>0</timezone>
+      </developer>
+      <developer>
+          <id>alessandromarassi</id>
+          <name>Alessandro Marassi</name>
+          <organization>INAF-Trieste</organization>
+          <email>marassi@oats.inaf.it</email>
+          <timezone>0</timezone>
+      </developer>
+    </developers>
+    
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -25,7 +100,55 @@
         <module>helio-queryservice</module>
         <module>helio-contracts</module>
     	<module>helio-monitoring</module>
-  </modules>
+    </modules>
+    
+    <scm>
+      <connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
+      <developerConnection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</developerConnection>
+      <url>http://helio-vo.svn.sourceforge.net/viewvc/helio-vo/</url>
+    </scm> 
+
+    <reporting>
+        <plugins>
+          <plugin>
+            <artifactId>maven-javadoc-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>jxr-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <artifactId>maven-clover-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-pmd-plugin</artifactId>
+              <configuration>
+                  <targetjdk>1.5</targetjdk>
+                  <rulesets>
+                    <ruleset>/rulesets/basic.xml</ruleset>
+                    <ruleset>/rulesets/controversial.xml</ruleset>
+                  </rulesets>
+                  <format>xml</format>
+                  <linkXref>true</linkXref>
+                  <sourceEncoding>utf-8</sourceEncoding>
+                  <minimumTokens>100</minimumTokens>
+              </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>changelog-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>taglist-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+    </reporting>
+    
 
     <repositories>
         <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
@@ -84,6 +207,15 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <archiveClasses>true</archiveClasses>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <outputEncoding>UTF-8</outputEncoding>
+                    <generateSitemap>true</generateSitemap>
                 </configuration>
             </plugin>
         </plugins>

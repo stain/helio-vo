@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Heliophysics Integrated Observatory">
+  <bannerLeft>
+    <name>Helio</name>
+    <src>http://helio-vo.eu/helio.png</src>
+    <href>http://helio-vo.eu/</href>
+  </bannerLeft>
+  <bannerRight>
+    <src>http://maven.apache.org/images/maven-small.gif</src>
+  </bannerRight>
+  <body>
+    <links>
+    </links>
+
+    <menu name="Heliophysics Integrated Observatory HELIO">
+    </menu>
+
+
+    ${reports}
+
+
+  </body>
+</project>
