@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Heliophysics Integrated Observatory">
-  <bannerLeft>
-    <name>Helio</name>
-    <src>http://helio-vo.eu/helio.png</src>
-    <href>http://helio-vo.eu/</href>
-  </bannerLeft>
-  <bannerRight>
-    <src>http://maven.apache.org/images/maven-small.gif</src>
-  </bannerRight>
-  <body>
-    <links>
-    </links>
 
-    <menu name="Heliophysics Integrated Observatory HELIO">
-    </menu>
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-stylus-skin</artifactId>
+        <version>1.0</version>
+    </skin>
 
+    <bannerLeft>
+        <name>Helio</name>
+        <src>images/helio_logo4_sm.jpg</src>
+        <href>http://helio-vo.eu/</href>
+    </bannerLeft>
+  <!--bannerRight>
+    <src>http://www.helio-vo.eu/images/FP7_Capacities_logo.jpg</src>
+  </bannerRight-->
+    <version position="left"/>
+    <body>
 
-    ${reports}
+        <links>
+            <item name="Helio home" href="http://helio-vo.eu/" />
+            <item name="Helio Wiki" href="https://grid.ie/helio/wiki/" />
+        </links>
 
+        <menu name="Heliophysics Integrated Observatory HELIO">
+            <item name="Overview" href="index.html"/>
+            <item name="helio-queryservice" href="helio-queryservice/index.html"/>
+        </menu>
 
-  </body>
+        <menu name="Developers Guidelines">
+            <item name="subversion" href="develop/svn.html" />
+        </menu>
+
+        <menu ref="reports"/>
+
+    </body>
 </project>
