@@ -1,24 +1,40 @@
-Also check SetupEclipseAndMaven
-
-= Versioning strategy =
-I suggest to use the following versioning strategy for Helio (borrowed from: http://janvanbesien.blogspot.com/2009/06/consistent-svn-brach-and-tag-names-for.html)
+  ---
+  Versioning Strategy
+  ---
+  Marco Soldati
+  ---
+  April 2010
+  ---
+  
+  I suggest to use the following versioning strategy for Helio (borrowed from: http://janvanbesien.blogspot.com/2009/06/consistent-svn-brach-and-tag-names-for.html)
 
  * Versioning Schema `x.y` (example someproject-3.4.):
+ 
    * `x`: major release number (to be increased with every official release (every 2 month))
+ 
    * `y`: minor release number (to be increased with every update of a software module)
+ 
  * Main development happens on trunk. A maven project on trunk thus has a version number X.Y-SNAPSHOT; for example someproject-3.4-SNAPSHOT.
+ 
  * When releasing a maven project, the word "SNAPSHOT" is removed from the version; for example someproject-3.4. On trunk, development continues with the next SNAPSHOT version; for example someproject-3.4-SNAPSHOT (or perhaps 3.5-SNAPSHOT or even 4.0-SNAPSHOT).
+ 
  * A released project is tagged in SVN as ${artifactId}-${version}; for example http://svnserver/svnrepo/helio-vo/tags/someproject-3.4.
+ 
  * A branch (for fixes in "old" releases) is always taken starting from a tag. Branching a project tagged with version X.Y results in a branch SVN directory called X.Y.1.x; for example http://svnserver/svnrepo/branches/someproject-3.4.1.x (the 1 means "first branch", the x indicates that that is the only part of the version which changes in this branch during the lifetime of the branched project).
+ 
  * If another branch is taken from the same tag, it becomes X.Y.2.x etc; for example http://svnserver/svnrepo/branches/someproject-3.4.2.x.
+ 
  * The version of the maven project in a branch follows this naming strategy; for example the maven version of the project in .../branches/someproject-3.4.1.x is initially 3.4.1.0-SNAPSHOT.
+ 
  * Releasing from a branch results in a tag with 4 numbers; for example the first release would be someproject-3.4.1.0 and the branch would continue with 3.4.1.1-SNAPSHOT.
+ 
  * Branching on a branch is also possible, just add another two numbers; for example X.Y.1.2.1.x (first branch of the second release from that first branch of project with version X.Y).
+ []
+ 
+SVN Structure
+  This is a proposal for a SVN structure. Please comment.
 
-= SVN Structure =
-This is a proposal for a SVN structure. Please comment.
-
-
++------------------------------------------------------+
 https://helio-vo.svn.sourceforge.net/svnroot/helio-vo
 |
 +- trunk                                          the current version of a project is lying on the trunk.
@@ -44,25 +60,21 @@ https://helio-vo.svn.sourceforge.net/svnroot/helio-vo
 |  +- helio-frontend-portal-1.0.1
 |  +- ...
 +- maven-repository                               local maven repostitory
++------------------------------------------------------+
 
 
+Maven artifacts and groups
 
-= Maven artifacts and groups =
-I suggest to use the following artifact and group ids.
-|| '''artifactId''' || '''java package/group id''' ||  '''project''' ||
-|| helio-shared || eu.heliovo.shared || utility classes that are shared by mutliple projects  ||
-|| helio-frontend-widget || eu.heliovo.frontend.widget || collection of specialized widgets ||
-|| helio-frontend-portal || eu.heliovo.frontend.portal|| the portal for the helio frontend ||
-|| helio-dpas || eu.heliovo.dpas || data provide access service ||
-|| helio-queryservice || eu.heliovo.queryservice || the query service infrastructure ||
-|| helio-workflow || eu.heliovo.workflow || the hard coded workflows ||
-|| helio-ics || eu.heliovo.ics || the instrument c??? service ||
-
-
-= Create a new project =
-You can use the following pom.xml to create a new project.
-
-
-<todo>
-
+   I suggest to use the following artifact and group ids.
+   
+*-------------------------+-------------------------------+-------------------------------------------------------+   
+| <<artifactId>>          | <<java package/group id>>     |  <<project>>                                          |
+| helio-shared            | eu.heliovo.shared             | utility classes that are shared by mutliple projects  |
+| helio-frontend-widget   | eu.heliovo.frontend.widget    | collection of specialized widgets                     |
+| helio-frontend-portal   | eu.heliovo.frontend.portal    | the portal for the helio frontend                     |
+| helio-dpas              | eu.heliovo.dpas               | data provide access service                           |
+| helio-queryservice      | eu.heliovo.queryservice       | the query service infrastructure                      |
+| helio-workflow          | eu.heliovo.workflow           | the hard coded workflows                              |
+| helio-ics               | eu.heliovo.ics                | the instrument c??? service                           |
+*-------------------------+-------------------------------+-------------------------------------------------------+
 
