@@ -6,14 +6,10 @@
       <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
   </listener>
   
-    <servlet>
-    <description>
-    </description>
-    <display-name>HelioWorkflow</display-name>
+  <servlet>
     <servlet-name>HelioWorkflow</servlet-name>
     <servlet-class>eu.heliovo.workflow.servlets.HelioQueryService</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>HelioWorkflow</servlet-name>
     <url-pattern>/HelioWorkflow</url-pattern>
