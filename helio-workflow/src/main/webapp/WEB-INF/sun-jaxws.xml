@@ -2,7 +2,7 @@
 <endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
   <endpoint 
     name="HelioService"                    
-	  implementation="eu.heliovo.workflow.server.query.SoapDispatcher" 
+	  implementation="eu.heliovo.workflow.interfaces.SoapDispatcher" 
 	  wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
 	  service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
 	  port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
