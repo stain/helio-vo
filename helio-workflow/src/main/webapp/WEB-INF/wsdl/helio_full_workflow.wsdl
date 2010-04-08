@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HelioWorkflowService" targetNamespace="http://helio-vo.eu/xml/WorkflowService/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helio-vo.eu/xml/WorkflowService/v0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema xmlns:vot="http://www.ivoa.net/xml/VOTable/v1.1" xmlns:ins="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema"  xmlns:tns="http://helio-vo.eu/xml/WorkflowService/v0.1" elementFormDefault="unqualified" targetNamespace="http://helio-vo.eu/xml/WorkflowService/v0.1" version="1.0">
+      <xs:import xmlns:vot="http://www.ivoa.net/xml/VOTable/v1.1" namespace="http://www.ivoa.net/xml/VOTable/v1.1" schemaLocation="votable1_1.xsd"/>   
+      <xs:import xmlns:ins="http://helio-vo.eu/xml/Instruments/v0.1" namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="Instruments.xsd"/>   
+      <xs:element name="InitialWorkflowParameters" type="tns:InitialWorkflowParameters"/>
+      <xs:element name="WorkflowResponse" type="tns:WorkflowResponse"/>
+
+      <xs:complexType name="InitialWorkflowParameters">
+        <xs:sequence>
+          <xs:element minOccurs="1" maxOccurs="1" name="STARTTIME" type="xs:string"/>
+          <xs:element minOccurs="1" maxOccurs="1" name="ENDTIME" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="GOES_MIN" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="1" name="GOES_MAX" type="xs:string"/>
+          <xs:element minOccurs="0" name="INSTRUMENT" type="ins:instrument"/>
+        </xs:sequence>
+      </xs:complexType>
+  
+      <xs:complexType name="WorkflowResponse">
+        <xs:sequence>
+           <xs:element ref="vot:VOTABLE" minOccurs="1" maxOccurs="1" />
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  
+  <wsdl:message name="WorkflowResponse">
+    <wsdl:part name="parameters" element="tns:WorkflowResponse" />
+  </wsdl:message>
+  
+  <wsdl:message name="InitialWorkflowParameters">
+    <wsdl:part name="parameters" element="tns:InitialWorkflowParameters" />
+  </wsdl:message>
+  
+  <wsdl:portType name="HelioWorkflowService">
+    <wsdl:operation name="runInitialWorkflow">
+      <wsdl:input message="tns:InitialWorkflowParameters" />
+      <wsdl:output message="tns:WorkflowResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="HelioWorkflowServiceSoapBinding" type="tns:HelioWorkflowService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="runInitialWorkflow">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  
+  <wsdl:service name="HelioWorkflowService">
+    <wsdl:port name="HelioWorkflowPort" binding="tns:HelioWorkflowServiceSoapBinding">
+      <soap:address location="http://http://helio.i4ds.technik.fhnw.ch:8080/helio-workflow/SOAP"/>
+    </wsdl:port>
+  </wsdl:service>
+  
+</wsdl:definitions>

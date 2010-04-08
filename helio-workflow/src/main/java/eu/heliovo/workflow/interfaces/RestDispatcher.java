@@ -2,6 +2,9 @@ package eu.heliovo.workflow.interfaces;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,9 +29,9 @@ public class RestDispatcher extends HttpServlet
       String goes_max=request.getParameter("goes_max");
       String date_start=request.getParameter("date_start");
       String date_end=request.getParameter("date_end");
-      String[] instruments=request.getParameter("instruments").split(",");
+      List<String> instruments=Arrays.asList(request.getParameter("instruments").split(","));
       
-      InitialWorkflow.runWorkflow(pw,instruments,date_start,date_end,goes_min,goes_max);
+      InitialWorkflow.runInitialWorkflow(pw,instruments,date_start,date_end,goes_min,goes_max);
     }
     catch(Exception e)
     {

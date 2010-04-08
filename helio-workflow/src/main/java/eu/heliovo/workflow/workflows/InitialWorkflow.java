@@ -1,35 +1,102 @@
 package eu.heliovo.workflow.workflows;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.io.StringReader;
+
+import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.apache.xerces.parsers.DOMParser;
 
+import eu.heliovo.workflow.clients.dpas.QueryServiceService;
+import eu.heliovo.workflow.clients.hec.HECService;
+
 public class InitialWorkflow extends Workflow
 {
-  public static void runWorkflow(Writer _w,String[] _instruments,String _date_start,String _date_end,String _goes_min,String _goes_max) throws Exception
+  public static void runInitialWorkflow(Writer _w,List<String> _instruments,String _date_start,String _date_end,String _goes_min,String _goes_max) throws Exception
   {
     writeHeader(_w,"test");
-
+    
+    
+    //inputs
+    String sql_base="SELECT * FROM goes_xray_flare WHERE  time_start>='%start_date%' AND time_start<'%stop_date%' %goes% ORDER BY ntime_start;";
+    
+    
+    //combine_sql_query
+    String sql_input=combine_sql_query(sql_base,_goes_min,_goes_max,_date_start,_date_end);
+    
+    
+    //sql_input
+    
+    
+    //hec_it_sql
+    System.out.println(sql_input);
+    String sql_output=new HECService().getHECPort().sql(sql_input);
+    
+    
+    //sql_output
+    
+    
+    //datesSM, getAllIventDates
+    List<String> datesSM_output=datesSM(sql_output);
+    
+    List<String> getAllEventDates_StartDates=new ArrayList<String>();
+    List<String> getAllEventDates_EndDates=new ArrayList<String>();
+    List<String> getAllEventDates_Positions=new ArrayList<String>();
+    getAllEventDates(sql_output,getAllEventDates_StartDates,getAllEventDates_EndDates,getAllEventDates_Positions);
+    
+    
+    //getSolarMonitorUrls, simpleDummyQuery_Input
+    List<List<String>> getSolarMonitorUrls_output=new ArrayList<List<String>>();
+    for(String url:datesSM_output)
+      getSolarMonitorUrls_output.add(getSolarMontiorUrls(url));
+    
+    
+    //simpleQuery
+    List<List<String>> simpleQuery_output=new ArrayList<List<String>>();
+    for(String instrument:_instruments)
+    {
+      List<String> current_output=new ArrayList<String>();
+      for(int i=0;i<getAllEventDates_StartDates.size();i++)
+        current_output.add(new QueryServiceService().getQueryService().simpleQuery(instrument,getAllEventDates_StartDates.get(i),getAllEventDates_EndDates.get(i)));
+      
+      simpleQuery_output.add(current_output);
+    }
+    
+    
+    //simpleQuery_output
+    
+    
+    //combineData
+    String VOTable_out=combineData(sql_output,simpleQuery_output,_instruments,getAllEventDates_Positions,getSolarMonitorUrls_output);
+    
+    
+    _w.write(VOTable_out);
+    
     writeFooter(_w,true);
   }
+  
+  private static String combine_sql_query(String sql_base,String goes_min,String goes_max,String start_date,String stop_date)
+  {
+    String goes = new String("");
+    String sql_string = sql_base.replace("%start_date%",start_date);
+    sql_string = sql_string.replace("%stop_date%",stop_date);
+    if(goes_min.length() > 0) {
+      goes = goes.concat(" AND xray_class > '"+goes_min+"'");
+    }
+    if (goes_max.length() > 0) {
+       goes = goes.concat(" AND xray_class < '"+goes_max+"'");
+    }
+    sql_string = sql_string.replace("%goes%",goes);
+    return sql_string;
+  }
 
-  private void getAllEventDates(String voTable)
+  private static void getAllEventDates(String voTable,List startDates,List endDates,List positions)
   {
     List dateList=new ArrayList();
-    List startDates=new ArrayList();
-    List endDates=new ArrayList();
-    List positions=new ArrayList();
     StringReader reader2=new StringReader(voTable);
     InputSource source2=new InputSource(reader2);
     Document docVO;
@@ -116,9 +183,9 @@ public class InitialWorkflow extends Workflow
     }
   }
 
-  private void datesSM(String voTable) throws Exception
+  private static List<String> datesSM(String voTable) throws Exception
   {
-    List startDate=new ArrayList();
+    List<String> startDate=new ArrayList<String>();
 
     StringReader reader2=new StringReader(voTable);
     InputSource source2=new InputSource(reader2);
@@ -149,9 +216,11 @@ public class InitialWorkflow extends Workflow
       }
     }
     reader2.close();
+    
+    return startDate;
   }
 
-  private void write(Writer out,Node node, String indent) throws Exception
+  private static void write(Writer out,Node node, String indent) throws Exception
   {
     // The output depends on the type of the node
     switch(node.getNodeType()) {
@@ -231,7 +300,7 @@ public class InitialWorkflow extends Workflow
   }
 
   // This method replaces reserved characters with entities.
-  private String fixup(String s) {
+  private static String fixup(String s) {
     StringBuffer sb = new StringBuffer();
     int len = s.length();
     for(int i = 0; i < len; i++) {
@@ -248,7 +317,7 @@ public class InitialWorkflow extends Workflow
     return sb.toString();
   }
 
-  private void addTableHeaders(Document docVO,List<String> instrument, String prefix) throws Exception
+  private static void addTableHeaders(Document docVO,List<String> instrument, String prefix) throws Exception
   {
     NodeList nodes=null;
     StringReader reader=null;
@@ -285,7 +354,7 @@ public class InitialWorkflow extends Workflow
     reader.close();
   }
 
-  private void addTableHeaderValue(Document docVO,String value){
+  private static void addTableHeaderValue(Document docVO,String value){
     NodeList nodesVO = docVO.getElementsByTagName("TABLE");
     if(nodesVO.getLength() >= 1){
       Node voTableNode = nodesVO.item(0);
@@ -297,7 +366,7 @@ public class InitialWorkflow extends Workflow
     }
   }
 
-  private void writeExtraFields(Document docVO, Node nodeVO, Node nodeHessi) {
+  private static void writeExtraFields(Document docVO, Node nodeVO, Node nodeHessi) {
     String debug = new String("");
     NamedNodeMap nodeMap = nodeHessi.getAttributes();
     // NodeList listHessi = nodeHessi.getChildNodes();
@@ -311,7 +380,7 @@ public class InitialWorkflow extends Workflow
     }
   } 
 
-  private void writeSolarMonitor(Document docVO,Node nodeVO, int pos,List<List<String>> solar_monitor_data) {
+  private static void writeSolarMonitor(Document docVO,Node nodeVO, int pos,List<List<String>> solar_monitor_data) {
     NodeList nodes=null;
     StringReader reader;
     InputSource source;
@@ -330,7 +399,7 @@ public class InitialWorkflow extends Workflow
 
   }
 
-  private String findOverlaps(Document docVO,List<List<String>> instrument_data,List<String> position,Document[] doc,List<List<String>> solar_monitor_data) throws Exception
+  private static String findOverlaps(Document docVO,List<List<String>> instrument_data,List<String> position,Document[] doc,List<List<String>> solar_monitor_data) throws Exception
   {
     String attstart = "measurementStart";
     String attstop = "measurementEnd";
@@ -477,7 +546,7 @@ public class InitialWorkflow extends Workflow
     return debug;
   }
 
-  private void combineData(String voTable,List<List<String>> instrument_data,List<String> instruments,List<String> position,List<List<String>> solar_monitor_data) throws Exception
+  private static String combineData(String voTable,List<List<String>> instrument_data,List<String> instruments,List<String> position,List<List<String>> solar_monitor_data) throws Exception
   {
     StringWriter out= new StringWriter(); 
     StringReader reader2 = new StringReader(voTable);
@@ -498,10 +567,12 @@ public class InitialWorkflow extends Workflow
     write(out,docVO.getDocumentElement(),"");
     VOTable_out = VOTable_out.concat(out.toString());
     reader2.close();
+    
+    return VOTable_out;
   }
   
   
-  private void getSolarMontiorUrls(String sundate) throws Exception
+  private static List<String> getSolarMontiorUrls(String sundate) throws Exception
   {
     String baseURL="http://solarmonitor.org/data/";
     String urladd1="/pngs/seit/";
@@ -517,7 +588,7 @@ public class InitialWorkflow extends Workflow
     BufferedReader in = new BufferedReader(
             new InputStreamReader(
             url.openStream()));
-    List out = new ArrayList();
+    List<String> out = new ArrayList<String>();
 
     String inputLine;
 
@@ -547,5 +618,7 @@ public class InitialWorkflow extends Workflow
        out.add("");
     }
     in.close();
+    
+    return out;
   }
 }

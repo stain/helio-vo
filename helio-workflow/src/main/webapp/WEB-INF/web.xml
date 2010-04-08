@@ -12,7 +12,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>HelioWorkflow</servlet-name>
-    <url-pattern>/HelioWorkflow</url-pattern>
+    <url-pattern>/REST</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -22,6 +22,6 @@
   </servlet>
   <servlet-mapping>
      <servlet-name>jaxws-servlet</servlet-name>
-     <url-pattern>/HelioService</url-pattern>
+     <url-pattern>/SOAP</url-pattern>
   </servlet-mapping>
 </web-app>

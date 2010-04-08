@@ -3,9 +3,9 @@
   <endpoint 
     name="HelioService"                    
 	  implementation="eu.heliovo.workflow.interfaces.SoapDispatcher" 
-	  wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
-	  service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
-	  port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
-	  url-pattern="/HelioService"/>
+	  wsdl="WEB-INF/wsdl/helio_full_workflow.wsdl"
+	  service="{http://helio-vo.eu/xml/WorkflowService/v0.1}HelioWorkflowService"
+	  port="{http://helio-vo.eu/xml/WorkflowService/v0.1}HelioWorkflowPort"
+	  url-pattern="/SOAP"/>
 </endpoints>
 
