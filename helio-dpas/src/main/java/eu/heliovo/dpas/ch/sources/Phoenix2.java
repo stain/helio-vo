@@ -1,7 +1,10 @@
 package eu.heliovo.dpas.ch.sources;
 
-import java.net.*;
-import java.util.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Calendar;
+import java.util.TimeZone;
+
 import eu.heliovo.dpas.ch.HTTPFileListProvider;
 import eu.heliovo.dpas.ch.ResultItem;
 

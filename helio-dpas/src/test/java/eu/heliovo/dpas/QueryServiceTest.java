@@ -1,8 +1,5 @@
 package eu.heliovo.dpas;
 
-import org.apache.xbean.spring.context.FileSystemXmlApplicationContext;
-import org.springframework.context.ApplicationContext;
-import eu.heliovo.dpas.*;
 import junit.framework.TestCase;
 
 public class QueryServiceTest extends TestCase

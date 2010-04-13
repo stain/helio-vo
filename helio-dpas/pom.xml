@@ -1,107 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <parent>
-        <artifactId>heliovo</artifactId>
-        <groupId>eu.heliovo</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>eu.heliovo</groupId>
-    <artifactId>helio-dpas</artifactId>
-    <packaging>war</packaging>
-    <name>helio-dpas</name>
-    <version>0.0.1-SNAPSHOT</version>
-    <url>http://maven.apache.org</url>
-    <build>
-        <finalName>helio-dpas</finalName>
-    </build>
-	
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>heliovo</artifactId>
+		<groupId>eu.heliovo</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.heliovo</groupId>
+	<artifactId>helio-dpas</artifactId>
+	<name>helio-dpas</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+
     <dependencies>
 	<!-- third party libraries -->
-	<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>2.5.5</version>
-		</dependency>
-		
-		<dependency>
-		  <groupId>org.springframework</groupId>
-		  <artifactId>spring-aop</artifactId>
-		  <version>2.5.5</version>
-		</dependency>
-		
-		<dependency>
-		  <groupId>org.springframework</groupId>
-		  <artifactId>spring-beans</artifactId>
-		  <version>2.5.5</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>2.5.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>2.5.5</version>
-		</dependency>
-      
-        <dependency>
-            <groupId>starlink</groupId>
-            <artifactId>stil</artifactId>
-            <version>2.8</version>
-        </dependency>
-        
-        <dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.7.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.ant</groupId>
-			<artifactId>ant</artifactId>
-			<version>1.7.0</version>
-		</dependency>
 		<dependency>
 			<groupId>axis</groupId>
 			<artifactId>axis</artifactId>
 			<version>1.4</version>
 		</dependency>
 		<dependency>
-			<groupId>axis</groupId>
-			<artifactId>axis-ant</artifactId>
-			<version>1.4</version>
+			<groupId>org.apache.ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.7.0</version>
 		</dependency>
-		
-		<!-- spring & ws -->
-		<dependency>
-		  <groupId>com.sun.xml.ws</groupId>
-		  <artifactId>jaxws-tools</artifactId>
-     	  <version>2.1.4</version>
-		</dependency>
-		<dependency>
-		  <groupId>com.sun.xml.ws</groupId>
-		  <artifactId>jaxws-rt</artifactId>
-      <version>2.1.4</version>
-		</dependency>
- 	
-		<dependency>
-			<groupId>org.apache.xbean</groupId>
-			<artifactId>xbean-spring</artifactId>
-			<version>3.5</version>
-		</dependency>
-			
-	   </dependencies>
-      
-      <repositories>
-      	 <repository>
-		   <id>tomcat.apache.org</id>
-		   <name>Tomcat Staging Repository</name>
-		   <url>http://tomcat.apache.org/dev/dist/m2-repository/org/apache/tomcat/</url>
-		</repository>
-      </repositories>
-    
+	</dependencies>
 </project>

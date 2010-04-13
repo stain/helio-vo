@@ -1,10 +1,10 @@
 package eu.heliovo.dpas.ch.sources;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import eu.heliovo.dpas.ch.HTTPFileListProvider;
 import eu.heliovo.dpas.ch.ResultItem;
-import eu.heliovo.dpas.ch.sources.*;
 
 /**
  * Data provider for RHESSI. It returns some quickview PNGs and a FITS file.

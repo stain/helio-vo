@@ -1,6 +1,7 @@
 package eu.heliovo.dpas.ch;
 
-import javax.jws.*;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 import eu.heliovo.dpas.astro.ts.sec.dao.impl.SECLocator;
 

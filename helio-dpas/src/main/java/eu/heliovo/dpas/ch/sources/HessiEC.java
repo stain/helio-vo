@@ -1,12 +1,16 @@
 package eu.heliovo.dpas.ch.sources;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TimeZone;
 
 import eu.heliovo.dpas.ch.DataProvider;
 import eu.heliovo.dpas.ch.ResultItem;
-import eu.heliovo.dpas.ch.sources.*;
 
 /***
  * Data provider for the RHESSI flare event catalogue.
