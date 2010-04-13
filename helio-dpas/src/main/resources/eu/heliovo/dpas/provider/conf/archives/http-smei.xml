@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<map idArchive="HTTP-SMEI" version="0.1" date="17/02/2005">
+
+	<structure>
+		<mask mask="{0}/{1}/{2}_{3}_{4}.{5}" number="6">
+			<param index="2" start="0"  end="2"/>
+			<param index="3" start="4"  end="11" format="YYYY_Doy"/>
+			<param index="4" start="13" end="16" format="HHMM"/>
+		</mask>
+	</structure>
+
+	<mapping>
+		<param name="instrument" mappedName="Instrument" none="sky" multiple-index="no" index="2">
+			<value value="sky" name="CORIOLIS__SMEI" longName="SKY"/>
+		</param>
+		
+		<param name="DATE" multiple-index="yes">
+			<value index="0" format="YYYY"     none="????"/>
+			<value index="1" format="Doy"      none="???"/>
+			<value index="3" format="YYYY_Doy" none="????_???"/>
+		</param>
+		
+		<param name="TIME" multiple-index="no" none="????" format="HHMM" index="4"/>
+		
+		<param name="extension" mappedName="File extension" none="jpg" multiple-index="no" index="5">
+			<value value="jpg" name="JPG"/>
+		</param>
+	</mapping>
+	
+	<info>
+		<observatory name="SMEI">
+			<instrument name="SKY" value="smei__sky"/>
+		</observatory>
+	</info>
+</map>
+

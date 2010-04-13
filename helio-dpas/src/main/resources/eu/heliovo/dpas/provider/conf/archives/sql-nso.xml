@@ -1,0 +1,76 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SQL-NSO" version="0.1">
+	<structure main-table="18">
+		<!-- Only 3 tables are described here for the Release2 of EGSO system.
+			Only useful table fields are described. -->
+		<table name="filemgmt" id="11">
+			<links>
+				<link field="11-1"  table="18" column="1"/>
+				<link field="11-16" table="13" column="1"/>
+			</links>
+			<fields>
+				<field name="id_filemgmt" type="nb(10)"   id="11-1"/>
+				<field name="filename"    type="vc2(64)"  id="11-2"/>
+				<field name="file_size"   type="nb(9)"    id="11-5"/>
+				<field name="location"    type="vc2(100)" id="11-6"/>
+				<field name="path"        type="vc2(100)" id="11-7"/>
+				<field name="id_instrume" type="nb(3)"    id="11-16"/>
+				<field name="m_num"       type="nb(5)"    id="11-17"/>
+			</fields>
+		</table>
+
+		<table name="instrume" id="13">
+			<links>
+				<link field="13-1" table="18" column="4"/>
+				<link field="13-1" table="11" column="16"/>
+			</links>
+			<fields>
+				<field name="id_instrume"   type="nb(2)"   id="13-1"/>
+				<field name="id_telescop"   type="nb(2)"   id="13-2"/>
+				<field name="instrume_name" type="vc2(70)" id="13-3"/>
+			</fields>
+		</table>
+
+		<table name="observation" id="18">
+			<links>
+				<link field="18-1" table="11" column="1"/>
+				<link field="18-4" table="13" column="1"/>
+			</links>
+			<fields>
+				<field name="id_obs"      type="nb(10)"   id="18-1"/>
+				<field name="id_instrume" type="nb(2)"    id="18-4"/>
+				<field name="date_obs"    type="dt"       id="18-11"/>
+				<field name="date_end"    type="dt"       id="18-12"/>
+				<field name="wavemin"     type="nb(10,2)" id="18-23"/>
+				<field name="wavemax"     type="nb(10,2)" id="18-24"/>
+			</fields>
+		</table>
+
+	</structure>
+	
+	<mapping>
+		<!-- Use ID instead of names... -->
+		<param name="instrument" value="yes" mapID="13-3" map="instrume.instrume_name">
+			<name new-name="instrume.id_instrume"/>
+			<value value="KPVT"  map="1"/>
+			<value value="FTS"   map="2"/>
+			<value value="EVANS" map="3"/>
+		</param>
+		<param name="filename"   value="yes" mapID="11-2" map="filemgmt.filename"/>
+		<param name="time_start" value="yes" mapID="18-11" map="observation.date_obs">
+			<format format="YYYY-MM-DD HH:MM:SS"/>
+		</param>
+		<param name="time_end"   value="yes" mapID="18-12" map="observation.date_end">
+			<format format="YYYY-MM-DD HH:MM:SS"/>
+		</param>
+		<param name="date"       value="no"  beginID="18-11" endID="18-12" begin="observation.date_obs" end="observation.date_end">
+			<format format="YYYY-MM-DD HH:MM:SS"/>
+		</param>
+		<param name="wavelength" value="no"  beginID="18-23" endID="18-24" begin="observation.wavemin" end="observation.wavemax"/>
+	</mapping>
+	
+	<info>
+		<observatory name="NSO"/>
+	</info>
+</map>
+

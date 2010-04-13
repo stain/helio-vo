@@ -1,0 +1,26 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SEC-DRAO" version="2.0">
+	<structure>
+		<table name="drao_10cm_flux">
+			<field name="sfu_adjusted" type="float"/>
+			<field name="sfu_observed" type="float"/>
+			<field name="sfu_series_d" type="float"/>
+			<field name="time_end"     type="datetime" format="''{0}''"/>
+			<field name="time_start"   type="datetime" format="''{0}''"/>
+		</table>
+	</structure>
+
+	<mapping>
+		<param name="event-type"    value="yes" map="IGNORE"/>
+		<param name="event_type"    value="yes" map="IGNORE"/>
+		<param name="start-date"    value="yes" map="drao_10cm_flux.time_start"/>
+		<param name="time_start"    value="yes" map="drao_10cm_flux.time_start"/>
+		<param name="end-date"      value="yes" map="drao_10cm_flux.time_end"/>
+		<param name="time_end"      value="yes" map="drao_10cm_flux.time_end"/>
+		<param name="date"          value="no"  begin="drao_10cm_flux.time_start" end="drao_10cm_flux.time_end"/>
+		<param name="sfu_adjusted"  value="yes" map="drao_10cm_flux.sfu_adjusted"/>
+		<param name="sfu_observed"  value="yes" map="drao_10cm_flux.sfu_observed"/>
+		<param name="sfu_series_d"  value="yes" map="drao_10cm_flux.sfu_series_d"/>
+	</mapping>
+</map>
+

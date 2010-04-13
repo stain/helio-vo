@@ -1,0 +1,20 @@
+<web-app>
+  <!-- this is for Spring -->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <!-- these are for JAX-WS -->
+  <servlet>
+    <servlet-name>jaxws-servlet</servlet-name>
+    <servlet-class>com.sun.xml.ws.transport.http.servlet.WSSpringServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  
+  <!-- mappings -->
+  <servlet-mapping>
+    <servlet-name>jaxws-servlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+</web-app>

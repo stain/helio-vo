@@ -1,0 +1,14 @@
+/*
+ * Created on Jul 13, 2004
+ */
+package org.egso.comms.eis.types;
+
+/**
+ * Marker interface for specific types of response.
+ * 
+ * @author Nathan Ching (nc@mssl.ucl.ac.uk)
+ * @version 2.4
+ */
+public interface ResponseSubtype {
+
+}

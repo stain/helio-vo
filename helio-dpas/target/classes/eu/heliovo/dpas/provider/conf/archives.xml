@@ -1,0 +1,277 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<archives version="1.0">
+
+	<!-- Descriptions of FTP archives. -->
+	<archive>
+		<description ID="FTP-BBSO" name="Big Bear Solar Observatory" type="FTP"/>
+		<files conf="ftp-bbso.xml"/>
+		<connexion>
+			<url url="ftp.bbso.njit.edu" port="21"/>
+			<login user="ftp" password="ftp" anonymous="yes"/>
+			<path root="pub/archive/" dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="FTP-RHESSI" name="RHESSI" type="HTTP"/>
+		<files conf="ftp-rhessi.xml"/>
+		<connexion>
+			<url url="http://hesperia.gsfc.nasa.gov/hessidata/"/>
+			<path root="hessidata" dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+<!--
+	<archive>
+		<description ID="FTP-RHESSI" name="RHESSI" type="FTP"/>
+		<files conf="ftp-rhessi.xml"/>
+		<connexion>
+			<url url="hercules.ethz.ch" port="21"/>
+			<login user="ftp" password="ftp" anonymous="yes"/>
+			<path root="pub/hessi/data/" dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+-->
+	
+	<archive>
+		<description ID="FTP-YOHKOH" name="YOHKOH" type="FTP"/>
+		<files conf="ftp-yohkoh.xml"/>
+		<connexion>
+			<url url="umbra.nascom.nasa.gov" port="21"/>
+			<login user="ftp" password="ftp" anonymous="yes"/>
+			<path root="pub/yohkoh/online_archive/" dateDependentPath="yes" type="Y_W"/>
+		</connexion>
+	</archive>
+
+	<archive>
+		<description ID="FTP-NOBEYAMA" name="NOBEYAMA" type="FTP"/>
+		<files conf="ftp-nobeyama.xml"/>
+		<connexion>
+			<url url="solar.nro.nao.ac.jp" port="21"/>
+			<login user="ftp" password="ftp" anonymous="yes"/>
+			<path root="pub/norh/images/10min" dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+
+	<!-- Description of HTTP archives. -->
+	<archive>
+		<description ID="HTTP-CME_LIST" name="CME" type="HTTP"/>
+		<files conf="http-cme_list.xml"/>
+		<connexion>
+			<url url="http://cdaw.gsfc.nasa.gov/CME_list/daily_movies"/>
+			<path dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="HTTP-GOES_SXI" name="GOES SXI" type="HTTP"/>
+		<files conf="http-goes_sxi.xml"/>
+		<connexion>
+			<url url="http://sxi2.ngdc.noaa.gov/archive/fits"/>
+			<path dateDependentPath="yes" type="YYYY/MM/DD"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="HTTP-SMEI" name="SMEI" type="HTTP"/>
+		<files conf="http-smei.xml"/>
+		<connexion>
+			<url url="http://smei.nso.edu/archive/sky"/>
+			<path dateDependentPath="yes" type="YYYY/DoY"/>
+		</connexion>
+	</archive>
+	
+	<!-- Descriptions of SQL archives. -->
+	<!-- To add: HESSI SQL, BASS2000 SQL, NSO SQL, TRACE SQL. -->
+<!--
+	<archive>
+		<description ID="SQL-MEDOC-SOHO" name="Medoc SOHO" type="SQL"/>
+		<files conf="sql-medoc.xml"/>
+		<connexion database="oracle">
+			<url url="newflare.medoc-ias.u-psud.fr" port="1521"/>
+			<login user="soho" password="expl" sid="SOHO"/>
+			<driver name="oracle.jdbc.driver.OracleDriver" type="thin" db="oracle" timeout="42"/>
+		</connexion>
+	</archive>
+
+	<archive>
+		<description ID="POSTGRESQL-MEDOC-SOHO" name="Medoc SOHO POSTGRES" type="SQL"/>
+		<files conf="postgresql-medoc.xml"/>
+		<connexion database="postgresql">
+			<url url="tx-medoc3.medoc-ias.u-psud.fr" port="5432"/>
+			<login user="test" password="test" sid="test"/>
+			<driver name="org.postgresql.Driver" type="postgresql" db="test" timeout="42"/>
+		</connexion>
+	</archive>
+
+	<archive>
+		<description ID="SQL-NSO" name="NSO" type="SQL"/>
+		<files conf="sql-nso.xml"/>
+		<connexion database="oracle">
+			<url url="solarch.tuc.noao.edu" port="1521"/>
+			<login user="egsouser" password="egso123" sid="nso"/>
+			<driver name="sun.jdbc.odbc.JdbcOdbcDriver" type="thin" db="oracle" timeout="42"/>
+		</connexion>
+	</archive>
+-->
+	
+	<archive>
+		<description ID="SQL-BASS2000" name="Bass2000" type="SQL"/>
+		<files conf="sql-bass2000.xml"/>
+		<connexion database="oracle">
+			<url url="145.238.28.68" port="1521"/>
+			<login user="guest" password="guest" sid="SOL3"/>
+			<driver name="oracle.jdbc.driver.OracleDriver" type="thin" db="oracle" oldDB="DEVPROD" timeout="42"/>
+		</connexion>
+	</archive>
+
+
+	<!-- Descriptions of Web Services archives. -->
+	<archive>
+		<description ID="WS-NSO" name="NSO" type="WEBSERVICE"/>
+		<files conf="ws-nso.xml"/>
+		<connexion>
+			<url url="http://solarch.tuc.noao.edu/cgi-bin/vsodb.cgi" uri="http://solarch.tuc.noao.edu/cgi-bin/NSO_VSO" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.NSOWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="WS-VSO" name="VSO" type="WEBSERVICE"/>
+		<files conf="ws-vso.xml"/>
+		<connexion>
+			<url url="http://vso1.nascom.nasa.gov/cgi-bin/soho/sohoi.cgi" uri="http://vso1.nascom.nasa.gov/NASA/VSO/SOHOi" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.VSOWebServiceParser"/>
+		</connexion>
+	</archive>
+
+	<!-- Descriptions of others archives. -->
+	<!-- UOC -->
+	<archive>
+		<description ID="UOC" name="UOC" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="uoc.xml"/>
+		<connexion>
+			<url url="http://solar.bnsc.rl.ac.uk/~martin/uoc/service/uoc_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.UOCWebServiceParser"/>
+		</connexion>
+	</archive>
+
+	<!-- SEC -->
+	<archive>
+		<description ID="SEC-SGAS" name="SEC-SGAS" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-sgas_event.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-GOES" name="SEC-GOES" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-goes_xray_flare.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-YOHKOH" name="SEC-YOHKOH" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-yohkoh_flare_list.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-HESSI" name="SEC-HESSI" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-hessi_flare.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-NOAA" name="SEC-NOAA" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-noaa_proton_event.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-LASCO_CAT" name="SEC-LASCO_CAT" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-lasco_cme_cat.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-LASCO_LIST" name="SEC-LASCO_LIST" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-lasco_cme_list.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-SRS" name="SEC-SRS" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-srs_list.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-DSD" name="SEC-DSD" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-dsd_list.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-SIDC" name="SEC-SIDC" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-sidc_sunspot_number.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-DRAO" name="SEC-DRAO" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-drao_10cm_flux.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-BAS" name="SEC-BAS" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-bas_magnetic_storms.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+	
+	<archive>
+		<description ID="SEC-SOHO" name="SEC-SOHO" type="MIXED" connector="WEBSERVICE" mapper="SQL"/>
+		<files conf="sec-soho_camp.xml"/>
+		<connexion>
+			<url url="http://radiosun.ts.astro.it/sec/sec_server.php" uri="http://soapinterop.org/" port="80"/>
+			<result-parser class="org.egso.provider.datamanagement.connector.SECWebServiceParser"/>
+		</connexion>
+	</archive>
+
+</archives>
+
