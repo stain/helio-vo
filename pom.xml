@@ -30,6 +30,14 @@
       </notifiers>
     </ciManagement>
 
+	<distributionManagement>
+		<site>
+			<id>helio-dev-site</id>
+			<name>Local deployed site</name>
+			<url>file:///var/www/heliovo/</url>
+		</site>
+	</distributionManagement>
+
     <developers>
       <developer>
           <id>gabmera</id>
@@ -102,7 +110,7 @@
     	<module>helio-monitoring</module>        
     	<module>helio-workflow</module>        
     	<module>helio-ics-web</module>        
-  </modules>
+    </modules>
     
     <scm>
       <connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
@@ -264,5 +272,16 @@
         <compileSource>1.6</compileSource>
         <sourceEncoding>UTF-8</sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- properties used by the documentation -->
+        
+        <!-- site.links>
+            <![CDATA[<links>
+                <item name="Helio home" href="http://www.helio-vo.eu/" />
+                <item name="Helio Wiki" href="https://grid.ie/helio/wiki/" />
+                <item name="Helio Dev Portal" href="http://helio-dev.i4ds.technik.fhnw.ch/helio" />
+                <item name="Helio Live Portal" href="http://helio.i4ds.technik.fhnw.ch/helio" />
+            </links>]]>
+        </site.links -->
     </properties>
 </project>

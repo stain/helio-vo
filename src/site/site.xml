@@ -8,9 +8,7 @@
         <src>images/helio_logo4_sm.jpg</src>
         <href>helio-dev.i4ds.technik.fhnw.ch/heliovo</href>
     </bannerLeft>
-  <!--bannerRight>
-    <src>http://www.helio-vo.eu/images/FP7_Capacities_logo.jpg</src>
-  </bannerRight-->
+
     <version position="left"/>
     <body>
         <links>
@@ -19,18 +17,18 @@
             <item name="Helio Dev Portal" href="http://helio-dev.i4ds.technik.fhnw.ch/helio" />
             <item name="Helio Live Portal" href="http://helio.i4ds.technik.fhnw.ch/helio" />
         </links>
+        
 	    <breadcrumbs>
 	        <item name="helio" href="index.html" />
 	    </breadcrumbs>
 
+		<menu ref="modules" inherit="top"/>
+
         <menu name="Heliophysics Integrated Observatory HELIO">
-            <item name="Overview" href="index.html" />
+            <item name="About" href="index.html" />
             <item name="subversion" href="develop/svn.html" />
         </menu>
 
-		<menu ref="modules"/>
-
-        <menu ref="reports"/>
-
+        <menu ref="reports" inherit="top"/>
     </body>
 </project>
