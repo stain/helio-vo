@@ -217,7 +217,7 @@ public class HessiEC implements DataProvider
         }
     }
     
-    //naïve linear search trough the complete list, should be fast enough
+    // linear search trough the complete list, should be fast enough
     LinkedList<ResultItem> results=new LinkedList<ResultItem>();
     for(ResultItem ri:events)
       if(ri.measurementEnd.after(dateFrom) && ri.measurementStart.before(dateTo))
