@@ -12,17 +12,8 @@
 	<artifactId>helio-workflow</artifactId>
 	<name>helio-workflow</name>
 	<version>0.0.1-SNAPSHOT</version>
-	<!-- <url>http://maven.apache.org</url>-->
   
 	<dependencies>
-		<!-- compile time dependencies -->
-		<!-- <dependency>
-			<groupId>javax.xml.ws</groupId>
-			<artifactId>jaxws-api</artifactId>
-			<version>2.1</version>
-			<scope>compile</scope>
-		</dependency>-->
-    
 		<!-- required by anja's initial workflow -->
 		<dependency>
 			<groupId>xerces</groupId>
@@ -38,61 +29,11 @@
 			<scope>provided</scope>
 		</dependency>
     
+    <!-- required by JAX-WS 2.1 -->
     <dependency>
       <groupId>com.sun.xml.stream</groupId>
       <artifactId>sjsxp</artifactId>
       <version>1.0.1</version>
     </dependency>
 	</dependencies>
-	<!-- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>javax.xml.ws</groupId>
-									<artifactId>jaxws-api</artifactId>
-									<version>2.2</version>
-									<overWrite>true</overWrite>
-									<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-      
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<compilerArguments>
-						<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-					</compilerArguments>
-				</configuration>
-			</plugin>
-      
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<systemProperties>
-						<property>
-							<name>java.endorsed.dirs</name>
-							<value>${basedir}/target/endorsed</value>
-						</property>
-					</systemProperties>
-				</configuration>
-			</plugin>
-      
-		</plugins>
-	</build>-->
 </project>

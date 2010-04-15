@@ -31,6 +31,11 @@ public class RestDispatcher extends HttpServlet
       String date_end=request.getParameter("date_end");
       List<String> instruments=Arrays.asList(request.getParameter("instruments").split(","));
       
+      if(goes_min==null)
+        goes_min="";
+      if(goes_max==null)
+        goes_max="";
+      
       InitialWorkflow.runInitialWorkflow(pw,instruments,date_start,date_end,goes_min,goes_max);
     }
     catch(Exception e)

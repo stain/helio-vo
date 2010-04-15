@@ -33,7 +33,6 @@ public class InitialWorkflow extends Workflow
     
     
     //hec_it_sql
-    System.out.println(sql_input);
     String sql_output=new HECService().getHECPort().sql(sql_input);
     
     
