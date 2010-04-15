@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sqlResponse", propOrder = {
     "_return"
-}, namespace="http://unique-namespace-1/")
+})
 public class SqlResponse {
 
     @XmlElement(name = "return")

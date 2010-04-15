@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "sql", propOrder = {
     "arg0"
-}, namespace="http://unique-namespace-1/")
+})
 public class Sql {
 
     protected String arg0;

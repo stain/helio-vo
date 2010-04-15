@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the hec.service package. 
+ * generated in the eu.heliovo.workflow.clients.hec package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -28,7 +28,7 @@ public class ObjectFactory {
     private final static QName _Sql_QNAME = new QName("http://service.hec/", "sql");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: hec.service
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: eu.heliovo.workflow.clients.hec
      * 
      */
     public ObjectFactory() {

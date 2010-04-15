@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRegistry;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the ie.i4ds.helio.dpas.controller package. 
+ * generated in the eu.heliovo.workflow.clients.dpas package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -23,18 +23,10 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: ie.i4ds.helio.dpas.controller
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: eu.heliovo.workflow.clients.dpas
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link DummyQueryResponse }
-     * 
-     */
-    public DummyQueryResponse createDummyQueryResponse() {
-        return new DummyQueryResponse();
     }
 
     /**
@@ -43,6 +35,30 @@ public class ObjectFactory {
      */
     public SortedQueryResponse createSortedQueryResponse() {
         return new SortedQueryResponse();
+    }
+
+    /**
+     * Create an instance of {@link SimpleQuery }
+     * 
+     */
+    public SimpleQuery createSimpleQuery() {
+        return new SimpleQuery();
+    }
+
+    /**
+     * Create an instance of {@link QueryResponse }
+     * 
+     */
+    public QueryResponse createQueryResponse() {
+        return new QueryResponse();
+    }
+
+    /**
+     * Create an instance of {@link DummySortedQuery }
+     * 
+     */
+    public DummySortedQuery createDummySortedQuery() {
+        return new DummySortedQuery();
     }
 
     /**
@@ -62,67 +78,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SimpleQueryResponse }
-     * 
-     */
-    public SimpleQueryResponse createSimpleQueryResponse() {
-        return new SimpleQueryResponse();
-    }
-
-    /**
-     * Create an instance of {@link SimpleDummyQuery }
-     * 
-     */
-    public SimpleDummyQuery createSimpleDummyQuery() {
-        return new SimpleDummyQuery();
-    }
-
-    /**
      * Create an instance of {@link SimpleDummyQueryResponse }
      * 
      */
     public SimpleDummyQueryResponse createSimpleDummyQueryResponse() {
         return new SimpleDummyQueryResponse();
-    }
-
-    /**
-     * Create an instance of {@link SortedQuery }
-     * 
-     */
-    public SortedQuery createSortedQuery() {
-        return new SortedQuery();
-    }
-
-    /**
-     * Create an instance of {@link DummySortedQueryResponse }
-     * 
-     */
-    public DummySortedQueryResponse createDummySortedQueryResponse() {
-        return new DummySortedQueryResponse();
-    }
-
-    /**
-     * Create an instance of {@link QueryResponse }
-     * 
-     */
-    public QueryResponse createQueryResponse() {
-        return new QueryResponse();
-    }
-
-    /**
-     * Create an instance of {@link SimpleQuery }
-     * 
-     */
-    public SimpleQuery createSimpleQuery() {
-        return new SimpleQuery();
-    }
-
-    /**
-     * Create an instance of {@link GetInstrumentsResponse }
-     * 
-     */
-    public GetInstrumentsResponse createGetInstrumentsResponse() {
-        return new GetInstrumentsResponse();
     }
 
     /**
@@ -134,11 +94,51 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DummySortedQuery }
+     * Create an instance of {@link DummyQueryResponse }
      * 
      */
-    public DummySortedQuery createDummySortedQuery() {
-        return new DummySortedQuery();
+    public DummyQueryResponse createDummyQueryResponse() {
+        return new DummyQueryResponse();
+    }
+
+    /**
+     * Create an instance of {@link SortedQuery }
+     * 
+     */
+    public SortedQuery createSortedQuery() {
+        return new SortedQuery();
+    }
+
+    /**
+     * Create an instance of {@link SimpleQueryResponse }
+     * 
+     */
+    public SimpleQueryResponse createSimpleQueryResponse() {
+        return new SimpleQueryResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetInstrumentsResponse }
+     * 
+     */
+    public GetInstrumentsResponse createGetInstrumentsResponse() {
+        return new GetInstrumentsResponse();
+    }
+
+    /**
+     * Create an instance of {@link DummySortedQueryResponse }
+     * 
+     */
+    public DummySortedQueryResponse createDummySortedQueryResponse() {
+        return new DummySortedQueryResponse();
+    }
+
+    /**
+     * Create an instance of {@link SimpleDummyQuery }
+     * 
+     */
+    public SimpleDummyQuery createSimpleDummyQuery() {
+        return new SimpleDummyQuery();
     }
 
 }
