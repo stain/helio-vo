@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import eu.heliovo.workflow.workflows.InitialWorkflow;
 
 /**
- * Servlet implementation class HelioQueryService
+ * This servlet gets the REST calls and calls the initial workflow
  */
 public class RestDispatcher extends HttpServlet
 {

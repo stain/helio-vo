@@ -1,6 +1,5 @@
 package eu.heliovo.workflow.workflows;
 
-
 import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -14,11 +13,16 @@ import org.apache.xerces.parsers.DOMParser;
 import eu.heliovo.workflow.clients.dpas.QueryServiceService;
 import eu.heliovo.workflow.clients.hec.HECService;
 
+/**
+ * This class represents Anaj's initial workflow. This workflow can be downloaded from
+ * http://www.myexperiment.org/workflows/940 to run it locally in Taverna. It's a
+ * straight-forward 1:1 conversion.
+ */
 public class InitialWorkflow extends Workflow
 {
   public static void runInitialWorkflow(Writer _w,List<String> _instruments,String _date_start,String _date_end,String _goes_min,String _goes_max) throws Exception
   {
-    writeHeader(_w,"test");
+    writeHeader(_w,"find events in xray and radio (http://www.myexperiment.org/workflows/940)");
     
     
     //inputs
@@ -584,10 +588,20 @@ public class InitialWorkflow extends Workflow
     Date d = date.parse(sundate);
     URL url = new URL(baseURL.concat(dateOut.format(d)+urladd1));
     URL url2 = new URL(baseURL.concat(dateOut.format(d)+urladd2));
-    BufferedReader in = new BufferedReader(
+    
+    List<String> out = new ArrayList<String>();
+    BufferedReader in;
+    
+    try
+    {
+      in = new BufferedReader(
             new InputStreamReader(
             url.openStream()));
-    List<String> out = new ArrayList<String>();
+    }
+    catch(FileNotFoundException _e)
+    {
+      return out;
+    }
 
     String inputLine;
 

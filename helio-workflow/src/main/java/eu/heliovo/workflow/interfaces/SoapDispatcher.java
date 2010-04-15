@@ -22,11 +22,10 @@ import org.w3c.dom.Element;
 import eu.heliovo.workflow.workflows.InitialWorkflow;
 
 /**
- * Class: SoapDispatcher Description: The dispatcher handles all soap requests
- * and responses for a Query. Called via the SoapServlet. SoapRequests (Bodies)
- * are placed into a DOM and by analyzing the uri determine the correct query
- * service for the correct contract. Responses are Stream based (NOT DOM) into
- * an XMLStreamReader with the help of PipedStreams.
+ * The dispatcher handles all soap requests and responses for a Query. Called
+ * via the SoapServlet. SoapRequests (Bodies) are placed into a DOM and by analyzing
+ * the uri determine the correct query service for the correct contract. Responses
+ * are Stream based (NOT DOM) into an XMLStreamReader with the help of PipedStreams.
  */
 @WebServiceProvider(targetNamespace="http://helio-vo.eu/xml/QueryService/v0.1",serviceName="HelioQueryServiceService",portName="HelioQueryServicePort")
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
@@ -55,10 +54,12 @@ public class SoapDispatcher implements Provider<Source>
     {
       pw=new PipedWriter(pr);
       
+      //parse request
       Element inputDoc=toDocument(request);
       
       NodeList nl;
       
+      //parse parameters
       nl=inputDoc.getElementsByTagName("GOES_MIN");
       final String goes_min;
       if(nl.getLength()>0)
@@ -94,6 +95,7 @@ public class SoapDispatcher implements Provider<Source>
       else
         instruments=new LinkedList<String>();
       
+      //execute workflow
       new Thread(new Runnable()
       {
         public void run()
@@ -108,6 +110,8 @@ public class SoapDispatcher implements Provider<Source>
           }
         }
       }).start();
+      
+      //return results async
       return new StreamSource(pr);
     }
     catch(Exception e)

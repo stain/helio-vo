@@ -3,6 +3,9 @@ package eu.heliovo.workflow.workflows;
 import java.io.IOException;
 import java.io.Writer;
 
+/**
+ * This class provides helper methods that can be used by all workflow implementations.
+ */
 public class Workflow
 {
   static void writeHeader(Writer _w,String _description) throws IOException
