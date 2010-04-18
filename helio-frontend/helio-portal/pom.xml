@@ -11,6 +11,10 @@
   <artifactId>helio-portal</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
+  <description>
+		TODO: Add description in helio-frontend/pom.xml
+  </description>
+  
   <build>
     <pluginManagement />
     <plugins>

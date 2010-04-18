@@ -13,7 +13,11 @@
 	<name>helio-dpas</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<description>
+		TODO: Add description in helio-dpas/pom.xml
+	</description>
 
+	
     <dependencies>
 	<!-- third party libraries -->
 		<dependency>

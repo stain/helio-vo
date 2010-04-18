@@ -12,7 +12,9 @@
 	<artifactId>helio-workflow</artifactId>
 	<name>helio-workflow</name>
 	<version>0.0.1-SNAPSHOT</version>
-  
+	<description>
+		TODO: Add description in helio-workflow/pom.xml
+	</description>
 	<dependencies>
 		<!-- required by anja's initial workflow -->
 		<dependency>

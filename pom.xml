@@ -5,10 +5,12 @@
     <artifactId>heliovo</artifactId>
     <packaging>pom</packaging>
     <name>helio-parent</name>
-    <description>Heliophysics Intergrated Observatory (HELIO) parent project is the super project of all helio sub projects managed by the build system. 
+    <description>
     The Heliophysics Integrated Observatory, HELIO, will deploy a distributed network of services that will address the needs of a broad community
     of researchers in heliophysics. HELIO will provide the most comprehensive integrated information system in this domain; 
-    it will coordinate access to the resources needed by the community, and will provide access to services to mine and analyze the data. 
+    it will coordinate access to the resources needed by the community, and will provide access to services to mine and analyze the data.
+    
+    This page is mainly intended for developers. You will find development documentation, statistics about code quality, ... 
     </description>
     <url>http://www.helio-vo.eu/</url>
     

@@ -10,6 +10,10 @@
   <artifactId>helio-frontend</artifactId>
   <packaging>pom</packaging>
   <name>Helio Frontend</name>
+  <description>
+		TODO: Add description in helio-frontend/pom.xml
+	</description>
+  
   <version>0.0.1-SNAPSHOT</version>
   <modules>
     <module>helio-portal</module>
