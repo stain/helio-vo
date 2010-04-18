@@ -11,7 +11,9 @@
     <packaging>war</packaging>
     <name>helio-ics-web Maven Webapp</name>
     <version>0.0.1-SNAPSHOT</version>
-    <url>http://maven.apache.org</url>
+    <description>
+		TODO: Add description in helio-ics-web/pom.xml
+	</description>
     <build>
         <finalName>helio-ics-web</finalName>
     </build>
