@@ -17,9 +17,8 @@
 		TODO: Add description in helio-contracts/pom.xml
 	</description>
 	
-	
 	<name>helio-contracts</name>
-	<url>http://maven.apache.org</url>
+	
 	<build>
 		<plugins>
 			<plugin>
