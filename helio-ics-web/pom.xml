@@ -9,7 +9,7 @@
     <groupId>eu.heliovo</groupId>
     <artifactId>helio-ics-web</artifactId>
     <packaging>war</packaging>
-    <name>helio-ics-web Maven Webapp</name>
+    <name>helio-ics-web</name>
     <version>0.0.1-SNAPSHOT</version>
     <description>
 		TODO: Add description in helio-ics-web/pom.xml
