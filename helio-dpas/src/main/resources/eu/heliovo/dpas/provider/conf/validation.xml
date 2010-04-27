@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<validation>
+
+	<!-- Date parameter must always exist in the query. An error is returned if this is not the case. -->
+	<rule id="rule-DATE">
+		<if-not expression="exist-node" xpath="//param[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='date'] | //query[@type='queryUOC']">
+			<then>
+				<operation name="return-error">The parameter 'date' must ALWAYS be provided in the query.</operation>
+			</then>
+		</if-not>
+	</rule>
+
+	<!-- All values for instruments are related with an OR. Change the case where an AND is specified for the relation operator. -->
+	<rule id="rule-OR">
+		<if expression="exist-node" xpath="//param[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='instrument']">
+			<then>
+				<operation name="add-attribute" attribute="relation" value="OR" node="//param[translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='instrument']"/>
+			</then>
+		</if>
+	</rule>
+
+
+	<!-- Not working :( -->
+	<rule id="rule-SEC">
+		<if expression="exist-node" xpath="//param[@name='unique-id']">
+			<then>
+				<operation name="delete-node" node="//param[@name='unique-id']"/>
+			</then>
+		</if>
+	</rule>
+
+	<!-- In case no link is specified (and if it's not a SEC query). -->
+<!--
+	<rule id="rule-NO_LINK">
+		<if-not expression="exist-node" xpath="//select/field[@name='link'] | //data/param[@name='event_type']">
+			<then>
+				<operation name="add-node" param="//select">
+					<field name="link"/>
+				</operation>
+			</then>
+		</if-not>
+	</rule>
+-->
+	<!-- In case no filesize is specified (and if it's not a SEC query). -->
+<!--
+	<rule id="rule-NO_FILESIZE">
+		<if-not expression="exist-node" xpath="//select/field[@name='filesize'] | //data/param[@name='event_type']">
+			<then>
+				<operation name="add-node" param="//select">
+					<field name="filesize"/>
+				</operation>
+			</then>
+		</if-not>
+	</rule>
+-->
+
+	<!-- In case no instrument is specified (and if it's not a SEC query). -->
+	<rule id="rule-NO_INSTRUMENT">
+		<if-not expression="exist-node" xpath="//param[@name='instrument'] | //data/param[@name='event_type']">
+			<then>
+				<operation name="add-node" param="//data">
+					<param name="instrument" relation="OR">
+						<value>RHESSI</value>
+
+						<value>GONG</value>
+						<value>BBSO</value>
+						<value>KANZ</value>
+						<value>HSOS</value>
+						<value>OACT</value>
+						<value>YNAO</value>
+
+						<value>CDS</value>
+						<value>CELIAS</value>
+						<value>COSTEP</value>
+						<value>EIT</value>
+						<value>ERNE</value>
+						<value>GOLF</value>
+						<value>LASCO</value>
+						<value>MDI</value>
+						<value>SUMER</value>
+						<value>SWAN</value>
+						<value>UVCS</value>
+						<value>VIRGO</value>
+<!--
+						<value>CDS2</value>
+						<value>CELIAS2</value>
+						<value>COSTEP2</value>
+						<value>EIT2</value>
+						<value>ERNE2</value>
+						<value>GOLF2</value>
+						<value>LASCO2</value>
+						<value>MDI2</value>
+						<value>SUMER2</value>
+						<value>SWAN2</value>
+						<value>UVCS2</value>
+						<value>VIRGO2</value>
+-->
+						<value>SH</value>
+						<value>NRH</value>
+						<value>DAN</value>
+						<value>CHA</value>
+						<value>NRHR</value>
+						<value>MWL</value>
+<!--
+						<value>KPVT</value>
+						<value>EVANS</value>
+						<value>MCMATH</value>
+-->
+						<value>BDA</value>
+						<value>HDA</value>
+						<value>SFR</value>
+						<value>SPR</value>
+						<value>WDA</value>
+						<value>ADA</value>
+						<value>c2_rdif</value>
+						<value>c2eit</value>
+						<value>c3_rdif</value>
+						<value>gxray</value>
+						<value>yk_sfd</value>
+						<value>sky</value>
+						<value>IFA</value>
+						<value>IFZ</value>
+						<value>IFS</value>
+					</param>
+				</operation>
+			</then>
+		</if-not>
+	</rule>
+
+</validation>

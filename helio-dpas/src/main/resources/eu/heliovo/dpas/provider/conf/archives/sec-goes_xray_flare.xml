@@ -1,0 +1,35 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SEC-GOES" version="2.0">
+	<structure>
+		<table name="goes_xray_flare">
+			<field name="latitude"      type="float"/>
+			<field name="longitude"     type="float"/>
+			<field name="long_carr"     type="float"/>
+			<field name="nar"           type="integer"/>
+			<field name="ntime_start"   type="datetime" format="''{0}''"/>
+			<field name="ntim_end"      type="datetime" format="''{0}''"/>
+			<field name="optical_class" type="string"/>
+			<field name="time_end"      type="float" format="''{0}''"/>
+			<field name="time_peak"     type="datetime" format="''{0}''"/>
+			<field name="time_start"    type="datetime" format="''{0}''"/>
+			<field name="xray_class"    type="string" format="''{0}''"/>
+		</table>
+	</structure>
+
+	<mapping>
+		<param name="event-type"    value="yes" map="IGNORE"/>
+		<param name="event_type"    value="yes" map="IGNORE"/>
+		<param name="start-date"    value="yes" map="goes_xray_flare.time_start"/>
+		<param name="time_start"    value="yes" map="goes_xray_flare.time_start"/>
+		<param name="end-date"      value="yes" map="goes_xray_flare.time_end"/>
+		<param name="time_end"      value="yes" map="goes_xray_flare.time_end"/>
+		<param name="date"          value="no"  begin="goes_xray_flare.time_start" end="goes_xray_flare.time_end"/>
+		<param name="latitude"      value="yes" map="goes_xray_flare.latitude"/>
+		<param name="longitude"     value="yes" map="goes_xray_flare.longitude"/>
+		<param name="nar"           value="yes" map="goes_xray_flare.nar"/>
+		<param name="optical_class" value="yes" map="goes_xray_flare.optical_class"/>
+		<param name="time_peak"     value="yes" map="goes_xray_flare.time_peak"/>
+		<param name="xray_class"    value="no"  begin="goes_xray_flare.xray_class" end="goes_xray_flare.xray_class"/>
+	</mapping>
+</map>
+

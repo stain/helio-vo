@@ -1,0 +1,43 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SEC-DSD" version="2.0">
+	<structure>
+		<table name="dsd_list">
+			<field name="c_flares"    type="integer"/>
+			<field name="m_flares"    type="integer"/>
+			<field name="new_regions" type="integer"/>
+			<field name="opt1_flares" type="integer"/>
+			<field name="opt2_flares" type="integer"/>
+			<field name="opt3_flares" type="integer"/>
+			<field name="opts_flares" type="integer"/>
+			<field name="radio_10cm"  type="integer"/>
+			<field name="sesc_ssn"    type="integer"/>
+			<field name="ssa"         type="integer"/>
+			<field name="stan_smf"    type="integer"/>
+			<field name="time_start"  type="datetime" format="''{0}''"/>
+			<field name="x_flares"    type="integer"/>
+			<field name="xray_bkg"    type="string"/>
+		</table>
+	</structure>
+
+	<mapping>
+		<param name="event-type"  value="yes" map="IGNORE"/>
+		<param name="event_type"  value="yes" map="IGNORE"/>
+		<param name="date"        value="no"  begin="dsd_list.time_start" end="dsd_list.time_start"/>
+		<param name="time_start"  value="yes" map="dsd_list.time_start"/>
+		<param name="start-date"  value="yes" map="dsd_list.time_start"/>
+		<param name="c_flares"    value="yes" map="dsd_list.c_flares"/>
+		<param name="m_flares"    value="yes" map="dsd_list.m_flares"/>
+		<param name="new_regions" value="yes" map="dsd_list.new_regions"/>
+		<param name="opt1_flares" value="yes" map="dsd_list.opt1_flares"/>
+		<param name="opt2_flares" value="yes" map="dsd_list.opt2_flares"/>
+		<param name="opt3_flares" value="yes" map="dsd_list.opt3_flares"/>
+		<param name="opts_flares" value="yes" map="dsd_list.opts_flares"/>
+		<param name="radio_10cm"  value="yes" map="dsd_list.radio_10cm"/>
+		<param name="sesc_ssn"    value="yes" map="dsd_list.sesc_ssn"/>
+		<param name="ssa"         value="yes" map="dsd_list.ssa"/>
+		<param name="stan_smf"    value="yes" map="dsd_list.stan_smf"/>
+		<param name="x_flares"    value="yes" map="dsd_list.x_flares"/>
+		<param name="xray_bkg"    value="yes" map="dsd_list.xray_bkg"/>
+	</mapping>
+</map>
+

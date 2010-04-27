@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns='http://java.sun.com/xml/ns/jax-ws/ri/runtime' version='2.0'>
+<!-- 
+    <endpoint
+        name='HelioDpas'
+        implementation='eu.heliovo.dpas.ie.controller.QueryService'
+        url-pattern='/services'/>
+        -->
+   <endpoint 
+	    name="DpasService"                    
+	    implementation="eu.heliovo.dpas.ie.controller.SoapDispatcher"
+	    wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
+	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
+	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
+	    url-pattern="/DpasService"/>
+
+</endpoints>

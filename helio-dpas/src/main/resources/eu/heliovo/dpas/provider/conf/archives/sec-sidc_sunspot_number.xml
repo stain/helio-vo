@@ -1,0 +1,22 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SEC-SIDC" version="2.0">
+	<structure>
+		<table name="sidc_sunspot_number">
+			<field name="ssn"        type="float"/>
+			<field name="time_end"   type="datetime" format="''{0}''"/>
+			<field name="time_start" type="datetime" format="''{0}''"/>
+		</table>
+	</structure>
+
+	<mapping>
+		<param name="event-type" value="yes" map="IGNORE"/>
+		<param name="event_type" value="yes" map="IGNORE"/>
+		<param name="time_start" value="yes" map="sidc_sunspot_number.time_start"/>
+		<param name="start-date" value="yes" map="sidc_sunspot_number.time_start"/>
+		<param name="time_end"   value="yes" map="sidc_sunspot_number.time_end"/>
+		<param name="end-date"   value="yes" map="sidc_sunspot_number.time_end"/>
+		<param name="date"       value="no"  begin="sidc_sunspot_number.time_start" end="sidc_sunspot_number.time_end"/>
+		<param name="ssn"        value="yes" map="sidc_sunspot_number.ssn"/>
+	</mapping>
+</map>
+

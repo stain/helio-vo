@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!-- ============================================================= -->
+<!-- Created on Feb 11, 2005                                       -->
+<!-- Hibernate mapping for Event class                       -->
+<!-- Nathan Ching (nc@mssl.ucl.ac.uk)                              -->
+<!-- ============================================================= -->
+
+<hibernate-mapping>
+
+  <class name="org.egso.comms.log.types.Event" table="event">
+
+    <id name="id">
+      <generator class="assigned"/>
+    </id>
+
+    <property name="logId" column="log_id"/>
+
+    <property name="logger"/>
+
+    <property name="level"/>
+
+    <property name="thread"/>
+
+    <property name="timeAppended" column="time_appended"/>
+
+    <property name="message"/>
+    
+    <property name="ndc"/>
+    
+    <property name="throwable.type" column="throwable_type"/>
+    
+    <property name="throwable.message" column="throwable_message"/>
+    
+    <property name="throwable.detail" column="throwable_detail"/>
+    
+    <property name="location.type" column="type_location"/>
+    
+    <property name="location.method" column="method_location"/>
+    
+    <property name="location.file" column="file_location"/>
+    
+    <property name="location.line" column="line_location"/>    
+
+  </class>
+
+</hibernate-mapping>

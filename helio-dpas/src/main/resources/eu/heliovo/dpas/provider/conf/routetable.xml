@@ -1,0 +1,45 @@
+<!-- XML test for file ALPHA, used by the Query Engine to translate an EGSO query to a PDS. -->
+<route-table version="1.0">
+	<!-- All paramaters that are specific to an archive, no matter what are their values. -->
+<!--
+	<param name="level" value-specific="no" archives="SQL-MEDOC-SOHO"/>
+	<param name="wavelength" value-specific="no" archives="SQL-MEDOC-SOHO" exclusive="yes"/>
+-->
+	<!-- All parameters that are specific to an archive, with a specific value. -->
+	<param name="event_type" value-specific="yes" values="sgas_event"          archives="SEC-SGAS"       exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="yohokh_flare_list"   archives="SEC-YOHKOH"     exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="goes_xray_flare"     archives="SEC-GOES"       exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="hessi_flare"         archives="SEC-HESSI"      exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="noaa_proton_event"   archives="SEC-NOAA"       exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="lasco_cme_cat"       archives="SEC-LASCO_CAT"  exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="lasco_cme_list"      archives="SEC-LASCO_LIST" exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="srs_list"            archives="SEC-SRS"        exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="dsd_list"            archives="SEC-DSD"        exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="sidc_sunspot_number" archives="SEC-SIDC"       exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="drao_10cm_flux"      archives="SEC-DRAO"       exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="bas_magnetic_storms" archives="SEC-BAS"        exclusive="yes"/>
+	<param name="event_type" value-specific="yes" values="soho_camp"           archives="SEC-SOHO"       exclusive="yes"/>
+
+	<param name="instrument" value-specific="yes" values="RHESSI__HESSI_HXR" separator="," archives="FTP-RHESSI"/>
+	<param name="instrument" value-specific="yes" values="BBSO__GONG,BBSO__BBSO,KANZ__HALPH,HSOS__HALPH,OACT__HALPH,YNAO__HALPH" separator="," archives="FTP-BBSO"/>
+	<param name="instrument" value-specific="yes" values="NOBEYAMA__NORH" separator="," archives="FTP-NOBEYAMA"/>
+	
+	<param name="instrument" value-specific="yes" values="SOHO__CDS,SOHO__CELIAS,SOHO__COSTEP,SOHO__EIT,SOHO__ERNE,SOHO__GOLF,SOHO__LASCO,SOHO__MDI,SOHO__SUMER,SOHO__SWAN,SOHO__UVCS,SOHO__VIRGO" separator="," archives="WS-VSO"/>
+
+	<param name="instrument" value-specific="yes" values="KPVT,EVANS,MCMATH" separator="," archives="WS-NSO"/>
+	<!--<param name="instrument" value-specific="yes" values="BDA,HDA,SFR,SPR,WDA,ADA" separator="," archives="FTP-YOHKOH"/>-->
+	<param name="instrument" value-specific="yes" values="YOHKOH__BCS,YOHKOH__HXT,YOHKOH__SXT,YOHKOH__WBS" separator="," archives="FTP-YOHKOH"/>
+	<param name="instrument" value-specific="yes" values="NANC__NDA,NANC__NRH,NANC__NTRFA,PDMO__COGHA,MEUD__MSH,MEUD__MWLT" separator="," archives="SQL-BASS2000"/>
+	
+	<param name="instrument" value-specific="yes" values="C2_RDIF,C2EIT,C3_RDIF,GXRAY,YK_SFD" separator="," archives="HTTP-CME_LIST"/>
+	<param name="instrument" value-specific="yes" values="GOES_12__SXI" separator="," archives="HTTP-GOES_SXI"/>
+	<param name="instrument" value-specific="yes" values="CORIOLIS__SMEI" separator="," archives="HTTP-SMEI"/>
+	
+	<query name="queryUOC" archives="UOC"/>
+	
+	<!-- All information needed to route query for FILES. -->
+	<file start="ftp://ftp.bbso.njit.edu" archive="FTP-BBSO"/>
+	<file start="ftp://hercules.ethz.ch" archive="FTP-RHESSI"/>
+	<file start="ftp://umbra.nascom.nasa.gov" archive="FTP-YOHKOH"/>
+</route-table>
+

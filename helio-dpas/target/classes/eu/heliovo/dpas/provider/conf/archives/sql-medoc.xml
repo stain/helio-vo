@@ -1,0 +1,104 @@
+<?xml version="1.0"  encoding="ISO-8859-1" ?>
+<map idArchive="SQL-MEDOC-SOHO" version="0.1.1">
+	<structure>
+
+		<links>
+			<link start="filemgmt.id_filemgmt"    end="observation.id_obs"   type=""/>
+			<link start="instrume.id_instrume"    end="filemgmt.id_instrume" type=""/>
+			<link start="instrume.id_instrume"    end="detector.id_instrume" type=""/>
+			<link start="observation.id_detector" end="detector.id_detector" type=""/>
+			<link start="observation.id_instrume" end="instrume.id_instrume" type=""/>
+			<link start="observation.id_coordsys" end="coordsys.id_coordsys" type=""/>
+		</links>
+
+		<table name="filemgmt">
+			<field name="id_filemgmt" type="nb(10)"/>
+			<field name="filename"    type="vc2(64)"/>
+			<field name="file_size"   type="nb(9)"/>
+			<field name="location"    type="vc2(100)"/>
+			<field name="path"        type="vc2(100)"/>
+			<field name="id_instrume" type="nb(3)"/>
+			<field name="m_num"       type="nb(5)"/>
+		</table>
+
+		<table name="instrume">
+			<field name="id_instrume"   type="nb(2)"/>
+			<field name="id_telescop"   type="nb(2)"/>
+			<field name="instrume_name" type="vc2(70)"/>
+		</table>
+
+		<table name="observation">
+			<field name="id_obs"      type="nb(10)"/>
+			<field name="id_instrume" type="nb(2)"/>
+			<field name="id_detector" type="nb(2)"/>
+			<field name="date_obs"    type="dt" format="TO_CHAR(observation.date_obs, ''YYYY-MM-DD HH24:MM:SS'') {1} ''{0}''"/>
+			<field name="date_end"    type="dt" format="TO_CHAR(observation.date_obs, ''YYYY-MM-DD HH24:MM:SS'') {1} ''{0}''"/>
+			<field name="id_coordsys" type="nb(2)"/>
+			<field name="wavemin"     type="nb(10,2)"/>
+			<field name="wavemax"     type="nb(10,2)"/>
+		</table>
+		
+		<table name="detector">
+			<field name="id_detector"   type="nb(2)"/>
+			<field name="detector_name" type="vc(70)"/>
+			<field name="id_instrume"   type="nb(2)"/>
+		</table>
+		
+		<table name="coordsys">
+			<field name="id_coordsys"   type="nb(2)"/>
+			<field name="coordsys_name" type="nb(50)"/>
+		</table>
+
+	</structure>
+
+	<mapping>
+		<param name="instrument" value="yes" map="instrume.id_instrume">
+			<value value="CDS2"    map="1"/>
+			<value value="CELIAS2" map="2"/>
+			<value value="EIT2"    map="3"/>
+			<value value="ERNE2"   map="4"/>
+			<value value="GOLF2"   map="5"/>
+			<value value="LASCO2"  map="6"/>
+			<value value="MDI2"    map="7"/>
+			<value value="SUMER2"  map="8"/>
+			<value value="SWAN2"   map="9"/>
+			<value value="UVCS2"   map="10"/>
+			<value value="COSTEP2" map="11"/>
+			<value value="VIRGO2"  map="12"/>
+		</param>
+		<param name="filename"         value="yes" map="filemgmt.filename"/>
+		<param name="start-wavelength" value="yes" map="observation.wavemin"/>
+		<param name="end-wavelength"   value="yes" map="observation.wavemax"/>
+		<param name="observingdomain"  value="yes" map="observation.wavemin"/>
+		<param name="wavelength"       value="no" begin="observation.wavemin" end="observation.wavemax"/>
+		<param name="filesize"         value="yes" map="filemgmt.file_size"/>
+		
+		<param name="start-date" value="yes" map="observation.date_obs"/>
+		<param name="time_start" value="yes" map="observation.date_obs"/>
+		<param name="end-date"   value="yes" map="observation.date_end"/>
+		<param name="time_end"   value="yes" map="observation.date_end"/>
+		<param name="date"       value="no"  begin="observation.date_obs" end="observation.date_end"/>
+	</mapping>
+	
+	<info>
+		<observatory name="SOHO">
+			<instrument name="cds"    value="soho__cds"/>
+			<instrument name="celias" value="soho__celias"/>
+			<instrument name="costep" value="soho__costep"/>
+			<instrument name="eit"    value="soho__eit"/>
+			<instrument name="erne"   value="soho__erne"/>
+			<instrument name="golf"   value="soho__golf"/>
+			<instrument name="lasco"  value="soho__lasco"/>
+			<instrument name="mdi"    value="soho__mdi"/>
+			<instrument name="sumer"  value="soho__sumer"/>
+			<instrument name="swan"   value="soho__swan"/>
+			<instrument name="uvcs"   value="soho__uvcs"/>
+			<instrument name="virgo"  value="soho__virgo"/>
+		</observatory>
+	</info>
+
+	<options>
+		<option name="database" value="ORACLE"/>
+	</options>
+</map>
+

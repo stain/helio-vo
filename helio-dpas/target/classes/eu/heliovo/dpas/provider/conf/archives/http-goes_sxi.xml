@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<map idArchive="HTTP-GOES_SXI" version="0.1" date="16/02/2005">
+
+	<structure>
+		<mask mask="{0}/{1}/{2}/{3}_{4}_{5}{6}_{7}_{8}.{9}" number="10">
+			<param index="3" start="0"  end="2"/>
+			<param index="4" start="4"  end="11" format="YYYYMMDD"/>
+			<param index="5" start="13" end="18" format="HHMMSS"/>
+			<param index="9" start="29"/>
+		</mask>
+	</structure>
+
+	<mapping>
+		<param name="instrument" mappedName="Instrument" none="SXI" multiple-index="no" index="3">
+			<value value="SXI" name="GOES_12__SXI" longName="GOES SXI"/>
+		</param>
+		
+		<param name="DATE" multiple-index="yes">
+			<value index="0" format="YYYY"     none="????"/>
+			<value index="1" format="MM"       none="??"/>
+			<value index="2" format="DD"       none="??"/>
+			<value index="4" format="YYYYMMDD" none="????????"/>
+		</param>
+		
+		<param name="TIME" multiple-index="no" none="??????" format="HHMMSS" index="5"/>
+		
+		<param name="milliseconds" mappedName="milliseconds" multiple-index="no" none="???" index="6"/>
+		
+		<param name="AAorBB" mappedName="AAorBB" multiple-index="no" none="??" index="7"/>
+		
+		<param name="12" mappedName="12" multiple-index="no" none="??" index="8"/>
+		
+		<param name="extension" mappedName="File extension" none="FTS" multiple-index="no" index="9">
+			<value value="FTS" name="FTS"/>
+		</param>
+	</mapping>
+	
+	<info>
+		<observatory name="GOES_SXI">
+			<instrument name="SXI" value="goes__sxi"/>
+		</observatory>
+	</info>
+</map>
+
