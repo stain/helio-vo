@@ -48,7 +48,7 @@ public class InitialWorkflow extends Workflow
     
     List<String> getAllEventDates_StartDates=new ArrayList<String>();
     List<String> getAllEventDates_EndDates=new ArrayList<String>();
-    List<String> getAllEventDates_Positions=new ArrayList<String>();
+    List<Integer> getAllEventDates_Positions=new ArrayList<Integer>();
     getAllEventDates(sql_output,getAllEventDates_StartDates,getAllEventDates_EndDates,getAllEventDates_Positions);
     
     
@@ -97,9 +97,8 @@ public class InitialWorkflow extends Workflow
     return sql_string;
   }
 
-  private static void getAllEventDates(String voTable,List startDates,List endDates,List positions)
+  private static void getAllEventDates(String voTable,List<String> startDates,List<String> endDates,List<Integer> positions)
   {
-    List dateList=new ArrayList();
     StringReader reader2=new StringReader(voTable);
     InputSource source2=new InputSource(reader2);
     Document docVO;
@@ -137,49 +136,29 @@ public class InitialWorkflow extends Workflow
       NodeList dataListVO=docVO.getElementsByTagName("TR");
       for(int i=0;i>dataListVO.getLength();i++)
       {
-        List date=new ArrayList();
         NodeList voDataChilds=dataListVO.item(i).getChildNodes();
         if(voDataChilds.item(pos_start_vo).getFirstChild()!=null)
-        {
-          date.add(voDataChilds.item(pos_start_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
           startDates.add(voDataChilds.item(pos_start_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
-        }
         else
-        {
-          date.add(voDataChilds.item(pos_startA_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
           startDates.add(voDataChilds.item(pos_startA_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
-        }
+        
         if(voDataChilds.item(pos_end_vo).getFirstChild()!=null)
-        {
-          date.add(voDataChilds.item(pos_end_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
           endDates.add(voDataChilds.item(pos_end_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
-        }
         else
-        {
-          date.add(voDataChilds.item(pos_endA_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
           endDates.add(voDataChilds.item(pos_endA_vo).getFirstChild().getNodeValue().replaceAll("\\.\\d",""));
-        }
-        date.add(i);
+        
         positions.add(i);
-        dateList.add(date);
       }
       reader2.close();
-      if(dateList.size()==0)
-      {
-        dateList.add(new ArrayList());
-      }
+      
       if(endDates.size()==0)
-      {
         endDates.add("2008-00-00 00:00:01");
-      }
+
       if(startDates.size()==0)
-      {
         startDates.add("2008-00-00 00:00:00");
-      }
+
       if(positions.size()==0)
-      {
-        positions.add("0");
-      }
+        positions.add(0);
     }
     catch(Exception e)
     {
@@ -370,9 +349,7 @@ public class InitialWorkflow extends Workflow
   }
 
   private static void writeExtraFields(Document docVO, Node nodeVO, Node nodeHessi) {
-    String debug = new String("");
     NamedNodeMap nodeMap = nodeHessi.getAttributes();
-    // NodeList listHessi = nodeHessi.getChildNodes();
     for(int i=0; i< nodeMap.getLength(); i++) {
       if(nodeMap.item(i).getLocalName().compareTo("instrument") != 0){
         Node newNode = nodeVO.getFirstChild().cloneNode(false);
@@ -383,11 +360,8 @@ public class InitialWorkflow extends Workflow
     }
   } 
 
-  private static void writeSolarMonitor(Document docVO,Node nodeVO, int pos,List<List<String>> solar_monitor_data) {
-    NodeList nodes=null;
-    StringReader reader;
-    InputSource source;
-
+  private static void writeSolarMonitor(Document docVO,Node nodeVO, int pos,List<List<String>> solar_monitor_data)
+  {
     //NodeList obsChilds = nodes.item(0).getChildNodes();
     Node newNode = nodeVO.getFirstChild().cloneNode(false);
     Text voTextNode = docVO.createTextNode(solar_monitor_data.get(pos).get(0));
@@ -399,14 +373,12 @@ public class InitialWorkflow extends Workflow
     voTextNode = docVO.createTextNode(solar_monitor_data.get(pos).get(1));
     newNode.appendChild(voTextNode);
     nodeVO.appendChild(newNode);
-
   }
 
-  private static String findOverlaps(Document docVO,List<List<String>> instrument_data,List<String> position,Document[] doc,List<List<String>> solar_monitor_data) throws Exception
+  private static String findOverlaps(Document docVO,List<List<String>> instrument_data,List<Integer> position,Document[] doc,List<List<String>> solar_monitor_data) throws Exception
   {
     String attstart = "measurementStart";
     String attstop = "measurementEnd";
-    NodeList[] nodes = new NodeList[instrument_data.size()];
     StringReader[] reader = new StringReader[instrument_data.size()];
     InputSource[] source = new InputSource[instrument_data.size()];
     int[] position2 = new int[instrument_data.size()];
@@ -416,7 +388,6 @@ public class InitialWorkflow extends Workflow
     long[] min = new long[instrument_data.size()];
     long[] max = new long[instrument_data.size()];
     String debug = new String("");
-    NodeList tableListVO = docVO.getElementsByTagName("TABLEDATA");
     NodeList dataListVO = docVO.getElementsByTagName("TR");
     if(dataListVO == null) {
       debug="dataListVO = null";
@@ -456,7 +427,7 @@ public class InitialWorkflow extends Workflow
   } */
       }
 
-      int pos = Integer.parseInt(position.get(i)); 
+      int pos = position.get(i); 
 
       Node voDataNode = dataListVO.item(pos);
       if(voDataNode == null)
@@ -549,7 +520,7 @@ public class InitialWorkflow extends Workflow
     return debug;
   }
 
-  private static String combineData(String voTable,List<List<String>> instrument_data,List<String> instruments,List<String> position,List<List<String>> solar_monitor_data) throws Exception
+  private static String combineData(String voTable,List<List<String>> instrument_data,List<String> instruments,List<Integer> position,List<List<String>> solar_monitor_data) throws Exception
   {
     StringWriter out= new StringWriter(); 
     StringReader reader2 = new StringReader(voTable);
