@@ -39,7 +39,7 @@
   
   <servlet-mapping>
 	   <servlet-name>jaxws-servlet</servlet-name>
-	   <url-pattern>/HelioService</url-pattern>
+	   <url-pattern>/HelioDpasService</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>

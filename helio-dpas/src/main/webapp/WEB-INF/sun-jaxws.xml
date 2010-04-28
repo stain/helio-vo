@@ -7,8 +7,16 @@
         url-pattern='/services'/>
         -->
    <endpoint 
-	    name="DpasService"                    
+	    name="HelioDpasService"                    
 	    implementation="eu.heliovo.dpas.ie.controller.SoapDispatcher"
+	    wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
+	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
+	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
+	    url-pattern="/HelioService"/>
+	    
+	    <endpoint 
+	    name="DpasService"                    
+	    implementation="eu.heliovo.dpas.ie.controller.DPASSoapDispatcher"
 	    wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
 	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
 	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
