@@ -75,7 +75,11 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 for(int i=0;i<nodeList.getLength();i++){
 		    		 startTime[i]=nodeList.item(0).getFirstChild().getNodeValue();
 		    	 }
+			 }else  if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0){
+				 startTime=new String[1];
+				 startTime[0] = inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild().getNodeValue();
 			 }
+    		 
 		     
 		     if(inputDoc.getElementsByTagNameNS("*","stoptime").getLength()>0){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","stoptime");
@@ -83,7 +87,12 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 for(int i=0;i<nodeList.getLength();i++){
 		    		 stopTime[i]=nodeList.item(0).getFirstChild().getNodeValue();
 		    	 }
-			 }
+			 }else 
+	    		 if(inputDoc.getElementsByTagNameNS("*","ENDTIME").getLength()>0){
+	    			 stopTime=new String[1];
+	    			 stopTime[0] = inputDoc.getElementsByTagNameNS("*","ENDTIME").item(0).getFirstChild().getNodeValue();
+	    	 }
+		    
 		     
 		     if(inputDoc.getElementsByTagNameNS("*","instruments").getLength()>0){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","instruments");
@@ -91,7 +100,13 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 for(int i=0;i<nodeList.getLength();i++){
 		    		 instruments[i]=nodeList.item(0).getFirstChild().getNodeValue();
 		    	 }
-			 } 
+			 }else if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0){
+				 instruments=new String[1];
+				 instruments[0] = inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild().getNodeValue();
+				 votable=true;
+				 
+			 }
+		     
 		     
 		     responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
 		     
