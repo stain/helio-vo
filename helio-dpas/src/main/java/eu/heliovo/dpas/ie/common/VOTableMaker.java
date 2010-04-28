@@ -34,7 +34,7 @@ public class VOTableMaker {
     
     public void writeBeginVOTable(BufferedWriter out, String description) throws IOException {
     	 //Adding response header start for WebService VOTABLE.
-		 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
+		 out.write("<helio:queryResponse xmlns:helio=\"http://controller.dpas.helio.i4ds.ie\">");
          out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
          out.write( "<RESOURCE>\n" );
          out.write( "<DESCRIPTION>" + description + "</DESCRIPTION>\n" );
