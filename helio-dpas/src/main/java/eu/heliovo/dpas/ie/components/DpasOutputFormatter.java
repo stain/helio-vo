@@ -177,6 +177,7 @@ public class DpasOutputFormatter
 		Object[] tmpArray	=	null;
 		tmpArray			=	results.keySet().toArray();		
 		String[] keys		=	new String[tmpArray.length];
+		Calendar	formattedCalendar	=	null;	
 		/*
 		 * Create the string array of all the keys...
 		 */
@@ -203,7 +204,15 @@ public class DpasOutputFormatter
 			{
 				System.out.println(sortedResult.toString(j));
 				if(j<2 || j==2){
-					voTableMarker.getValues()[j] = sortedResult.toString(j);	
+					if(j==0 || j==1){
+						//System.out.println(sortedResult.getColumn(j));
+						formattedCalendar	=	(Calendar) sortedResult.getColumn(j);
+						if(formattedCalendar != null){
+							voTableMarker.getValues()[j] =dpasUtils.calendarToHELIOTime(formattedCalendar);
+						}
+					}else{
+						voTableMarker.getValues()[j] = sortedResult.toString(j);
+					}
 				}else{
 					voTableMarker.getValues()[j] =sortedResult.instrument;
 				}
