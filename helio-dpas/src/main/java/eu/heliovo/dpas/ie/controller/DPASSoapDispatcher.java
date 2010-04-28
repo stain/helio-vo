@@ -23,9 +23,9 @@ import org.w3c.dom.NodeList;
  * XMLStreamReader with the help of PipedStreams.
  *
  */
-@WebServiceProvider(targetNamespace="http://helio-vo.eu/xml/QueryService/v0.1",
-	      serviceName="HelioQueryServiceService",
-	      portName="HelioQueryServicePort")
+@WebServiceProvider(targetNamespace="http://controller.dpas.helio.i4ds.ie",
+	      serviceName="QueryServiceService",
+	      portName="QueryService")
 	      
 	      
 	      
