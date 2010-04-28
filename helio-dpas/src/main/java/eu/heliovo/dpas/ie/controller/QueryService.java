@@ -66,4 +66,26 @@ public class QueryService
 		System.out.println("Done Votable");
 		return 	new StreamSource(pr);
 	}
+	
+	
+	/*
+	@WebMethod
+	public String sortedQueryString(String[] instruments, 
+			String[] startTimes,
+			String[] stopTimes, 
+			boolean partialSorting, 
+			String[] dataTypes, 
+			int[] dataLevels,boolean votable) throws Exception
+	{
+		//PipedReader pr = new PipedReader();
+		//PipedWriter pw = new PipedWriter(pr);
+		ServiceEngine serviceEngine = new ServiceEngine();
+		return serviceEngine.executeQuery(null,instruments, 
+				startTimes, 
+				stopTimes, 
+				partialSorting,
+				dataTypes, 
+				dataLevels,votable);	
+	}
+	*/
 }
