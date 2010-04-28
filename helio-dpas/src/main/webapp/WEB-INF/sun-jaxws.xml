@@ -17,9 +17,9 @@
 	    <endpoint 
 	    name="DpasService"                    
 	    implementation="eu.heliovo.dpas.ie.controller.DPASSoapDispatcher"
-	    wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
-	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
-	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
+	    wsdl="WEB-INF/wsdl/dpas_query.wsdl"
+	    service="{http://controller.dpas.helio.i4ds.ie}QueryServiceService"
+	    port="{http://controller.dpas.helio.i4ds.ie}QueryService"
 	    url-pattern="/DpasService"/>
 
 </endpoints>
