@@ -33,41 +33,41 @@ public class QueryWebServiceClient {
 		doc = registryBuilder.newDocument();
 		//change this to helio:TimeSearch
 		//the getSoapBodyNamespaceURI() you can hard code it should be the same namespace you used to register in the SoapServlet.
-		Element root = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1", "helio:VoTableQueryResponse");			
+		Element root = doc.createElementNS("http://controller.dpas.helio.i4ds.ie", "helio:VoTableQueryResponse");			
 		//This configuration for TIME.		  	
-		Element xqueryElemStartTime = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:starttime");			
+		Element xqueryElemStartTime = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:starttime");			
 		//xquery should be 'time' so 2009-10-09T00:00:00/2009-10-09T01:00:00
 		xqueryElemStartTime.appendChild(doc.createTextNode("2002-01-01 00:00:00"));
 		//This configuration for LISTNAME.
-		Element xqueryElemListName = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:starttime");		
+		Element xqueryElemListName = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:starttime");		
 		//xquery should be LISTNAME
 		xqueryElemListName.appendChild(doc.createTextNode("2002-01-01 00:00:00"));
 		//This configuration for LISTNAME.
-		Element xqueryElemListName1 = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:starttime");		
+		Element xqueryElemListName1 = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:starttime");		
 		//xquery should be LISTNAME
 		xqueryElemListName1.appendChild(doc.createTextNode("2002-01-01 00:00:00"));
 		
 		//
-		Element xqueryElemEndTime = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:stoptime");			
+		Element xqueryElemEndTime = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:stoptime");			
 		//xquery should be 'time' so 2009-10-09T00:00:00/2009-10-09T01:00:00
 		xqueryElemEndTime.appendChild(doc.createTextNode("2004-01-01 00:00:00"));	
 		//This configuration for LISTNAME.
-		Element xqueryElemSaveToName = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:stoptime");			
+		Element xqueryElemSaveToName = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:stoptime");			
 		//xquery should be LISTNAME
 		xqueryElemSaveToName.appendChild(doc.createTextNode("2004-01-01 00:00:00"));
 		//This configuration for LISTNAME.
-		Element xqueryElemSaveToName1 = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:stoptime");			
+		Element xqueryElemSaveToName1 = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:stoptime");			
 		//xquery should be LISTNAME
 		xqueryElemSaveToName1.appendChild(doc.createTextNode("2004-01-01 00:00:00"));
 		
 		//This configuration for INSTRUMENT.
-		Element xqueryElemIntrument = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:instruments");			
+		Element xqueryElemIntrument = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:instruments");			
 		//xquery should be 'Instrument'.
 		xqueryElemIntrument.appendChild(doc.createTextNode("RHESSI__HESSI_GMR"));
-		Element xqueryElemIdName = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:instruments");			
+		Element xqueryElemIdName = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:instruments");			
 		//xquery should be LISTNAME
 		xqueryElemIdName.appendChild(doc.createTextNode("RHESSI__HESSI_HXR"));
-		Element xqueryElemIdName1 = doc.createElementNS("http://helio-vo.eu/xml/QueryService/v0.1","helio:instruments");			
+		Element xqueryElemIdName1 = doc.createElementNS("http://controller.dpas.helio.i4ds.ie","helio:instruments");			
 		//xquery should be LISTNAME
 		xqueryElemIdName1.appendChild(doc.createTextNode("PHOENIX__2"));
 		//ok put all these into Document.
@@ -108,7 +108,7 @@ public class QueryWebServiceClient {
 	           //I believe it should not be that important but if my memory serves me correct
 	           //Axis seemed to throw a NullPointerException if these two methods were not set.
 	           sbeRequest.setName(name);
-	           sbeRequest.setNamespaceURI("http://helio-vo.eu/xml/QueryService/v0.1");	           
+	           sbeRequest.setNamespaceURI("http://controller.dpas.helio.i4ds.ie");	           
 	           //call the web service, on axis-message style it
 	           //comes back as a vector of soabodyelements.
 	           result = (Vector)call.invoke(new Object[] { sbeRequest });
