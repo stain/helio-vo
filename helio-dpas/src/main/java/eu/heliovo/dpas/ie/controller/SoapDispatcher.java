@@ -27,6 +27,8 @@ import org.w3c.dom.NodeList;
 	      serviceName="HelioQueryServiceService",
 	      portName="HelioQueryServicePort")
 	      
+	      
+	      
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
 
 public class SoapDispatcher implements Provider<Source> {
@@ -62,45 +64,22 @@ public class SoapDispatcher implements Provider<Source> {
 		     String[] startTime =null;
 		     String[] stopTime =null;
 		     String[] instruments =null;
-		     boolean votable=false;
-		     if(interfaceName == "VoTableQueryResponse".intern()) {
-		    	 votable=true;
-		     }else if(interfaceName == "StringQueryResponse".intern()) {
-		    	 
-		     }
+		     boolean votable=true;
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","starttime").getLength()>0){
-		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","starttime");
-		    	 startTime=new String[nodeList.getLength()];
-		    	 for(int i=0;i<nodeList.getLength();i++){
-		    		 startTime[i]=nodeList.item(0).getFirstChild().getNodeValue();
-		    	 }
-			 }else  if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0){
+		      if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0){
 				 startTime=new String[1];
 				 startTime[0] = inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild().getNodeValue();
 			 }
     		 
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","stoptime").getLength()>0){
-		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","stoptime");
-		    	 stopTime=new String[nodeList.getLength()];
-		    	 for(int i=0;i<nodeList.getLength();i++){
-		    		 stopTime[i]=nodeList.item(0).getFirstChild().getNodeValue();
-		    	 }
-			 }else 
+		     
 	    		 if(inputDoc.getElementsByTagNameNS("*","ENDTIME").getLength()>0){
 	    			 stopTime=new String[1];
 	    			 stopTime[0] = inputDoc.getElementsByTagNameNS("*","ENDTIME").item(0).getFirstChild().getNodeValue();
 	    	 }
 		    
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","instruments").getLength()>0){
-		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","instruments");
-		    	 instruments=new String[nodeList.getLength()];
-		    	 for(int i=0;i<nodeList.getLength();i++){
-		    		 instruments[i]=nodeList.item(0).getFirstChild().getNodeValue();
-		    	 }
-			 }else if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0){
+		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0){
 				 instruments=new String[1];
 				 instruments[0] = inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild().getNodeValue();
 				 votable=true;
@@ -108,6 +87,28 @@ public class SoapDispatcher implements Provider<Source> {
 			 }
 		     
 		     
+		   //Setting for Start Row parameter.
+			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0){
+				 String startRow = inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild().getNodeValue();
+				 
+			 }
+			 
+			//Setting for No Of Rows parameter.
+			 if(inputDoc.getElementsByTagNameNS("*","MAXRECORDS").getLength()>0){
+				 String noOfRows = inputDoc.getElementsByTagNameNS("*","MAXRECORDS").item(0).getFirstChild().getNodeValue();
+				
+			 }
+		     
+			 if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0){
+				 String inst = inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild().getNodeValue();
+				
+			 }
+			//Setting for WHERE parameter.
+			 if(inputDoc.getElementsByTagNameNS("*","WHERE").getLength()>0){
+				 String whereClause = inputDoc.getElementsByTagNameNS("*","WHERE").item(0).getFirstChild().getNodeValue();
+				
+			 }
+			 
 		     responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
 		     
 		}catch (Exception e) {
