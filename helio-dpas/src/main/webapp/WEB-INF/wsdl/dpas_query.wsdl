@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://controller.dpas.helio.i4ds.ie" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://controller.dpas.helio.i4ds.ie" xmlns:intf="http://controller.dpas.helio.i4ds.ie" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://controller.dpas.helio.i4ds.ie" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="query">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="instruments" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="startTimes" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="stopTimes" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="queryResponse">
+    <complexType>
+     <sequence>
+      <element name="queryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="simpleDummyQuery">
+    <complexType>
+     <sequence>
+      <element name="instrument" type="xsd:string"/>
+      <element name="startTime" type="xsd:string"/>
+      <element name="stopTime" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="simpleDummyQueryResponse">
+    <complexType>
+     <sequence>
+      <element name="simpleDummyQueryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="simpleQuery">
+    <complexType>
+     <sequence>
+      <element name="instrument" type="xsd:string"/>
+      <element name="startTime" type="xsd:string"/>
+      <element name="stopTime" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="simpleQueryResponse">
+    <complexType>
+     <sequence>
+      <element name="simpleQueryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="dummyQuery">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="instruments" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="startTimes" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="stopTimes" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="dummyQueryResponse">
+    <complexType>
+     <sequence>
+      <element name="dummyQueryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="dummySortedQuery">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="instruments" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="startTimes" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="stopTimes" type="xsd:string"/>
+      <element name="partialSorting" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="dummySortedQueryResponse">
+    <complexType>
+     <sequence>
+      <element name="dummySortedQueryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="sortedQuery">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="instruments" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="startTimes" type="xsd:string"/>
+      <element maxOccurs="unbounded" name="stopTimes" type="xsd:string"/>
+      <element name="partialSorting" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="sortedQueryResponse">
+    <complexType>
+     <sequence>
+      <element name="sortedQueryReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getInstruments">
+    <complexType/>
+   </element>
+   <element name="getInstrumentsResponse">
+    <complexType>
+     <sequence>
+      <element name="getInstrumentsReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="simpleDummyQueryRequest">
+
+      <wsdl:part element="impl:simpleDummyQuery" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="sortedQueryRequest">
+
+      <wsdl:part element="impl:sortedQuery" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="simpleQueryResponse">
+
+      <wsdl:part element="impl:simpleQueryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInstrumentsResponse">
+
+      <wsdl:part element="impl:getInstrumentsResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dummyQueryRequest">
+
+      <wsdl:part element="impl:dummyQuery" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="queryResponse">
+
+      <wsdl:part element="impl:queryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="queryRequest">
+
+      <wsdl:part element="impl:query" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dummyQueryResponse">
+
+      <wsdl:part element="impl:dummyQueryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="simpleDummyQueryResponse">
+
+      <wsdl:part element="impl:simpleDummyQueryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dummySortedQueryResponse">
+
+      <wsdl:part element="impl:dummySortedQueryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="dummySortedQueryRequest">
+
+      <wsdl:part element="impl:dummySortedQuery" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="simpleQueryRequest">
+
+      <wsdl:part element="impl:simpleQuery" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="getInstrumentsRequest">
+
+      <wsdl:part element="impl:getInstruments" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:message name="sortedQueryResponse">
+
+      <wsdl:part element="impl:sortedQueryResponse" name="parameters"/>
+
+   </wsdl:message>
+
+   <wsdl:portType name="QueryService">
+
+      <wsdl:operation name="query">
+
+         <wsdl:input message="impl:queryRequest" name="queryRequest"/>
+
+         <wsdl:output message="impl:queryResponse" name="queryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="simpleDummyQuery">
+
+         <wsdl:input message="impl:simpleDummyQueryRequest" name="simpleDummyQueryRequest"/>
+
+         <wsdl:output message="impl:simpleDummyQueryResponse" name="simpleDummyQueryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="simpleQuery">
+
+         <wsdl:input message="impl:simpleQueryRequest" name="simpleQueryRequest"/>
+
+         <wsdl:output message="impl:simpleQueryResponse" name="simpleQueryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dummyQuery">
+
+         <wsdl:input message="impl:dummyQueryRequest" name="dummyQueryRequest"/>
+
+         <wsdl:output message="impl:dummyQueryResponse" name="dummyQueryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dummySortedQuery">
+
+         <wsdl:input message="impl:dummySortedQueryRequest" name="dummySortedQueryRequest"/>
+
+         <wsdl:output message="impl:dummySortedQueryResponse" name="dummySortedQueryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="sortedQuery">
+
+         <wsdl:input message="impl:sortedQueryRequest" name="sortedQueryRequest"/>
+
+         <wsdl:output message="impl:sortedQueryResponse" name="sortedQueryResponse"/>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInstruments">
+
+         <wsdl:input message="impl:getInstrumentsRequest" name="getInstrumentsRequest"/>
+
+         <wsdl:output message="impl:getInstrumentsResponse" name="getInstrumentsResponse"/>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="QueryServiceSoapBinding" type="impl:QueryService">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="query">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="queryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="queryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="simpleDummyQuery">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="simpleDummyQueryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="simpleDummyQueryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="simpleQuery">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="simpleQueryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="simpleQueryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dummyQuery">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="dummyQueryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="dummyQueryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dummySortedQuery">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="dummySortedQueryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="dummySortedQueryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="sortedQuery">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="sortedQueryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="sortedQueryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getInstruments">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getInstrumentsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getInstrumentsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="QueryServiceService">
+
+      <wsdl:port binding="impl:QueryServiceSoapBinding" name="QueryService">
+
+         <wsdlsoap:address location="http://helio.i4ds.technik.fhnw.ch:8080/HelioDPAS-R1/services/QueryService"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
