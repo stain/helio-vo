@@ -35,7 +35,7 @@ public class QueryService
 	 * @param instruments the instruments of the query
 	 * @param startTimes the start times of the query
 	 * @param stopTimes The stop times of the query
-	 * @param partialSorting Wether the sorting should be partial or global
+	 * @param partialSorting Whether the sorting should be partial or global
 	 * @param dataTypes The type of the data 
 	 * @param dataLevels The type of level of the data
 	 * @return the result of the query as a String
