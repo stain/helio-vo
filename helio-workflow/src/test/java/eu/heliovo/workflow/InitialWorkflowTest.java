@@ -22,6 +22,9 @@ public class InitialWorkflowTest extends TestCase
     {
       ByteArrayOutputStream baos=new ByteArrayOutputStream();
       InitialWorkflow.runInitialWorkflow(new PrintWriter(baos),Arrays.asList(new String[]{"SMM__GRS"}),"1955-11-05 01:19:00","1955-11-12 06:00:00","","");
+      
+      System.out.println(baos.toByteArray());
+      
       assertTrue(baos.toByteArray().length<4096);
     }
 }

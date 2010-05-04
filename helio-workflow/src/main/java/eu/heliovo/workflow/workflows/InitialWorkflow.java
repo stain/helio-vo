@@ -6,6 +6,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.ThreadPoolExecutor;
+
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.apache.xerces.parsers.DOMParser;
@@ -46,9 +53,9 @@ public class InitialWorkflow extends Workflow
     //datesSM, getAllIventDates
     List<String> datesSM_output=datesSM(sql_output);
     
-    List<String> getAllEventDates_StartDates=new ArrayList<String>();
-    List<String> getAllEventDates_EndDates=new ArrayList<String>();
-    List<Integer> getAllEventDates_Positions=new ArrayList<Integer>();
+    final List<String> getAllEventDates_StartDates=new ArrayList<String>();
+    final List<String> getAllEventDates_EndDates=new ArrayList<String>();
+    final List<Integer> getAllEventDates_Positions=new ArrayList<Integer>();
     getAllEventDates(sql_output,getAllEventDates_StartDates,getAllEventDates_EndDates,getAllEventDates_Positions);
     
     
@@ -60,12 +67,32 @@ public class InitialWorkflow extends Workflow
     
     //simpleQuery
     List<List<String>> simpleQuery_output=new ArrayList<List<String>>();
-    for(String instrument:_instruments)
+    for(final String instrument:_instruments)
     {
-      List<String> current_output=new ArrayList<String>();
-      for(int i=0;i<getAllEventDates_StartDates.size();i++)
-        current_output.add(new QueryServiceService().getQueryService().simpleQuery(instrument,getAllEventDates_StartDates.get(i),getAllEventDates_EndDates.get(i)));
+      List<Future<String>> current_output_future=new ArrayList<Future<String>>();
       
+      //do the web service calls in parallel
+      ExecutorService tpe=Executors.newCachedThreadPool();
+      for(int i=0;i<getAllEventDates_StartDates.size();i++)
+      {
+        final int cur_i=i;
+        
+        FutureTask<String> ft=new FutureTask<String>(new Callable<String>()
+        {
+          @Override
+          public String call() throws Exception
+          {
+            return new QueryServiceService().getQueryService().simpleQuery(instrument,getAllEventDates_StartDates.get(cur_i),getAllEventDates_EndDates.get(cur_i));
+          }
+        });
+        current_output_future.add(ft);
+        tpe.execute(ft);
+      }
+      
+      //collect all the results from the web service calls
+      List<String> current_output=new ArrayList<String>();
+      for(Future<String> fs:current_output_future)
+        current_output.add(fs.get());
       simpleQuery_output.add(current_output);
     }
     
