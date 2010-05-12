@@ -113,6 +113,7 @@
     	<module>helio-workflow</module>        
     	<module>helio-ics-web</module>        
     	<module>helio-dpas</module>        
+        <module>helio-clientapi</module>
     </modules>
     
     <scm>
@@ -130,11 +131,11 @@
               </configuration>
           </plugin>
           
-          <!-- create cross reference of project sources -->
+          <!-- create cross reference of project sources >
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>jxr-maven-plugin</artifactId>
-          </plugin>
+          </plugin -->
           
           <!-- report test results --> 
           <plugin>
@@ -184,6 +185,13 @@
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>taglist-maven-plugin</artifactId>
           </plugin>
+          
+          <!-- create dashboard -->
+          <plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>dashboard-maven-plugin</artifactId>
+		  </plugin>
+          
         </plugins>
     </reporting>
     
@@ -201,6 +209,7 @@
             <url>http://dist.codehaus.org</url>
             <layout>legacy</layout>
         </repository>
+        
         <repository>
             <id>devjavanet</id>
             <name>java net</name>
@@ -268,7 +277,12 @@
             <id>maven2.java.net</id>
             <name>Java.net Maven2 Repository</name>
             <url>http://download.java.net/maven/2</url>
-        </pluginRepository>
+        </pluginRepository>        
+      	<pluginRepository>
+			<id>Codehaus repository</id>
+			<url>http://repository.codehaus.org/</url>
+		</pluginRepository>
+    
     </pluginRepositories>
     
     <properties>
