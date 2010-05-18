@@ -1,6 +1,6 @@
 package eu.heliovo.dpas.ch;
 
- import java.util.*;
+import java.util.Calendar;
 
 import org.apache.tools.ant.util.DateUtils;
 

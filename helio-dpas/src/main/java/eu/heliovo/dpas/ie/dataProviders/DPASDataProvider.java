@@ -12,7 +12,7 @@ import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 public interface DPASDataProvider
 {
   /**
-   * Return a list of {@link ResultItem}s that lie in the given time period.
+   * Return a list of {@link DPASResultItem}s that lie in the given time period.
    * 
    * @param _dateFrom Beginning of time period to search
    * @param _dateTo End of time period to search

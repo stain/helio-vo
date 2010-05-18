@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -15,11 +14,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import eu.heliovo.dpas.ie.common.VOTableMaker;
-
 import uk.ac.starlink.table.ColumnInfo;
-
 import eu.heliovo.dpas.ie.common.DpasUtilities;
+import eu.heliovo.dpas.ie.common.VOTableMaker;
 import eu.heliovo.dpas.ie.common.XmlUtilities;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 

@@ -1,7 +1,5 @@
 package eu.heliovo.dpas.ie.common;
 
-import java.io.BufferedWriter;
-
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 import eu.heliovo.dpas.ie.controller.ServiceEngine;

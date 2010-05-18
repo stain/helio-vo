@@ -1,12 +1,20 @@
 package eu.heliovo.dpas.ie.dataProviders;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLEditorKit.*;
+import javax.swing.text.html.HTMLEditorKit.Parser;
+import javax.swing.text.html.HTMLEditorKit.ParserCallback;
 
 import eu.heliovo.dpas.ch.HTMLParserFactory;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;

@@ -8,7 +8,6 @@ import javax.jws.WebService;
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 
-
 /**
  * The Class QueryService.
  * 

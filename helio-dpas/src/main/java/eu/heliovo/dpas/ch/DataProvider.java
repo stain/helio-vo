@@ -1,6 +1,7 @@
 package eu.heliovo.dpas.ch;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Interface that all data providers must implement.

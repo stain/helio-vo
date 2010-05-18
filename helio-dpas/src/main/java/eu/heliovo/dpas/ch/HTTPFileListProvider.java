@@ -1,12 +1,21 @@
 package eu.heliovo.dpas.ch;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.Calendar;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLEditorKit.*;
+import javax.swing.text.html.HTMLEditorKit.Parser;
+import javax.swing.text.html.HTMLEditorKit.ParserCallback;
 
 /**
  * A generic class to query instruments that supply a list of files in HTML format (called

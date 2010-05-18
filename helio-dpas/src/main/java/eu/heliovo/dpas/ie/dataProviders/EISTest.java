@@ -1,9 +1,6 @@
 package eu.heliovo.dpas.ie.dataProviders;
 
-import static org.junit.Assert.*;
-
 import java.text.ParseException;
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;

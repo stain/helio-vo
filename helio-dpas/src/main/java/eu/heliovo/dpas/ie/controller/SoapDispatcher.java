@@ -1,6 +1,7 @@
 package  eu.heliovo.dpas.ie.controller;
 
 import java.io.BufferedWriter;
+
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -8,11 +9,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Provider;
-import javax.xml.ws.ServiceMode; 
+import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceProvider;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 
 /**

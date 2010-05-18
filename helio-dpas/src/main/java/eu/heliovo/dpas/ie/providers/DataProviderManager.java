@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import condor.classad.RecordExpr;
+
 import eu.heliovo.dpas.ie.classad.ClassAdMapper;
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilities;

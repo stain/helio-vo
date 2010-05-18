@@ -12,7 +12,6 @@ import eu.heliovo.dpas.ie.internalData.DPASRequest;
 import eu.heliovo.dpas.ie.internalData.DPASRequestFailureReasons;
 import eu.heliovo.dpas.ie.providers.DataProviderManager;
 
-
 /**
  * The Class QueryEngine.
  * 

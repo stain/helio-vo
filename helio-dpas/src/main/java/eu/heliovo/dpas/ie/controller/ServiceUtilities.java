@@ -6,8 +6,6 @@ import eu.heliovo.dpas.ie.internalData.DPASQueryArgumentException;
 import eu.heliovo.dpas.ie.internalData.DPASRequest;
 import eu.heliovo.dpas.ie.internalData.DPASRequestTypes;
 
-
-
 /**
  * The Class ServiceUtilities.
  * 
