@@ -1,10 +1,11 @@
-package eu.heliovo.dpas.ie.dataProviders;
+package eu.heliovo.dpas.ie.dataproviders.test;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
+
+import eu.heliovo.dpas.ie.dataProviders.XRT;
 
 
 public class XRTTest 
