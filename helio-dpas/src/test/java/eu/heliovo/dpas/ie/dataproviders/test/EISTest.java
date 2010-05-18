@@ -1,4 +1,4 @@
-package eu.heliovo.dpas.ie.dataProviders;
+package eu.heliovo.dpas.ie.dataproviders.test;
 
 import java.text.ParseException;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Test;
 
 import eu.heliovo.dpas.ie.common.DpasUtilities;
+import eu.heliovo.dpas.ie.dataProviders.EIS;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 
 public class EISTest {
