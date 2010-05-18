@@ -1,12 +1,17 @@
-package eu.heliovo.dpas.ie.providers;
+package eu.heliovo.dpas.ie.providers.test;
 
 import java.util.List;
+
+import org.junit.Ignore;
+import org.junit.Test;
 
 import junit.framework.TestCase;
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
+import eu.heliovo.dpas.ie.providers.DataProviderManager;
+import eu.heliovo.dpas.ie.providers.DataProviderManagerException;
 
-public class DataProviderManagerTest extends TestCase 
+public class DataProviderManagerTest
 {
 	DataProviderManager	dpManager	=	null;
 	
@@ -52,6 +57,7 @@ public class DataProviderManagerTest extends TestCase
 	String	source23	=	"DataSource_2_for_instrument_3";
 	String	source33	=	"DataSource_2_for_instrument_3";
 	
+	@Ignore @Test
 	public void testAddProvider() 
 	{
 		try 
@@ -72,6 +78,7 @@ public class DataProviderManagerTest extends TestCase
 		}
 	}
 
+	@Ignore @Test
 	public void testGetBest() {
 		try 
 		{
@@ -100,6 +107,7 @@ public class DataProviderManagerTest extends TestCase
 		System.out.println(inst1 + " ===> " + source);
 	}
 
+	@Ignore @Test
 	public void testGetAll() {
 		try 
 		{
