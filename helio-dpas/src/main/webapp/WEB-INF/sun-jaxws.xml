@@ -7,7 +7,7 @@
         url-pattern='/services'/>
         -->
    <endpoint 
-	    name="HelioDpasService"                    
+	    name="HelioService"                    
 	    implementation="eu.heliovo.dpas.ie.controller.SoapDispatcher"
 	    wsdl="WEB-INF/wsdl/helio_full_query.wsdl"
 	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceService"
@@ -21,5 +21,13 @@
 	    service="{http://controller.dpas.helio.i4ds.ie}QueryServiceService"
 	    port="{http://controller.dpas.helio.i4ds.ie}QueryService"
 	    url-pattern="/DpasService"/>
+	    
+	    <endpoint 
+	    name="HelioTavernaService"                    
+	    implementation="eu.heliovo.dpas.ie.controller.SoapDispatcher" 
+	    wsdl="WEB-INF/wsdl/helio_service_traverna.wsdl"
+	    service="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServiceServiceTwo"
+	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePortTwo"
+	    url-pattern="/HelioTavernaService"/>
 
 </endpoints>
