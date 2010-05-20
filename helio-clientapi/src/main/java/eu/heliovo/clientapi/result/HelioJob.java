@@ -13,6 +13,5 @@ public interface HelioJob extends Future<HelioResultSet> {
 	 * the system for meta information.
 	 * @return
 	 */
-	public String getId();
-
+	public int getId();
 }

@@ -1,9 +1,8 @@
 package eu.heliovo.clientapi.query;
 
+import java.util.List;
 import java.util.Map;
-
 import eu.heliovo.clientapi.result.HelioJob;
-import eu.heliovo.clientapi.result.HelioResultSet;
 
 /**
  * Methods to execute parameterized queries on the Helio system. 
@@ -26,7 +25,7 @@ public interface HelioParamQuery {
 	 * @param params
 	 * @return a future object that provides control over the status of asynchronous queries. 
 	 */
-	public HelioJob queryASync(Map<String, Object> params);
+	public HelioJob queryAsync(Map<String, Object> params);
 	
 	
 	/**
@@ -35,6 +34,5 @@ public interface HelioParamQuery {
 	 * @param context the context in which the  
 	 * @return
 	 */
-	public HelioParameter[] getParameterDescription(Map<String, Object> context);
-	
+	public List<HelioParameter> getParameterDescriptions(Map<String, Object> context);
 }

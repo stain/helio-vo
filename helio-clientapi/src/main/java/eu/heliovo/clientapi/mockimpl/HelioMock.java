@@ -1,16 +1,20 @@
 package eu.heliovo.clientapi.mockimpl;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import eu.heliovo.clientapi.HelioAPI;
 import eu.heliovo.clientapi.query.HelioParamQuery;
 import eu.heliovo.clientapi.query.HelioParameter;
 import eu.heliovo.clientapi.result.HelioJob;
+import eu.heliovo.clientapi.status.ServiceStatus;
 
-public class Helio implements HelioParamQuery {
+public class HelioMock implements HelioParamQuery,HelioAPI {
 
-	public void login(String username) throws IOException {
+	public void login() {
 		String name;
 		int age;
 		Scanner in = new Scanner(System.in);
@@ -23,7 +27,7 @@ public class Helio implements HelioParamQuery {
 		// and stores into age variable
 		age = in.nextInt();
 		in.close();
-
+		
 		// Prints name and age to the console
 		System.out.println("Name :" + name);
 		System.out.println("Age :" + age);
@@ -46,16 +50,43 @@ public class Helio implements HelioParamQuery {
 		return null;
 	}
 
-	@Override
-	public HelioJob queryASync(Map<String, Object> params) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public List<HelioJob> getHelioJobs()
+  {
+    return new LinkedList<HelioJob>();
+  }
 
-	@Override
-	public HelioParameter[] getParameterDescription(Map<String, Object> context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  @Override
+  public void login(String username,String password)
+  {
+    login();
+  }
 
+  @Override
+  public List<HelioParameter> getParameterDescriptions(Map<String,Object> context)
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public HelioJob queryAsync(Map<String,Object> params)
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public HelioJob getHelioJob(int id)
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public ServiceStatus getStatus(String serviceId) throws IllegalArgumentException
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
 }
