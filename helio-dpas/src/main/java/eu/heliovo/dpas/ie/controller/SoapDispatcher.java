@@ -14,6 +14,7 @@ import javax.xml.ws.WebServiceProvider;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 
 /**
@@ -60,52 +61,74 @@ public class SoapDispatcher implements Provider<Source> {
 		
 		try {
 			 Element inputDoc=toDocument(request);
-		     String interfaceName = inputDoc.getLocalName().intern();
+		  
 		     QueryService queryService=new QueryService();
 		     String[] startTime =null;
 		     String[] stopTime =null;
 		     String[] instruments =null;
 		     boolean votable=true;
 		     
-		      if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0){
-				 startTime=new String[1];
-				 startTime[0] = inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild().getNodeValue();
+		    if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild()!=null){
+				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","STARTTIME");
+    			 startTime=new String[nodeList.getLength()];
+    			 //List Name
+		    	 for(int i=0;i<nodeList.getLength();i++){
+		    		 startTime[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    	 }
 			 }
     		 
 		     
 		     
-	    		 if(inputDoc.getElementsByTagNameNS("*","ENDTIME").getLength()>0){
-	    			 stopTime=new String[1];
-	    			 stopTime[0] = inputDoc.getElementsByTagNameNS("*","ENDTIME").item(0).getFirstChild().getNodeValue();
+	    	if(inputDoc.getElementsByTagNameNS("*","ENDTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ENDTIME").item(0).getFirstChild()!=null){
+	    			 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","ENDTIME");
+	    			 stopTime=new String[nodeList.getLength()];
+	    			 //List Name
+			    	 for(int i=0;i<nodeList.getLength();i++){
+			    		 stopTime[i]=nodeList.item(i).getFirstChild().getNodeValue();
+			    	 }
 	    	 }
 		    
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0){
-				 instruments=new String[1];
-				 instruments[0] = inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild().getNodeValue();
+		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0 && inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild()!=null){
+				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","FROM");
+				 instruments=new String[nodeList.getLength()];
+    			 //List Name
+		    	 for(int i=0;i<nodeList.getLength();i++){
+		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    	 }
+				 
 				 votable=true;
 				 
 			 }
-		     
+		     /*
+		     if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0 && inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild()!=null){
+		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","INSTRUMENT");
+				 instruments=new String[nodeList.getLength()];
+    			 //List Name
+		    	 for(int i=0;i<nodeList.getLength();i++){
+		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    	 }
+				 votable=true;
+			 }*/
 		     
 		   //Setting for Start Row parameter.
-			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0){
+			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild()!=null){
 				 String startRow = inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild().getNodeValue();
 				 
 			 }
 			 
 			//Setting for No Of Rows parameter.
-			 if(inputDoc.getElementsByTagNameNS("*","MAXRECORDS").getLength()>0){
+			 if(inputDoc.getElementsByTagNameNS("*","MAXRECORDS").getLength()>0 && inputDoc.getElementsByTagNameNS("*","MAXRECORDS").item(0).getFirstChild()!=null){
 				 String noOfRows = inputDoc.getElementsByTagNameNS("*","MAXRECORDS").item(0).getFirstChild().getNodeValue();
 				
 			 }
 		     
-			 if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0){
+			 if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0 && inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild()!=null){
 				 String inst = inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild().getNodeValue();
 				
 			 }
 			//Setting for WHERE parameter.
-			 if(inputDoc.getElementsByTagNameNS("*","WHERE").getLength()>0){
+			 if(inputDoc.getElementsByTagNameNS("*","WHERE").getLength()>0 && inputDoc.getElementsByTagNameNS("*","WHERE").item(0).getFirstChild()!=null){
 				 String whereClause = inputDoc.getElementsByTagNameNS("*","WHERE").item(0).getFirstChild().getNodeValue();
 				
 			 }
