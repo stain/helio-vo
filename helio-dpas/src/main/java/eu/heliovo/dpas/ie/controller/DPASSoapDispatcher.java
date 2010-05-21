@@ -71,7 +71,7 @@ public class DPASSoapDispatcher implements Provider<Source> {
 		    	 
 		     }
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","starttime").getLength()>0){
+		     if(inputDoc.getElementsByTagNameNS("*","starttime").getLength()>0 &&  inputDoc.getElementsByTagNameNS("*","starttime").item(0).getFirstChild()!=null){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","starttime");
 		    	 startTime=new String[nodeList.getLength()];
 		    	 for(int i=0;i<nodeList.getLength();i++){
@@ -80,7 +80,7 @@ public class DPASSoapDispatcher implements Provider<Source> {
 			 }
     		 
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","stoptime").getLength()>0){
+		     if(inputDoc.getElementsByTagNameNS("*","stoptime").getLength()>0 && inputDoc.getElementsByTagNameNS("*","stoptime").item(0).getFirstChild()!=null){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","stoptime");
 		    	 stopTime=new String[nodeList.getLength()];
 		    	 for(int i=0;i<nodeList.getLength();i++){
@@ -89,7 +89,7 @@ public class DPASSoapDispatcher implements Provider<Source> {
 			 }
 		    
 		     
-		     if(inputDoc.getElementsByTagNameNS("*","instruments").getLength()>0){
+		     if(inputDoc.getElementsByTagNameNS("*","instruments").getLength()>0 && inputDoc.getElementsByTagNameNS("*","instruments").item(0).getFirstChild()!=null){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","instruments");
 		    	 instruments=new String[nodeList.getLength()];
 		    	 for(int i=0;i<nodeList.getLength();i++){
