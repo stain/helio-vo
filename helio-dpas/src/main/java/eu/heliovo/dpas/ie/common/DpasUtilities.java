@@ -32,7 +32,7 @@ public class DpasUtilities
 	public	Date	HELIOTimeToDate(String s) throws ParseException
 	{
 		helioFormatter.setLenient(false);
-		return helioFormatter.parse(s);
+		return helioFormatter.parse(s.replace("T"," "));
 	}
 	
 	public	Calendar	HELIOTimeToCalendar(String s) throws ParseException
