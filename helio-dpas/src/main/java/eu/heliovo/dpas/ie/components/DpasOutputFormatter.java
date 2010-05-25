@@ -182,11 +182,25 @@ public class DpasOutputFormatter
 		{
 			keys[i] = (String)tmpArray[i];
 		}
+
+		System.out.println("DEBUG - Unsorted keys ");
+		for(int i = 0; i < tmpArray.length; i++)
+		{
+			System.out.println(i + " ==> " + keys[i]);
+		}
+
+		
 		/*
 		 * Now sorting the keys...
 		 */
 		Arrays.sort(keys); 
-		
+
+		System.out.println("DEBUG - Sorted keys ");
+		for(int i = 0; i < tmpArray.length; i++)
+		{
+			System.out.println(i + " ==> " + keys[i]);
+		}
+
 		//Creating VOTable
 		VOTableMaker voTableMarker=createVOTableMaker();
 		voTableMarker.writeBeginVOTable(output,"Dpas VOTable");
@@ -197,26 +211,33 @@ public class DpasOutputFormatter
 		for(int i = 0; i < keys.length; i++)
 		{
 			sortedResult	=	results.get(keys[i]);
+
 			for(int j = 0; j < 4; j++)
 			{
-				System.out.println(sortedResult.toString(j));
-				if(j<2 || j==2){
-					if(j==0 || j==1){
+				System.out.println(j + " --> " + sortedResult.toString(j));
+
+				if(j<2 || j==2)
+				{
+					if(j==0 || j==1)
+					{
 						//System.out.println(sortedResult.getColumn(j));
 						formattedCalendar	=	(Calendar) sortedResult.getColumn(j);
-						if(formattedCalendar != null){
+						if(formattedCalendar != null)
+						{
 							voTableMarker.getValues()[j] =dpasUtils.calendarToHELIOTime(formattedCalendar);
 						}
-					}else{
+					}
+					else
+					{
 						voTableMarker.getValues()[j] = sortedResult.toString(j);
 					}
-				}else{
-					voTableMarker.getValues()[j] =sortedResult.instrument;
 				}
-				
+				else
+				{
+					voTableMarker.getValues()[j] =sortedResult.instrument;
+				}	
 			}
-			voTableMarker.addRow();
-			
+			voTableMarker.addRow();			
 		}	
 		if(voTableMarker.getRowCount() > 0) {
 			 voTableMarker.writeTable(output);
@@ -231,12 +252,12 @@ public class DpasOutputFormatter
 	 * It creates the VOTable.
 	 */
 	@SuppressWarnings("unused")
-	private  VOTableMaker createVOTableMaker() {
-								 
+	private  VOTableMaker createVOTableMaker() 
+	{							 
 		ColumnInfo [] defValues = new ColumnInfo[4];					
-		defValues[1] = new ColumnInfo("MeasurementStart",String.class,"Measurement Start");
-		defValues[2] = new ColumnInfo("MeasurementEnd",String.class,"Measurement End");
-		defValues[0] = new ColumnInfo("FitsURL",String.class,"Fits URL");
+		defValues[0] = new ColumnInfo("MeasurementStart",String.class,"Measurement Start");
+		defValues[1] = new ColumnInfo("MeasurementEnd",String.class,"Measurement End");
+		defValues[2] = new ColumnInfo("FitsURL",String.class,"Fits URL");
 		defValues[3] = new ColumnInfo("Instrument",String.class,"Instrument Name");
 		return new VOTableMaker(defValues);
 	}
