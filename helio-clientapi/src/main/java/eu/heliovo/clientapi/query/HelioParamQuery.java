@@ -1,8 +1,9 @@
 package eu.heliovo.clientapi.query;
 
-import java.util.List;
 import java.util.Map;
-import eu.heliovo.clientapi.result.HelioJob;
+
+import eu.heliovo.clientapi.result.HelioResultSetFuture;
+import eu.heliovo.clientapi.result.HelioResultSet;
 
 /**
  * Methods to execute parameterized queries on the Helio system. 
@@ -17,7 +18,7 @@ public interface HelioParamQuery {
 	 * @param params
 	 * @return
 	 */
-	public HelioJob querySync(Map<String, Object> params);
+	public HelioResultSet querySync(Map<String, ? extends Object> params);
 
 	/**
 	 * Execute a parameterized query. A set of well defined parameters is used to issue a specific query
@@ -25,7 +26,7 @@ public interface HelioParamQuery {
 	 * @param params
 	 * @return a future object that provides control over the status of asynchronous queries. 
 	 */
-	public HelioJob queryAsync(Map<String, Object> params);
+	public HelioResultSetFuture queryAsync(Map<String, ? extends Object> params);
 	
 	
 	/**
@@ -34,5 +35,6 @@ public interface HelioParamQuery {
 	 * @param context the context in which the  
 	 * @return
 	 */
-	public List<HelioParameter> getParameterDescriptions(Map<String, Object> context);
+	 public HelioParameter[] getParameterDescription(Map<String, ? extends Object> context);
+	 // vs. public List<HelioParameter> getParameterDescriptions(Map<String, Object> context);
 }

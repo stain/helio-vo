@@ -1,6 +1,6 @@
 package eu.heliovo.clientapi.query;
 
-import eu.heliovo.clientapi.result.HelioJob;
+import eu.heliovo.clientapi.result.HelioResultSetFuture;
 
 /**
  * Perform advanced queries by issuing SQL statements.
@@ -16,7 +16,8 @@ public interface HelioSqlQuery {
 	 * @param where
 	 * @return
 	 */
-	public HelioJob querySync(String select, String from, String where);
+	public HelioResultSetFuture querySync(String select, String from, String where);
+	// vs public HelioResultSet querySync(String select, String from, String where);
 	
 	/**
 	 * 
@@ -25,5 +26,5 @@ public interface HelioSqlQuery {
 	 * @param where
 	 * @return
 	 */
-	public HelioJob queryAsync(String select, String from, String where);
+	public HelioResultSetFuture queryAsync(String select, String from, String where);
 }

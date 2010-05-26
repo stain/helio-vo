@@ -1,7 +1,6 @@
 package eu.heliovo.clientapi.result;
 
 import java.io.InputStream;
-import java.net.URI;
 import java.util.logging.LogRecord;
 
 /**
@@ -10,11 +9,11 @@ import java.util.logging.LogRecord;
 public interface HelioResultSet {
 
 	/**
-	 * Get the URI of this result set.  The URI uniquely points to the 
-	 * result. The URI   
-	 * @return
+	 * Return the unique id of this result set. This id can be further used to query
+	 * the system for meta information.
+	 * @return the id. 
 	 */
-	public URI getURI();
+	public ResultId getResultId();
 	
 	/**
 	 * Download the data as VOTable 
@@ -24,7 +23,7 @@ public interface HelioResultSet {
 	
 	/**
 	 * Download the data as VOTable and covert it to the Helio object model
-	 * @return the data as object model.
+	 * @return the data as object model. TODO: change return type to object model root. 
 	 */
 	public Object asObjectModel();
 	
