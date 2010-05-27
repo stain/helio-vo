@@ -1,20 +1,28 @@
 package eu.heliovo.workflow.interfaces;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.PipedReader;
 import java.io.PipedWriter;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Provider;
 import javax.xml.ws.ServiceMode;
 import javax.xml.ws.WebServiceProvider;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
@@ -57,43 +65,24 @@ public class SoapDispatcher implements Provider<Source>
       //parse request
       Element inputDoc=toDocument(request);
       
-      NodeList nl;
-      
-      //parse parameters
-      nl=inputDoc.getElementsByTagName("GOES_MIN");
-      final String goes_min;
-      if(nl.getLength()>0)
-        goes_min=nl.item(0).getFirstChild().getNodeValue();
-      else
-        goes_min="";
-      
-      nl=inputDoc.getElementsByTagName("GOES_MAX");
-      final String goes_max;
-      if(nl.getLength()>0)
-        goes_max=nl.item(0).getFirstChild().getNodeValue();
-      else
-        goes_max="";
-      
-      nl=inputDoc.getElementsByTagName("STARTTIME");
-      final String date_start;
-      if(nl.getLength()>0)
-        date_start=nl.item(0).getFirstChild().getNodeValue();
-      else
-        date_start="";
-      
-      nl=inputDoc.getElementsByTagName("ENDTIME");
-      final String date_end;
-      if(nl.getLength()>0)
-        date_end=nl.item(0).getFirstChild().getNodeValue();
-      else
-        date_end="";
-      
-      nl=inputDoc.getElementsByTagName("INSTRUMENT");
-      final List<String> instruments;
-      if(nl.getLength()>0)
-        instruments=Arrays.asList(nl.item(0).getFirstChild().getNodeValue().split(","));
-      else
-        instruments=new LinkedList<String>();
+      //convert xml to parameter-map
+      NodeList parameterNodes=inputDoc.getChildNodes();
+      final Map<String,String> parameters=new HashMap<String,String>();
+      for(int i=0;i<parameterNodes.getLength();i++)
+      {
+        Node curNode=parameterNodes.item(i);
+        if(curNode.getNodeType()==Element.ELEMENT_NODE)
+        {
+          String paramName=curNode.getNodeName();
+          String paramValue=curNode.getTextContent();
+          
+          //if an array is passed, combine the individual entries with a "," in between
+          if(parameters.containsKey(paramName))
+            paramValue=parameters.get(paramName)+","+paramValue;
+          
+          parameters.put(paramName,paramValue);
+        }
+      }
       
       //execute workflow
       new Thread(new Runnable()
@@ -102,7 +91,7 @@ public class SoapDispatcher implements Provider<Source>
         {
           try
           {
-            InitialWorkflow.runInitialWorkflow(pw,instruments,date_start,date_end,goes_min,goes_max);
+            WorkflowDispatcher.runWorkflow(pw,parameters);
           }
           catch(Exception e)
           {

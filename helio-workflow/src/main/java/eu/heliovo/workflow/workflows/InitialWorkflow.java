@@ -11,14 +11,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.ThreadPoolExecutor;
-
 import org.w3c.dom.*;
 import org.xml.sax.InputSource;
 import org.apache.xerces.parsers.DOMParser;
-
-import eu.heliovo.workflow.clients.dpas.QueryServiceService;
-import eu.heliovo.workflow.clients.hec.HECService;
 
 /**
  * This class represents Anaj's initial workflow. This workflow can be downloaded from
@@ -27,13 +22,16 @@ import eu.heliovo.workflow.clients.hec.HECService;
  */
 public class InitialWorkflow extends Workflow
 {
-  public static void runInitialWorkflow(Writer _w,List<String> _instruments,String _date_start,String _date_end,String _goes_min,String _goes_max) throws Exception
+  public static void runWorkflow(Writer _w,List<String> _instruments,String _date_start,String _date_end,String _goes_min,String _goes_max) throws Exception
   {
-    writeHeader(_w,"find events in xray and radio (http://www.myexperiment.org/workflows/940)");
+    writeHeader(_w);
+    _w.write("<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n");
+    _w.write("<RESOURCE>\n");
+    _w.write("<DESCRIPTION>find events in xray and radio (http://www.myexperiment.org/workflows/940)</DESCRIPTION>\n");
     
     
     //inputs
-    String sql_base="SELECT * FROM goes_xray_flare WHERE  time_start>='%start_date%' AND time_start<'%stop_date%' %goes% ORDER BY ntime_start;";
+    /*String sql_base="SELECT * FROM goes_xray_flare WHERE  time_start>='%start_date%' AND time_start<'%stop_date%' %goes% ORDER BY ntime_start;";
     
     
     //combine_sql_query
@@ -104,8 +102,11 @@ public class InitialWorkflow extends Workflow
     String VOTable_out=combineData(sql_output,simpleQuery_output,_instruments,getAllEventDates_Positions,getSolarMonitorUrls_output);
     
     
-    _w.write(VOTable_out);
+    _w.write(VOTable_out);*/
     
+    _w.write("</RESOURCE>\n");
+    _w.write("</VOTABLE>\n");
+    _w.write("</helio:queryResponse>");
     writeFooter(_w,true);
   }
   

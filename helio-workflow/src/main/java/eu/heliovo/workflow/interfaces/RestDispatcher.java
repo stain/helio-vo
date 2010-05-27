@@ -2,15 +2,12 @@ package eu.heliovo.workflow.interfaces;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import eu.heliovo.workflow.workflows.InitialWorkflow;
 
 /**
  * This servlet gets the REST calls and calls the initial workflow
@@ -25,18 +22,11 @@ public class RestDispatcher extends HttpServlet
     PrintWriter pw=response.getWriter();
     try
     {
-      String goes_min=request.getParameter("goes_min");
-      String goes_max=request.getParameter("goes_max");
-      String date_start=request.getParameter("date_start");
-      String date_end=request.getParameter("date_end");
-      List<String> instruments=Arrays.asList(request.getParameter("instruments").split(","));
+      Map<String,String> params=new LinkedHashMap<String,String>();
+      for(Object s:request.getParameterMap().keySet())
+        params.put((String)s,request.getParameter((String)s));
       
-      if(goes_min==null)
-        goes_min="";
-      if(goes_max==null)
-        goes_max="";
-      
-      InitialWorkflow.runInitialWorkflow(pw,instruments,date_start,date_end,goes_min,goes_max);
+      WorkflowDispatcher.runWorkflow(pw,params);      
     }
     catch(Exception e)
     {

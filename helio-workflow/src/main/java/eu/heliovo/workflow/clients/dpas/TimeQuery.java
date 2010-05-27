@@ -8,20 +8,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Query complex type.
+ * <p>Java class for TimeQuery complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Query">
+ * &lt;complexType name="TimeQuery">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="STARTTIME" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="ENDTIME" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="FROM" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="WHERE" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="INSTRUMENT" type="{http://helio-vo.eu/xml/Instruments/v0.1}instrument" minOccurs="0"/>
  *         &lt;element name="MAXRECORDS" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *         &lt;element name="STARTINDEX" type="{http://www.w3.org/2001/XMLSchema}int" minOccurs="0"/>
  *       &lt;/sequence>
@@ -33,16 +31,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Query", propOrder = {
+@XmlType(name = "TimeQuery", propOrder = {
     "starttime",
     "endtime",
     "from",
-    "where",
-    "instrument",
     "maxrecords",
     "startindex"
 })
-public class Query {
+public class TimeQuery {
 
     @XmlElement(name = "STARTTIME")
     protected String starttime;
@@ -50,10 +46,6 @@ public class Query {
     protected String endtime;
     @XmlElement(name = "FROM", required = true)
     protected String from;
-    @XmlElement(name = "WHERE")
-    protected String where;
-    @XmlElement(name = "INSTRUMENT")
-    protected Instrument instrument;
     @XmlElement(name = "MAXRECORDS")
     protected Integer maxrecords;
     @XmlElement(name = "STARTINDEX")
@@ -129,54 +121,6 @@ public class Query {
      */
     public void setFROM(String value) {
         this.from = value;
-    }
-
-    /**
-     * Gets the value of the where property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getWHERE() {
-        return where;
-    }
-
-    /**
-     * Sets the value of the where property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setWHERE(String value) {
-        this.where = value;
-    }
-
-    /**
-     * Gets the value of the instrument property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Instrument }
-     *     
-     */
-    public Instrument getINSTRUMENT() {
-        return instrument;
-    }
-
-    /**
-     * Sets the value of the instrument property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Instrument }
-     *     
-     */
-    public void setINSTRUMENT(Instrument value) {
-        this.instrument = value;
     }
 
     /**

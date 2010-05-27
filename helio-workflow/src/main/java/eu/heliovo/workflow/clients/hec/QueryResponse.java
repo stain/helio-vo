@@ -1,5 +1,5 @@
 
-package eu.heliovo.workflow.clients.dpas;
+package eu.heliovo.workflow.clients.hec;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

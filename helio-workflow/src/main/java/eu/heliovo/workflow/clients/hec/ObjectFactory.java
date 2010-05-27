@@ -24,8 +24,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
-    private final static QName _SqlResponse_QNAME = new QName("http://service.hec/", "sqlResponse");
-    private final static QName _Sql_QNAME = new QName("http://service.hec/", "sql");
+    private final static QName _TimeQuery_QNAME = new QName("http://helio-vo.eu/xml/QueryService/v0.1", "TimeQuery");
+    private final static QName _QueryResponse_QNAME = new QName("http://helio-vo.eu/xml/QueryService/v0.1", "queryResponse");
+    private final static QName _Query_QNAME = new QName("http://helio-vo.eu/xml/QueryService/v0.1", "Query");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: eu.heliovo.workflow.clients.hec
@@ -35,37 +36,54 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SqlResponse }
+     * Create an instance of {@link TimeQuery }
      * 
      */
-    public SqlResponse createSqlResponse() {
-        return new SqlResponse();
+    public TimeQuery createTimeQuery() {
+        return new TimeQuery();
     }
 
     /**
-     * Create an instance of {@link Sql }
+     * Create an instance of {@link QueryResponse }
      * 
      */
-    public Sql createSql() {
-        return new Sql();
+    public QueryResponse createQueryResponse() {
+        return new QueryResponse();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link SqlResponse }{@code >}}
+     * Create an instance of {@link Query }
      * 
      */
-    @XmlElementDecl(namespace = "http://service.hec/", name = "sqlResponse")
-    public JAXBElement<SqlResponse> createSqlResponse(SqlResponse value) {
-        return new JAXBElement<SqlResponse>(_SqlResponse_QNAME, SqlResponse.class, null, value);
+    public Query createQuery() {
+        return new Query();
     }
 
     /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Sql }{@code >}}
+     * Create an instance of {@link JAXBElement }{@code <}{@link TimeQuery }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://service.hec/", name = "sql")
-    public JAXBElement<Sql> createSql(Sql value) {
-        return new JAXBElement<Sql>(_Sql_QNAME, Sql.class, null, value);
+    @XmlElementDecl(namespace = "http://helio-vo.eu/xml/QueryService/v0.1", name = "TimeQuery")
+    public JAXBElement<TimeQuery> createTimeQuery(TimeQuery value) {
+        return new JAXBElement<TimeQuery>(_TimeQuery_QNAME, TimeQuery.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link QueryResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://helio-vo.eu/xml/QueryService/v0.1", name = "queryResponse")
+    public JAXBElement<QueryResponse> createQueryResponse(QueryResponse value) {
+        return new JAXBElement<QueryResponse>(_QueryResponse_QNAME, QueryResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Query }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://helio-vo.eu/xml/QueryService/v0.1", name = "Query")
+    public JAXBElement<Query> createQuery(Query value) {
+        return new JAXBElement<Query>(_Query_QNAME, Query.class, null, value);
     }
 
 }
