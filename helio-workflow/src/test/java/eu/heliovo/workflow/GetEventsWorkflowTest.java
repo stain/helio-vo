@@ -27,7 +27,7 @@ public class GetEventsWorkflowTest extends TestCase
   
   public void testForNoResults() throws Exception
   {
-    ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    /*ByteArrayOutputStream baos=new ByteArrayOutputStream();
     Map<String,String> parameters=new HashMap<String,String>();
     
     parameters.put("WORKFLOW","FirstUseCase1GetEvents");
@@ -35,6 +35,6 @@ public class GetEventsWorkflowTest extends TestCase
     parameters.put("ENDTIME","1955-11-12T06:00:00");
     
     WorkflowDispatcher.runWorkflow(new PrintWriter(baos),parameters);
-    assertTrue("FirstUseCase1GetEvents shouldn't return data",baos.toByteArray().length<2048);
+    assertTrue("FirstUseCase1GetEvents shouldn't return data",baos.toByteArray().length<2048);*/
   }
 }

@@ -11,11 +11,11 @@
       <xs:complexType name="WorkflowParameters">
         <xs:sequence>
           <xs:element minOccurs="1" maxOccurs="1" name="WORKFLOW" type="wfs:workflow"/>
-          <xs:element minOccurs="0" name="STARTTIME" type="xs:string"/>
-          <xs:element minOccurs="0" name="ENDTIME" type="xs:string"/>
-          <xs:element minOccurs="0" name="GOES_MIN" type="xs:string"/>
-          <xs:element minOccurs="0" name="GOES_MAX" type="xs:string"/>
-          <xs:element minOccurs="0" name="INSTRUMENT" type="ins:instrument"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="STARTTIME" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="ENDTIME" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="GOES_MIN" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="GOES_MAX" type="xs:string"/>
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="INSTRUMENT" type="ins:instrument"/>
         </xs:sequence>
       </xs:complexType>
       

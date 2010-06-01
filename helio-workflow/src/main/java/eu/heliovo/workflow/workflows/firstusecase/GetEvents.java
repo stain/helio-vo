@@ -18,7 +18,7 @@ public class GetEvents extends Workflow
   public static void runWorkflow(Writer _w,String _date_start,String _date_end) throws Exception
   {
     writeHeader(_w);
-    _w.write("<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n");
+    //_w.write("<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n");
     
     
     //inputs
@@ -41,7 +41,7 @@ public class GetEvents extends Workflow
     ser.setOutputCharStream(_w);
     ser.serialize((Element)res.getAny());
     
-    _w.write("</VOTABLE>");
+    //_w.write("</VOTABLE>");
     writeFooter(_w,true);
   }
 }
