@@ -1,13 +1,14 @@
 package eu.heliovo.clientapi.result;
 
 /**
- * Container that provides access to long running queries as well as results of previous queries.
+ * Manage the Helio result sets, i.e.&nbsp;provide access to long running queries
+ * as well as to results of previous queries.
  */
-public interface HelioJobBasket {
+public interface HelioResultSetManager {
 	  
 	/**
 	 * Gets a specific long-running job.
-	 * @param id the id of the job to retreive.
+	 * @param id the id of the job to retrieve.
 	 */
 	public HelioResultSetFuture getHelioJob(String id);
 	
