@@ -1,4 +1,4 @@
-package org.helio.mockclient.query.test;
+package eu.heliovo.mockclient.query.test;
 
 import java.util.Arrays;
 import java.util.Collections;
