@@ -6,9 +6,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.w3c.dom.Document;
-
 import eu.heliovo.dpas.ie.common.DpasUtilities;
 import eu.heliovo.dpas.ie.components.DpasOutputFormatter;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
