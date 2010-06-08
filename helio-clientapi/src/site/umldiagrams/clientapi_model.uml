@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:uml="http://www.eclipse.org/uml2/3.0.0/UML" xmi:id="_rAVHMWjEEd-7H8XMdOI5Rg" name="clientapi" viewpoint="">
-  <packagedElement xmi:type="uml:Component" xmi:id="_P4-lwGjMEd-ni6bqWPS2Ww" name="HelioClientApi" clientDependency="_PmQBkGjNEd-ni6bqWPS2Ww _YJC3IGjPEd-ni6bqWPS2Ww _ZRwysGjPEd-ni6bqWPS2Ww _ycGUMGjPEd-ni6bqWPS2Ww">
+  <packagedElement xmi:type="uml:Component" xmi:id="_P4-lwGjMEd-ni6bqWPS2Ww" name="HelioClientApi " clientDependency="_PmQBkGjNEd-ni6bqWPS2Ww _YJC3IGjPEd-ni6bqWPS2Ww _ZRwysGjPEd-ni6bqWPS2Ww _ycGUMGjPEd-ni6bqWPS2Ww">
     <interfaceRealization xmi:id="_PmQBkGjNEd-ni6bqWPS2Ww" client="_P4-lwGjMEd-ni6bqWPS2Ww"/>
     <interfaceRealization xmi:id="_YJC3IGjPEd-ni6bqWPS2Ww" client="_P4-lwGjMEd-ni6bqWPS2Ww"/>
     <interfaceRealization xmi:id="_ZRwysGjPEd-ni6bqWPS2Ww" client="_P4-lwGjMEd-ni6bqWPS2Ww"/>
@@ -53,7 +53,7 @@
   <packagedElement xmi:type="uml:Component" xmi:id="_xwWMAGjQEd-ni6bqWPS2Ww" name="HEC"/>
   <packagedElement xmi:type="uml:Component" xmi:id="_OO3TsGjUEd-IvszF0dLCRA" name="ILS" isLeaf="true"/>
   <packagedElement xmi:type="uml:Component" xmi:id="_zwDZ8GjQEd-ni6bqWPS2Ww" name="DPAS"/>
-  <packagedElement xmi:type="uml:Component" xmi:id="_0qUp0GjQEd-ni6bqWPS2Ww" name="ServiceRegistry"/>
+  <packagedElement xmi:type="uml:Component" xmi:id="_0qUp0GjQEd-ni6bqWPS2Ww" name="RegistryService"/>
   <packagedElement xmi:type="uml:Association" xmi:id="_9ZJbIGjQEd-ni6bqWPS2Ww" memberEnd="_9ZJbIWjQEd-ni6bqWPS2Ww _9ZJbJGjQEd-ni6bqWPS2Ww">
     <ownedEnd xmi:id="_9ZJbIWjQEd-ni6bqWPS2Ww" name="src" type="_P4-lwGjMEd-ni6bqWPS2Ww" association="_9ZJbIGjQEd-ni6bqWPS2Ww">
       <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_9ZJbI2jQEd-ni6bqWPS2Ww" value="1"/>
@@ -123,6 +123,21 @@
       <ownedParameter xmi:id="_OJkSEGjWEd-IvszF0dLCRA" direction="return"/>
       <ownedParameter xmi:id="_OJkSEWjWEd-IvszF0dLCRA" name="Map params"/>
     </ownedOperation>
+    <nestedClassifier xmi:type="uml:Interface" xmi:id="_7UR_8GlKEd-KBfYlpTyAbw" name="HelioProcessingService">
+      <ownedOperation xmi:id="_GphZ4GlLEd-KBfYlpTyAbw" name="submit">
+        <ownedParameter xmi:id="_MMeFEGlLEd-KBfYlpTyAbw" direction="return"/>
+        <ownedParameter xmi:id="_MMeFEWlLEd-KBfYlpTyAbw" name="job"/>
+        <ownedParameter xmi:id="_MMeFEmlLEd-KBfYlpTyAbw" name="id"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_O-PCEGlLEd-KBfYlpTyAbw" name="getResult">
+        <ownedParameter xmi:id="_QZk-sGlLEd-KBfYlpTyAbw" direction="return"/>
+        <ownedParameter xmi:id="_QZk-sWlLEd-KBfYlpTyAbw" name="id"/>
+      </ownedOperation>
+      <ownedOperation xmi:id="_NJHTgGlLEd-KBfYlpTyAbw" name="cancel">
+        <ownedParameter xmi:id="_ROLrcGlLEd-KBfYlpTyAbw" direction="return"/>
+        <ownedParameter xmi:id="_ROLrcWlLEd-KBfYlpTyAbw" name="id"/>
+      </ownedOperation>
+    </nestedClassifier>
   </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_ADvm4GjWEd-IvszF0dLCRA" name="HelioCore">
     <ownedOperation xmi:id="_CL8CcGjWEd-IvszF0dLCRA" name="login">
@@ -179,7 +194,7 @@
       <ownedParameter xmi:id="_lVUOQWlKEd-KBfYlpTyAbw" name="String serviceId"/>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_sFvZMGlKEd-KBfYlpTyAbw" name="HelioServiceRegistry">
+  <packagedElement xmi:type="uml:Interface" xmi:id="_sFvZMGlKEd-KBfYlpTyAbw" name="HelioRegistryService">
     <ownedOperation xmi:id="_ty-XEGlKEd-KBfYlpTyAbw" name="lookupService">
       <ownedParameter xmi:id="_w6fhoGlKEd-KBfYlpTyAbw" direction="return"/>
       <ownedParameter xmi:id="_w6pSoGlKEd-KBfYlpTyAbw" name="Map params"/>
@@ -204,21 +219,6 @@
       <ownedParameter xmi:id="_tVf7cmlLEd-KBfYlpTyAbw" name="id"/>
     </ownedOperation>
   </packagedElement>
-  <packagedElement xmi:type="uml:Interface" xmi:id="_7UR_8GlKEd-KBfYlpTyAbw" name="HelioProcessingService">
-    <ownedOperation xmi:id="_GphZ4GlLEd-KBfYlpTyAbw" name="submit">
-      <ownedParameter xmi:id="_MMeFEGlLEd-KBfYlpTyAbw" direction="return"/>
-      <ownedParameter xmi:id="_MMeFEWlLEd-KBfYlpTyAbw" name="job"/>
-      <ownedParameter xmi:id="_MMeFEmlLEd-KBfYlpTyAbw" name="id"/>
-    </ownedOperation>
-    <ownedOperation xmi:id="_O-PCEGlLEd-KBfYlpTyAbw" name="getResult">
-      <ownedParameter xmi:id="_QZk-sGlLEd-KBfYlpTyAbw" direction="return"/>
-      <ownedParameter xmi:id="_QZk-sWlLEd-KBfYlpTyAbw" name="id"/>
-    </ownedOperation>
-    <ownedOperation xmi:id="_NJHTgGlLEd-KBfYlpTyAbw" name="cancel">
-      <ownedParameter xmi:id="_ROLrcGlLEd-KBfYlpTyAbw" direction="return"/>
-      <ownedParameter xmi:id="_ROLrcWlLEd-KBfYlpTyAbw" name="id"/>
-    </ownedOperation>
-  </packagedElement>
   <packagedElement xmi:type="uml:Interface" xmi:id="_Wc8-4GomEd-KBfYlpTyAbw" name="HelioClientApi">
     <generalization xmi:id="_8Z-IsGomEd-KBfYlpTyAbw" general="_0FzDoGjUEd-IvszF0dLCRA"/>
     <generalization xmi:id="_9K2zEGomEd-KBfYlpTyAbw" general="_yJOCMGjUEd-IvszF0dLCRA"/>
@@ -229,5 +229,27 @@
     <generalization xmi:id="_ACJwUGonEd-KBfYlpTyAbw" general="_gVh6gGlKEd-KBfYlpTyAbw"/>
     <generalization xmi:id="_As7LoGonEd-KBfYlpTyAbw" general="_WySpsGlKEd-KBfYlpTyAbw"/>
     <generalization xmi:id="_BxK24GonEd-KBfYlpTyAbw" general="_Ga49cGlKEd-KBfYlpTyAbw"/>
+    <generalization xmi:id="_5qWGUHCgEd-BPL_JVJSfKA" general="_0pbRgHCdEd-BPL_JVJSfKA"/>
+    <generalization xmi:id="_-UN0cHCgEd-BPL_JVJSfKA" general="_4Ptw0HCfEd-BPL_JVJSfKA"/>
+    <generalization xmi:id="_H0yLwHChEd-BPL_JVJSfKA" general="_QTTFoHCgEd-BPL_JVJSfKA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_0pbRgHCdEd-BPL_JVJSfKA" name="HelioServiceDiscovery">
+    <ownedOperation xmi:id="_fcQ6wHCeEd-BPL_JVJSfKA" name="getServiceInstance">
+      <ownedParameter xmi:id="_iyZJEHCeEd-BPL_JVJSfKA" direction="return"/>
+    </ownedOperation>
+    <ownedOperation xmi:id="_jbE5sHCeEd-BPL_JVJSfKA" name="isServiceRunning">
+      <ownedParameter xmi:id="_kVodcHCeEd-BPL_JVJSfKA" direction="return"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_4Ptw0HCfEd-BPL_JVJSfKA" name="HelioTracing">
+    <ownedOperation xmi:id="_6acjAHCfEd-BPL_JVJSfKA" name="getLogs">
+      <ownedParameter xmi:id="_DNQccHCgEd-BPL_JVJSfKA" direction="return"/>
+      <ownedParameter xmi:id="_DNQccXCgEd-BPL_JVJSfKA" name="String callId"/>
+    </ownedOperation>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Interface" xmi:id="_QTTFoHCgEd-BPL_JVJSfKA" name="HelioUtil">
+    <ownedOperation xmi:id="_Y6fk8HCgEd-BPL_JVJSfKA" name="performWhatever">
+      <ownedParameter xmi:id="_bhifsHCgEd-BPL_JVJSfKA" direction="return"/>
+    </ownedOperation>
   </packagedElement>
 </uml:Model>
