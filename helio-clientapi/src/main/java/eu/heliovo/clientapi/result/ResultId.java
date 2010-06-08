@@ -35,13 +35,13 @@ public final class ResultId {
 
 	/**
 	 * Create the Job Id
-	 * @param clientId the client id. Must have length 16 and be a valid hex number. Must not be null.
+	 * @param clientId the client id. Must have length 36 and be a valid hex number. Must not be null.
 	 * @param userId user id. Must have length 8 and be a valid hex number. Must not be null.
 	 * @param transactionId. Must have length 8 and be a valid hex number. Must not be null.
 	 * @throws IllegalArgumentException if any of the arguments is not valid.
 	 */
 	public ResultId(String clientId, String userId, String transactionId) {
-		validate(clientId, "clientId", 16);
+		validate(clientId, "clientId", 36);
 		this.clientId = clientId;
 		this.userId = userId;
 		this.transactionId = transactionId;
@@ -58,14 +58,14 @@ public final class ResultId {
 		if (idPart == null) {
 			throw new IllegalArgumentException("Id part '" + idPartName + "' must not be null.");			
 		}		
-		if (idPart.length() != expectedLen) {
-			throw new IllegalArgumentException("Length of id part '" + idPartName + "' expected to be " + expectedLen + ", but is " + idPart.length());			
+		if (idPart.length() != expectedLen) {			
+			throw new IllegalArgumentException("Length of id part '" + idPartName + "' expected to be " + expectedLen + ", but is " + idPart.length() + ": " + idPart);			
 		}
-		try { 
-			Long.parseLong(idPart, 16);
-		} catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Id part '" + idPartName + "' does not contain a valid hex number: " + idPart + ". Cause: " + e.getMessage(), e);						
-		}		
+//		try { 
+//			Long.parseLong(idPart, 16);
+//		} catch (NumberFormatException e) {
+//			throw new IllegalArgumentException("Id part '" + idPartName + "' does not contain a valid hex number: " + idPart + ". Cause: " + e.getMessage(), e);						
+//		}		
 	}
 
 	@Override
