@@ -1,4 +1,4 @@
-package eu.heliovo.clientapi.config;
+package eu.heliovo.clientapi.core;
 
 /**
  * Interface to deal with configuration settings.

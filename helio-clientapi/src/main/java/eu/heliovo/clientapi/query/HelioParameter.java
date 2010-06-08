@@ -4,10 +4,13 @@ import java.util.Arrays;
 
 /**
  * Description of a helio parameter.
+ * TODO: use JAXB to do the data conversion.
+ * @param <T> Java type of the parameter. This type has to match the provided xsdType.
+ * 
  * @author marco soldati at fhnw ch
  *
  */
-public class HelioParameter {
+public class HelioParameter<T extends Object> {
 	/**
 	 * Name of the parameter.
 	 */
@@ -26,20 +29,58 @@ public class HelioParameter {
 	/**
 	 * Enumeration of allowed values or null if not applicable.
 	 */
-	private Object[] valueDomain;
+	private T[] valueDomain;
+
+	/**
+	 * The default value assigned to an object. May be null.
+	 */
+	private final T defaultValue;
+
+	/**
+	 * Create the HELIO parameter. The default value and the value domain will be null.
+	 * @param paramName the name of the param. must not be null.
+	 * @param description the description of the parameter in user friendly format. May be null.
+	 * @param xsdType the type of the param in XML Schema definition. Must not be null
+	 */
+	public HelioParameter(String paramName, String description, String xsdType) {
+		this(paramName, description, xsdType, null, null);	
+	}
 	
+	/**
+	 * Create the HELIO parameter with a given default value. The value domain will be null.
+	 * @param paramName the name of the param. must not be null.
+	 * @param description the description of the parameter in user friendly format. May be null.
+	 * @param xsdType the type of the param in XML Schema definition. Must not be null
+	 * @param defaultValue the default value. Will be ignored if null. 
+	 */
+	public HelioParameter(String paramName, String description, String xsdType, T defaultValue) {
+		this(paramName, description, xsdType, null, defaultValue);
+	}
+
+	/**
+	 * Create the HELIO parameter with a given value domain. The default value will be null.
+	 * @param paramName the name of the param. must not be null.
+	 * @param description the description of the parameter in user friendly format. May be null.
+	 * @param xsdType the type of the param in XML Schema definition. Must not be null
+	 * @param valueDomain the value domain. Will be ignored if null. 
+	 */
+	public HelioParameter(String paramName, String description, String xsdType, T[] valueDomain) {
+		this(paramName, description, xsdType, valueDomain, null);
+	}
 	/**
 	 * Create the helio parameter
 	 * @param paramName the name of the param. must not be null.
 	 * @param description the description of the parameter in user friendly format. May be null.
 	 * @param xsdType the type of the param in XML Schema definition. Must not be null
 	 * @param valueDomain the value domain. Will be ignored if null. 
+	 * @param defaultValue the default value. Will be ignored if null.
 	 */
-	public HelioParameter(String paramName, String description, String xsdType, Object[] valueDomain) {
+	public HelioParameter(String paramName, String description, String xsdType, T[] valueDomain, T defaultValue) {
 		this.paramName = paramName;
 		this.description = description;
 		this.xsdType = xsdType;
 		this.valueDomain = valueDomain;
+		this.defaultValue = defaultValue;
 	}
 
 	/**
@@ -78,8 +119,16 @@ public class HelioParameter {
 	 * The domain of allowed values. May be null.
 	 * @param valueDomain the value domain.
 	 */
-	public void setValueDomain(Object[] valueDomain) {
+	public void setValueDomain(T[] valueDomain) {
 		this.valueDomain = valueDomain;
+	}
+	
+	/**
+	 * The default value of a parameter.
+	 * @return the default value.
+	 */
+	public Object getDefaultValue() {
+		return defaultValue;
 	}
 	
 	@Override
@@ -91,70 +140,5 @@ public class HelioParameter {
 		if (description != null)
 			sb.append(" - ").append(description);		
 		return sb.toString();
-	}
-	
-	/**
-	 * Mark values of the {@link HelioParameter#getValueDomain()} as being annotated. 
-	 * This allows clients to provide additional information about a specific value in the domain.  
-	 * @author marco soldati at fhnw ch
-	 *
-	 */
-	public static interface AnnotatedDomainValue<T extends Object> {
-		/**
-		 * Get the actual value.
-		 * @return the value.
-		 */
-		public T getValue();
-		
-		/**
-		 * The description of this value.
-		 * @return the description.
-		 */
-		public String getDescription();
-	}
-	
-	/**
-	 * Container for a value of the value domain
-	 * @author marco soldati at fhnw ch
-	 *
-	 */
-	public static class AnnotatedObject<T extends Object> implements AnnotatedDomainValue<T> {
-		/**
-		 * The value store in this object.
-		 */
-		private final T value;
-		
-		/**
-		 * A user readable description of the value.
-		 */
-		private final String desc;
-
-		/**
-		 * Create an annotated value.
-		 * @param value the value. 
-		 * @param description the description of the value.
-		 */
-		public AnnotatedObject(T value, String description) {
-			this.value = value;
-			this.desc = description;			
-		}
-		
-		/**
-		 * Return the actual value.
-		 * @return the actual value.
-		 */
-		public T getValue() {
-			return value;
-		}
-		
-		@Override
-		public String getDescription() {
-			return desc;
-		}		
-
-		@Override
-		public String toString() {
-			return value.toString();
-		}
 	}
 }

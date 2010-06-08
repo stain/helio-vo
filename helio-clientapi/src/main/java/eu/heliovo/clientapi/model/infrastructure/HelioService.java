@@ -3,25 +3,35 @@ package eu.heliovo.clientapi.model.infrastructure;
 import eu.heliovo.clientapi.model.HelioResource;
 
 /**
- * Description of a Helio service.
+ * Description of a HELIO service.
  * @author marco soldati at fhnw ch
  *
  */
 public interface HelioService extends HelioResource {
-	
-	public interface HelioServiceMethod {
-		
-		public interface HelioMethodParam{
-			public String getParamName();
-		}
-		
-		public String getMethodName();
-	}
+	/**
+	 * Get the name of the service. Must not be null.
+	 * @return the name of the service.
+	 */
+	public String getName();
 	
 	/**
-	 * The name of the service
+	 * A free text description for user feedback. May be null.  
+	 * @return the description.
 	 */
-	public String getServiceName();
+	public String getDescription();
 	
-	public HelioServiceMethod[] getParameter();
+	/**
+	 * Check if the name of two HelioServices is equal.
+	 * @param obj the object to compare with 
+	 * @return true if the name of two HelioServices is equal.
+	 */
+	@Override
+	public boolean equals(Object obj);
+	
+	/**
+	 * Based on the hashcode of the name.
+	 * @return the hashcode.
+	 */
+	@Override
+	public int hashCode();
 }
