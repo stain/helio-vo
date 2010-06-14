@@ -82,18 +82,18 @@ public class QueryServiceTest extends TestCase
 
 		instruments[0] 	= "RHESSI__HESSI_GMR";
 		startTimes[0] 	= "2002-01-01 00:00:00";
-		stopTimes[0] 	= "2008-01-01 00:00:00";
+		stopTimes[0] 	= "2003-01-01 00:00:00";
 
 		instruments[1] 	= "RHESSI__HESSI_HXR";
 		startTimes[1] 	= "2002-01-01 00:00:00";
-		stopTimes[1] 	= "2008-01-01 00:00:00";
+		stopTimes[1] 	= "2003-01-01 00:00:00";
 
 		instruments[2] = "PHOENIX__2";
 		startTimes[2] 	= "2002-01-01 00:00:00";
-		stopTimes[2] 	= "2008-01-01 00:00:00";
+		stopTimes[2] 	= "2003-01-01 00:00:00";
 
 		instruments[3] = "HINODE__EIS";
 		startTimes[3] 	= "2002-01-01 00:00:00";
-		stopTimes[3] 	= "2008-01-01 00:00:00";
+		stopTimes[3] 	= "2003-01-01 00:00:00";
 	}
 }

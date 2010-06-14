@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package eu.heliovo.dpas.ie.tests;
 
 import java.io.StringWriter;
@@ -12,14 +15,18 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSSerializer;
 
+import junit.framework.TestCase;
 import eu.heliovo.dpas.ie.controller.QueryService;
 
 
-public class QueryServiceTestComplete
+public class QueryServiceTestCompleteOld
 {
 	QueryService		dpasService		=	new eu.heliovo.dpas.ie.controller.QueryService();
 	/*
@@ -32,7 +39,69 @@ public class QueryServiceTestComplete
 	int[]  	 levels 		= 	null;
 	boolean	 partialSorting	=	true;
 	
-	@Test
+//	/**
+//	 * Test simple query.
+//	 */
+//	public void testSimpleQuery()
+//	{
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("**** Test SimpleQuery - starting....****");
+//
+//		/*
+//		 * Creating inputs
+//		 */
+//		try 
+//		{
+//			createInput();
+//		} 
+//		catch (ParseException e) 
+//		{
+//			e.printStackTrace();
+//		} 
+//		System.out.println(instruments[0] + " from " + startTimes[0] + " to " + stopTimes[0]);
+//		/*
+//		 * Invoking the query...
+//		 */
+//		String result = dpasService.simpleQuery(instruments[0], startTimes[0], stopTimes[0], null, null);
+//		System.out.println("Result : " + result);
+//
+//		System.out.println("**** Test SimpleDummyQuery - done' ****");
+//	}
+
+//	/**
+//	 * Test query.
+//	 */
+//	public void testQuery()
+//	{
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("**** Test Query - starting....****");
+//
+//		/*
+//		 * Creating inputs
+//		 */
+//		try 
+//		{
+//			createInput();
+//		} 
+//		catch (ParseException e) 
+//		{
+//			e.printStackTrace();
+//		} 
+//		/*
+//		 * Printing the input
+//		 */
+//		for(int index = 0; index<instruments.length; index++)
+//			System.out.println(instruments[index] + " from " + startTimes[index] + " to " + stopTimes[index]);
+//		/*
+//		 * Invoking the query...
+//		 */
+//		String result = dpasService.query(instruments, startTimes, stopTimes, null, null);
+//		System.out.println("Result : " + result);
+//		System.out.println("**** Test Query - done' ****");
+//	}
+
 	public void testSortedQuery()	
 	{
 		System.out.println();
@@ -66,7 +135,7 @@ public class QueryServiceTestComplete
 		}
         
 		try {
-			result	=	dpasService.sortedQuery(instruments, startTimes, stopTimes, !partialSorting, null, null,true);
+			result	=	dpasService.sortedQuery(instruments, startTimes, stopTimes, !partialSorting, null, null,false);
 			Document wsDoc = null;
 			wsDoc =  toDocument(result);	  	              
 	        System.out.println("THE RESULTDOC FROM SERVICE = " +getStringFromDoc(wsDoc) );
@@ -112,29 +181,45 @@ public class QueryServiceTestComplete
         }
     }
 
+//	public void testGetInstruments()
+//	{
+//		System.out.println();
+//		System.out.println();
+//		System.out.println("**** Test GetInstruments - starting....****");
+//		/*
+//		 * Invoking the query...
+//		 */
+//		String result = dpasService.getInstruments();
+//		System.out.println("Instruments : " + result);
+//
+//		System.out.println("**** Test GetInstruments - done' ****");
+//	}
+
+	@Ignore @Test
+	public void testSetSimpleInstrument()
+	{
+		
+	}
+
 	/*
 	 * Utilities
 	 */
 	private void createInput() throws ParseException
 	{
-		instruments = new String[4];
-		startTimes = new String[4];
-		stopTimes = new String[4];
+		instruments = new String[3];
+		startTimes = new String[3];
+		stopTimes = new String[3];
 
 		instruments[0] 	= "RHESSI__HESSI_GMR";
-		startTimes[0] 	= "2007-01-01 00:00:00";
-		stopTimes[0] 	= "2009-01-02 00:00:00";
+		startTimes[0] 	= "2002-01-01 00:00:00";
+		stopTimes[0] 	= "2004-01-01 00:00:00";
 
 		instruments[1] 	= "RHESSI__HESSI_HXR";
-		startTimes[1] 	= "2007-01-01 00:00:00";
-		stopTimes[1] 	= "2009-01-01 00:00:00";
+		startTimes[1] 	= "2002-01-01 00:00:00";
+		stopTimes[1] 	= "2004-01-01 00:00:00";
 
 		instruments[2] = "PHOENIX__2";
-		startTimes[2] 	= "2007-01-01 00:00:00";
-		stopTimes[2] 	= "2009-01-01 00:00:00";
-
-		instruments[3] = "HINODE__EIS";
-		startTimes[3] 	= "2007-01-01 00:00:00";
-		stopTimes[3] 	= "2009-01-01 00:00:00";
+		startTimes[2] 	= "2002-01-01 00:00:00";
+		stopTimes[2] 	= "2004-01-01 00:00:00";
 	}
 }

@@ -38,9 +38,9 @@ public class DataProviderManager
 
 	private void initialize() throws ArithmeticException, ClassAdMapperException, ClassAdUtilitiesException 
 	{
-		addProvider("PHOENIX__2", 1, new NewPhoenix2());
-		addProvider("RHESSI__HESSI_GMR", 1, new NewHessi());
-		addProvider("RHESSI__HESSI_HXR", 1, new NewHessi());
+		addProvider("PHOENIX__2", 1, new Phoenix2Provider());
+		addProvider("RHESSI__HESSI_GMR", 1, new RhessiProvider());
+		addProvider("RHESSI__HESSI_HXR", 1, new RhessiProvider());
 		addProvider("HINODE__EIS", 1, new EIS());
 	}
 
