@@ -114,7 +114,9 @@
     	<module>helio-ics-web</module>        
     	<module>helio-dpas</module>        
         <module>helio-clientapi</module>
-    </modules>
+    <module>helio-hec</module>
+    <module>helio-mockclient</module>
+  </modules>
     
     <scm>
       <connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
