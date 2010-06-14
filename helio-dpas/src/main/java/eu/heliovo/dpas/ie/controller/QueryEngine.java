@@ -6,7 +6,9 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.w3c.dom.Document;
+
 import eu.heliovo.dpas.ie.common.DpasUtilities;
 import eu.heliovo.dpas.ie.components.DpasOutputFormatter;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
@@ -149,16 +151,18 @@ public class QueryEngine
 			e.printStackTrace();
 		}
 
-		for (int k = 0; k < tmpResults.size(); k++) 
-		{
-			/*
-			 * Modify the format of the date in the result
-			 */
-			tmpResults.get(k).instrument	=	currentInstrument;
-			sortingDate = (Calendar) tmpResults.get(k).getColumn(0);
-			finalResults.put(dpasUtils.calendarToHELIOTime(sortingDate),
-					tmpResults.get(k));
-		}
+		if(tmpResults != null)
+			for (int k = 0; k < tmpResults.size(); k++) 
+			{
+				/*
+				 * Modify the format of the date in the result
+				 */
+				tmpResults.get(k).instrument	=	currentInstrument;
+				sortingDate = (Calendar) tmpResults.get(k).getColumn(0);
+				finalResults.put(dpasUtils.calendarToHELIOTime(sortingDate),
+						tmpResults.get(k));
+			}
+			
 		return finalResults;
 	}
 
