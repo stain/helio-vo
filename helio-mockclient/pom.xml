@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>heliovo</artifactId>
+		<groupId>eu.heliovo</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>eu.heliovo</groupId>
+	<artifactId>helio-mockclient</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>helio-mockclient</name>
+	<description>The mock-client is mainly intended for testing purposes. It provides mock implementations of some common services.</description>
+	<url>http://maven.apache.org</url>
+	<dependencies>
+		<dependency>
+			<groupId>eu.heliovo</groupId>
+			<artifactId>helio-clientapi</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>3.0.2.RELEASE</version>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+	</dependencies>
+</project>
