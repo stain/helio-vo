@@ -2,6 +2,7 @@ package eu.heliovo.clientapi.query;
 
 import java.util.Map;
 
+import eu.heliovo.clientapi.model.infrastructure.HelioService;
 import eu.heliovo.clientapi.result.HelioQueryResult;
 
 /**
@@ -9,7 +10,7 @@ import eu.heliovo.clientapi.result.HelioQueryResult;
  * @author marco soldati at fhnw ch
  *
  */
-public interface HelioParamQuery {
+public interface HelioParamQuery extends HelioService {
 
 	/**
 	 * Execute a parameterized query on a specific service implementation.
