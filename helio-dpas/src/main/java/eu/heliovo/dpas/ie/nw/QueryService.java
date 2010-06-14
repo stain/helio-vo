@@ -1,7 +1,7 @@
 /*
  * 
  */
-package eu.heliovo.dpas.ie.controller;
+package eu.heliovo.dpas.ie.nw;
 
 import java.io.PipedReader;
 import java.io.PipedWriter;
@@ -10,6 +10,7 @@ import javax.jws.WebService;
 import javax.xml.transform.stream.StreamSource;
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.QueryThreadAnalizer;
+import eu.heliovo.dpas.ie.nw.common.DebugUtilities;
 
 
 /**
@@ -21,15 +22,11 @@ import eu.heliovo.dpas.ie.common.QueryThreadAnalizer;
 @WebService
 public class QueryService
 {
-	
-	/**
-	 * Instantiates a new query service.
+	/*
+	 * Utilities
 	 */
-	public QueryService() 
-	{
-		
-	}
-
+	DebugUtilities							debugUtils	=	new DebugUtilities();
+	
 	/**
 	 * Sorted query.
 	 *
@@ -50,9 +47,7 @@ public class QueryService
 			boolean partialSorting, 
 			String[] dataTypes, 
 			int[] dataLevels,boolean votable) throws Exception
-	{
-	
-		
+	{	
 		PipedReader pr = new PipedReader();
 		PipedWriter pw = new PipedWriter(pr);
 		
@@ -65,8 +60,9 @@ public class QueryService
 		commonTO.setStartTimes(startTimes);
 		commonTO.setPrintWriter(pw);
 		commonTO.setVotable(votable);
+		debugUtils.printLog(this.getClass().getName(), "Invoking thread analyzer...");
 		new QueryThreadAnalizer(commonTO).start();
-		System.out.println("Done Votable");
+		debugUtils.printLog(this.getClass().getName(), "... Done Votable");
 		return 	new StreamSource(pr);
 	}
 	

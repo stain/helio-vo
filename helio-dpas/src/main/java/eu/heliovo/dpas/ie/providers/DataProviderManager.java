@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import condor.classad.RecordExpr;
-
 import eu.heliovo.dpas.ie.classad.ClassAdMapper;
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilities;
@@ -16,8 +15,6 @@ import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 import eu.heliovo.dpas.ie.classad.DataSourceKeyParser;
 import eu.heliovo.dpas.ie.classad.DataSourceParser;
 import eu.heliovo.dpas.ie.dataProviders.EIS;
-import eu.heliovo.dpas.ie.dataProviders.NewHessi;
-import eu.heliovo.dpas.ie.dataProviders.NewPhoenix2;
 
 /**
  * The Class DataProviderManager.

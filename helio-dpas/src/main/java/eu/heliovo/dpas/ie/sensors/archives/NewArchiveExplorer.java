@@ -286,13 +286,17 @@ public class NewArchiveExplorer
 			if (line.matches(".*href=.*") && line.matches(".*DIR.*")
 					&& !line.matches(".*Parent Directory.*"))
 			{
-				Date currDate = null;
+				System.out.println(line);
+				
+				Date currEarliestDate = null;
+				Date currLatestDate = null;
 				/*
 				 * Extract the date information
 				 */
 				int startAt = line.indexOf("href=");
 				int stopAt = line.indexOf("/", startAt);
 				String tmp = line.substring(startAt + 6, stopAt);
+				System.out.println("Time information " + tmp);
 				/*
 				 * Check here if the time information is within the start and
 				 * stop dates.
@@ -302,17 +306,37 @@ public class NewArchiveExplorer
 					/*
 					 * TODO : Find a better solution for this hack !
 					 */
+					System.out.println("Extracting current date from " + url + tmp + "/");
 					if (url.endsWith("/"))
-						currDate = path.pathToDate(url + tmp + "/", currDepth);
-					else
-						currDate = path.pathToDate(url + "/" + tmp + "/",
-								currDepth);
-
-					if ((currDate.after(from) || currDate.equals(from))
-							&& (currDate.before(to) || currDate.equals(to)))
 					{
-//						System.out.println(currDate + " is within " + from
-//								+ " and " + to + " adding it...");
+						currEarliestDate = path.pathToEarliestDate(url + tmp + "/", currDepth);
+						currLatestDate = path.pathToLatestDate(url + tmp + "/", currDepth);					
+					}
+					else
+					{
+						currEarliestDate = path.pathToEarliestDate(url + "/" + tmp + "/",
+								currDepth);
+						currLatestDate = path.pathToLatestDate(url + "/" + tmp + "/",
+								currDepth);
+					}
+
+					System.out.println("Checking if current Range (" + 
+							currEarliestDate + " --> " + 
+							currLatestDate + ") is within with (" + 
+							from + " --> " + to + ")");
+					/*
+					 * Check if the ranges overlap
+					 */
+					if (((currEarliestDate.before(to) || currEarliestDate.equals(to)))
+							&&
+						((currLatestDate.after(from) || currLatestDate.equals(from))
+									))
+					{
+						System.out.println("Current Range (" + 
+								currEarliestDate + " --> " + 
+								currLatestDate + ") is overlaps with (" + 
+								from + " --> " + to + ") adding it...");
+
 						if (url.endsWith("/"))
 						{
 							result.add(url + tmp);
@@ -323,13 +347,18 @@ public class NewArchiveExplorer
 						}
 					} else
 					{
-//						System.out.println(currDate + " is external to " + from
-//								+ " and " + to + " skipping it...");
+						System.out.println("Current Range (" + 
+								currEarliestDate + " --> " + 
+								currLatestDate + ") is does not overlap with (" + 
+								from + " --> " + to + ") skipping it...");
 					}
 				} catch (PathBuilderException e)
 				{
 					e.printStackTrace();
 				} catch (NewPathFragmentException e)
+				{
+					e.printStackTrace();
+				} catch (NewPathException e)
 				{
 					e.printStackTrace();
 				}

@@ -45,19 +45,20 @@ public class Phoenix2FileFragment implements NewPathFragment
 		 * http://helene.ethz.ch/rapp/observations/1991/07/03/910703123533i.fit.gz, or,
 		 * http://helene.ethz.ch/rapp/observations/1999/02/01/19990201083000p.fit.gz, or,
 		 * http://helene.ethz.ch/rapp/observations/2008/03/03/BLEN7M_20080303_073000i.fit.gz.
+		 * http://helene.ethz.ch/rapp/observations/2008/03/03/BLEN7M_20080303_073000i._otherstuff_.fit.gz.
 		 * 
 		 */		
-		int	stopAt	=	fragment.length();
+		int	stopAt	=	fragment.lastIndexOf(".");
 //		System.out.println("Hour  	= " + fragment.substring(12, 14));
-		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(stopAt-10, stopAt-8)));
+		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(stopAt-3, stopAt-1)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Minutes = " + fragment.substring(14, 16));
-		date.set(Calendar.MINUTE, Integer.valueOf(fragment.substring(stopAt-12, stopAt-10)));
+		date.set(Calendar.MINUTE, Integer.valueOf(fragment.substring(stopAt-5, stopAt-3)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Seconds = " + fragment.substring(16, 18));
-		date.set(Calendar.SECOND, Integer.valueOf(fragment.substring(stopAt-14, stopAt-12)));
+		date.set(Calendar.SECOND, Integer.valueOf(fragment.substring(stopAt-7, stopAt-5)));
 //		System.out.println(date.getTime());
 
 
@@ -77,19 +78,20 @@ public class Phoenix2FileFragment implements NewPathFragment
 		 * http://helene.ethz.ch/rapp/observations/1991/07/03/910703123533i.fit.gz, or,
 		 * http://helene.ethz.ch/rapp/observations/1999/02/01/19990201083000p.fit.gz, or,
 		 * http://helene.ethz.ch/rapp/observations/2008/03/03/BLEN7M_20080303_073000i.fit.gz.
+		 * http://helene.ethz.ch/rapp/observations/2008/03/03/BLEN7M_20080303_073000i._otherstuff_.fit.gz.
 		 * 
 		 */		
-		int	stopAt	=	fragment.length();
+		int	stopAt	=	fragment.lastIndexOf(".");
 //		System.out.println("Hour  	= " + fragment.substring(12, 14));
-		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(stopAt-10, stopAt-8)));
+		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(stopAt-3, stopAt-1)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Minutes = " + fragment.substring(14, 16));
-		date.set(Calendar.MINUTE, Integer.valueOf(fragment.substring(stopAt-12, stopAt-10)));
+		date.set(Calendar.MINUTE, Integer.valueOf(fragment.substring(stopAt-5, stopAt-3)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Seconds = " + fragment.substring(16, 18));
-		date.set(Calendar.SECOND, Integer.valueOf(fragment.substring(stopAt-14, stopAt-12)));
+		date.set(Calendar.SECOND, Integer.valueOf(fragment.substring(stopAt-7, stopAt-5)));
 //		System.out.println(date.getTime());		
 		
 		return date.getTime();

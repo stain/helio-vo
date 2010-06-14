@@ -1,9 +1,6 @@
 package eu.heliovo.dpas.ie.providers;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
@@ -11,10 +8,7 @@ import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 import eu.heliovo.dpas.ie.sensors.archives.GenericNewPathFragment;
 import eu.heliovo.dpas.ie.sensors.archives.NewArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.NewPath;
-import eu.heliovo.dpas.ie.sensors.archives.NewPathException;
 import eu.heliovo.dpas.ie.sensors.archives.NewPathFragment;
-import eu.heliovo.dpas.ie.sensors.archives.NewPathFragmentException;
-import eu.heliovo.dpas.ie.sensors.archives.PathBuilderException;
 import eu.heliovo.dpas.ie.sensors.archives.RhessiFileFragment;
 
 public class RhessiProvider implements DPASDataProvider

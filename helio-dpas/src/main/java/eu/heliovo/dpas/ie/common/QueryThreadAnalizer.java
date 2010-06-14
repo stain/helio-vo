@@ -5,12 +5,12 @@ import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 import eu.heliovo.dpas.ie.controller.ServiceEngine;
 
 
-public class QueryThreadAnalizer extends Thread{
-
-	
+public class QueryThreadAnalizer extends Thread
+{	
 	private CommonTO comCriteriaTO;
 	/** The service engine. */
 	ServiceEngine serviceEngine = null;
+
 	public QueryThreadAnalizer(CommonTO comCriTO){
 		comCriteriaTO=comCriTO;
 		try 

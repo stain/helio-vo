@@ -26,8 +26,8 @@ public class NewArchiveExplorerTest extends TestCase
 	NewArchiveExplorer	explorer	=	null;
 	Date				startDate	=	null;
 	Date				stopDate	=	null;
-	String				sStartDate	=	"1978-01-01 00:00:00";
-	String				sStopDate	=	"1980-01-01 00:00:00";
+	String				sStartDate	=	"2003-03-28 00:00:00";
+	String				sStopDate	=	"2003-04-11 00:00:00";
 	DpasUtilities		dpasUtils	=	new DpasUtilities();
 	
 	public void testArePresentWithin()
@@ -132,9 +132,54 @@ public class NewArchiveExplorerTest extends TestCase
 //			assertTrue(false);
 //		}
 
+//		try
+//		{
+//			initializePhoenix2();
+//		} 
+//		catch (ParseException e1)
+//		{
+//			e1.printStackTrace();
+//			assertTrue(false);
+//		}
+//		
+//		try
+//		{
+//			System.out.println("===  PHOENIX2 - START  =======================================================");
+//			results	=	explorer.getAllWithin(startDate, stopDate);
+//			System.out.println("= There are " + results.size() + " results between + " + startDate + " and " + stopDate + " =");
+//			for(int n = 0; n < results.size(); n++)				
+//				System.out.println("= results["+ n + "] = " + results.get(n));			
+//			System.out.println("===  PHOENIX2 - STOP   =======================================================");
+//		} 
+//		catch (MalformedURLException e)
+//		{
+//			e.printStackTrace();
+//			assertTrue(false);
+//		} 
+//		catch (NewPathException e)
+//		{
+//			e.printStackTrace();
+//			assertTrue(false);
+//		} 
+//		catch (IOException e)
+//		{
+//			e.printStackTrace();
+//			assertTrue(false);
+//		} 
+//		catch (PathBuilderException e)
+//		{
+//			e.printStackTrace();
+//			assertTrue(false);
+//		} 
+//		catch (NewPathFragmentException e)
+//		{
+//			e.printStackTrace();
+//			assertTrue(false);
+//		}
+
 		try
 		{
-			initializePhoenix2();
+			initializeRhessi();
 		} 
 		catch (ParseException e1)
 		{
@@ -144,12 +189,12 @@ public class NewArchiveExplorerTest extends TestCase
 		
 		try
 		{
-			System.out.println("===  PHOENIX2 - START  =======================================================");
+			System.out.println("===  RHESSI - START  =======================================================");
 			results	=	explorer.getAllWithin(startDate, stopDate);
 			System.out.println("= There are " + results.size() + " results between + " + startDate + " and " + stopDate + " =");
 			for(int n = 0; n < results.size(); n++)				
 				System.out.println("= results["+ n + "] = " + results.get(n));			
-			System.out.println("===  PHOENIX2 - STOP   =======================================================");
+			System.out.println("===  RHESSI - STOP   =======================================================");
 		} 
 		catch (MalformedURLException e)
 		{

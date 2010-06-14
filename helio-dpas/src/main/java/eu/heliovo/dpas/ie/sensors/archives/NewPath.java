@@ -213,6 +213,150 @@ public class NewPath
 		return currCalendar.getTime();
 	}
 
+	/**
+	 * Path to earliest date.
+	 * 
+	 * @param url
+	 *            the url
+	 * @return the earliest date
+	 * @throws PathBuilderException
+	 *             the path builder exception
+	 * @throws NewPathFragmentException
+	 * @throws NewPathException 
+	 * @throws NewPathException 
+	 */
+	public Date pathToEarliestDate(String url, int maxDepth) throws PathBuilderException,
+			NewPathFragmentException, NewPathException
+	{
+		/*
+		 * This is the calendar that will be updated with the fields.
+		 */
+		Calendar currCalendar = new GregorianCalendar();
+		currCalendar.set(Calendar.YEAR, 1900);
+		currCalendar.set(Calendar.MONTH, Calendar.JANUARY);
+		currCalendar.set(Calendar.DAY_OF_MONTH, 1);
+		currCalendar.set(Calendar.HOUR, 0);
+		currCalendar.set(Calendar.MINUTE, 0);
+		currCalendar.set(Calendar.SECOND, 0);
+		currCalendar.set(Calendar.MILLISECOND, 0);
+		/*
+		 * This is the current url fragment
+		 */
+		String currUrlFragment = null;
+		/*
+		 * This is the current depth in the path
+		 */
+		int currDepth = 0;
+		/*
+		 * This is the current path fragment
+		 */
+		NewPathFragment currFragment = null;
+		/*
+		 * Until the entire url is being evaluated
+		 */
+		while (currDepth < representation.size() && currDepth <= maxDepth)
+		{
+			if (!representation.get(currDepth).isFixed())
+			{
+				/*
+				 * Get the element of this depth
+				 */
+				currFragment = representation.get(currDepth);
+				currUrlFragment = getUrlFragmentAtDepth(url, currDepth);
+
+				System.out.println(currDepth + " --> " + currFragment + " -- "
+						+ currUrlFragment);
+
+				
+				try
+				{
+					currCalendar.setTime(currFragment.fragmentToDate(
+							currUrlFragment, currCalendar.getTime()));
+				} 
+				catch (Exception e)
+				{
+					throw new NewPathException();
+				}
+
+				System.out.println(currDepth + " --> " + currCalendar.getTime());
+			}
+			currDepth++;
+		}
+//		System.out.println(url + " ===> " + currCalendar.getTime());
+//		System.out.println(url + " ===> " + currCalendar.get(Calendar.HOUR));
+		return currCalendar.getTime();
+	}
+
+	/**
+	 * Path to earliest date.
+	 * 
+	 * @param url
+	 *            the url
+	 * @return the earliest date
+	 * @throws PathBuilderException
+	 *             the path builder exception
+	 * @throws NewPathFragmentException
+	 */
+	public Date pathToLatestDate(String url, int maxDepth) throws PathBuilderException,
+			NewPathFragmentException
+	{
+		/*
+		 * This is the calendar that will be updated with the fields.
+		 */
+		Calendar currCalendar = new GregorianCalendar();
+		currCalendar.set(Calendar.YEAR, 2020);
+		currCalendar.set(Calendar.MONTH, Calendar.DECEMBER);
+		currCalendar.set(Calendar.DAY_OF_MONTH, 30);
+		currCalendar.set(Calendar.HOUR, 23);
+		currCalendar.set(Calendar.MINUTE, 59);
+		currCalendar.set(Calendar.SECOND, 59);
+		currCalendar.set(Calendar.MILLISECOND, 999);
+		/*
+		 * This is the current url fragment
+		 */
+		String currUrlFragment = null;
+		/*
+		 * This is the current depth in the path
+		 */
+		int currDepth = 0;
+		/*
+		 * This is the current path fragment
+		 */
+		NewPathFragment currFragment = null;
+		/*
+		 * Until the entire url is being evaluated
+		 */
+		while (currDepth < representation.size() && currDepth <= maxDepth)
+		{
+			if (!representation.get(currDepth).isFixed())
+			{
+				/*
+				 * Get the element of this depth
+				 */
+				currFragment = representation.get(currDepth);
+				currUrlFragment = getUrlFragmentAtDepth(url, currDepth);
+
+//				System.out.println(currDepth + " --> " + currFragment + " -- "
+//						+ currUrlFragment);
+
+				try
+				{
+					currCalendar.setTime(currFragment.fragmentToDate(
+							currUrlFragment, currCalendar.getTime()));
+				} 
+				catch (Exception e)
+				{
+				}
+
+//				System.out.println(currDepth + " --> " + currCalendar.getTime());
+			}
+			currDepth++;
+		}
+//		System.out.println(url + " ===> " + currCalendar.getTime());
+//		System.out.println(url + " ===> " + currCalendar.get(Calendar.HOUR));
+		return currCalendar.getTime();
+	}
+
 	/*
 	 * Utilities
 	 */
