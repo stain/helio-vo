@@ -183,11 +183,11 @@ public class DpasOutputFormatter
 			keys[i] = (String)tmpArray[i];
 		}
 
-		System.out.println("DEBUG - Unsorted keys ");
-		for(int i = 0; i < tmpArray.length; i++)
-		{
-			System.out.println(i + " ==> " + keys[i]);
-		}
+//		System.out.println("DEBUG - Unsorted keys ");
+//		for(int i = 0; i < tmpArray.length; i++)
+//		{
+//			System.out.println(i + " ==> " + keys[i]);
+//		}
 
 		
 		/*
@@ -195,11 +195,11 @@ public class DpasOutputFormatter
 		 */
 		Arrays.sort(keys); 
 
-		System.out.println("DEBUG - Sorted keys ");
-		for(int i = 0; i < tmpArray.length; i++)
-		{
-			System.out.println(i + " ==> " + keys[i]);
-		}
+//		System.out.println("DEBUG - Sorted keys ");
+//		for(int i = 0; i < tmpArray.length; i++)
+//		{
+//			System.out.println(i + " ==> " + keys[i]);
+//		}
 
 		//Creating VOTable
 		VOTableMaker voTableMarker=createVOTableMaker();
@@ -214,7 +214,7 @@ public class DpasOutputFormatter
 
 			for(int j = 0; j < 4; j++)
 			{
-				System.out.println(j + " --> " + sortedResult.toString(j));
+//				System.out.println(j + " --> " + sortedResult.toString(j));
 
 				if(j<2 || j==2)
 				{

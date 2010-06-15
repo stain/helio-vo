@@ -14,7 +14,6 @@ import eu.heliovo.dpas.ie.classad.ClassAdUtilities;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 import eu.heliovo.dpas.ie.classad.DataSourceKeyParser;
 import eu.heliovo.dpas.ie.classad.DataSourceParser;
-import eu.heliovo.dpas.ie.dataProviders.EIS;
 
 /**
  * The Class DataProviderManager.

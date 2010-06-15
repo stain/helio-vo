@@ -1,9 +1,10 @@
-package eu.heliovo.dpas.ie.dataProviders;
+package eu.heliovo.dpas.ie.providers;
 
 import java.util.Calendar;
 import java.util.TimeZone;
 
 import eu.heliovo.dpas.ch.HTTPFileListProvider;
+import eu.heliovo.dpas.ie.dataProviders.SimpleHTTPFileListProvider;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 
 /**

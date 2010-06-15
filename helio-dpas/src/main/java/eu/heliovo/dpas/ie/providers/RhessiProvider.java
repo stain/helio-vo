@@ -5,15 +5,15 @@ import java.util.List;
 
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
+import eu.heliovo.dpas.ie.sensors.archives.ArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.GenericNewPathFragment;
-import eu.heliovo.dpas.ie.sensors.archives.NewArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.NewPath;
 import eu.heliovo.dpas.ie.sensors.archives.NewPathFragment;
 import eu.heliovo.dpas.ie.sensors.archives.RhessiFileFragment;
 
 public class RhessiProvider implements DPASDataProvider
 {
-	NewArchiveExplorer	explorer	=	null;
+	ArchiveExplorer	explorer	=	null;
 
 	public RhessiProvider()
 	{
@@ -25,7 +25,7 @@ public class RhessiProvider implements DPASDataProvider
 	{
 		NewPath	path	=	new NewPath();
 		
-		String			rootString		=	"http://hesperia.gsfc.nasa.gov/hessidata/";
+		String			rootString		=	"http://hesperia.gsfc.nasa.gov/hessidata";
 		String			yearPattern		=	"yyyy";
 		String			monthPattern	=	"MM";
 		String			dayPattern		=	"dd";
@@ -62,7 +62,7 @@ public class RhessiProvider implements DPASDataProvider
 		path.add(dayFragment);
 		path.add(fileFragment);	
 		
-		explorer	=	new NewArchiveExplorer(path);	
+		explorer	=	new ArchiveExplorer(path);	
 	}
 
 	@Override

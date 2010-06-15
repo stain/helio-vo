@@ -5,15 +5,15 @@ import java.util.List;
 
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
+import eu.heliovo.dpas.ie.sensors.archives.ArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.GenericNewPathFragment;
-import eu.heliovo.dpas.ie.sensors.archives.NewArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.NewPath;
 import eu.heliovo.dpas.ie.sensors.archives.NewPathFragment;
 import eu.heliovo.dpas.ie.sensors.archives.Phoenix2FileFragment;
 
 public class Phoenix2Provider implements DPASDataProvider
 {
-	NewArchiveExplorer	explorer	=	null;
+	ArchiveExplorer	explorer	=	null;
 
 	public Phoenix2Provider()
 	{
@@ -32,7 +32,6 @@ public class Phoenix2Provider implements DPASDataProvider
 		String			yearPattern		=	"yyyy";
 		String			monthPattern	=	"MM";
 		String			dayPattern		=	"dd";
-		String			testUrl			=	"http://helene.ethz.ch/rapp/observations/1978/05/29/780529101651i.fit.gz";
 		
 		NewPathFragment	rootFragment	=	new GenericNewPathFragment(
 				rootString,
@@ -66,7 +65,7 @@ public class Phoenix2Provider implements DPASDataProvider
 		path.add(dayFragment);
 		path.add(fileFragment);	
 				
-		explorer	=	new NewArchiveExplorer(path);	
+		explorer	=	new ArchiveExplorer(path);	
 	}
 
 	@Override

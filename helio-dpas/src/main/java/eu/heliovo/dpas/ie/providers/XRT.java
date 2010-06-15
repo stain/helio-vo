@@ -1,4 +1,4 @@
-package eu.heliovo.dpas.ie.dataProviders;
+package eu.heliovo.dpas.ie.providers;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 
 /**

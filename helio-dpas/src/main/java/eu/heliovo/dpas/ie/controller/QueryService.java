@@ -5,10 +5,13 @@ package eu.heliovo.dpas.ie.controller;
 
 import java.io.PipedReader;
 import java.io.PipedWriter;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.transform.stream.StreamSource;
+
 import eu.heliovo.dpas.ie.common.CommonTO;
+import eu.heliovo.dpas.ie.common.DebugUtilities;
 import eu.heliovo.dpas.ie.common.QueryThreadAnalizer;
 
 
@@ -21,15 +24,11 @@ import eu.heliovo.dpas.ie.common.QueryThreadAnalizer;
 @WebService
 public class QueryService
 {
-	
-	/**
-	 * Instantiates a new query service.
+	/*
+	 * Utilities
 	 */
-	public QueryService() 
-	{
-		
-	}
-
+	DebugUtilities							debugUtils	=	new DebugUtilities();
+	
 	/**
 	 * Sorted query.
 	 *
@@ -50,9 +49,7 @@ public class QueryService
 			boolean partialSorting, 
 			String[] dataTypes, 
 			int[] dataLevels,boolean votable) throws Exception
-	{
-	
-		
+	{	
 		PipedReader pr = new PipedReader();
 		PipedWriter pw = new PipedWriter(pr);
 		
@@ -65,12 +62,24 @@ public class QueryService
 		commonTO.setStartTimes(startTimes);
 		commonTO.setPrintWriter(pw);
 		commonTO.setVotable(votable);
+		debugUtils.printLog(this.getClass().getName(), "Invoking thread analyzer...");
 		new QueryThreadAnalizer(commonTO).start();
-		System.out.println("Done Votable");
+		debugUtils.printLog(this.getClass().getName(), "... Done Votable");
 		return 	new StreamSource(pr);
 	}
 	
-	
+
+	public String[] getSupportedInstruments() throws Exception
+	{	
+		debugUtils.printLog(this.getClass().getName(), "getSupportedInstruments starting...");
+		/*
+		 * TODO : Implement here method
+		 */
+		debugUtils.printLog(this.getClass().getName(), "... getSupportedInstruments completed !");
+
+		return 	null;
+	}
+
 	/*
 	@WebMethod
 	public String sortedQueryString(String[] instruments, 

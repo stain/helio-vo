@@ -264,8 +264,8 @@ public class NewPath
 				currFragment = representation.get(currDepth);
 				currUrlFragment = getUrlFragmentAtDepth(url, currDepth);
 
-				System.out.println(currDepth + " --> " + currFragment + " -- "
-						+ currUrlFragment);
+//				System.out.println(currDepth + " --> " + currFragment + " -- "
+//						+ currUrlFragment);
 
 				
 				try
@@ -278,7 +278,7 @@ public class NewPath
 					throw new NewPathException();
 				}
 
-				System.out.println(currDepth + " --> " + currCalendar.getTime());
+//				System.out.println(currDepth + " --> " + currCalendar.getTime());
 			}
 			currDepth++;
 		}

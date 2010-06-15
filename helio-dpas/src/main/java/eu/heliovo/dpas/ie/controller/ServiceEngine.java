@@ -8,11 +8,13 @@ import javax.xml.transform.TransformerException;
 
 import eu.heliovo.dpas.ie.classad.ClassAdMapperException;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
+import eu.heliovo.dpas.ie.common.DebugUtilities;
 import eu.heliovo.dpas.ie.common.XmlUtilities;
 import eu.heliovo.dpas.ie.components.DPASLogger;
 import eu.heliovo.dpas.ie.components.DummyIdentityEngine;
 import eu.heliovo.dpas.ie.components.OutputFormatter;
 import eu.heliovo.dpas.ie.components.QueryRefinmentEngine;
+import eu.heliovo.dpas.ie.controller.ServiceUtilities;
 import eu.heliovo.dpas.ie.internalData.DPASQueryArgument;
 import eu.heliovo.dpas.ie.internalData.DPASQueryArgumentException;
 import eu.heliovo.dpas.ie.internalData.DPASRequest;
@@ -40,8 +42,8 @@ public class ServiceEngine
 	private 	DPASLogger				logger			=	null;
 	private 	DummyIdentityEngine		idEngine		=	null;
 	private		QueryEngine				qEngine			=	null;
-	private		OutputFormatter			outputFormatter =	null;
 	private		XmlUtilities			xmlUtilities 	=	null;
+	private		DebugUtilities			debugUtils		=	null;
 	/**
 	 * Instantiates a new query engine.
 	 * 
@@ -58,8 +60,9 @@ public class ServiceEngine
 		logger				=	new DPASLogger();
 		idEngine			=	new DummyIdentityEngine();
 		qEngine				=	new QueryEngine(dpManager);
-		outputFormatter		=	new OutputFormatter();
+		new OutputFormatter();
 		xmlUtilities 		=	new XmlUtilities();
+		debugUtils		=	new DebugUtilities();
 	}
 
 	/*
@@ -86,6 +89,8 @@ public class ServiceEngine
 			String[] dataTypes, 
 			int[] dataLevels,boolean votable) throws Exception
 	{
+		debugUtils.printLog(this.getClass().getName(), "Executing Query...");
+
 		DPASRequest			request			=	null;
 		DPASQueryArgument	queryArgument	=	null;
 		/*
@@ -127,6 +132,7 @@ public class ServiceEngine
 			/*
 			 * The request was not authorised.
 			 */
+			debugUtils.printLog(this.getClass().getName(), "Authorization Failure, exiting...");
 			request.failRequest(DPASRequestFailureReasons.AuthorizationFailed);	
 			return	logAndReturn(request);
 		}
@@ -138,13 +144,17 @@ public class ServiceEngine
 		 * Execute the query 
 		 */
 //		request.setRequestResult(qEngine.execute((DPASQueryArgument) request.getRequestArgument()));
+		System.out.println("--------------------------------------------------------------------------------------------------------------------------");
+		debugUtils.printLog(this.getClass().getName(), "Executing Query...");
 		request = qEngine.execute(printWriter,request,votable);
+		debugUtils.printLog(this.getClass().getName(), "... Executing Query - done");
+		System.out.println("--------------------------------------------------------------------------------------------------------------------------");
 		/*
 		 * Return the result
 		 */
 		return	printOutputToStream(printWriter,logAndReturn(request),votable);
-		//return logAndReturn( request);
 	}
+
 	/*
 	 * Creates the output for the request
 	 */
@@ -163,15 +173,16 @@ public class ServiceEngine
 		}
 	}
 	
-	private String printOutputToStream(Writer printWriter,String queryRes,boolean votable) throws IOException{
-		if(!votable && printWriter!=null){
+	private String printOutputToStream(Writer printWriter,String queryRes,boolean votable) throws IOException
+	{
+		if(!votable && printWriter!=null)
+		{
 			BufferedWriter output = new BufferedWriter( printWriter);
-			System.out.println("  Query Response   "+queryRes);
+//			System.out.println("  Query Response   "+queryRes);
 			output.write(queryRes);
 			output.flush();
 			output.close();
 		}
 		return queryRes;
-	}
-	
+	}	
 }

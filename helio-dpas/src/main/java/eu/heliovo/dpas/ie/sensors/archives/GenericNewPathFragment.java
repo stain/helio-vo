@@ -188,7 +188,7 @@ public class GenericNewPathFragment implements NewPathFragment
 		{
 		if (dateFields.length == 1)
 		{
-			System.out.println("*** Date is " + date.getTime());
+//			System.out.println("*** Date is " + date.getTime());
 			/*
 			 * This is a necessary hack because in Calendar, months start from 0
 			 */
@@ -198,7 +198,7 @@ public class GenericNewPathFragment implements NewPathFragment
 				date.set(dateFields[0], Integer.valueOf(fragment));
 			
 			
-			System.out.println("*** Now Date is " + date.getTime());
+//			System.out.println("*** Now Date is " + date.getTime());
 
 		} 
 		else if (dateFields.length > 1)
