@@ -13,6 +13,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import junit.framework.TestCase;
 
+import org.junit.Ignore;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
 import eu.heliovo.dpas.ie.common.DebugUtilities;
@@ -85,6 +87,7 @@ public class QueryServiceTest extends TestCase
 		debugUtils.printLog(this.getClass().getName(), "....testQueryService() completed");
 	}
 
+	@Ignore @Test
 	public void testGetSupportedInstruments()
 	{
 		fail("Not yet implemented");
