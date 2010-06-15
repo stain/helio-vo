@@ -86,12 +86,12 @@ public class QueryServiceTest extends TestCase
 		}
 		debugUtils.printLog(this.getClass().getName(), "....testQueryService() completed");
 	}
-
+/*
 	@Ignore @Test
 	public void testGetSupportedInstruments()
 	{
 		fail("Not yet implemented");
-	}
+	}*/
 
 	/*
 	 * Utilities
