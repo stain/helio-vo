@@ -6,8 +6,8 @@ import java.util.List;
 import org.junit.Test;
 
 import eu.heliovo.dpas.ie.common.DpasUtilities;
-import eu.heliovo.dpas.ie.dataProviders.EIS;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
+import eu.heliovo.dpas.ie.providers.EIS;
 
 public class EISTest {
 	EIS dp = new EIS();

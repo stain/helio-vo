@@ -5,7 +5,7 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import eu.heliovo.dpas.ie.dataProviders.XRT;
+import eu.heliovo.dpas.ie.providers.XRT;
 
 
 public class XRTTest 
