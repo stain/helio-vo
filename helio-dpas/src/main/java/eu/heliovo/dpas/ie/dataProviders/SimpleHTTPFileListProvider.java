@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.html.HTML;
@@ -109,6 +110,13 @@ public abstract class SimpleHTTPFileListProvider implements DPASDataProvider
         //the results of the period are collected in this list
         final LinkedList<DPASResultItem> resultsOfThisDirectoryPage=new LinkedList<DPASResultItem>();
         
+//        /*
+//         * TODO - Set Proxy here - remove before committing
+//         */
+//        Properties props = System.getProperties();
+//        props.put("http.proxyHost", "proxy.cs.tcd.ie");
+//        props.put("http.proxyPort", "8080");
+
         try
         {
           //read the directory index site
