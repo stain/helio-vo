@@ -361,6 +361,10 @@ public class NewPath
 	 * Utilities
 	 */
 
+	public	NewPathFragment	getFragmentAtDepth(int depth)
+	{
+		return representation.get(depth);
+	}
 	/**
 	 * Gets the url fragment at depth.
 	 * 

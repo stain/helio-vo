@@ -34,7 +34,7 @@ public class RhessiFileFragment implements NewPathFragment
 //		System.out.println(date.getTime());
 
 //		System.out.println("Hour  	= " + fragment.substring(12, 14));
-		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(13, 15)));
+		date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(fragment.substring(13, 15)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Minutes = " + fragment.substring(14, 16));
@@ -68,7 +68,7 @@ public class RhessiFileFragment implements NewPathFragment
 //		System.out.println(date.getTime());
 
 //		System.out.println("Hour  	= " + fragment.substring(12, 14));
-		date.set(Calendar.HOUR, Integer.valueOf(fragment.substring(13, 15)));
+		date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(fragment.substring(13, 15)));
 //		System.out.println(date.getTime());
 
 //		System.out.println("Minutes = " + fragment.substring(14, 16));
@@ -114,5 +114,12 @@ public class RhessiFileFragment implements NewPathFragment
 	public int numberOfInternalSeparators(char separator)
 	{
 		return 0;
+	}
+
+	@Override
+	public String getExpression()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -113,4 +113,10 @@ public class Phoenix2FileFragment implements NewPathFragment
 	{
 		return 0;
 	}
+
+	@Override
+	public String getExpression()
+	{
+		return null;
+	}
 }

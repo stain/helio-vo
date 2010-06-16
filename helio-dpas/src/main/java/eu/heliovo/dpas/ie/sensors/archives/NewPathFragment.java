@@ -16,4 +16,6 @@ public interface NewPathFragment
 	public abstract boolean isFixed();
 
 	public abstract int numberOfInternalSeparators(char separator);
+	
+	public abstract	String getExpression();
 }
