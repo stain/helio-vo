@@ -98,9 +98,9 @@ public class QueryServiceTest extends TestCase
 	 */	
 	private void initialize()
 	{
-		instruments = new String[3];
-		startTimes = new String[3];
-		stopTimes = new String[3];
+		instruments = new String[6];
+		startTimes = new String[6];
+		stopTimes = new String[6];
 
 		instruments[0] 	= "RHESSI__HESSI_GMR";
 		startTimes[0] 	= "2003-03-28 00:00:00";
@@ -117,6 +117,23 @@ public class QueryServiceTest extends TestCase
 		instruments[2] = "HINODE__EIS";
 		startTimes[2] 	= "2007-01-01 00:00:00";
 		stopTimes[2] 	= "2007-02-01 00:00:00";
+
+		instruments[3] = "HINODE__XRT";
+		startTimes[3] 	= "2006-10-20 00:00:00";
+		stopTimes[3] 	= "2006-10-30 00:00:00";
+
+		instruments[4] = "HINODE__SOT_SP";
+		startTimes[4] 	= "2006-10-20 00:00:00";
+		stopTimes[4] 	= "2006-10-23 00:00:00";
+
+		instruments[5] 	= "HINODE__SOT_FG";
+		startTimes[5] 	= "2006-10-20 00:00:00";
+		stopTimes[5] 	= "2006-10-25 00:00:00";
+
+//		instruments[0] 	= "NOBE__NORH";
+//		startTimes[0] 	= "1996-05-01 00:00:00";
+//		stopTimes[0] 	= "1999-05-30 00:00:00";
+
 	}
 	
 	/*
