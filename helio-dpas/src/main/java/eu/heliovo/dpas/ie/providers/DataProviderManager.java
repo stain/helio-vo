@@ -38,6 +38,10 @@ public class DataProviderManager
 		addProvider("RHESSI__HESSI_GMR", 1, new RhessiProvider());
 		addProvider("RHESSI__HESSI_HXR", 1, new RhessiProvider());
 		addProvider("HINODE__EIS", 1, new EIS());
+		addProvider("HINODE__XRT", 1, new XRTProvider());
+		addProvider("HINODE__SOT_SP", 1, new SOT_SPProvider());
+		addProvider("HINODE__SOT_FG", 1, new SOT_FGProvider());
+//		addProvider("NOBE__NORH", 1, new NOBEProvider()); 
 	}
 
 	public	void	addProvider(String instrumentName, int priority, Object provider) throws ArithmeticException, ClassAdMapperException, ClassAdUtilitiesException

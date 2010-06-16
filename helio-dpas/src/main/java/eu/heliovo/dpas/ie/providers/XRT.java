@@ -53,6 +53,11 @@ public class XRT implements DPASDataProvider {
 		 * In this case : http://www.sdc.uio.no/vol/fits/xrt/level0/
 		 */
 		System.out.println("* Now Analyzing " + topUrl);
+//		/*
+//		 * TODO : Remove before committing
+//		 */
+//		System.setProperty("http.proxyHost", "proxy.cs.tcd.ie");
+//		System.setProperty("http.proxyPort", "8080");
 
 		c = new URL(topUrl).openConnection();
 		in = new BufferedReader(new InputStreamReader(c.getInputStream()));
