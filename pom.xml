@@ -114,7 +114,6 @@
     	<module>helio-ics-web</module>        
     	<module>helio-dpas</module>        
         <module>helio-clientapi</module>
-    <module>helio-hec</module>
     <module>helio-mockclient</module>
   </modules>
     
