@@ -58,6 +58,11 @@ public class JobExecutionException extends RuntimeException {
 	     * Throw if any IO exception occurs during execution of the task.
 	     */
 	    IO_EXCEPTION(IOException.class),
+	    
+	    /**
+	     * Thrown if any unknown exception occurs.
+	     */
+	    EXCEPTION(Exception.class)
 	    ;
 		
 		/**
@@ -169,7 +174,7 @@ public class JobExecutionException extends RuntimeException {
 	 */
 	public JobExecutionException(String message, IOException cause) {
 		super(message, cause);
-		this.exceptionType = Type.TIMEOUT_EXCEPTION;
+		this.exceptionType = Type.IO_EXCEPTION;
 	}
 	
 	/**
@@ -178,7 +183,25 @@ public class JobExecutionException extends RuntimeException {
 	 */
 	public JobExecutionException(IOException cause) {
 		super(cause);
-		this.exceptionType = Type.TIMEOUT_EXCEPTION;
+		this.exceptionType = Type.IO_EXCEPTION;
+	}
+	/**
+	 * Create an exception message of type {@link Type#EXCEPTION}.
+	 * @param message the message.
+	 * @param cause the cause exception to be wrapped.
+	 */
+	public JobExecutionException(String message, Exception cause) {
+		super(message, cause);
+		this.exceptionType = Type.EXCEPTION;
+	}
+	
+	/**
+	 * Create an exception message of type {@link Type#EXCEPTION}.
+	 * @param cause the cause exception to be wrapped.
+	 */
+	public JobExecutionException(Exception cause) {
+		super(cause);
+		this.exceptionType = Type.EXCEPTION;
 	}
 	
 	/**
