@@ -35,7 +35,7 @@ public class MockHelioClient implements HelioClient {
 	private void initialize() {
 		GenericApplicationContext ctx = new GenericApplicationContext();
 		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
-		xmlReader.loadBeanDefinitions(new ClassPathResource("eu/heliovo/mockclient/helio-mockclient.xml"));
+		xmlReader.loadBeanDefinitions(new ClassPathResource("helio-mockclient.xml"));
 //		PropertiesBeanDefinitionReader propReader = new PropertiesBeanDefinitionReader(ctx);
 //		propReader.loadBeanDefinitions(new ClassPathResource("otherBeans.properties"));
 		ctx.refresh();

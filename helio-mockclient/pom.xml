@@ -14,6 +14,16 @@
 	<name>helio-mockclient</name>
 	<description>The mock-client is mainly intended for testing purposes. It provides mock implementations of some common services.</description>
 	<url>http://maven.apache.org</url>
+	<build>
+		<!-- plugins>
+			<plugin>
+				<groupId>org.maven.ide.eclipse</groupId>
+				<artifactId>lifecycle-mapping</artifactId>
+				<version>0.9.9-SNAPSHOT</version>
+				<configuration><mappingId>generic</mappingId><configurators><configurator id="org.maven.ide.eclipse.jdt.genericJava"></configurator></configurators><mojoExecutions><mojoExecution runOnIncremental="true">org.apache.maven.plugins:maven-resources-plugin:2.4.1:resources</mojoExecution></mojoExecutions></configuration>
+			</plugin>
+		</plugins -->
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>eu.heliovo</groupId>
