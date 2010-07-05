@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This servlet gets the REST calls and calls the initial workflow
+ * This servlet gets the REST calls and calls the appropriate workflow
+ *
+ * @author simon felix at fhnw ch
  */
 public class RestDispatcher extends HttpServlet
 {
@@ -22,11 +24,13 @@ public class RestDispatcher extends HttpServlet
     PrintWriter pw=response.getWriter();
     try
     {
+      //convert parameters to parameter map
       Map<String,String> params=new LinkedHashMap<String,String>();
       for(Object s:request.getParameterMap().keySet())
         params.put((String)s,request.getParameter((String)s));
       
-      WorkflowDispatcher.runWorkflow(pw,params);      
+      //call the workflow
+      WorkflowDispatcher.runWorkflow(pw,params);
     }
     catch(Exception e)
     {

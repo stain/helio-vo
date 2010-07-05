@@ -3,24 +3,26 @@ package eu.heliovo.workflow.interfaces;
 import java.io.Writer;
 import java.util.Arrays;
 import java.util.Map;
-import eu.heliovo.workflow.workflows.InitialWorkflow;
 import eu.heliovo.workflow.workflows.firstusecase.GetEvents;
 import eu.heliovo.workflow.workflows.firstusecase.GetData;
 import eu.heliovo.workflow.workflows.firstusecase.ListInstruments;
 
+/**
+ * This class parses the call parameters and executes the requested workflow.
+ * It will be used by RestDispatcher or SoapDispatcher.
+ * 
+ * @author simon felix at fhnw ch
+ */
 public class WorkflowDispatcher
 {
+  /**
+   * This method parses the call parameters and executes the requested workflow.
+   * 
+   * @param _w Where the result of the workflow will be written to
+   * @param _parameters A map of all parameters given by the caller
+   */
   public static void runWorkflow(Writer _w,Map<String,String> _parameters) throws Exception
   {
-    /*if("InitialWorkflow".equals(_parameters.get("WORKFLOW")))
-      InitialWorkflow.runWorkflow(_w,
-          Arrays.asList(_parameters.get("INSTRUMENT").split(",")),
-          _parameters.get("STARTTIME"),
-          _parameters.get("ENDTIME"),
-          ifnull(_parameters.get("GOES_MIN"),""),
-          ifnull(_parameters.get("GOES_MAX"),"")
-        );*/
-    
     if("FirstUseCase1GetEvents".equals(_parameters.get("WORKFLOW")))
       GetEvents.runWorkflow(_w,
           _parameters.get("STARTTIME"),
@@ -41,15 +43,10 @@ public class WorkflowDispatcher
         );
   }
   
-  public static String[] getSupportedWorkflows()
-  {
-    return new String[]{"InitialWorkflow"};
-  }
-  
-  private static String ifnull(String _v,String _null_value)
+  /*private static String ifnull(String _v,String _null_value)
   {
     if(_v==null)
       return _null_value;
     return _v;
-  }
+  }*/
 }

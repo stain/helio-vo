@@ -1,22 +1,13 @@
 package eu.heliovo.workflow.interfaces;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMResult;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Provider;
 import javax.xml.ws.ServiceMode;
@@ -27,13 +18,13 @@ import org.w3c.dom.NodeList;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
 
-import eu.heliovo.workflow.workflows.InitialWorkflow;
-
 /**
  * The dispatcher handles all soap requests and responses for a Query. Called
  * via the SoapServlet. SoapRequests (Bodies) are placed into a DOM and by analyzing
  * the uri determine the correct query service for the correct contract. Responses
  * are Stream based (NOT DOM) into an XMLStreamReader with the help of PipedStreams.
+ *
+ * @author simon felix at fhnw ch
  */
 @WebServiceProvider(targetNamespace="http://helio-vo.eu/xml/QueryService/v0.1",serviceName="HelioQueryServiceService",portName="HelioQueryServicePort")
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
@@ -110,8 +101,8 @@ public class SoapDispatcher implements Provider<Source>
     return null;
   }
 
-  /*
-   * Method used to convert Source to dom object.
+  /**
+   * Method used to convert Source to DOM-Object.
    */
   private synchronized Element toDocument(Source src) throws TransformerException
   {

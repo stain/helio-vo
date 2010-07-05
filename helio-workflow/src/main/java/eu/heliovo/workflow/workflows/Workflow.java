@@ -5,6 +5,8 @@ import java.io.Writer;
 
 /**
  * This class provides helper methods that can be used by all workflow implementations.
+ * 
+ * @author simon felix at fhnw ch
  */
 public class Workflow
 {

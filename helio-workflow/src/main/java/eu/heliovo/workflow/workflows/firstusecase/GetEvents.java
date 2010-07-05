@@ -9,9 +9,11 @@ import eu.heliovo.workflow.clients.hec.Query;
 import eu.heliovo.workflow.workflows.Workflow;
 
 /**
- * This class represents Anaj's initial workflow. This workflow can be downloaded from
+ * This class represents Anja's initial workflow. This workflow can be downloaded from
  * http://www.myexperiment.org/workflows/1285 to run it locally in Taverna. It's a
  * straight-forward 1:1 conversion.
+ * 
+ * @author simon felix at fhnw ch
  */
 public class GetEvents extends Workflow
 {
