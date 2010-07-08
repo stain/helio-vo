@@ -18,10 +18,9 @@ import org.w3c.dom.Document;
 
 import eu.heliovo.dpas.ie.controller.QueryService;
 
-
 public class QueryServiceTestComplete
 {
-	QueryService		dpasService		=	new eu.heliovo.dpas.ie.controller.QueryService();
+	QueryService		dpasService		=	new QueryService();
 	/*
 	 * Input data
 	 */
@@ -32,7 +31,7 @@ public class QueryServiceTestComplete
 	int[]  	 levels 		= 	null;
 	boolean	 partialSorting	=	true;
 	
-	@Test
+	@Ignore @Test
 	public void testSortedQuery()	
 	{
 		System.out.println();

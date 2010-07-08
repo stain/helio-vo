@@ -15,14 +15,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
-import org.w3c.dom.ls.DOMImplementationLS;
-import org.w3c.dom.ls.LSSerializer;
 
-import junit.framework.TestCase;
 import eu.heliovo.dpas.ie.controller.QueryService;
 
 
@@ -102,6 +98,7 @@ public class QueryServiceTestCompleteOld
 //		System.out.println("**** Test Query - done' ****");
 //	}
 
+	@Ignore @Test
 	public void testSortedQuery()	
 	{
 		System.out.println();

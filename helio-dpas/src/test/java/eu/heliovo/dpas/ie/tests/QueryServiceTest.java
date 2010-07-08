@@ -42,7 +42,7 @@ public class QueryServiceTest extends TestCase
 	boolean	 partialSorting	=	true;
 
 	
-
+	@Ignore @Test
 	public void testSortedQuery()
 	{
 		initialize();
