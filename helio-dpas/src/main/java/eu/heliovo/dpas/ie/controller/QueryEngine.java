@@ -134,13 +134,14 @@ public class QueryEngine
 
 		List<DPASResultItem> 		tmpResults 		= null;
 		Map<String, DPASResultItem> finalResults 	= new HashMap<String, DPASResultItem>();
-		Calendar 				sortingDate 	= null;
+		Calendar 					sortingDate 	= null;
 
 		try 
 		{
-			tmpResults = currentDataProvider.query(dpasUtils
-					.HELIOTimeToCalendar(currentStartTime), dpasUtils
-					.HELIOTimeToCalendar(currentStopTime), 2);			
+			tmpResults = currentDataProvider.query(
+					currentInstrument,
+					dpasUtils.HELIOTimeToCalendar(currentStartTime), 
+					dpasUtils.HELIOTimeToCalendar(currentStopTime), 2);			
 		} 
 		catch (ParseException e) 
 		{

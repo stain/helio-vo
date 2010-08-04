@@ -5,7 +5,7 @@
 	<groupId>ch.i4ds.helio</groupId>
 	<artifactId>helio-dpas</artifactId>
 
-	<version>0.0.1-SNAPSHOT</version>
+	<version>3.0.1-SNAPSHOT</version>
 	<parent>
 		<artifactId>heliovo</artifactId>
 		<groupId>eu.heliovo</groupId>
@@ -14,7 +14,7 @@
 	<name>helio-dpas</name>
 	<packaging>war</packaging>
 
-	<description>TODO: Add description in helio-dpas/pom.xml</description>
+	<description>This release contains the first connection to the VSO</description>
 
 	<dependencies>
 		<dependency>

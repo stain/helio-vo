@@ -21,7 +21,7 @@ import eu.heliovo.dpas.ie.internalData.DPASResultItem;
  */
 
 public class XRT implements DPASDataProvider {
-	public List<DPASResultItem> query(Calendar dateFrom, Calendar dateTo,
+	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,
 			int maxResults) throws Exception {
 
 		URLConnection c = null;

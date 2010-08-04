@@ -49,7 +49,11 @@ public class DPASResultItem
   //used by SolarMonitor SEIT
   public String urlPreview;
   public String urlPreviewThumb;
-  
+
+  //used by VSO
+  public String fileId;
+  public String provider;
+
   public static final String[] FIELD_NAMES=new String[]{
     "measurementStart",
     "measurementEnd",

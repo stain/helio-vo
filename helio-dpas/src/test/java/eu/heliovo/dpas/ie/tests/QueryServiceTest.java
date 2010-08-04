@@ -98,37 +98,98 @@ public class QueryServiceTest extends TestCase
 	 */	
 	private void initialize()
 	{
-		instruments = new String[6];
-		startTimes = new String[6];
-		stopTimes = new String[6];
+		instruments = new String[1];
+		startTimes = new String[1];
+		stopTimes = new String[1];
 
-		instruments[0] 	= "RHESSI__HESSI_GMR";
-		startTimes[0] 	= "2003-03-28 00:00:00";
-		stopTimes[0] 	= "2003-04-11 23:59:59";
+		
+//		instruments[0] = "YNAO__HALPH";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
 
+//		instruments[0] = "YOHKOH__WBS_GRS";
+//		startTimes[0] 	= "2000-07-01 00:00:00";
+//		stopTimes[0] 	= "2000-07-02 00:00:00";
+
+//		instruments[0] = "KPNO__VSM";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__VIRGO";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__EIT";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__CDS";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__SUMER";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__UVCS";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__LASCO";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__SWAN";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__MDI";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-07 00:00:00";
+
+//		instruments[0] = "SOHO__GOLF";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-07 00:00:00";
+
+//		instruments[0] = "SOHO__CELIAS";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] = "SOHO__COSTEP";
+//		startTimes[0] 	= "2007-07-01 00:00:00";
+//		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+		instruments[0] = "SOHO__ERNE";
+		startTimes[0] 	= "2007-07-01 00:00:00";
+		stopTimes[0] 	= "2007-07-02 00:00:00";
+
+//		instruments[0] 	= "RHESSI__HESSI_GMR";
+//		startTimes[0] 	= "2005-01-01 00:00:00";
+//		stopTimes[0] 	= "2005-01-02 12:55:00";
+//
 //		instruments[1] 	= "RHESSI__HESSI_HXR";
 //		startTimes[1] 	= "2003-03-27 00:00:00";
 //		stopTimes[1] 	= "2005-03-02 00:00:00";
+//
+//		instruments[1] = "PHOENIX__2";
+//		startTimes[1] 	= "2005-01-01 00:00:00";
+//		stopTimes[1] 	= "2005-02-01 00:00:00";
 
-		instruments[1] = "PHOENIX__2";
-		startTimes[1] 	= "2005-01-01 00:00:00";
-		stopTimes[1] 	= "2005-02-01 00:00:00";
-
-		instruments[2] = "HINODE__EIS";
-		startTimes[2] 	= "2007-01-01 00:00:00";
-		stopTimes[2] 	= "2007-02-01 00:00:00";
-
-		instruments[3] = "HINODE__XRT";
-		startTimes[3] 	= "2006-10-20 00:00:00";
-		stopTimes[3] 	= "2006-10-30 00:00:00";
-
-		instruments[4] = "HINODE__SOT_SP";
-		startTimes[4] 	= "2006-10-20 00:00:00";
-		stopTimes[4] 	= "2006-10-23 00:00:00";
-
-		instruments[5] 	= "HINODE__SOT_FG";
-		startTimes[5] 	= "2006-10-20 00:00:00";
-		stopTimes[5] 	= "2006-10-25 00:00:00";
+//		instruments[1] = "HINODE__EIS";
+//		startTimes[1] 	= "2007-07-01 00:00:00";
+//		stopTimes[1] 	= "2007-07-02 00:00:00";
+//
+//		instruments[1] = "HINODE__XRT";
+//		startTimes[1] 	= "2007-07-01 00:00:00";
+//		stopTimes[1] 	= "2007-07-02 00:00:00";
+//
+//		instruments[4] = "HINODE__SOT_SP";
+//		startTimes[4] 	= "2006-10-20 00:00:00";
+//		stopTimes[4] 	= "2006-10-23 00:00:00";
+//
+//		instruments[5] 	= "HINODE__SOT_FG";
+//		startTimes[5] 	= "2006-10-20 00:00:00";
+//		stopTimes[5] 	= "2006-10-25 00:00:00";
 
 //		instruments[0] 	= "NOBE__NORH";
 //		startTimes[0] 	= "1996-05-01 00:00:00";

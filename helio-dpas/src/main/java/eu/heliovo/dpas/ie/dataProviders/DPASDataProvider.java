@@ -19,5 +19,6 @@ public interface DPASDataProvider
    * @param _maxResults Try not to return more than <i>n</i> results.
    * @return
    */
-  public List<DPASResultItem> query(Calendar _dateFrom,Calendar _dateTo,int _maxResults) throws Exception;
+//  public 	List<DPASResultItem> query(Calendar _dateFrom,Calendar _dateTo,int _maxResults) throws Exception;
+  public	List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo, int maxResults) throws Exception;
 }

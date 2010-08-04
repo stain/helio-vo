@@ -69,7 +69,7 @@ public class Phoenix2Provider implements DPASDataProvider
 	}
 
 	@Override
-	public List<DPASResultItem> query(Calendar dateFrom, Calendar dateTo,
+	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,
 			int maxResults) throws Exception
 	{
 		return explorer.query(dateFrom.getTime(), dateTo.getTime());
