@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.w3c.dom.Document;
 
+import eu.heliovo.dpas.ie.common.DebugUtilities;
 import eu.heliovo.dpas.ie.common.DpasUtilities;
 import eu.heliovo.dpas.ie.components.DpasOutputFormatter;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
@@ -23,6 +24,7 @@ public class QueryEngine
 	private DataProviderManager dpManager = null;
 	private DpasUtilities 		dpasUtils = new DpasUtilities();
 	private DpasOutputFormatter dpasFormatter = new DpasOutputFormatter();
+	private	DebugUtilities		debugUtils	=	new DebugUtilities();
 
 	public QueryEngine(DataProviderManager dpManager) {
 		super();
@@ -62,7 +64,7 @@ public class QueryEngine
 			 * TODO : Add here the management of types and levels Add them to
 			 * the query of the data source.
 			 */
-			System.out.println("Querying for " + currentInstrument + " from "
+			debugUtils.printLog(this.getClass().getName(), "Querying for " + currentInstrument + " from "
 					+ currentStartTime + " to " + currentStopTime);
 			/*
 			 * Find here the data provider suitable for the query
@@ -75,7 +77,7 @@ public class QueryEngine
 				try 
 				{
 					currentDP = (DPASDataProvider) dpManager.getBest(currentInstrument);
-					System.out.println("Best provider for " + currentInstrument
+					debugUtils.printLog(this.getClass().getName(), "Best provider for " + currentInstrument
 							+ " is " + currentDP);
 
 					if (partialSorting)
@@ -83,7 +85,7 @@ public class QueryEngine
 						allResults = PerformCurrentQuery(currentInstrument,
 								currentStartTime, currentStopTime, currentDP);
 						
-						System.out.println("* Query for " + 
+						debugUtils.printLog(this.getClass().getName(), "* Query for " + 
 								currentInstrument + 
 								" from "+
 								currentStartTime +
@@ -100,7 +102,7 @@ public class QueryEngine
 						partialResults = PerformCurrentQuery(currentInstrument,
 								currentStartTime, currentStopTime, currentDP);
 						
-						System.out.println("* Query for " + 
+						debugUtils.printLog(this.getClass().getName(), "* Query for " + 
 								currentInstrument + 
 								" from "+
 								currentStartTime +
@@ -114,12 +116,12 @@ public class QueryEngine
 					}
 
 				} catch (DataProviderManagerException e) {
-					System.out.println("Looking for " + currentInstrument
+					debugUtils.printLog(this.getClass().getName(), "Looking for " + currentInstrument
 							+ " raised the following exception ! ");
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println(currentInstrument + " is NOT present ");
+				debugUtils.printLog(this.getClass().getName(), currentInstrument + " is NOT present ");
 			}
 		}
 		return allResults;
@@ -129,7 +131,7 @@ public class QueryEngine
 			String currentInstrument, String currentStartTime,
 			String currentStopTime, DPASDataProvider currentDataProvider) 
 			{
-		System.out.println("Executing real query on : " + currentInstrument
+		debugUtils.printLog(this.getClass().getName(), "Executing real query on : " + currentInstrument
 				+ " from " + currentStartTime + " to " + currentStopTime);
 
 		List<DPASResultItem> 		tmpResults 		= null;
@@ -215,7 +217,7 @@ public class QueryEngine
 				try 
 				{
 					currentDP = (DPASDataProvider) dpManager.getBest(currentInstrument);
-					System.out.println("Best provider for " + currentInstrument
+					debugUtils.printLog(this.getClass().getName(), "Best provider for " + currentInstrument
 							+ " is " + currentDP);
 
 					if (partialSorting)
@@ -223,7 +225,7 @@ public class QueryEngine
 						allResults = PerformCurrentQuery(currentInstrument,
 								currentStartTime, currentStopTime, currentDP);
 						
-						System.out.println("* Query for " + 
+						debugUtils.printLog(this.getClass().getName(), "* Query for " + 
 								currentInstrument + 
 								" from "+
 								currentStartTime +
@@ -240,7 +242,7 @@ public class QueryEngine
 						partialResults = PerformCurrentQuery(currentInstrument,
 								currentStartTime, currentStopTime, currentDP);
 						
-						System.out.println("* Query for " + 
+						debugUtils.printLog(this.getClass().getName(), "* Query for " + 
 								currentInstrument + 
 								" from "+
 								currentStartTime +
@@ -264,12 +266,12 @@ public class QueryEngine
 				
 
 				} catch (DataProviderManagerException e) {
-					System.out.println("Looking for " + currentInstrument
+					debugUtils.printLog(this.getClass().getName(), "Looking for " + currentInstrument
 							+ " raised the following exception ! ");
 					e.printStackTrace();
 				}
 			} else {
-				System.out.println(currentInstrument + " is NOT present ");
+				debugUtils.printLog(this.getClass().getName(), currentInstrument + " is NOT present ");
 			}
 		}
 		if (!partialSorting){
