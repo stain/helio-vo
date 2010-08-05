@@ -65,6 +65,9 @@ public class VSOProvider implements DPASDataProvider
 		nameTranslator.put("SOHO__ERNE", "ERNE");
 
 		nameTranslator.put("TRACE__TRACE_EUV", "TRACE");
+
+		nameTranslator.put("STEREO__PLASTIC", "PLASTIC");
+
 	}
 
 	@Override
@@ -230,38 +233,23 @@ public class VSOProvider implements DPASDataProvider
         String []methods = {"URL-FILE", "URL-TAR", "URL-TAR_GZ", "URL-ZIP", "URL"};
         getDataReq.setMethod(methods);
         
-        
-        
-//        Vector<GetDataRequest>	getDataReqs	=	new Vector<GetDataRequest>();
-//        getDataReqs.add(getDataReq);
-        
-        VSOGetDataRequest	getDataReqBody	=	new VSOGetDataRequest();
-        
+        VSOGetDataRequest	getDataReqBody	=	new VSOGetDataRequest();        
         getDataReqBody.setRequest(getDataReq);
-      
-        
         ProviderGetDataResponse[]	dataResp	=	binding.getData(getDataReqBody);        
         
         debugUtils.printLog(this.getClass().getName(), "The data request returned " + dataResp.length + " number of records");
         /*
          * Now creating the DPAS results.
          */
-        
         for(int m = 0; m < dataResp.length; m++)
         {
         	for(int n = 0; n < dataResp[m].getData().length; n++)
         	{
         		String	currFileId	=	 dataResp[m].getData()[n].getFileid()[0];
-
-//        		System.out.println("["+m+","+n+"] --> file id size is " + dataResp[m].getData()[n].getFileid().length);
-//                System.out.println("["+m+","+n+"] --> data url is " + dataResp[m].getData()[n].getUrl());
-//                System.out.println("["+m+","+n+"] --> data details are " + dataResp[m].getData()[n].getDetails());
                 /*
                  * Find the current record on the VSOResultItem
                  */
                 VSOResultItem	currVsoResult	=	tmpResults.get(currFileId);
-            	System.out.println(currFileId + " ---> " + currVsoResult);
-
         		
                 DPASResultItem	currDpasResult	=	new DPASResultItem();
                 currDpasResult.instrument		=	instrument;

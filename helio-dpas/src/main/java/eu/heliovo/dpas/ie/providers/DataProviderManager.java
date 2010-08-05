@@ -14,6 +14,7 @@ import eu.heliovo.dpas.ie.classad.ClassAdUtilities;
 import eu.heliovo.dpas.ie.classad.ClassAdUtilitiesException;
 import eu.heliovo.dpas.ie.classad.DataSourceKeyParser;
 import eu.heliovo.dpas.ie.classad.DataSourceParser;
+import eu.heliovo.dpas.ie.common.DebugUtilities;
 
 /**
  * The Class DataProviderManager.
@@ -26,7 +27,8 @@ public class DataProviderManager
 	DataSourceParser	dsParser	=	new DataSourceParser();
 	DataSourceKeyParser	dskParser	=	new DataSourceKeyParser();
 	ClassAdUtilities	cadUtils	=	new ClassAdUtilities();
-	
+	DebugUtilities		debugUtils	=	new DebugUtilities();
+
 	public DataProviderManager() throws ArithmeticException, ClassAdMapperException, ClassAdUtilitiesException 
 	{
 		initialize();
@@ -70,20 +72,18 @@ public class DataProviderManager
 // 		addProvider("SOHO__COSTEP", 1, new VSOProvider()); 
 //		addProvider("SOHO__ERNE", 1, new VSOProvider()); 
 		addProvider("SOHO__CELIAS", 1, new VSOProvider()); 
-
-
 		addProvider("TRACE__TRACE_EUV", 1, new VSOProvider()); 
-
 		/*
 		 * Raises exception, disabled for now
 		 */
 //		addProvider("SOHO__SUMER", 1, new VSOProvider()); 
-		
 		/*
 		 * Raises Invalid element exception, disabled for now...
 		 */
 //		addProvider("KPNO__VSM", 1, new VSOProvider()); 
 		addProvider("SOHO__VIRGO", 1, new VSOProvider()); 
+		addProvider("STEREO__PLASTIC", 1, new VSOProvider()); 
+
 		/*
 		 * This is now handed by the VSO
 		 */
