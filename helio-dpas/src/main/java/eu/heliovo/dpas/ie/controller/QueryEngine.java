@@ -194,7 +194,7 @@ public class QueryEngine
 		 */
 		Document d = dpasFormatter.createNewDocument();
 
-		DPASQueryArgument	q	=	(DPASQueryArgument) request.getRequestArgument();
+		DPASQueryArgument	q	=	request.getRequestArgument();
 		partialSorting 		= q.isPartialSorting();
 		
 		for (int n = 0; n < q.getNumberOfInstrumentsQueries(); n++) 
