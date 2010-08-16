@@ -4,7 +4,7 @@ public class DpasUtilitiesException extends Exception
 {
 	private static final long serialVersionUID = 7794173351994415767L;
 	
-
+	// added vy Vineeth
 	String error="";
 	public DpasUtilitiesException()
 	{
