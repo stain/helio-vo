@@ -20,7 +20,7 @@ public class DPASRequest
 	private	String						requestType			=	null;
 	
 	/** The request argument. */
-	private	DPASRequestArgument			requestArgument		=	null;
+	private	DPASQueryArgument			requestArgument		=	null;
 	
 	/** The request start. */
 	private	Date						requestStart		=	null;
@@ -50,7 +50,7 @@ public class DPASRequest
 	 * @param requestor the requestor
 	 * @param requestType the request type
 	 */
-	public DPASRequest(Identity requestor, String requestType, DPASRequestArgument argument)
+	public DPASRequest(Identity requestor, String requestType, DPASQueryArgument argument)
 	{
 		super();
 		this.requestor 			= 	requestor;
@@ -161,7 +161,7 @@ public class DPASRequest
 	 * 
 	 * @return the request argument
 	 */
-	public DPASRequestArgument getRequestArgument()
+	public DPASQueryArgument getRequestArgument()
 	{
 		return requestArgument;
 	}
@@ -171,7 +171,7 @@ public class DPASRequest
 	 * 
 	 * @param requestArgument the new request argument
 	 */
-	public void setRequestArgument(DPASRequestArgument requestArgument)
+	public void setRequestArgument(DPASQueryArgument requestArgument)
 	{
 		this.requestArgument = requestArgument;
 	}

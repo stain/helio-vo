@@ -5,7 +5,7 @@ import java.util.Vector;
 /**
  * The Class DPASQueryArgument.
  */
-public class DPASQueryArgument extends DPASRequestArgument
+public class DPASQueryArgument 
 {
 	Vector<String>	instruments		=	new Vector<String>();
 	Vector<String>	startTimes		=	new Vector<String>();
