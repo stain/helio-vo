@@ -12,7 +12,6 @@ import eu.heliovo.dpas.ie.common.DebugUtilities;
 import eu.heliovo.dpas.ie.common.XmlUtilities;
 import eu.heliovo.dpas.ie.components.DPASLogger;
 import eu.heliovo.dpas.ie.components.DummyIdentityEngine;
-import eu.heliovo.dpas.ie.components.OutputFormatter;
 import eu.heliovo.dpas.ie.components.QueryRefinmentEngine;
 import eu.heliovo.dpas.ie.controller.ServiceUtilities;
 import eu.heliovo.dpas.ie.internalData.DPASQueryArgument;
@@ -60,7 +59,6 @@ public class ServiceEngine
 		logger				=	new DPASLogger();
 		idEngine			=	new DummyIdentityEngine();
 		qEngine				=	new QueryEngine(dpManager);
-		new OutputFormatter();
 		xmlUtilities 		=	new XmlUtilities();
 		debugUtils		=	new DebugUtilities();
 	}
