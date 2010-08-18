@@ -1,6 +1,7 @@
 package eu.heliovo.dpas.ie.common;
 
 import java.io.Writer;
+import java.util.Calendar;
 
 public class CommonTO {
 
@@ -13,6 +14,45 @@ public class CommonTO {
 	private int[] dataLevels;
 	private Writer printWriter;
 	private boolean votable;
+	private String instrument;
+	private Calendar dateFrom;
+	private Calendar dateTo;
+	private  String url;
+	
+	private int maxResults;
+	
+	public String getInstrument() {
+		return instrument;
+	}
+	public void setInstrument(String instrument) {
+		this.instrument = instrument;
+	}
+	public Calendar getDateFrom() {
+		return dateFrom;
+	}
+	public void setDateFrom(Calendar dateFrom) {
+		this.dateFrom = dateFrom;
+	}
+	public Calendar getDateTo() {
+		return dateTo;
+	}
+	public void setDateTo(Calendar dateTo) {
+		this.dateTo = dateTo;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	public int getMaxResults() {
+		return maxResults;
+	}
+	public void setMaxResults(int maxResults) {
+		this.maxResults = maxResults;
+	}
+	
 	
 	public String[] getInstruments() {
 		return instruments;
