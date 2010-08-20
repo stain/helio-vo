@@ -34,7 +34,7 @@ public class VSOProvider implements DPASDataProvider
 	private	HashMap<String, String>	nameTranslator	=	new HashMap<String, String>();
 	/*
 	 * Utilities
-	 */
+	 */ 
 	DebugUtilities							debugUtils	=	new DebugUtilities();
 
 	
