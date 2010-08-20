@@ -1,7 +1,10 @@
 package eu.heliovo.dpas.ie.common;
 
+import java.io.BufferedWriter;
 import java.io.Writer;
 import java.util.Calendar;
+
+import uk.ac.starlink.table.StarTable;
 
 public class CommonTO {
 
@@ -15,28 +18,58 @@ public class CommonTO {
 	private Writer printWriter;
 	private boolean votable;
 	private String instrument;
-	private Calendar dateFrom;
-	private Calendar dateTo;
+	private String dateFrom;
+	private String dateTo;
 	private  String url;
-	
+	private String status;
+	private String querystatus;
 	private int maxResults;
+	private String querydescription;
+	private StarTable starTable;
+	private BufferedWriter bufferOutput;
+	private String votableDescription;
+	private String whichProvider; 
+   
+	public StarTable getStarTable() {
+		return starTable;
+	}
+
+	public void setStarTable(StarTable starTable) {
+		this.starTable = starTable;
+	}
+
+	public BufferedWriter getBufferOutput() {
+		return bufferOutput;
+	}
+
+	public void setBufferOutput(BufferedWriter bufferOutput) {
+		this.bufferOutput = bufferOutput;
+	}
 	
+	public String getWhichProvider() {
+		return whichProvider;
+	}
+
+	public void setWhichProvider(String whichProvider) {
+		this.whichProvider = whichProvider;
+	}
+
 	public String getInstrument() {
 		return instrument;
 	}
 	public void setInstrument(String instrument) {
 		this.instrument = instrument;
 	}
-	public Calendar getDateFrom() {
+	public String getDateFrom() {
 		return dateFrom;
 	}
-	public void setDateFrom(Calendar dateFrom) {
+	public void setDateFrom(String dateFrom) {
 		this.dateFrom = dateFrom;
 	}
-	public Calendar getDateTo() {
+	public String getDateTo() {
 		return dateTo;
 	}
-	public void setDateTo(Calendar dateTo) {
+	public void setDateTo(String dateTo) {
 		this.dateTo = dateTo;
 	}
 	public String getUrl() {
@@ -102,7 +135,36 @@ public class CommonTO {
 	public void setVotable(boolean votable) {
 		this.votable = votable;
 	}
-	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getQuerystatus() {
+		return querystatus;
+	}
+
+	public void setQuerystatus(String querystatus) {
+		this.querystatus = querystatus;
+	}
+
+	public String getQuerydescription() {
+		return querydescription;
+	}
+
+	public void setQuerydescription(String querydescription) {
+		this.querydescription = querydescription;
+	}
+
+	public String getVotableDescription() {
+		return votableDescription;
+	}
+
+	public void setVotableDescription(String votableDescription) {
+		this.votableDescription = votableDescription;
+	}	
 	
 	
 	
