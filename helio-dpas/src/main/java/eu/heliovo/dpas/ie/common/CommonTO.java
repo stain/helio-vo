@@ -8,7 +8,6 @@ import uk.ac.starlink.table.StarTable;
 
 public class CommonTO {
 
-	
 	private String[] instruments;
 	private String[] startTimes;
 	private String[] stopTimes ;
@@ -29,7 +28,17 @@ public class CommonTO {
 	private BufferedWriter bufferOutput;
 	private String votableDescription;
 	private String whichProvider; 
-   
+	private StarTable[] starTableArray;
+	
+	
+	public StarTable[] getStarTableArray() {
+		return starTableArray;
+	}
+
+	public void setStarTableArray(StarTable[] starTableArray) {
+		this.starTableArray = starTableArray;
+	}
+
 	public StarTable getStarTable() {
 		return starTable;
 	}
@@ -165,7 +174,4 @@ public class CommonTO {
 	public void setVotableDescription(String votableDescription) {
 		this.votableDescription = votableDescription;
 	}	
-	
-	
-	
 }
