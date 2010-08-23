@@ -33,4 +33,30 @@
 	   <url-pattern>/HelioTavernaService</url-pattern>
   </servlet-mapping>  
   
+      <servlet>
+      	<description>
+      	</description>
+      	<display-name>DpasQueryServlet</display-name>
+      	<servlet-name>DpasQueryServlet</servlet-name>
+      	<servlet-class>
+      	eu.heliovo.dpas.ie.servlets.DpasQueryServlet</servlet-class>
+      </servlet>
+      <servlet>
+      	<description>
+      	</description>
+      	<display-name>VsoFitsResponseServlet</display-name>
+      	<servlet-name>VsoFitsResponseServlet</servlet-name>
+      	<servlet-class>
+      	eu.heliovo.dpas.ie.services.vso.servlets.VsoFitsResponseServlet</servlet-class>
+      </servlet>
+
+	<servlet-mapping>
+		<servlet-name>DpasQueryServlet</servlet-name>
+		<url-pattern>/DpasQueryServlet</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>VsoFitsResponseServlet</servlet-name>
+		<url-pattern>/VsoFitsResponseServlet</url-pattern>
+	</servlet-mapping>
+  
 </web-app>
