@@ -1,6 +1,10 @@
 package  eu.heliovo.dpas.ie.controller;
 
 import java.io.BufferedWriter;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -9,10 +13,17 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Provider;
 import javax.xml.ws.ServiceMode; 
+import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.WebServiceProvider;
+import javax.xml.ws.handler.MessageContext;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
+import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
 /**
@@ -36,7 +47,8 @@ import org.w3c.dom.NodeList;
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
 
 public class DPASSoapDispatcher implements Provider<Source> {
-
+	@javax.annotation.Resource(type=Object.class)
+	 protected WebServiceContext wsContext; 
 
   /**
    * Method: Constructor
@@ -60,7 +72,10 @@ public class DPASSoapDispatcher implements Provider<Source> {
 	public Source invoke(Source request) {
 		StreamSource responseReader = null;
 		BufferedWriter bw =null;
-		
+		MessageContext mc = wsContext.getMessageContext();
+		HttpServletRequest req = (HttpServletRequest)mc.get(MessageContext.SERVLET_REQUEST);
+		PipedReader pr=null;
+		PipedWriter pw=null;
 		try {
 			 Element inputDoc=toDocument(request);
 		     String interfaceName = inputDoc.getLocalName().intern();
@@ -101,8 +116,23 @@ public class DPASSoapDispatcher implements Provider<Source> {
 		    	 }
 			 }
 		     
+		     //
+		     pr = new PipedReader();
+			 pw = new PipedWriter(pr);
+		     VsoDataTO vsoTO=new VsoDataTO();
+		     vsoTO.setUrl(VsoUtils.getUrl(req));
+		     vsoTO.setInstrument(instruments[0]);
+		     vsoTO.setDateTo(startTime[0]);
+		     vsoTO.setDateFrom(stopTime[0]);
+		     vsoTO.setOutput(pw);
+		     vsoTO.setWhichProvider("VSO");
+		     vsoTO.setStatus("webservice");
+		     //responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
+		     //Calling DAO factory to connect VSO
+		     DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+		     daoFactory.getVsoQueryDao().query(vsoTO);
 		     
-		     responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
+		     responseReader= new StreamSource(pr); 
 		     
 		}catch (Exception e) {
 			// TODO: handle exception
