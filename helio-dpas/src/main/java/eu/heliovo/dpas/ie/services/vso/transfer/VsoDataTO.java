@@ -1,17 +1,14 @@
 package eu.heliovo.dpas.ie.services.vso.transfer;
 
-import java.io.BufferedWriter;
 import java.io.Writer;
-import java.util.Calendar;
-
-import uk.ac.starlink.table.StarTable;
-
 import eu.heliovo.dpas.ie.common.CommonTO;
 
 public class VsoDataTO extends CommonTO{
 
-	private  Writer output;
+	private Writer output;
 	private boolean providerStatus;	
+	private String fileId;
+	private String provider;
 	
 	public Writer getOutput() {
 		return output;
@@ -28,5 +25,20 @@ public class VsoDataTO extends CommonTO{
 	public void setProviderStatus(boolean providerStatus) {
 		this.providerStatus = providerStatus;
 	}
-	
+
+	public String getFileId() {
+		return fileId;
+	}
+
+	public void setFileId(String fileId) {
+		this.fileId = fileId;
+	}
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
 }
