@@ -17,7 +17,7 @@ public class VOTableCreator {
     	
     }
     /**
-     *    
+     * Not in use now...
      * @param comCriteriaTO
      * @throws Exception
      */
@@ -43,8 +43,9 @@ public class VOTableCreator {
     	BufferedWriter out =null;
      	out = comCriteriaTO.getBufferOutput();
     	StarTable[] tables=comCriteriaTO.getStarTableArray();
-    	
+    	String status=comCriteriaTO.getStatus();
     	try{    		
+       		 //Writing VOTABLE Resource
     		 out.write( "<RESOURCE>\n" );
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
  	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
@@ -55,6 +56,8 @@ public class VOTableCreator {
 	    	     vos.writeInlineTableElement(out);
  	         }
 			 out.write( "</RESOURCE>\n" );
+			 
+	          
     	}catch (Exception e) {
     		System.out.println(" Exception occured writeTables():While creating VOTable...!!! "+e.getMessage());
     		writeErrorTables(comCriteriaTO);
@@ -94,14 +97,13 @@ public class VOTableCreator {
     }
     
     /**
-     * 
+     * Not in use now..
      * @param comCriteriaTO
      * @throws Exception
      */
     public static void writeFooterOfTables( CommonTO comCriteriaTO ) throws Exception {
     	String status=comCriteriaTO.getStatus();
-    	BufferedWriter out =null;
-    	
+    	BufferedWriter out =null;	
     	out = comCriteriaTO.getBufferOutput();
     	out.write( "</VOTABLE>\n" );
         //Adding response header start for WebService VOTABLE.
@@ -117,7 +119,6 @@ public class VOTableCreator {
      * @return
      */
     private static String now() {
-    	
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
         return sdf.format(cal.getTime());
