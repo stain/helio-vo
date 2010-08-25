@@ -1,7 +1,7 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.vso.dao.impl;
 
-import java.io.Writer;
+import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
@@ -47,11 +47,19 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 				throw new DataNotFoundException(" No data for this instrument");
 			}
 		}catch(Exception e){
+			 e.printStackTrace();
+			 vsoTO.setBufferOutput(new BufferedWriter(vsoTO.getOutput()));
 			 vsoTO.setQuerystatus("ERROR");
 			 vsoTO.setQuerydescription(e.getMessage());
 			 VOTableCreator.writeErrorTables(vsoTO);
 			 throw new DataNotFoundException("EXCEPTION ", e);
 		}
+	}
+	
+	public void getFitsFile(VsoDataTO vsoTO) throws Exception
+	{
+		// TODO Auto-generated method stu
+		vsoProvider.getFitsFile(vsoTO) ;
 	}
 	
 }
