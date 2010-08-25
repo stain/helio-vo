@@ -1,7 +1,9 @@
 package  eu.heliovo.dpas.ie.controller;
 
 import java.io.BufferedWriter;
-
+import java.io.PipedReader;
+import java.io.PipedWriter;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -10,11 +12,16 @@ import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.Provider;
 import javax.xml.ws.ServiceMode;
+import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.WebServiceProvider;
-
+import javax.xml.ws.handler.MessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
+import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
 /**
@@ -27,14 +34,14 @@ import org.w3c.dom.NodeList;
  */
 @WebServiceProvider(targetNamespace="http://helio-vo.eu/xml/QueryService/v0.1",
 	      serviceName="HelioQueryServiceService",
-	      portName="HelioQueryServicePort")
-	      
-	      
+	      portName="HelioQueryServicePort")     
 	      
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
 
 public class SoapDispatcher implements Provider<Source> {
-
+	@javax.annotation.Resource(type=Object.class)
+	 protected WebServiceContext wsContext; 
+	
 
   /**
    * Method: Constructor
@@ -58,6 +65,11 @@ public class SoapDispatcher implements Provider<Source> {
 	public Source invoke(Source request) {
 		StreamSource responseReader = null;
 		BufferedWriter bw =null;
+		MessageContext mc = wsContext.getMessageContext();
+		HttpServletRequest req = (HttpServletRequest)mc.get(MessageContext.SERVLET_REQUEST);
+		PipedReader pr=null;
+		PipedWriter pw=null;
+		VsoDataTO vsoTO=null;
 		
 		try {
 			 Element inputDoc=toDocument(request);
@@ -133,11 +145,48 @@ public class SoapDispatcher implements Provider<Source> {
 				
 			 }
 			 
+			 
 		     responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
+		     
+		     //
+		     pr = new PipedReader();
+			 pw = new PipedWriter(pr);
+			 vsoTO=new VsoDataTO();
+			 if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0){
+			     vsoTO.setUrl(VsoUtils.getUrl(req));
+			     vsoTO.setInstruments(instruments);
+			     vsoTO.setStartTimes(startTime);
+			     vsoTO.setStopTimes(stopTime);
+			     vsoTO.setOutput(pw);
+			     vsoTO.setWhichProvider("VSO");
+			     vsoTO.setStatus("webservice");
+			     vsoTO.setVotableDescription("VSO query response");
+			     //responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
+			     //Calling DAO factory to connect VSO
+			     DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+			     daoFactory.getVsoQueryDao().query(vsoTO);
+			 }else{
+				 vsoTO.setBufferOutput(new BufferedWriter(pw));
+		    	 vsoTO.setVotableDescription("VSO query response");
+				 vsoTO.setQuerystatus("ERROR");
+				 vsoTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
+				 VOTableCreator.writeErrorTables(vsoTO);
+			 }
+		     responseReader= new StreamSource(pr); 
 		     
 		}catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			vsoTO.setBufferOutput(new BufferedWriter(pw));
+	    	vsoTO.setVotableDescription("VSO query response");
+			vsoTO.setQuerystatus("ERROR");
+			vsoTO.setQuerydescription(e.getMessage());
+			try {
+				VOTableCreator.writeErrorTables(vsoTO);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}
 		
 		return responseReader;
