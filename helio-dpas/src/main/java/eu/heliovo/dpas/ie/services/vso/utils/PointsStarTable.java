@@ -19,10 +19,15 @@ public class PointsStarTable  extends RandomStarTable {
     String url_;
     ProviderQueryResponse	resp_;
     int nRow_;
-    public PointsStarTable( ProviderQueryResponse	resp,String url ) {
+    String provider_;
+    String status_;
+    public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
     	resp_=resp;
     	url_=url;
     	nRow_=resp.getNo_of_records_returned();
+    	provider_=provider;
+    	status_=status;
+    	
     }
 
     public int getColumnCount() {
@@ -42,21 +47,16 @@ public class PointsStarTable  extends RandomStarTable {
         int irow = checkedLongToInt( lrow );
         if(resp_!=null && resp_.getRecord()!=null){
 	        switch ( icol ) {
-	        	case 0: return resp_.getRecord()[irow].getInstrument().toString();
-	            case 1: return url_+resp_.getRecord()[irow].getFileid();
+	        	case 0: return resp_.getRecord()[irow].getInstrument();
+	            case 1: return VsoUtils.appendParamtersForUrl(url_,resp_.getRecord()[irow].getFileid(),provider_,status_);
 	            case 2: return resp_.getRecord()[irow].getProvider();
 	            case 3: return resp_.getRecord()[irow].getTime().getStart();
 	            case 4: return resp_.getRecord()[irow].getTime().getEnd();
-	           
 	            default: throw new IllegalArgumentException();
 	        }
-	       
-        }else{
-        	
-        	throw new IllegalArgumentException("");
-        	
-        	
-        }
+       }else{
+        	return null;
+       }
     }
 }
 
