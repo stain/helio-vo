@@ -12,7 +12,9 @@ import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 public interface VsoQueryDao extends DPASDataProvider {
 
 	//public	void query(String instrument,  String dateFrom, String dateTo, int maxResults,String url,Writer output,String providerName) throws Exception;
-	public	void query(VsoDataTO vsoTO) throws Exception;
+	public void query(VsoDataTO vsoTO) throws Exception;
 	public void generateVOTable(VsoDataTO vsoTO) throws DataNotFoundException,Exception;
+	public void getFitsFile(VsoDataTO vsoTO) throws Exception;
+	
 
 }
