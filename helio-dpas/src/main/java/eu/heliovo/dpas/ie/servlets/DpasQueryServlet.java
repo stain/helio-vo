@@ -83,6 +83,7 @@ public class DpasQueryServlet extends HttpServlet {
 			vsoTO.setQuerystatus("ERROR");
 			vsoTO.setQuerydescription(e.getMessage());
 			try {
+				//Sending error messages
 				VOTableCreator.writeErrorTables(vsoTO);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
