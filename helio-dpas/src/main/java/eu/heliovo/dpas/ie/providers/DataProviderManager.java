@@ -43,36 +43,36 @@ public class DataProviderManager
 		/*
 		 * This is now handed by the VSO
 		 */
-		addProvider("HINODE__EIS", 1, new VSOProvider());
-		addProvider("HINODE__XRT", 1, new VSOProvider());
-		addProvider("YNAO__HALPH", 1, new VSOProvider());
+		//addProvider("HINODE__EIS", 1, new VSOProvider());
+		//addProvider("HINODE__XRT", 1, new VSOProvider());
+		//addProvider("YNAO__HALPH", 1, new VSOProvider());
 
 		/*
 		 * YOHKOH
 		 */
-		addProvider("YOHKOH__WBS_GRS", 1, new VSOProvider());
+		//addProvider("YOHKOH__WBS_GRS", 1, new VSOProvider());
 		/*
 		 * SOHO
 		 */
-		addProvider("SOHO__EIT", 1, new VSOProvider()); 
-		addProvider("SOHO__CDS", 1, new VSOProvider()); 
-		addProvider("SOHO__CDS", 1, new VSOProvider()); 
-		addProvider("SOHO__UVCS", 1, new VSOProvider()); 
-		addProvider("SOHO__LASCO", 1, new VSOProvider()); 
-		addProvider("SOHO__SWAN", 1, new VSOProvider()); 
+		//addProvider("SOHO__EIT", 1, new VSOProvider()); 
+		//addProvider("SOHO__CDS", 1, new VSOProvider()); 
+		//addProvider("SOHO__CDS", 1, new VSOProvider()); 
+		//addProvider("SOHO__UVCS", 1, new VSOProvider()); 
+		//addProvider("SOHO__LASCO", 1, new VSOProvider()); 
+		//addProvider("SOHO__SWAN", 1, new VSOProvider()); 
 		/*
 		 * Returns empty results... disabled for now...
 		 */
 //		addProvider("SOHO__MDI", 1, new VSOProvider()); 
-		addProvider("SOHO__GOLF", 1, new VSOProvider()); 
-		addProvider("SOHO__CELIAS", 1, new VSOProvider()); 
+		//addProvider("SOHO__GOLF", 1, new VSOProvider()); 
+		//addProvider("SOHO__CELIAS", 1, new VSOProvider()); 
 		/*
 		 * Raise a null exception... disabled for now...
 		 */
 // 		addProvider("SOHO__COSTEP", 1, new VSOProvider()); 
 //		addProvider("SOHO__ERNE", 1, new VSOProvider()); 
-		addProvider("SOHO__CELIAS", 1, new VSOProvider()); 
-		addProvider("TRACE__TRACE_EUV", 1, new VSOProvider()); 
+		//addProvider("SOHO__CELIAS", 1, new VSOProvider()); 
+		//addProvider("TRACE__TRACE_EUV", 1, new VSOProvider()); 
 		/*
 		 * Raises exception, disabled for now
 		 */
@@ -81,8 +81,8 @@ public class DataProviderManager
 		 * Raises Invalid element exception, disabled for now...
 		 */
 //		addProvider("KPNO__VSM", 1, new VSOProvider()); 
-		addProvider("SOHO__VIRGO", 1, new VSOProvider()); 
-		addProvider("STEREO__PLASTIC", 1, new VSOProvider()); 
+		//addProvider("SOHO__VIRGO", 1, new VSOProvider()); 
+		//addProvider("STEREO__PLASTIC", 1, new VSOProvider()); 
 
 		/*
 		 * This is now handed by the VSO
