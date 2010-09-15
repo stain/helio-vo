@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import uk.ac.starlink.votable.VOTableWriter;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
 public class QueryThreadAnalizer extends Thread
@@ -18,8 +19,8 @@ public class QueryThreadAnalizer extends Thread
 		  
 		BufferedWriter out =null;
 		try{
-			  DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoDatTO.getWhichProvider());
-			  daoFactory.getVsoQueryDao().generateVOTable(vsoDatTO);
+			VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoDatTO.getWhichProvider());
+        	vsoQueryDao.generateVOTable(vsoDatTO);
 		}catch(Exception pe) {			
 			System.out.println("  : Exception : "+pe);
 		}
