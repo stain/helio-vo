@@ -7,6 +7,7 @@ import java.net.URL;
 import uk.ac.starlink.table.StarTable;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
+import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Data;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.DataRequest;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.GetDataRequest;
@@ -69,8 +70,8 @@ public class VSOProvider
 		        	new QueryThreadAnalizer(vsoTO).start();
 		        }else{
 		        	//For REST interface
-		        	 DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
-					 daoFactory.getVsoQueryDao().generateVOTable(vsoTO);
+		        	VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+		        	vsoQueryDao.generateVOTable(vsoTO);
 		        }
 	        }
 	        
