@@ -20,6 +20,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
@@ -163,8 +164,8 @@ public class SoapDispatcher implements Provider<Source> {
 			     vsoTO.setVotableDescription("VSO query response");
 			     //responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
 			     //Calling DAO factory to connect VSO
-			     DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
-			     daoFactory.getVsoQueryDao().query(vsoTO);
+			     VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+		        vsoQueryDao.query(vsoTO);
 			 }else{
 				 vsoTO.setBufferOutput(new BufferedWriter(pw));
 		    	 vsoTO.setVotableDescription("VSO query response");
