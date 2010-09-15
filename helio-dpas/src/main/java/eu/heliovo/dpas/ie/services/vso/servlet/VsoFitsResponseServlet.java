@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
 /**
@@ -45,8 +46,8 @@ public class VsoFitsResponseServlet extends HttpServlet {
 		     vsoTO.setProvider(provider);
 		     vsoTO.setFileId(fileId);
 		     //Calling DAO factory to connect VSO
-		     DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
-		     daoFactory.getVsoQueryDao().getFitsFile(vsoTO);
+		 	VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+        	vsoQueryDao.getFitsFile(vsoTO);
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
