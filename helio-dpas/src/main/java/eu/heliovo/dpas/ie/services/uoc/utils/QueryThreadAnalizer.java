@@ -18,8 +18,8 @@ public class QueryThreadAnalizer extends Thread
 		  
 		BufferedWriter out =null;
 		try{
-			  DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoDatTO.getWhichProvider());
-			  daoFactory.getVsoQueryDao().generateVOTable(vsoDatTO);
+			  //DAOFactory daoFactory= DAOFactory.getDAOFactory(vsoDatTO.getWhichProvider());
+			  //daoFactory.getVsoQueryDao().generateVOTable(vsoDatTO);
 		}catch(Exception pe) {			
 			System.out.println("  : Exception : "+pe);
 		}
