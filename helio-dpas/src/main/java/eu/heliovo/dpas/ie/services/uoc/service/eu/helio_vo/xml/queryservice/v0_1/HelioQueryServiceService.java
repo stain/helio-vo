@@ -32,7 +32,7 @@ public class HelioQueryServiceService extends Service {
     static {
         URL url = null;
         try {
-            url = new URL("file:HelioService.wsdl");
+            url = new URL("http://140.105.77.30:8080/helio-uoc-r3/HelioService?wsdl");
         } catch (MalformedURLException e) {
             System.err.println("Can not initialize the default wsdl from file:HelioService.wsdl");
             // e.printStackTrace();
