@@ -36,12 +36,12 @@ public class VSOProvider
 		 StarTable[] tables=null;
 		
         try{
-	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getStartTimes()[0]), VsoUtils.getDateFormat(vsoTO.getStopTimes()[0]));
+	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getDateFrom()), VsoUtils.getDateFormat(vsoTO.getDateTo()));
 			/*
 			 * These lines create the query request in the VSO format
 			*/
 			QueryRequestBlock rb	=	new QueryRequestBlock();
-			rb.setInstrument(vsoTO.getInstruments()[0]);
+			rb.setInstrument(vsoTO.getInstrument());
 			rb.setTime(queryTime);
 			QueryRequest	r	=	new QueryRequest();
 			r.setBlock(rb);
