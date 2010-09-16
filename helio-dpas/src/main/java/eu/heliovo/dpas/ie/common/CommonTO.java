@@ -30,7 +30,6 @@ public class CommonTO {
 	private String whichProvider; 
 	private StarTable[] starTableArray;
 	
-	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
 	}

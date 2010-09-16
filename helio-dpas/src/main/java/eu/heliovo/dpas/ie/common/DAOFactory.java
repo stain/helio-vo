@@ -13,7 +13,7 @@ public abstract class DAOFactory {
 		Type type=Type.valueOf(whichFactory);
 	    switch (type) {
 	      case VSO: 
-	          return CommonDaoFactory.getInstance().getVsoQueryDao();
+	          return (VsoQueryDao)CommonDaoFactory.getInstance().getVsoQueryDao();
 	      case CDAWEB    : 
 	          return null;      
 	      case DIR    : 
