@@ -4,12 +4,15 @@ package eu.heliovo.dpas.ie.services.vso.dao.impl;
 import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
+
+import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.provider.VSOProvider;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
+import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
 public class VsoQueryDaoImpl implements VsoQueryDao {
@@ -19,8 +22,16 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 	}
 
 	@Override
-	public void query(VsoDataTO vsoTO) throws Exception {
-		// TODO Auto-generated method stu
+	public void query(CommonTO commonTO) throws Exception {
+		 //VSO Transfer Object
+		 VsoDataTO vsoTO=new VsoDataTO();
+		 vsoTO.setUrl(commonTO.getUrl());
+	     vsoTO.setInstrument(commonTO.getInstrument());
+	     vsoTO.setDateFrom(commonTO.getDateFrom());
+	     vsoTO.setDateTo(commonTO.getDateTo());
+	     vsoTO.setOutput(commonTO.getPrintWriter());
+	     vsoTO.setWhichProvider(commonTO.getWhichProvider());
+	     vsoTO.setVotableDescription(commonTO.getVotableDescription());
 		vsoProvider.query(vsoTO) ;
 	}
 	
@@ -61,5 +72,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 		// TODO Auto-generated method stu
 		vsoProvider.getFitsFile(vsoTO) ;
 	}
+
+	
 	
 }
