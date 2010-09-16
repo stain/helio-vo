@@ -4,6 +4,7 @@ import java.util.*;
 
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 
+
 /**
  * Interface that all data providers must implement.
  * 
@@ -22,4 +23,5 @@ public interface DPASDataProvider
 //  public 	List<DPASResultItem> query(Calendar _dateFrom,Calendar _dateTo,int _maxResults) throws Exception;
   public	List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo, int maxResults) throws Exception;
   //public	void query(String instrument, String dateFrom, String dateTo, int maxResults) throws Exception;
+
 }
