@@ -18,8 +18,11 @@ import javax.xml.ws.handler.MessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
@@ -70,7 +73,7 @@ public class SoapDispatcher implements Provider<Source> {
 		HttpServletRequest req = (HttpServletRequest)mc.get(MessageContext.SERVLET_REQUEST);
 		PipedReader pr=null;
 		PipedWriter pw=null;
-		VsoDataTO vsoTO=null;
+		CommonTO commonTO=null;
 		
 		try {
 			 Element inputDoc=toDocument(request);
@@ -152,38 +155,47 @@ public class SoapDispatcher implements Provider<Source> {
 		     //
 		     pr = new PipedReader();
 			 pw = new PipedWriter(pr);
-			 vsoTO=new VsoDataTO();
-			 if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0){
-			     vsoTO.setUrl(VsoUtils.getUrl(req));
-			     vsoTO.setInstruments(instruments);
-			     vsoTO.setStartTimes(startTime);
-			     vsoTO.setStopTimes(stopTime);
-			     vsoTO.setOutput(pw);
-			     vsoTO.setWhichProvider("VSO");
-			     vsoTO.setStatus("webservice");
-			     vsoTO.setVotableDescription("VSO query response");
-			     //responseReader= queryService.sortedQuery(instruments, startTime, stopTime, false, null, null,votable);
-			     //Calling DAO factory to connect VSO
-			     VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
-		        vsoQueryDao.query(vsoTO);
-			 }else{
-				 vsoTO.setBufferOutput(new BufferedWriter(pw));
-		    	 vsoTO.setVotableDescription("VSO query response");
-				 vsoTO.setQuerystatus("ERROR");
-				 vsoTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
-				 VOTableCreator.writeErrorTables(vsoTO);
-			 }
+			 commonTO=new CommonTO();
+			 commonTO.setPrintWriter(pw);
+		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
+		    	
+		    	 for(int count=0;count<instruments.length;count++){
+			    	 commonTO.setUrl(VsoUtils.getUrl(req));
+			    	 commonTO.setInstrument(instruments[count]);
+			    	 commonTO.setDateFrom(startTime[count]);
+			    	 commonTO.setDateTo(stopTime[count]);
+			    	 commonTO.setWhichProvider("VSO");
+			    	 
+				     //Calling DAO factory to connect PROVIDERS
+				     if (DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
+				    	 commonTO.setVotableDescription("VSO query response");
+				    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+			         	 vsoQueryDao.query(commonTO);
+				     }
+				     else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
+				    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+				    	 uocQueryDao.query(commonTO);
+				     }
+		    	 }
+		     }else{
+		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
+		    	 commonTO.setVotableDescription("VSO query response");
+		    	 commonTO.setQuerystatus("ERROR");
+		    	 commonTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
+				 VOTableCreator.writeErrorTables(commonTO);
+		     }
 		     responseReader= new StreamSource(pr); 
 		     
 		}catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
-			vsoTO.setBufferOutput(new BufferedWriter(pw));
-	    	vsoTO.setVotableDescription("VSO query response");
-			vsoTO.setQuerystatus("ERROR");
-			vsoTO.setQuerydescription(e.getMessage());
+			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
+			commonTO.setBufferOutput(new BufferedWriter(pw));
+			commonTO.setVotableDescription("VSO query response");
+			commonTO.setQuerystatus("ERROR");
+			commonTO.setQuerydescription(e.getMessage());
 			try {
-				VOTableCreator.writeErrorTables(vsoTO);
+				//Sending error messages
+				VOTableCreator.writeErrorTables(commonTO);
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
