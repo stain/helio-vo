@@ -4,18 +4,19 @@ import java.io.Writer;
 import eu.heliovo.dpas.ie.common.CommonTO;
 
 public class VsoDataTO extends CommonTO{
-
-	private Writer output;
+	
 	private boolean providerStatus;	
 	private String fileId;
 	private String provider;
 	
-	public Writer getOutput() {
-		return output;
-	}
-
+	private Writer output;
+	
 	public void setOutput(Writer output) {
 		this.output = output;
+	}
+
+	public Writer getOutput() {
+		return output;
 	}
 
 	public boolean isProviderStatus() {
