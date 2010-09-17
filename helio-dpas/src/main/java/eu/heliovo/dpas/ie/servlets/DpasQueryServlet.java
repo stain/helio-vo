@@ -3,19 +3,18 @@ package eu.heliovo.dpas.ie.servlets;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
-import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 /**
@@ -42,7 +41,7 @@ public class DpasQueryServlet extends HttpServlet {
 		String instruments[]=null;
 		String startTime[]=null;
 		String stopTime[]=null;
-		DPASDataProvider dpasDataProvider=null;
+		
 		try{
 		     //Setting start time & end time parameter
 		     String sStartTime=request.getParameter("STARTTIME");
@@ -60,28 +59,38 @@ public class DpasQueryServlet extends HttpServlet {
 		    	 instruments=sInstrument.split(",");
 		     // Setting Print Writer.
 		     commonTO.setPrintWriter(pw);
+		     commonTO.setBufferOutput(new BufferedWriter(pw) );
+		     commonTO.setVotableDescription("DPAS query response");
+		     
+		     HashMap<String, String> hMap = new HashMap();
+		     hMap.put("EIT","VSO");
+		     hMap.put("planetary_cat","UOC");
+		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
-		    	
+		    	 //VOTable header
+				 VOTableCreator.writeHeaderOfTables(commonTO);
+				 //For loop
 		    	 for(int count=0;count<instruments.length;count++){
-			    	 commonTO.setUrl(VsoUtils.getUrl(request));
 			    	 commonTO.setInstrument(instruments[count]);
 			    	 commonTO.setDateFrom(startTime[count]);
 			    	 commonTO.setDateTo(stopTime[count]);
-			    	 commonTO.setWhichProvider("VSO");
-			    	 
+			    	 commonTO.setWhichProvider(hMap.get(instruments[count]));
 				     //Calling DAO factory to connect PROVIDERS
 				     if (DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 				    	 commonTO.setVotableDescription("VSO query response");
+				    	 commonTO.setUrl(VsoUtils.getUrl(request));
 				    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 			         	 vsoQueryDao.query(commonTO);
 				     }
-				     else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
+				     else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
 				    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 				    	 uocQueryDao.query(commonTO);
 				     }else{
 				    	 
 				     }
 		    	 }
+		    	//VOTable footer.
+				VOTableCreator.writeFooterOfTables(commonTO);
 		     }else{
 		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
 		    	 commonTO.setVotableDescription("VSO query response");
