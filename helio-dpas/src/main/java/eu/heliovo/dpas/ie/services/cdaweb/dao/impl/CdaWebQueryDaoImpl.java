@@ -7,32 +7,32 @@ import java.util.List;
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
-import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
-import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
-import eu.heliovo.dpas.ie.services.vso.provider.VSOProvider;
-import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
+import eu.heliovo.dpas.ie.services.cdaweb.dao.exception.DataNotFoundException;
+import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
+import eu.heliovo.dpas.ie.services.cdaweb.provider.CDAWEBProvider;
+import eu.heliovo.dpas.ie.services.cdaweb.transfer.CdaWebDataTO;
 
 
-public class CdaWebQueryDaoImpl implements VsoQueryDao {
-	VSOProvider vsoProvider=null;
+public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
+	CDAWEBProvider cdaWebProvider=null;
 	public CdaWebQueryDaoImpl(){ 
-		vsoProvider=new VSOProvider();
+		cdaWebProvider=new CDAWEBProvider();
 	}
 
 	@Override
 	public void query(CommonTO commonTO) throws Exception {
 		 //VSO Transfer Object
-		 VsoDataTO vsoTO=new VsoDataTO();
-		 vsoTO.setUrl(commonTO.getUrl());
-	     vsoTO.setInstrument(commonTO.getInstrument());
-	     vsoTO.setDateFrom(commonTO.getDateFrom());
-	     vsoTO.setDateTo(commonTO.getDateTo());
-	     vsoTO.setOutput(commonTO.getPrintWriter());
-	     vsoTO.setWhichProvider(commonTO.getWhichProvider());
-	     vsoTO.setVotableDescription(commonTO.getVotableDescription());
-	     vsoTO.setBufferOutput(commonTO.getBufferOutput());
-	     vsoTO.setStatus(commonTO.getStatus());
-		vsoProvider.query(vsoTO) ;
+		 CdaWebDataTO cdaWebTO=new CdaWebDataTO();
+		 cdaWebTO.setUrl(commonTO.getUrl());
+	     cdaWebTO.setInstrument(commonTO.getInstrument());
+	     cdaWebTO.setDateFrom(commonTO.getDateFrom());
+	     cdaWebTO.setDateTo(commonTO.getDateTo());
+	     cdaWebTO.setOutput(commonTO.getPrintWriter());
+	     cdaWebTO.setWhichProvider(commonTO.getWhichProvider());
+	     cdaWebTO.setVotableDescription(commonTO.getVotableDescription());
+	     cdaWebTO.setBufferOutput(commonTO.getBufferOutput());
+	     cdaWebTO.setStatus(commonTO.getStatus());
+	     cdaWebProvider.query(cdaWebTO) ;
 	}
 	
 	
@@ -42,33 +42,27 @@ public class CdaWebQueryDaoImpl implements VsoQueryDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
-	public void generateVOTable(VsoDataTO vsoTO) throws DataNotFoundException,Exception {
+	public void generateVOTable(CdaWebDataTO cdaWebTO) throws DataNotFoundException,Exception {
 		// TODO Auto-generated method stub
 		try{
-			if(vsoTO.isProviderStatus()){
+			if(cdaWebTO.isProviderStatus()){
 				//VOTable table data.
-				VOTableCreator.writeTables(vsoTO);
+				VOTableCreator.writeTables(cdaWebTO);
 			}else{
 				throw new DataNotFoundException(" No data for this instrument");
 			}
 		}catch(Exception e){
 			 e.printStackTrace();
-			 vsoTO.setBufferOutput(new BufferedWriter(vsoTO.getOutput()));
-			 vsoTO.setQuerystatus("ERROR");
-			 vsoTO.setQuerydescription(e.getMessage());
-			 VOTableCreator.writeErrorTables(vsoTO);
+			 cdaWebTO.setBufferOutput(new BufferedWriter(cdaWebTO.getOutput()));
+			 cdaWebTO.setQuerystatus("ERROR");
+			 cdaWebTO.setQuerydescription(e.getMessage());
+			 VOTableCreator.writeErrorTables(cdaWebTO);
 			 throw new DataNotFoundException("EXCEPTION ", e);
 		}
 	}
 	
-	public void getFitsFile(VsoDataTO vsoTO) throws Exception
-	{
-		// TODO Auto-generated method stu
-		vsoProvider.getFitsFile(vsoTO) ;
-	}
-
 	
 	
 }
