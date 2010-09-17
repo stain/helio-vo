@@ -1,55 +1,57 @@
 package eu.heliovo.dpas.ie.services.uoc.provider;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
-import uk.ac.starlink.table.StarTable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.xml.namespace.QName;
 import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
+import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
+import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.Query;
+import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.QueryResponse;
+import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryService;
+import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryServiceService;
 import eu.heliovo.dpas.ie.services.uoc.transfer.UocDataTO;
-import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Data;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.DataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.GetDataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderGetDataResponse;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.QueryRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.QueryRequestBlock;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Time;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOGetDataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiBindingStub;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiServiceLocator;
-import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
-import eu.heliovo.dpas.ie.services.vso.utils.PointsStarTable;
-import eu.heliovo.dpas.ie.services.vso.utils.QueryThreadAnalizer;
-import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
 public class UOCProvider
 {
+	private static final QName SERVICE_NAME = new QName("http://helio-vo.eu/xml/QueryService/v0.1", "HelioQueryServiceService");
 
 	public	void query(UocDataTO uocTO) throws DataNotFoundException {
 		
 		try{
 	        
+			HelioQueryServiceService ss = new HelioQueryServiceService(new URL("http://140.105.77.30:8080/helio-uoc-r3/HelioService?wsdl"), SERVICE_NAME);
+	        HelioQueryService port = ss.getHelioQueryServicePort(); 
+	        Query queryParameter=new Query();
+	        //queryParameter.setINSTRUMENT(Instrument.valueOf("RHESSI_HESSI_GMR"));
+	        //From Clause
+	        List<String> from=new ArrayList<String>(1);
+	        from.add(uocTO.getInstrument());
+	        queryParameter.setFrom(from);
+	        //Start Time Clause
+	        List<String> startTime=new ArrayList<String>(1);
+	        startTime.add(uocTO.getDateFrom());
+	        queryParameter.setStarttime(startTime);
+	        //End Time Clause
+	        List<String> endTime=new ArrayList<String>(1);
+	        endTime.add(uocTO.getDateTo());
+	        queryParameter.setEndtime(endTime);
+	        QueryResponse _query__return = port.query(queryParameter);
+	        //Setting resource 
+		    uocTO.setResource(_query__return.getVOTABLE().getRESOURCE().get(0));
+		    //Calling UOC provider
+	        UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(uocTO.getWhichProvider());
+	        uocQueryDao.generateVOTable(uocTO);
+
         }catch(Exception e){
+        	e.printStackTrace();
         	throw new DataNotFoundException(" Could not retrieve data: ",e);
         }
 
 	}
 	
-	
-	   
-    public void getFitsFile(UocDataTO uocTO) throws IOException {
-    	/*
-		 * Now I create the bindings for the VSO port
-		*/
-      try {
-    	   
-      }catch(Exception e2) {
-          System.out.println("could not parse version");
-          e2.printStackTrace();
-      }
-   }	
+
       
 }
