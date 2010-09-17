@@ -4,7 +4,6 @@ package eu.heliovo.dpas.ie.services.vso.dao.impl;
 import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
-
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
@@ -12,7 +11,6 @@ import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.provider.VSOProvider;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
-import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
 public class VsoQueryDaoImpl implements VsoQueryDao {
@@ -32,6 +30,8 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 	     vsoTO.setOutput(commonTO.getPrintWriter());
 	     vsoTO.setWhichProvider(commonTO.getWhichProvider());
 	     vsoTO.setVotableDescription(commonTO.getVotableDescription());
+	     vsoTO.setBufferOutput(commonTO.getBufferOutput());
+	     vsoTO.setStatus(commonTO.getStatus());
 		vsoProvider.query(vsoTO) ;
 	}
 	
@@ -48,12 +48,8 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 		// TODO Auto-generated method stub
 		try{
 			if(vsoTO.isProviderStatus()){
-				//VOTable header
-				VOTableCreator.writeHeaderOfTables(vsoTO);
 				//VOTable table data.
 				VOTableCreator.writeTables(vsoTO);
-				//VOTable footer.
-				VOTableCreator.writeFooterOfTables(vsoTO);
 			}else{
 				throw new DataNotFoundException(" No data for this instrument");
 			}
