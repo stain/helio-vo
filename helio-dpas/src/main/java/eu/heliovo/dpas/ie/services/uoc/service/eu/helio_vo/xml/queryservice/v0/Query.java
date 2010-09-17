@@ -273,4 +273,18 @@ public class Query {
         this.join = value;
     }
 
+    public void setStarttime(List<String> starttime) {
+		this.starttime = starttime;
+	}
+
+    public void setEndtime(List<String> endtime) {
+		this.endtime = endtime;
+	}
+
+    public void setFrom(List<String> from) {
+		this.from = from;
+	}
+    
+    
+
 }
