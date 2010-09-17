@@ -3,6 +3,7 @@ package eu.heliovo.dpas.ie.services.cdaweb.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
@@ -30,39 +31,19 @@ public class CdaWebUtils {
 	  }	 
 	  
 	  /**
-	   * Append the parameter or URL.
-	   * @param url
-	   * @param fileId
-	   * @param provider
-	   * @param status
-	   * @return
-	   */
-	  public static String appendParamtersForUrl(String url,String fileId,String provider,String status)
-	  {
-		 if(status!=null && !status.trim().equals(""))
-			 url=url+"ID="+fileId+"&PROVIDER="+provider;
-		 else
-			 url=url+"ID="+fileId+"&PROVIDER="+provider;
-		 return url;
-	  }
-	  
-	  /**
 	   * 
 	   * @param date
 	   * @return
 	   */
-	  public static String getDateFormat(String date){
+	  public static Calendar getDateFormat(String date){
 		
 		 try
           {
-			SimpleDateFormat sdf = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
-			Date dt=sdf.parse(date.replace("T", " "));
-            //Converting back the format
-            DateFormat dateFormat = new SimpleDateFormat(ConstantKeywords.VSODATEFORMAT.getDateFormat());
-   	     	dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));	
-   	     	String datetime=dateFormat.format(dt);
-   	     	System.out.println(" Date and time "+datetime);
-  	     	return datetime;
+			SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
+		    Date parseDate  = (Date)formatter.parse(date.replace("T", " ")); 
+		    Calendar cal=Calendar.getInstance();
+		    cal.setTime(parseDate);
+	     	return cal;
          } catch (Exception e)
 		 {
 		    e.printStackTrace();
@@ -70,18 +51,5 @@ public class CdaWebUtils {
 		  return null;
 	  }
 	  
-	  /**
-	   * 
-	   * @param resp
-	   * @return
-	   */
-	  public static boolean getProviderResultCount(ProviderQueryResponse[]	resp)
-	  {
-		  boolean status=false;
-		  if(resp[0]!=null && resp[0].getRecord()!=null){
-			  status=true;
-		  }
-		  return status;
-	  }
 				
 }

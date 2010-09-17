@@ -1,5 +1,8 @@
 package eu.heliovo.dpas.ie.services.cdaweb.utils;
 
+import java.text.SimpleDateFormat;
+
+import eu.heliovo.dpas.ie.common.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
@@ -8,11 +11,11 @@ public class PointsStarTable  extends RandomStarTable {
 
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
-        new ColumnInfo( "Instrument", String.class, "Instrument name" ),
-        new ColumnInfo( "URL", String.class, "Dummy URL to fits file" ),
-        new ColumnInfo( "Provider", String.class, "Provider Name" ),
-        new ColumnInfo( "Start Date", String.class, "Measurement Start Date" ),
-        new ColumnInfo( "End Date", String.class, "Measurement End Date" ),
+        new ColumnInfo( "Data Id", String.class, "Data Id" ),
+        new ColumnInfo( "Instrument Name", String.class, "Instrument Name" ),
+        new ColumnInfo( "Start Time", String.class, "Start Time" ),
+        new ColumnInfo( "End Time", String.class, "End Time" ),
+        new ColumnInfo( "Description", String.class, "Description" ),
     };
 
     // Member variables are arrays holding the actual data.
@@ -21,6 +24,14 @@ public class PointsStarTable  extends RandomStarTable {
     int nRow_;
     String provider_;
     String status_;
+    SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
+    /**
+     * 
+     * @param resp
+     * @param url
+     * @param provider
+     * @param status
+     */
     public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
     	resp_=resp;
     	url_=url;
