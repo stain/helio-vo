@@ -21,7 +21,6 @@ import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiBin
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiServiceLocator;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.PointsStarTable;
-import eu.heliovo.dpas.ie.services.vso.utils.QueryThreadAnalizer;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
@@ -38,8 +37,8 @@ public class VSOProvider
         try{
 	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getDateFrom()), VsoUtils.getDateFormat(vsoTO.getDateTo()));
 			/*
-			 * These lines create the query request in the VSO format
-			*/
+			 * These lines create the query request in the VSO format.
+			 */
 			QueryRequestBlock rb	=	new QueryRequestBlock();
 			rb.setInstrument(vsoTO.getInstrument());
 			rb.setTime(queryTime);
@@ -47,7 +46,7 @@ public class VSOProvider
 			r.setBlock(rb);
 			/*
 			 * Now I create the bindings for the VSO port
-			*/
+			 */
 	        VSOiBindingStub binding;
 	        binding = (VSOiBindingStub) new VSOiServiceLocator().getsdacVSOi();
 	        /*
@@ -61,18 +60,12 @@ public class VSOProvider
 		        for(int count=0;count<resp.length;count++){
 		        	tables[count]=new PointsStarTable(resp[count],vsoTO.getUrl(),resp[count].getProvider(),vsoTO.getStatus());
 		        }
-		        vsoTO.setBufferOutput(new BufferedWriter(vsoTO.getOutput()) );
 		        vsoTO.setStarTableArray(tables);
 		        vsoTO.setQuerystatus("OK");
 		        vsoTO.setProviderStatus(VsoUtils.getProviderResultCount(resp));
-		        if(vsoTO.getStatus()!=null && !vsoTO.getStatus().trim().equals("")){
-		        	//Starting a Thread for WebService Request.
-		        	new QueryThreadAnalizer(vsoTO).start();
-		        }else{
-		        	//For REST interface
-		        	VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
-		        	vsoQueryDao.generateVOTable(vsoTO);
-		        }
+		        //
+		       	VsoQueryDao vsoQueryDao=(VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+		        vsoQueryDao.generateVOTable(vsoTO);
 	        }
 	        
         }catch(Exception e){
