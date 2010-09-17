@@ -13,6 +13,7 @@ import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
+import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
@@ -62,29 +63,28 @@ public class DpasQueryServlet extends HttpServlet {
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
 		     commonTO.setVotableDescription("DPAS query response");
 		     
-		     HashMap<String, String> hMap = new HashMap();
-		     hMap.put("EIT","VSO");
-		     hMap.put("planetary_cat","UOC");
-		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	 //VOTable header
 				 VOTableCreator.writeHeaderOfTables(commonTO);
 				 //For loop
 		    	 for(int count=0;count<instruments.length;count++){
-			    	 commonTO.setInstrument(instruments[count]);
+			    	 commonTO.setInstrument(instruments[count].split("_")[1]);
 			    	 commonTO.setDateFrom(startTime[count]);
 			    	 commonTO.setDateTo(stopTime[count]);
-			    	 commonTO.setWhichProvider(hMap.get(instruments[count]));
+			    	 commonTO.setWhichProvider(instruments[count].split("_")[0]);
 				     //Calling DAO factory to connect PROVIDERS
-				     if (DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
+				     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 				    	 commonTO.setVotableDescription("VSO query response");
 				    	 commonTO.setUrl(VsoUtils.getUrl(request));
 				    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 			         	 vsoQueryDao.query(commonTO);
-				     }
-				     else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
+				     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
 				    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 				    	 uocQueryDao.query(commonTO);
+				     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+				    	 commonTO.setVotableDescription("CDAWEB query response");
+				    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+				    	 cdaWebQueryDao.query(commonTO);
 				     }else{
 				    	 
 				     }
@@ -113,7 +113,8 @@ public class DpasQueryServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-		}		
+		}	
+		
 		finally
 		{
 			if(pw!=null){
