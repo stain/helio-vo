@@ -1,13 +1,21 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.uoc.dao.impl;
 
+import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
+import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.provider.UOCProvider;
+import eu.heliovo.dpas.ie.services.uoc.service.net.ivoa.xml.votable.v1.RESOURCE;
 import eu.heliovo.dpas.ie.services.uoc.transfer.UocDataTO;
+import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
 public class UocQueryDaoImpl implements UocQueryDao {
 	UOCProvider uocProvider=null;
@@ -16,9 +24,17 @@ public class UocQueryDaoImpl implements UocQueryDao {
 	}
 
 	@Override
-	public void query(UocDataTO uocTO) throws Exception {
-		// TODO Auto-generated method stu
-		uocProvider.query(uocTO) ;
+	public void query(CommonTO commonTO) throws Exception {
+		 UocDataTO uocDataTO=new UocDataTO();
+		 uocDataTO.setInstrument(commonTO.getInstrument());
+		 uocDataTO.setDateFrom(commonTO.getDateFrom());
+		 uocDataTO.setDateTo(commonTO.getDateTo());
+		 uocDataTO.setOutput(commonTO.getPrintWriter());
+		 uocDataTO.setWhichProvider(commonTO.getWhichProvider());
+		 uocDataTO.setVotableDescription(commonTO.getVotableDescription());
+		 uocDataTO.setBufferOutput(commonTO.getBufferOutput());
+		 uocDataTO.setStatus(commonTO.getStatus());
+		uocProvider.query(uocDataTO) ;
 	}
 	
 	
@@ -30,13 +46,17 @@ public class UocQueryDaoImpl implements UocQueryDao {
 	}
 
 	@Override
-	public void generateVOTable(UocDataTO vsoTO) throws DataNotFoundException,Exception {
+	public void generateVOTable(UocDataTO uocTO) throws DataNotFoundException,Exception {
 		// TODO Auto-generated method stub
 		try{
-			
+			 RESOURCE resource=uocTO.getResource();
+			 JAXBContext context = JAXBContext.newInstance(resource.getClass());
+			 Marshaller m = context.createMarshaller();
+			 m.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			 m.marshal(resource, uocTO.getBufferOutput());
 		}catch(Exception e){
 			 e.printStackTrace();
-			 throw new DataNotFoundException("EXCEPTION ", e);
+			 throw new DataNotFoundException("Couldn't Marshall UOC data ", e);
 		}
 	}
 	
