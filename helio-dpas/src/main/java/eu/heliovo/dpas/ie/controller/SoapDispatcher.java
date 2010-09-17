@@ -3,6 +3,8 @@ package  eu.heliovo.dpas.ie.controller;
 import java.io.BufferedWriter;
 import java.io.PipedReader;
 import java.io.PipedWriter;
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -22,6 +24,7 @@ import org.w3c.dom.NodeList;
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.common.VotableThreadAnalizer;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
@@ -65,6 +68,7 @@ public class SoapDispatcher implements Provider<Source> {
    * soap response populated by InputStream (PipedInputStream) 
    */
   
+	@SuppressWarnings("null")
 	@Override
 	public Source invoke(Source request) {
 		StreamSource responseReader = null;
@@ -73,7 +77,7 @@ public class SoapDispatcher implements Provider<Source> {
 		HttpServletRequest req = (HttpServletRequest)mc.get(MessageContext.SERVLET_REQUEST);
 		PipedReader pr=null;
 		PipedWriter pw=null;
-		CommonTO commonTO=null;
+		CommonTO commonTO=new CommonTO();
 		
 		try {
 			 Element inputDoc=toDocument(request);
@@ -82,6 +86,7 @@ public class SoapDispatcher implements Provider<Source> {
 		     String[] startTime =null;
 		     String[] stopTime =null;
 		     String[] instruments =null;
+		     String[] from =null;
 		     boolean votable=true;
 		     
 		    if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild()!=null){
@@ -107,16 +112,16 @@ public class SoapDispatcher implements Provider<Source> {
 		     
 		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0 && inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild()!=null){
 				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","FROM");
-				 instruments=new String[nodeList.getLength()];
+				 from=new String[nodeList.getLength()];
     			 //List Name
 		    	 for(int i=0;i<nodeList.getLength();i++){
-		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    		 from[i]=nodeList.item(i).getFirstChild().getNodeValue();
 		    	 }
 				 
 				 votable=true;
 				 
 			 }
-		     /*
+		     
 		     if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0 && inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild()!=null){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","INSTRUMENT");
 				 instruments=new String[nodeList.getLength()];
@@ -125,7 +130,7 @@ public class SoapDispatcher implements Provider<Source> {
 		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
 		    	 }
 				 votable=true;
-			 }*/
+			 }
 		     
 		   //Setting for Start Row parameter.
 			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild()!=null){
@@ -155,28 +160,17 @@ public class SoapDispatcher implements Provider<Source> {
 		     //
 		     pr = new PipedReader();
 			 pw = new PipedWriter(pr);
-			 commonTO=new CommonTO();
 			 commonTO.setPrintWriter(pw);
+		     commonTO.setBufferOutput(new BufferedWriter(pw) );
+		     commonTO.setStatus("webservice");
+		     commonTO.setUrl(VsoUtils.getUrl(req));
+		     commonTO.setInstruments(instruments);
+		     commonTO.setStartTimes(startTime);
+		     commonTO.setStopTimes(stopTime);
+		     //Loop to check
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
-		    	
-		    	 for(int count=0;count<instruments.length;count++){
-			    	 commonTO.setUrl(VsoUtils.getUrl(req));
-			    	 commonTO.setInstrument(instruments[count]);
-			    	 commonTO.setDateFrom(startTime[count]);
-			    	 commonTO.setDateTo(stopTime[count]);
-			    	 commonTO.setWhichProvider("VSO");
-			    	 
-				     //Calling DAO factory to connect PROVIDERS
-				     if (DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
-				    	 commonTO.setVotableDescription("VSO query response");
-				    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
-			         	 vsoQueryDao.query(commonTO);
-				     }
-				     else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
-				    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
-				    	 uocQueryDao.query(commonTO);
-				     }
-		    	 }
+		    	//
+		    	 new VotableThreadAnalizer(commonTO).start();
 		     }else{
 		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
 		    	 commonTO.setVotableDescription("VSO query response");
