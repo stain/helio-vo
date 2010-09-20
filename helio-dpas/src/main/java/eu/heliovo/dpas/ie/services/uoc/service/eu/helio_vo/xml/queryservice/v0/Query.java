@@ -284,7 +284,5 @@ public class Query {
     public void setFrom(List<String> from) {
 		this.from = from;
 	}
-    
-    
 
 }
