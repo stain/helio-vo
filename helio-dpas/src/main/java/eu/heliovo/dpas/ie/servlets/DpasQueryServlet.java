@@ -68,10 +68,10 @@ public class DpasQueryServlet extends HttpServlet {
 				 VOTableCreator.writeHeaderOfTables(commonTO);
 				 //For loop
 		    	 for(int count=0;count<instruments.length;count++){
-			    	 commonTO.setInstrument(instruments[count].split("_")[1]);
+			    	 commonTO.setInstrument(instruments[count].split("__")[1]);
 			    	 commonTO.setDateFrom(startTime[count]);
 			    	 commonTO.setDateTo(stopTime[count]);
-			    	 commonTO.setWhichProvider(instruments[count].split("_")[0]);
+			    	 commonTO.setWhichProvider(instruments[count].split("__")[0]);
 				     //Calling DAO factory to connect PROVIDERS
 				     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 				    	 commonTO.setVotableDescription("VSO query response");
