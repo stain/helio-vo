@@ -29,7 +29,7 @@ public class CDAWEBProvider
         	String []instr = new String[1];
         	instr[0]=cdaWebTO.getInstrument();
         	String [] missionName = new String[1];
-        	missionName[0]="Ulysses";
+        	missionName[0]=cdaWebTO.getInstrument();
         	ViewDescription[] value = null;        
             ViewDescription[] views = binding.getAllViewDescriptions();
             //Start Date
