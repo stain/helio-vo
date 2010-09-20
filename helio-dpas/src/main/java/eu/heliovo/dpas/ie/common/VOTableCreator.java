@@ -59,6 +59,7 @@ public class VOTableCreator {
 			 
 	          
     	}catch (Exception e) {
+    		e.printStackTrace();
     		System.out.println(" Exception occured writeTables():While creating VOTable...!!! "+e.getMessage());
     		writeErrorTables(comCriteriaTO);
     		throw new Exception("Couldn't create VO TABLE!!! : Reason : "+e.getMessage());
