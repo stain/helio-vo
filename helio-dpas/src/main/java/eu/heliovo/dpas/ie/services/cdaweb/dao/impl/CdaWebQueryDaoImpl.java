@@ -47,12 +47,8 @@ public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
 	public void generateVOTable(CdaWebDataTO cdaWebTO) throws DataNotFoundException,Exception {
 		// TODO Auto-generated method stub
 		try{
-			if(cdaWebTO.isProviderStatus()){
-				//VOTable table data.
-				VOTableCreator.writeTables(cdaWebTO);
-			}else{
-				throw new DataNotFoundException(" No data for this instrument");
-			}
+			//VOTable table data.
+			VOTableCreator.writeTables(cdaWebTO);
 		}catch(Exception e){
 			 e.printStackTrace();
 			 cdaWebTO.setBufferOutput(new BufferedWriter(cdaWebTO.getOutput()));
