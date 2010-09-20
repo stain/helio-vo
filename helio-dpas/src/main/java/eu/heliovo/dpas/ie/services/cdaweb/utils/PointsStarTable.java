@@ -3,7 +3,7 @@ package eu.heliovo.dpas.ie.services.cdaweb.utils;
 import java.text.SimpleDateFormat;
 
 import eu.heliovo.dpas.ie.common.ConstantKeywords;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
+import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
 
@@ -11,19 +11,16 @@ public class PointsStarTable  extends RandomStarTable {
 
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
-        new ColumnInfo( "Data Id", String.class, "Data Id" ),
         new ColumnInfo( "Instrument Name", String.class, "Instrument Name" ),
-        new ColumnInfo( "Start Time", String.class, "Start Time" ),
-        new ColumnInfo( "End Time", String.class, "End Time" ),
-        new ColumnInfo( "Description", String.class, "Description" ),
+        new ColumnInfo( "File Name", String.class, "File Name" ),
+        new ColumnInfo( "Start Date", String.class, "Start Date" ),
+        new ColumnInfo( "End Date", String.class, "End Date" ),
     };
 
     // Member variables are arrays holding the actual data.
-    String url_;
-    ProviderQueryResponse	resp_;
+    FileDescription[]	resp_;
     int nRow_;
-    String provider_;
-    String status_;
+    String inst;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
     /**
      * 
@@ -32,17 +29,14 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
+    public PointsStarTable( FileDescription[]	resp ,String instruments) {
     	resp_=resp;
-    	url_=url;
-    	nRow_=resp.getNo_of_records_returned();
-    	provider_=provider;
-    	status_=status;
-    	
+    	nRow_=(int) resp.length;
+    	inst=instruments;
     }
 
     public int getColumnCount() {
-        return 5;
+        return 4;
     }
       
     public long getRowCount() {
@@ -56,13 +50,12 @@ public class PointsStarTable  extends RandomStarTable {
   
     public Object getCell( long lrow, int icol ) {
         int irow = checkedLongToInt( lrow );
-        if(resp_!=null && resp_.getRecord()!=null){
+        if(resp_!=null && resp_[irow]!=null){
 	        switch ( icol ) {
-	        	case 0: return resp_.getRecord()[irow].getInstrument();
-	            case 1: return null;
-	            case 2: return resp_.getRecord()[irow].getProvider();
-	            case 3: return resp_.getRecord()[irow].getTime().getStart();
-	            case 4: return resp_.getRecord()[irow].getTime().getEnd();
+	        	case 0: return inst;
+	            case 1: return resp_[irow].getName();
+	            case 2: return CdaWebUtils.convertCalendarToString(resp_[irow].getStartTime());
+	            case 3: return CdaWebUtils.convertCalendarToString(resp_[irow].getEndTime());
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

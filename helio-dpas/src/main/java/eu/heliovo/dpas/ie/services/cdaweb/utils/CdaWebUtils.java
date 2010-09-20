@@ -3,12 +3,16 @@ package eu.heliovo.dpas.ie.services.cdaweb.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.common.ConstantKeywords;
+import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
 
 
@@ -51,5 +55,30 @@ public class CdaWebUtils {
 		  return null;
 	  }
 	  
+	  
+	  public static FileDescription[] addArrays(FileDescription[] first, FileDescription[] second) {
+		     FileDescription[] both = new FileDescription[first.length + second.length];  
+		     System.arraycopy(first, 0, both, 0, first.length);  
+		     System.arraycopy(second, 0, both, first.length, second.length);
+		    
+		    return both;
+	  }
+	  
+	  public static String convertCalendarToString(Calendar date){
+			
+			 try
+	          {
+				String strDate="";
+				SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
+				if (date != null) {
+					strDate = formatter.format(date.getTime());
+				} 
+		     	return strDate;
+	         } catch (Exception e)
+			 {
+			    e.printStackTrace();
+			 }
+			  return null;
+		  }
 				
 }
