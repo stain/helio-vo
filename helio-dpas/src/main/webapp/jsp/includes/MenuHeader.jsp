@@ -23,11 +23,7 @@
 											<a href="<%=contextPath%>/display.action">
 											<!-- <s:text name="heading.MenuAdminPage"/>-->
 											Admin  Page
-										</a>	&nbsp;&nbsp;&nbsp;&nbsp;
-										<a href="<%=contextPath%>/indexpage.action">
-											<!-- <s:text name="heading.MenuAdminPage"/>-->
-											Index Page
-										</a>						
+										</a>	&nbsp;&nbsp;&nbsp;&nbsp;		
           				</td>
           				<td width="10">&nbsp;</td>
          			 	<td align="right" valign="middle" class="bgtab" nowrap>
