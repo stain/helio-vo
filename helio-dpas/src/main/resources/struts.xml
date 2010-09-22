@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+     <!-- Add packages here -->
+	<package name="helio-dpas" namespace="/" extends="struts-default">	 
+		<default-interceptor-ref name="defaultStack"/>	
+	
+	<action name="indexpage" method="indexPage" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
+            <result  name="SUCCESS" >jsp/AdminHome.jsp</result>
+            <result  name="ERROR" >jsp/AdminHome.jsp</result>				
+	</action> 
+	
+	<action name="display" method="display" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
+            <result  name="SUCCESS" >jsp/AdminHome.jsp</result>
+            <result  name="ERROR" >jsp/AdminHome.jsp</result>				
+	</action>
+	
+	<action name="showConfigurationDetials" method="showConfigurationDetials" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
+            <result  name="SUCCESS" >jsp/xdoc/Configuration.jsp</result>
+            <result  name="ERROR" >jsp/xdoc/Configuration.jsp</result>				
+	</action>
+	
+	<!-- End of instruments -->
+    </package>
+</struts>
+
+ 
