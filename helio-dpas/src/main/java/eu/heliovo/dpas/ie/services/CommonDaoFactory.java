@@ -4,6 +4,8 @@ package eu.heliovo.dpas.ie.services;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.impl.CdaWebQueryDaoImpl;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
+import eu.heliovo.dpas.ie.services.common.dao.impl.ShortNameQueryDaoImpl;
+import eu.heliovo.dpas.ie.services.common.dao.interfaces.ShortNameQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.impl.UocQueryDaoImpl;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.impl.VsoQueryDaoImpl;
@@ -37,6 +39,10 @@ public class CommonDaoFactory extends DAOFactory {
 	@Override
 	public CdaWebQueryDao getCdaWebQueryDao() {
 		return new CdaWebQueryDaoImpl();
+	}
+	
+	public ShortNameQueryDao getShortNameQueryDao() {
+		return new ShortNameQueryDaoImpl();
 	}
 	
 }
