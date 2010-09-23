@@ -19,7 +19,7 @@
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
         			<tr align="left" valign="top">
           				<td width="460" align="left" valign="middle" class="highlightedbgtab" nowrap>
-			           			&nbsp;&nbsp;Helio Admin System > 
+			           			&nbsp;&nbsp;Helio Dpas Admin > 
 											<a href="<%=contextPath%>/display.action">
 											<!-- <s:text name="heading.MenuAdminPage"/>-->
 											Admin  Page
