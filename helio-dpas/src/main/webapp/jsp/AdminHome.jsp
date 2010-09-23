@@ -51,41 +51,19 @@ cellspacing="0">
 	 <table width="100%" border="0" cellspacing="0" cellpadding="1" >
 		  <tr  class="txtHeading">
           <td width="100%" height="20" class="txtHeading"colSpan="2">
-          Admin Page To Create Property File
+          Configure provider access table
          </td>
          </tr>
          <tr><td>&nbsp;</td></tr>
          <tr class="txtblackBP" > 
            <td>
               <ul>
-                  <li><a href="javascript:doSub('showConfigurationDetials.action')"> How to configure a property file </a></li>		             
+                  <li><a href="javascript:doSub('showProviderUploadPage.action')"> Configure provider access table </a></li>		             
               </ul>            
           </td>
          </tr> 
-         <s:if test="statusDisplay == true">
          
-         <tr class="txtblackBP" > 
-           <td>
-              <ul>
-                  <li><a href="javascript:doSub('getConfigurationPropertyFilePage.action')"> Create Property File </a></li>		             
-              </ul>            
-          </td>
-         </tr> 
-         </s:if>
-         <tr class="txtblackBP" > 
-           <td>
-              <ul>
-                  <li><a href="javascript:doSub('getDatabaseConfigurationPage.action')"> Configuration for connecting database </a></li>		             
-              </ul>            
-          </td>
-         </tr>   
-         <!--  <tr class="txtblackBP" > 
-           <td>
-              <ul>
-                  <li><a href="javascript:doSub('instrumentMapperPage.action')"> Instrument mapper </a></li>		             
-              </ul>            
-          </td>
-         </tr>    -->                    
+        
       </table>   
      </s:form>
  	</td>

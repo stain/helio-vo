@@ -6,6 +6,16 @@
     <listener-class>com.sun.xml.ws.transport.http.servlet.WSServletContextListener</listener-class>
   </listener>
   
+  <servlet>
+		<servlet-name>StartUpServlet</servlet-name>
+		<servlet-class>eu.heliovo.dpas.ie.servlets.StartupServlet</servlet-class>
+		<init-param>
+		<param-name>port</param-name>
+		<param-value>8080</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>		
+	</servlet>
+  
   <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>        
