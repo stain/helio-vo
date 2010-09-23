@@ -21,9 +21,7 @@ public class CommonUtils {
 	
 	 protected final  Logger logger = Logger.getLogger(this.getClass());
 	
-	
-
-	  public static void copyFile(File src, File dst) throws IOException {
+	 public static void copyFile(File src, File dst) throws IOException {
       	InputStream in = new FileInputStream(src); 
       	OutputStream out = new FileOutputStream(dst); 
       	// Transfer bytes from in to out 
