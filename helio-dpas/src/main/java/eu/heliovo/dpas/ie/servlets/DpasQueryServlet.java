@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
+import eu.heliovo.dpas.ie.controller.ServiceEngine;
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
@@ -42,8 +42,9 @@ public class DpasQueryServlet extends HttpServlet {
 		String instruments[]=null;
 		String startTime[]=null;
 		String stopTime[]=null;
-		
+		ServiceEngine serviceEngine=null;
 		try{
+			serviceEngine=new ServiceEngine();
 		     //Setting start time & end time parameter
 		     String sStartTime=request.getParameter("STARTTIME");
 		     String sEndTime=request.getParameter("ENDTIME");			
@@ -86,7 +87,16 @@ public class DpasQueryServlet extends HttpServlet {
 				    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 				    	 cdaWebQueryDao.query(commonTO);
 				     }else{
-				    	 
+				    	 /*String []instr = new String[1];
+				    	 instr[0]="RHESSI__HESSI_GMR";
+				    	 //
+				    	 String []starttime = new String[1];
+				    	 starttime[0]=commonTO.getDateFrom();
+				    	 //
+				    	 String []stoptime = new String[1];
+				    	 stoptime[0]=commonTO.getDateTo();
+				    	 serviceEngine.executeQuery(pw,instr,starttime,stoptime,false, null, null,true);
+				    	 */
 				     }
 		    	 }
 		    	//VOTable footer.
