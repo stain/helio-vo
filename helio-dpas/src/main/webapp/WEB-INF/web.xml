@@ -75,7 +75,7 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>VsoFitsResponseServlet</servlet-name>
-		<url-pattern>/FitsResponseServlet</url-pattern>
+		<url-pattern>/ResponseServlet</url-pattern>
 	</servlet-mapping>
   
   	<welcome-file-list>		
