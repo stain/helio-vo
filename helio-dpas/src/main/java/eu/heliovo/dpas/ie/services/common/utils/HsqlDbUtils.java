@@ -14,6 +14,8 @@ public class HsqlDbUtils {
 	
 	 protected final  Logger logger = Logger.getLogger(this.getClass());
 	 private static ClassLoader loader;
+	 
+	 
 	 private HsqlDbUtils(){
 	 }
 	 
