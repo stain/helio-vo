@@ -28,8 +28,6 @@ public class CDAWEBProvider
             new CDASWSLocator().getCoordinatedDataAnalysisSystemPort();
         	String []instr = new String[1];
         	instr[0]=cdaWebTO.getInstrument();
-        	String [] missionName = new String[1];
-        	missionName[0]=cdaWebTO.getInstrument();
         	ViewDescription[] value = null;        
             ViewDescription[] views = binding.getAllViewDescriptions();
             //Start Date
@@ -45,26 +43,26 @@ public class CDAWEBProvider
             for(int i = 0;i < views.length;i++) {
                 if(views[i].isPublicAccess() && views[i].getId().equals("sp_phys")) {
                        binding = (CoordinatedDataAnalysisSystemBindingStub)new CDASWSLocator().getCoordinatedDataAnalysisSystemPort(new URL(views[i].getEndpointAddress()));
-                       DatasetDescription[] dsd = binding.getDatasetsByInstrument(instr, new String[1]);
-                       DatasetDescription[] dsd1 = binding.getDatasets(missionName, new String[1]);
+                       DatasetDescription[] dsd = binding.getDatasetsByInstrument(new String[1],instr);
+                       //DatasetDescription[] dsd1 = binding.getDatasets(missionName, new String[1]);
                        //noDuplMap.clear();
                        //tables=new StarTable[dsd1.length];
-                       for(int k = 0;k < dsd1.length;k++) {
-                          if(startTime.before(dsd1[k].getStartTime())) {
+                       for(int k = 0;k < dsd.length;k++) {
+                          if(startTime.before(dsd[k].getStartTime())) {
                               System.out.println("WARNING: Your given start time is before the dataset start time; using dataset start time");
-                              startTemp = dsd1[k].getStartTime();
+                              startTemp = dsd[k].getStartTime();
                           }else {
                               startTemp = startTime;
                           }
-                          if(endTime.after(dsd1[k].getEndTime())) {
+                          if(endTime.after(dsd[k].getEndTime())) {
                               System.out.println("WARNING: Your given end time is after the datasets end time; using the dataset end time");
-                              endTemp = dsd1[k].getEndTime();
+                              endTemp = dsd[k].getEndTime();
                           }else {
                               endTemp = endTime;
                           }
-                          FileDescription[] fds = binding.getDataFiles(dsd1[k].getId(),startTemp,endTemp);
+                          FileDescription[] fds = binding.getDataFiles(dsd[k].getId(),startTemp,endTemp);
                           fileDesc=CdaWebUtils.addArrays(fileDesc, fds);
-                          System.out.println("PI Name "+dsd1[k].getPiName());
+                          System.out.println("PI Name "+dsd[k].getPiName());
                            System.out.println("....DONE !!!");
                        }//for
                        tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getInstrument());
