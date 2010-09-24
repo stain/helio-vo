@@ -107,7 +107,6 @@ public class VsoUtils {
 				System.out.println("+++++++++++++++++++++++++++++ Date ++++++++++++++++++++++"+strDate);
 				return strDate;
 			}
-			
 		}
 				
 }
