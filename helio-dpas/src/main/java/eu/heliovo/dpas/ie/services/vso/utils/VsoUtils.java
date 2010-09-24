@@ -85,7 +85,11 @@ public class VsoUtils {
 		  return status;
 	  }
 	  
-	  
+	  /**
+	   * 
+	   * @param strDate
+	   * @return
+	   */
 	  public static String changeFormat(String strDate) 
 		{
 		 	try
