@@ -47,10 +47,10 @@
 	   <url-pattern>/HelioService</url-pattern>
   </servlet-mapping>  
   
-    <servlet-mapping>
+   <servlet-mapping>
 	   <servlet-name>jaxws-servlet</servlet-name>
 	   <url-pattern>/HelioTavernaService</url-pattern>
-  </servlet-mapping>  
+   </servlet-mapping>  
   
       <servlet>
       	<description>
