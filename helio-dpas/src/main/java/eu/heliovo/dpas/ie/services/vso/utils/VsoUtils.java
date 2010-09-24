@@ -2,6 +2,7 @@
 package eu.heliovo.dpas.ie.services.vso.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -83,5 +84,30 @@ public class VsoUtils {
 		  }
 		  return status;
 	  }
+	  
+	  
+	  public static String changeFormat(String strDate) 
+		{
+		 	try
+			{
+				//create SimpleDateFormat object with source string date format
+				SimpleDateFormat sdfSource = new SimpleDateFormat("yyyyMMddHHmmss");
+				//parse the string into Date object
+				Date date = sdfSource.parse(strDate);
+				//create SimpleDateFormat object with desired date format
+				SimpleDateFormat sdfDestination = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				//parse the date into another format
+				String strDate1 = sdfDestination.format(date);
+				//System.out.println("Converted date is : " + strDate1);
+				return strDate1;
+			}
+			catch(ParseException pe)
+			{
+				System.out.println("Parse Exception : " + pe);
+				System.out.println("+++++++++++++++++++++++++++++ Date ++++++++++++++++++++++"+strDate);
+				return strDate;
+			}
+			
+		}
 				
 }

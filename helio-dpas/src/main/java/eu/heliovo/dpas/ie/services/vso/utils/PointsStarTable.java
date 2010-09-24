@@ -50,8 +50,8 @@ public class PointsStarTable  extends RandomStarTable {
 	        	case 0: return resp_.getRecord()[irow].getInstrument();
 	            case 1: return VsoUtils.appendParamtersForUrl(url_,resp_.getRecord()[irow].getFileid(),provider_,status_);
 	            case 2: return resp_.getRecord()[irow].getProvider();
-	            case 3: return resp_.getRecord()[irow].getTime().getStart();
-	            case 4: return resp_.getRecord()[irow].getTime().getEnd();
+	            case 3: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getStart());
+	            case 4: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getEnd());
 	            default: throw new IllegalArgumentException();
 	        }
        }else{
