@@ -27,8 +27,7 @@
             <result  name="ERROR" >jsp/ProviderConfiguration.jsp</result>				
 	</action>
 	 	
-  	<action name="patFileUpload"
-			class="eu.heliovo.dpas.ie.services.common.action.FileUploadAction">
+  	<action name="patFileUpload" class="eu.heliovo.dpas.ie.services.common.action.FileUploadAction">
 			<interceptor-ref name="fileUpload">
 				<param name="maximumSize">2097152</param>
 				<param name="allowedTypes">text/plain</param>
@@ -36,7 +35,7 @@
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="success">jsp/ProviderConfiguration.jsp</result>
 			<result name="input">jsp/ProviderConfiguration.jsp</result>
-		</action>
+	</action>
 	
 	<!-- End of instruments -->
     </package>
