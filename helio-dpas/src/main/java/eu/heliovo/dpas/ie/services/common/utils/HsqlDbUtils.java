@@ -17,8 +17,6 @@ public class HsqlDbUtils {
 	 private HsqlDbUtils(){
 	 }
 	 
-	 
-	 
 	 public static HsqlDbUtils getInstance() {
 			return HsqlProfilerHolder.instance;
 	 }
