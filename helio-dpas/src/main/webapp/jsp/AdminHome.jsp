@@ -54,7 +54,10 @@ cellspacing="0">
           Configure provider access table
          </td>
          </tr>
-         <tr><td>&nbsp;</td></tr>
+           <s:if test="statusDisplay == true">
+            <tr class="txtMsg"><td>Provider access table is configured. Uploaded file is:  <s:property value="uploadedFileName" /></td></tr>
+           </s:if>
+        	<s:else> <tr class="txtError"><td>Please configure provider access table by clicking bellow link.</td></tr></s:else>
          <tr class="txtblackBP" > 
            <td>
               <ul>
