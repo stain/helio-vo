@@ -32,6 +32,9 @@ public class CommonTO {
 	private String whichProvider; 
 	private StarTable[] starTableArray;
 	private HttpServletRequest request;
+	private String missionName;
+	private String From;
+	private String exceptionStatus;
 	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
@@ -183,5 +186,30 @@ public class CommonTO {
 
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+
+	public String getMissionName() {
+		return missionName;
+	}
+
+	public void setMissionName(String missionName) {
+		this.missionName = missionName;
+	}
+
+	public String getFrom() {
+		return From;
+	}
+
+	public void setFrom(String from) {
+		From = from;
+	}
+
+	public String getExceptionStatus() {
+		return exceptionStatus;
+	}
+
+	public void setExceptionStatus(String exceptionStatus) {
+		this.exceptionStatus = exceptionStatus;
 	}	
+	
 }
