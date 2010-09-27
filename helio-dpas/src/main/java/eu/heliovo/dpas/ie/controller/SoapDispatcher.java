@@ -180,6 +180,7 @@ public class SoapDispatcher implements Provider<Source> {
 			commonTO.setVotableDescription("VSO query response");
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
+			commonTO.setRequest(req);
 			try {
 				//Sending error messages
 				VOTableCreator.writeErrorTables(commonTO);
