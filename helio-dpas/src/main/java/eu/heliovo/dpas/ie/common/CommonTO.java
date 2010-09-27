@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.Writer;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpServletRequest;
+
 import uk.ac.starlink.table.StarTable;
 
 public class CommonTO {
@@ -29,6 +31,7 @@ public class CommonTO {
 	private String votableDescription;
 	private String whichProvider; 
 	private StarTable[] starTableArray;
+	private HttpServletRequest request;
 	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
@@ -172,5 +175,13 @@ public class CommonTO {
 
 	public void setVotableDescription(String votableDescription) {
 		this.votableDescription = votableDescription;
+	}
+
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}	
 }
