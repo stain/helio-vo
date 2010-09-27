@@ -176,7 +176,7 @@ public class ServiceEngine
 		if(!votable && printWriter!=null)
 		{
 			BufferedWriter output = new BufferedWriter( printWriter);
-//			System.out.println("  Query Response   "+queryRes);
+			//System.out.println("  Query Response   "+queryRes);
 			output.write(queryRes);
 			output.flush();
 			output.close();
