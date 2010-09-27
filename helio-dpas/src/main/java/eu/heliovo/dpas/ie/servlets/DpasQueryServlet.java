@@ -3,7 +3,6 @@ package eu.heliovo.dpas.ie.servlets;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import eu.heliovo.dpas.ie.common.CommonTO;
 import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.controller.ServiceEngine;
-import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
@@ -74,7 +72,7 @@ public class DpasQueryServlet extends HttpServlet {
 		    	 for(int count=0;count<instruments.length;count++){
 		    		 //getting details from Provider access table
 		    		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(instruments[count]);
-		    		 if(resultTo!=null && resultTo.length>0){
+		    		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 				    	 commonTO.setInstrument(resultTo[0].getInst());
 				    	 commonTO.setDateFrom(startTime[count]);
 				    	 commonTO.setDateTo(stopTime[count]);
@@ -90,6 +88,7 @@ public class DpasQueryServlet extends HttpServlet {
 					    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 uocQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+					    	 commonTO.setMissionName(resultTo[0].getObsId());
 					    	 commonTO.setVotableDescription("CDAWEB query response");
 					    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 cdaWebQueryDao.query(commonTO);
@@ -105,7 +104,7 @@ public class DpasQueryServlet extends HttpServlet {
 					    	 serviceEngine.executeQuery(pw,instr,starttime,stoptime,false, null, null,true);
 					     }
 		    		 }else{
-		    			 commonTO.setBufferOutput(new BufferedWriter(pw));
+		    			 //commonTO.setBufferOutput(new BufferedWriter(pw));
 				    	 commonTO.setVotableDescription("Error votable response, no data");
 				    	 commonTO.setQuerystatus("ERROR");
 				    	 commonTO.setQuerydescription("No data avialable for Instrument: "+instruments[count]);
@@ -115,6 +114,7 @@ public class DpasQueryServlet extends HttpServlet {
 		    	//VOTable footer.
 				VOTableCreator.writeFooterOfTables(commonTO);
 		     }else{
+		    	 commonTO.setExceptionStatus("exception");
 		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
 		    	 commonTO.setVotableDescription("VSO query response");
 		    	 commonTO.setQuerystatus("ERROR");
@@ -125,8 +125,9 @@ public class DpasQueryServlet extends HttpServlet {
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
+			commonTO.setExceptionStatus("exception");
 			commonTO.setBufferOutput(new BufferedWriter(pw));
-			commonTO.setVotableDescription("VSO query response");
+			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
 			try {
