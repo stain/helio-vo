@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.CommonDaoFactory;
 import eu.heliovo.dpas.ie.services.common.dao.exception.DetailsNotFoundException;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.ShortNameQueryDao;
+import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 
 
 public class HsqlDbUtils {
@@ -26,13 +27,24 @@ public class HsqlDbUtils {
 	 private static class HsqlProfilerHolder {
 		private static HsqlDbUtils instance = new HsqlDbUtils();
 	 }
-	  
+	 
+	 /*
+	  * 
+	  */
 	 public synchronized void  loadProviderAccessTable(String fileName) throws DetailsNotFoundException
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
 		 shortNameDao.loadProviderAccessTable(fileName);
 	 }
 	 
+	 /*
+	  * 
+	  */
+	 public synchronized ResultTO[]  getAccessTableBasedOnInst(String instName) throws DetailsNotFoundException
+	 {
+		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
+		 return shortNameDao.getAccessTableBasedOnInst(instName);
+	 }
 	
 	 
 	 /*
