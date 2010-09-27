@@ -17,11 +17,6 @@
             <result  name="ERROR" >jsp/AdminHome.jsp</result>				
 	</action> 
 	
-	<action name="display" method="display" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
-            <result  name="SUCCESS" >jsp/AdminHome.jsp</result>
-            <result  name="ERROR" >jsp/AdminHome.jsp</result>				
-	</action>
-	
 	<action name="showProviderUploadPage" method="showProviderUploadPage" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
             <result  name="SUCCESS" >jsp/ProviderConfiguration.jsp</result>
             <result  name="ERROR" >jsp/ProviderConfiguration.jsp</result>				
@@ -33,12 +28,10 @@
 				<param name="allowedTypes">text/plain</param>
 			</interceptor-ref>
 			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="success">jsp/ProviderConfiguration.jsp</result>
+			<result name="success">jsp/AdminHome.jsp</result>
 			<result name="input">jsp/ProviderConfiguration.jsp</result>
 	</action>
-	
-	<!-- End of instruments -->
-    </package>
+   </package>
 </struts>
 
  
