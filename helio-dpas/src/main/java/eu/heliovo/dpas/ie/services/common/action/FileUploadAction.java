@@ -27,6 +27,15 @@ public class FileUploadAction extends ActionSupport implements
 			System.out.println(" File name "+ this.userFileFileName+" User File "+this.userFile);
 			String hsqlFilePath=InstanceHolders.getInstance().getProperty("hsqldb.database.path")+"/HelioDB/";
 			System.out.println(" : Provider access table path : "+userFile+" : Hsql data path : "+hsqlFilePath);
+			//deleting old file uploaded
+			String uploadedFileName=InstanceHolders.getInstance().getProperty("patFileName");
+			if(uploadedFileName!=null && !uploadedFileName.equals("")){
+				if(FileUtils.deleteQuietly(new File(hsqlFilePath+"/"+uploadedFileName)))
+					System.out.println("File "+uploadedFileName+ " deleted successfully.");
+				else
+					System.out.println("File "+uploadedFileName+ " could not be deleted.");
+			}
+			InstanceHolders.getInstance().setProperty("patFileName",null);
 			File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
 			//Copying file HSQL database.
 			FileUtils.copyFile(this.userFile, fileToCreate);
