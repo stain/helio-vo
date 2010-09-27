@@ -32,6 +32,8 @@ public class FileUploadAction extends ActionSupport implements
 			FileUtils.copyFile(this.userFile, fileToCreate);
 			//Setting .txt for 'pat' table.
 			HsqlDbUtils.getInstance().loadProviderAccessTable(userFileFileName);		
+			//Provider access file name
+			InstanceHolders.getInstance().setProperty("patFileName",userFileFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
