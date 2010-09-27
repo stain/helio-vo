@@ -61,16 +61,9 @@
 				<TD nowrap class="txtblackBP" width="15%">File path : </TD>
 				<td >&nbsp;&nbsp;&nbsp;<s:file  name="userFile" cssClass="textfield"  theme="simple"/> </td>	
 			</TR>
-  		<!--  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-		    <tr align="left" valign="middle">
-				<td align="left">&nbsp;
-					<a  onclick="javascript: doneProviderAccessConnection()" style="cursor:hand" onMouseOver="MM_swapImage('addcol','','<%=contextPath%>/Images/but_done_click.gif',1)" onMouseOut="MM_swapImgRestore()"><img src="<%=contextPath%>/Images/but_done_normal.gif" name="Close"  border="0" align="absmiddle" id="addcol"></a>
-				</td>
-	        </tr>
-	     </table>  -->
 	     <TR height=20 >
 				<TD nowrap class="txtblackBP" width="15%">&nbsp; </TD>
-				<td >&nbsp;&nbsp;&nbsp;<s:submit value="Upload" name="Upload" align="left"  /></td>				
+				<td >&nbsp;&nbsp;&nbsp;<s:submit value="Upload" name="Upload" align="left" theme="simple" /></td>				
 			</TR>
 	     </TABLE>
 	  	<table width="100%">
