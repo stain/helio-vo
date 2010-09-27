@@ -165,6 +165,7 @@ public class SoapDispatcher implements Provider<Source> {
 		    	//
 		    	 new VotableThreadAnalizer(commonTO).start();
 		     }else{
+		    	 commonTO.setExceptionStatus("exception");
 		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
 		    	 commonTO.setVotableDescription("VSO query response");
 		    	 commonTO.setQuerystatus("ERROR");
@@ -176,8 +177,9 @@ public class SoapDispatcher implements Provider<Source> {
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
+			commonTO.setExceptionStatus("exception");
 			commonTO.setBufferOutput(new BufferedWriter(pw));
-			commonTO.setVotableDescription("VSO query response");
+			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
 			commonTO.setRequest(req);
