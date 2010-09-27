@@ -26,8 +26,12 @@ public class CDAWEBProvider
         try{
         	binding = (CoordinatedDataAnalysisSystemBindingStub)
             new CDASWSLocator().getCoordinatedDataAnalysisSystemPort();
+        	//Instrument
         	String []instr = new String[1];
         	instr[0]=cdaWebTO.getInstrument();
+        	//Mission name
+        	String []missionName = new String[1];
+        	missionName[0]=cdaWebTO.getMissionName();
         	ViewDescription[] value = null;        
             ViewDescription[] views = binding.getAllViewDescriptions();
             //Start Date
@@ -43,7 +47,7 @@ public class CDAWEBProvider
             for(int i = 0;i < views.length;i++) {
                 if(views[i].isPublicAccess() && views[i].getId().equals("sp_phys")) {
                        binding = (CoordinatedDataAnalysisSystemBindingStub)new CDASWSLocator().getCoordinatedDataAnalysisSystemPort(new URL(views[i].getEndpointAddress()));
-                       DatasetDescription[] dsd = binding.getDatasetsByInstrument(new String[1],instr);
+                       DatasetDescription[] dsd = binding.getDatasetsByInstrument(missionName,instr);
                        //DatasetDescription[] dsd1 = binding.getDatasets(missionName, new String[1]);
                        //noDuplMap.clear();
                        //tables=new StarTable[dsd1.length];
