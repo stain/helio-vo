@@ -6,6 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import com.opensymphony.xwork2.ActionSupport;
 
+import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
 import eu.heliovo.dpas.ie.services.common.utils.InstanceHolders;
 
 public class FileUploadAction extends ActionSupport implements
@@ -29,6 +30,8 @@ public class FileUploadAction extends ActionSupport implements
 			File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
 			//Copying file HSQL database.
 			FileUtils.copyFile(this.userFile, fileToCreate);
+			//Setting .txt for 'pat' table.
+			HsqlDbUtils.getInstance().loadProviderAccessTable(userFileFileName);		
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError(e.getMessage());
