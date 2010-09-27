@@ -5,7 +5,10 @@ public class ResultTO {
 	private String helioInst;
 	private String inst;
 	private String providerType ;
-	
+	private String obsId;
+	private String pvdrRanking;
+	private String pvdrQuality;
+	private String pvdrVsoKey;
 	
 	public String getHelioInst() {
 		return helioInst;
@@ -24,6 +27,30 @@ public class ResultTO {
 	}
 	public void setProviderType(String providerType) {
 		this.providerType = providerType;
+	}
+	public String getObsId() {
+		return obsId;
+	}
+	public void setObsId(String obsId) {
+		this.obsId = obsId;
+	}
+	public String getPvdrRanking() {
+		return pvdrRanking;
+	}
+	public void setPvdrRanking(String pvdrRanking) {
+		this.pvdrRanking = pvdrRanking;
+	}
+	public String getPvdrQuality() {
+		return pvdrQuality;
+	}
+	public void setPvdrQuality(String pvdrQuality) {
+		this.pvdrQuality = pvdrQuality;
+	}
+	public String getPvdrVsoKey() {
+		return pvdrVsoKey;
+	}
+	public void setPvdrVsoKey(String pvdrVsoKey) {
+		this.pvdrVsoKey = pvdrVsoKey;
 	}
 	
 }
