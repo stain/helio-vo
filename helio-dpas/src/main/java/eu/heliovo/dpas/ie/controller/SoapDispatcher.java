@@ -3,8 +3,6 @@ package  eu.heliovo.dpas.ie.controller;
 import java.io.BufferedWriter;
 import java.io.PipedReader;
 import java.io.PipedWriter;
-import java.util.HashMap;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -20,14 +18,9 @@ import javax.xml.ws.handler.MessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-
 import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.common.DAOFactory;
 import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.common.VotableThreadAnalizer;
-import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
-import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
-import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 
