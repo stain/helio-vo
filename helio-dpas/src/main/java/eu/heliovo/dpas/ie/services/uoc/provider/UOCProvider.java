@@ -28,7 +28,8 @@ public class UOCProvider
 	        //queryParameter.setINSTRUMENT(Instrument.valueOf("RHESSI_HESSI_GMR"));
 	        //From Clause
 	        List<String> from=new ArrayList<String>(1);
-	        from.add(uocTO.getInstrument());
+	        if(uocTO.getInstrument()!=null)
+	        from.add(uocTO.getInstrument().toLowerCase());
 	        queryParameter.setFrom(from);
 	        //Start Time Clause
 	        List<String> startTime=new ArrayList<String>(1);
