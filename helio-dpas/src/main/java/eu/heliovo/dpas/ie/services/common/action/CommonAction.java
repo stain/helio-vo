@@ -46,6 +46,4 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
 		// TODO Auto-generated method stub
 		
 	}
-	
-       
 }

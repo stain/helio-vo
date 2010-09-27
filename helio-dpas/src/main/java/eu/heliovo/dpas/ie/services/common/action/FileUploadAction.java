@@ -36,7 +36,7 @@ public class FileUploadAction extends ActionSupport implements
 			InstanceHolders.getInstance().setProperty("patFileName",userFileFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
-			addActionError(e.getMessage());
+			addActionError("Exception occured while uploading file '"+userFileFileName+"'");
 
 			return INPUT;
 		}
