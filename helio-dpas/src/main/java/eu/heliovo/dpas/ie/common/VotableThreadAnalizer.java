@@ -34,7 +34,7 @@ public class VotableThreadAnalizer extends Thread
 				 for(int count=0;count<instruments.length;count++){
 		    		 //getting details from Provider access table
 		    		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(instruments[count]);
-		    		 if(resultTo!=null && resultTo.length>0){
+		    		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 				    	 commonTO.setInstrument(resultTo[0].getInst());
 				    	 commonTO.setDateFrom(startTime[count]);
 				    	 commonTO.setDateTo(stopTime[count]);
@@ -50,6 +50,7 @@ public class VotableThreadAnalizer extends Thread
 					    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 uocQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+					    	 commonTO.setMissionName(resultTo[0].getObsId());
 					    	 commonTO.setVotableDescription("CDAWEB query response");
 					    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 cdaWebQueryDao.query(commonTO);
@@ -65,8 +66,7 @@ public class VotableThreadAnalizer extends Thread
 					    	 //serviceEngine.executeQuery(pw,instr,starttime,stoptime,false, null, null,true);
 					     }
 		    		 }else{
-		    			 commonTO.setBufferOutput(new BufferedWriter(commonTO.getPrintWriter()));
-				    	 commonTO.setVotableDescription("Error votable response, no data");
+				    	 commonTO.setVotableDescription("Error votable response, no data for");
 				    	 commonTO.setQuerystatus("ERROR");
 				    	 commonTO.setQuerydescription("No data avialable for Instrument: "+instruments[count]);
 						 VOTableCreator.writeErrorTables(commonTO);
@@ -78,6 +78,12 @@ public class VotableThreadAnalizer extends Thread
 			}
 			catch (Exception e) {			
 				e.printStackTrace();
+				try {
+					throw new Exception("Could not create VOTABLE, exception occured",e);
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		
 	 }
