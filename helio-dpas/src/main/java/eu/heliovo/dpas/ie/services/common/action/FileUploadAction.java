@@ -18,6 +18,24 @@ public class FileUploadAction extends ActionSupport implements
 	private File userFile;
 	private String userFileContentType;
 	private String userFileFileName;
+	private boolean statusDisplay;
+	private String uploadedFileName;
+	
+	public boolean isStatusDisplay() {
+		return statusDisplay;
+	}
+
+	public void setStatusDisplay(boolean statusDisplay) {
+		this.statusDisplay = statusDisplay;
+	}
+
+	public String getUploadedFileName() {
+		return uploadedFileName;
+	}
+
+	public void setUploadedFileName(String uploadedFileName) {
+		this.uploadedFileName = uploadedFileName;
+	}
 
 	private HttpServletRequest servletRequest;
 
@@ -40,9 +58,11 @@ public class FileUploadAction extends ActionSupport implements
 			//Copying file HSQL database.
 			FileUtils.copyFile(this.userFile, fileToCreate);
 			//Setting .txt for 'pat' table.
-			HsqlDbUtils.getInstance().loadProviderAccessTable(userFileFileName);		
+			HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName);		
 			//Provider access file name
-			InstanceHolders.getInstance().setProperty("patFileName",userFileFileName);
+			InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
+			setStatusDisplay(true);
+			setUploadedFileName(this.userFileFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError("Exception occured while uploading file '"+userFileFileName+"'");

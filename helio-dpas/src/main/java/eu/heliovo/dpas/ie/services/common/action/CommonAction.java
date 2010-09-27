@@ -24,7 +24,13 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
     
 	//Directing to index page.
 	public String indexPage() throws SQLException{
-		
+		String fileName=InstanceHolders.getInstance().getProperty("patFileName");
+		if(fileName!=null && !fileName.trim().equals("")){
+			setStatusDisplay(true);
+			setUploadedFileName(fileName);
+		}else{
+			setStatusDisplay(false);
+		}	
 		return "SUCCESS";
 	}
 	
@@ -34,6 +40,25 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
     	return sReturnStatus;
     }
 	
+	private boolean statusDisplay;
+	private String uploadedFileName;
+	
+	public boolean isStatusDisplay() {
+		return statusDisplay;
+	}
+
+	public void setStatusDisplay(boolean statusDisplay) {
+		this.statusDisplay = statusDisplay;
+	}
+
+	public String getUploadedFileName() {
+		return uploadedFileName;
+	}
+
+	public void setUploadedFileName(String uploadedFileName) {
+		this.uploadedFileName = uploadedFileName;
+	}
+
 	public String showProviderUploadPage () throws SQLException, IOException
 	{
 		String sReturnStatus="SUCCESS";
