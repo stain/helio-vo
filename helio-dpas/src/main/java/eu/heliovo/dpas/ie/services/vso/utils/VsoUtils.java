@@ -40,6 +40,9 @@ public class VsoUtils {
 	   */
 	  public static String appendParamtersForUrl(String url,String fileId,String provider,String status)
 	  {
+		 if(fileId!=null && !fileId.trim().equals("") && url!=null){
+			 url=url.replaceAll("results", fileId.substring(fileId.lastIndexOf("/")+1, fileId.length()));
+		 }
 		 if(status!=null && !status.trim().equals(""))
 			 url=url+"ID="+fileId+"&PROVIDER="+provider;
 		 else
