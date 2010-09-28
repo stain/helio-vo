@@ -47,22 +47,27 @@ public class FileUploadAction extends ActionSupport implements
 			System.out.println(" : Provider access table path : "+userFile+" : Hsql data path : "+hsqlFilePath);
 			//deleting old file uploaded
 			String uploadedFileName=InstanceHolders.getInstance().getProperty("patFileName");
-			if(uploadedFileName!=null && !uploadedFileName.equals("")){
-				if(FileUtils.deleteQuietly(new File(hsqlFilePath+"/"+uploadedFileName)))
-					System.out.println("File "+uploadedFileName+ " deleted successfully.");
-				else
-					System.out.println("File "+uploadedFileName+ " could not be deleted.");
+			if(uploadedFileName!=null && this.userFileFileName!=null && !this.userFileFileName.equals(uploadedFileName)){
+				if(uploadedFileName!=null && !uploadedFileName.equals("")){
+					if(FileUtils.deleteQuietly(new File(hsqlFilePath+"/"+uploadedFileName)))
+						System.out.println("File "+uploadedFileName+ " deleted successfully.");
+					else
+						System.out.println("File "+uploadedFileName+ " could not be deleted.");
+				}
+				InstanceHolders.getInstance().setProperty("patFileName",null);
+				File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
+				//Copying file HSQL database.
+				FileUtils.copyFile(this.userFile, fileToCreate);
+				//Setting .txt for 'pat' table.
+				HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName);		
+				//Provider access file name
+				InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
+				setStatusDisplay(true);
+				setUploadedFileName(this.userFileFileName);
+			}else{
+				addActionError("'"+userFileFileName+"' file is already uploaded, please upload the file with different name.");
+				return INPUT;
 			}
-			InstanceHolders.getInstance().setProperty("patFileName",null);
-			File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
-			//Copying file HSQL database.
-			FileUtils.copyFile(this.userFile, fileToCreate);
-			//Setting .txt for 'pat' table.
-			HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName);		
-			//Provider access file name
-			InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
-			setStatusDisplay(true);
-			setUploadedFileName(this.userFileFileName);
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError("Exception occured while uploading file '"+userFileFileName+"'");
