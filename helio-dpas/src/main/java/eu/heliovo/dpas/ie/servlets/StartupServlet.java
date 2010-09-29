@@ -11,16 +11,15 @@ public class StartupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	public void init(ServletConfig config) throws ServletException {
-
+		super.init(config);
 		try{
-			 ClassLoader loader = this.getClass().getClassLoader();
-			 // check id test.txt available.
-			 String sProfileFilePath=loader.getResource("struts.xml").getFile();
+			 // getting the path.
+			 String sProfileFilePath=getServletContext().getRealPath("/");
 			 if(sProfileFilePath!=null && !sProfileFilePath.equals("")){
-					InstanceHolders.getInstance().setProperty("hsqldb.database.path",sProfileFilePath.replaceAll("/struts.xml", ""));
-					System.out.println(" : HSQLDB database location : "+sProfileFilePath.replaceAll("/struts.xml", ""));
+				 	sProfileFilePath=sProfileFilePath+ "WEB-INF";
+					InstanceHolders.getInstance().setProperty("hsqldb.database.path",sProfileFilePath);
+					System.out.println(" : HSQLDB database location : "+sProfileFilePath);
 			 }
-			
 		}
 		catch(Exception ex)
 		{
