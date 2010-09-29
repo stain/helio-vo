@@ -1,10 +1,6 @@
 package eu.heliovo.dpas.ie.services.common.utils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Properties;
 import org.apache.log4j.Logger;
-
 import eu.heliovo.dpas.ie.services.CommonDaoFactory;
 import eu.heliovo.dpas.ie.services.common.dao.exception.DetailsNotFoundException;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.ShortNameQueryDao;
