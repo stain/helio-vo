@@ -35,7 +35,8 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 			con.commit();
 			
 		}catch(Exception e){
-			logger.fatal(" Exception occured in getUrlFromHsqlDB() : ",e);
+			logger.fatal(" Exception occured in loadProviderAccessTable() : ",e);
+			throw new DetailsNotFoundException("Exception: ",e);
 		}
 		
 		finally
@@ -58,7 +59,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 					con=null;
 				}
 			} catch (Exception e) {
-				
+				throw new DetailsNotFoundException("Exception: ",e);
 			}
 		}
 	}
