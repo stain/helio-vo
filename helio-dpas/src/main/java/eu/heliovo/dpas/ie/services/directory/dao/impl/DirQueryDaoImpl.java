@@ -50,12 +50,7 @@ public class DirQueryDaoImpl implements DirQueryDao {
 			//VOTable table data.
 			VOTableCreator.writeTables(dirTO);
 		}catch(Exception e){
-			 e.printStackTrace();
-			 dirTO.setBufferOutput(new BufferedWriter(dirTO.getOutput()));
-			 dirTO.setQuerystatus("ERROR");
-			 dirTO.setQuerydescription(e.getMessage());
-			 VOTableCreator.writeErrorTables(dirTO);
-			 throw new DataNotFoundException("EXCEPTION ", e);
+			 throw new DataNotFoundException("Error occured while creating VOTABLE ", e);
 		}
 	}
 	
