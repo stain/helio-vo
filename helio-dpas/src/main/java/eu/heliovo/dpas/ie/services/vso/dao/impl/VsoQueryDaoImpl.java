@@ -55,11 +55,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 			}
 		}catch(Exception e){
 			 e.printStackTrace();
-			 vsoTO.setBufferOutput(new BufferedWriter(vsoTO.getOutput()));
-			 vsoTO.setQuerystatus("ERROR");
-			 vsoTO.setQuerydescription(e.getMessage());
-			 VOTableCreator.writeErrorTables(vsoTO);
-			 throw new DataNotFoundException("EXCEPTION ", e);
+			 throw new DataNotFoundException("Error occured while creating VOTABLE ", e);
 		}
 	}
 	
