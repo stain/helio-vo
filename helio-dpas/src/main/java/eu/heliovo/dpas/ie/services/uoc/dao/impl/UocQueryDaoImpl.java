@@ -54,7 +54,7 @@ public class UocQueryDaoImpl implements UocQueryDao {
 			 m.marshal(resource, uocTO.getBufferOutput());
 		}catch(Exception e){
 			 e.printStackTrace();
-			 throw new DataNotFoundException("Couldn't Marshall UOC data ", e);
+			 throw new DataNotFoundException("Error occured while creating VOTABLE ", e);
 		}
 	}
 	
