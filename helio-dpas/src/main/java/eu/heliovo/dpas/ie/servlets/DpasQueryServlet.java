@@ -7,13 +7,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.common.DAOFactory;
-import eu.heliovo.dpas.ie.common.VOTableCreator;
 import eu.heliovo.dpas.ie.controller.ServiceEngine;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
+import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
+import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
+import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
@@ -63,8 +64,7 @@ public class DpasQueryServlet extends HttpServlet {
 		     // Setting Print Writer.
 		     commonTO.setPrintWriter(pw);
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
-		     commonTO.setVotableDescription("DPAS query response");
-		     
+		  		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	 //VOTable header
 				 VOTableCreator.writeHeaderOfTables(commonTO);
@@ -92,16 +92,10 @@ public class DpasQueryServlet extends HttpServlet {
 					    	 commonTO.setVotableDescription("CDAWEB query response");
 					    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 cdaWebQueryDao.query(commonTO);
-					     }else{
-					    	 String []instr = new String[1];
-					    	 instr[0]="RHESSI__HESSI_GMR";
-					    	 //
-					    	 String []starttime = new String[1];
-					    	 starttime[0]=commonTO.getDateFrom();
-					    	 //
-					    	 String []stoptime = new String[1];
-					    	 stoptime[0]=commonTO.getDateTo();
-					    	 serviceEngine.executeQuery(pw,instr,starttime,stoptime,false, null, null,true);
+					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof DirQueryDao ){
+					    	 commonTO.setVotableDescription("Archive query response");
+					    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+					    	 dirQueryDao.query(commonTO);
 					     }
 		    		 }else{
 		    			 //commonTO.setBufferOutput(new BufferedWriter(pw));
