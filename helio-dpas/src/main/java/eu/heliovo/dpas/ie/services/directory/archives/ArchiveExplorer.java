@@ -39,7 +39,7 @@ public class ArchiveExplorer
 
 	
 	public LinkedList<DPASResultItem> query(Date from, Date to)
-		throws NewPathException, MalformedURLException, IOException, PathBuilderException, NewPathFragmentException
+		throws NewPathException, MalformedURLException, IOException, PathBuilderException, NewPathFragmentException,Exception
 	{
 		LinkedList<DPASResultItem> 	results = new LinkedList<DPASResultItem>();
 		LinkedList<String>			allUrls = new LinkedList<String>();
@@ -120,7 +120,7 @@ public class ArchiveExplorer
 		return results;
 	}
 
-private LinkedList<String> getAllDirsMatching(String expression,
+	private LinkedList<String> getAllDirsMatching(String expression,
 			String url, int currDepth) throws MalformedURLException, IOException
 	{
 	LinkedList<String> result = new LinkedList<String>();
@@ -354,7 +354,7 @@ private LinkedList<String> getAllDirsMatching(String expression,
 //	}
 
 	public LinkedList<String> getAllDirsWithin(Date from, Date to, String url,
-			int currDepth) throws MalformedURLException, IOException
+			int currDepth) throws MalformedURLException, IOException,Exception
 	{
 		LinkedList<String> result = new LinkedList<String>();
 
@@ -455,6 +455,7 @@ private LinkedList<String> getAllDirsMatching(String expression,
 				catch (PathBuilderException e)
 				{
 					e.printStackTrace();
+					throw new Exception(" Archive path exception",e);
 				} 
 				catch (NewPathFragmentException e)
 				{
@@ -462,7 +463,16 @@ private LinkedList<String> getAllDirsMatching(String expression,
 				} 
 				catch (NewPathException e)
 				{
-					debugUtils.printLog(this.getClass().getName(), tmp + " is not a Date Format NOT VALID skipping it...");					
+					if (url.endsWith("/") && tmp!=null && !tmp.trim().equals(""))
+					{
+						result.add(url + tmp);
+					}
+					else if(tmp!=null && !tmp.trim().equals(""))
+					{
+						result.add(url + "/" + tmp);
+					}else{
+						debugUtils.printLog(this.getClass().getName(), tmp + " is not a Date Format NOT VALID skipping it...");
+					}
 				}
 			}
 		}
