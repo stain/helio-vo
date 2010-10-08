@@ -4,7 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.namespace.QName;
-import eu.heliovo.dpas.ie.common.DAOFactory;
+
+import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.Query;

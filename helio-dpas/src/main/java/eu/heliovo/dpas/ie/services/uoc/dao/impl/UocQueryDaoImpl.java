@@ -4,12 +4,10 @@ package eu.heliovo.dpas.ie.services.uoc.dao.impl;
 import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-
-import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.internalData.DPASResultItem;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.provider.UOCProvider;

@@ -1,8 +1,9 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.uoc.dao.interfaces;
 
-import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
+
+import eu.heliovo.dpas.ie.services.common.dao.interfaces.DPASDataProvider;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.uoc.transfer.UocDataTO;
 

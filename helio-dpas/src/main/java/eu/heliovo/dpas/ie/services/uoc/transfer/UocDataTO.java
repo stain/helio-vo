@@ -2,7 +2,7 @@ package eu.heliovo.dpas.ie.services.uoc.transfer;
 
 import java.io.Writer;
 
-import eu.heliovo.dpas.ie.common.CommonTO;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.uoc.service.net.ivoa.xml.votable.v1.RESOURCE;
 
 public class UocDataTO extends CommonTO{
