@@ -52,10 +52,14 @@ public class VOTableCreator {
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
  	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
  	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
- 	         for(int count=0;count<tables.length;count++){
-		         //VoTable Creator
-	    		 VOSerializer vos = VOSerializer.makeSerializer( DataFormat.TABLEDATA, tables[count]);
-	    	     vos.writeInlineTableElement(out);
+ 	         if(tables!=null && tables.length>0){
+	 	         for(int count=0;count<tables.length;count++){
+			         //VoTable Creator
+		    		 VOSerializer vos = VOSerializer.makeSerializer( DataFormat.TABLEDATA, tables[count]);
+		    	     vos.writeInlineTableElement(out);
+	 	         }
+ 	         }else{
+ 	        	 out.write( "<INFO name=\"DATA_STATUS\" value=\"No data found, please try with some other date\"/>");
  	         }
 			 out.write( "</RESOURCE>\n" );
 			 
