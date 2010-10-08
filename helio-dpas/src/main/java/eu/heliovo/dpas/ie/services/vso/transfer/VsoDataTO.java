@@ -1,7 +1,9 @@
 package eu.heliovo.dpas.ie.services.vso.transfer;
 
 import java.io.Writer;
-import eu.heliovo.dpas.ie.common.CommonTO;
+
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+
 
 public class VsoDataTO extends CommonTO{
 	

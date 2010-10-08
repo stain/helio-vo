@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import uk.ac.starlink.table.StarTable;
-import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Data;

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.heliovo.dpas.ie.common.DAOFactory;
+import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
