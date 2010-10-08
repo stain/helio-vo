@@ -6,12 +6,12 @@ import java.util.Calendar;
 import java.util.List;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.directory.provider.DirProvider;
 import eu.heliovo.dpas.ie.services.directory.transfer.DirDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.directory.utils.DirInsAnlyFactory;
-import eu.heliovo.dpas.ie.services.directory.utils.VOTableCreator;
 
 
 public class DirQueryDaoImpl implements DirQueryDao {
