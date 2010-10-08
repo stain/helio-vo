@@ -3,10 +3,9 @@ package eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces;
 
 import java.io.Writer;
 import java.util.Calendar;
-
-import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
 import eu.heliovo.dpas.ie.services.cdaweb.transfer.CdaWebDataTO;
+import eu.heliovo.dpas.ie.services.common.dao.interfaces.DPASDataProvider;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
