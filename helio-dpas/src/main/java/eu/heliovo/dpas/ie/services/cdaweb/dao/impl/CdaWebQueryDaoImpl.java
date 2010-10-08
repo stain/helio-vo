@@ -4,13 +4,13 @@ package eu.heliovo.dpas.ie.services.cdaweb.dao.impl;
 import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
-import eu.heliovo.dpas.ie.common.CommonTO;
-import eu.heliovo.dpas.ie.common.VOTableCreator;
-import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.cdaweb.provider.CDAWEBProvider;
 import eu.heliovo.dpas.ie.services.cdaweb.transfer.CdaWebDataTO;
+import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
+import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 
 
 public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
