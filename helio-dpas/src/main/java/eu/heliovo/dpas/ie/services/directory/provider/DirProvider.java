@@ -26,14 +26,15 @@ public class DirProvider
         	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO.getInstrument());
         	results=dpasDataProvider.query(dirTO.getInstrument(), dpasUtils.HELIOTimeToCalendar(dirTO.getDateFrom()), dpasUtils.HELIOTimeToCalendar(dirTO.getDateTo()), 2);
         	//
-        	tables=new StarTable[1];
         	if(results!=null && results.size()>0){
+        		tables=new StarTable[1];
         		tables[count]=new PointsStarTable(results,dirTO.getInstrument(),dirTO.getDateTo());
         	}
-        	 dirTO.setStarTableArray(tables);
-        	 dirTO.setQuerystatus("OK");
-        	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(dirTO.getWhichProvider());
-        	 dirQueryDao.generateVOTable(dirTO); 
+        	
+        	dirTO.setStarTableArray(tables);
+        	dirTO.setQuerystatus("OK");
+        	DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(dirTO.getWhichProvider());
+        	dirQueryDao.generateVOTable(dirTO); 
         	System.out.println(" Size of the result : "+results.size());
         }catch(Exception e){
         	e.printStackTrace();
