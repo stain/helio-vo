@@ -51,11 +51,7 @@ public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
 			VOTableCreator.writeTables(cdaWebTO);
 		}catch(Exception e){
 			 e.printStackTrace();
-			 cdaWebTO.setBufferOutput(new BufferedWriter(cdaWebTO.getOutput()));
-			 cdaWebTO.setQuerystatus("ERROR");
-			 cdaWebTO.setQuerydescription(e.getMessage());
-			 VOTableCreator.writeErrorTables(cdaWebTO);
-			 throw new DataNotFoundException("EXCEPTION ", e);
+			 throw new DataNotFoundException("Error occured while creating VOTABLE ", e);
 		}
 	}
 	
