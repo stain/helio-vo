@@ -109,7 +109,6 @@ public class DpasQueryServlet extends HttpServlet {
 				VOTableCreator.writeFooterOfTables(commonTO);
 		     }else{
 		    	 commonTO.setExceptionStatus("exception");
-		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
 		    	 commonTO.setVotableDescription("VSO query response");
 		    	 commonTO.setQuerystatus("ERROR");
 		    	 commonTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
@@ -119,8 +118,9 @@ public class DpasQueryServlet extends HttpServlet {
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
-			commonTO.setExceptionStatus("exception");
-			commonTO.setBufferOutput(new BufferedWriter(pw));
+			if(instruments.length==1)
+				commonTO.setExceptionStatus("exception");
+			//commonTO.setBufferOutput(new BufferedWriter(pw));
 			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
