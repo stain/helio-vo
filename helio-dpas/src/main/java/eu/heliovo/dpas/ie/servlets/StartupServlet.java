@@ -17,12 +17,12 @@ public class StartupServlet extends HttpServlet {
 		try{
 			 // getting the path.
 			System.out.println("---> getting HSQL database path -------->");
-			 String sProfileFilePath=getServletContext().getRealPath("/");
-			 if(sProfileFilePath!=null && !sProfileFilePath.equals("")){
+			String sProfileFilePath=getServletContext().getRealPath("/");
+			if(sProfileFilePath!=null && !sProfileFilePath.equals("")){
 				 	sProfileFilePath=sProfileFilePath+ "WEB-INF";
 					InstanceHolders.getInstance().setProperty("hsqldb.database.path",sProfileFilePath);
 					System.out.println(" : HSQLDB database location : "+sProfileFilePath);
-			 }
+			}
 			System.out.println("---> done database path configuration-------->");
 			System.out.println("---> Setting PAT table -------->");
 			//Setting .txt for 'pat' table.
@@ -32,7 +32,7 @@ public class StartupServlet extends HttpServlet {
 		}
 		catch(Exception ex)
 		{
-			System.out.println("Exception: "+ex);
+			System.out.println("-------> Exception ------->: "+ex);
 			ex.printStackTrace();
 		}
 	}
