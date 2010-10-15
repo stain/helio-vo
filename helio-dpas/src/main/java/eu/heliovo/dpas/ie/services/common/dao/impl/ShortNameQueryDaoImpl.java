@@ -114,7 +114,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 						resultTO[count].setPvdrVsoKey(rs.getString(10));
 					count++;
                 }
-				System.out.println("  :  -----> Success -----> Reslut For "+strIns);
+				System.out.println("  :  -----> Success -----> Reslut For : "+strIns);
 				return resultTO;
 			}catch(Exception e){
 				e.printStackTrace();
