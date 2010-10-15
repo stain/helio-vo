@@ -36,12 +36,7 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
   
-  <!-- mappings -->
-  <servlet-mapping>
-    <servlet-name>jaxws-servlet</servlet-name>
-    <url-pattern>/DpasService</url-pattern>
-  </servlet-mapping>
-  
+  <!-- mappings --> 
   <servlet-mapping>
 	   <servlet-name>jaxws-servlet</servlet-name>
 	   <url-pattern>/HelioService</url-pattern>
