@@ -35,6 +35,4 @@ public abstract class DAOFactory {
 	  enum Type{
 		  VSO,CDAWEB,DIR,UOC
 		};
-
-
 }
