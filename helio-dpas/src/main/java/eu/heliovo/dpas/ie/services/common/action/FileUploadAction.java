@@ -47,7 +47,7 @@ public class FileUploadAction extends ActionSupport implements
 			System.out.println(" : Provider access table path : "+userFile+" : Hsql data path : "+hsqlFilePath);
 			//deleting old file uploaded
 			String uploadedFileName=InstanceHolders.getInstance().getProperty("patFileName");
-			if(uploadedFileName!=null && this.userFileFileName!=null && !this.userFileFileName.equals(uploadedFileName)){
+			//if(uploadedFileName!=null && this.userFileFileName!=null && !this.userFileFileName.equals(uploadedFileName)){
 				if(uploadedFileName!=null && !uploadedFileName.equals("")){
 					if(FileUtils.deleteQuietly(new File(hsqlFilePath+"/"+uploadedFileName)))
 						System.out.println("File "+uploadedFileName+ " deleted successfully.");
@@ -64,10 +64,10 @@ public class FileUploadAction extends ActionSupport implements
 				InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
 				setStatusDisplay(true);
 				setUploadedFileName(this.userFileFileName);
-			}else{
-				addActionError("'"+userFileFileName+"' file is already uploaded, please upload the file with different name.");
-				return INPUT;
-			}
+			//}else{
+				//addActionError("'"+userFileFileName+"' file is already uploaded, please upload the file with different name.");
+				//return INPUT;
+			//}
 		} catch (Exception e) {
 			e.printStackTrace();
 			addActionError("Exception occured while uploading file '"+userFileFileName+"'");
