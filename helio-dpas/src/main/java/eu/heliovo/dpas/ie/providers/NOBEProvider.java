@@ -4,12 +4,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import eu.heliovo.dpas.ie.dataProviders.DPASDataProvider;
-import eu.heliovo.dpas.ie.internalData.DPASResultItem;
 import eu.heliovo.dpas.ie.sensors.archives.ArchiveExplorer;
 import eu.heliovo.dpas.ie.sensors.archives.GenericNewPathFragment;
 import eu.heliovo.dpas.ie.sensors.archives.NewPath;
 import eu.heliovo.dpas.ie.sensors.archives.NewPathFragment;
 import eu.heliovo.dpas.ie.sensors.archives.XRTFileFragment;
+import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 
 public class NOBEProvider implements DPASDataProvider
 {
@@ -67,7 +67,7 @@ public class NOBEProvider implements DPASDataProvider
 	}
 
 	@Override
-	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,
+	public List<eu.heliovo.dpas.ie.internalData.DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,
 			int maxResults) throws Exception
 	{
 		return explorer.query(dateFrom.getTime(), dateTo.getTime());
