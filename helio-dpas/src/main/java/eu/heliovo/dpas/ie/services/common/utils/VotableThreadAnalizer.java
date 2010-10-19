@@ -39,6 +39,7 @@ public class VotableThreadAnalizer extends Thread
 				    	 commonTO.setDateFrom(startTime[count]);
 				    	 commonTO.setDateTo(stopTime[count]);
 				    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
+				    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
 					     //Calling DAO factory to connect PROVIDERS
 					     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 					    	 commonTO.setVotableDescription("VSO query response");
