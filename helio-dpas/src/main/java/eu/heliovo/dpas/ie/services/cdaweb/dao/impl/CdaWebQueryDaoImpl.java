@@ -32,6 +32,7 @@ public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
 	     cdaWebTO.setVotableDescription(commonTO.getVotableDescription());
 	     cdaWebTO.setBufferOutput(commonTO.getBufferOutput());
 	     cdaWebTO.setStatus(commonTO.getStatus());
+	     cdaWebTO.setHelioInstrument(commonTO.getHelioInstrument());
 	     cdaWebProvider.query(cdaWebTO) ;
 	}
 	
