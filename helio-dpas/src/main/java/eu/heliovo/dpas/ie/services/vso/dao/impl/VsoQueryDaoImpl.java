@@ -56,7 +56,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 			}
 		}catch(Exception e){
 			 e.printStackTrace();
-			 throw new DataNotFoundException("Error occured while creating VOTABLE ", e);
+			 throw new DataNotFoundException(e.getMessage());
 		}
 	}
 	
