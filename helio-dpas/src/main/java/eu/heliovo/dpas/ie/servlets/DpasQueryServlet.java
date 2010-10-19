@@ -76,7 +76,7 @@ public class DpasQueryServlet extends HttpServlet {
 				    	 commonTO.setInstrument(resultTo[0].getInst());
 				    	 commonTO.setDateFrom(startTime[count]);
 				    	 commonTO.setDateTo(stopTime[count]);
-				    	 commonTO.setWhichProvider(resultTo[0].getProviderType());
+				    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
 					     //Calling DAO factory to connect PROVIDERS
 					     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 					    	 commonTO.setVotableDescription("VSO query response");
@@ -85,6 +85,7 @@ public class DpasQueryServlet extends HttpServlet {
 				         	 vsoQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
 					    	 commonTO.setVotableDescription("UOC query response");
+					    	 commonTO.setInstrument(resultTo[0].getObsId());
 					    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 uocQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
