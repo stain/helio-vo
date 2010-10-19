@@ -22,7 +22,7 @@ public class CDAWEBProvider
 		
 		StarTable[] tables=new StarTable[1];
 		CoordinatedDataAnalysisSystemBindingStub binding;
-
+		System.out.println(" Executing CDAWEB provider ");
         try{
         	binding = (CoordinatedDataAnalysisSystemBindingStub)
             new CDASWSLocator().getCoordinatedDataAnalysisSystemPort();
@@ -47,6 +47,7 @@ public class CDAWEBProvider
             for(int i = 0;i < views.length;i++) {
                 if(views[i].isPublicAccess() && views[i].getId().equals("sp_phys")) {
                        binding = (CoordinatedDataAnalysisSystemBindingStub)new CDASWSLocator().getCoordinatedDataAnalysisSystemPort(new URL(views[i].getEndpointAddress()));
+                       System.out.println(" Getting DatasetDescription for CDAWEB ");
                        DatasetDescription[] dsd = binding.getDatasetsByInstrument(missionName,instr);
                        //DatasetDescription[] dsd1 = binding.getDatasets(missionName, new String[1]);
                        //noDuplMap.clear();
@@ -64,14 +65,16 @@ public class CDAWEBProvider
                           }else {
                               endTemp = endTime;
                           }
+                          System.out.println(" Getting FileDescription for CDAWEB ");
                           FileDescription[] fds = binding.getDataFiles(dsd[k].getId(),startTemp,endTemp);
                           fileDesc=CdaWebUtils.addArrays(fileDesc, fds);
-                          System.out.println("PI Name "+dsd[k].getPiName());
+                          System.out.println(" Adding FileDescription ");
                           System.out.println("....DONE !!!");
                        }//for
                        tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getInstrument());
                        cdaWebTO.setStarTableArray(tables);
                        cdaWebTO.setQuerystatus("OK");
+                       System.out.println(" Generating Votable for CDAWEB ");
        		           //Call to CDAWEB dao
                        CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao) DAOFactory.getDAOFactory(cdaWebTO.getWhichProvider());
                        cdaWebQueryDao.generateVOTable(cdaWebTO);
