@@ -78,6 +78,7 @@ public class CDAWEBProvider
        		           //Call to CDAWEB dao
                        CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao) DAOFactory.getDAOFactory(cdaWebTO.getWhichProvider());
                        cdaWebQueryDao.generateVOTable(cdaWebTO);
+                       System.out.println(" DONE !!! ");
                 }
             }
         }catch(Exception e){
