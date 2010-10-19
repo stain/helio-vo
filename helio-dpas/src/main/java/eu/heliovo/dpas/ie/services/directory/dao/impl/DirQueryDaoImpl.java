@@ -33,6 +33,7 @@ public class DirQueryDaoImpl implements DirQueryDao {
 		 dirTO.setVotableDescription(commonTO.getVotableDescription());
 		 dirTO.setBufferOutput(commonTO.getBufferOutput());
 		 dirTO.setStatus(commonTO.getStatus());
+		 dirTO.setHelioInstrument(commonTO.getHelioInstrument());
 	     dirProvider.query(dirTO) ;
 	}
 		
