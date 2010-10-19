@@ -52,6 +52,7 @@ public class VOTableCreator {
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
  	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
  	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
+ 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
 			         //VoTable Creator
