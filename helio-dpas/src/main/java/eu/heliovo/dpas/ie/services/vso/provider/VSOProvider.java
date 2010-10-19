@@ -33,7 +33,7 @@ public class VSOProvider
 		 * Creating the query parameter for the time in the VSO format		
 		*/
 		 StarTable[] tables=null;
-		
+		 System.out.println(" Executing VSO provider ");
         try{
 	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getDateFrom()), VsoUtils.getDateFormat(vsoTO.getDateTo()));
 			/*
@@ -52,9 +52,11 @@ public class VSOProvider
 	        /*
 	         * Executing the query
 	        */
+	        System.out.println(" Getting provider response for VSO ");
 	        ProviderQueryResponse[]	resp = binding.query(r);    
 	        //
 	        if(resp!=null && resp.length>0){
+	        	System.out.println("Response length/ no of providers : "+ resp.length);
 		        tables=new StarTable[resp.length];
 		        System.out.println( "The query returned " + resp.length + " number of records");
 		        for(int count=0;count<resp.length;count++){
@@ -64,8 +66,10 @@ public class VSOProvider
 		        vsoTO.setQuerystatus("OK");
 		        vsoTO.setProviderStatus(VsoUtils.getProviderResultCount(resp));
 		        //
+		        System.out.println(" Genrating VOTABLE for VSO ");
 		       	VsoQueryDao vsoQueryDao=(VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
 		        vsoQueryDao.generateVOTable(vsoTO);
+		        System.out.println(" DONE !!! ");
 	        }
 	        
         }catch(Exception e){
