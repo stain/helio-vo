@@ -32,7 +32,7 @@ public class Phoenix2Provider implements DirQueryDao
 		 */
 		NewPath	path	=	new NewPath();
 		
-		String			rootString		=	"http://helene.ethz.ch/rapp/observations/";
+		String			rootString		=	"http://soleil.i4ds.ch/solarradio/data/1998-2009_Phoenix-2/";
 		String			yearPattern		=	"yyyy";
 		String			monthPattern	=	"MM";
 		String			dayPattern		=	"dd";
