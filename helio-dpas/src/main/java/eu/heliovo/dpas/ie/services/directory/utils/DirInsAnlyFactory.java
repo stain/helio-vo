@@ -14,19 +14,19 @@ public abstract class DirInsAnlyFactory {
 	    String instrument) {
 		  DirType type=DirType.valueOf(instrument);
 	    switch (type) {
-	      case PHOENIX__2: 
+	      case PHOENIX_2: 
 	          return new Phoenix2Provider();
-	      case RHESSI__HESSI_GMR    : 
+	      case HESSI_GMR    : 
 	          return new RhessiProvider();      
-	      case RHESSI__HESSI_HXR    :   
+	      case HESSI_HXR    :   
 	    	  return new RhessiProvider();
-	      case HINODE__SOT_SP		:
+	      case SP4D		:
 	    	  return new SOT_SPProvider();
-	      case HINODE__SOT_FG		:
+	      case FGIV		:
 	    	  return new SOT_FGProvider();
-	      case HINODE__XRT		:
+	      case XRT		:
 	    	  return new XRTProvider();
-	      case NOBE__NORH		:
+	      case NORH		:
 	    	  return new NOBEProvider();
 	      default        : 
 	          return null;
@@ -35,7 +35,7 @@ public abstract class DirInsAnlyFactory {
 	   	  
 
 	enum DirType{
-		PHOENIX__2,RHESSI__HESSI_GMR,RHESSI__HESSI_HXR,HINODE__SOT_SP,HINODE__SOT_FG,HINODE__XRT,NOBE__NORH
+		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH
 	};
 
 
