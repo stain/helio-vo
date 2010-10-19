@@ -43,10 +43,15 @@ public class VsoUtils {
 		 if(fileId!=null && !fileId.trim().equals("") && url!=null){
 			 url=url.replaceAll("results", fileId.substring(fileId.lastIndexOf("/")+1, fileId.length()));
 		 }
-		 if(status!=null && !status.trim().equals(""))
-			 url=url+"ID="+fileId+"&PROVIDER="+provider;
-		 else
-			 url=url+"ID="+fileId+"&PROVIDER="+provider;
+		 if(status!=null && !status.trim().equals("")){
+			 url=url+"ID="+fileId;
+			 if(provider!=null && !provider.trim().equals(""))
+				 url=url+"&PROVIDER="+provider;
+		 }else{
+			 url=url+"ID="+fileId;
+			 if(provider!=null && !provider.trim().equals(""))
+				 url=url+"&PROVIDER="+provider;
+		 }
 		 return url;
 	  }
 	  

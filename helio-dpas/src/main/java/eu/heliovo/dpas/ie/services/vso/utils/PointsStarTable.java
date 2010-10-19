@@ -24,8 +24,10 @@ public class PointsStarTable  extends RandomStarTable {
     public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
     	resp_=resp;
     	url_=url;
-    	nRow_=resp.getNo_of_records_returned();
-    	provider_=provider;
+    	if(resp.getNo_of_records_returned()!=null)
+    		nRow_=resp.getNo_of_records_returned();
+    	if(provider!=null)
+    		provider_=provider;
     	status_=status;
     	
     }

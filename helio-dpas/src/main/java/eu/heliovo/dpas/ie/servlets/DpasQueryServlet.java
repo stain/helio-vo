@@ -44,7 +44,7 @@ public class DpasQueryServlet extends HttpServlet {
 		String startTime[]=null;
 		String stopTime[]=null;
 		ServiceEngine serviceEngine=null;
-		
+		ResultTO[] resultTo=null;
 		try{
 			 serviceEngine=new ServiceEngine();
 		     //Setting start time & end time parameter
@@ -70,13 +70,15 @@ public class DpasQueryServlet extends HttpServlet {
 				 VOTableCreator.writeHeaderOfTables(commonTO);
 				 //For loop
 		    	 for(int count=0;count<instruments.length;count++){
+		    		 try{
 		    		 //getting details from Provider access table
-		    		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(instruments[count]);
+		    		 resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(instruments[count]);
 		    		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 				    	 commonTO.setInstrument(resultTo[0].getInst());
 				    	 commonTO.setDateFrom(startTime[count]);
 				    	 commonTO.setDateTo(stopTime[count]);
 				    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
+				    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
 					     //Calling DAO factory to connect PROVIDERS
 					     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 					    	 commonTO.setVotableDescription("VSO query response");
@@ -105,6 +107,24 @@ public class DpasQueryServlet extends HttpServlet {
 				    	 commonTO.setQuerydescription("No data avialable for Instrument: "+instruments[count]);
 						 VOTableCreator.writeErrorTables(commonTO);
 		    		 }
+		    		 //catch exception if there is error.
+		    		 }catch (Exception e) {
+						// TODO: handle exception
+		    			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
+	    				if(instruments.length==1)
+	    					commonTO.setExceptionStatus("exception");
+	    				//commonTO.setBufferOutput(new BufferedWriter(pw));
+	    				commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage()+" : "+instruments[count]);
+	    				commonTO.setQuerystatus("ERROR");
+	    				commonTO.setQuerydescription(e.getMessage());
+	    				try {
+	    					//Sending error messages
+	    					VOTableCreator.writeErrorTables(commonTO);
+	    				} catch (Exception e1) {
+	    					// TODO Auto-generated catch block
+	    					e1.printStackTrace();
+	    				}
+					}
 		    	 }
 		    	//VOTable footer.
 				VOTableCreator.writeFooterOfTables(commonTO);
