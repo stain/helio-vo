@@ -73,7 +73,7 @@ public class VSOProvider
 	        }
 	        
         }catch(Exception e){
-        	throw new DataNotFoundException(" Could not retrieve data: ",e);
+        	throw new DataNotFoundException(e.getMessage());
         }
 
 	}
