@@ -83,7 +83,7 @@ public class CDAWEBProvider
             }
         }catch(Exception e){
         	e.printStackTrace();
-        	throw new DataNotFoundException(" Could not retrieve data: ",e);
+        	throw new DataNotFoundException(e.getMessage());
         }
 
 	}
