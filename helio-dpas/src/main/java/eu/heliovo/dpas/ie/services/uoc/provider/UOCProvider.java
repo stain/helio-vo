@@ -49,7 +49,7 @@ public class UOCProvider
 
         }catch(Exception e){
         	e.printStackTrace();
-        	throw new DataNotFoundException(" Could not retrieve data: ",e);
+        	throw new DataNotFoundException(e.getMessage());
         }
 
 	}
