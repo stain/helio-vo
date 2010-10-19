@@ -32,6 +32,7 @@ public class UocQueryDaoImpl implements UocQueryDao {
 		 uocDataTO.setVotableDescription(commonTO.getVotableDescription());
 		 uocDataTO.setBufferOutput(commonTO.getBufferOutput());
 		 uocDataTO.setStatus(commonTO.getStatus());
+		 uocDataTO.setHelioInstrument(commonTO.getHelioInstrument());
 		uocProvider.query(uocDataTO) ;
 	}
 	
