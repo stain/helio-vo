@@ -42,6 +42,8 @@ public class VSOProvider
 			QueryRequestBlock rb	=	new QueryRequestBlock();
 			rb.setInstrument(vsoTO.getInstrument());
 			rb.setTime(queryTime);
+			//Setting provider 
+			rb.setProvider(vsoTO.getProviderSource());
 			QueryRequest	r	=	new QueryRequest();
 			r.setBlock(rb);
 			/*
