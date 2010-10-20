@@ -33,6 +33,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 	     vsoTO.setBufferOutput(commonTO.getBufferOutput());
 	     vsoTO.setStatus(commonTO.getStatus());
 	     vsoTO.setHelioInstrument(commonTO.getHelioInstrument());
+	     vsoTO.setProviderSource(commonTO.getProviderSource());
 		vsoProvider.query(vsoTO) ;
 	}
 	
