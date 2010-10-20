@@ -74,29 +74,42 @@ public class DpasQueryServlet extends HttpServlet {
 		    		 //getting details from Provider access table
 		    		 resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(instruments[count]);
 		    		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
-				    	 commonTO.setInstrument(resultTo[0].getInst());
-				    	 commonTO.setDateFrom(startTime[count]);
-				    	 commonTO.setDateTo(stopTime[count]);
-				    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
 				    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
+				    	 System.out.println(" : Helio Instrument : "+resultTo[0].getHelioInst());
+				    	 commonTO.setDateFrom(startTime[count]);
+				    	 System.out.println(" : Start Date Contraint : "+stopTime[count]);
+				    	 commonTO.setDateTo(stopTime[count]);
+				    	 System.out.println(" : Stop Date Contraint : "+stopTime[count]);
+				    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
+				    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderName());
+				    	 commonTO.setInstrument(resultTo[0].getInst());
+				    	 System.out.println(" : Instrument : "+resultTo[0].getInst());
 					     //Calling DAO factory to connect PROVIDERS
 					     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
-					    	 commonTO.setVotableDescription("VSO query response");
+					    	 System.out.println("--->  VSO Provider intiated--->");
+					    	 System.out.println(" : VSO Provider Name : "+resultTo[0].getProviderSource());
+					    	 commonTO.setVotableDescription("VSO query response"+ resultTo[0].getProviderSource());
 					    	 commonTO.setUrl(VsoUtils.getUrl(request));
+					    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
 					    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 				         	 vsoQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
 					    	 commonTO.setVotableDescription("UOC query response");
+					    	 System.out.println("--->  UOC Provider intiated--->");
+					    	 System.out.println(" : Table name for UOC  : "+resultTo[0].getObsId());
 					    	 commonTO.setInstrument(resultTo[0].getObsId());
 					    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 uocQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+					    	 System.out.println("--->  CDAWEB Provider intiated--->");
+					    	 System.out.println(" : Mission name for CDAWEB  : "+resultTo[0].getObsId());
 					    	 commonTO.setMissionName(resultTo[0].getObsId());
 					    	 commonTO.setVotableDescription("CDAWEB query response");
 					    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 cdaWebQueryDao.query(commonTO);
 					     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof DirQueryDao ){
 					    	 commonTO.setVotableDescription("Archive query response");
+					    	 System.out.println("--->  Directory Provider intiated--->");
 					    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 					    	 dirQueryDao.query(commonTO);
 					     }
