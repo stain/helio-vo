@@ -36,7 +36,7 @@ public class CommonTO {
 	private String From;
 	private String exceptionStatus;
 	private String helioInstrument;
-	
+	private String providerSource;
 	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
@@ -220,6 +220,14 @@ public class CommonTO {
 
 	public void setHelioInstrument(String helioInstrument) {
 		this.helioInstrument = helioInstrument;
+	}
+
+	public String getProviderSource() {
+		return providerSource;
+	}
+
+	public void setProviderSource(String providerSource) {
+		this.providerSource = providerSource;
 	}	
 	
 }
