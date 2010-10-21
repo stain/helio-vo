@@ -88,7 +88,7 @@ public class VotableThreadAnalizer extends Thread
 		    			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
 	    				commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage()+" : "+instruments[count]);
 	    				commonTO.setQuerystatus("ERROR");
-	    				commonTO.setQuerydescription(e.getMessage());
+	    				commonTO.setQuerydescription(e.getMessage()+" : "+instruments[count]);
 	    				try {
 	    					//Sending error messages
 	    					VOTableCreator.writeErrorTables(commonTO);
