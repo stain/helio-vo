@@ -99,37 +99,33 @@ public class SoapDispatcher implements Provider<Source> {
 			    	 for(int i=0;i<nodeList.getLength();i++){
 			    		 stopTime[i]=nodeList.item(i).getFirstChild().getNodeValue();
 			    	 }
-	    	 }
-		    
-		     
-		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0 && inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild()!=null){
-				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","FROM");
-				 from=new String[nodeList.getLength()];
-    			 //List Name
-		    	 for(int i=0;i<nodeList.getLength();i++){
-		    		 from[i]=nodeList.item(i).getFirstChild().getNodeValue();
-		    	 }
-				 
-				 votable=true;
-				 
-			 }
-		     
+	    	 }	    
+		     //Counter for instrument.	  
+		     int instCount=0;
 		     if(inputDoc.getElementsByTagNameNS("*","INSTRUMENT").getLength()>0 && inputDoc.getElementsByTagNameNS("*","INSTRUMENT").item(0).getFirstChild()!=null){
 		    	 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","INSTRUMENT");
 				 instruments=new String[nodeList.getLength()];
     			 //List Name
 		    	 for(int i=0;i<nodeList.getLength();i++){
 		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    		 instCount++;
 		    	 }
-				 votable=true;
+			 }
+		     //Setting 'INSTRUMENT' value to FROM.
+		     if(inputDoc.getElementsByTagNameNS("*","FROM").getLength()>0 && inputDoc.getElementsByTagNameNS("*","FROM").item(0).getFirstChild()!=null && instCount==0){
+				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","FROM");
+				 instruments=new String[nodeList.getLength()];
+    			 //List Name
+		    	 for(int i=0;i<nodeList.getLength();i++){
+		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
+		    	 }			 
 			 }
 		     
-		   //Setting for Start Row parameter.
+		     //Setting for Start Row parameter.
 			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild()!=null){
 				 String startRow = inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild().getNodeValue();
 				 
 			 }
-			 
 			//Setting for No Of Rows parameter.
 			 if(inputDoc.getElementsByTagNameNS("*","MAXRECORDS").getLength()>0 && inputDoc.getElementsByTagNameNS("*","MAXRECORDS").item(0).getFirstChild()!=null){
 				 String noOfRows = inputDoc.getElementsByTagNameNS("*","MAXRECORDS").item(0).getFirstChild().getNodeValue();
@@ -173,7 +169,7 @@ public class SoapDispatcher implements Provider<Source> {
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
-			if(instruments.length==1)
+			if(instruments!=null && instruments.length==1)
 				commonTO.setExceptionStatus("exception");
 			commonTO.setBufferOutput(new BufferedWriter(pw));
 			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
