@@ -71,13 +71,14 @@ public class SoapDispatcher implements Provider<Source> {
 		PipedReader pr=null;
 		PipedWriter pw=null;
 		CommonTO commonTO=new CommonTO();
-		
+	    String[] startTime =null;
+	    String[] stopTime =null;
+	    String[] instruments =null;
+	    String[] from =null;
+	    
 		try {
 			 Element inputDoc=toDocument(request);
-		     String[] startTime =null;
-		     String[] stopTime =null;
-		     String[] instruments =null;
-		     String[] from =null;
+
 		     boolean votable=true;
 		     
 		    if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild()!=null){
@@ -151,10 +152,10 @@ public class SoapDispatcher implements Provider<Source> {
 			 commonTO.setPrintWriter(pw);
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
 		     commonTO.setStatus("webservice");
-		     commonTO.setUrl(VsoUtils.getUrl(req));
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
+		     commonTO.setRequest(req);
 		     //Loop to check
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	//
@@ -172,12 +173,12 @@ public class SoapDispatcher implements Provider<Source> {
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
-			commonTO.setExceptionStatus("exception");
+			if(instruments.length==1)
+				commonTO.setExceptionStatus("exception");
 			commonTO.setBufferOutput(new BufferedWriter(pw));
 			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
-			commonTO.setRequest(req);
 			try {
 				//Sending error messages
 				VOTableCreator.writeErrorTables(commonTO);
