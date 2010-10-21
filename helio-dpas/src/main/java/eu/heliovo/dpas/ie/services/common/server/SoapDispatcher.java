@@ -32,9 +32,9 @@ import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
  * XMLStreamReader with the help of PipedStreams.
  *
  */
-@WebServiceProvider(targetNamespace="http://helio-vo.eu/xml/QueryService/v0.1",
-	      serviceName="HelioQueryServiceService",
-	      portName="HelioQueryServicePort")     
+@WebServiceProvider(targetNamespace="",
+	      serviceName="",
+	      portName="")     
 	      
 @ServiceMode(value=javax.xml.ws.Service.Mode.PAYLOAD)
 
