@@ -1,7 +1,6 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.uoc.dao.impl;
 
-import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
 import javax.xml.bind.JAXBContext;
@@ -13,7 +12,6 @@ import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.provider.UOCProvider;
 import eu.heliovo.dpas.ie.services.uoc.service.net.ivoa.xml.votable.v1.RESOURCE;
 import eu.heliovo.dpas.ie.services.uoc.transfer.UocDataTO;
-import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 
 public class UocQueryDaoImpl implements UocQueryDao {
 	UOCProvider uocProvider=null;
