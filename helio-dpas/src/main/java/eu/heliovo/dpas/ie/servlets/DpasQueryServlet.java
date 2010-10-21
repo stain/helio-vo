@@ -124,8 +124,6 @@ public class DpasQueryServlet extends HttpServlet {
 		    		 }catch (Exception e) {
 						// TODO: handle exception
 		    			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
-	    				if(instruments.length==1)
-	    					commonTO.setExceptionStatus("exception");
 	    				//commonTO.setBufferOutput(new BufferedWriter(pw));
 	    				commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage()+" : "+instruments[count]);
 	    				commonTO.setQuerystatus("ERROR");
@@ -154,7 +152,7 @@ public class DpasQueryServlet extends HttpServlet {
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
 			if(instruments.length==1)
 				commonTO.setExceptionStatus("exception");
-			//commonTO.setBufferOutput(new BufferedWriter(pw));
+			commonTO.setBufferOutput(new BufferedWriter(pw));
 			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
