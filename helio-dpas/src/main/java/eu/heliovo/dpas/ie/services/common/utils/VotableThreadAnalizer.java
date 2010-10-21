@@ -105,7 +105,7 @@ public class VotableThreadAnalizer extends Thread
 			catch(Exception e){
 				e.printStackTrace();
 				System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
-				if(instruments.length==1)
+				if(instruments!=null && instruments.length==1)
 					commonTO.setExceptionStatus("exception");
 				commonTO.setBufferOutput(new BufferedWriter(commonTO.getPrintWriter()));
 				commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
