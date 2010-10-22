@@ -34,7 +34,7 @@ public class VSOProvider
 		*/
 		 StarTable[] tables=null;
 		 System.out.println(" Executing VSO provider ");
-        try{
+         try{
 	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getDateFrom()), VsoUtils.getDateFormat(vsoTO.getDateTo()));
 			/*
 			 * These lines create the query request in the VSO format.
