@@ -42,6 +42,7 @@ public class VSOProvider
 			QueryRequestBlock rb	=	new QueryRequestBlock();
 			rb.setInstrument(vsoTO.getInstrument());
 			rb.setTime(queryTime);
+			System.out.println("---> : Provider name for Votable response : "+vsoTO.getProviderSource());
 			//Setting provider 
 			rb.setProvider(vsoTO.getProviderSource());
 			QueryRequest	r	=	new QueryRequest();
@@ -92,12 +93,17 @@ public class VSOProvider
 	       Float versionNumber = new Float(1.0);
 	       GetDataRequest gdr = new GetDataRequest();
 	       String []methods = {"URL-FILE", "URL-TAR", "URL-TAR_GZ", "URL-ZIP", "URL"};
+	       String[] fileId=new String[1];
+	       //setting file to a array
+	       fileId[0]=vsoTO.getFileId();
 	       gdr.setMethod(methods);
 	       DataRequest[]  dr= new DataRequest[1];
-	       dr[0] = new DataRequest(vsoTO.getProvider(),vsoTO.getFileId().split(","));
+	       System.out.println(" VSO file if for retrieving fits data : "+vsoTO.getFileId()+" : Provider Name : "+vsoTO.getProvider()+" : Array of file Id : "+fileId[0]);
+	       dr[0] = new DataRequest(vsoTO.getProvider(),fileId);
 	       gdr.setData(dr);
 	       VSOGetDataRequest vdr = new VSOGetDataRequest(versionNumber,gdr);
 	       ProviderGetDataResponse []pdr = binding.getData(vdr);
+	       System.out.println(": Provider get data response : "+pdr.length);
 	       Data []data;
 	       String urlString = null;
 	       URL url;
@@ -107,7 +113,7 @@ public class VSOProvider
 	           data = pdr[j].getData();
 	           for(int i = 0;i < data.length;i++) {
 	               urlString = data[i].getUrl();
-	               System.out.println("here is the urlString = " + urlString);
+	               System.out.println(" VSO fits data URL  : "+urlString);
 	               url = new URL(urlString);
 	               is = url.openStream();
 	               //is = new BufferedInputStream(url.openStream());
