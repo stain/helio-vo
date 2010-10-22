@@ -38,7 +38,8 @@ public class VsoFitsResponseServlet extends HttpServlet {
 		try{
 			//Setting start time & end time parameter
 		     String fileId=request.getParameter("ID");
-		     String provider=request.getParameter("PROVIDER");			
+		     String provider=request.getParameter("PROVIDER");		
+		     System.out.println(" : File if in fits response servlet  :"+fileId);
 		     //Setting for Instrument parameter.
 		     vsoTO.setOutput(pw);
 		     vsoTO.setWhichProvider("VSO");
