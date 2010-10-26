@@ -1,6 +1,5 @@
 package eu.heliovo.dpas.ie.services.vso.provider;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
