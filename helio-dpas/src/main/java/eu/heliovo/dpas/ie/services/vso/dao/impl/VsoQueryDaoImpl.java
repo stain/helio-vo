@@ -1,7 +1,6 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.vso.dao.impl;
 
-import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
