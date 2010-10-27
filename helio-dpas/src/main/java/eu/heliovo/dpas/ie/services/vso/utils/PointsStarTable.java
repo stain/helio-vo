@@ -8,7 +8,7 @@ public class PointsStarTable  extends RandomStarTable {
 
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
-        new ColumnInfo( "Instrument", String.class, "Instrument name" ),
+        new ColumnInfo( "Instrument Name", String.class, "Instrument name" ),
         new ColumnInfo( "URL", String.class, "Dummy URL to fits file" ),
         new ColumnInfo( "Provider", String.class, "Provider Name" ),
         new ColumnInfo( "Start Date", String.class, "Measurement Start Date" ),
