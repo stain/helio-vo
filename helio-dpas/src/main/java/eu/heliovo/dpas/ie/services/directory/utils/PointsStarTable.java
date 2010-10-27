@@ -14,9 +14,9 @@ public class PointsStarTable  extends RandomStarTable {
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
     	new ColumnInfo( "Instrument Name", String.class, "Instrument Name" ),
+    	new ColumnInfo( "URL", String.class, "Fits URL" ),
         new ColumnInfo( "Measurement Start", String.class, "Measurement Start" ),
         new ColumnInfo( "Measurement End", String.class, "Measurement End" ),
-        new ColumnInfo( "Fits URL", String.class, "Fits URL" ),
     };
 
     // Member variables are arrays holding the actual data.
@@ -58,9 +58,9 @@ public class PointsStarTable  extends RandomStarTable {
         if(resp_!=null && resp_.get(irow)!=null){
 	        switch ( icol ) {
 	        	case 0:return inst;
-	            case 1:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
-	            case 2: return end_date;
-	            case 3: return resp_.get(irow).urlFITS;
+	            case 1:return resp_.get(irow).urlFITS;
+	            case 2:return end_date;
+	            case 3:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
 	            default: throw new IllegalArgumentException();
 	        }
        }else{
