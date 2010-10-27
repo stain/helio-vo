@@ -70,9 +70,11 @@ public class CdaWebUtils {
 	          {
 				String strDate="";
 				SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
-				if (date != null) {
+				if (date != null) 
 					strDate = formatter.format(date.getTime());
-				} 
+				//Adding 'T' for date
+				if(strDate!=null && !strDate.equals(""))
+					strDate=strDate.replace(" ", "T");
 		     	return strDate;
 	         } catch (Exception e)
 			 {
