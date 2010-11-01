@@ -1,5 +1,6 @@
 package eu.heliovo.dpas.ie.services.vso.utils;
 
+import eu.heliovo.dpas.ie.services.vso.provider.VSOProvider;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
@@ -21,6 +22,7 @@ public class PointsStarTable  extends RandomStarTable {
     int nRow_;
     String provider_;
     String status_;
+    String[] urlList;
     public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
     	resp_=resp;
     	url_=url;
@@ -29,7 +31,10 @@ public class PointsStarTable  extends RandomStarTable {
     	if(provider!=null)
     		provider_=provider;
     	status_=status;
-    	
+    	//VSO Provider
+    	VSOProvider vsoPvr=new VSOProvider();
+    	//Getting list of File Id
+    	urlList=vsoPvr.getVsoURL(resp, provider);
     }
 
     public int getColumnCount() {
@@ -50,7 +55,7 @@ public class PointsStarTable  extends RandomStarTable {
         if(resp_!=null && resp_.getRecord()!=null){
 	        switch ( icol ) {
 	        	case 0: return resp_.getRecord()[irow].getInstrument();
-	            case 1: return VsoUtils.appendParamtersForUrl(url_,resp_.getRecord()[irow].getFileid(),provider_,status_);
+	            case 1: return urlList[irow];
 	            case 2: return resp_.getRecord()[irow].getProvider();
 	            case 3: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getStart());
 	            case 4: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getEnd());
