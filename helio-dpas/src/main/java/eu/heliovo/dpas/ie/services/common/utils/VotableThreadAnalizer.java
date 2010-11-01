@@ -50,7 +50,7 @@ public class VotableThreadAnalizer extends Thread
 					     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 					    	 System.out.println("--->  VSO Provider intiated--->");
 					    	 System.out.println(" : VSO Provider Name : "+resultTo[0].getProviderSource());
-					    	 commonTO.setVotableDescription("VSO query response"+ resultTo[0].getProviderSource());
+					    	 commonTO.setVotableDescription("VSO query response "+ resultTo[0].getProviderSource());
 					    	 commonTO.setUrl(VsoUtils.getUrl(commonTO.getRequest()));
 					    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
 					    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
@@ -77,9 +77,9 @@ public class VotableThreadAnalizer extends Thread
 					     }
 		    		 }else{
 		    			 //commonTO.setBufferOutput(new BufferedWriter(pw));
-				    	 commonTO.setVotableDescription("Error votable response, no data");
+				    	 commonTO.setVotableDescription(" Error, no data for "+commonTO.getWhichProvider()+" provider");
 				    	 commonTO.setQuerystatus("ERROR");
-				    	 commonTO.setQuerydescription("No data avialable for Instrument: "+instruments[count]);
+				    	 commonTO.setQuerydescription(" Provider access table is not configured for Instrument : "+instruments[count]);
 						 VOTableCreator.writeErrorTables(commonTO);
 		    		 }
 		    		 //catch exception if there is error.
