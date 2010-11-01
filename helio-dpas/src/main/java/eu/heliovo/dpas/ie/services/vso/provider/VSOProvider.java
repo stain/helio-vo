@@ -164,7 +164,7 @@ public class VSOProvider
 	       ProviderGetDataResponse []pdr = binding.getData(vdr);
 	       System.out.println(": Provider get data response : "+pdr.length);
 	       Data []data;
-	       String[] urlString = new String[resp.getNo_of_records_found()];
+	       String[] urlString = new String[resp.getNo_of_records_returned()];
 	       URL url;
 	       int temp = 0;
 	       InputStream is;
@@ -200,10 +200,10 @@ public class VSOProvider
     * @throws IOException
     */
    public String[] getVsoURL(ProviderQueryResponse	resp) throws IOException {
-	   System.out.println(" VSO URLS List Size "+resp.getNo_of_records_found());
-    	String[] fileId=new String[resp.getNo_of_records_found()];
+	   System.out.println(" VSO URLS List Size "+resp.getNo_of_records_returned());
+    	String[] fileId=new String[resp.getNo_of_records_returned()];
     	
-    	for(int count=0;count<resp.getNo_of_records_found();count++){
+    	for(int count=0;count<resp.getNo_of_records_returned();count++){
     		fileId[count]=resp.getRecord()[count].getFileid();
     	}
     	//Return file id array
