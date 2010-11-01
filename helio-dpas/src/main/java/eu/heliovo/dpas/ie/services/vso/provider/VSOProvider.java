@@ -25,7 +25,11 @@ import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 public class VSOProvider
 {
-
+	/**
+	 * 
+	 * @param vsoTO
+	 * @throws DataNotFoundException
+	 */
 	public	void query(VsoDataTO vsoTO) throws DataNotFoundException {
 		
 		/*
@@ -81,7 +85,11 @@ public class VSOProvider
 	}
 	
 	
-	   
+	/**
+	 *    
+	 * @param vsoTO
+	 * @throws IOException
+	 */
     public void getFitsFile(VsoDataTO vsoTO) throws IOException {
     	/*
 		 * Now I create the bindings for the VSO port
@@ -128,5 +136,78 @@ public class VSOProvider
           e2.printStackTrace();
       }
    }	
+    
+    /**
+     * 
+     * @param resp
+     * @param sProvider
+     * @return
+     */
+    public String[] getVsoURL(ProviderQueryResponse	resp,String sProvider)  {
+    	/*
+		 * Now I create the bindings for the VSO port
+		*/
+      try {
+    	   System.out.println("  : In method getVsoURL() , getting list of File Id :  ");
+    	   VSOiBindingStub binding;
+	       binding = (VSOiBindingStub) new VSOiServiceLocator().getsdacVSOi();
+	       Float versionNumber = new Float(1.0);
+	       GetDataRequest gdr = new GetDataRequest();
+	       String []methods = {"URL-FILE", "URL-TAR", "URL-TAR_GZ", "URL-ZIP", "URL"};
+	       String[] fileId=getVsoURL(resp);
+	       System.out.println("  : No of File Id :  "+fileId.length);
+	       gdr.setMethod(methods);
+	       DataRequest[]  dr= new DataRequest[1];
+	       dr[0] = new DataRequest(sProvider,fileId);
+	       gdr.setData(dr);
+	       VSOGetDataRequest vdr = new VSOGetDataRequest(versionNumber,gdr);
+	       ProviderGetDataResponse []pdr = binding.getData(vdr);
+	       System.out.println(": Provider get data response : "+pdr.length);
+	       Data []data;
+	       String[] urlString = new String[resp.getNo_of_records_found()];
+	       URL url;
+	       int temp = 0;
+	       InputStream is;
+	       int count=0;
+	       System.out.println("  :Getting list of URL'S :  ");
+	       for(int j = 0;j < pdr.length;j++) {
+	           data = pdr[j].getData();
+	           for(int i = 0;i < data.length;i++) {
+	               urlString[count] = data[i].getUrl();
+	               count++;
+	           }//for            
+	       }//for
+	       System.out.println("  : NO of URL returned :  "+urlString.length);
+	       System.out.println("  : Returning the list :  ");
+	       return urlString;
+      }catch(Exception e2) {
+          try {
+        	  e2.printStackTrace();
+			throw new Exception(" Exception occured while retrieving fits URL from VSO provider ");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+      }
+	return null;
+   }	
       
+  
+   /**
+    * 
+    * @param resp
+    * @return
+    * @throws IOException
+    */
+   public String[] getVsoURL(ProviderQueryResponse	resp) throws IOException {
+	   System.out.println(" VSO URLS List Size "+resp.getNo_of_records_found());
+    	String[] fileId=new String[resp.getNo_of_records_found()];
+    	
+    	for(int count=0;count<resp.getNo_of_records_found();count++){
+    		fileId[count]=resp.getRecord()[count].getFileid();
+    	}
+    	//Return file id array
+    	return fileId;
+    }
+    
 }
