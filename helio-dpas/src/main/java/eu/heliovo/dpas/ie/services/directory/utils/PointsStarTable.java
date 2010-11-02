@@ -3,9 +3,7 @@ package eu.heliovo.dpas.ie.services.directory.utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-
 import eu.heliovo.dpas.ie.common.ConstantKeywords;
-import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
 
