@@ -9,7 +9,6 @@ import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 
 public interface SoteriaQueryDao extends DPASDataProvider {
 
-	//public	void query(String instrument,  String dateFrom, String dateTo, int maxResults,String url,Writer output,String providerName) throws Exception;
 	public void query(CommonTO commonTO) throws Exception;
 	public void generateVOTable(SoteriaDataTO soteriaTO) throws DataNotFoundException,Exception;
 
