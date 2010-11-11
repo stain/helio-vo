@@ -33,7 +33,8 @@ public class VOTableCreator {
 			 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
 		}
 		 out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
-        
+		if(comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1)
+		 out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
     }
     
     /**
@@ -54,6 +55,7 @@ public class VOTableCreator {
  	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
  	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
  	         out.write( "<INFO name=\"TIME_RANGE\" value=\"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
+ 	         out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
 			         //VoTable Creator
