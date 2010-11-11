@@ -34,6 +34,7 @@ public class DirQueryDaoImpl implements DirQueryDao {
 		 dirTO.setBufferOutput(commonTO.getBufferOutput());
 		 dirTO.setStatus(commonTO.getStatus());
 		 dirTO.setHelioInstrument(commonTO.getHelioInstrument());
+		 dirTO.setContextUrl(commonTO.getContextUrl());
 	     dirProvider.query(dirTO) ;
 	}
 		
