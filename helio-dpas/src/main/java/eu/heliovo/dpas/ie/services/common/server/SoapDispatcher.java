@@ -19,6 +19,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
 import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
 import eu.heliovo.dpas.ie.services.common.utils.VotableThreadAnalizer;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
@@ -152,6 +153,10 @@ public class SoapDispatcher implements Provider<Source> {
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
 		     commonTO.setRequest(req);
+		     commonTO.setContextUrl(CommonUtils.getUrl(req));
+		     commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));
+		     commonTO.setAllDateTo(CommonUtils.arrayToString(stopTime,","));
+		     commonTO.setAllInstrument(CommonUtils.arrayToString(instruments,","));
 		     //Loop to check
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	//
