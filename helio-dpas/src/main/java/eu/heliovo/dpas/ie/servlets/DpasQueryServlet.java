@@ -11,6 +11,7 @@ import eu.heliovo.dpas.ie.controller.ServiceEngine;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
+import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
 import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
 import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
@@ -64,7 +65,10 @@ public class DpasQueryServlet extends HttpServlet {
 		     // Setting Print Writer.
 		     commonTO.setPrintWriter(pw);
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
-		  		     
+		     commonTO.setContextUrl(CommonUtils.getUrl(request));
+		     commonTO.setAllDateFrom(sStartTime);
+		     commonTO.setAllDateTo(sEndTime);
+		     commonTO.setAllInstrument(sInstrument);
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	 //VOTable header
 				 VOTableCreator.writeHeaderOfTables(commonTO);
