@@ -42,6 +42,14 @@ public class HsqlDbUtils {
 		 return shortNameDao.getAccessTableBasedOnInst(instName);
 	 }
 	
+	 /*
+	  * 
+	  */
+	 public synchronized ResultTO[]  getAccessTableDetails() throws DetailsNotFoundException
+	 {
+		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
+		 return shortNameDao.getAccessTableDetails();
+	 }
 	 
 	 /*
 	 public void dropTable(){
