@@ -37,6 +37,11 @@ public class CommonTO {
 	private String exceptionStatus;
 	private String helioInstrument;
 	private String providerSource;
+	private String contextUrl;
+	private String allInstrument;
+	private String allDateFrom;
+	private String allDateTo;
+	
 	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
@@ -228,6 +233,37 @@ public class CommonTO {
 
 	public void setProviderSource(String providerSource) {
 		this.providerSource = providerSource;
+	}
+
+	public String getContextUrl() {
+		return contextUrl;
+	}
+
+	public void setContextUrl(String contextUrl) {
+		this.contextUrl = contextUrl;
+	}
+
+	public String getAllInstrument() {
+		return allInstrument;
+	}
+
+	public void setAllInstrument(String allInstrument) {
+		this.allInstrument = allInstrument;
+	}
+
+	public String getAllDateFrom() {
+		return allDateFrom;
+	}
+
+	public void setAllDateFrom(String allDateFrom) {
+		this.allDateFrom = allDateFrom;
+	}
+
+	public String getAllDateTo() {
+		return allDateTo;
+	}
+
+	public void setAllDateTo(String allDateTo) {
+		this.allDateTo = allDateTo;
 	}	
-	
 }
