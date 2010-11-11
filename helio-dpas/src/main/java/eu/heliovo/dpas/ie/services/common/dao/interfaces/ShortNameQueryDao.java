@@ -11,6 +11,6 @@ import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 public interface ShortNameQueryDao {
 
 	public void loadProviderAccessTable(String fileName) throws DetailsNotFoundException;
-
 	public ResultTO[] getAccessTableBasedOnInst(String fileName) throws DetailsNotFoundException;
+	public ResultTO[] getAccessTableDetails() throws DetailsNotFoundException;
 }
