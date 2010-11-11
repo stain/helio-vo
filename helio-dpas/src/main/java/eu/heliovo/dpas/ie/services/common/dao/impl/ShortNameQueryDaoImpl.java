@@ -146,5 +146,91 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 		    }	
 			return null;
 		}
+		
+	/**
+	 * 	
+	 */
+	@Override
+	public ResultTO[] getAccessTableDetails() throws DetailsNotFoundException {
+			int count=0;
+			ResultTO[] resultTO=null;
+			try{
+				String query="select * from pat";
+				System.out.println("  :  -----> getAccessTableBasedOnInst() method -----> : Reslut For ");
+				//Connecting to database.						
+				con = ConnectionManager.getConnection();
+				st = con.createStatement();
+				rs=st.executeQuery(query);
+				//rs.last();
+				resultTO = new ResultTO[1];
+				//rs.first();
+				while(rs.next()){
+					resultTO[count]=new ResultTO();
+					//Helio Inst
+					if(rs.getString(1)!=null)
+						resultTO[count].setHelioInst(rs.getString(1));
+					//Provider Name
+					if(rs.getString(2)!=null)
+						resultTO[count].setProviderName(rs.getString(2));
+					//Provider Type
+					if(rs.getString(3)!=null)
+						resultTO[count].setProviderType(rs.getString(3));
+					//Instrument
+					if(rs.getString(4)!=null)
+						resultTO[count].setInst(rs.getString(4));
+					//Obsevatory Id
+					if(rs.getString(5)!=null)
+						resultTO[count].setObsId(rs.getString(5));
+					//Provider Source
+					if(rs.getString(6)!=null)
+						resultTO[count].setProviderSource(rs.getString(6));
+					//Provider Ack
+					if(rs.getString(7)!=null)
+						resultTO[count].setProviderAck(rs.getString(7));
+					//Provider Ranking
+					if(rs.getString(8)!=null)
+						resultTO[count].setPvdrRanking(rs.getString(8));
+					//Provider quality
+					if(rs.getString(9)!=null)
+						resultTO[count].setPvdrQuality(rs.getString(9));
+					//Vso Int id
+					if(rs.getString(10)!=null)
+						resultTO[count].setPvdrVsoKey(rs.getString(10));
+					count++;
+                }
+				System.out.println("  :  -----> Success -----> Reslut For : ");
+				return resultTO;
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.fatal(" Exception occured in getAccessTableBasedOnInst() : ",e);
+			}
+			
+			finally
+			{
+				try {
+					
+					if(rs!=null)
+					{
+						rs.close();
+						rs=null;
+					}
+					if(st!=null)
+					{
+						st.close();
+						st=null;
+					}
+					if(con!=null)
+					{
+						con.close();
+						con=null;
+					}
+				} catch (Exception e) {
+					
+				}
+		    }	
+			return null;
+		}
+		
+		
 	}
 
