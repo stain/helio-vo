@@ -31,6 +31,7 @@ public class UocQueryDaoImpl implements UocQueryDao {
 		 uocDataTO.setBufferOutput(commonTO.getBufferOutput());
 		 uocDataTO.setStatus(commonTO.getStatus());
 		 uocDataTO.setHelioInstrument(commonTO.getHelioInstrument());
+		 uocDataTO.setContextUrl(commonTO.getContextUrl());
 		uocProvider.query(uocDataTO) ;
 	}
 	
