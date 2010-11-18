@@ -7,17 +7,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import eu.heliovo.dpas.ie.common.ConstantKeywords;
+import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
-
+import eu.heliovo.dpas.ie.services.common.transfer.FileResultTO;
+import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
+import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
+import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
+import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
+import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
 public class CommonUtils {
 	
@@ -49,6 +48,22 @@ public class CommonUtils {
 		  String url = scheme+"://"+serverName+":"+serverPort+contextPath+"/HelioQueryService?STARTTIME="; 
 		  return url; 
 	  }	 
+	  
+		/**
+	   * Reveals the base URI of the web application.
+	   *
+	   * @return The URI.
+	   */
+	  public static  String getUrl(HttpServletRequest req,String job_Id) { 
+		  
+		  String scheme = req.getScheme(); // http 
+		  String serverName = req.getServerName(); // hostname.com 
+		  int serverPort = req.getServerPort(); // 80 
+		  String contextPath = req.getContextPath(); // mywebapp 
+		  String url = scheme+"://"+serverName+":"+serverPort+contextPath+"/ServiceJobStatus?MODE=file&amp;ID="+job_Id; 
+		 		  
+		  return url; 
+	  }
 	  
 	  /**
 	   * 
@@ -86,4 +101,104 @@ public class CommonUtils {
 		 String sActualUrl=commonTO.getContextUrl()+commonTO.getDateFrom()+"&ENDTIME="+commonTO.getDateTo()+"&INSTRUMENT="+commonTO.getHelioInstrument();
 		 return sActualUrl;
 	 }
+	 
+	 public static void genegrateVotableBasedOnCondition(CommonTO commonTO) throws Exception
+	 {
+		//getting details from Provider access table
+		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(commonTO.getParaInstrument());
+		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
+	    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
+	    	 System.out.println(" : Helio Instrument : "+resultTo[0].getHelioInst());
+	    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
+	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderName());
+	    	 commonTO.setInstrument(resultTo[0].getInst());
+	    	 System.out.println(" : Instrument : "+resultTo[0].getInst());
+		     //Calling DAO factory to connect PROVIDERS
+		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
+		    	 System.out.println("--->  VSO Provider intiated--->");
+		    	 System.out.println(" : VSO Provider Name : "+resultTo[0].getProviderSource());
+		    	 commonTO.setVotableDescription("VSO query response "+ resultTo[0].getProviderSource());
+		    	 commonTO.setUrl(VsoUtils.getUrl(commonTO.getRequest()));
+		    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
+		    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+	         	 vsoQueryDao.query(commonTO);
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
+		    	 commonTO.setVotableDescription("UOC query response");
+		    	 System.out.println("--->  UOC Provider intiated--->");
+		    	 System.out.println(" : Table name for UOC  : "+resultTo[0].getObsId());
+		    	 commonTO.setInstrument(resultTo[0].getObsId());
+		    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 uocQueryDao.query(commonTO);
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+		    	 System.out.println("--->  CDAWEB Provider intiated--->");
+		    	 System.out.println(" : Mission name for CDAWEB  : "+resultTo[0].getObsId());
+		    	 commonTO.setMissionName(resultTo[0].getObsId());
+		    	 commonTO.setVotableDescription("CDAWEB query response");
+		    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 cdaWebQueryDao.query(commonTO);
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof DirQueryDao ){
+		    	 commonTO.setVotableDescription("Archive query response");
+		    	 System.out.println("--->  Directory Provider intiated--->");
+		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 dirQueryDao.query(commonTO);
+		     }
+		 }else{
+			 //commonTO.setBufferOutput(new BufferedWriter(pw));
+	    	 commonTO.setVotableDescription("Error, no data for "+commonTO.getWhichProvider()+" provider");
+	    	 commonTO.setQuerystatus("ERROR");
+	    	 commonTO.setQuerydescription(" Provider access table is not configured for Instrument : "+commonTO.getParaInstrument());
+			 VOTableCreator.writeErrorTables(commonTO);
+		 }
+	 }
+	 
+	 /*
+		 * create Xml for webservice request.
+		 */
+		 public static String createXmlForWebService(FileResultTO fileTO) throws Exception {
+			 StringBuilder xmlString = new StringBuilder();
+			 xmlString.append("<ResultInfo>");
+			 xmlString.append("<ID>");
+			 xmlString.append(fileTO.getRandomUUIDString());
+			 xmlString.append("</ID>");
+			 String sDes=null;
+			 String statusArray[]=null;
+			 String Status=fileTO.getStatus();
+			 //Status of completion.
+			 if(Status!=null && !Status.trim().equals(""))
+				 statusArray=Status.split("::");
+			 //Description if the error occured
+			 if(statusArray!=null && statusArray.length>1)
+				 sDes=statusArray[1];
+			 //Status for the service
+			 if(Status!=null && !Status.trim().equals("")){
+				 xmlString.append("<status>");
+				 xmlString.append(statusArray[0]);
+				 xmlString.append("</status>");
+			 }
+			 
+			// Des for the file location.
+			 if(sDes!=null && !sDes.trim().equals("")){
+				 xmlString.append("<statusdescription>");
+				 xmlString.append(sDes);
+				 xmlString.append("</statusdescription>");
+			 }
+			 String sUrl=fileTO.getsUrl();
+			 // Url for the file location.
+			 if(sUrl!=null && !sUrl.trim().equals("")){
+				 xmlString.append("<resultURI>");
+				 xmlString.append(sUrl);
+				 xmlString.append("</resultURI>");
+			 }
+			 String fileInfo=fileTO.getFileInfo();
+			 //Result info
+			 if(fileInfo!=null && !fileInfo.trim().equals("")){
+				 xmlString.append("<fileInfo>");
+				 xmlString.append(fileInfo);
+				 xmlString.append("</fileInfo>");
+			 }
+			 //Result end
+			 xmlString.append("</ResultInfo>");
+			 
+		     return xmlString.toString();
+	      }
 }

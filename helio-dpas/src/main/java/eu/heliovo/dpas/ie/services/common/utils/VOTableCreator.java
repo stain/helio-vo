@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import org.apache.log4j.Logger; 
-
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import uk.ac.starlink.table.StarTable;
 import uk.ac.starlink.votable.DataFormat;
@@ -32,9 +31,10 @@ public class VOTableCreator {
 		if(status!=null && !status.equals("")){
 			 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
 		}
-		 out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
-		if(comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1)
-		 out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
+		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
+		//Checking for multiple Resources
+		if((comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1) || (comCriteriaTO.getAllDateTo()!=null && comCriteriaTO.getAllDateTo().split(",").length>1) || (comCriteriaTO.getAllInstrument()!=null && comCriteriaTO.getAllInstrument().split(",").length>1))
+			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
     }
     
     /**

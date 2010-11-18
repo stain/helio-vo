@@ -3,9 +3,9 @@ package eu.heliovo.dpas.ie.services.common.utils;
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.CommonDaoFactory;
 import eu.heliovo.dpas.ie.services.common.dao.exception.DetailsNotFoundException;
+import eu.heliovo.dpas.ie.services.common.dao.interfaces.LongRunningQueryDao;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.ShortNameQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
-
 
 public class HsqlDbUtils {
 	
@@ -49,6 +49,32 @@ public class HsqlDbUtils {
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
 		 return shortNameDao.getAccessTableDetails();
+	 }
+	 
+	 public synchronized void  insertStatusIntoHsqlDB(String randomUUIDString,String status) throws DetailsNotFoundException
+	 {
+		 LongRunningQueryDao shortNameDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		 shortNameDao.insertStatusToHsqlDB(randomUUIDString, status);
+	 }
+	 
+	 public synchronized void insertURLToHsqlDB(String randomUUIDString,String url) throws DetailsNotFoundException
+	 {
+		 LongRunningQueryDao shortNameDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		 shortNameDao.insertURLToHsqlDB(randomUUIDString, url);
+	 }
+	 
+	 public synchronized String  getStatusFromHsqlDB(String randomUUIDString) throws DetailsNotFoundException
+	 {
+		LongRunningQueryDao shortNameDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		String sStatus=shortNameDao.getStatusFromHsqlDB(randomUUIDString);
+		return sStatus;
+	 }
+	 
+	 public synchronized String  getUrlFromHsqlDB(String randomUUIDString) throws DetailsNotFoundException
+	 {
+		LongRunningQueryDao shortNameDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		String sUrl=shortNameDao.getUrlFromHsqlDB(randomUUIDString);
+		return sUrl;
 	 }
 	 
 	 /*
