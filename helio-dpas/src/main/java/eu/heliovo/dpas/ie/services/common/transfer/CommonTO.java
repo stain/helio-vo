@@ -2,10 +2,7 @@ package eu.heliovo.dpas.ie.services.common.transfer;
 
 import java.io.BufferedWriter;
 import java.io.Writer;
-import java.util.Calendar;
-
 import javax.servlet.http.HttpServletRequest;
-
 import uk.ac.starlink.table.StarTable;
 
 public class CommonTO {
@@ -41,6 +38,11 @@ public class CommonTO {
 	private String allInstrument;
 	private String allDateFrom;
 	private String allDateTo;
+	private String paraInstrument;
+	private String saveto;
+	private String longRunningQueryStatus;
+	private String dataXml;
+	private Writer longRunningPrintWriter;
 	
 	
 	public StarTable[] getStarTableArray() {
@@ -265,5 +267,45 @@ public class CommonTO {
 
 	public void setAllDateTo(String allDateTo) {
 		this.allDateTo = allDateTo;
+	}
+
+	public String getParaInstrument() {
+		return paraInstrument;
+	}
+
+	public void setParaInstrument(String paraInstrument) {
+		this.paraInstrument = paraInstrument;
+	}
+
+	public String getSaveto() {
+		return saveto;
+	}
+
+	public void setSaveto(String saveto) {
+		this.saveto = saveto;
+	}
+
+	public String getLongRunningQueryStatus() {
+		return longRunningQueryStatus;
+	}
+
+	public void setLongRunningQueryStatus(String longRunningQueryStatus) {
+		this.longRunningQueryStatus = longRunningQueryStatus;
+	}
+
+	public String getDataXml() {
+		return dataXml;
+	}
+
+	public void setDataXml(String dataXml) {
+		this.dataXml = dataXml;
+	}
+
+	public Writer getLongRunningPrintWriter() {
+		return longRunningPrintWriter;
+	}
+
+	public void setLongRunningPrintWriter(Writer longRunningPrintWriter) {
+		this.longRunningPrintWriter = longRunningPrintWriter;
 	}	
 }

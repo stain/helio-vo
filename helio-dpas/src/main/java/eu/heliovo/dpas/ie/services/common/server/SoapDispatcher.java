@@ -1,9 +1,15 @@
 package  eu.heliovo.dpas.ie.services.common.server;
 
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PipedReader;
 import java.io.PipedWriter;
+import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -18,12 +24,18 @@ import javax.xml.ws.handler.MessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import eu.heliovo.dpas.ie.services.CommonDaoFactory;
+import eu.heliovo.dpas.ie.services.common.dao.interfaces.LongRunningQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.common.transfer.FileResultTO;
 import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
+import eu.heliovo.dpas.ie.services.common.utils.FileUtils;
+import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
+import eu.heliovo.dpas.ie.services.common.utils.InstanceHolders;
+import eu.heliovo.dpas.ie.services.common.utils.LongRunningQueryIdHolders;
+import eu.heliovo.dpas.ie.services.common.utils.RunService;
 import eu.heliovo.dpas.ie.services.common.utils.VOTableCreator;
 import eu.heliovo.dpas.ie.services.common.utils.VotableThreadAnalizer;
-import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
-
 
 /**
  * Class: SoapDispatcher
@@ -66,7 +78,6 @@ public class SoapDispatcher implements Provider<Source> {
 	@Override
 	public Source invoke(Source request) {
 		StreamSource responseReader = null;
-		BufferedWriter bw =null;
 		MessageContext mc = wsContext.getMessageContext();
 		HttpServletRequest req = (HttpServletRequest)mc.get(MessageContext.SERVLET_REQUEST);
 		PipedReader pr=null;
@@ -76,10 +87,17 @@ public class SoapDispatcher implements Provider<Source> {
 	    String[] stopTime =null;
 	    String[] instruments =null;
 	    String[] from =null;
-	    
+	    String saveTo =null;
+	    FileResultTO fileTO=new FileResultTO();
+	    //Creating UUID and generating unique ID.
+		UUID uuid = UUID.randomUUID();
+		String randomUUIDString = uuid.toString();
+		File file=null;
+		String saveFilePath=null;
+		
 		try {
 			 Element inputDoc=toDocument(request);
-
+			 String interfaceName = inputDoc.getLocalName().intern();
 		     boolean votable=true;
 		     
 		    if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild()!=null){
@@ -157,18 +175,149 @@ public class SoapDispatcher implements Provider<Source> {
 		     commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));
 		     commonTO.setAllDateTo(CommonUtils.arrayToString(stopTime,","));
 		     commonTO.setAllInstrument(CommonUtils.arrayToString(instruments,","));
-		     //Loop to check
+		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
-		    	//
-		    	 new VotableThreadAnalizer(commonTO).start();
-		     }else{
+			    
+		    	 if(interfaceName == "LongTimeQuery".intern() || interfaceName == "LongQuery".intern()){
+					 
+		    		 //Setting for No Of Rows parameter.
+					 if(inputDoc.getElementsByTagNameNS("*","SAVETO").getLength()>0 && inputDoc.getElementsByTagNameNS("*","SAVETO").item(0).getFirstChild()!=null){
+						 saveTo = inputDoc.getElementsByTagNameNS("*","SAVETO").item(0).getFirstChild().getNodeValue();
+					 } 
+					 // Save To file.
+					 if(saveTo==null || saveTo==""){
+					    saveTo= InstanceHolders.getInstance().getProperty("hsqldb.database.path")+"/files";
+					    File f = new File(saveTo);
+					    //Checking if directry present; if not create one.
+					    if(!f.exists())
+					    	f.mkdir();		    
+					 }
+					 System.out.println(" : save to file location :  "+saveTo);
+					 //passing save to value to common TO.	
+					 commonTO.setSaveto(saveTo);
+					 commonTO.setLongRunningQueryStatus("LongRunning");
+					 //
+					 fileTO.setRandomUUIDString(randomUUIDString);
+
+					 String xmlString=CommonUtils.createXmlForWebService(fileTO);
+					 System.out.println(" : XML String : "+xmlString);
+					 BufferedWriter bw =null;
+					 //Set data to print writer.
+					 commonTO.setDataXml(xmlString);
+					 //Setting piped reader 
+					 commonTO.setLongRunningPrintWriter(pw);
+					 //Thread created to load data into response.
+					 LongRunningQueryDao longRunningQueryDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+					 longRunningQueryDao.generatelongRunningQueryXML(commonTO);	
+					 System.out.println(" : Done VOTABLE : ");	
+					 if(saveTo!=null && saveTo.startsWith("http")){
+					 //Save file to http.
+					 }else if(saveTo!=null && saveTo.contains("ftp")){
+					    FileUtils.saveFileToFtp(saveTo,"votable_"+randomUUIDString+".xml");	    			    	
+					 }else{
+					 //Save the file to local system.
+					    saveFilePath=saveTo+"/votable_"+randomUUIDString+".xml";
+					    file = new File(saveFilePath);
+						bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+						//Setting print writer.
+						commonTO.setPrintWriter(bw);
+						//Buffered output
+						commonTO.setBufferOutput(bw);
+						//Running the service in back round
+					 }
+					 RunService oRunReport= new RunService(commonTO,randomUUIDString);
+					 Thread th = new Thread(oRunReport);
+					 th.start();
+					 //Long running query status of completion.
+			 }else if(interfaceName == "GetStatus".intern()){
+				 String sID =null;
+				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
+		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
+				 }
+				 
+				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
+					if(sStatus==null || sStatus.trim().equals(""))
+					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);
+					//Setting file TO
+					fileTO.setRandomUUIDString(sID);
+					fileTO.setStatus(sStatus);
+					
+					String xmlString=CommonUtils.createXmlForWebService(fileTO);
+					System.out.println(" : XML String : "+xmlString);	
+					//Setting piped reader 
+					 commonTO.setLongRunningPrintWriter(pw);
+					//Set data to print writer.
+					commonTO.setDataXml(xmlString);
+					//Thread created to load data into response.
+					LongRunningQueryDao longRunningQueryDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+					longRunningQueryDao.generatelongRunningQueryXML(commonTO);	
+					//Long running query file location path result.
+			 }else if(interfaceName == "GetResults".intern()){
+				 String sID =null;
+				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
+		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
+				 }
+				 
+				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
+					if(sStatus==null || sStatus.trim().equals(""))
+					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);
+					String contextPath=CommonUtils.getUrl(req,sID);
+					//Setting file TO
+					fileTO.setRandomUUIDString(sID);
+					fileTO.setStatus(sStatus);
+					fileTO.setsUrl(contextPath);
+					String xmlString=CommonUtils.createXmlForWebService(fileTO);
+					System.out.println(" : XML String : "+xmlString);	
+					//Setting piped reader 
+					commonTO.setLongRunningPrintWriter(pw);
+					//Set data to print writer.
+					commonTO.setDataXml(xmlString);
+					//Thread created to load data into response.
+					LongRunningQueryDao longRunningQueryDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+					longRunningQueryDao.generatelongRunningQueryXML(commonTO);		
+					//Long running query response result.
+			 	}else if(interfaceName == "GetResponseFile".intern()){
+					 //Presently not in use.
+					 StringBuilder fileData=null;
+					 String sID =null;
+					 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
+			    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
+					 }
+					 String sUrl=HsqlDbUtils.getInstance().getUrlFromHsqlDB(sID);
+						if(sUrl.contains("ftp")){
+							String ftpUrl=HsqlDbUtils.getInstance().getUrlFromHsqlDB(sID);
+							fileData=FileUtils.getFileDataFromFtp(ftpUrl);
+						}else if(sUrl.startsWith("http")) {
+						
+						}
+						else{
+							File xmlfile = new File(sUrl);
+					        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+					        DocumentBuilder builder = factory.newDocumentBuilder();
+					        Document document = builder.parse(xmlfile);
+					        fileData=FileUtils.readDataFromFile(document);
+						}
+						pw.write(fileData.toString());
+			 }
+			 //Non long running query
+			 if(interfaceName == "Query".intern() || interfaceName == "TimeQuery".intern()){ 
+				 //Setting buffered printer
+				 commonTO.setBufferOutput(new BufferedWriter(pw) );
+				 //Setting piped reader 
+				 commonTO.setPrintWriter(pw);
+		    	 //Thread created to load data into PipeReader.
+				 new VotableThreadAnalizer(commonTO).start();				
+				 System.out.println(" : Done VOTABLE : ");				
+			 }
+		  }else{
 		    	 commonTO.setExceptionStatus("exception");
 		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
-		    	 commonTO.setVotableDescription("VSO query response");
+		    	 commonTO.setVotableDescription("DPAS query response");
 		    	 commonTO.setQuerystatus("ERROR");
 		    	 commonTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
 				 VOTableCreator.writeErrorTables(commonTO);
-		     }
+		  }
+		     
 		     responseReader= new StreamSource(pr); 
 		     
 		}catch (Exception e) {
