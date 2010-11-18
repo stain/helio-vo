@@ -67,6 +67,7 @@ public class VSOProvider
 		        System.out.println( "The query returned " + resp.length + " number of records");
 		        for(int count=0;count<resp.length;count++){
 		        	tables[count]=new PointsStarTable(resp[count],vsoTO.getUrl(),resp[count].getProvider(),vsoTO.getStatus());
+		        	tables[count].setName(vsoTO.getInstrument());
 		        }
 		        vsoTO.setStarTableArray(tables);
 		        vsoTO.setQuerystatus("OK");
