@@ -29,6 +29,7 @@ public class DirProvider
         	if(results!=null && results.size()>0){
         		tables=new StarTable[1];
         		tables[count]=new PointsStarTable(results,dirTO.getInstrument(),dirTO.getDateTo());
+        		tables[count].setName(dirTO.getInstrument());
         	}
         	
         	dirTO.setStarTableArray(tables);
