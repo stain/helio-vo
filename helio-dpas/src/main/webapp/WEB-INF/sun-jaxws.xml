@@ -14,6 +14,14 @@
 	    port="{http://helio-vo.eu/xml/QueryService/v0.1}HelioQueryServicePort"
 	    url-pattern="/HelioService"/>
 	    
+	    <endpoint 
+	    name="HelioLongQueryService"                    
+	    implementation="eu.heliovo.dpas.ie.services.common.server.SoapDispatcher"
+	     wsdl="WEB-INF/wsdl/long_query.wsdl"
+	    service="{http://helio-vo.eu/xml/LongQueryService/v0.1}LongHelioQueryService"
+	    port="{http://helio-vo.eu/xml/LongQueryService/v0.1}LongHelioQueryServicePort"
+	    url-pattern="/HelioLongQueryService"/>
+	    
 		<!-- OLD: http://helio-vo.eu/xml/QueryService/v0.1 -->	    
 
 	    <endpoint 
