@@ -1,13 +1,26 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.common.utils;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
@@ -201,4 +214,52 @@ public class CommonUtils {
 			 
 		     return xmlString.toString();
 	      }
+		 
+		 
+		  @SuppressWarnings("unchecked")
+		  public static Map<String,String> getLogLocations() {
+
+		    Collection<Logger> allLoggers = new ArrayList<Logger>();
+		    Logger rootLogger = Logger.getRootLogger();
+		    allLoggers.add(rootLogger);
+		    for (Enumeration<Logger> loggers =rootLogger.getLoggerRepository().getCurrentLoggers() ;loggers.hasMoreElements() ; ) {
+		      allLoggers.add(loggers.nextElement());
+		    }
+		    
+		    Set<FileAppender> fileAppenders =new LinkedHashSet<FileAppender>();
+
+		    for (Logger logger : allLoggers) {
+		      for (Enumeration<Appender> appenders =
+		              logger.getAllAppenders() ;
+		              appenders.hasMoreElements() ; ) {
+
+		        Appender appender = appenders.nextElement();
+		        if (appender instanceof FileAppender) {
+
+		          fileAppenders.add((FileAppender) appender);
+		        }
+		      }
+		    }
+
+		    Map<String, String> locations =new LinkedHashMap<String,String>();
+
+		    for (FileAppender appender : fileAppenders) {
+		      locations.put(appender.getName(), appender.getFile());
+		    }
+
+		    return locations;
+		  }
+		  
+		  public static StringBuffer readInputStreamAsString(InputStream in) throws IOException {
+			StringBuffer sb=new StringBuffer();
+		    BufferedInputStream bis = new BufferedInputStream(in);
+		    ByteArrayOutputStream buf = new ByteArrayOutputStream();
+		    int result = bis.read();
+		    while(result != -1) {
+		      byte b = (byte)result;
+		      buf.write(b);
+		      result = bis.read();
+		    }        
+		    return sb.append(buf.toString());
+		}
 }
