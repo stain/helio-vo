@@ -65,7 +65,13 @@ cellspacing="0">
               </ul>            
           </td>
          </tr> 
-         
+         <tr class="txtblackBP" > 
+           <td>
+              <ul>
+                  <li><a href="javascript:doSub('showLogFile.action')"> Show log file </a></li>		             
+              </ul>            
+          </td>
+         </tr> 
         
       </table>   
      </s:form>
