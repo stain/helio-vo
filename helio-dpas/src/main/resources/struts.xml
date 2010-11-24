@@ -31,6 +31,12 @@
 			<result name="success">jsp/AdminHome.jsp</result>
 			<result name="input">jsp/ProviderConfiguration.jsp</result>
 	</action>
+	
+	<action name="showLogFile" method="showLogFile" class="eu.heliovo.dpas.ie.services.common.action.CommonAction">
+            <result  name="SUCCESS" >jsp/ShowLog.jsp</result>	
+            <result  name="ERROR" >jsp/ShowLog.jsp</result>	
+	</action>
+	
    </package>
 </struts>
 
