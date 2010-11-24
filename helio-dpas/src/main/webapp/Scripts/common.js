@@ -369,6 +369,13 @@ function doneProviderAccessConnection()
 		
 }
 
+function showLogFile() 
+{
+	document.forms[0].target="_self";
+	document.forms[0].action="showLogFile.action";
+	document.forms[0].method="post";
+	document.forms[0].submit();	
+}
 
 function trim(stringToTrim) {
 	 return stringToTrim.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
