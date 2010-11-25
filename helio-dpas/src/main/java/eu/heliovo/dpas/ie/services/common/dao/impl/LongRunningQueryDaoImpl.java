@@ -5,11 +5,15 @@ import java.io.BufferedWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.Properties;
 import org.apache.log4j.Logger;
+
+import eu.heliovo.dpas.ie.common.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.common.dao.exception.DetailsNotFoundException;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.LongRunningQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
+import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
 import eu.heliovo.dpas.ie.services.common.utils.ConnectionManager;
 
 public class LongRunningQueryDaoImpl implements LongRunningQueryDao { 
@@ -26,7 +30,7 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
      		//Connecting to database.						
 			con = ConnectionManager.getConnection();
 			st = con.createStatement();
-			String query=" insert into job_status_table values('"+randomUUIDString+"','"+status+"')";
+			String query=" insert into job_status_table values('"+randomUUIDString+"','"+status+"','"+CommonUtils.changeDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat(), new Date())+"')";
 			logger.info("   :  Query to execute  :  "+query);
 		    st.executeUpdate(query);
 			con.commit();
@@ -71,7 +75,7 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 			//Connecting to database.						
 			con = ConnectionManager.getConnection();
 			st = con.createStatement();
-			String query="insert into job_url_table values('"+randomUUIDString+"','"+url+"')";
+			String query="insert into job_url_table values('"+randomUUIDString+"','"+url+"','"+CommonUtils.changeDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat(), new Date())+"')";
 		    st.executeUpdate(query);
 		    logger.info("   :  Query to execute  :  "+query);
 			con.commit();
