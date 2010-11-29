@@ -116,9 +116,8 @@
         <module>helio-clientapi</module>
         <module>helio-hec</module>
         <module>helio-hfc</module>
-    <module>helio-mockclient</module>
-    <module>helio-hfc</module>
-  </modules>
+        <module>helio-mockclient</module>
+    </modules>
     
     <scm>
       <connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
