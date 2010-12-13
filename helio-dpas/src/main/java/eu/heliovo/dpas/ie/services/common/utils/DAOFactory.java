@@ -5,6 +5,7 @@ import eu.heliovo.dpas.ie.services.CommonDaoFactory;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.DPASDataProvider;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
+import eu.heliovo.dpas.ie.services.soda.dao.interfaces.SoteriaQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 
@@ -27,12 +28,14 @@ public abstract class DAOFactory {
 	          return (DirQueryDao)CommonDaoFactory.getInstance().getDirQueryDao();
 	      case UOC		:
 	    	  return (UocQueryDao)CommonDaoFactory.getInstance().getUocQueryDao();
+	      case SODA		:
+	    	  return (SoteriaQueryDao)CommonDaoFactory.getInstance().getSoteriaQueryDao();
 	      default        : 
 	          return null;
 	    }
 	  }
 	   	  
 	  enum Type{
-		  VSO,CDAWEB,DIR,UOC
+		  VSO,CDAWEB,DIR,UOC,SODA
 		};
 }

@@ -29,6 +29,7 @@ import eu.heliovo.dpas.ie.services.cdaweb.dao.interfaces.CdaWebQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.common.transfer.FileResultTO;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
+import eu.heliovo.dpas.ie.services.soda.dao.interfaces.SoteriaQueryDao;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
@@ -157,6 +158,11 @@ public class CommonUtils {
 		    	 System.out.println("--->  Directory Provider intiated--->");
 		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 dirQueryDao.query(commonTO);
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof SoteriaQueryDao ){
+		    	 commonTO.setVotableDescription("Soteria query response");
+		    	 System.out.println("--->  Soteria Provider intiated--->");
+		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 soteriaQueryDao.query(commonTO);
 		     }
 		 }else{
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));
