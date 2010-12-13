@@ -1,9 +1,10 @@
 package eu.heliovo.dpas.ie.services.soda.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import eu.heliovo.dpas.ie.common.ConstantKeywords;
-import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
+import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.RecordId;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
 
@@ -18,7 +19,7 @@ public class PointsStarTable  extends RandomStarTable {
     };
 
     // Member variables are arrays holding the actual data.
-    FileDescription[]	resp_;
+    List<RecordId>	resp_;
     int nRow_;
     String inst;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
@@ -29,9 +30,9 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( FileDescription[]	resp ,String instruments) {
+    public PointsStarTable( List<RecordId>	resp ,String instruments) {
     	resp_=resp;
-    	nRow_=(int) resp.length;
+    	nRow_=(int) resp.size();
     	inst=instruments;
     }
 
@@ -50,7 +51,7 @@ public class PointsStarTable  extends RandomStarTable {
   
     public Object getCell( long lrow, int icol ) {
         int irow = checkedLongToInt( lrow );
-        if(resp_!=null && resp_[irow]!=null){
+        if(resp_!=null && resp_.get(irow)!=null){
 	        switch ( icol ) {
 	        	case 0: return inst;
 	            case 1: return null;
