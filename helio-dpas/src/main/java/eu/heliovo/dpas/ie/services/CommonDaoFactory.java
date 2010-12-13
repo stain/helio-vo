@@ -8,6 +8,8 @@ import eu.heliovo.dpas.ie.services.common.dao.impl.ShortNameQueryDaoImpl;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.LongRunningQueryDao;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.ShortNameQueryDao;
 import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
+import eu.heliovo.dpas.ie.services.soda.dao.impl.SoteriaQueryDaoImpl;
+import eu.heliovo.dpas.ie.services.soda.dao.interfaces.SoteriaQueryDao;
 import eu.heliovo.dpas.ie.services.uoc.dao.impl.UocQueryDaoImpl;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.impl.VsoQueryDaoImpl;
@@ -55,5 +57,9 @@ public class CommonDaoFactory extends DAOFactory {
 	
 	public LongRunningQueryDao getLongRunningQueryDao(){
 		return new LongRunningQueryDaoImpl();
+	}
+	
+	public SoteriaQueryDao getSoteriaQueryDao(){
+		return new SoteriaQueryDaoImpl();
 	}
 }
