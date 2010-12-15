@@ -8,13 +8,14 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Properties;
 import org.apache.log4j.Logger;
-
 import eu.heliovo.dpas.ie.common.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.common.dao.exception.DetailsNotFoundException;
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.LongRunningQueryDao;
 import eu.heliovo.dpas.ie.services.common.transfer.CommonTO;
 import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
 import eu.heliovo.dpas.ie.services.common.utils.ConnectionManager;
+import eu.heliovo.dpas.ie.services.common.utils.InstanceHolders;
+
 
 public class LongRunningQueryDaoImpl implements LongRunningQueryDao { 
 
@@ -57,10 +58,6 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 					con.close();
 					con=null;
 				}
-				if(prop!=null)
-				{
-					prop=null;
-				}
 			} catch (Exception e) {
 				
 			}
@@ -83,35 +80,30 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 			logger.fatal(" Exception occured in insertURLToHsqlDB() : ",e);
 		}
 			
-			finally
-			{
-				try {
-					
-					if(rs!=null)
-					{
-						rs.close();
-						rs=null;
-					}
-					if(st!=null)
-					{
-						st.close();
-						st=null;
-					}
-					if(con!=null)
-					{
-						con.close();
-						con=null;
-					}
-					if(prop!=null)
-					{
-						prop=null;
-					}
-				} catch (Exception e) {
-					
+		finally
+		{
+			try {
+				
+				if(rs!=null)
+				{
+					rs.close();
+					rs=null;
 				}
+				if(st!=null)
+				{
+					st.close();
+					st=null;
+				}
+				if(con!=null)
+				{
+					con.close();
+					con=null;
+				}
+			} catch (Exception e) {
+				
+			}
 		}
 	}
-	
 	
 	@Override
 	public String getStatusFromHsqlDB(String randomUUIDString) throws DetailsNotFoundException {
@@ -147,10 +139,6 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 					{
 						con.close();
 						con=null;
-					}
-					if(prop!=null)
-					{
-						prop=null;
 					}
 				} catch (Exception e) {
 					
@@ -198,10 +186,6 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 						con.close();
 						con=null;
 					}
-					if(prop!=null)
-					{
-						prop=null;
-					}
 				} catch (Exception e) {
 					
 				}
@@ -209,6 +193,120 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 			
 		return sUrl;
 	}
+	
+	
+	@Override
+	public void deleteUrlFromHsqlDB() throws DetailsNotFoundException {
+		try{
+			//Connecting to database.						
+			con =ConnectionManager.getConnection();
+			st = con.createStatement();
+		    st.executeUpdate("delete from job_url_table where insert_date >= '"+InstanceHolders.getInstance().getProperty("hsql.status.delete.date")+"' and  insert_date <= '"+CommonUtils.date2String(new Date())+"'");
+			con.commit();
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.fatal(" Exception occured in deleteUrlFromHsqlDB() : ",e);
+			}
+			
+			finally
+			{
+				try {
+					if(st!=null)
+					{
+						st.close();
+						st=null;
+					}
+					if(con!=null)
+					{
+						con.close();
+						con=null;
+					}
+				} catch (Exception e) {
+					
+				}
+		}
+	}
+	
+	@Override
+	public void deleteStatusFromHsqlDB() throws DetailsNotFoundException {
+		try{
+			//Connecting to database.						
+			con = ConnectionManager.getConnection();
+			st = con.createStatement();
+		    st.executeUpdate("delete from job_status_table where insert_date >= '"+InstanceHolders.getInstance().getProperty("hsql.status.delete.date")+"' and  insert_date <= '"+CommonUtils.date2String(new Date())+"'");
+			con.commit();
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.fatal(" Exception occured in getUrlFromHsqlDB() : ",e);
+			}
+			
+			finally
+			{
+				try {
+					
+					if(st!=null)
+					{
+						st.close();
+						st=null;
+					}
+					if(con!=null)
+					{
+						con.close();
+						con=null;
+					}
+				} catch (Exception e) {
+					
+				}
+		}
+
+	}
+
+	@Override
+	public String deleteSavedVoTable() throws DetailsNotFoundException {
+			String sUrl=null;
+			try{
+				logger.info(" Deleting Saved file from the system ");
+				//Connecting to database.						
+				con = ConnectionManager.getConnection();
+				st = con.createStatement();
+			    rs=st.executeQuery("select * from job_url_table where insert_date >= '"+InstanceHolders.getInstance().getProperty("hsql.status.delete.date")+"' and  insert_date <= '"+CommonUtils.date2String(new Date())+"'");
+				con.commit();
+				
+				while(rs.next()){
+					CommonUtils.deleteFile(rs.getString(2));
+				}
+				
+				}catch(Exception e){
+					e.printStackTrace();
+					logger.fatal(" Exception occured in deleteSavedVoTable() : ",e);
+				}
+				
+				finally
+				{
+					try {
+						
+						if(rs!=null)
+						{
+							rs.close();
+							rs=null;
+						}
+						if(st!=null)
+						{
+							st.close();
+							st=null;
+						}
+						if(con!=null)
+						{
+							con.close();
+							con=null;
+						}
+					} catch (Exception e) {
+						
+					}
+			}
+				
+			return sUrl;
+		}
 	
 	/**
 	 * 
