@@ -1,14 +1,12 @@
 package eu.heliovo.dpas.ie.services.soda.provider;
 
 import java.util.List;
-
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
+import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
 import eu.heliovo.dpas.ie.services.soda.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.details.RecordDetail;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.MainQueryLogicalBlockItem;
-import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.QueryLogicalBlock;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.QueryRelationBlock;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.RecordId;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.webservice.GetRecordDetailsRequest;
@@ -25,11 +23,12 @@ public class SoteriaProvider
 	public	void query(SoteriaDataTO soteriaTO) throws DataNotFoundException {
 		
 		StarTable[] tables=new StarTable[1];
-		MainQueryLogicalBlockItem mainQueryBlockItem=new MainQueryLogicalBlockItem();       
+		MainQueryLogicalBlockItem mainQueryBlockItem=new MainQueryLogicalBlockItem();      
+		
 		try{
         	SoteriaPort soteriaPort=new SoteriaService().getSoteriaPort();
-        	XMLGregorianCalendar startDate =DatatypeFactory.newInstance().newXMLGregorianCalendar(2000, 01, 01, 20, 20, 20, 20, 0);
-        	XMLGregorianCalendar endDate =DatatypeFactory.newInstance().newXMLGregorianCalendar(2000, 02, 01, 20, 20, 20, 20, 0);
+        	XMLGregorianCalendar startDate =DatatypeFactory.newInstance().newXMLGregorianCalendar(CommonUtils.stringToGregorianCalendar(soteriaTO.getDateFrom()));
+        	XMLGregorianCalendar endDate =DatatypeFactory.newInstance().newXMLGregorianCalendar(CommonUtils.stringToGregorianCalendar(soteriaTO.getDateTo()));
         	QueryRelationBlock queryBigger=new QueryRelationBlock();
         	QueryRelationBlock queryLesser=new QueryRelationBlock();
         	//
@@ -47,11 +46,11 @@ public class SoteriaProvider
         	for(int i=0;i<record.size();i++)
         	{
         		System.out.println(""+record.get(i).getName()+""+record.get(i).getRowId());
-        		GetRecordDetailsRequest getRecordDt=new GetRecordDetailsRequest();
-        		getRecordDt.setId(record.get(i).getRowId());
-        		getRecordDt.setDataset(record.get(i).getDataset());
+        		GetRecordDetailsRequest sRecordDt=new GetRecordDetailsRequest();
+        		sRecordDt.setId(record.get(i).getRowId());
+        		sRecordDt.setDataset(record.get(i).getDataset());
         		//
-        		RecordDetail recordDetails=soteriaPort.detail(getRecordDt);
+        		RecordDetail recordDetails=soteriaPort.detail(sRecordDt);
         		System.out.println(" : "+recordDetails.getProvider()+" : "+recordDetails.getInstrument()+" : "+recordDetails.getTime());
         	}
         }catch(Exception e){
