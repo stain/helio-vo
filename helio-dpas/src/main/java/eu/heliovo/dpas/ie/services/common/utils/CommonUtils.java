@@ -10,11 +10,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -38,7 +41,8 @@ import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 public class CommonUtils {
 	
 	 protected final  Logger logger = Logger.getLogger(this.getClass());
-	
+	 static SimpleDateFormat df=new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
+	 
 	 public static void copyFile(File src, File dst) throws IOException {
       	InputStream in = new FileInputStream(src); 
       	OutputStream out = new FileOutputStream(dst); 
@@ -282,4 +286,162 @@ public class CommonUtils {
 				} 
 				return str; 
 		}
+		
+		public static GregorianCalendar stringToGregorianCalendar(String stringDate) throws ParseException
+		{
+			Calendar calendar = Calendar.getInstance();
+			//Initializing GregorianCalendar
+			GregorianCalendar gregorianCal = new GregorianCalendar(calendar.getTimeZone());
+			Date date=df.parse(stringDate.replaceAll("T", " "));
+			gregorianCal.setTime(date);
+			return gregorianCal;
+		}
+		
+		/**
+		 * 
+		 * @param s
+		 * @return
+		 * @throws ParseException
+		 */
+		public static Calendar dateString2Calendar(String s) throws ParseException {
+		    Calendar cal=Calendar.getInstance();
+		    Date d1=df.parse(s);
+		    cal.setTime(d1);
+		    return cal;
+		  }
+		
+		/**
+		 * 
+		 * @param date
+		 * @return
+		 */
+		public static String date2String(Date date)
+		{
+			// Get the date today using Calendar object.
+			Date today = Calendar.getInstance().getTime();       
+			// Using DateFormat format method we can create a string
+			// representation of a date with the defined format.
+			String reportDate = df.format(today);
+			
+			return reportDate;
+		}
+		
+		/**
+		 * 
+		 * @param sDate
+		 * @return
+		 * @throws ParseException
+		 */
+		public static int getNoOfMonths(String sDate) throws ParseException
+		{
+			int diff=DifferenceInMonths(dateString2Calendar(sDate),Calendar.getInstance());
+			System.out.println(" :  No of months between dates  :  "+diff);
+			return diff;
+		}
+		
+		public static void deleteFile(String fileName) throws Exception{
+			System.out.println("Deleting saved VOTABLE "+fileName);
+			 // A File object to represent the filename
+			 File f = new File(fileName);
+			 // Make sure the file or directory exists and isn't write protected
+			 if (!f.exists())
+			      throw new IllegalArgumentException(
+			          "Delete: no such file or directory: " + fileName);
+	    	 // If it is a directory, make sure it is empty
+			 if (f.isDirectory()) {
+			      String[] files = f.list();
+			      if (files.length > 0)
+			        throw new IllegalArgumentException("Delete: directory not empty: " + fileName);
+			 }
+			 // Attempt to delete it
+			 boolean success = f.delete();
+			 if (!success)
+			      throw new IllegalArgumentException("Delete: deletion failed");
+		}
+		
+		
+		/**
+		 * 
+		 * @param date1
+		 * @param date2
+		 * @return
+		 */
+		public static int DifferenceInMonths(Calendar date1, Calendar date2)
+	    {
+		return (int)Math.round(DifferenceInYears(date1, date2) * 12);
+	    }
+		
+		/**
+		 * 
+		 * @param date1
+		 * @param date2
+		 * @return
+		 */
+	    public static double DifferenceInYears(Calendar date1, Calendar date2)
+	    {
+		double days = DifferenceInDays(date1, date2);
+		return  days / 365.2425;
+	    }
+	    /**
+	     * 
+	     * @param date1
+	     * @param date2
+	     * @return
+	     */
+	    public static double DifferenceInDays(Calendar date1, Calendar date2)
+	    {
+		return DifferenceInHours(date1, date2) / 24.0;
+	    }
+	    
+	    /**
+	     * 
+	     * @param date1
+	     * @param date2
+	     * @return
+	     */
+	    public static double DifferenceInHours(Calendar date1, Calendar date2)
+	    {
+		return DifferenceInMinutes(date1, date2) / 60.0;
+	    }
+	    
+	    /**
+	     * 
+	     * @param date1
+	     * @param date2
+	     * @return
+	     */
+	    public static double DifferenceInMinutes(Calendar date1, Calendar date2)
+	    {
+		return DifferenceInSeconds(date1, date2) / 60.0;
+	    }
+	    /**
+	     * 
+	     * @param date1
+	     * @param date2
+	     * @return
+	     */
+	    public static double DifferenceInSeconds(Calendar date1, Calendar date2)
+	    {
+		return DifferenceInMilliseconds(date1, date2) / 1000.0;
+	    }
+	    /**
+	     * 
+	     * @param date1
+	     * @param date2
+	     * @return
+	     */
+	    private static double DifferenceInMilliseconds(Calendar date1, Calendar date2)
+	    {
+		return Math.abs(GetTimeInMilliseconds(date1) - GetTimeInMilliseconds(date2));
+	    }
+	    /**
+	     * 
+	     * @param cal
+	     * @return
+	     */
+	    private static long GetTimeInMilliseconds(Calendar cal)
+	    {
+		return cal.getTimeInMillis() + cal.getTimeZone().getOffset(cal.getTimeInMillis());
+	    }
+		
 }

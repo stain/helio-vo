@@ -77,6 +77,36 @@ public class HsqlDbUtils {
 		return sUrl;
 	 }
 	 
+	 /**
+	  * 
+	  * @throws DetailsNotFoundException
+	  */
+	 public synchronized void  deleteUrlFromHsqlDB() throws DetailsNotFoundException
+	 {
+		LongRunningQueryDao longRunningDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		longRunningDao.deleteUrlFromHsqlDB();
+	 }
+	 
+	 /**
+	  * 
+	  * @throws DetailsNotFoundException
+	  */
+	 public synchronized void  deleteStatusFromHsqlDB() throws DetailsNotFoundException
+	 {
+		LongRunningQueryDao longRunningDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		longRunningDao.deleteStatusFromHsqlDB();
+	 }
+	 
+	 /**
+	  * 
+	  * @throws DetailsNotFoundException
+	  */
+	 public synchronized void  deleteSavedVoTable() throws DetailsNotFoundException
+	 {
+		LongRunningQueryDao longRunningDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
+		longRunningDao.deleteSavedVoTable();
+	 }
+	 
 	 /*
 	 public void dropTable(){
 		 try{
