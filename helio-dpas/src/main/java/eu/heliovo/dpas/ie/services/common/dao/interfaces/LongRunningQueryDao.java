@@ -11,4 +11,7 @@ public interface LongRunningQueryDao {
 		public String getStatusFromHsqlDB(String randomUUIDString) throws DetailsNotFoundException;
 		public String getUrlFromHsqlDB(String randomUUIDString) throws DetailsNotFoundException;
 		public void generatelongRunningQueryXML(CommonTO commonTO) throws Exception;
+		public void deleteStatusFromHsqlDB() throws DetailsNotFoundException;
+		public void deleteUrlFromHsqlDB() throws DetailsNotFoundException;
+		public String deleteSavedVoTable() throws DetailsNotFoundException;
 }
