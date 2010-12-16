@@ -55,7 +55,7 @@ public class StartupServlet extends HttpServlet {
 
 			Timer timer = new Timer();
 			//Check every 2 day 
-			timer.schedule(task , new Date(), 86400000*2); // refresh after 86400000 milliseconds  = 2 day
+			timer.schedule(task , new Date(), 86400000*2); // refresh after 86400000 milliseconds  = 1 day
 		}
 		catch(Exception ex)
 		{
