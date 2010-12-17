@@ -117,32 +117,32 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 			while(rs.next()){
 				sStatus=rs.getString(2);
 			}
-			}catch(Exception e){
+		}catch(Exception e){
 				logger.fatal(" Exception occured in getStatusFromHsqlDB() : ",e);
-			}
+		}
 			
-			finally
-			{
-				try {
-					
-					if(rs!=null)
-					{
-						rs.close();
-						rs=null;
-					}
-					if(st!=null)
-					{
-						st.close();
-						st=null;
-					}
-					if(con!=null)
-					{
-						con.close();
-						con=null;
-					}
-				} catch (Exception e) {
-					
+		finally
+		{
+			try {
+				
+				if(rs!=null)
+				{
+					rs.close();
+					rs=null;
 				}
+				if(st!=null)
+				{
+					st.close();
+					st=null;
+				}
+				if(con!=null)
+				{
+					con.close();
+					con=null;
+				}
+			} catch (Exception e) {
+				
+			}
 		}
 			
 			return sStatus;
@@ -189,7 +189,7 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 				} catch (Exception e) {
 					
 				}
-		}
+		  }
 			
 		return sUrl;
 	}
