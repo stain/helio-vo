@@ -7,7 +7,7 @@ import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.Re
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.RandomStarTable;
 
-public class PointsStarTable  extends RandomStarTable {
+public class PointsStarTable extends RandomStarTable {
 
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
