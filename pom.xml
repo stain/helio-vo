@@ -38,6 +38,19 @@
 			<name>Local deployed site</name>
 			<url>file:///var/www/heliovo/</url>
 		</site>
+	   	<!--repository>
+			<id>releases</id>
+			<name>Archiva Managed Releases Repository</name>
+			<url>http://localhost:8081/archiva/repository/releases</url>
+			<layout>default</layout>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>Archiva Managed Snapshots Repository</name>
+			<url>http://localhost:8081/archiva/repository/snapshots</url>
+			<uniqueVersion>true</uniqueVersion>
+			<layout>default</layout>
+		</snapshotRepository-->
 	</distributionManagement>
 
     <developers>
@@ -117,6 +130,7 @@
         <module>helio-hec</module>
         <module>helio-hfc</module>
         <module>helio-mockclient</module>
+        <module>helio-hfe</module>
     </modules>
     
     <scm>
@@ -197,8 +211,6 @@
           
         </plugins>
     </reporting>
-    
-
     <repositories>
         <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
         <repository>
@@ -240,6 +252,21 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
+		<!--repository>
+			<id>releases</id>
+			<name>Helio-VO Releases</name>
+			<url>http://localhost:8081/archiva/repository/releases</url>
+		</repository>
+		<repository>
+			<id>snapshots</id>
+			<name>Helio-VO Snapshots</name>
+			<url>http://localhost:8081/archiva/repository/snapshots</url>
+		</repository>
+		<repository>
+			<id>internal</id>
+			<name>Archiva Mirror</name>
+			<url>http://localhost:8081/archiva/repository/internal</url>
+		</repository-->
     </repositories>
 
     <build>
