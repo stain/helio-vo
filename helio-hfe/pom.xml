@@ -279,11 +279,11 @@
   </dependencyManagement>
   
 	<repositories>
-		<repository>
+		<!-- repository>
 			<id>internal</id>
 			<name>Archiva Mirror</name>
 			<url>http://localhost:8081/archiva/repository/internal</url>
-		</repository>
+		</repository -->
     </repositories>
   
 	<description>TODO: Add description in helio-web/pom.xml</description>
