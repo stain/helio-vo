@@ -284,6 +284,11 @@
 			<name>Archiva Mirror</name>
 			<url>http://localhost:8081/archiva/repository/internal</url>
 		</repository -->
+		<repository>
+            <id>jboss-repository</id>
+            <name>JBoss-Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/public-jboss/</url>
+        </repository>
     </repositories>
   
 	<description>TODO: Add description in helio-web/pom.xml</description>
