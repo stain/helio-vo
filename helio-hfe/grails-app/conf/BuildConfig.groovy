@@ -10,6 +10,7 @@ grails.project.dependency.resolution = {
 		mavenLocal()
 		//mavenRepo "http://localhost:8081/archiva/repository/internal"
         grailsHome()
+		grailsCentral()
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
