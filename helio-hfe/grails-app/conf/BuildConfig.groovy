@@ -1,6 +1,10 @@
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir	= "target/test-reports"
+
+// Needed for http://jira.codehaus.org/browse/GRAILS-6096?page=com.atlassian.jira.plugin.system.issuetabpanels%3Aall-tabpanel
+grails.project.war.osgi.headers = false
+
 grails.project.dependency.resolution = {
     inherits("global") {
 		excludes "servlet-api"
