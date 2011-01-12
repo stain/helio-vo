@@ -38,7 +38,9 @@
 			<name>Local deployed site</name>
 			<url>file:///var/www/heliovo/</url>
 		</site>
-	   	<!--repository>
+		<!-- Following two entries are in preparation of an Archiva-based
+		deployment system -->
+		<!--repository>
 			<id>releases</id>
 			<name>Archiva Managed Releases Repository</name>
 			<url>http://localhost:8081/archiva/repository/releases</url>
@@ -103,6 +105,13 @@
           <email>marassi@oats.inaf.it</email>
           <timezone>0</timezone>
       </developer>
+      <developer>
+      	<id>ennosigaeus</id>
+      	<name>Laszlo I. Etesi</name>
+      	<organization>i4ds@FHNW</organization>
+      	<email>laszlo.etesi@fhnw.ch</email>
+      	<timezone>+1</timezone>
+      </developer>
     </developers>
     
     <dependencies>
@@ -131,7 +140,8 @@
         <module>helio-hfc</module>
         <module>helio-mockclient</module>
         <module>helio-hfe</module>
-    </modules>
+    	<!--module>helio-test-webservice</module-->
+  </modules>
     
     <scm>
       <connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
@@ -212,6 +222,11 @@
         </plugins>
     </reporting>
     <repositories>
+		<repository>
+			<id>internal-helio-mirror</id>
+			<name>Helio-VO Archiva Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/internal</url>
+		</repository>
         <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
         <repository>
             <id>atlassian-repo</id>
@@ -224,7 +239,6 @@
             <url>http://dist.codehaus.org</url>
             <layout>legacy</layout>
         </repository>
-        
         <repository>
             <id>devjavanet</id>
             <name>java net</name>
@@ -252,20 +266,16 @@
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
         </repository>
-		<!--repository>
+        <!-- Repositories below are not yet active -->
+		<!-- repository>
 			<id>releases</id>
 			<name>Helio-VO Releases</name>
-			<url>http://localhost:8081/archiva/repository/releases</url>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/releases</url>
 		</repository>
 		<repository>
 			<id>snapshots</id>
 			<name>Helio-VO Snapshots</name>
-			<url>http://localhost:8081/archiva/repository/snapshots</url>
-		</repository>
-		<repository>
-			<id>internal</id>
-			<name>Archiva Mirror</name>
-			<url>http://localhost:8081/archiva/repository/internal</url>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/snapshots</url>
 		</repository-->
     </repositories>
 
