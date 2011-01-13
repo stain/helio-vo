@@ -28,19 +28,12 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
 grails.converters.encoding="UTF-8"
-// enable Sitemesh preprocessing of GSP pages
-grails.views.gsp.sitemesh.preprocess = true
-// scaffolding templates configuration
-grails.scaffolding.templates.domainSuffix = 'Instance'
 
-// Set to false to use the new Grails 1.2 JSONBuilder in the render method
-grails.json.legacy.builder=false
 // enabled native2ascii conversion of i18n properties files
 grails.enable.native2ascii = true
-// whether to install the java.util.logging bridge for sl4j. Disable fo AppEngine!
-grails.logging.jul.usebridge = true
-// packages to include in Spring bean scanning
-grails.spring.bean.packages = []
+
+// enable GSP preprocessing: replace head -> g:captureHead, title -> g:captureTitle, meta -> g:captureMeta, body -> g:captureBody
+grails.views.gsp.sitemesh.preprocess = true
 
 // set per-environment serverURL stem for creating absolute links
 environments {
@@ -60,11 +53,23 @@ environments {
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
+    //log4j.appender.logfile.File=${com.sun.aas.instanceRoot}/logs/MyApplication.log
     //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
+    appenders {
+        //console name:'stdout', layout:pattern(conversionPattern: '[%-7p][%d{dd/MM/yyyy HH:mm:ss,SSS}] %C %m%n')
+        //console name:'stdout', layout:pattern(conversionPattern: '[%d{yyyy-MM-dd hh:mm:ss.SSS}] %p %c{5} %m%n')
 
+
+    }
+
+    debug 'grails.app.tagLib',
+          'grails.app.controller',
+          'grails.app.service'
+              
+
+     info 'grails.app.controller',
+          'grails.app.service'
+           
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
 	       'org.codehaus.groovy.grails.web.pages', //  GSP
@@ -75,10 +80,16 @@ log4j = {
 	       'org.codehaus.groovy.grails.plugins', // plugins
 	       'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
 	       'org.springframework',
-	       'org.hibernate',
-           'net.sf.ehcache.hibernate'
+	       'org.hibernate'
 
     warn   'org.mortbay.log'
+
+    root {
+        //error stdout
+      //  info stdout
+       //debug stdout
+        additivity = true;
+    }
 }
 
 

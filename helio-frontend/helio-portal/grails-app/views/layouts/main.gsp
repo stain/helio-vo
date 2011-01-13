@@ -1,16 +1,37 @@
 <html>
-    <head>
-        <title><g:layoutTitle default="Grails" /></title>
-        <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-        <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
-        <g:layoutHead />
-        <g:javascript library="application" />
-    </head>
-    <body>
-        <div id="spinner" class="spinner" style="display:none;">
-            <img src="${resource(dir:'images',file:'spinner.gif')}" alt="Spinner" />
-        </div>
-        <div id="grailsLogo" class="logo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a></div>
-        <g:layoutBody />
-    </body>
+  <head>
+  <gui:resources components="['tooltip','datePicker']"/>
+  <link rel="stylesheet" href="${resource(dir:'css',file:'1.css')}" />
+  <link rel="stylesheet" href="${resource(dir:'css',file:'menupro.css')}" />
+
+       <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.2.custom.css"')}" />
+        <link rel="stylesheet" href="${resource(dir:'css',file:'anytime.css"')}" />
+
+        <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
+
+        <g:javascript src="jquery-1.4.2.min.js"/>
+        <g:javascript src="jquery-ui-1.8.2.custom.min.js"/>
+        <g:javascript src="anytime.js"/>
+
+  <title><g:layoutTitle default="Helio" /></title>
+  <g:layoutHead />
+
+
+
+
+</head>
+<body  style="margin: 0px;">
+  <div id="logo">
+    <div id="logo2">
+      <div class="title">
+        HELIO
+        <br>
+        <i>Heliophysics <span class="blue">Integrated</span> Observatory</i>
+      </div>
+    </div>
+  </div>
+  <g:layoutBody />
+
+</body>
 </html>
+
