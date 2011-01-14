@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -73,11 +72,11 @@ public class DpasMockParamQueryImplTest {
                 builder.append('\n');
             }
         } catch (IOException ignore) { }
-        String text = builder.toString();
-        System.out.println(text);
+        //String text = builder.toString();
+        //System.out.println(text);
 
 		for (LogRecord msg : result.getUserLogs()) {
-			assertTrue(msg.getMessage(), msg.getLevel().intValue() < Level.WARNING.intValue());
+			assertTrue(msg.getMessage(), msg.getLevel().intValue() >= Level.WARNING.intValue());
 			if (msg.getThrown() != null) {
 				msg.getThrown().printStackTrace();
 			}

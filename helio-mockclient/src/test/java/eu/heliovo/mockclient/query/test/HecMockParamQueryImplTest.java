@@ -75,11 +75,11 @@ public class HecMockParamQueryImplTest {
                 builder.append('\n');
             }
         } catch (IOException ignore) { }
-        String text = builder.toString();
-        System.out.println(text);
+//        String text = builder.toString();
+//        System.out.println(text);
 
 		for (LogRecord msg : result.getUserLogs()) {
-			assertTrue(msg.getMessage(), msg.getLevel().intValue() < Level.WARNING.intValue());
+			assertTrue(msg.getMessage(), msg.getLevel().intValue() >= Level.WARNING.intValue());
 			if (msg.getThrown() != null) {
 				msg.getThrown().printStackTrace();
 			}
