@@ -130,17 +130,14 @@
     <modules>
         <module>helio-shared</module>
         <module>helio-queryservice</module>
-        <module>helio-contracts</module>
-    	<module>helio-monitoring</module>        
-    	<module>helio-workflow</module>        
-    	<module>helio-ics-web</module>        
+    	<module>helio-monitoring</module>                        
     	<module>helio-dpas</module>        
         <module>helio-clientapi</module>
         <module>helio-hec</module>
         <module>helio-hfc</module>
         <module>helio-mockclient</module>
         <module>helio-hfe</module>
-    	<!--module>helio-test-webservice</module-->
+    	<!-- module>helio-test-webservice</module -->
   </modules>
     
     <scm>
