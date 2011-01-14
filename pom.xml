@@ -40,19 +40,19 @@
 		</site>
 		<!-- Following two entries are in preparation of an Archiva-based
 		deployment system -->
-		<!--repository>
-			<id>releases</id>
+		<repository>
+			<id>heliovo-releases</id>
 			<name>Archiva Managed Releases Repository</name>
-			<url>http://localhost:8081/archiva/repository/releases</url>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/releases</url>
 			<layout>default</layout>
 		</repository>
 		<snapshotRepository>
-			<id>snapshots</id>
+			<id>heliovo-snapshots</id>
 			<name>Archiva Managed Snapshots Repository</name>
-			<url>http://localhost:8081/archiva/repository/snapshots</url>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/snapshots</url>
 			<uniqueVersion>true</uniqueVersion>
 			<layout>default</layout>
-		</snapshotRepository-->
+		</snapshotRepository>
 	</distributionManagement>
 
     <developers>
@@ -96,14 +96,14 @@
           <name>Simon Felix</name>
           <organization>i4ds@FHNW</organization>
           <email>de@iru.ch</email>
-          <timezone>0</timezone>
+          <timezone>+1</timezone>
       </developer>
       <developer>
           <id>alessandromarassi</id>
           <name>Alessandro Marassi</name>
           <organization>INAF-Trieste</organization>
           <email>marassi@oats.inaf.it</email>
-          <timezone>0</timezone>
+          <timezone>+1</timezone>
       </developer>
       <developer>
       	<id>ennosigaeus</id>
@@ -137,7 +137,7 @@
         <module>helio-hfc</module>
         <module>helio-mockclient</module>
         <module>helio-hfe</module>
-    	<!-- module>helio-test-webservice</module -->
+    	<!-- module>helio-test-webservice</module-->
   </modules>
     
     <scm>
@@ -220,11 +220,17 @@
     </reporting>
     <repositories>
 		<repository>
-			<id>internal-helio-mirror</id>
+			<id>heliovo-releases</id>
 			<name>Helio-VO Archiva Mirror</name>
 			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/internal</url>
 		</repository>
+		<repository>
+			<id>heliovo-snapshots</id>
+			<name>Helio-VO Archiva Snapshots Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/snapshots</url>
+		</repository>
         <!-- this is just a temporary link to the atlassian 3rd-party repository for xfire dependencies -->
+        <!-- DISABLE OLD REPOSITORIES
         <repository>
             <id>atlassian-repo</id>
             <name>Altassian-Ibilio-Maven-2</name>
@@ -262,7 +268,7 @@
             <snapshots>
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
-        </repository>
+        </repository>-->
         <!-- Repositories below are not yet active -->
 		<!-- repository>
 			<id>releases</id>
@@ -306,15 +312,15 @@
     </build>
     <pluginRepositories>
         <pluginRepository>
-            <id>maven2.java.net</id>
-            <name>Java.net Maven2 Repository</name>
-            <url>http://download.java.net/maven/2</url>
-        </pluginRepository>        
-      	<pluginRepository>
-			<id>Codehaus repository</id>
-			<url>http://repository.codehaus.org/</url>
+			<id>heliovo-releases</id>
+			<name>Helio-VO Archiva Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/internal</url>
 		</pluginRepository>
-    
+		<pluginRepository>
+			<id>heliovo-snapshots</id>
+			<name>Helio-VO Archiva Snapshots Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/snapshots</url>
+		</pluginRepository>
     </pluginRepositories>
     
     <properties>
