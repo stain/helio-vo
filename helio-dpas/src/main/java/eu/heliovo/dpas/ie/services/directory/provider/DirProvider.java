@@ -17,7 +17,7 @@ public class DirProvider
 	private DpasUtilities 		dpasUtils = new DpasUtilities();
 
 	public	void query(DirDataTO dirTO) throws DataNotFoundException {
-		
+		System.out.println(" : Directory structure : ");
 		CoordinatedDataAnalysisSystemBindingStub binding;
 		List<DPASResultItem> 		results 		= null;
 		StarTable[] tables=null;
