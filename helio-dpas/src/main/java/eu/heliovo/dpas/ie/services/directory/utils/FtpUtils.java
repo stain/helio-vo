@@ -41,7 +41,7 @@ public class FtpUtils {
     			currCalendar	=	new GregorianCalendar();
     			currCalendar.setTime(ftpFile.getTimestamp().getTime());
 
-    			currDpasResult.urlFITS	=	ftpTO.getRootString()+ftpFile.getName();
+    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
     			currDpasResult.measurementStart	=	currCalendar;
     			currDpasResult.fileSize =	 FileUtils.byteCountToDisplaySize(ftpFile.getSize());
     			results.add(currDpasResult);

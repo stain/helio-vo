@@ -41,7 +41,7 @@ public class PointsStarTable  extends RandomStarTable {
     	resp_=resp;
      	nRow_=(int) resp.size();
      	inst=instrument;
-     	end_date=endDate.replace("T", "");
+     	end_date=endDate.replace("T", " ");
      	//Start date 
     	colStartDate.setAuxDatum( new DescribedValue( VOStarTable.XTYPE_INFO,"iso8601"));
     	//End date
