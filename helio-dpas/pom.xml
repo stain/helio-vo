@@ -137,6 +137,7 @@
 		  <version>2.0</version>
 		</dependency>
         
+       
        <dependency>
        <!-- WORKAROUND until the test classes have been moved to the test section -->
        	<groupId>junit</groupId>
