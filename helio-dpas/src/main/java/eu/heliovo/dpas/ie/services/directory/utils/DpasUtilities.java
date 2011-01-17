@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
-import eu.heliovo.dpas.ie.common.RandomUtilities;
 import eu.heliovo.dpas.ie.services.directory.dao.exception.DpasUtilitiesException;
 
 public class DpasUtilities 
@@ -48,31 +46,5 @@ public class DpasUtilities
 	    return c;
 	}
 	
-	public Date createRandomDateBetween(Date startDate, Date stopDate) throws ParseException, DpasUtilitiesException 
-	{
-		/*
-		 * Check that startDate is before StopDate
-		 */
-		if(startDate.after(stopDate))
-			throw new DpasUtilitiesException();
-		
-		Date result	=	new Date();
-		result.setTime(RandomUtilities.createRandomLong(startDate.getTime(),
-				stopDate.getTime()));
-		/*
-		 * Check that randomDate is between startDate and stopDate
-		 */
-		if(!(result.after(startDate) && result.before(stopDate)))
-			throw new DpasUtilitiesException();
-			
-		
-		return result;
-	}
-
-	public String createRandomDateBetween(String startDate, String stopDate) throws ParseException, DpasUtilitiesException 
-	{
-		return this.dateToHELIOTime(createRandomDateBetween(
-				HELIOTimeToDate(startDate),
-				HELIOTimeToDate(stopDate)));
-	}
+	
 }

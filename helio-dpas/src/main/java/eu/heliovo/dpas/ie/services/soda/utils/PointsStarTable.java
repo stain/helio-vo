@@ -2,7 +2,8 @@ package eu.heliovo.dpas.ie.services.soda.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import eu.heliovo.dpas.ie.common.ConstantKeywords;
+
+import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.soda.service.eu.soteriaspace.schemas.query.RecordId;
 import uk.ac.starlink.table.ColumnInfo;
 import uk.ac.starlink.table.DescribedValue;

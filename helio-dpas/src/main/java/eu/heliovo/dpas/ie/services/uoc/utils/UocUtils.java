@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
-import eu.heliovo.dpas.ie.common.ConstantKeywords;
+
+import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
 
 
