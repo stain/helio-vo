@@ -1,6 +1,7 @@
 package eu.heliovo.dpas.ie.services.directory.utils;
 
 import eu.heliovo.dpas.ie.services.common.dao.interfaces.DPASDataProvider;
+import eu.heliovo.dpas.ie.services.directory.provider.HalphaProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.NOBEProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.Phoenix2Provider;
 import eu.heliovo.dpas.ie.services.directory.provider.RhessiProvider;
@@ -28,6 +29,8 @@ public abstract class DirInsAnlyFactory {
 	    	  return new XRTProvider();
 	      case NORH		:
 	    	  return new NOBEProvider();
+	      case HALPHA		:
+	    	  return new HalphaProvider();
 	      default        : 
 	          return null;
 	    }
@@ -35,7 +38,7 @@ public abstract class DirInsAnlyFactory {
 	   	  
 
 	enum DirType{
-		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH
+		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,HALPHA
 	};
 
 

@@ -16,10 +16,10 @@ public class DPASResultItem
 	/*
 	 * Added to keep track of which query is this result of.
 	 */
-	public	String	instrument;
+ public	String	instrument;
 
-	//for all data providers
-	public Calendar measurementStart;
+ //for all data providers
+ public Calendar measurementStart;
 	public Calendar measurementEnd;
 	public String urlFITS;
   
@@ -53,7 +53,8 @@ public class DPASResultItem
   //used by VSO
   public String fileId;
   public String provider;
-
+  public String fileSize;
+  
   public static final String[] FIELD_NAMES=new String[]{
     "measurementStart",
     "measurementEnd",
@@ -76,7 +77,8 @@ public class DPASResultItem
     "urlPhaseFITSGZ",
     "urlIntensityFITSGZ",
     "urlPreview",
-    "urlPreviewThumb"
+    "urlPreviewThumb",
+    "fileSize"
   };
   
   public Object getColumn(int _column)
@@ -105,6 +107,7 @@ public class DPASResultItem
       case 19: return urlIntensityFITSGZ;
       case 20: return urlPreview;
       case 21: return urlPreviewThumb;
+      case 22: return fileSize;
       default: return null;
     }
   }
