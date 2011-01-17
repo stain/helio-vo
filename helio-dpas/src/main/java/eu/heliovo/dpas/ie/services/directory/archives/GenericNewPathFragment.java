@@ -86,7 +86,6 @@ public class GenericNewPathFragment implements NewPathFragment
 		this.dateFieldFormatters[0] = dateFieldFormatter;
 		this.fixed = fixed;
 	}
-
 	@ Override
 	public String dateToFragment(Date d)
 	{
