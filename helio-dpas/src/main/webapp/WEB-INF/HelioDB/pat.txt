@@ -179,3 +179,6 @@ HINODE__EIS,DIR,http,EIS,,HSDCE,ack_HSDCE,2,,,,,,,,remote
 HINODE__SOT_FG,DIR,http,FGIV,,HSDCE,ack_HSDCE,2,,,,,,,,remote
 HINODE__SOT_SP,DIR,http,SP4D,,HSDCE,ack_HSDCE,2,,,,,,,,remote
 HINODE__XRT,DIR,http,XRT,,HSDCE,ack_HSDCE,2,,,,,,,,remote
+HINODE__XRT1,SODA,http,XRT,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+RHESSI__HESSI_GMR1,DIR,http,HESSI_GMR,,LSSP,ack_NASA-LSSP,1,,,,,,,,
+RHESSI__HALPHA,DIR,http,HALPHA,,LSSP,ack_NASA-LSSP,1,,,,,,,,

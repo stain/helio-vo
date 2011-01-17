@@ -62,11 +62,37 @@
       	<servlet-name>VsoFitsResponseServlet</servlet-name>
       	<servlet-class>
       	eu.heliovo.dpas.ie.services.vso.servlet.VsoFitsResponseServlet</servlet-class>
-      </servlet>
+     </servlet>
+
+	<servlet>
+		<description>
+		</description>
+		<display-name>ResultQueryService</display-name>
+		<servlet-name>ResultQueryService</servlet-name>
+		<servlet-class>eu.heliovo.dpas.ie.servlets.ResultQueryService</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ResultQueryService</servlet-name>
+		<url-pattern>/ServiceJobStatus</url-pattern>
+	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>DpasQueryServlet</servlet-name>
 		<url-pattern>/HelioQueryServlet</url-pattern>
+	</servlet-mapping>
+	
+	 <servlet>
+      	<description>
+      	</description>
+      	<display-name>DpasLongQueryServlet</display-name>
+      	<servlet-name>DpasLongQueryServlet</servlet-name>
+      	<servlet-class>
+      	eu.heliovo.dpas.ie.servlets.DpasLongQueryServlet</servlet-class>
+     </servlet>
+	<servlet-mapping>
+		<servlet-name>DpasLongQueryServlet</servlet-name>
+		<url-pattern>/LongRunningQueryService</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>VsoFitsResponseServlet</servlet-name>
