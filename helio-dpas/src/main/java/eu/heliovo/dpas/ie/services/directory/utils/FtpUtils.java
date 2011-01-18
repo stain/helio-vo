@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
+import eu.heliovo.dpas.ie.services.directory.archives.HalphaFileFragment;
+import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathFragmentException;
 import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 
 public class FtpUtils {
@@ -27,7 +29,7 @@ public class FtpUtils {
 		return results;
 	}
 	
-	public DPASResultItem getFtpFileDetails(FtpDataTO ftpTO) throws IOException
+	public DPASResultItem getFtpFileDetails(FtpDataTO ftpTO) throws IOException, NewPathFragmentException
 	{
 		DPASResultItem				currDpasResult	=	new DPASResultItem();
 		Calendar					currCalendar	=	null;
@@ -35,11 +37,11 @@ public class FtpUtils {
 		client.changeWorkingDirectory(ftpTO.getWorkingDir());       
         FTPFile[] ftpFiles = client.listFiles();
         for (FTPFile ftpFile : ftpFiles) {
-        	if (ftpFile.getType() == FTPFile.FILE_TYPE) {
+        	if (ftpFile.getType() == FTPFile.FILE_TYPE && !ftpFile.getName().contains("robots.txt")) {
                 System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
                 currDpasResult	=	new DPASResultItem();
     			currCalendar	=	new GregorianCalendar();
-    			currCalendar.setTime(ftpFile.getTimestamp().getTime());
+    			currCalendar.setTime(new HalphaFileFragment().fragmentToDate(ftpFile.getName()));
 
     			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
     			currDpasResult.measurementStart	=	currCalendar;
