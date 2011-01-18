@@ -43,7 +43,11 @@ public class CommonTO {
 	private String longRunningQueryStatus;
 	private String dataXml;
 	private Writer longRunningPrintWriter;
-	
+	private String yearPattern;
+	private String monthPattern;	
+	private String ftpDateFormat;
+	private String workingDir;
+	private String ftpPattern;
 	
 	public StarTable[] getStarTableArray() {
 		return starTableArray;
@@ -307,5 +311,45 @@ public class CommonTO {
 
 	public void setLongRunningPrintWriter(Writer longRunningPrintWriter) {
 		this.longRunningPrintWriter = longRunningPrintWriter;
+	}
+
+	public String getYearPattern() {
+		return yearPattern;
+	}
+
+	public void setYearPattern(String yearPattern) {
+		this.yearPattern = yearPattern;
+	}
+
+	public String getMonthPattern() {
+		return monthPattern;
+	}
+
+	public void setMonthPattern(String monthPattern) {
+		this.monthPattern = monthPattern;
+	}
+	
+	public String getFtpDateFormat() {
+		return ftpDateFormat;
+	}
+
+	public void setFtpDateFormat(String ftpDateFormat) {
+		this.ftpDateFormat = ftpDateFormat;
+	}
+
+	public String getWorkingDir() {
+		return workingDir;
+	}
+
+	public void setWorkingDir(String workingDir) {
+		this.workingDir = workingDir;
+	}
+
+	public String getFtpPattern() {
+		return ftpPattern;
+	}
+
+	public void setFtpPattern(String ftpPattern) {
+		this.ftpPattern = ftpPattern;
 	}	
 }

@@ -10,7 +10,7 @@ import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 
-public class HalphaProvider implements DirQueryDao
+public class BCASProvider implements DirQueryDao
 {
 	/*
 	 * Path Example:
@@ -19,24 +19,15 @@ public class HalphaProvider implements DirQueryDao
 	 */
 	FtpArchiveExplorer	explorer	=	null;
 
-	public HalphaProvider()
+	public BCASProvider(FtpDataTO ftpTO)
 	{
 		super();
-		initialize();
+		initialize(ftpTO);
 	}
 
-	private void initialize()
+	private void initialize(FtpDataTO ftpTO)
 	{
 		
-		FtpDataTO ftpTO=new FtpDataTO();
-		//
-		ftpTO.setRootString("ftp://ftpbass2000.obspm.fr/pub/meudon/Halpha/");
-		ftpTO.setYearPattern("yy");
-		ftpTO.setMonthPattern("MM");
-		ftpTO.setFtpHost("ftpbass2000.obspm.fr");
-		ftpTO.setWorkingDir("pub/meudon/Halpha/");
-		ftpTO.setFtpUser("anonymous");
-		ftpTO.setFtpPwd("");
 		explorer	=	new FtpArchiveExplorer(ftpTO);	
 	}
 

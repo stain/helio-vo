@@ -23,7 +23,7 @@ public class DirProvider
 		StarTable[] tables=null;
 		int count=0;
         try{
-        	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO.getInstrument());
+        	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO);
         	results=dpasDataProvider.query(dirTO.getInstrument(), dpasUtils.HELIOTimeToCalendar(dirTO.getDateFrom()), dpasUtils.HELIOTimeToCalendar(dirTO.getDateTo()), 2);
         	//
         	if(results!=null && results.size()>0){
