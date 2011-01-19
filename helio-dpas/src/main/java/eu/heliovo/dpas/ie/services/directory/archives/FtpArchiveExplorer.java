@@ -40,7 +40,14 @@ public class FtpArchiveExplorer
 		this.ftpTO = ftpTO;
 	}
 
-	
+	/**
+	 * @param from
+	 * @param to
+	 * @return
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * @throws Exception
+	 */
 	public LinkedList<DPASResultItem> query(Date from, Date to) throws MalformedURLException,IOException,Exception
 	{
 		SimpleDateFormat df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
@@ -57,6 +64,7 @@ public class FtpArchiveExplorer
     		ftpTO.setWorkingDir(workingDir+formatDate);
     		ftpUtils.getFtpFileDetails(ftpTO);
     	}
+    	//
 		return ftpUtils.returnDPASResultItem();
 	}
 }
