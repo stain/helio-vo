@@ -3,21 +3,12 @@
  */
 package eu.heliovo.dpas.ie.services.directory.archives;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
-import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathException;
-import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathFragmentException;
-import eu.heliovo.dpas.ie.services.directory.dao.exception.PathBuilderException;
 import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.directory.utils.DateIterator;
