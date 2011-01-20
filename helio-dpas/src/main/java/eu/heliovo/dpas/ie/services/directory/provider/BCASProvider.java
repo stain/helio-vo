@@ -32,15 +32,13 @@ public class BCASProvider implements DirQueryDao
 	}
 
 	@Override
-	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,
-			int maxResults) throws Exception
+	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,int maxResults) throws Exception
 	{
 		return explorer.query(dateFrom.getTime(), dateTo.getTime());
 	}
 
 	@Override
-	public void generateVOTable(DirDataTO cdaWebTO)
-			throws DataNotFoundException, Exception {
+	public void generateVOTable(DirDataTO cdaWebTO) throws DataNotFoundException, Exception {
 		// TODO Auto-generated method stub
 	}
 
