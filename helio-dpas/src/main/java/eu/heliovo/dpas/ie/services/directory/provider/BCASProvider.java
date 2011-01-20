@@ -42,7 +42,6 @@ public class BCASProvider implements DirQueryDao
 	public void generateVOTable(DirDataTO cdaWebTO)
 			throws DataNotFoundException, Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
