@@ -1,7 +1,6 @@
 package eu.heliovo.dpas.ie.services.directory.provider;
 
 import java.util.List;
-
 import uk.ac.starlink.table.StarTable;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.CoordinatedDataAnalysisSystemBindingStub;
@@ -12,6 +11,8 @@ import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.directory.utils.DirInsAnlyFactory;
 import eu.heliovo.dpas.ie.services.directory.utils.DpasUtilities;
 import eu.heliovo.dpas.ie.services.directory.utils.PointsStarTable;
+
+
 public class DirProvider
 {
 	private DpasUtilities 		dpasUtils = new DpasUtilities();
