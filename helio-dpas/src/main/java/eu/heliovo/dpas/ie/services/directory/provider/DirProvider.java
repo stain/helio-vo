@@ -15,7 +15,7 @@ import eu.heliovo.dpas.ie.services.directory.utils.PointsStarTable;
 
 public class DirProvider
 {
-	private DpasUtilities 		dpasUtils = new DpasUtilities();
+	private DpasUtilities dpasUtils = new DpasUtilities();
 
 	public	void query(DirDataTO dirTO) throws DataNotFoundException {
 		System.out.println(" : Directory structure : ");
