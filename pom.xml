@@ -137,6 +137,7 @@
         <module>helio-hfc</module>
         <module>helio-mockclient</module>
         <module>helio-hfe</module>
+        <module>helio-sms</module>
     	<!-- module>helio-test-webservice</module-->
         <!--module>helio-middleware</module-->
     </modules>
