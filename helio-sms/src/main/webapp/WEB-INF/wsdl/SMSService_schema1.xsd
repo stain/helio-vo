@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://sms.heliovo.eu/" xmlns:tns="http://sms.heliovo.eu/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="getEquivalents" type="tns:getEquivalents"/>
+
+  <xs:element name="getEquivalentsResponse" type="tns:getEquivalentsResponse"/>
+
+  <xs:element name="getRelated" type="tns:getRelated"/>
+
+  <xs:element name="getRelatedResponse" type="tns:getRelatedResponse"/>
+  
+  <xs:element name="getHECListNames" type="tns:getHECListNames"/>
+
+  <xs:element name="getHECListNamesResponse" type="tns:getHECListNamesResponse"/>
+
+  <xs:element name="getKnownPhenomena">
+     <xs:complexType/>
+  </xs:element>
+
+  <xs:element name="getKnownPhenomenaResponse" type="tns:getKnownPhenomenaResponse"/>
+
+  <xs:element name="smsFault" type="tns:smsFault" />  
+
+  <xs:complexType name="getEquivalents">
+    <xs:sequence>
+      <xs:element name="phenomenon" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getEquivalentsResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="getRelated">
+    <xs:sequence>
+      <xs:element name="phenomenon" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getRelatedResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="getHECListNames">
+    <xs:sequence>
+      <xs:element name="phenomenon" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType> 
+
+  <xs:complexType name="getHECListNamesResponse">
+    <xs:sequence>
+      <xs:element name="hecListNames" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>  
+  
+  <xs:complexType name="getKnownPhenomenaResponse">
+    <xs:sequence>
+      <xs:element name="knowPhenomena" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="smsFault">
+    <xs:sequence>
+      <xs:element name="faultInfo" type="xs:string" />
+      <xs:element name="faultMessage" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>
+

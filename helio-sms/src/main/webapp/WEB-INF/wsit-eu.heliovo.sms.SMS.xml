@@ -1,0 +1,11 @@
+<wsp:Policy wsu:Id="getEquivalents_policy">
+  <wsp:ExactlyOne>
+    <wsp:All>
+      <wsaw:UsingAddressing/>
+      <wsrm:RMAssertion>
+        <wsrm:InactivityTimeout Milliseconds="600000"/>
+        <wsrm:AcknowledgementInterval Milliseconds="200"/>
+      </wsrm:RMAssertion>
+    </wsp:All>
+  </wsp:ExactlyOne>
+</wsp:Policy> 
