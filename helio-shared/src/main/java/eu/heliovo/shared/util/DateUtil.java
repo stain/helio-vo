@@ -3,6 +3,7 @@ package eu.heliovo.shared.util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Utilities to handle Java Dates. 
@@ -15,7 +16,7 @@ public class DateUtil {
 	 * Formatter for the ISO format.
 	 */
 	private static DateFormat ISO8601_FORMAT = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss");
+			"yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
 
 	/**
 	 * Convert a date object to an ISO date string such as used by XML docs.

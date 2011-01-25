@@ -15,6 +15,8 @@ public class DateUtilTest {
 	
 	@Test
 	public void testToIsoDateString() {
+		
+		
 		Date date = new Date(1104534000328l); // "2005-01-01T00:00:00
 		assertEquals("2005-01-01T00:00:00", DateUtil.toIsoDateString(date));
 		
