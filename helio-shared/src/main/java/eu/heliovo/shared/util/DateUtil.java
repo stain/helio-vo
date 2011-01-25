@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * Utilities to handle Java Dates. 
@@ -17,6 +18,9 @@ public class DateUtil {
 	 */
 	private static DateFormat ISO8601_FORMAT = new SimpleDateFormat(
 			"yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
+	static {
+		ISO8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+	}
 
 	/**
 	 * Convert a date object to an ISO date string such as used by XML docs.
