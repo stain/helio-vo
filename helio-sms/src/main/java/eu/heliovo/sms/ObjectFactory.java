@@ -41,43 +41,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetHECListNamesResponse }
-     * 
-     */
-    public GetHECListNamesResponse createGetHECListNamesResponse() {
-        return new GetHECListNamesResponse();
-    }
-
-    /**
      * Create an instance of {@link GetEquivalentsResponse }
      * 
      */
     public GetEquivalentsResponse createGetEquivalentsResponse() {
         return new GetEquivalentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetEquivalents }
-     * 
-     */
-    public GetEquivalents createGetEquivalents() {
-        return new GetEquivalents();
-    }
-
-    /**
-     * Create an instance of {@link GetHECListNames }
-     * 
-     */
-    public GetHECListNames createGetHECListNames() {
-        return new GetHECListNames();
-    }
-
-    /**
-     * Create an instance of {@link GetRelated }
-     * 
-     */
-    public GetRelated createGetRelated() {
-        return new GetRelated();
     }
 
     /**
@@ -89,11 +57,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetKnownPhenomena }
+     * Create an instance of {@link SmsFault }
      * 
      */
-    public GetKnownPhenomena createGetKnownPhenomena() {
-        return new GetKnownPhenomena();
+    public SmsFault createSmsFault() {
+        return new SmsFault();
+    }
+
+    /**
+     * Create an instance of {@link GetHECListNamesResponse }
+     * 
+     */
+    public GetHECListNamesResponse createGetHECListNamesResponse() {
+        return new GetHECListNamesResponse();
     }
 
     /**
@@ -105,11 +81,35 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link SmsFault }
+     * Create an instance of {@link GetHECListNames }
      * 
      */
-    public SmsFault createSmsFault() {
-        return new SmsFault();
+    public GetHECListNames createGetHECListNames() {
+        return new GetHECListNames();
+    }
+
+    /**
+     * Create an instance of {@link GetKnownPhenomena }
+     * 
+     */
+    public GetKnownPhenomena createGetKnownPhenomena() {
+        return new GetKnownPhenomena();
+    }
+
+    /**
+     * Create an instance of {@link GetEquivalents }
+     * 
+     */
+    public GetEquivalents createGetEquivalents() {
+        return new GetEquivalents();
+    }
+
+    /**
+     * Create an instance of {@link GetRelated }
+     * 
+     */
+    public GetRelated createGetRelated() {
+        return new GetRelated();
     }
 
     /**
