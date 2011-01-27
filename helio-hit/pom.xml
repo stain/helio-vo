@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>eu.heliovo</groupId>
+    <artifactId>heliovo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
+  <groupId>eu.heliovo</groupId>
+  <artifactId>helio-hit</artifactId>
+  <name>HELIO HIT Library collection</name>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  
+  <description>Pseudo-module to make requiring the HIT stack easier.</description>
+	
+  <dependencies>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>cog-jglobus</artifactId>
+  		<version>1.8.0</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>commons-logging</artifactId>
+  		<version>1.1</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>cryptix-asn1</artifactId>
+  		<version>1</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>cryptix32</artifactId>
+  		<version>1</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>jce-jdk13</artifactId>
+  		<version>131</version>
+  		<type>jar</type>
+  	</dependency>
+  	<dependency>
+  		<groupId>eu.heliovo.securitylibraries</groupId>
+  		<artifactId>puretls</artifactId>
+  		<version>1</version>
+  		<type>jar</type>
+  	</dependency>
+  </dependencies>
+</project>
