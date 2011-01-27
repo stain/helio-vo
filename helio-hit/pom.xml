@@ -2,12 +2,6 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>eu.heliovo</groupId>
-    <artifactId>heliovo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
 
   <groupId>eu.heliovo</groupId>
   <artifactId>helio-hit</artifactId>
@@ -16,7 +10,20 @@
   <packaging>pom</packaging>
   
   <description>Pseudo-module to make requiring the HIT stack easier.</description>
-	
+	<repositories>
+		<repository>
+			<id>heliovo-releases</id>
+			<name>Helio-VO Archiva Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/internal</url>
+		</repository>
+		<repository>
+			<id>heliovo-snapshots</id>
+			<name>Helio-VO Archiva Snapshots Mirror</name>
+			<url>http://helio-dev.i4ds.ch:8123/archiva/repository/snapshots</url>
+		</repository>
+	</repositories>
+
+
   <dependencies>
   	<dependency>
   		<groupId>eu.heliovo.securitylibraries</groupId>
