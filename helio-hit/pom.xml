@@ -6,6 +6,7 @@
     <groupId>eu.heliovo</groupId>
     <artifactId>heliovo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>..</relativePath>
   </parent>
 
   <groupId>eu.heliovo</groupId>
