@@ -39,6 +39,7 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HELIOService"/>
     <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HELIOIdentifier"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     
@@ -61,6 +62,12 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasIndicator -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasIndicator"/>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasMeasuredParameter -->
 
     <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasMeasuredParameter">
@@ -75,9 +82,33 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#mayBeSeenInParameter -->
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAbout -->
 
-    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAbout">
+        <rdfs:range rdf:resource="&CoordinateSystems;Parameter"/>
+        <rdfs:domain rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecord"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasParameter"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#dataIsContainedInCatalog"/>
+        <rdfs:domain rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#dataIsContainedInCatalog -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#dataIsContainedInCatalog"/>
     
 
 
@@ -284,6 +315,12 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CoronalMassEjection -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CoronalMassEjection"/>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Detector -->
 
     <owl:Class rdf:about="&HELIO_physicsOntology;Detector"/>
@@ -305,6 +342,12 @@
     <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergyFlux -->
 
     <owl:Class rdf:about="&HELIO_physicsOntology;EnergyFlux"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ForbushDecrease -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ForbushDecrease"/>
     
 
 
@@ -337,11 +380,17 @@
     <owl:Class rdf:about="&HELIO_physicsOntology;Phenomenon">
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                 <owl:someValuesFrom rdf:resource="&CoordinateSystems;Parameter"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RadioBurst -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;RadioBurst"/>
     
 
 
@@ -358,15 +407,15 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HighEnergyFlux"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:onClass>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
@@ -380,32 +429,6 @@
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf>
-            <owl:Class>
-                <owl:intersectionOf rdf:parseType="Collection">
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
-                        <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
-                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HighEnergyFlux"/>
-                    </owl:Restriction>
-                    <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="&CoordinateSystems;Coordinate"/>
-                                    <rdf:Description rdf:about="&CoordinateSystems;TimeInterval"/>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
-                    </owl:Restriction>
-                </owl:intersectionOf>
-            </owl:Class>
-        </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&HELIO_physicsOntology;isPhenomenonOf"/>
@@ -614,6 +637,22 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#ForbushCatalog -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#ForbushCatalog">
+        <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;ForbushDecrease"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOIdentifier rdf:datatype="&xsd;string">forbush_list</HELIOIdentifier>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalog -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalog">
@@ -632,7 +671,44 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <HELIOIdentifier rdf:datatype="&xsd;string">goes_xray_flare</HELIOIdentifier>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalogField -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalogField">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeEndField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeStartField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField"/>
     </owl:Class>
     
 
@@ -645,44 +721,11 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:allValuesFrom>
-                            <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
-                                </owl:unionOf>
-                            </owl:Class>
-                        </owl:allValuesFrom>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalogField"/>
                     </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NTimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalogField"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -711,7 +754,42 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
         <HELIOIdentifier rdf:datatype="&xsd;string">halpha_flares_event</HELIOIdentifier>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HalphaFlareEventCatalogField -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HalphaFlareEventCatalogField">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField"/>
     </owl:Class>
     
 
@@ -724,42 +802,11 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:allValuesFrom>
-                            <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
-                                    <rdf:Description rdf:about="&HELIO_organisationalOntology;DataResource"/>
-                                </owl:unionOf>
-                            </owl:Class>
-                        </owl:allValuesFrom>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HalphaFlareEventCatalogField"/>
                     </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
-                                    <rdf:Description rdf:about="&HELIO_organisationalOntology;DataResource"/>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HalphaFlareEventCatalogField"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -803,7 +850,45 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
         <HELIOIdentifier rdf:datatype="&xsd;string">hessi_flare</HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HessiFlareCatalogField -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HessiFlareCatalogField">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#DurationField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#EnergyKeVField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#FlareNumberField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#RadialArcSecField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XArcSecField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayCountSecPeakField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayTotalCountField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#YArcSecField"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField"/>
     </owl:Class>
     
 
@@ -816,46 +901,11 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:allValuesFrom>
-                            <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#DurationField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#EnergyKeVField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#FlareNumberField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#RadialArcSecField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XArcSecField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayCountSecPeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayTotalCountField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#YArcSecField"/>
-                                </owl:unionOf>
-                            </owl:Class>
-                        </owl:allValuesFrom>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HessiFlareCatalogField"/>
                     </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#DurationField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#EnergyKeVField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#FlareNumberField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#RadialArcSecField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XArcSecField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayCountSecPeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XrayTotalCountField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#YArcSecField"/>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HessiFlareCatalogField"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
@@ -899,7 +949,43 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
         <HELIOIdentifier rdf:datatype="&xsd;string">kso_flare</HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#KsoFlareCatalogField -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#KsoFlareCatalogField">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndMField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakMField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
+                            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartMField"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField"/>
     </owl:Class>
     
 
@@ -912,47 +998,32 @@
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:allValuesFrom>
-                            <owl:Class>
-                                <owl:unionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndMField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakMField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartMField"/>
-                                </owl:unionOf>
-                            </owl:Class>
-                        </owl:allValuesFrom>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#KsoFlareCatalogField"/>
                     </owl:Restriction>
                     <owl:Restriction>
                         <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasRecordField"/>
-                        <owl:onClass>
-                            <owl:Class>
-                                <owl:intersectionOf rdf:parseType="Collection">
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndMField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakMField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
-                                    <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartMField"/>
-                                </owl:intersectionOf>
-                            </owl:Class>
-                        </owl:onClass>
-                        <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                        <owl:allValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#KsoFlareCatalogField"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#Record"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LascoCMECatalog -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LascoCMECatalog">
+        <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;CoronalMassEjection"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+        <HELIOIdentifier rdf:datatype="&xsd;string">lasco_cme_cat</HELIOIdentifier>
     </owl:Class>
     
 
@@ -1055,6 +1126,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NamedCatalogField">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField">
@@ -1138,15 +1217,15 @@
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HighEnergyFlux"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;mayBeSeenInParameter"/>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasIndicator"/>
                         <owl:onClass>
                             <owl:Class>
                                 <owl:intersectionOf rdf:parseType="Collection">
@@ -1161,6 +1240,28 @@
             </owl:Class>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OtherDefinitions"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#SgasEventCatalog -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#SgasEventCatalog">
+        <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;RadioBurst"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+        <HELIOIdentifier rdf:datatype="&xsd;string">sgas_event</HELIOIdentifier>
     </owl:Class>
     
 
@@ -1250,6 +1351,22 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#UlyssesSwoopsICMECatalog -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#UlyssesSwoopsICMECatalog">
+        <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;CoronalMassEjection"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+        <HELIOIdentifier rdf:datatype="&xsd;string">ulysses_swoops_icme</HELIOIdentifier>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XArcSecField -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XArcSecField">
@@ -1321,6 +1438,22 @@
             </owl:Restriction>
         </owl:equivalentClass>
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#YohkohFlareCatalog -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#YohkohFlareCatalog">
+        <rdfs:subClassOf rdf:resource="&HELIO_organisationalOntology;Catalog"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#containsDataAboutPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIOService rdf:datatype="&xsd;string">hec</HELIOService>
+        <HELIOIdentifier rdf:datatype="&xsd;string">yohkoh_flare_list</HELIOIdentifier>
     </owl:Class>
     
 
@@ -1447,11 +1580,118 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#flare -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#flare">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#goes_xray_flare -->
 
     <owl:Thing rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#goes_xray_flare">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hacoordinate -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hacoordinate">
+        <rdf:type rdf:resource="&CoordinateSystems;Coordinate"/>
+        <CoordinateSystems:hasLongitude rdf:datatype="&xsd;float">-32</CoordinateSystems:hasLongitude>
+        <CoordinateSystems:hasLatitude rdf:datatype="&xsd;float">11</CoordinateSystems:hasLatitude>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halatittude -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halatittude">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LatitudeField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halogitude -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halogitude">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongitudeField"/>
+        <hasParameter rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hacoordinate"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halongcarr -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halongcarr">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#LongCarrField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hanar -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hanar">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#NarField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haopticalclass -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haopticalclass">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#OpticalClassField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#harecord -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#harecord">
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halatittude"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halogitude"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#halongcarr"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hanar"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haopticalclass"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimeend"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimepeak"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimestart"/>
+        <hasRecordField rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haxrayclass"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimeend -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimeend">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeEndField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimepeak -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimepeak">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimePeakField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimestart -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hatimestart">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#TimeStartField"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haxrayclass -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#haxrayclass">
+        <rdf:type rdf:resource="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#XRayClassField"/>
+    </owl:NamedIndividual>
     
 
 
@@ -1475,6 +1715,19 @@
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#Record"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;Annotation"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;Catalog"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;DisplayData"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;Document"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;Granule"/>
+            <rdf:Description rdf:about="&HELIO_organisationalOntology;NumericalData"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="&CoordinateSystems;Parameter"/>
             <rdf:Description rdf:about="&CoordinateSystems;ReferenceSystem"/>
             <rdf:Description rdf:about="&HELIO_physicsOntology;Detector"/>
@@ -1492,14 +1745,9 @@
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#CatalogField"/>
-            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#Record"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;Annotation"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;Catalog"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;DisplayData"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;Document"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;Granule"/>
-            <rdf:Description rdf:about="&HELIO_organisationalOntology;NumericalData"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#GoesXrayFlareEventCatalog"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#HessiFlareCatalog"/>
+            <rdf:Description rdf:about="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#KsoFlareCatalog"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>

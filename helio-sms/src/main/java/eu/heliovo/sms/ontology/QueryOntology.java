@@ -11,7 +11,9 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.expression.ParserException;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -23,6 +25,10 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
+
+import eu.heliovo.sms.ontology.dlquery.DLQueryEngine;
 
 import uk.ac.manchester.cs.owl.owlapi.OWLOntologyIRIMapperImpl;
 
@@ -31,11 +37,16 @@ public class QueryOntology {
 	private Set<OWLOntology> onts = new HashSet<OWLOntology>();
 	private OWLOntology ont;
 	private OWLReasoner reasoner;
+	private DLQueryEngine dlQueryEngine;
+	private ShortFormProvider shortFormProvider;
 	private Hashtable<String,OWLObjectProperty> objectProperty = null;
 	private Hashtable<String,OWLAnnotationProperty> annotationProperty = null;
 	private Hashtable<String,OWLClass> classList = null;
 	private Logger logger = Logger.getLogger(this.getClass());
 	
+	/**
+	 * public constructor - set up ontologies and check validity
+	 */
 	public QueryOntology() {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager(); 
@@ -80,6 +91,7 @@ public class QueryOntology {
 			else {
 				logger.debug("There are no unsatisfiable classes");
 			} 
+			shortFormProvider = new SimpleShortFormProvider();
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		} catch (URISyntaxException e) {
@@ -173,10 +185,15 @@ public class QueryOntology {
 		}
 	}
 
+	/**
+	 * 
+	 * @param owlTerm Name of Concept used in ontology
+	 * @return List of SubClasses of input concept
+	 */
 	public List<String> getOwlClass(String owlTerm){
 		logger.info("getOwlClass entered");
 		OWLClass term = getClass(owlTerm);
-		Iterator<OWLClass> iterator = reasoner.getSubClasses(term, true).getFlattened().iterator();//term.getSubClasses(onts).iterator();
+		Iterator<OWLClass> iterator = reasoner.getSubClasses(term, true).getFlattened().iterator();
 		ArrayList<String> list = new ArrayList<String>();
 		while(iterator.hasNext()){
 			String exp = iterator.next().toString();
@@ -185,6 +202,11 @@ public class QueryOntology {
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param phenomenon Name of Concept used in ontology
+	 * @return List of Equivalent Classes of input concept
+	 */
 	public List<String> getEquivalents(String phenomenon) {
 		logger.info("getOwlClass entered");
 		OWLClass term = getClass(phenomenon);
@@ -197,6 +219,11 @@ public class QueryOntology {
 		return list;
 	}
 
+	/**
+	 * 
+	 * @param phenomenon Name of Concept used in ontology
+	 * @return List of EquivalentClassed, sub classes and Super classes of input concept
+	 */
 	public List<String> getRelated(String phenomenon) {
 		logger.info("getRelated entered");
 		OWLClass term = getClass(phenomenon);
@@ -218,5 +245,37 @@ public class QueryOntology {
 		}
 		return list;
 	}
+
+	/**
+	 * 
+	 * @param phenomenon Name of Concept used in ontology
+	 * @return list of annotations with Property "HELIOIdentifier" if "HELIOService" annotation contains "hec" 
+	 * @throws ParserException
+	 */
+	public List<String> getEventCatalogues(String phenomenon) throws ParserException {
+		ArrayList<String> list= new ArrayList<String>(); 
+		logger.info("getEventCatalogues entered");
+		String classExpression = new String("Catalog and (containsDataAboutPhenomenon some "+phenomenon+")");
+		dlQueryEngine = new DLQueryEngine(reasoner, shortFormProvider);
+        Set<OWLClass> subClasses = dlQueryEngine.getSubClasses(classExpression, true);
+        for(OWLClass cl : subClasses){
+        	logger.debug("result classes " + cl.toString());
+        	OWLAnnotationProperty service = getAnnotationProperty("HELIOService");
+        	OWLAnnotationProperty identifier = getAnnotationProperty("HELIOIdentifier");
+        	
+        	Set<OWLAnnotation> servSet = cl.getAnnotations(ont, service);
+        	Set<OWLAnnotation> identSet = cl.getAnnotations(ont, identifier);
+        	for(OWLAnnotation an : servSet){
+        		if(an.getValue().toString().contains("hec")){
+        			for(OWLAnnotation an2 : identSet){
+        				String content= an2.getValue().toString();
+        				list.add(content.substring(content.indexOf("\"")+1, content.lastIndexOf("\"")));
+        			}
+        			break;
+        		}
+        	}
+        }
+		return list;
+	}	
 
 }

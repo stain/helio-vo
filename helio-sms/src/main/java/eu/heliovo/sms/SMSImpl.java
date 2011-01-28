@@ -1,7 +1,6 @@
 
 package eu.heliovo.sms;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.jws.WebService;
 
@@ -78,9 +77,16 @@ public class SMSImpl implements SMS {
      */
     public List<String> getHECListNames(String phenomenon)
         throws SmsFault_Exception {
-    	ArrayList<String> list = new ArrayList<String>();
-    	list.add(phenomenon);
-    	return list;
+    	try {
+			return ont.getEventCatalogues(phenomenon);
+		}
+		catch(Exception ex){
+			logger.error(ex.getMessage());
+			SmsFault fault = new SmsFault();
+			fault.setFaultInfo(ex.getMessage());
+			fault.setFaultMessage(ex.getMessage());
+			throw new SmsFault_Exception(ex.getMessage(),fault);
+		}
     }
 
     /**
