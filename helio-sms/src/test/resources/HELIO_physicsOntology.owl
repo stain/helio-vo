@@ -1,0 +1,3251 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY helio-flare1 "http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#" >
+    <!ENTITY CoordinateSystems "http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#" >
+    <!ENTITY HELIO_physicsOntology "http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2006/12/owl2-xml#"
+     xml:base="http://www.w3.org/2006/12/owl2-xml"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:CoordinateSystems="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:helio-flare1="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#"
+     xmlns:HELIO_physicsOntology="http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl">
+        <owl:imports rdf:resource="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&HELIO_physicsOntology;SpaseIdentfier"/>
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasDetector -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasDetector">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Detector"/>
+        <rdfs:domain rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <owl:inverseOf rdf:resource="&HELIO_physicsOntology;isContainedIn"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasIndicator -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasIndicator">
+        <rdfs:range rdf:resource="&CoordinateSystems;Parameter"/>
+        <rdfs:domain rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <owl:inverseOf rdf:resource="&HELIO_physicsOntology;indicatesPhenomenon"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasInstrument -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasInstrument">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:domain rdf:resource="&HELIO_physicsOntology;Observatory"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasLocation -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasLocation">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Location"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasMeasuredParameter -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasMeasuredParameter">
+        <owl:inverseOf rdf:resource="&HELIO_physicsOntology;isMeasuredBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasObservatory -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasObservatory">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Observatory"/>
+        <owl:propertyChainAxiom rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;isContainedIn"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;hasObservatory"/>
+        </owl:propertyChainAxiom>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#hasPhenomenon -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;hasPhenomenon">
+        <rdfs:range rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <owl:inverseOf rdf:resource="&HELIO_physicsOntology;isPhenomenonOf"/>
+        <rdfs:domain>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&HELIO_physicsOntology;Phenomenon"/>
+                    <rdf:Description rdf:about="&HELIO_physicsOntology;Zone"/>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:domain>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#indicatesPhenomenon -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;indicatesPhenomenon"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#isContainedIn -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;isContainedIn"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#isMeasuredBy -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;isMeasuredBy"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#isPhenomenonOf -->
+
+    <owl:ObjectProperty rdf:about="&HELIO_physicsOntology;isPhenomenonOf"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasParameter -->
+
+    <owl:ObjectProperty rdf:about="&helio-flare1;hasParameter">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasAltitude -->
+
+    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasAltitude">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasSpaseName -->
+
+    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasSpaseName"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTime -->
+
+    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasTime">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#relativeEndTime -->
+
+    <owl:DatatypeProperty rdf:about="&CoordinateSystems;relativeEndTime"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CoordinateSystem -->
+
+    <owl:Class rdf:about="&CoordinateSystems;CoordinateSystem">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Parameter -->
+
+    <owl:Class rdf:about="&CoordinateSystems;Parameter">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;isMeasuredBy"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&HELIO_physicsOntology;Detector"/>
+                            <rdf:Description rdf:about="&HELIO_physicsOntology;Instrument"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#ReferenceSystem -->
+
+    <owl:Class rdf:about="&CoordinateSystems;ReferenceSystem">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TemporalParameter -->
+
+    <owl:Class rdf:about="&CoordinateSystems;TemporalParameter"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ACElectricField -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ACElectricField">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">AC-Electric Field</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Alternating electric field component of a wave.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ACMagneticField -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ACMagneticField">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">AC-Magnetic Field</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Alternating magnetic field component of a wave.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Absorption -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Absorption">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Absorption</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Decrease of radiant energy (relative to the background
+continuum spectrum).</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AcceleratorMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AcceleratorMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AcousticPower -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AcousticPower">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ActiveRegion -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ActiveRegion">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A localized, transient volume of the solar atmosphere in which PLAGEs, SUNSPOTS, FACULAe, FLAREs, etc. may be observed. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Active Region</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ActivityIndex -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ActivityIndex">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Activity Index</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">An indication, derived from one or more measurements,
+of the level of activity of an object or region, such as
+sunspot number, F10.7 flux, Dst, or the Polar Cap
+Indices.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Aerosol -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Aerosol">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Aerosol</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AerosolLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AerosolLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AirborneObservatory -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AirborneObservatory">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Observatory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AirglowImager -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AirglowImager">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Imager"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AllSkyImager -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AllSkyImager">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Imager"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AlphaParticle -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AlphaParticle">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Alpha Particle</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Antenna -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Antenna">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A sensor used to measure electric potential.(spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Atom -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Atom">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Atom</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Aurora -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Aurora">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An atmospheric phenomenon consisting of bands of light caused by charged solar particles following the earth&#39;s magnetic lines of force. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Aurora</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AverageChargeState -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;AverageChargeState">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Average Charge State</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#BiStaticRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;BiStaticRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#BowShockCrossing -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;BowShockCrossing">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A crossing of the boundary between the undisturbed (except for foreshock effects) solar wind and the shocked, decelerated solar wind of the magnetosheath. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Bow Shock Crossing</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CCD -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CCD">
+        <owl:equivalentClass rdf:resource="&HELIO_physicsOntology;ChargeCoupleDevice"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;TwoDimensionalDetector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CME -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CME">
+        <owl:equivalentClass rdf:resource="&HELIO_physicsOntology;CoronalMassEjection"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CalciumLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CalciumLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Channeltron -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Channeltron">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument that detects electrons, ions,  and UV-radiation, according to the principle of a secondary emission multiplier. It is typically used in electron spectroscopy and mass spectrometry. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ChargeCoupleDevice -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ChargeCoupleDevice">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;TwoDimensionalDetector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CoherentIonosphericRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CoherentIonosphericRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Composition -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Composition">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Coronagraph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Coronagraph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which can image things very close to the Sun by using a disk to block the Sun&#39;s bright surface which reveals the faint solar corona and other celestial objects. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CoronalHole -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CoronalHole">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An extended region of the corona, exceptionally low in density and associated with unipolar photospheric regions. A coronal hole can be an &quot;open&quot; magnetic field in the corona and (perhaps) inner heliosphere which has a faster than average outflow (wind); A region of lower than &quot;quiet&quot; ion and electron density in the corona; or a region of lower peak electron temperature in the corona than in the &quot;quiet&quot; corona. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Coronal Hole</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CoronalMassEjection -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CoronalMassEjection">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A solar event (CME) that involves a burst of plasma ejected into the interplanetary medium.  CME&#39;s may be observed remotely relatively near the sun or in situ in the interplanetary medium.  The latter type of observations are often referred to as Interplanetary CME&#39;s (ICME&#39;s). (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Coronal Mass Ejection</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#CountRate -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;CountRate">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Count Rate</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Counts -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Counts">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Counts</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Density -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Density">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Detector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Detector">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasMeasuredParameter"/>
+                <owl:allValuesFrom rdf:resource="&CoordinateSystems;Parameter"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;isContainedIn"/>
+                <owl:allValuesFrom>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <rdf:Description rdf:about="&HELIO_physicsOntology;Instrument"/>
+                            <rdf:Description rdf:about="&HELIO_physicsOntology;Observatory"/>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:allValuesFrom>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">any device that receives a signal or stimulus (as heat or pressure or light or motion etc.) and responds to it in a distinctive manner</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DifferentialAbsorptionLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DifferentialAbsorptionLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DopplerFrequency -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DopplerFrequency">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">Change in the frequency of a propagating wave due to
+motion of the source, the observer, the reflector, or the
+propagation medium.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Doppler Frequency</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DopplerLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DopplerLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DopplerRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DopplerRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Dopplergram -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Dopplergram">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">A map or image depicting the spatial distribution of
+line-of-sight velocities of the observed object.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Dopplergram</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DoubleSphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DoubleSphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Antenna"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A dipole antenna of which the active (sensor) elements are small spheres located at the ends of two wires deployed in the equatorial plane, on opposite sides of a spinning spacecraft. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Dust -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Dust">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Dust</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DustDetector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;DustDetector">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which determines the mass and speed of ambient dust particles. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EITWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EITWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A wave in the corona of the Sun which produce shock waves on the Sun&#39;s chromosphere (Moreton Waves). EIT Waves are produced by large solar flare and expand outward at about 1,000 km/s. It usually appears as a slowly moving diffuse arc of brightening in H-alpha, and may travel for several hundred thousand km. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">EIT Wave</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectricField -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectricField">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">A region of space around a charged particle, or between
+two voltages within which a force is exerted on charged
+objects in its vicinity. An electric field is the electric
+force per unit charge.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Electric Field</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectricFieldStrength -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectricFieldStrength">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectromagneticWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectromagneticWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <dc:description rdf:datatype="&xsd;string">Electric and magnetic field variations in time and space
+that propagate through a medium or a vacuum with the
+wave’s propagation, electric field, and magnetic field
+vectors forming an orthogonal triad. Waves in this
+category are detected by having their field quantities
+measured.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Electromagnetic</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Electron -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Electron">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Electron</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectronDriftInstrument -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectronDriftInstrument">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An active experiment to measure the electron drift velocity based on sensing the displacement of a weak beam of electrons after one gyration in the ambient magnetic field. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectrostaticAnalyser -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectrostaticAnalyser">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which uses charged plates to analyze the mass, charge and kinetic energies of charged particles which enter the instrument. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ElectrostaticWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ElectrostaticWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <dc:description rdf:datatype="&xsd;string">Collective longitudinal electric-field and plasma oscillations trapped within a body of plasma.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Electrostatic</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Emissivity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Emissivity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Emissivity</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The energy emitted spontaneously per unit bandwidth
+(typically frequency) per unit time per unit mass of
+source. Emissivity is usually integrated over all
+directions/solid angles.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergeticParticleInstrument -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EnergeticParticleInstrument">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument that measures fluxes of charged particles as a function of time, direction of motion, mass, charge and/or species. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergeticParticles -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EnergeticParticles">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Energetic Particles</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Pieces of matter that are moving very fast. Energetic
+particles include protons, electrons, neutrons, neutrinos,
+the nuclei of atoms, and other sub-atomic particles.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergeticSolarParticleEvent -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EnergeticSolarParticleEvent">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An enhancement of interplanetary fluxes of energetic ions accelerated by interplanetary shocks and/or solar flares. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Energetic Solar Particle Event</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Energy -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Energy">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Energy</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergyDensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EnergyDensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Density"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Energy Density</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EnergyFlux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EnergyFlux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Flux"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Energy Flux</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The amount of energy passing through a unit area in a unit time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Ephemeris -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Ephemeris">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Ephemeris</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The spatial coordinates of a body as a function of time.
+When used as an Instrument Type it represents the
+process or methods used to generate spatial coordinates.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EquivalentWidth -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;EquivalentWidth">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Equivalent Width</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The spectral width of a total absorption line having the
+amount of absorbed radiant energy being equivalent to
+that in an observed absorption line.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FabryPerot -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FabryPerot">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Interferometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FaradayCup -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FaradayCup">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument consisting of an electrode from which electrical current is measured while a charged particle beam (electrons or ions) impinges on it. Used to determine energy spectrum and sometimes ion composition of the impinging particles. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Filaments -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Filaments">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Filigrees -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Filigrees">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;FluxTube"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A string of bright points on the Sun&#39;s Photosphere that are sometimes visible in intergranular lanes in continuum images</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Flare -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Flare">
+        <owl:equivalentClass rdf:resource="&HELIO_physicsOntology;SolarFlare"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FlowSpeed -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FlowSpeed">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Velocity"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Flow Speed</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FlowVelocity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FlowVelocity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Velocity"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Flow Velocity</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Flux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Flux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FluxFeedback -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FluxFeedback">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A search coil whose bandwidth and signal/noise ratio are increased by the application of negative feedback at the sensor (flux) level by driving a collocated coil with a signal from the preamplifier.(spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FluxTube -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FluxTube">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A tube-like space in which there is a strong magnetic field. Small flux tubes at the surface of the Sun, with a diameter of less than about 300 km, form Filigrees and Plages and may appear bright. Bigger flux tubes, up to about 2,500 km diameter, appear dark and are called Pores or Sunspots</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ForbushDecrease -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ForbushDecrease">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A rapid decrease in the observed galactic cosmic ray intensity following the passage of an outwardly convecting interplanetary magnetic field disturbance, such as those associated with large CME&#39;s, that sweep some galactic cosmic rays away from Earth. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Forbush Decrease</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FourierTransformIonCyclotronMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FourierTransformIonCyclotronMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;IonCyclotronMassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FourierTransformSpectrograph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;FourierTransformSpectrograph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument that determines the spectra of a radiative source, using time-domain measurements and a Fourier transform. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Frequency -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Frequency">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Frequency</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The number of occurrences of a repeating event per unit
+time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#GeigerMuellerTube -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;GeigerMuellerTube">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures density of ionizing radiation based on interactions with a gas. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#GeomagneticStorm -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;GeomagneticStorm">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A magnetospheric disturbance typically defined by variations in the horizontal component of the Earth&#39;s surface magnetic field.  The variation typically starts with a field enhancement associated with a solar wind pressure pulse and continues with a field depression associated with an enhancement of the diamagnetic magnetospheric ring current. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Geomagnetic Storm</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#GlowDischargeMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;GlowDischargeMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#GroundBasedRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;GroundBasedRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#GroundbasedObservatory -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;GroundbasedObservatory">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Observatory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Gyrofrequency -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Gyrofrequency">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Gyrofrequency</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The number of gyrations around a magnetic guiding
+center (field line) a charged particle makes per unit time
+due to the Lorentz force.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#HFRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;HFRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#HeatFlux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;HeatFlux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Flux"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Heat Flux</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Heliograph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Heliograph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#HydrodynamicWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;HydrodynamicWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Hydrodynamic</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Periodic or quasi-periodic oscillations of fluid quantities.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ImageIntensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ImageIntensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Image Intensity</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Measurements of the two-dimensional distribution of the
+intensity of photons from some region or object such as
+the Sun or the polar auroral regions; can be in any
+wavelength band, and polarized, etc.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Imager -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Imager">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which samples the radiation from an area at one or more spectral ranges emitted or reflected by an object.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ImagingSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ImagingSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which is a multispectral scanner with a very large number of channels (64-256 channels) with very narrow band widths. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IncoherentScatterRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IncoherentScatterRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#InductivelyCoupledMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;InductivelyCoupledMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Instrument -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Instrument">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasMeasuredParameter"/>
+                <owl:allValuesFrom rdf:resource="&CoordinateSystems;Parameter"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasDetector"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;Detector"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">A device for recording, measuring, or controlling</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#InstrumentStatus -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;InstrumentStatus">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">A quantity directly related to the operation or function of
+an instrument.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Instrument Status</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Intensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Intensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Intensity</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The measurement of radiant or wave energy per unit
+detector area per unit bandwidth per unit solid angle per
+unit time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Interferometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Interferometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument to study the properties of two or more waves from the pattern of interference created by their superposition. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#InterplanetaryShock -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;InterplanetaryShock">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A shock propagating generally anti-sunward through the slower solar wind, often seen in front of CME-associated plasma clouds. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Interplanetary Shock</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#InterplanetarySpace -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;InterplanetarySpace">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Zone"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Ion -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Ion">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Ion</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonChamber -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonChamber">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A device in which the collected electrical charge from ionization in a gas-filled cavity is taken to be the proportion to some parameter (e.g. dose or exposure) of radiation field (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonComposition -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonComposition">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">In situ measurements of the relative flux or density of
+electrically charged particles in the space environment.
+May give simple fluxes, but full distribution functions are
+sometimes measured.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Ion Composition</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonCyclotronMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonCyclotronMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonDrift -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonDrift">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A device which measures the current produced by the displacement of ambient ions on a grid, thereby allowing the determination of the ion trajectory and velocity. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonSonde -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonSonde">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Sounder"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonosphericDopplerRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonosphericDopplerRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;DopplerRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IonosphericEffect -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IonosphericEffect">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#IronLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;IronLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Irradiance -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Irradiance">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">In situ measurements of the relative flux or density of
+electrically charged particles in the space environment.
+May give simple fluxes, but full distribution functions are
+sometimes measured.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Irradiance</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#JetStream -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;JetStream">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Plasma current; These streams slowly shift from east to west toward the solar equator over a period of 17 years</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#KnudsenEffusionMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;KnudsenEffusionMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#LFRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;LFRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#LangmuirProbe -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;LangmuirProbe">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Antenna"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A monopole antenna associated with an instrument. The instrument applies a potential to the antenna which is swept to determine the voltage/current characteristic. This provides information about the plasma surrounding the probe and spacecraft. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Lidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Lidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#LineDepth -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;LineDepth">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Line Depth</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The measure of the amount of absorption below the
+continuum (depth) in a particular wavelength or
+frequency in an absorption spectrum.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Location -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Location">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A position in space definable by a regional referencing system and geographic coordinates</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#LongWire -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;LongWire">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Antenna"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A dipole antenna whose active (sensor) elements are two wires deployed in the equatorial plane on opposite sides of a spinning spacecraft, and whose length is several times greater than the spacecraft diameter. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#LoopStructures -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;LoopStructures">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MFRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MFRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MHDWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MHDWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <dc:description rdf:datatype="&xsd;string">Hydrodynamic waves in a magnetized plasma in which
+the background magnetic field plays a key role in
+controlling the wave propagation characteristics.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">MHD</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MSTRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MSTRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagneticCloud -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagneticCloud">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A transient event observed in the solar wind characterized as a region of enhanced magnetic field strength, smooth rotation of the magnetic field vector and low proton density and temperature. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Magnetic Cloud</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagneticField -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagneticField">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <dc:description rdf:datatype="&xsd;string">A region of space near a magnetized body where
+magnetic forces can be detected (as measured by
+methods such as Zeeman splitting, etc.).</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Magnetic Field</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagneticFieldArea -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagneticFieldArea">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">A region of space near a magnetized body where
+magnetic forces can be detected (as measured by
+methods such as Zeeman splitting, etc.).</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Magnetic Field</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagneticFieldStrength -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagneticFieldStrength">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagneticFlux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagneticFlux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Flux"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Is a measure of quantity of magnetism, taking into account the strength and the extent of a Magnetic Field. The SI unit of magnetic flux is the weber (in derived units: volt-seconds)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetogram -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Magnetogram">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Magnetogram</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Measurements of the vector or line-of-sight magnetic
+field determined from remote sensing measurements of
+the detailed structure of spectral lines, including their
+splitting and polarization. (&quot;Magnetogram.&quot;)</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetograph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Magnetograph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Magnetometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A device for measuring the strength and direction of a magnetic field</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MagnetopauseCrossing -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MagnetopauseCrossing">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A crossing of the interface between the shocked solar wind in the magnetosheath and the magnetic field and plasma in the magnetosphere. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Magnetopause Crossing</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Mass -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Mass">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Mass</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MassDensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MassDensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Density"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Mass Density</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Spectrometer"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which distinguishes chemical species in terms of their different isotopic masses.(spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MattauchHerzogSmallVolumeMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MattauchHerzogSmallVolumeMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MeasurementType -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MeasurementType">
+        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MeteorWindRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MeteorWindRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MichelsonInterferometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MichelsonInterferometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Interferometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MicrochannelPlate -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MicrochannelPlate">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument used for the detection of elementary particles, ions, ultraviolet rays and soft X-rays constructed from very thin conductive glass capillaries. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ModeAmplitude -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ModeAmplitude">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">In helioseismology the magnitude of oscillation of waves
+of a particular geometry.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Mode Amplitude</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Molecule -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Molecule">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Molecule</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MultiChannelPhotometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MultiChannelPhotometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Photometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MultiCollectorMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MultiCollectorMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#MultispectralImager -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;MultispectralImager">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Imager"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which captures images at multiple spectral ranges. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NearSurfaceRegion -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NearSurfaceRegion">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PlanetaryEnvironment"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NeutralAtomImager -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NeutralAtomImager">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Imager"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the quantity and properties of neutral particles over a range of angles. Measured properties can include mass and energy.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NeutralAtomImages -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NeutralAtomImages">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">Measurements of neutral atom fluxes as a function of
+look direction; often related to remote energetic charged
+particles that lose their charge through charge-exchange
+and then reach the detector on a line-of-sight trajectory.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Neutral Atom Images</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NeutralGas -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NeutralGas">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">Measurements of neutral atomic and molecular
+components of a gas.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Neutral Gas</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NeutralParticleDetector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NeutralParticleDetector">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleDetector"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the quantity and properties of neutral particles. Measured properties can include mass and plasma bulk densities. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Neutrino -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Neutrino">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Neutron -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Neutron">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Nucleon"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Neutron</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Nucleon -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Nucleon">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;EnergeticParticles"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NumberDensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NumberDensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Density"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Number Density</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#NumberFlux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;NumberFlux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Number Flux</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Observatory -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Observatory">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasDetector"/>
+                        <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;Detector"/>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasInstrument"/>
+                        <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;Instrument"/>
+                    </owl:Restriction>
+                </owl:unionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">The host (spacecraft, network, facility) for Instruments making observations.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#OpticalInstrument -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;OpticalInstrument">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">processes or analyzes light waves</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#OzoneLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;OzoneLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#OzoneSonde -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;OzoneSonde">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Sounder"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ParticleCorrelator -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ParticleCorrelator">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which correlates particle flux to help identify wave/particle interactions. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ParticleDetector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ParticleDetector">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Detector"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which detects particle flux. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ParticleParameter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ParticleParameter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ParticleType -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ParticleType">
+        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Person -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Person">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PhaseSpaceDensity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PhaseSpaceDensity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Phase-Space Density</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PhasedArrayRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PhasedArrayRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Phenomenon -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Phenomenon">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;isPhenomenonOf"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;Zone"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasPhenomenon"/>
+                <owl:allValuesFrom rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Photometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Photometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the strength of electromagnetic radiation within a spectral band which can range from ultraviolet to infrared and includes the visible spectrum. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PhotonWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PhotonWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <dc:description rdf:datatype="&xsd;string">Electromagnetic waves detected by techniques that
+utilize their corpuscular character (e.g., CCD, CMOS,
+photomultipliers).</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Photon</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Photopolarimeter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Photopolarimeter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the intensity and polarization or radiant energy. A photopolarimeter is a combination of a photometer and a polarimeter. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PhysicalParameter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PhysicalParameter">
+        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Plages -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Plages">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;FluxTube"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A bright spot in the solar Chromosphere, usually found in or near an Active Region such as a sunspot</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlanetaryAtmosphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlanetaryAtmosphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PlanetaryEnvironment"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The neutral gases surrounding a body that extends from the surface and is bound to the body by virtue of the gravitational attraction. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlanetaryEnvironment -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlanetaryEnvironment">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Zone"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlanetaryIonosphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlanetaryIonosphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Thermosphere"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlanetaryMagnetosphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlanetaryMagnetosphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PlanetaryEnvironment"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The region of space in which a planet&#39;s Magnetic Field dominates that of the Solar Wind. It is distorted into a teardrop shape by the Solar Wind pushing on the dayside and drawing out a long magnetotail on the night side.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlasmaCloud -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlasmaCloud">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An aggregate of electrically charged particles (Plasma) that is embedded in the Solar Wind</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlasmaFrequency -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlasmaFrequency">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">A number-density-dependent characteristic frequency of
+a plasma.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Plasma Frequency</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlasmaWave -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PlasmaWave">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Plasma Waves</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Self-consistent collective oscillations of particles and
+fields (electric and magnetic) in a plasma.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Polarimeter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Polarimeter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Polarization -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Polarization">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">Direction of the electric vector of an electromagnetic
+wave. The wave can be linearly polarized in any
+direction perpendicular to the direction of travel,
+circularly polarized (clockwise or counterclockwise),
+unpolarized, or mixtures of the above.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Polarization</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PoyntingFlux -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PoyntingFlux">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Flux"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">Electromagnetic energy flux transported by a wave
+characterized as the rate of energy transport per unit area
+per steradian.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Poynting Flux</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Pressure -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Pressure">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Pressure</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Profile -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Profile">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">Measurements of a quantity as a function of height above
+an object such as the limb of a body.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Profile</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PropagationTime -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;PropagationTime">
+        <owl:equivalentClass>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&CoordinateSystems;relativeEndTime"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;float"/>
+            </owl:Restriction>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;TimeSpan"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&CoordinateSystems;relativeEndTime"/>
+                <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
+                <owl:onDataRange rdf:resource="&xsd;float"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Propagation Time</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">Time difference between transmission and reception of a
+wave in an active wave experiment.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ProportionalCounter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ProportionalCounter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures energy of ionization radiation based on interactions with a gas. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Proton -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Proton">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Nucleon"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Proton</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#QuadrisphericalAnalyser -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;QuadrisphericalAnalyser">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument used for the 3-D detection of plasma, energetic electrons and ions, and for positive-ion composition measurements. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Radar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Radar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument that uses directional properties of returned power to infer spatial and/or other characteristics of a remote object. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Radiance -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Radiance">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">A radiometric measurement that describes the amount of
+electromagnetic radiation that passes through or is
+emitted from a particular area, and falls within a given
+solid angle in a specified direction. They are used to
+characterize both emission from diffuse sources and
+reflection from diffuse surfaces. The SI unit of radiance
+is watts per steradian per square meter (W*s*r^-1*m^-2).</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Radiance</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RadioBurst -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;RadioBurst">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Emissions of the sun in radio wavelengths from centimeters to dekameters, under both quiet and disturbed conditions. Radio Bursts can be &quot;Type I&quot; consisting of many short, narrow-band bursts in the metric range (300 - 50 MHz).; &quot;Type II&quot; consisting of narrow-band emission that begins in the meter range (300 MHz) and sweeps slowly (tens of minutes) toward dekameter wavelengths (10 MHz).; &quot;Type III&quot; consisting of narrow-band bursts that sweep rapidly (seconds) from decimeter to dekameter wavelengths (500 - 0.5 MHz); and &quot;Type IV&quot; consisting of a smooth continuum of broad-band bursts primarily in the meter range (300 - 30 MHz). (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Radio Burst</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Radiometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Radiometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument for detecting or measuring radiant energy. Radiometers are commonly limited to infrared radiation. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RamanLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;RamanLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RayleighLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;RayleighLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ResonanceIonizationMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ResonanceIonizationMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ResonanceSounder -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ResonanceSounder">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A combination of a radio receiver and a pulsed transmitter used to study the plasma surrounding a spacecraft by identifying resonances or cut-offs (of the wave dispersion relation), whose frequencies are related to the ambient plasma density and magnetic field. When the transmitter is off it is essentially a high frequency-resolution spectral power receiver. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RetardingPotentialAnalyser -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;RetardingPotentialAnalyser">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures ion temperatures and ion concentrations using a planar ion trap. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Riometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Riometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measure the signal strength in various directions of the galactic radio signals. Variations in these signals are influenced by solar flare activity and geomagnetic storm and substorm processes. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#STRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;STRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ScintillationDetector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ScintillationDetector">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Detector"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which detects flouresences of a material which is excited by high energy (ionizing) electromagnetic or charged particle radiation. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SearchCoil -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SearchCoil">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the time variation of the magnetic flux threading a loop by measurement of the electric potential difference induced between the ends of the wire. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SecondaryIonMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SecondaryIonMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SectorFieldMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SectorFieldMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SingleChannelPhotometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SingleChannelPhotometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Photometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SmallExplorerObservatory -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SmallExplorerObservatory">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;SpacebasedObservatory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SodiumLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SodiumLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Solar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Solar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Zone"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarAtmosphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarAtmosphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Atmosphere normally classified in three layers Chromosphere, Transition Region, Corona</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarFlare -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarFlare">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An explosive event in the Sun&#39;s atmosphere which produces electromagnetic radiation across the electromagnetic spectrum at multiple wavelengths from long-wave radio to the shortest wavelength gamma rays. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Solar Flare</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarInterior -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarInterior">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Interior</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The region inside the body which is not visible from outside the body.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarSurface -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarSurface">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasPhenomenon"/>
+                <owl:someValuesFrom rdf:resource="&HELIO_physicsOntology;Sunspot"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment rdf:datatype="&xsd;string">The visible surface of the Sun or some other star; it lies just below the Chromosphere and just above the Convective Zone and has a temperature of about 6,000 K</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarWind -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarWind">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarWindExtreme -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SolarWindExtreme">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Intervals of unusually large or small values of solar wind attributes such as flow speed and ion density. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Solar Wind Extreme</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SonicMachNumber -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SonicMachNumber">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sonic Mach Number</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Sounder -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Sounder">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the radiances from an object. A sounder may measure radiances at multiple spectral ranges. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpacebasedObservatory -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpacebasedObservatory">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Observatory"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpacecraftPotentialControl -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpacecraftPotentialControl">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument to control the electric potential of a spacecraft with respect to the ambient plasma by emitting a variable current of positive ions. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SparkSourceMassSpectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SparkSourceMassSpectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MassSpectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpectralPowerReceiver -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpectralPowerReceiver">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A radio receiver which determines the power spectral density of the electric or magnetic field, or both, at one or more frequencies. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpectroHeliograph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpectroHeliograph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Heliograph"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Spectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpectroPhotometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpectroPhotometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Photometer"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Spectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SpectroPolarimeter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SpectroPolarimeter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Polarimeter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Spectrometer"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Spectrograph -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Spectrograph">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Spectrometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Spectrometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;OpticalInstrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument that measures the component wavelengths of light (or other electromagnetic radiation) by splitting the light up into its component wavelengths. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Spectrum -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Spectrum">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Spectrum</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The distribution of a characteristic of a physical system
+or phenomenon, such as the energy emitted by a radiant
+source, arranged in the order of wavelengths.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#StokesParameters -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;StokesParameters">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">A set of four parameters (usually called I,Q, U and V)
+which describe the polarization state of an
+electromagnetic wave propagating through space.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Stoke&#39;s Parameters</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#StreamInteractionRegion -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;StreamInteractionRegion">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The region (SIR) where two solar wind streams, typically having differing characteristics and solar sources, abut up against (and possibly partially interpenetrate) each other. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#StrontiumLidar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;StrontiumLidar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Lidar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Substorm -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Substorm">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A process by which plasma in the magnetotail becomes energized at a fast rate. (spase)</rdfs:comment>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Substorm</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Sunspot -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Sunspot">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Places on Solar Surface where Flux Tubes break through the surface</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SyntheticApertureRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;SyntheticApertureRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Radar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Telescope -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Telescope">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Temperature -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Temperature">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Temperature</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ThermalPlasma -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ThermalPlasma">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">Measurements of the plasma in the energy regime where
+the most of the plasma occurs. May be the basic fluxes
+in the form of distribution functions or the derived bulk
+parameters (density, flow velocity, etc.).</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Thermal Plasma</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ThermalSpeed -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;ThermalSpeed">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Velocity"/>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Thermal Speed</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Thermometer -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Thermometer">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Detector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Thermosphere -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Thermosphere">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An upper part of Earth&#39;s Atmosphere that includes the Ionosphere and extends from an altitude of 85 km (above the mesopause), where the temperature is about -33 °C, to the lower level of the Exosphere at 500 km, where the temperature is about 1,500 °C</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The layer of the atmosphere that extends from the Mesosphere to 640+ km, temperature increasing with height. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TimeOfFlight -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;TimeOfFlight">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An instrument which measures the time it takes for a particle to travel between two detectors. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TimeSpan -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;TimeSpan">
+        <rdfs:subClassOf rdf:resource="&CoordinateSystems;TemporalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TwoDimensionalDetector -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;TwoDimensionalDetector">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Detector"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#UHFRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;UHFRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#VHFRadar -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;VHFRadar">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Velocity -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Velocity">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;ParticleParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">Rate of change of position. Also used for the average
+velocity of a collection of particles, also referred to as
+&#39;bulk velocity&#39;.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Velocity</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#WaveParameter -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;WaveParameter">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#WaveType -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;WaveType">
+        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#WaveformReceiver -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;WaveformReceiver">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;Instrument"/>
+        <rdfs:comment rdf:datatype="&xsd;string">A radio receiver which outputs the value of one or more components of the electric and/or magnetic field as a function of time. (spase)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Wavelength -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Wavelength">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;WaveParameter"/>
+        <dc:description rdf:datatype="&xsd;string">The peak-to-peak distance over one wave period.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Wavelength</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Waves -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Waves">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+        <dc:description rdf:datatype="&xsd;string">Data resulting from observations of wave experiments
+and natural wave phenomena. Wave experiments are
+typically active and natural wave phenomena are passive.
+Examples of wave experiments include
+coherent/incoherent scatter radars, radio soundings, VLF
+propagation studies, ionospheric scintillation of beacon
+satellite signals, etc. Examples of natural wave
+phenomena include micropulsations, mesospheric gravity
+waves, auroral/plasmaspheric hiss, Langmuir waves,
+AKR, Jovian decametric radiation, solar radio bursts, etc.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Waves</HELIO_physicsOntology:SpaseIdentfier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#WavesActive -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;WavesActive">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#WavesPassive -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;WavesPassive">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;MeasurementType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Weight -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Weight">
+        <rdfs:subClassOf rdf:resource="&HELIO_physicsOntology;PhysicalParameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Zone -->
+
+    <owl:Class rdf:about="&HELIO_physicsOntology;Zone">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&HELIO_physicsOntology;hasPhenomenon"/>
+                <owl:allValuesFrom rdf:resource="&HELIO_physicsOntology;Phenomenon"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AppletonLayer -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;AppletonLayer">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <owl:sameAs rdf:resource="&HELIO_physicsOntology;FRegion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#AuroralRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;AuroralRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;NearSurfaceRegion"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Auroral Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#BowShock -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;BowShock">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Chromosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Chromosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Sun.Chromosphere</CoordinateSystems:hasSpaseName>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Chromosphere</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The region of the Sun&#39;s (or a star&#39;s) atmosphere above the
+temperature minimum and below the Transition Region.
+The solar chromosphere is approximately 400 km to
+2100 km above the photosphere, and characterized by
+temperatures from 4500 - 28000 K.</dc:description>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ConvectionZone -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;ConvectionZone">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarInterior"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Core -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Core">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarInterior"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Corona -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Corona">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Sun.Corona</CoordinateSystems:hasSpaseName>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Corona</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The outermost atmospheric region of the Sun or a star,
+characterized by ionization temperatures above 10^5 K.
+The solar corona starts at about 2100 km above the
+photosphere; there is no generally defined upper limit.</dc:description>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#DRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;DRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryIonosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Ionosphere.D-Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#ERegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;ERegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryIonosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Ionosphere.E-Region</CoordinateSystems:hasSpaseName>
+        <owl:sameAs rdf:resource="&HELIO_physicsOntology;KennellyHeavisideLayer"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#EquatorialRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;EquatorialRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;NearSurfaceRegion"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Equatorial Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Exosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Exosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#FRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;FRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryIonosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Ionosphere.F-Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#InterplanetaryMagneticField -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;InterplanetaryMagneticField">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;InterplanetarySpace"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#KennellyHeavisideLayer -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;KennellyHeavisideLayer">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Lobes -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Lobes">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetopause -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Magnetopause">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryEnvironment"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetosheath -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Magnetosheath">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Magnetosheath</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Magnetotail -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Magnetotail">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Magnetosphere.Magnetotail</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Main -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Main">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Magnetosphere.Main</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Mesosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Mesosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Photosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Photosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarSurface"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Sun.Photosphere</CoordinateSystems:hasSpaseName>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Photosphere</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The atmospheric layer of the Sun or a star from which
+continuum radiation, especially optical, is emitted to
+space. For the Sun, the photosphere is about 500 km
+thick.</dc:description>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PlanetaryIonosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;PlanetaryIonosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;Thermosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Ionosphere</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Plasmasheet -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Plasmasheet">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Plasmasphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Plasmasphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Plasmasphere</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Polar -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Polar">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Magnetosphere.Polar</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#PolarCap -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;PolarCap">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;NearSurfaceRegion"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Polar Cap</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RadiationBelt -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;RadiationBelt">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryMagnetosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Magnetosphere.Radiation Belt</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#RadiationZone -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;RadiationZone">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarInterior"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarAtmosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;SolarAtmosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">Atmosphere normally classified in three layers Chromosphere, Transition Region, Corona</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarInterior -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;SolarInterior">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Sun.Interior</CoordinateSystems:hasSpaseName>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Interior</HELIO_physicsOntology:SpaseIdentfier>
+        <dc:description rdf:datatype="&xsd;string">The region inside the body which is not visible from outside the body.</dc:description>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SolarSurface -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;SolarSurface">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;Solar"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">The visible surface of the Sun or some other star; it lies just below the Chromosphere and just above the Convective Zone and has a temperature of about 6,000 K</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#SouthAtlanticAnomalyRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;SouthAtlanticAnomalyRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;NearSurfaceRegion"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.South Atlantic Anomaly Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Stratosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Stratosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Stratosphere</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TAI -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;TAI">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">international atomic time, defined by SI seconds</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TDB -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;TDB">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">barycentric dynamical time, defined by the mean solar day at the
+solar system barycentre, basis for solar system ephemeris</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TT -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;TT">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">terrestrial time, TT=TAI+32s .184, basis for geocentric ephemeris</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Thermosphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Thermosphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">An upper part of Earth&#39;s Atmosphere that includes the Ionosphere and extends from an altitude of 85 km (above the mesopause), where the temperature is about -33 °C, to the lower level of the Exosphere at 500 km, where the temperature is about 1,500 °C</rdfs:comment>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Thermosphere</CoordinateSystems:hasSpaseName>
+        <rdfs:comment rdf:datatype="&xsd;string">The layer of the atmosphere that extends from the Mesosphere to 640+ km, temperature increasing with height. (spase)</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Topside -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Topside">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryIonosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Ionosphere.Topside</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#TransitionRegion -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;TransitionRegion">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;SolarAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <dc:description rdf:datatype="&xsd;string">A very narrow (&lt;100 km) layer between the
+chromosphere and the corona where the temperature rises
+abruptly from about 8000 to about 500,000 K.</dc:description>
+        <HELIO_physicsOntology:SpaseIdentfier rdf:datatype="&xsd;string">Sun.Transition Region</HELIO_physicsOntology:SpaseIdentfier>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Sun.Transition Region</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#Troposphere -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;Troposphere">
+        <rdf:type rdf:resource="&HELIO_physicsOntology;PlanetaryAtmosphere"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <CoordinateSystems:hasSpaseName rdf:datatype="&xsd;string">Earth.Near Surface.Troposphere</CoordinateSystems:hasSpaseName>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#UT1 -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;UT1">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">universal time, defined by the mean solar day</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl#UTC -->
+
+    <owl:Thing rdf:about="&HELIO_physicsOntology;UTC">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:comment rdf:datatype="&xsd;string">coordinated universal time, TAI - leap seconds, broadcast standard</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ActivityIndex"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Dopplergram"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ElectricField"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EnergeticParticles"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Ephemeris"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ImageIntensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;InstrumentStatus"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;IonComposition"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Irradiance"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Magnetogram"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;NeutralAtomImages"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;NeutralGas"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Profile"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Radiance"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Spectrum"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ThermalPlasma"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Waves"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;WavesActive"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;WavesPassive"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;AcceleratorMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;GlowDischargeMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;InductivelyCoupledMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;IonCyclotronMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;KnudsenEffusionMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MattauchHerzogSmallVolumeMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MultiCollectorMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ResonanceIonizationMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SecondaryIonMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SectorFieldMassSpectrometer"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SparkSourceMassSpectrometer"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ActiveRegion"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Aurora"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;BowShockCrossing"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;CoronalHole"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;CoronalMassEjection"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EITWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EnergeticSolarParticleEvent"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Filaments"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;FluxTube"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ForbushDecrease"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;GeomagneticStorm"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;InterplanetaryShock"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;IonosphericEffect"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;JetStream"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;LoopStructures"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MagneticCloud"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MagneticField"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MagnetopauseCrossing"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PlasmaCloud"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;RadioBurst"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SolarFlare"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SolarWind"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SolarWindExtreme"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;StreamInteractionRegion"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Substorm"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Sunspot"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;AverageChargeState"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;CountRate"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Counts"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EnergyDensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EnergyFlux"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;FlowSpeed"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;FlowVelocity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Gyrofrequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;HeatFlux"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Mass"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MassDensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;NumberDensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;NumberFlux"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PhaseSpaceDensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PlasmaFrequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SonicMachNumber"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ThermalSpeed"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ElectromagneticWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ElectrostaticWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;HydrodynamicWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MHDWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PhotonWave"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PlasmaWave"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;BiStaticRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;CoherentIonosphericRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;DopplerRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;GroundBasedRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;IncoherentScatterRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PhasedArrayRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;SyntheticApertureRadar"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;InterplanetarySpace"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PlanetaryEnvironment"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Solar"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Aerosol"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;AlphaParticle"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Atom"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Dust"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Electron"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Ion"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Molecule"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Neutron"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Proton"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;HFRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;LFRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MFRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MSTRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MeteorWindRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;STRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;UHFRadar"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;VHFRadar"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ACElectricField"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ACMagneticField"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Absorption"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;DopplerFrequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Emissivity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EnergyFlux"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;EquivalentWidth"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Frequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Gyrofrequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Intensity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;LineDepth"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;MagneticFieldArea"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;ModeAmplitude"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PlasmaFrequency"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Polarization"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PoyntingFlux"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;PropagationTime"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;StokesParameters"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Velocity"/>
+            <rdf:Description rdf:about="&HELIO_physicsOntology;Wavelength"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+

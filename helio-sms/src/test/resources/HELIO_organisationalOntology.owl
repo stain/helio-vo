@@ -1,0 +1,531 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY helio-flare1 "http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#" >
+    <!ENTITY HELIO_organisationalOntology "http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:HELIO_organisationalOntology="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#"
+     xmlns:helio-flare1="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#">
+    <owl:Ontology rdf:about=""/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;description"/>
+    <owl:AnnotationProperty rdf:about="#SpaseIdentifier"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasParameter -->
+
+    <owl:ObjectProperty rdf:about="&helio-flare1;hasParameter">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#hasRole -->
+
+    <owl:ObjectProperty rdf:about="#hasRole">
+        <rdfs:domain rdf:resource="#Person"/>
+        <rdfs:range rdf:resource="#Role"/>
+        <owl:inverseOf rdf:resource="#isFilledBy"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#isFilledBy -->
+
+    <owl:ObjectProperty rdf:about="#isFilledBy"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Count -->
+
+    <owl:DatatypeProperty rdf:about="#Count">
+        <rdfs:comment rdf:datatype="&xsd;string">A whole number.</rdfs:comment>
+        <rdfs:range rdf:resource="&xsd;int"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#DateTime -->
+
+    <owl:DatatypeProperty rdf:about="#DateTime">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Annotation -->
+
+    <owl:Class rdf:about="#Annotation">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Annotation</SpaseIdentifier>
+        <dc:description rdf:datatype="&xsd;string"
+            >Information which is explanatory or descriptive which is associated with another resource.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#ArchiveSpecialist -->
+
+    <owl:Class rdf:about="#ArchiveSpecialist">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >Archive Specialist</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Catalog -->
+
+    <owl:Class rdf:about="#Catalog">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >A tabular listing of events or observational notes, especially those that have utility in aiding a user in locating data. Catalogues include lists of events, files in a product, and data availability.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Catalog</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CoInvestigator -->
+
+    <owl:Class rdf:about="#CoInvestigator">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Co-Investigator</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Contributor -->
+
+    <owl:Class rdf:about="#Contributor">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Contributor</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#DataProducer -->
+
+    <owl:Class rdf:about="#DataProducer">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Data Producer</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#DataResource -->
+
+    <owl:Class rdf:about="#DataResource">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#DeputyPI -->
+
+    <owl:Class rdf:about="#DeputyPI">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Deputy-PI</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#DisplayData -->
+
+    <owl:Class rdf:about="#DisplayData">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >A graphical representation of data wherein the underlying numeric values are not (readily) accessible for analysis.. Examples are line plots and spectrograms.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Display Data</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Document -->
+
+    <owl:Class rdf:about="#Document">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >A set of information designed and presented as an individual entity. A document may contain plain or formatted text, in-line graphics, sound, other multimedia data, or hypermedia references. Some examples of documents include a paper, letter, book, user guide, map, drawing, photograph, or image.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Document</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#FormerPI -->
+
+    <owl:Class rdf:about="#FormerPI">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Former-PI</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#GeneralContact -->
+
+    <owl:Class rdf:about="#GeneralContact">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">General Contact</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Granule -->
+
+    <owl:Class rdf:about="#Granule">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >An accessible portion of another resource. A Granule may be composed of one or more physical pieces (files) which are considered inseparable. For example, a data storage format that maintains metadata and binary data in separate, but tightly coupled files. Granules should not be used to group files that have simple relationships or which are associated through a parent resource. For example, each file containing a time interval data for a Numerical Data resource would each be considered a Granule. The ParentID of a Granule resource must be a NumericalData resource. The attributes of a Granule supersede the corresponding attributes in the NumericalData resource.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Granule</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#HumanResource -->
+
+    <owl:Class rdf:about="#HumanResource"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Image -->
+
+    <owl:Class rdf:about="#Image">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >A two-dimensional representation of data with values at each element of the array related to an intensity or a color.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Image</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#InfrastructureResource -->
+
+    <owl:Class rdf:about="#InfrastructureResource">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#MetadataContact -->
+
+    <owl:Class rdf:about="#MetadataContact">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >Metadata Contact</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NumericalData -->
+
+    <owl:Class rdf:about="#NumericalData">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Data product stored as numerical values in a specified format.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Numerical Data</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Person -->
+
+    <owl:Class rdf:about="#Person">
+        <rdfs:subClassOf rdf:resource="#HumanResource"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasRole"/>
+                <owl:allValuesFrom rdf:resource="#Role"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Plasmagram -->
+
+    <owl:Class rdf:about="#Plasmagram">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Plasmagram</SpaseIdentifier>
+        <dc:description rdf:datatype="&xsd;string"
+            >The characterization of signal strengths in active sounding measurements as a function of virtual range or
+signal delay time and sounding frequency. A Plasmagram is also referred to as an Ionogram.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#PrincipalInvestigator -->
+
+    <owl:Class rdf:about="#PrincipalInvestigator">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >Principal Investigator</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#ProjectScientist -->
+
+    <owl:Class rdf:about="#ProjectScientist">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >Project Scientist</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Publisher -->
+
+    <owl:Class rdf:about="#Publisher">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Publisher</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Registry -->
+
+    <owl:Class rdf:about="#Registry">
+        <rdfs:subClassOf rdf:resource="#InfrastructureResource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Repository -->
+
+    <owl:Class rdf:about="#Repository">
+        <rdfs:subClassOf rdf:resource="#InfrastructureResource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Role -->
+
+    <owl:Class rdf:about="#Role">
+        <rdfs:subClassOf rdf:resource="#HumanResource"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#isFilledBy"/>
+                <owl:allValuesFrom rdf:resource="#Person"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Scientist -->
+
+    <owl:Class rdf:about="#Scientist">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Scientist</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Service -->
+
+    <owl:Class rdf:about="#Service">
+        <rdfs:subClassOf rdf:resource="#InfrastructureResource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Spectrogram -->
+
+    <owl:Class rdf:about="#Spectrogram">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Spectrogram</SpaseIdentifier>
+        <dc:description rdf:datatype="&xsd;string"
+            >The characterization of signal strengths as a function of frequency (or energy) and time.</dc:description>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#StackPlot -->
+
+    <owl:Class rdf:about="#StackPlot">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >A representation of data showing multiple sets of observations on a single plot, possibly offsetting each plot by some uniform amount.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Stack Plot</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TeamLeader -->
+
+    <owl:Class rdf:about="#TeamLeader">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Team Leader</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TeamMember -->
+
+    <owl:Class rdf:about="#TeamMember">
+        <rdfs:subClassOf rdf:resource="#Contributor"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Team Member</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TechnicalContact -->
+
+    <owl:Class rdf:about="#TechnicalContact">
+        <rdfs:subClassOf rdf:resource="#Role"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >Technical Contact</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TimeSeries -->
+
+    <owl:Class rdf:about="#TimeSeries">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <SpaseIdentifier rdf:datatype="&xsd;string"
+            >A representation of data showing a set of observations taken at different points in time and charted as a time series.</SpaseIdentifier>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Time Series</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WaveForm -->
+
+    <owl:Class rdf:about="#WaveForm">
+        <rdfs:subClassOf rdf:resource="#DisplayData"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Spatial or temporal variations of wave amplitude over wave-period timescales.</dc:description>
+        <SpaseIdentifier rdf:datatype="&xsd;string">Wave Form</SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Registry"/>
+            <rdf:Description rdf:about="#Repository"/>
+            <rdf:Description rdf:about="#Service"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Annotation"/>
+            <rdf:Description rdf:about="#Catalog"/>
+            <rdf:Description rdf:about="#DisplayData"/>
+            <rdf:Description rdf:about="#Granule"/>
+            <rdf:Description rdf:about="#NumericalData"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#ArchiveSpecialist"/>
+            <rdf:Description rdf:about="#CoInvestigator"/>
+            <rdf:Description rdf:about="#Contributor"/>
+            <rdf:Description rdf:about="#DataProducer"/>
+            <rdf:Description rdf:about="#DeputyPI"/>
+            <rdf:Description rdf:about="#GeneralContact"/>
+            <rdf:Description rdf:about="#MetadataContact"/>
+            <rdf:Description rdf:about="#PrincipalInvestigator"/>
+            <rdf:Description rdf:about="#ProjectScientist"/>
+            <rdf:Description rdf:about="#Publisher"/>
+            <rdf:Description rdf:about="#Scientist"/>
+            <rdf:Description rdf:about="#TeamLeader"/>
+            <rdf:Description rdf:about="#TechnicalContact"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Image"/>
+            <rdf:Description rdf:about="#Plasmagram"/>
+            <rdf:Description rdf:about="#Spectrogram"/>
+            <rdf:Description rdf:about="#StackPlot"/>
+            <rdf:Description rdf:about="#TimeSeries"/>
+            <rdf:Description rdf:about="#WaveForm"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+

@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.Node;
+import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerConfiguration;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
@@ -72,7 +73,6 @@ public class QueryOntology {
 			ont = manager.loadOntology(IRI.create(this.getClass().getResource("/helio-flare1.owl")));
 	
 			onts.add(ont);
-			//OWLReasonerFactory reasonerFactory = new FaCTPlusPlusReasonerFactory();
 			OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory(); 
 			//ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor(); 
 			OWLReasonerConfiguration config = new SimpleConfiguration(); 
@@ -97,6 +97,15 @@ public class QueryOntology {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} 
+	}
+	
+	public QueryOntology(OWLOntology ontology){
+		ont=ontology;
+		onts.add(ont);
+		OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory(); 
+		OWLReasonerConfiguration config = new SimpleConfiguration(); 
+		reasoner = reasonerFactory.createReasoner(ont, config); 
+		reasoner.precomputeInferences(); 
 	}
 	
 	private OWLClass getClass(String classShort){
@@ -192,12 +201,18 @@ public class QueryOntology {
 	 */
 	public List<String> getOwlClass(String owlTerm){
 		logger.info("getOwlClass entered");
-		OWLClass term = getClass(owlTerm);
-		Iterator<OWLClass> iterator = reasoner.getSubClasses(term, true).getFlattened().iterator();
 		ArrayList<String> list = new ArrayList<String>();
+		OWLClass term = getClass(owlTerm);
+		NodeSet<OWLClass> nodeSet = reasoner.getSubClasses(term, true);
+		if(nodeSet==null){
+			return list;
+		}
+		Iterator<OWLClass> iterator = nodeSet.getFlattened().iterator();
 		while(iterator.hasNext()){
 			String exp = iterator.next().toString();
-			list.add(exp.substring(exp.lastIndexOf('#')+1,exp.lastIndexOf('>')));
+			if(exp.contains("#")){
+			  list.add(exp.substring(exp.lastIndexOf('#')+1,exp.lastIndexOf('>')));
+			}
 		}
 		return list;
 	}
