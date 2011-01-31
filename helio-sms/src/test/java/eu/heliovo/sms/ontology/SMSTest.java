@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.expression.ParserException;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLException;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -55,12 +56,41 @@ public class SMSTest{
 	}
 	
 	@Test
+	/**
+	 * Test correct input
+	 */
 	public void getOwlClassTest(){
 		ArrayList<String> expectedResult = new ArrayList<String>();
 		expectedResult.add("ActiveRegionNumber");
 		expectedResult.add("RhessiFlareNumber");
 		QueryOntology query = new QueryOntology(ont);
 		List<String> result = query.getOwlClass("IdentificationParameter");
+		
+		
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test non-existen class term
+	 */
+	public void getOwlClassTestWrong(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getOwlClass("ABC");
+		
+		
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test null input
+	 */
+	public void getOwlClassTestWrong2(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getOwlClass(null);
 		
 		
 		assertTrue(testListEqual(result,expectedResult));
@@ -81,7 +111,47 @@ public class SMSTest{
 	}
 
 	@Test
-	public void getAllSubclasses(){
+	/**
+	 * Test correct input
+	 */
+	public void getRelatedclasses(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		expectedResult.add("Service");
+		expectedResult.add("HelioEventCatalog");
+		expectedResult.add("HelioFeatureCatalog");
+		expectedResult.add("InfrastructureResource");
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getRelated("Service");
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test non-existen class term
+	 */
+	public void getRelatedWrong(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getRelated("ABC");
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test null input
+	 */
+	public void getRelatedWrong2(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+	List<String> result = query.getRelated(null);
+		assertTrue(testListEqual(result,expectedResult));
+	}
+
+	@Test
+	/**
+	 * Test correct input
+	 */
+	public void getEquivalents(){
 		ArrayList<String> expectedResult = new ArrayList<String>();
 		expectedResult.add("CME");
 		expectedResult.add("CoronalMassEjection");
@@ -89,6 +159,72 @@ public class SMSTest{
 		List<String> result = query.getEquivalents("CME");
 		assertTrue(testListEqual(result,expectedResult));
 	}
-
 	
+	@Test
+	/**
+	 * Test non-existen class term
+	 */
+	public void getEquivalentsWrong(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEquivalents("ABC");
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test null input
+	 */
+	public void getEquivalentsWrong2(){
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEquivalents(null);
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test correct input
+	 */
+	public void getEventCatalogues() throws ParserException{
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		expectedResult.add("lasco_cme_cat");
+		expectedResult.add("ulysses_swoops_icme");
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEventCatalogues("CME");
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test non-existen class term
+	 */
+	public void getEventCataloguesWrong() throws ParserException{
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEventCatalogues("ABC");
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test null input
+	 */
+	public void getEventCataloguesWrong2() throws ParserException{
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEventCatalogues(null);
+		assertTrue(testListEqual(result,expectedResult));
+	}
+	
+	@Test
+	/**
+	 * Test valid Class term but non-phenomenon
+	 */
+	public void getEventCataloguesWrong3() throws ParserException{
+		ArrayList<String> expectedResult = new ArrayList<String>();
+		QueryOntology query = new QueryOntology(ont);
+		List<String> result = query.getEventCatalogues("Antenna");
+		assertTrue(testListEqual(result,expectedResult));
+	}
 }

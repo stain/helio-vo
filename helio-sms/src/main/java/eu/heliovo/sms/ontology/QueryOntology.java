@@ -106,6 +106,7 @@ public class QueryOntology {
 		OWLReasonerConfiguration config = new SimpleConfiguration(); 
 		reasoner = reasonerFactory.createReasoner(ont, config); 
 		reasoner.precomputeInferences(); 
+		shortFormProvider = new SimpleShortFormProvider();
 	}
 	
 	private OWLClass getClass(String classShort){
@@ -139,8 +140,6 @@ public class QueryOntology {
 		Iterator<OWLClass> it=ontology.getClassesInSignature().iterator();
 		while(it.hasNext()){
 			OWLClass cl = it.next();
-//				System.out.println(cl + " " + cl.getIRI().toString().substring(
-//						cl.getIRI().toString().indexOf('#')+1));
 			classList.put(cl.getIRI().toString().substring(
 					cl.getIRI().toString().indexOf('#')+1), cl);
 		}
@@ -158,8 +157,6 @@ public class QueryOntology {
 		Iterator<OWLObjectProperty> it=ontology.getObjectPropertiesInSignature().iterator();
 		while(it.hasNext()){
 			OWLObjectProperty op = it.next();
-			System.out.println(op + " " + op.getIRI().toString().substring(
-					op.getIRI().toString().indexOf('#')));
 			objectProperty.put(op.getIRI().toString().substring(
 					op.getIRI().toString().indexOf('#')), op);
 		}
@@ -177,7 +174,6 @@ public class QueryOntology {
 		Iterator<OWLAnnotationProperty> it=ontology.getAnnotationPropertiesInSignature().iterator();
 		while(it.hasNext()){
 			OWLAnnotationProperty op = it.next();
-			System.out.println("op " + op);
 			if(op.getIRI().toString().contains("#")){
 				annotationProperty.put(op.getIRI().toString().substring(
 						op.getIRI().toString().indexOf('#')+1), op);
@@ -202,7 +198,13 @@ public class QueryOntology {
 	public List<String> getOwlClass(String owlTerm){
 		logger.info("getOwlClass entered");
 		ArrayList<String> list = new ArrayList<String>();
+	    if(owlTerm == null){
+	    	return list;
+	    }
 		OWLClass term = getClass(owlTerm);
+		if(term == null){
+			return list;
+		}
 		NodeSet<OWLClass> nodeSet = reasoner.getSubClasses(term, true);
 		if(nodeSet==null){
 			return list;
@@ -224,9 +226,19 @@ public class QueryOntology {
 	 */
 	public List<String> getEquivalents(String phenomenon) {
 		logger.info("getOwlClass entered");
-		OWLClass term = getClass(phenomenon);
-		Iterator<OWLClass>  iterator=reasoner.getEquivalentClasses(term).iterator();
 		ArrayList<String> list = new ArrayList<String>();
+		if(phenomenon == null) {
+			return list;
+		}
+		OWLClass term = getClass(phenomenon);
+		if(term == null){
+			return list;
+		}
+		Node<OWLClass> node = reasoner.getEquivalentClasses(term);
+		if(node == null){
+			return list;
+		}
+		Iterator<OWLClass>  iterator=node.iterator();
 		while(iterator.hasNext()){
 			String exp = iterator.next().toString();
 			list.add(exp.substring(exp.lastIndexOf('#')+1,exp.lastIndexOf('>')));
@@ -241,9 +253,19 @@ public class QueryOntology {
 	 */
 	public List<String> getRelated(String phenomenon) {
 		logger.info("getRelated entered");
-		OWLClass term = getClass(phenomenon);
-		Iterator<OWLClass>  iterator=reasoner.getEquivalentClasses(term).iterator();
 		ArrayList<String> list = new ArrayList<String>();
+		if(phenomenon == null) {
+			return list;
+		}
+		OWLClass term = getClass(phenomenon);
+		if(term == null) {
+			return list;
+		}
+		Node<OWLClass> node = reasoner.getEquivalentClasses(term);
+		if(node == null){
+			return list;
+		}
+		Iterator<OWLClass>  iterator=node.iterator();
 		while(iterator.hasNext()){
 			String exp = iterator.next().toString();
 			list.add(exp.substring(exp.lastIndexOf('#')+1,exp.lastIndexOf('>')));
@@ -270,6 +292,12 @@ public class QueryOntology {
 	public List<String> getEventCatalogues(String phenomenon) throws ParserException {
 		ArrayList<String> list= new ArrayList<String>(); 
 		logger.info("getEventCatalogues entered");
+		if(phenomenon==null){
+			return list;
+		}
+		if(getClass(phenomenon)==null){
+			return list;
+		}
 		String classExpression = new String("Catalog and (containsDataAboutPhenomenon some "+phenomenon+")");
 		dlQueryEngine = new DLQueryEngine(reasoner, shortFormProvider);
         Set<OWLClass> subClasses = dlQueryEngine.getSubClasses(classExpression, true);
