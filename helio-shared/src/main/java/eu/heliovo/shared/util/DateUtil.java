@@ -3,7 +3,6 @@ package eu.heliovo.shared.util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -17,7 +16,7 @@ public class DateUtil {
 	 * Formatter for the ISO format.
 	 */
 	private static DateFormat ISO8601_FORMAT = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss", Locale.UK);
+			"yyyy-MM-dd'T'HH:mm:ss");
 	static {
 		ISO8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
 	}
