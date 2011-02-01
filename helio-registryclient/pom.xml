@@ -6,13 +6,13 @@
 		<artifactId>heliovo</artifactId>
 		<groupId>eu.heliovo</groupId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../HELIO/trunk</relativePath>
+		<relativePath>../trunk</relativePath>
 	</parent>
 
 	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-registryclient</artifactId>
 	<name>HELIO Registry client</name>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>This is a simple client of the HELIO Registry.</description>
 	<inceptionYear>2011</inceptionYear>
