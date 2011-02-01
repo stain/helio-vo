@@ -6,7 +6,7 @@
     <bannerLeft>
         <name>Helio</name>
         <src>images/helio_logo4_sm.jpg</src>
-        <href>helio-dev.i4ds.technik.fhnw.ch/heliovo</href>
+        <href>helio-dev.i4ds.ch/heliovo</href>
     </bannerLeft>
 
     <version position="left"/>
@@ -14,7 +14,7 @@
         <links>
             <item name="Helio home" href="http://www.helio-vo.eu/" />
             <item name="Helio Wiki" href="https://grid.ie/helio/wiki/" />
-            <item name="Helio Dev Portal" href="http://helio-dev.i4ds.technik.fhnw.ch/helio" />
+            <item name="Helio Dev Portal" href="http://helio-dev.i4ds.ch/helio" />
             <item name="Helio Live Portal" href="http://helio.i4ds.technik.fhnw.ch/helio" />
         </links>
         
