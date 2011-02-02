@@ -12,7 +12,7 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 		mavenLocal()
-		mavenRepo "http://helio-dev.i4ds.ch:8123/archiva/repository/internal"
+		mavenRepo "http://helio-dev.i4ds.ch/archiva/repository/internal"
         grailsHome()
 		grailsCentral()
 
