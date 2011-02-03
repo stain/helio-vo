@@ -144,6 +144,7 @@
 		<module>helio-hfe</module>
 		<module>helio-sms</module>
 		<!--module>helio-client</module-->
+		<module>helio-registryclient</module>
 		<module>helio-cil</module>
 	</modules>
 
