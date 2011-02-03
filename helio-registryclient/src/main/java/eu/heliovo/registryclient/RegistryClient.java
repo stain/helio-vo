@@ -232,14 +232,4 @@ public class RegistryClient {
 			bits[2] = urnTailRemap.get(bits[2]);
 		return getResource(bits[1], bits[2]);
 	}
-
-	public static class LookupFailedException extends Exception {
-		public LookupFailedException(String reason) {
-			super(reason);
-		}
-
-		public LookupFailedException(String reason, Throwable cause) {
-			super(reason, cause);
-		}
-	}
 }
