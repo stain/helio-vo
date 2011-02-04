@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.heliovo</groupId>
 	<artifactId>heliovo</artifactId>
@@ -145,8 +144,8 @@
 		<module>helio-sms</module>
 		<!--module>helio-client</module-->
 		<module>helio-registryclient</module>
-		<module>helio-cil</module>
-	</modules>
+    <module>helio-test</module>
+  </modules>
 
 	<scm>
 		<connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
