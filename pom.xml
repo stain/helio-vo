@@ -144,7 +144,6 @@
 		<module>helio-sms</module>
 		<!--module>helio-client</module-->
 		<module>helio-registryclient</module>
-    <module>helio-test</module>
   </modules>
 
 	<scm>
