@@ -125,8 +125,9 @@ public class CommonUtils {
 	 
 	 public static void genegrateVotableBasedOnCondition(CommonTO commonTO) throws Exception
 	 {
-		//getting details from Provider access table
+		 //getting details from Provider access table
 		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(commonTO.getParaInstrument());
+		 System.out.println("---------->"+resultTo+"------->"+resultTo.length+"------>"+resultTo[0]);
 		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 	    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
 	    	 System.out.println(" : Helio Instrument : "+resultTo[0].getHelioInst());
@@ -168,6 +169,41 @@ public class CommonUtils {
 		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 soteriaQueryDao.query(commonTO);
 		     }
+		 }else if(resultTo==null || resultTo.length==1 || resultTo[0]!=null){
+			 //getting details from Provider access table
+			 resultTo=HsqlDbUtils.getInstance().getFtpAccessTableBasedOnInst(commonTO.getParaInstrument());
+			 //
+			 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
+				 //Helio Instrument
+				 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
+				 //
+				 commonTO.setInstrument(resultTo[0].getProviderName());
+				 //Provider Source
+				 commonTO.setProviderSource(resultTo[0].getProviderName());
+				 //
+				 commonTO.setWhichProvider(resultTo[0].getProviderType());
+				 //Working Dir
+				 commonTO.setWorkingDir(resultTo[0].getWorkingDir());
+				 //Year Pattern
+				 commonTO.setYearPattern(resultTo[0].getYearPattern());
+				 //Month Pattern
+				 commonTO.setMonthPattern(resultTo[0].getMonthPattern());
+				 //Ftp Host
+				 commonTO.setFtpHost(resultTo[0].getFtpHost());
+				 //Ftp User
+				 commonTO.setFtpUser(resultTo[0].getFtpUser());
+				 //Ftp Password
+				 commonTO.setFtpPwd(resultTo[0].getFtpPwd());
+				 //Ftp Pattern
+				 commonTO.setFtpPattern(resultTo[0].getFtpPattern());
+				 //Ftp date pattern
+				 commonTO.setFtpDateFormat(resultTo[0].getFtpDatePattern());
+				 commonTO.setVotableDescription("Ftp Archive query response");
+		    	 System.out.println("--->  Ftp Directory Provider intiated--->");
+		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 dirQueryDao.query(commonTO);
+			 }
+			 //
 		 }else{
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));
 	    	 commonTO.setVotableDescription("Error, no data for "+commonTO.getWhichProvider()+" provider");

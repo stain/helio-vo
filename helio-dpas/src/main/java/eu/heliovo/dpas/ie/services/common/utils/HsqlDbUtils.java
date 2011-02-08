@@ -27,10 +27,10 @@ public class HsqlDbUtils {
 	 /*
 	  * 
 	  */
-	 public synchronized void  loadProviderAccessTable(String fileName) throws DetailsNotFoundException
+	 public synchronized void  loadProviderAccessTable(String fileName,String tableName) throws DetailsNotFoundException
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
-		 shortNameDao.loadProviderAccessTable(fileName);
+		 shortNameDao.loadProviderAccessTable(fileName,tableName);
 	 }
 	 
 	 /*
@@ -40,6 +40,15 @@ public class HsqlDbUtils {
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
 		 return shortNameDao.getAccessTableBasedOnInst(instName);
+	 }
+	 
+	 /*
+	  * 
+	  */
+	 public synchronized ResultTO[]  getFtpAccessTableBasedOnInst(String instName) throws DetailsNotFoundException
+	 {
+		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
+		 return shortNameDao.getFtpAccessTableBasedOnInst(instName);
 	 }
 	
 	 /*

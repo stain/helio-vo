@@ -55,13 +55,20 @@ cellspacing="0">
          </td>
          </tr>
            <s:if test="statusDisplay == true">
-            <tr class="txtMsg"><td>Provider access table is configured. Uploaded file is:  <s:property value="uploadedFileName" /></td></tr>
+            <tr class="txtMsg"><td>Provider access table is configured. Uploaded file is:  <s:property value="uploadedFileName" /> and <s:property value="uploadedFtpFileName"/></td></tr>
            </s:if>
         	<s:else> <tr class="txtError"><td>Please configure provider access table by clicking bellow link.</td></tr></s:else>
          <tr class="txtblackBP" > 
            <td>
               <ul>
                   <li><a href="javascript:doSub('showProviderUploadPage.action')"> Configure provider access table </a></li>		             
+              </ul>            
+          </td>
+         </tr> 
+         <tr class="txtblackBP" > 
+           <td>
+              <ul>
+                  <li><a href="javascript:doSub('showProviderUploadPage.action?upload=ftp')"> Configure ftp provider access table </a></li>		             
               </ul>            
           </td>
          </tr> 

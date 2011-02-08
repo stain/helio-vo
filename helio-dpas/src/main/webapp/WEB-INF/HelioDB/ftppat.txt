@@ -1,0 +1,8 @@
+MEUD__SHELIO,DIR,FTP,pub/meudon/Halpha/::pub/meudon/Haprotu/::pub/meudon/K1v/::pub/meudon/K3/::pub/meudon/Kp/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,
+MEUD__HELIO,DIR,FTP,pub/meudon/CaIIk/::pub/meudon/CaIIh/::pub/meudon/C530/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,
+PDMO__CLIMSO,DIR,FTP,climso/Ha/::climso/He/::climso/Fe/::climso/Cak/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyyyMMdd'_'HHmmss,1,,
+NANC__NRH,DIR,FTP,nancay/327MHz/::nancay/164MHz/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyyyMMdd'_'HHmmss,1,,
+NANC__NTRFA,DIR,FTP,nancay/flux_radio/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6},yyyyMMdd,1,,
+NANC__NDA,DIR,FTP,decam/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6},yyyyMMdd,1,,
+OAUC__SHELIO,DIR,FTP,pub/coimbra/Halpha/::pub/coimbra/dopp/::pub/coimbra/K1v/::pub/coimbra/K3/::pub/coimbra/cont/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6},yyyyMMdd,1,,
+PDMO__COGHA,DIR,FTP,pub/coro/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,

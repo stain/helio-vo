@@ -4,12 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import com.opensymphony.xwork2.ActionSupport;
 import eu.heliovo.dpas.ie.services.common.utils.CommonUtils;
@@ -25,9 +25,12 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
 	//Directing to index page.
 	public String indexPage() throws SQLException{
 		String fileName=InstanceHolders.getInstance().getProperty("patFileName");
-		if(fileName!=null && !fileName.trim().equals("")){
+		//Ftp file name
+		String ftpFilename=InstanceHolders.getInstance().getProperty("patFtpFileName");
+		if(fileName!=null && !fileName.trim().equals("") && ftpFilename!=null && !ftpFilename.trim().equals("")){
 			setStatusDisplay(true);
 			setUploadedFileName(fileName);
+			setUploadedFtpFileName(ftpFilename);
 		}else{
 			setStatusDisplay(false);
 		}	
@@ -88,6 +91,8 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
 	
 	private boolean statusDisplay;
 	private String uploadedFileName;
+	private String uploadedStatus;
+	private String uploadedFtpFileName;
 	
 	public boolean isStatusDisplay() {
 		return statusDisplay;
@@ -105,10 +110,27 @@ public class CommonAction  extends ActionSupport implements  ServletRequestAware
 		this.uploadedFileName = uploadedFileName;
 	}
 
+	public String getUploadedStatus() {
+		return uploadedStatus;
+	}
+
+	public void setUploadedStatus(String uploadedStatus) {
+		this.uploadedStatus = uploadedStatus;
+	}
+	
+	public String getUploadedFtpFileName() {
+		return uploadedFtpFileName;
+	}
+
+	public void setUploadedFtpFileName(String uploadedFtpFileName) {
+		this.uploadedFtpFileName = uploadedFtpFileName;
+	}
+
 	public String showProviderUploadPage () throws SQLException, IOException
 	{
 		String sReturnStatus="SUCCESS";
-		
+		String upload=ServletActionContext.getRequest().getParameter("upload");
+		setUploadedStatus(upload);
 		return sReturnStatus;
 	}
 

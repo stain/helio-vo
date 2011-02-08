@@ -1,7 +1,6 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.directory.dao.impl;
 
-import java.io.BufferedWriter;
 import java.util.Calendar;
 import java.util.List;
 import eu.heliovo.dpas.ie.services.cdaweb.dao.exception.DataNotFoundException;
@@ -11,8 +10,6 @@ import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.directory.provider.DirProvider;
 import eu.heliovo.dpas.ie.services.directory.transfer.DirDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
-import eu.heliovo.dpas.ie.services.directory.utils.DirInsAnlyFactory;
-
 
 public class DirQueryDaoImpl implements DirQueryDao {
 	DirProvider dirProvider=null;
@@ -35,6 +32,16 @@ public class DirQueryDaoImpl implements DirQueryDao {
 		 dirTO.setStatus(commonTO.getStatus());
 		 dirTO.setHelioInstrument(commonTO.getHelioInstrument());
 		 dirTO.setContextUrl(commonTO.getContextUrl());
+		 //Ftp trasfer object.
+		 dirTO.setProviderSource(commonTO.getProviderSource());
+		 dirTO.setYearPattern(commonTO.getYearPattern());
+		 dirTO.setMonthPattern(commonTO.getMonthPattern());
+		 dirTO.setFtpHost(commonTO.getFtpHost());
+		 dirTO.setFtpUser(commonTO.getFtpUser());
+		 dirTO.setFtpPwd(commonTO.getFtpPwd());
+		 dirTO.setFtpDateFormat(commonTO.getFtpDateFormat());
+		 dirTO.setFtpPattern(commonTO.getFtpPattern());
+		 dirTO.setWorkingDir(commonTO.getWorkingDir());
 	     dirProvider.query(dirTO) ;
 	}
 		

@@ -95,6 +95,7 @@ public class FtpUtils {
 			return sdfSource.parse(ftpTO.getFtpDateFileName());
 		}catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return null;
 	}

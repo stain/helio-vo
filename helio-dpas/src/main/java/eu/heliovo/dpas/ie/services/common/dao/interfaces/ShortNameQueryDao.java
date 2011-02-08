@@ -11,5 +11,6 @@ public interface ShortNameQueryDao {
 	public ResultTO[] getAccessTableBasedOnInst(String fileName) throws DetailsNotFoundException;
 	public ResultTO[] getAccessTableDetails() throws DetailsNotFoundException;
 	public void generateVOTable(CommonTO commonTO) throws Exception;
-	public void loadProviderAccessTable(String fileName) throws DetailsNotFoundException;
+	public void loadProviderAccessTable(String fileName,String tableName) throws DetailsNotFoundException;
+	public ResultTO[] getFtpAccessTableBasedOnInst(String fileName) throws DetailsNotFoundException;
 }

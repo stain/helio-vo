@@ -20,6 +20,8 @@ public class FileUploadAction extends ActionSupport implements
 	private String userFileFileName;
 	private boolean statusDisplay;
 	private String uploadedFileName;
+	private String uploadedFtpFileName;
+	private String uploadedStatus;
 	
 	public boolean isStatusDisplay() {
 		return statusDisplay;
@@ -36,6 +38,24 @@ public class FileUploadAction extends ActionSupport implements
 	public void setUploadedFileName(String uploadedFileName) {
 		this.uploadedFileName = uploadedFileName;
 	}
+	
+	public String getUploadedStatus() {
+		return uploadedStatus;
+	}
+
+	public void setUploadedStatus(String uploadedStatus) {
+		this.uploadedStatus = uploadedStatus;
+	}
+	
+	public String getUploadedFtpFileName() {
+		return uploadedFtpFileName;
+	}
+
+	public void setUploadedFtpFileName(String uploadedFtpFileName) {
+		this.uploadedFtpFileName = uploadedFtpFileName;
+	}
+
+
 
 	private HttpServletRequest servletRequest;
 
@@ -58,10 +78,26 @@ public class FileUploadAction extends ActionSupport implements
 				File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
 				//Copying file HSQL database.
 				FileUtils.copyFile(this.userFile, fileToCreate);
-				//Setting .txt for 'pat' table.
-				HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName);		
-				//Provider access file name
-				InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
+				String upload=getUploadedStatus();
+				System.out.println("--------------------> "+upload);
+				//
+				if(upload!=null && !upload.trim().equals("")){
+					//
+					InstanceHolders.getInstance().removeProperty("patFtpFileName");
+					//Setting .txt for 'pat' table.
+					HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName,"ftppat");		
+					//Provider access file name
+					InstanceHolders.getInstance().setProperty("patFtpFileName",this.userFileFileName);
+					//
+					setUploadedFtpFileName(this.userFileFileName);
+				}else{
+					//
+					InstanceHolders.getInstance().removeProperty("patFileName");
+					//Setting .txt for 'pat' table.
+					HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName,"pat");		
+					//Provider access file name
+					InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
+				}
 				setStatusDisplay(true);
 				setUploadedFileName(this.userFileFileName);
 			//}else{

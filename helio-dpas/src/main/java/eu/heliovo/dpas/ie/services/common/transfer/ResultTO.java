@@ -12,6 +12,14 @@ public class ResultTO {
 	private String pvdrRanking;
 	private String pvdrQuality;
 	private String pvdrVsoKey;
+	private String yearPattern;
+	private String monthPattern;	
+	private String workingDir;
+	private String ftpHost;
+	private String ftpUser;	
+	private String ftpPwd;
+	private String ftpPattern;
+	private String ftpDatePattern;
 	
 	public String getHelioInst() {
 		return helioInst;
@@ -73,7 +81,54 @@ public class ResultTO {
 	public void setProviderAck(String providerAck) {
 		this.providerAck = providerAck;
 	}
+	public String getYearPattern() {
+		return yearPattern;
+	}
+	public void setYearPattern(String yearPattern) {
+		this.yearPattern = yearPattern;
+	}
+	public String getMonthPattern() {
+		return monthPattern;
+	}
+	public void setMonthPattern(String monthPattern) {
+		this.monthPattern = monthPattern;
+	}
 	
-	
-	
+	public String getWorkingDir() {
+		return workingDir;
+	}
+	public void setWorkingDir(String workingDir) {
+		this.workingDir = workingDir;
+	}
+	public String getFtpHost() {
+		return ftpHost;
+	}
+	public void setFtpHost(String ftpHost) {
+		this.ftpHost = ftpHost;
+	}
+	public String getFtpUser() {
+		return ftpUser;
+	}
+	public void setFtpUser(String ftpUser) {
+		this.ftpUser = ftpUser;
+	}
+	public String getFtpPwd() {
+		return ftpPwd;
+	}
+	public void setFtpPwd(String ftpPwd) {
+		this.ftpPwd = ftpPwd;
+	}
+	public String getFtpPattern() {
+		return ftpPattern;
+	}
+	public void setFtpPattern(String ftpPattern) {
+		this.ftpPattern = ftpPattern;
+	}
+	public String getFtpDatePattern() {
+		return ftpDatePattern;
+	}
+	public void setFtpDatePattern(String ftpDatePattern) {
+		this.ftpDatePattern = ftpDatePattern;
+	}
+		
 }

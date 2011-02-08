@@ -42,18 +42,25 @@ public class FtpArchiveExplorer
 	public LinkedList<DPASResultItem> query(Date from, Date to) throws MalformedURLException,IOException,Exception
 	{
 		SimpleDateFormat df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
+		System.out.println(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
 		FtpUtils  ftpUtils=new FtpUtils(ftpTO.getFtpHost(),ftpTO.getFtpUser(),ftpTO.getFtpPwd());
 		//
 		String workingDir=ftpTO.getWorkingDir();
-    	Iterator<Date> i = new DateIterator(from, to);
-    	while(i.hasNext())
-    	{
-    		Date date = i.next();
-    		String formatDate=df.format(date);
-    		System.out.println("------------>"+formatDate);
-    		//
-    		ftpTO.setWorkingDir(workingDir+formatDate);
-    		ftpUtils.getFtpFileDetails(ftpTO);
+    	if(workingDir!=null){
+    		String[] dirArray=workingDir.split("::");
+	    	for(int count=0;count<dirArray.length;count++){
+	    		System.out.println("---------->"+dirArray[count]);
+	    		Iterator<Date> i = new DateIterator(from, to);
+		    	while(i.hasNext())
+		    	{
+		    		Date date = i.next();
+		    		String formatDate=df.format(date);
+		    		System.out.println("------------>"+formatDate);
+		    		//
+		    		ftpTO.setWorkingDir(dirArray[count]+formatDate);
+		    		ftpUtils.getFtpFileDetails(ftpTO);
+		    	}
+	    	}
     	}
     	//
 		return ftpUtils.returnDPASResultItem();

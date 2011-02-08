@@ -10,7 +10,7 @@ import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 
-public class BCASProvider implements DirQueryDao
+public class FtpProvider implements DirQueryDao
 {
 	/*
 	 * Path Example:
@@ -19,7 +19,7 @@ public class BCASProvider implements DirQueryDao
 	 */
 	FtpArchiveExplorer	explorer	=	null;
 
-	public BCASProvider(FtpDataTO ftpTO)
+	public FtpProvider(FtpDataTO ftpTO)
 	{
 		super();
 		initialize(ftpTO);

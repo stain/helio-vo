@@ -25,11 +25,11 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 	protected final  Logger logger = Logger.getLogger(this.getClass());
 	
 	@Override
-	public void loadProviderAccessTable(String fileName) throws DetailsNotFoundException {
+	public void loadProviderAccessTable(String fileName,String tableName) throws DetailsNotFoundException {
 		String sUrl=null;
 		try{
 			System.out.println("  :  -----> Setting uploaded file for provider access table ----->");
-			String query="SET TABLE pat SOURCE "+"\""+fileName+"\"";
+			String query="SET TABLE "+tableName+" SOURCE "+"\""+fileName+"\"";
 			System.out.println("loadProviderAccessTable() method "+query);
 			//Connecting to database.						
 			con = ConnectionManager.getConnection();
@@ -67,7 +67,99 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 		}
 	}
 	
-		@Override
+	
+	@Override
+	public ResultTO[] getFtpAccessTableBasedOnInst(String strIns) throws DetailsNotFoundException {
+			int count=0;
+			ResultTO[] resultTO=null;
+			try{
+				String query="select * from ftppat where helio_obs_inst='"+strIns+"' order by pvdr_ranking limit 1";
+				System.out.println("  :  -----> getFtpAccessTableBasedOnInst() method -----> : Reslut For "+strIns);
+				//Connecting to database.						
+				con = ConnectionManager.getConnection();
+				st = con.createStatement();
+				rs=st.executeQuery(query);
+				//rs.last();
+				resultTO = new ResultTO[1];
+				//rs.first();
+				while(rs.next()){
+					resultTO[count]=new ResultTO();
+					//Helio Inst
+					if(rs.getString(1)!=null)
+						resultTO[count].setHelioInst(rs.getString(1));
+					//Provider Type
+					if(rs.getString(2)!=null)
+						resultTO[count].setProviderType(rs.getString(2));
+					//Provider Name
+					if(rs.getString(3)!=null)
+						resultTO[count].setProviderName(rs.getString(3));
+					//Provider Type
+					if(rs.getString(4)!=null)
+						resultTO[count].setWorkingDir(rs.getString(4));
+					//Instrument
+					if(rs.getString(5)!=null)
+						resultTO[count].setYearPattern(rs.getString(5));
+					//Obsevatory Id
+					if(rs.getString(6)!=null)
+						resultTO[count].setMonthPattern(rs.getString(6));
+					//Provider Source
+					if(rs.getString(7)!=null)
+						resultTO[count].setFtpHost(rs.getString(7));
+					//Provider Ack
+					if(rs.getString(8)!=null)
+						resultTO[count].setFtpUser(rs.getString(8));
+					//Provider Ack
+					if(rs.getString(9)!=null)
+						resultTO[count].setFtpPwd(rs.getString(9));
+					//Provider Ack
+					if(rs.getString(10)!=null)
+						resultTO[count].setFtpPattern(rs.getString(10));
+					//Provider Ack
+					if(rs.getString(11)!=null)
+						resultTO[count].setFtpDatePattern(rs.getString(11));
+					//Provider quality
+					if(rs.getString(12)!=null)
+						resultTO[count].setPvdrRanking(rs.getString(12));
+					//Vso Int id
+					if(rs.getString(13)!=null)
+						resultTO[count].setPvdrQuality(rs.getString(13));
+					//
+					count++;
+                }
+				System.out.println("  :  -----> Success -----> Reslut For : "+strIns);
+				return resultTO;
+			}catch(Exception e){
+				e.printStackTrace();
+				logger.fatal(" Exception occured in getAccessTableBasedOnInst() : ",e);
+			}
+			
+			finally
+			{
+				try {
+					
+					if(rs!=null)
+					{
+						rs.close();
+						rs=null;
+					}
+					if(st!=null)
+					{
+						st.close();
+						st=null;
+					}
+					if(con!=null)
+					{
+						con.close();
+						con=null;
+					}
+				} catch (Exception e) {
+					
+				}
+		    }	
+			return null;
+		}
+	
+	@Override
 	public ResultTO[] getAccessTableBasedOnInst(String strIns) throws DetailsNotFoundException {
 			int count=0;
 			ResultTO[] resultTO=null;
@@ -113,6 +205,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 					//Vso Int id
 					if(rs.getString(10)!=null)
 						resultTO[count].setPvdrVsoKey(rs.getString(10));
+					//
 					count++;
                 }
 				System.out.println("  :  -----> Success -----> Reslut For : "+strIns);

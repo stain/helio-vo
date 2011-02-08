@@ -25,6 +25,7 @@
     
     <s:form method="post" action="patFileUpload" enctype="multipart/form-data">
      <s:hidden name="insId" theme="simple"/>
+     <s:hidden name="uploadedStatus" theme="simple" />
     <TABLE width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
         <TR>
           <TD align="left" valign="top">
@@ -53,7 +54,12 @@
   	
 		<TABLE width="100%" border="0" cellspacing="1" cellpadding="0" >
 			<TR height=20 class="PopupAltDataRow"  >
+			 <s:if test="uploadedStatus == 'ftp'">
+				<TD nowrap class="txtblackBP" width="15%"> Ftp Provider access table upload page  </TD>
+			</s:if>
+			<s:else>
 				<TD nowrap class="txtblackBP" width="15%"> Provider access table upload page  </TD>
+			</s:else>
 			</TR>
 	     </TABLE>
 	     <TABLE width="100%" border="0" cellspacing="1" cellpadding="0" >
