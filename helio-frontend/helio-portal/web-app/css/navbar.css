@@ -1,0 +1,11 @@
+#menuContainer {
+    width:100%; position:absolute; left:0; top:120px; overflow:hidden; background:url(../images/navbar/ulback_yellow.png) repeat-x;
+}
+#menu {padding:0; margin:0; list-style:none; float:left; height:40px; position:relative; left:50%;}
+#menu li {float:left; position:relative; right:50%; margin:0 2px;}
+#menu li a {display:block; height:40px; line-height:40px; padding:0 15px 0 0; float:left; color:#111177; text-decoration:none;}
+#menu li a b {display:block; height:40px; float:left; padding:0 0 0 15px; cursor:pointer;}
+#menu li a:hover{background:url(../images/navbar/button_yellow.png) no-repeat right top; line-height:36px;}
+#menu li a:hover b{background:url(../images/navbar/button_yellow.png) no-repeat left top; line-height:36px;}
+#menu .first{background:url(../images/navbar/button_yellow.png) no-repeat right top; line-height:36px;}
+#menu .first b{background:url(../images/navbar/button_yellow.png) no-repeat left top; line-height:36px;}
