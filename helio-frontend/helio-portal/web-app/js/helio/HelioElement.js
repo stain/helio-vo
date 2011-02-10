@@ -66,6 +66,8 @@ function HelioElement(imageParam,typeParam,contentParam) {
                   
                   var tooltip =$(this).data('tooltip');
                   tooltip.getConf().opacity = 0;
+                  $(".resultDroppable2").droppable("enable");
+                  $(".resultDroppable").droppable("enable");
                   
                   
                   

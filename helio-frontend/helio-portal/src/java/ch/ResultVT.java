@@ -88,6 +88,9 @@ public class ResultVT {
         return tables;
 
     }
+    public void setStringTable() {
+        
+    }
 
     public String getStringTable() {
         try {

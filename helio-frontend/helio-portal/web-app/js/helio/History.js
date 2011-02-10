@@ -1,7 +1,9 @@
 function History() {
   // Private variable
-  var name;
+  
   var array=[];
+  var limit = 14;
+  var offset =0;
 
   // Private method
   var privateMethod = function(){
@@ -17,7 +19,7 @@ function History() {
         array.push(prevItem);
       }
       array.push(item);
-      
+      array.length >=limit ? offset = array.length-limit: offset =0;
 
     },
     getItem: function(index) {
@@ -31,19 +33,32 @@ function History() {
     render: function(){
         //console.log("History => render ");
         $('#history2').html('');
-        for (key in array){
-            array[key].render(key);
+        var key = 0;
+        
+        
+        
+
+        for(key = offset;key < array.length;key++) {
+            
+            
+            if(key <limit+offset)array[key].render(key);
         }
          $("#history2 img[title]").tooltip({position: "top center",delay: 100,predelay:500 });
         
 
 
     },
-    getName: function() {
-      return name;
+
+    shiftRight: function() {
+      offset--;
+      if(offset < 0)offset =0;
+      this.render();
     },
-    getName2: function() {
-      return name;
+    shiftLeft: function() {
+      offset++;
+      if(offset > array.length-1)offset =array.length-1;
+      if(offset < 0)offset =0;
+      this.render();
     },
     clear: function(){
         array = [];

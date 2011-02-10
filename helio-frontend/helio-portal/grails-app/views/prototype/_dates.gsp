@@ -1,4 +1,4 @@
-<div class="resultDroppable"style="border:1px solid black;width: 60px; height: 60px; padding: 0.5em; float: left; margin: 10px;">
+<div class="resultDroppable"style="border:1px solid black;width: 60px; height: 60px; padding: 0; float: left; margin: 10px;">
 <img style="margin:0px" src="${resource(dir:'images/icons',file:'hexagon60_flat.png')}"
 </div>
 

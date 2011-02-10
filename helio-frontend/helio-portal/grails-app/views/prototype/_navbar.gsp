@@ -5,6 +5,7 @@
 			<li class="first"><a onclick="return false" href=""><b>Explorer</b></a></li>
 			<li><a onclick="return false" href=""><b>Help</b></a></li>
 			<li><a onclick="return false" href=""><b>Contact</b></a></li>
+                        <li><a target="_blank" href="http://helio-vo.blogspot.com/"><b>Helio-Blog</b></a></li>
 
 </ul>
 </div>

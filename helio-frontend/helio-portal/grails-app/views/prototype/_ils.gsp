@@ -18,7 +18,7 @@
 <input id="whereField" name="where" style="display:none" type="text"/>
 
    <g:submitToRemote style="float:none;margin-right:50"  action="asyncQuery" onLoading="fnOnLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
-    <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="ilsResponse" value="Additional Parameters - Parameter Qualification" />
+    <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="ilsResponse" value="Advanced Search" />
      </td></tr>
     </table>
 </g:form>

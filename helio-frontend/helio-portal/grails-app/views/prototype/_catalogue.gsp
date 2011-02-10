@@ -37,7 +37,7 @@
 ,'aastar_list'
 ,'sidc_sunspot_number'
    ].sort()}" />
-  </td><td><img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:70px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /></td>
+  </td><td><img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:40px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /></td>
  
 </tr>
  <tr><td></td><td>
@@ -45,7 +45,7 @@
 <input id="whereField" name="where" style="display:none" type="text"/>
     
     <g:submitToRemote style="float:none;margin-right:50"  action="asyncQuery" onLoading="fnOnLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
-    <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Additional Parameters - Parameter Qualification" />
+    <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" />
     
      </td></tr>
     </table>

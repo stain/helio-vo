@@ -150,6 +150,22 @@ function fnInitializeSingleElements(){
                         out: function(event,ui) {
                            ui.draggable.data('returnMe',true);
                            ui.draggable.data('dropBox',this);
+                           $(this).droppable("enable");
+                           console.log("the company is out");
+                           
+                        },
+                        over: function( event, ui ) {
+
+                            var item=window.varx.getItem(ui.draggable.attr("id"));
+                            var content =item.getContent();
+
+                            var flag = false;
+                            for ( i in content){
+                                var temp =content[i]["obsinst_key "];
+                                if(temp != null)flag =true;
+                            }
+                            console.log("the company is over");
+                            if(!flag)$(this).droppable("disable");
                         },
 			drop: function( event, ui ) {
                              var already_dragged = $(this).data('dropped_items');
@@ -198,9 +214,21 @@ function fnInitializeSingleElements(){
                         greedy:true,
                         accept: ".resultDraggable",
 
-                        over: function( event, ui ) {
-                            
+                         over: function( event, ui ) {
+
+                            var item=window.varx.getItem(ui.draggable.attr("id"));
+                            var content =item.getContent();
+
+                            var flag = false;
+                            for ( i in content){
+                                var start = content[i]["time_start "];
+                                var end = content[i]["time_end "];
+                                if(start != null&& end != null)flag =true;
+                            }
+                            console.log("the company is over");
+                            if(!flag)$(this).droppable("disable");
                         },
+                        
                         out: function(event,ui) {
                            ui.draggable.data('returnMe',true);
                            ui.draggable.data('dropBox',this);
@@ -259,7 +287,8 @@ function fnInitializeSingleElements(){
    
 
     $('#clearButton').live('click',function() {
-        fnClearHistory(this)
+        fnClearHistory(this);
+        $("#displayableSpalsh").css("display","block");
         });
 $('#sabe').live('click',function() {
     mysubmit();});
@@ -312,6 +341,11 @@ function fnInitializeDraggableElements(){
 
                 $(".displayable").css("display","none");
                 $("#displayableDPAS").css("display","block");
+                break;
+             case 'upload_vot.png':
+
+                $(".displayable").css("display","none");
+                $("#displayableUpload").css("display","block");
                 break;
             case 'timerange50.png':
 
@@ -372,6 +406,7 @@ function fnInitializeDraggableElements(){
 
         activeClass: "ui-state-hover",
         hoverClass: "ui-state-active",
+        zIndex: 5700,
         drop: function( event, ui ) {
             var text =  ui.draggable.find("img").attr("src");
             var fields =text.split('/');
@@ -401,6 +436,11 @@ function fnInitializeDraggableElements(){
                     $(".displayable").css("display","none");
                     $("#displayableDPAS").css("display","block");
                     break;
+                 case 'upload_vot.png':
+
+                $(".displayable").css("display","none");
+                $("#displayableUpload").css("display","block");
+                break;
                 case 'timerange50.png':
 
                     $(".displayable").css("display","none");
@@ -620,9 +660,22 @@ function fnOnLoading(){
 
 $(document).ready(function()
 {
+
+
+
+
+ var options = {
+        target: '#responseDivision',   // target element(s) to be updated with server response
+        success: fnOnComplete  // post-submit callback
+ };
+     $('#myForm').ajaxForm(options);
+     
     var history = new History();
 
     window.varx = history;
+
+    $("#scroller_right").click(function(){window.varx.shiftRight()});
+    $("#scroller_left").click(function(){window.varx.shiftLeft()});
     //window.history = new History();
     $(".catalogueSelector").change(function(){
         $('.columnInputs').html("");

@@ -5,7 +5,12 @@ import net.ivoa.xml.votable.v1.*;
 import ch.i4ds.helio.frontend.parser.*;
 import ch.i4ds.helio.frontend.query.*;
 import java.text.SimpleDateFormat
-import java.text.DateFormat
+import java.text.DateFormat;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource
+
 
 class PrototypeController {
 
@@ -48,8 +53,31 @@ class PrototypeController {
         render template:'templates/columns', bean:resultMap, var:'resultMap'
 
     }
+    def asyncUpload ={
+        log.info("asyncUpload =>" +params);
+        //def f = request.getFile('fileInput')
+        //println f.getOriginalFilename();
+        //println request.getFile("fileInput").inputStream.text
+
+
+        JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( request.getFile("fileInput").inputStream.text ) ));
+    
+        ResultVT result = new ResultVT(votable);
+
+        
+            def previousQuery = "uploaded file";
+            def responseObject = [result:result,previousQuery:previousQuery ];
+
+        
+            render template:'response', bean:responseObject, var:'responseObject'
+
+        
+    }
     def asyncQuery ={
-        log.info("asyncQuery =>" +params)
+        log.info("asyncQuery =>" +params);
 
        
         if(params.maxDate != null){
@@ -74,6 +102,7 @@ class PrototypeController {
     }
     
     def index = {
+        redirect(action:"explorer");
     }
 
     def explorer={
@@ -107,7 +136,7 @@ class PrototypeController {
 
         if(params.where != null)where = params.where;
         String addressPort = PortDirectory.class.getField(params.serviceName).get(String);
-        ResultVT result = DataQueryService.queryService2(minDateList,maxDateList,extraList,addressPort,where);
+        ResultVT result = DataQueryService.queryService(minDateList,maxDateList,extraList,addressPort,where);
         println result;
 
         
@@ -119,7 +148,7 @@ class PrototypeController {
     def downloadVOTable = {
         log.info("downloadVOTable =>" + params  + session)
         if(session.result !=null){
-            DateFormat formatter = new SimpleDateFormat("DDMMyyyyss");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             def name= formatter.format(date);
             name = session.serviceq +"-"+name;
