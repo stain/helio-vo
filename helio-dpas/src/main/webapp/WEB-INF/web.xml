@@ -46,6 +46,11 @@
 	   <servlet-name>jaxws-servlet</servlet-name>
 	   <url-pattern>/HelioTavernaService</url-pattern>
    </servlet-mapping>  
+   
+     <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioLongQueryService</url-pattern>
+   </servlet-mapping>  
   
       <servlet>
       	<description>

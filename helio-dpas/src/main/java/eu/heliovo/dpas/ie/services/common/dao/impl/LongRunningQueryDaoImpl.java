@@ -315,7 +315,7 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 	{
 		BufferedWriter out =null;
 		try{
-			String status=commonTO.getStatus();
+			String status=commonTO.getLongRunningQueryStatus();
 			out =commonTO.getBufferOutput();
 			//Adding response header start for WebService VOTABLE.
 			if(status!=null && !status.equals("")){

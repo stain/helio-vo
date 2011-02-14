@@ -24,12 +24,20 @@ public class VOTableCreator {
      */
     public static void writeHeaderOfTables( CommonTO comCriteriaTO ) throws Exception {
     	String status=comCriteriaTO.getStatus();
+    	//
+    	String longRunning= comCriteriaTO.getLongRunningQueryStatus();
     	BufferedWriter out =null;
     	
-    	out = comCriteriaTO.getBufferOutput();
+    	if(longRunning!=null  && longRunning.equals("LongRunning")){
+    		out=(BufferedWriter) comCriteriaTO.getPrintWriter();
+    	}else{
+    		out = new BufferedWriter( comCriteriaTO.getPrintWriter() );
+    	}
     	//Adding response header start for WebService VOTABLE.
-		if(status!=null && !status.equals("")){
+		if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
 			 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
+		}else if(longRunning!=null && longRunning.equals("LongRunning")){
+			out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.1\">");
 		}
 		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
 		//Checking for multiple Resources

@@ -109,8 +109,6 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 }
 			 }
     		 
-		     
-		     
 	    	if(inputDoc.getElementsByTagNameNS("*","ENDTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ENDTIME").item(0).getFirstChild()!=null){
 	    			 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","ENDTIME");
 	    			 stopTime=new String[nodeList.getLength()];
@@ -166,21 +164,26 @@ public class SoapDispatcher implements Provider<Source> {
 			 pw = new PipedWriter(pr);
 			 commonTO.setPrintWriter(pw);
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
-		     commonTO.setStatus("webservice");
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
 		     commonTO.setRequest(req);
 		     commonTO.setContextUrl(CommonUtils.getUrl(req));
-		     commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));
-		     commonTO.setAllDateTo(CommonUtils.arrayToString(stopTime,","));
-		     commonTO.setAllInstrument(CommonUtils.arrayToString(instruments,","));
+		     //Start time
+		     if(startTime!=null && !startTime.toString().trim().equals(""))
+		    	 commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));
+		     //Stop time
+		     if(stopTime!=null && !stopTime.toString().trim().equals(""))
+		    	 commonTO.setAllDateTo(CommonUtils.arrayToString(stopTime,","));
+		     //Instruments
+		     if(instruments!=null && !instruments.toString().trim().equals(""))
+		    	 commonTO.setAllInstrument(CommonUtils.arrayToString(instruments,","));
+		     
+		     if(interfaceName == "LongTimeQuery".intern() || interfaceName == "LongQuery".intern()){
 		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
-			    
-		    	 if(interfaceName == "LongTimeQuery".intern() || interfaceName == "LongQuery".intern()){
-					 
-		    		 //Setting for No Of Rows parameter.
+		    	 
+		     		 //Setting for No Of Rows parameter.
 					 if(inputDoc.getElementsByTagNameNS("*","SAVETO").getLength()>0 && inputDoc.getElementsByTagNameNS("*","SAVETO").item(0).getFirstChild()!=null){
 						 saveTo = inputDoc.getElementsByTagNameNS("*","SAVETO").item(0).getFirstChild().getNodeValue();
 					 } 
@@ -210,9 +213,8 @@ public class SoapDispatcher implements Provider<Source> {
 					 LongRunningQueryDao longRunningQueryDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
 					 longRunningQueryDao.generatelongRunningQueryXML(commonTO);	
 					 System.out.println(" : Done VOTABLE : ");	
-					 if(saveTo!=null && saveTo.startsWith("http")){
-					 //Save file to http.
-					 }else if(saveTo!=null && saveTo.contains("ftp")){
+					 //Save To 
+					 if(saveTo!=null && saveTo.contains("ftp")){
 					    FileUtils.saveFileToFtp(saveTo,"votable_"+randomUUIDString+".xml");	    			    	
 					 }else{
 					 //Save the file to local system.
@@ -229,12 +231,20 @@ public class SoapDispatcher implements Provider<Source> {
 					 Thread th = new Thread(oRunReport);
 					 th.start();
 					 //Long running query status of completion.
+		     }else{
+		    	 commonTO.setExceptionStatus("exception");
+		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
+		    	 commonTO.setVotableDescription("DPAS query response");
+		    	 commonTO.setQuerystatus("ERROR");
+		    	 commonTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
+				 VOTableCreator.writeErrorTables(commonTO);
+		     }
 			 }else if(interfaceName == "GetStatus".intern()){
 				 String sID =null;
 				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
 		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
 				 }
-				 
+				 commonTO.setLongRunningQueryStatus("LongRunning");
 				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
 					if(sStatus==null || sStatus.trim().equals(""))
 					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);
@@ -257,7 +267,7 @@ public class SoapDispatcher implements Provider<Source> {
 				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
 		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
 				 }
-				 
+				 commonTO.setLongRunningQueryStatus("LongRunning");
 				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
 					if(sStatus==null || sStatus.trim().equals(""))
 					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);
@@ -298,9 +308,11 @@ public class SoapDispatcher implements Provider<Source> {
 					        fileData=FileUtils.readDataFromFile(document);
 						}
 						pw.write(fileData.toString());
-			 }
-			 //Non long running query
-			 if(interfaceName == "Query".intern() || interfaceName == "TimeQuery".intern()){ 
+			    }
+		  //Non long running query
+		  if(interfaceName == "Query".intern() || interfaceName == "TimeQuery".intern()){ 
+				 //Web service 
+				 commonTO.setStatus("webservice");
 				 //Setting buffered printer
 				 commonTO.setBufferOutput(new BufferedWriter(pw) );
 				 //Setting piped reader 
@@ -308,18 +320,11 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 //Thread created to load data into PipeReader.
 				 new VotableThreadAnalizer(commonTO).start();				
 				 System.out.println(" : Done VOTABLE : ");				
-			 }
-		  }else{
-		    	 commonTO.setExceptionStatus("exception");
-		    	 commonTO.setBufferOutput(new BufferedWriter(pw));
-		    	 commonTO.setVotableDescription("DPAS query response");
-		    	 commonTO.setQuerystatus("ERROR");
-		    	 commonTO.setQuerydescription("Start Time,EndTime and Instruments cannot be null");
-				 VOTableCreator.writeErrorTables(commonTO);
 		  }
-		     
-		     responseReader= new StreamSource(pr); 
-		     
+	     //else
+		  // response reader.  
+	   responseReader= new StreamSource(pr);
+	   
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
@@ -332,7 +337,7 @@ public class SoapDispatcher implements Provider<Source> {
 			try {
 				//Sending error messages
 				VOTableCreator.writeErrorTables(commonTO);
-			} catch (Exception e1) {
+			}catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
@@ -356,6 +361,4 @@ public class SoapDispatcher implements Provider<Source> {
         Element root = ((Document)result.getNode()).getDocumentElement();
        return root;
     }
-	
-	
 }

@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.uoc.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
+import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.instruments.v0.Instrument;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.Query;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.QueryResponse;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryService;
@@ -36,6 +37,9 @@ public class UOCProvider
 	        List<String> startTime=new ArrayList<String>(1);
 	        startTime.add(uocTO.getDateFrom());
 	        queryParameter.setStarttime(startTime);
+	        //Instrument 
+	        String inst=uocTO.getHelioInstrument();
+	        queryParameter.setINSTRUMENT(Instrument.fromValue(inst));
 	        //End Time Clause
 	        List<String> endTime=new ArrayList<String>(1);
 	        endTime.add(uocTO.getDateTo());
