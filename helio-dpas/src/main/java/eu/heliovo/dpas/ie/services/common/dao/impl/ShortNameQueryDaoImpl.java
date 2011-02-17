@@ -338,35 +338,35 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 		 VOTableCreator.writeHeaderOfTables(commonTO);
 		 //Check both Start and End Time equal.
 		 if(startTime.length==stopTime.length){
-			 //For loop
-	     for(int count=0;count<instruments.length;count++){
-	      //Setting Instrument Value
-	      commonTO.setParaInstrument(instruments[count]);
-	   	  if((startTime.length>1 && stopTime.length>1 && instruments.length==1) || (startTime.length==1 && stopTime.length==1 && instruments.length>1) || (startTime.length==1 && stopTime.length==1 && instruments.length==1)){
-		    		 for(int counter=0;counter<startTime.length;counter++){
-			    		 commonTO.setDateFrom(startTime[counter]);
-					     System.out.println(" : Start Date Contraint : "+startTime[counter]);
-					     commonTO.setDateTo(stopTime[counter]);	
-				    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
-				    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
-		    	     }
-		   }else if(startTime.length==stopTime.length && instruments.length==stopTime.length){
-		    		  commonTO.setDateFrom(startTime[count]);
-					  System.out.println(" : Start Date Contraint : "+startTime[count]);
-					  commonTO.setDateTo(stopTime[count]);	
-				      System.out.println(" : Stop Date Contraint : "+stopTime[count]);
-				      CommonUtils.genegrateVotableBasedOnCondition(commonTO);
-		   }else{
-		    		  commonTO.setExceptionStatus("exception");
-					  throw new Exception("Please send proper values, request is not succesfull.");
-		   }
-		 }
+				 //For loop
+		     for(int count=0;count<instruments.length;count++){
+			      //Setting Instrument Value
+			      commonTO.setParaInstrument(instruments[count]);
+			   	  if((startTime.length>1 && stopTime.length>1 && instruments.length==1) || (startTime.length==1 && stopTime.length==1 && instruments.length>1) || (startTime.length==1 && stopTime.length==1 && instruments.length==1)){
+				    		 for(int counter=0;counter<startTime.length;counter++){
+					    		 commonTO.setDateFrom(startTime[counter]);
+							     System.out.println(" : Start Date Contraint : "+startTime[counter]);
+							     commonTO.setDateTo(stopTime[counter]);	
+						    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
+						    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
+				    	     }
+				   }else if(startTime.length==stopTime.length && instruments.length==stopTime.length){
+				    		  commonTO.setDateFrom(startTime[count]);
+							  System.out.println(" : Start Date Contraint : "+startTime[count]);
+							  commonTO.setDateTo(stopTime[count]);	
+						      System.out.println(" : Stop Date Contraint : "+stopTime[count]);
+						      CommonUtils.genegrateVotableBasedOnCondition(commonTO);
+				   }else{
+				    		  commonTO.setExceptionStatus("exception");
+							  throw new Exception("Please send proper values, request is not succesfull.");
+				   }
+			  }
 		 }else{
-		  //commonTO.setExceptionStatus("exception");
-	   	  commonTO.setVotableDescription("Query response");
-	   	  commonTO.setQuerystatus("ERROR");
-	   	  commonTO.setQuerydescription("Start date and End date should have same no of values.");
-		  VOTableCreator.writeErrorTables(commonTO);
+			  //commonTO.setExceptionStatus("exception");
+		   	  commonTO.setVotableDescription("Query response");
+		   	  commonTO.setQuerystatus("ERROR");
+		   	  commonTO.setQuerydescription("Start date and End date should have same no of values.");
+			  VOTableCreator.writeErrorTables(commonTO);
 	    }
 	    //VOTable footer.
 		VOTableCreator.writeFooterOfTables(commonTO);
