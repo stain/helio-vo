@@ -13,13 +13,13 @@ import uk.ac.starlink.votable.VOStarTable;
 public class PointsStarTable  extends RandomStarTable {
 
 	//Start Date
-	ColumnInfo colStartDate=new ColumnInfo( "Start Date", String.class, "Measurement Start" );
+	ColumnInfo colStartDate=new ColumnInfo( "time_start", String.class, "Start date" );
 	//End date
-	ColumnInfo colEndDate=new ColumnInfo( "End Date", String.class, "Measurement End" );
+	ColumnInfo colEndDate=new ColumnInfo( "time_end", String.class, "End date" );
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
-    	new ColumnInfo( "Instrument Name", String.class, "Instrument Name" ),
-    	new ColumnInfo( "URL", String.class, "Fits URL" ),
+    	new ColumnInfo( "instrument_name", String.class, "Instrument Name" ),
+    	new ColumnInfo( "url", String.class, "URL for the file" ),
     	colStartDate,
     	colEndDate,
     };
