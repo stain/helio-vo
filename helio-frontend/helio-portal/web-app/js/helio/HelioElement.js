@@ -1,106 +1,242 @@
 
 function HelioElement(imageParam,typeParam,contentParam) {
-  // Private variable
-  //console.log("HelioElement created "+ imageParam);
-  var image;
-  var type=typeParam;
-  var content=contentParam;
-  var imagePath = imageParam;
+    // Private variable
+    //console.log("HelioElement created "+ imageParam);
+    var image;
+    var type=typeParam;
+    var content=contentParam;
+    var imagePath = imageParam;
 
-  // Private method
-  var privateMethod = function(){
+    // Private method
+    var privateMethod = function(){
     // Access to private fields
     //name += " Changed";
-  };
+    };
 
-  return {
-    // Public methods
-    setImage: function(image) {
-      this.image=image;
-    },
-    setImagePath: function(path) {
-      imagePath = path;      
-    },
-    getImagePath: function() {
-      return imagePath;
-    },
-    setContent: function(contentParam) {
-      content = contentParam;
-    },
-    getContent: function() {
-      return content;
-    },
-     getName: function() {
-      return 1;
-    },
-      getType: function() {
-      return type;
-    },
-      setType: function(typeParam) {
-      type =typeParam;
-    },
-    render: function(key) {
+    return {
+        // Public methods
+        setImage: function(image) {
+            this.image=image;
+        },
+        setImagePath: function(path) {
+            imagePath = path;
+        },
+        getImagePath: function() {
+            return imagePath;
+        },
+        setContent: function(contentParam) {
+            content = contentParam;
+        },
+        getContent: function() {
+            return content;
+        },
+        getName: function() {
+            return 1;
+        },
+        getType: function() {
+            return type;
+        },
+        setType: function(typeParam) {
+            type =typeParam;
+        },
+        render: function(key) {
 
 
-        if(type=="ghost"){
-            $( "<img alt='" +"image missing"+"' class='floaters ghost'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
-        }
-        else if(type == 'solid'){
-          $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
-        }
-        else if(type == 'result'){
+            if(type=="ghost"){
+                $( "<img alt='" +"image missing"+"' class='floaters ghost'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+            }
+            else if(type == 'query'){
             
-          $( "<img id='"+key+"' title='"+content.count+"' alt='" + "image missing" + "' class='floaters resultDraggable'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                var item = $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath );
+                item.dblclick(function() {
 
-          var draggable = $("#"+key);
-          draggable.data("Left", 0).data("Top", 0);
-          draggable.data('returnMe',false);
 
-          $( ".resultDraggable" ).draggable({
-              revert: "invalid",
+                    $(".tooltip").css("display","none");
+                    
+                    $("#currentDisplay").remove();
+                    var queryHtml =$(window.historyBar.getItem(key)).data("query");
+                    var serializedData =$(window.historyBar.getItem(key)).data("serialized");
+
+                    
+
+                    var temp = $('<div></div>');
+                    temp.html(queryHtml);
+
+                    //console.dir(temp);
+                    $(".displayable").css("display","none");
+                    $(temp).css("display","block");
+                    $(temp).attr("id","currentDisplay");
+                    $(temp).attr("class","displayable");
+
+                    $("#droppable-inner").append(temp);
+                    fnInitDroppable();
+                    
+                    var imagePath =$("#currentDisplay").find("img").attr("src");
+                    
+                    var element = new HelioElement(imagePath,"ghost");
+                    window.historyBar.addItem(element);
+                    window.historyBar.render()
+                    $("#currentDisplay").find("select").find("option").removeAttr("selected");
+                    var fields = serializedData.split("&");
+                    for(field in fields){
+                        //console.log(fields[field]);
+                        var tempField= fields[field];
+                        //minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00
+                        if(tempField.indexOf("minDateList=")!= -1){
+                            tempField =tempField.replace('minDateList=',"");
+                            tempField =tempField.replace('%3A',":");
+                            tempField =tempField.replace('%2C',",");
+                            tempField =tempField.replace('+',"");
+                            $(".minDateList").val(tempField);
+                        }
+                        else if(tempField.indexOf("maxDateList=")!= -1){
+                            tempField =tempField.replace('maxDateList=',"");
+                            tempField =tempField.replace('%3A',":");
+                            tempField =tempField.replace('%2C',",");
+                            tempField =tempField.replace('+',"");
+                            $(".maxDateList").val(tempField);
+                        }
+
+                        else if(tempField.indexOf("minDate=")!= -1){
+                            tempField =tempField.replace('minDate=',"");
+                            $("#currentDisplay").find("input[name='minDate']").val(tempField);
+                        }
+                        else if(tempField.indexOf("maxDate=")!= -1){
+                            tempField =tempField.replace('maxDate=',"");
+                            $("#currentDisplay").find("input[name='maxDate']").val(tempField);
+                        }
+                        else if(tempField.indexOf("extra=")!= -1){
+                            tempField =tempField.replace('extra=',"");
+                            $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
+
+
+                        }
+                        else if(tempField.indexOf("where=")!= -1){
+                            tempField =tempField.replace('where=',"");
+                            tempField =tempField.split("%3B");
+                            for(input in tempField){
+                                var innerTempField = tempField[input].split("%2C");
+                                var value = innerTempField[1];
+                                innerTempField = innerTempField[0].split(".");
+                                var inputName= innerTempField[0];
+                                var labelName = innerTempField[1];
+                                $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
+                            }
+                        }
+                    }
+              
+                });
+                $("#history2").append(item);
+            }
+            else if(type == 'solid'){
+                $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+            }
+            else if(type == 'nativeResult'){
+                //$( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+          
+                $( "<img id='"+key+"' title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                var nativeResult = $("#"+key);
+          
+                nativeResult.dblclick(function()
+                {
+                    $(".tooltip").css("display","none");
+                    window.historyBar.cleanGhost();
+                    var item =window.historyBar.getItem(key);
+                    $("#displayableResult").html("");
+                    $(".displayable").css("display","none");
+                    $('#displayableResult').append($(item).data("nativeResult"));
+                    $("#displayableResult").css("display","block");
+                    $(".resCont").remove();
+                    $('.resultTable').each(function()
+                    {
+                        fnFormatTable(this.id);
+                        $("#"+this.id).dataTable().fnDraw();
+                    });
+
+    
+                
+                });
+            }
+            else if(type == 'resultSelection'){
+            
+                $( "<img id='"+key+"' title='"+content.count+"' alt='" + "image missing" + "' class='floaters resultDraggable'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+
+                var draggable = $("#"+key);
+                draggable.data("Left", 0).data("Top", 0);
+                draggable.data('returnMe',false);
+                draggable.dblclick(function()
+                {
+                    $(".displayable").css("display","none");
+                    $(".tooltip").css("display","none");
+                    window.historyBar.cleanGhost();
+                    $("#staticFormContent").html("");
+                    
+                    var content = window.historyBar.getItem(key).getContent();
+                    $("#staticFormContent").append("Amount of "+ content.count);
+                    for(i in content){
+                        if(i=="count"){
+                            continue;
+                        }
+                        $("#staticFormContent").append("<br>");
+                        $("#staticFormContent").append("<h3>_____________________________</h3>");
+                        $("#staticFormContent").append("<ul>");
+                        for(j in content[i]){
+                            $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
+                        }
+                        $("#staticFormContent").append("</ul>");
+                        $("#displayableSeletedResult").css("display","block");
+                    }
+                });
+
+                $( ".resultDraggable" ).draggable({
+                    revert: "invalid",
               
               
 
-              zIndex: 1700,
-              start: function(event,ui ) {
+                    zIndex: 1700,
+                    start: function(event,ui ) {
                   
-                  var tooltip =$(this).data('tooltip');
-                  tooltip.getConf().opacity = 0;
-                  $(".resultDroppable2").droppable("enable");
-                  $(".resultDroppable").droppable("enable");
+                        var tooltip =$(this).data('tooltip');
+                        tooltip.getConf().opacity = 0;
+                        $(".resultDroppable2").droppable("enable");
+                        $(".resultDroppable").droppable("enable");
                   
                   
                   
-              },
-              stop: function(event,ui ) {
+                    },
+                    stop: function(event,ui ) {
                   
-                  var tooltip =$(this).data('tooltip');
-                  tooltip.getConf().opacity = 1;
-                   if($(this).data('returnMe')){
-                       var dropBox =$(this).data('dropBox');
+                        var tooltip =$(this).data('tooltip');
+                        tooltip.getConf().opacity = 1;
+                        if($(this).data('returnMe')){
+                            var dropBox =$(this).data('dropBox');
                        
-                            fnclearDateTexts();
-                            $("#instArea").html($("#instArea").data("content"));
+                            fnclearDateTexts2();
+                           
+                            $("#instArea").html($("#droppable-inner").data("content"));
                             $(dropBox).removeClass("ui-state-active");
                             $( dropBox).removeClass( "ui-state-highlight" );
-                             $(this).animate({ "left": $(this).data("Left"),"top": $(this).data("Top")}, "slow",function(){
-                                window.varx.render();
+                            $(this).animate({
+                                "left": $(this).data("Left"),
+                                "top": $(this).data("Top")
+                            }, "slow",function(){
+                                window.historyBar.render();
                             });
 
-                   }
-                   $(this).data('returnMe',false)
+                        }
+                        $(this).data('returnMe',false)
                            
                            
 
                             
                   
                   
-              }
-          });
+                    }
+                });
 
-        }
+            }
         
-    }
+        }
 
-  };
+    };
 }

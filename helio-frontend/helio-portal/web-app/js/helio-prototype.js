@@ -1,13 +1,25 @@
 function fnclearDateTexts(){
-  $(".hideDates").css("display","block");
-  $(".TextAreas").css("display","none");
-  $(".minDateList").val("");
-  $(".maxDateList").val("");
-  $(".resultDroppable" ).removeClass( "ui-state-highlight" );
-  $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
+    //$(".hideDates").css("display","block");
+    //$(".TextAreas").css("display","none");
+    //$(".minDateList").val("");
+    //$(".maxDateList").val("");
+    $(".resultDroppable" ).removeClass( "ui-state-highlight" );
+    $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
   
-$("#instArea").html($("#instArea").data("content"));
-};
+    $("#instArea").html($("#droppable-inner").data("content"));
+    $(".tooltip").css("display","none");
+}
+function fnclearDateTexts2(){
+    $(".hideDates").css("display","block");
+    $(".TextAreas").css("display","none");
+    $(".minDateList").val("");
+    $(".maxDateList").val("");
+    $(".resultDroppable" ).removeClass( "ui-state-highlight" );
+    $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
+
+    $("#instArea").html($("#droppable-inner").data("content"));
+    $(".tooltip").css("display","none");
+}
 
 function fnOnCompleteGetColumns(){
     $(".columnSelection").keyup(function(){
@@ -18,7 +30,7 @@ function fnOnCompleteGetColumns(){
 
 
 function mysubmit(){
-    $("#whereField").val("");
+     $("#whereField").val("");
 
     $(".columnSelection").each(function(i){
         if($(this).val() == ""){
@@ -136,168 +148,179 @@ function fnAppendColumnSelected(){
     } );
 }
 
+function fnInitDroppable(){
+    
+    $( ".resultDroppable2" ).droppable({
+        activeClass: "ui-state-hover",
+        hoverClass: "ui-state-active",
+        greedy:true,
+        accept: ".resultDraggable",
+        out: function(event,ui) {
+            ui.draggable.data('returnMe',true);
+            ui.draggable.data('dropBox',this);
+            $(this).droppable("enable");
 
+
+        },
+        over: function( event, ui ) {
+
+
+            var item=window.historyBar.getItem(ui.draggable.attr("id"));
+            var content =item.getContent();
+
+            var flag = false;
+            for ( i in content){
+                var temp =content[i]["obsinst_key "];
+                if(temp != null)flag =true;
+            }
+
+            if(!flag)$(this).droppable("disable");
+        },
+        drop: function( event, ui ) {
+            var already_dragged = $(this).data('dropped_items');
+            if(already_dragged == ""){
+                $(this).data('dropped_items',ui.draggable);
+            } else {
+                if(already_dragged != ui.draggable)
+                    $( already_dragged).animate({
+                        "left": $(already_dragged).data("Left"),
+                        "top": $( already_dragged).data("Top")
+                        }, "slow",function(){
+                        });
+                $(this).data('dropped_items',ui.draggable);
+
+            }
+
+            $( this ).addClass( "ui-state-highlight" );
+            var item=window.historyBar.getItem(ui.draggable.attr("id"));
+            var content =item.getContent();
+
+
+
+            $("#instArea").empty();
+            var instList = [];
+            for ( i in content){
+                //obsinst_key
+                var temp =content[i]["obsinst_key "];
+                if(temp != null)instList.push(temp);
+                if(temp != null)$('#instArea').append('<option selected value="'+temp+'">'+temp+'</option>');
+
+
+            }
+
+
+
+
+
+
+
+
+
+        }
+    }).data('dropped_items',"");
+
+
+    $( ".resultDroppable" ).droppable({
+        activeClass: "ui-state-hover",
+        hoverClass: "ui-state-active",
+        greedy:true,
+        accept: ".resultDraggable",
+
+        over: function( event, ui ) {
+
+            var item=window.historyBar.getItem(ui.draggable.attr("id"));
+            var content =item.getContent();
+
+            var flag = false;
+            for ( i in content){
+                var start = content[i]["time_start "];
+                var end = content[i]["time_end "];
+                if(start != null&& end != null)flag =true;
+            }
+
+            if(!flag)$(this).droppable("disable");
+        },
+
+        out: function(event,ui) {
+            ui.draggable.data('returnMe',true);
+            ui.draggable.data('dropBox',this);
+            
+
+
+
+        },
+
+        drop: function( event, ui ) {
+
+            var already_dragged = $(this).data('dropped_items');
+
+            if(already_dragged == ""){
+
+                $(this).data('dropped_items',ui.draggable);
+            } else {
+
+                if(already_dragged != ui.draggable)
+                    $( already_dragged).animate({
+                        "left": $(already_dragged).data("Left"),
+                        "top": $( already_dragged).data("Top")
+                        }, "slow",function(){
+
+                        });
+                $(this).data('dropped_items',ui.draggable);
+
+            }
+
+
+
+
+
+
+            $(".hideDates").css("display","none");
+            $( this ).addClass( "ui-state-highlight" );
+            var item=window.historyBar.getItem(ui.draggable.attr("id"));
+            var content =item.getContent();
+            $(".minDateList").val("");
+            $(".maxDateList").val("");
+            $(".TextAreas").css("display","block");
+            var maxTemp = [];
+            var minTemp = [];
+            for ( i in content){
+                var temp =content[i]["time_start "];
+                if(temp != null)minTemp.push(temp);
+                temp =content[i]["time_end "];
+                if(temp != null)maxTemp.push(temp);
+            }
+
+
+            $(".minDateList").val(minTemp);
+            $(".maxDateList").val(maxTemp);
+
+
+
+        }
+    }).data('dropped_items',"");
+
+
+}
 function fnInitializeSingleElements(){
 
-    $("#instArea").data("content",$("#instArea").html());
+    
 
 
-    $( ".resultDroppable2" ).droppable({
-			activeClass: "ui-state-hover",
-			hoverClass: "ui-state-active",
-                        greedy:true,
-                        accept: ".resultDraggable",
-                        out: function(event,ui) {
-                           ui.draggable.data('returnMe',true);
-                           ui.draggable.data('dropBox',this);
-                           $(this).droppable("enable");
-                           console.log("the company is out");
-                           
-                        },
-                        over: function( event, ui ) {
-
-                            var item=window.varx.getItem(ui.draggable.attr("id"));
-                            var content =item.getContent();
-
-                            var flag = false;
-                            for ( i in content){
-                                var temp =content[i]["obsinst_key "];
-                                if(temp != null)flag =true;
-                            }
-                            console.log("the company is over");
-                            if(!flag)$(this).droppable("disable");
-                        },
-			drop: function( event, ui ) {
-                             var already_dragged = $(this).data('dropped_items');
-                             if(already_dragged == ""){
-                                 $(this).data('dropped_items',ui.draggable);
-                             } else {
-                                 if(already_dragged != ui.draggable)
-                               $( already_dragged).animate({ "left": $(already_dragged).data("Left"),"top": $( already_dragged).data("Top")}, "slow",function(){
-                            });
-                            $(this).data('dropped_items',ui.draggable);
-
-                             }
-                            
-                            $( this ).addClass( "ui-state-highlight" );
-                            var item=window.varx.getItem(ui.draggable.attr("id"));
-                            var content =item.getContent();
-                            
-                            
-                            
-                            $("#instArea").empty();
-                            var instList = [];
-                            for ( i in content){
-                                //obsinst_key
-                                var temp =content[i]["obsinst_key "];
-                                if(temp != null)instList.push(temp);
-                                if(temp != null)$('#instArea').append('<option selected value="'+temp+'">'+temp+'</option>');
-                            
-                                
-                            }
-                            
-                            
-
-
-                            
-                            
-
-
-
-			}
-		}).data('dropped_items',"");
-
-
-        $( ".resultDroppable" ).droppable({
-			activeClass: "ui-state-hover",
-			hoverClass: "ui-state-active",
-                        greedy:true,
-                        accept: ".resultDraggable",
-
-                         over: function( event, ui ) {
-
-                            var item=window.varx.getItem(ui.draggable.attr("id"));
-                            var content =item.getContent();
-
-                            var flag = false;
-                            for ( i in content){
-                                var start = content[i]["time_start "];
-                                var end = content[i]["time_end "];
-                                if(start != null&& end != null)flag =true;
-                            }
-                            console.log("the company is over");
-                            if(!flag)$(this).droppable("disable");
-                        },
-                        
-                        out: function(event,ui) {
-                           ui.draggable.data('returnMe',true);
-                           ui.draggable.data('dropBox',this);
-                          
-                            
-
-
-                        },
-
-			drop: function( event, ui ) {
-                            
-                             var already_dragged = $(this).data('dropped_items');
-                             
-                             if(already_dragged == ""){
-                                 
-                                 $(this).data('dropped_items',ui.draggable);
-                             } else {
-                                 
-                                 if(already_dragged != ui.draggable)
-                               $( already_dragged).animate({ "left": $(already_dragged).data("Left"),"top": $( already_dragged).data("Top")}, "slow",function(){
-                                
-                            });
-                            $(this).data('dropped_items',ui.draggable);
-                            
-                             }
-                             
-                                 
-                             
-                             
-
-                            
-                            $(".hideDates").css("display","none");
-				$( this ).addClass( "ui-state-highlight" );
-                            var item=window.varx.getItem(ui.draggable.attr("id"));
-                            var content =item.getContent();
-                            $(".minDateList").val("");
-                            $(".maxDateList").val("");
-                            $(".TextAreas").css("display","block");
-                            var maxTemp = [];
-                            var minTemp = [];
-                            for ( i in content){
-                                var temp =content[i]["time_start "];
-                                if(temp != null)minTemp.push(temp);
-                                temp =content[i]["time_end "];
-                                if(temp != null)maxTemp.push(temp);
-                            }
-                            
-                            
-                            $(".minDateList").val(minTemp);
-                            $(".maxDateList").val(maxTemp);
-                            
-
-
-			}
-		}).data('dropped_items',"");
-   
-
+    
     $('#clearButton').live('click',function() {
         fnClearHistory(this);
         $("#displayableSpalsh").css("display","block");
-        });
-$('#sabe').live('click',function() {
-    mysubmit();});
+    });
+    $('#sabe').live('click',function() {
+        mysubmit();
+    });
 
     $("#section-navigation img[title]").tooltip({
         position: "center right",
         delay: 0
     });
-  /*
+    /*
   $("#tooltipme").tooltip({
         position: "center right",
         delay: 0
@@ -311,6 +334,7 @@ $('#sabe').live('click',function() {
 function fnInitializeDraggableElements(){
     $( ".draggable" ).draggable({
         opacity:0.7,
+        zIndex: 5700,
         helper:"clone"
     });
     $( ".draggable" ).dblclick(function() {
@@ -320,6 +344,9 @@ function fnInitializeDraggableElements(){
         text = fields[fields.length-1];
         var red = 1;
         fnclearDateTexts();
+
+        window.workspace.render($(this).find("img").attr("src"));
+        return;
         var result = null;
         switch (text) {
             case 'event.png':
@@ -342,7 +369,7 @@ function fnInitializeDraggableElements(){
                 $(".displayable").css("display","none");
                 $("#displayableDPAS").css("display","block");
                 break;
-             case 'upload_vot.png':
+            case 'upload_vot.png':
 
                 $(".displayable").css("display","none");
                 $("#displayableUpload").css("display","block");
@@ -376,17 +403,17 @@ function fnInitializeDraggableElements(){
         }
 
 
-        var imageworks = $(this).find("img").attr("src");
+        
         //imageworks =imageworks.replace(".png","50op.png");
         
          
 
 
-
-            var element = new HelioElement(imageworks,"ghost");
-            window.varx.addItem(element);
-            window.varx.render();
-            $(".resCont").remove();
+        var imageworks = $(this).find("img").attr("src");
+        var element = new HelioElement(imageworks,"ghost");
+        window.historyBar.addItem(element);
+        window.historyBar.render();
+        $(".resCont").remove();
     // imgString =imgString.replace("50.png",".png")
     //             $(imgString).appendTo("#history");
     // var img = $( "<img alt='" + "missing" + "' class='floaters' style='float:left; padding:10px;width:40px;height:40px;' />" ).attr( "src", ui.draggable.find("img").attr("src") ).appendTo( "#history" );
@@ -406,13 +433,17 @@ function fnInitializeDraggableElements(){
 
         activeClass: "ui-state-hover",
         hoverClass: "ui-state-active",
-        zIndex: 5700,
+        
         drop: function( event, ui ) {
             var text =  ui.draggable.find("img").attr("src");
+            fnclearDateTexts();
+            window.workspace.render(text);
+            return;
             var fields =text.split('/');
             text = fields[fields.length-1];
-            fnclearDateTexts();
             
+            
+        
             var red = 1;
             var result = null;
             switch (text) {
@@ -436,11 +467,11 @@ function fnInitializeDraggableElements(){
                     $(".displayable").css("display","none");
                     $("#displayableDPAS").css("display","block");
                     break;
-                 case 'upload_vot.png':
+                case 'upload_vot.png':
 
-                $(".displayable").css("display","none");
-                $("#displayableUpload").css("display","block");
-                break;
+                    $(".displayable").css("display","none");
+                    $("#displayableUpload").css("display","block");
+                    break;
                 case 'timerange50.png':
 
                     $(".displayable").css("display","none");
@@ -475,11 +506,11 @@ function fnInitializeDraggableElements(){
             
             
             var element = new HelioElement(imageworks,"ghost");
-            window.varx.addItem(element);
-            window.varx.render();
+            window.historyBar.addItem(element);
+            window.historyBar.render();
             $(".resCont").remove();
             
-            //alert(x.y); // shows '42'
+        //alert(x.y); // shows '42'
 
         // imgString =imgString.replace("50.png",".png")
         //             $(imgString).appendTo("#history");
@@ -511,12 +542,12 @@ function fnAddSelectedRow(pos,aData,oTable){
     
     
     var totalResult =[];
-        var headers =oTable.fnSettings().aoColumns;
-        for (i in headers){
-           totalResult.push( headers[i].sTitle);
+    var headers =oTable.fnSettings().aoColumns;
+    for (i in headers){
+        totalResult.push( headers[i].sTitle);
             
             
-        }
+    }
     
     var flag =true;
     var tableId = oTable.attr("id");
@@ -540,7 +571,7 @@ function fnAddSelectedRow(pos,aData,oTable){
         div.attr("title",aData);
         div.attr("title2",totalResult);
         $('#testdiv').append(div);
-        //$("#testdiv div[title]").tooltip();
+    //$("#testdiv div[title]").tooltip();
     }
     if($('.resCont').length !=0){
         $('#testdiv').css('display','block');
@@ -554,35 +585,43 @@ function fnOnComplete(){
     //fnAppendColumnSelected();
     //fnInitializeDataTable();
 
+    
+    
+    
+    
+    
     $('#displayableResult').html("");
     $(".displayable").css("display","none");
+    
+    
+   
+    var tooltipContent =  $("#previousQuery").text();
+    window.historyBar.solidify(tooltipContent);
     fnclearDateTexts();
-    
+    var totalSize = $("#totalSize").val();
+    var element = new HelioElement("../images/icons/toolbar/result.png","nativeResult","Amount of entries: "+totalSize);
+    $(element).data("nativeResult",$('#tables').html());
+    window.historyBar.addItem(element);
+    window.historyBar.render();
     $('.resultTable').each(function(){
-        
+
         fnFormatTable(this.id);
-        
+
     });
+    $('#displayableResult').append($("#previousQuery").text());
     $('#displayableResult').append($('#tables'));
-    
-    
+
+
     $('#displayableResult').css("display","block");
 
-     var tooltipContent =  $("#previousQuery").text();
-     window.varx.solidify(tooltipContent);
-     var totalSize = $("#totalSize").val();
-     var element = new HelioElement("../images/icons/toolbar/result.png","solid","Amount of entries: "+totalSize);
-     window.varx.addItem(element);
-     window.varx.render();
-    
-//fnFormatTable("#example");
-$("#responseDivision").html("");
+    //fnFormatTable("#example");
+    $("#responseDivision").html("");
 
 
 }
 
 function fnClearHistory(){
-    window.varx.clear();
+    window.historyBar.clear();
     $(".resCont").remove();
     $('.displayable').css("display","none");
     $('.testdiv').html("");
@@ -652,10 +691,11 @@ function fnOnLoading(){
     
     $('.displayable').css("display","none");
     $('#displayableOnLoading').css("display","block");
-    window.varx.render();
+    window.historyBar.render();
 
     
 }
+
 
 
 $(document).ready(function()
@@ -664,18 +704,20 @@ $(document).ready(function()
 
 
 
- var options = {
-        target: '#responseDivision',   // target element(s) to be updated with server response
-        success: fnOnComplete  // post-submit callback
- };
-     $('#myForm').ajaxForm(options);
      
     var history = new History();
+    var workspace = new Workspace();
 
-    window.varx = history;
+    window.historyBar = history;
+    window.workspace = workspace;
+    window.workspace.init();
 
-    $("#scroller_right").click(function(){window.varx.shiftRight()});
-    $("#scroller_left").click(function(){window.varx.shiftLeft()});
+    $("#scroller_right").click(function(){
+        window.historyBar.shiftRight()
+        });
+    $("#scroller_left").click(function(){
+        window.historyBar.shiftLeft()
+        });
     //window.history = new History();
     $(".catalogueSelector").change(function(){
         $('.columnInputs').html("");
@@ -685,17 +727,17 @@ $(document).ready(function()
     fnInitializeSingleElements();
     fnInitializeDraggableElements();
 
-$("#saveButton").click(function(){
-    var count =0;
-    var totalResult = [];
-    $(".resCont").each(function(){
-        count++;
-        $(this).remove();
-         var rowData = $(this).attr("title").split(",");
+    $("#saveButton").click(function(){
+        var count =0;
+        var totalResult = [];
+        $(".resCont").each(function(){
+            count++;
+            $(this).remove();
+            var rowData = $(this).attr("title").split(",");
          
-         var colNames = $(this).attr("title2").split(",");
+            var colNames = $(this).attr("title2").split(",");
          
-         var partialResult =[];
+            var partialResult =[];
             for(i in colNames){
 
                 partialResult[colNames[i]]=rowData[i];
@@ -706,51 +748,85 @@ $("#saveButton").click(function(){
         
         totalResult.count = "Saved elements: " + count;
     
-     var element = new HelioElement("../images/icons/toolbar/selectedR.png","result",totalResult);
-     window.varx.addItem(element);
-     window.varx.render();
-     $(".even_selected").each(function(){
-         $(this).removeClass("even_selected");
-         $(this).addClass("even");
-     });
-     $(".odd_selected").each(function(){
-         $(this).removeClass("odd_selected");
-         $(this).addClass("odd");
-     });
-     $('#testdiv').css("display",'none');
-     $(".resCont").remove();
-    $('.displayable').css("display","none");
+        var element = new HelioElement("../images/icons/toolbar/selectedR.png","resultSelection",totalResult);
+        window.historyBar.addItem(element);
+        window.historyBar.render();
+        $(".even_selected").each(function(){
+            $(this).removeClass("even_selected");
+            $(this).addClass("even");
+        });
+        $(".odd_selected").each(function(){
+            $(this).removeClass("odd_selected");
+            $(this).addClass("odd");
+        });
+        $('#testdiv').css("display",'none');
+        $(".resCont").remove();
+        $('.displayable').css("display","none");
     
-    $('.columnInputs').html("");
-    $('#whereField').val("");
+        $('.columnInputs').html("");
+        $('#whereField').val("");
 
-});
+        $(".tooltip").css("display","none");
 
-// Create one instance of Person
+        $("#staticFormContent").html("");
+
+        var content = window.historyBar.lastItem().getContent();
+        $("#staticFormContent").append("Amount of "+ content.count);
+        for(i in content){
+            if(i=="count"){
+                continue;
+            }
+            $("#staticFormContent").append("<br>");
+            $("#staticFormContent").append("<h3>_____________________________</h3>");
+            $("#staticFormContent").append("<ul>");
+            for(j in content[i]){
+                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
+            }
+            $("#staticFormContent").append("</ul>");
+            $("#displayableSeletedResult").css("display","block");
+        }
+    });
 
 
-// Create another instance of Person
 
 
-//var shelf = new Shelf();
 
-//alert(user.getName()); // My Name Changed
-//window.location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
+
+
+
+
+
+
+
+
     
-    //$("#selectorTest").closest('div').append("holaa");
 
 
 
 
 
 
-    //window.onbeforeunload = function () {
-        //alert("are you sure you want to leave my glorious page");
-        //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
+
+window.onbeforeunload = function () {
+        
+    //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
         
 
-   //return "This session is expired and the history altered.";
+    return "Leaving this site will clear all your browsing history";
 
-     //   }
+}   
 
 });
+
+function myPopup(url,windowname,w,h,x,y){
+window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+}
+
+function fnOnChangeHistoryFilterSelect(event){
+    
+    window.historyBar.setFilter($(event).find("option:selected").val());
+    window.historyBar.render();
+}
+function fnBeforeQuery(){
+    mysubmit();
+}

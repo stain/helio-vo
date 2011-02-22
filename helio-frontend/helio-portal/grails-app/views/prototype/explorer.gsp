@@ -26,6 +26,7 @@
   <g:javascript src="helio-prototype.js"/>
   <g:javascript src="/helio/Shelf.js"/>
   <g:javascript src="/helio/History.js"/>
+  <g:javascript src="/helio/Workspace.js"/>
   <g:javascript src="/helio/HelioElement.js"/>
   <g:javascript src="/jquery.form.js"/>
   
@@ -41,12 +42,16 @@
 </head>
 <body>
   <div id="page-background">
-    <img src="${resource(dir:'images/background',file:'bg_flat.jpg')}"   style="width:100%;height:150px"  alt="background">
+    <!--img src="${resource(dir:'images/background',file:'bg_flat.jpg')}"   style="width:100%;height:150px"  alt="background"-->
+    <img src="${resource(dir:'images/background',file:'iconbg.png')}"   style="width:100%;height:125px"  alt="background">
+
+
     <!--div style="width:100%;height:150px;background-color:orange"></div-->
   </div>
   <div id="logo">
-    <img src="${resource(dir:'images/background',file:'helio_transp.png')}"  width="350px" height="120px" />
-    <img id="line" src="${resource(dir:'images/background',file:'line_transp.png')}" height="120px"  />
+    <!--img src="${resource(dir:'images/background',file:'helio_transp.png')}"  width="350px" height="120px" />
+    <img id="line" src="${resource(dir:'images/background',file:'line_transp.png')}" height="120px"  /-->
+    <!--img src="${resource(dir:'images/helio',file:'helio_logo.jpg')}" width="200px" height="100px"  /-->
   </div>
    <div >
       <!-- elements with tooltips -->
@@ -88,7 +93,8 @@
       <div style="display:block;" id="history">
         <div><img id="scroller_left" style="float:left;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div>
         <div style="float:left;display:inline;overflow:visible" id="history2"></div>
-        
+
+        <select onchange="fnOnChangeHistoryFilterSelect(this);" style="margin-top:15px;float:right"><option selected="yes" >all</option><option>results</option><option>selections</option><option>actions</option></select>
         <div><img id="scroller_right" style="float:right;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_r.png')}" alt="Angry face" /></div>
         <div><img style="float:right;display:inline;margin-top:15px"height="30px" id="clearButton" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Angry face" /></div>
         
@@ -114,9 +120,11 @@
             <h3 style="padding:15px;">Please double click a service on the left side menu. Alternatively you can drag and drop the icon from the left side into this panel.</h3>
           </div>
           
+          
             
-            
-       
+          <div id="displayableSeletedResult" class="displayable" style="display:none">
+            <g:render template="templates/seletedresult" />
+          </div>
           <div id="displayableDate" class="displayable" style="display:none">
             <g:render template="date" />
           </div>

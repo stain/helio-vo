@@ -8,7 +8,11 @@
     
 
 <g:render template="dates" />
-<div class="resultDroppable2"style="border:1px solid black;width: 50px; height: 50px; padding: 0.5em; float: left; margin: 10px;"></div>
+<div class="resultDroppable2"style="border:1px solid black;width: 60px; height: 60px; padding: 0; float: left; margin: 10px;">
+<img style="margin:0px" src="${resource(dir:'images/icons',file:'hexagon60_flat.png')}"
+</div>
+
+
    <table>
      
    <tr><td style="text-align:right"> Provider:</td><td> <g:select id="instArea" class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="SOHO__CDS" from="${[

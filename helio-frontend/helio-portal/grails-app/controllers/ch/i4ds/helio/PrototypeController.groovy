@@ -81,6 +81,7 @@ class PrototypeController {
 
        
         if(params.maxDate != null){
+            try{
             ResultVT  result = search(params);
           
             // TODO: need to fix this argument once the data object is here
@@ -93,6 +94,11 @@ class PrototypeController {
             def responseObject = [result:result,previousQuery:previousQuery ];
           
             render template:'response', bean:responseObject, var:'responseObject'
+            }catch(Exception e){
+                println "catched"
+                render "error to the maximun"
+            }
+
         }
         else {
             //TODO: need to send java stacktrace back
@@ -148,7 +154,7 @@ class PrototypeController {
     def downloadVOTable = {
         log.info("downloadVOTable =>" + params  + session)
         if(session.result !=null){
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
             name = session.serviceq +"-"+name;
