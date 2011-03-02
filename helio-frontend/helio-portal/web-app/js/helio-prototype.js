@@ -541,6 +541,10 @@ function fnAddSelectedRow(pos,aData,oTable){
 
     
     
+    
+    //var count =parseInt($("#resultSelectionCounter").text());
+    
+    
     var totalResult =[];
     var headers =oTable.fnSettings().aoColumns;
     for (i in headers){
@@ -564,7 +568,7 @@ function fnAddSelectedRow(pos,aData,oTable){
         }
     });
     if(flag){
-   
+
         var div = $('<div></div>');
         div.addClass('resCont')
         div.text(pos);
@@ -574,10 +578,11 @@ function fnAddSelectedRow(pos,aData,oTable){
     //$("#testdiv div[title]").tooltip();
     }
     if($('.resCont').length !=0){
-        $('#testdiv').css('display','block');
+        $('#testdiv').css('display','none');
     }else{
         $('#testdiv').css('display','none');
     }
+    $("#resultSelectionCounter").text($('.resCont').length);
 }
 
 function fnOnComplete(){
@@ -608,7 +613,7 @@ function fnOnComplete(){
         fnFormatTable(this.id);
 
     });
-    $('#displayableResult').append($("#previousQuery").text());
+    //$('#displayableResult').append($("#previousQuery").text());
     $('#displayableResult').append($('#tables'));
 
 
@@ -617,6 +622,65 @@ function fnOnComplete(){
     //fnFormatTable("#example");
     $("#responseDivision").html("");
 
+$("#resultSelectionSave").click(function(){
+        var count =0;
+        var totalResult = [];
+        $(".resCont").each(function(){
+            count++;
+            $(this).remove();
+            var rowData = $(this).attr("title").split(",");
+
+            var colNames = $(this).attr("title2").split(",");
+
+            var partialResult =[];
+            for(i in colNames){
+
+                partialResult[colNames[i]]=rowData[i];
+            }
+            totalResult.push(partialResult);
+        });
+
+
+        totalResult.count = "Saved elements: " + count;
+
+        var element = new HelioElement("../images/icons/toolbar/selectedR.png","resultSelection",totalResult);
+        window.historyBar.addItem(element);
+        window.historyBar.render();
+        $(".even_selected").each(function(){
+            $(this).removeClass("even_selected");
+            $(this).addClass("even");
+        });
+        $(".odd_selected").each(function(){
+            $(this).removeClass("odd_selected");
+            $(this).addClass("odd");
+        });
+        $('#testdiv').css("display",'none');
+        $(".resCont").remove();
+        $('.displayable').css("display","none");
+
+        $('.columnInputs').html("");
+        $('#whereField').val("");
+
+        $(".tooltip").css("display","none");
+
+        $("#staticFormContent").html("");
+
+        var content = window.historyBar.lastItem().getContent();
+        $("#staticFormContent").append("Amount of "+ content.count);
+        for(i in content){
+            if(i=="count"){
+                continue;
+            }
+            $("#staticFormContent").append("<br>");
+            $("#staticFormContent").append("<h3>_____________________________</h3>");
+            $("#staticFormContent").append("<ul>");
+            for(j in content[i]){
+                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
+            }
+            $("#staticFormContent").append("</ul>");
+            $("#displayableSeletedResult").css("display","block");
+        }
+    });
 
 }
 
@@ -805,7 +869,7 @@ $(document).ready(function()
 
 
 
-
+/**
 
 window.onbeforeunload = function () {
         
@@ -814,7 +878,7 @@ window.onbeforeunload = function () {
 
     return "Leaving this site will clear all your browsing history";
 
-}   
+}   **/
 
 });
 
@@ -830,3 +894,4 @@ function fnOnChangeHistoryFilterSelect(event){
 function fnBeforeQuery(){
     mysubmit();
 }
+

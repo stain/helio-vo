@@ -1,24 +1,39 @@
 <div id="tables">
    
-<div id="staticForms">
+<div style="border:1px solid blue;margin-top:40px;" id="staticForms">
+  <div class="deleteViewer">X</div>
   <div id="formHeader">
-    <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'result.png')}"  />
-    <h1 style ="float:left;position:relative;left:15px" > Result </h1>
+    
+    <div style="padding:4px;background-color:white;float:left;position:relative;top:-30px;left:15px;">
+      <img src="${resource(dir:'images/icons/toolbar',file:'result.png')}"  />
+    </div>
+    <span style="font-size:1.5em;position:relative;top:-25px;left:20px;">Result Display</span>
+  </div>
+  <div style="border-bottom:1px solid blue;margin:20px;padding-left:20px" id>
+    <b>Previous Query:</b>
+    <ol >
+     <g:each in="${responseObject?.previousQuery}" var="queries">
+       <li >${queries}</li>
+     </g:each>
+    </ol>
   </div>
 
   <div style="clear: both; padding: 20px 5pt 20pt 5px;">
+
+
 <g:set var="result" value="${responseObject?.result}" />
 <g:set var="result" scope="session" value="${responseObject?.result}" />
-    <g:form controller="prototype"><g:actionSubmit action="downloadVOTable" value="Download VOTable" name="download"/></g:form>
+    <g:form controller="prototype"><g:actionSubmit style="padding:3px;float:left" action="downloadVOTable" value="Download VOTable" name="download"/></g:form>
+    <div id="resultSelectionCounter" style="margin-right:10px;padding:3px;float:right;width:15px;height:15px;border:1px solid black">0</div>
+    <div id="resultSelectionSave" style="margin-right:10px;padding:3px;float:right;width:auto;height:15px;border:1px solid black">Save Selection</div>
 
-
-
+    <div style="clear:both;width:100%"></div>
 
 <g:if test="${result?.queryInfo.contains('QUERY_ERROR')}" >
   "An error has occured with the service and has been logged, perhaps revise your query or download the response VO-Table contaning the error state"
 </g:if>
  <g:each in="${result?.getTables()}"  status="x" var="tables">
-Table NAME: "${tables.getName()}"
+   <span style="clear:both"> NAME: "${tables.getName()}"</span>
   <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${x}">
 
     <thead>

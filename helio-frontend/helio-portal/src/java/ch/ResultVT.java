@@ -26,6 +26,7 @@ public class ResultVT {
     public LinkedList<TableVT> tables;
     public String queryInfo;
 
+    //Delete
     public int getTotalSize() {
         int count = 0;
         for (TableVT table : tables) {
@@ -81,7 +82,7 @@ public class ResultVT {
 
         tables = new LinkedList<TableVT>();
         this.res = res;
-        print(res);
+        parse(res);
     }
 
     public LinkedList<TableVT> getTables() {
@@ -107,25 +108,22 @@ public class ResultVT {
             return "";
         }
     }
-
+/**
     public Stack<Stack<String>> getStack() {
         return stack;
     }
 
-    public void addTable(VOTABLE res) {
-        // this.res = res;
-        //print(res);
-    }
+  
 
     public Stack<String> getHeaders() {
         return headers;
     }
-
+**/
     public void setStack(Stack<Stack<String>> stack) {
         this.stack = stack;
     }
 
-    public void print(VOTABLE res) {
+    public void parse(VOTABLE res) {
         //System.out.println("printing VOTABLE");
         headers = new Stack<String>();
 
@@ -148,12 +146,12 @@ public class ResultVT {
                 for (Object o : table.getFIELDOrPARAMOrGROUP()) {
                     FIELD f = (FIELD) o;
                     headersVT.add(f.getName());
-                    if (f.getName().equals("time_start")) {
+                    /*if (f.getName().equals("time_start")) {
                         startTime = headers.size();
                     }
                     if (f.getName().equals("time_end")) {
                         endTime = headers.size();
-                    }
+                    }*/
                     if (!headers.contains(f.getName())) {
                         headers.add(f.getName());
                     }
@@ -186,7 +184,7 @@ public class ResultVT {
 
     }
 
-    public void printAdd(VOTABLE res) {
+    /*public void printAdd(VOTABLE res) {
         // System.out.println("printing VOTABLE ADD");
         if (headers == null) {
             headers = new Stack<String>();
@@ -228,6 +226,6 @@ public class ResultVT {
         }
 
 
-    }
+    }*/
 }
 

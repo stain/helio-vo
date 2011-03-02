@@ -1,11 +1,12 @@
 
-function HelioElement(imageParam,typeParam,contentParam) {
+function HelioElement(imageParam,typeParam,contentParam,labelParam) {
     // Private variable
     //console.log("HelioElement created "+ imageParam);
-    var image;
+    
     var type=typeParam;
     var content=contentParam;
     var imagePath = imageParam;
+    var label = labelParam;
 
     // Private method
     var privateMethod = function(){
@@ -15,8 +16,11 @@ function HelioElement(imageParam,typeParam,contentParam) {
 
     return {
         // Public methods
-        setImage: function(image) {
-            this.image=image;
+        setLabel: function(labelParam) {
+            label=labelParam;
+        },
+       getLabel: function() {
+            return label;
         },
         setImagePath: function(path) {
             imagePath = path;
@@ -43,14 +47,19 @@ function HelioElement(imageParam,typeParam,contentParam) {
 
 
             if(type=="ghost"){
-                $( "<img alt='" +"image missing"+"' class='floaters ghost'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+              
+                var div = $("<div class='floaters'></div>");
+                var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
+                div.append(img);
+                if(label != "")div.append("<div class='customLabel'>custom1</div>");
+                $("#historyContent").append(div);
             }
             else if(type == 'query'){
             
                 var item = $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath );
                 item.dblclick(function() {
 
-
+                    
                     $(".tooltip").css("display","none");
                     
                     $("#currentDisplay").remove();
@@ -67,7 +76,7 @@ function HelioElement(imageParam,typeParam,contentParam) {
                     $(temp).css("display","block");
                     $(temp).attr("id","currentDisplay");
                     $(temp).attr("class","displayable");
-
+                    
                     $("#droppable-inner").append(temp);
                     fnInitDroppable();
                     
@@ -88,30 +97,29 @@ function HelioElement(imageParam,typeParam,contentParam) {
                             tempField =tempField.replace('%2C',",");
                             tempField =tempField.replace('+',"");
                             $(".minDateList").val(tempField);
-                        }
+                        }//end if
                         else if(tempField.indexOf("maxDateList=")!= -1){
                             tempField =tempField.replace('maxDateList=',"");
                             tempField =tempField.replace('%3A',":");
                             tempField =tempField.replace('%2C',",");
                             tempField =tempField.replace('+',"");
                             $(".maxDateList").val(tempField);
-                        }
+                        }//end if
 
                         else if(tempField.indexOf("minDate=")!= -1){
                             tempField =tempField.replace('minDate=',"");
                             $("#currentDisplay").find("input[name='minDate']").val(tempField);
-                        }
+                        }//end if
                         else if(tempField.indexOf("maxDate=")!= -1){
                             tempField =tempField.replace('maxDate=',"");
                             $("#currentDisplay").find("input[name='maxDate']").val(tempField);
-                        }
+                        }//end if
                         else if(tempField.indexOf("extra=")!= -1){
                             tempField =tempField.replace('extra=',"");
                             $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
 
 
-                        }
-                        else if(tempField.indexOf("where=")!= -1){
+                        }else if(tempField.indexOf("where=")!= -1){
                             tempField =tempField.replace('where=',"");
                             tempField =tempField.split("%3B");
                             for(input in tempField){
@@ -120,21 +128,32 @@ function HelioElement(imageParam,typeParam,contentParam) {
                                 innerTempField = innerTempField[0].split(".");
                                 var inputName= innerTempField[0];
                                 var labelName = innerTempField[1];
+                                //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
+
                                 $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
-                            }
-                        }
-                    }
-              
-                });
-                $("#history2").append(item);
+                            }//end input
+                        }//end if
+                    }//end fields
+               var deleteViewer = $("#currentDisplay").find(".deleteViewer");
+               deleteViewer.css("display","block");
+               deleteViewer.data("key",key);
+               deleteViewer.click(function(){
+                   
+                   window.historyBar.removeItem($(this).data("key"));
+               });
+               console.log(deleteViewer);
+                });//end dbclick
+
+
+                $("#historyContent").append(item);
             }
             else if(type == 'solid'){
-                $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                $( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
             }
             else if(type == 'nativeResult'){
-                //$( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                //$( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
           
-                $( "<img id='"+key+"' title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                $( "<img id='"+key+"' title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
                 var nativeResult = $("#"+key);
           
                 nativeResult.dblclick(function()
@@ -156,10 +175,11 @@ function HelioElement(imageParam,typeParam,contentParam) {
     
                 
                 });
+                $(".deleteViewer").css("display","block");
             }
             else if(type == 'resultSelection'){
             
-                $( "<img id='"+key+"' title='"+content.count+"' alt='" + "image missing" + "' class='floaters resultDraggable'  />" ).attr( "src",imagePath ).appendTo("#history2").fadeIn();
+                $( "<img id='"+key+"' title='"+content.count+"' alt='" + "image missing" + "' class='floaters resultDraggable'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
 
                 var draggable = $("#"+key);
                 draggable.data("Left", 0).data("Top", 0);
@@ -233,6 +253,7 @@ function HelioElement(imageParam,typeParam,contentParam) {
                   
                     }
                 });
+                $(".deleteViewer").css("display","block");
 
             }
         

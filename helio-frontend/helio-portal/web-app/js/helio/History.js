@@ -33,6 +33,12 @@ function History() {
             return array[index];
 
         },
+        removeItem : function(index) {
+          array.splice(index, 1);
+          
+          this.render();
+
+        },
         cleanGhost: function(){
         
             var element = array.pop();
@@ -65,7 +71,7 @@ function History() {
         render: function(){
             //console.log("History => render ");
 
-            $('#history2').html('');
+            $('#historyContent').html('');
             var key = 0;
         
             var arrayToRender = [];
@@ -120,7 +126,7 @@ function History() {
             
                 if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key]);
             }
-            $("#history2 img[title]").tooltip({
+            $("#historyContent img[title]").tooltip({
                 position: "top center",
                 delay: 100,
                 predelay:500

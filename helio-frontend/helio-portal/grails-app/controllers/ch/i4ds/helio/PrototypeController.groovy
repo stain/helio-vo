@@ -9,8 +9,15 @@ import java.text.DateFormat;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource
+import javax.xml.transform.stream.StreamSource;
 
+/*
+import eu.heliovo.clientapi.model.data.HelioEventCatalog;
+import eu.heliovo.clientapi.model.data.HelioEventColumn;
+import eu.heliovo.mockclient.MockHelioClient;
+import eu.heliovo.clientapi.HelioClient;
+import eu.heliovo.mockclient.model.data.HelioEventCatalogImpl.Column;
+*/
 
 class PrototypeController {
 
@@ -68,11 +75,11 @@ class PrototypeController {
         ResultVT result = new ResultVT(votable);
 
         
-            def previousQuery = "uploaded file";
-            def responseObject = [result:result,previousQuery:previousQuery ];
+        def previousQuery = "uploaded file";
+        def responseObject = [result:result,previousQuery:previousQuery ];
 
         
-            render template:'response', bean:responseObject, var:'responseObject'
+        render template:'response', bean:responseObject, var:'responseObject'
 
         
     }
@@ -82,18 +89,20 @@ class PrototypeController {
        
         if(params.maxDate != null){
             try{
-            ResultVT  result = search(params);
+                ResultVT  result = search(params);
           
-            // TODO: need to fix this argument once the data object is here
-            session.serviceq=params.serviceName;
-            params.remove("action");
-            params.remove("controller");
-            params.remove("serviceName");
-            if(params.where =="")params.remove("where");
-            def previousQuery = params;
-            def responseObject = [result:result,previousQuery:previousQuery ];
+                // TODO: need to fix this argument once the data object is here
+                session.serviceq=params.serviceName;
+                params.remove("action");
+                params.remove("controller");
+            
+                if(params.minDateList.trim() == "" )params.remove("minDateList");
+                if(params.maxDateList.trim() == "" )params.remove("maxDateList");
+                if(params.where =="")params.remove("where");
+                def previousQuery = params;
+                def responseObject = [result:result,previousQuery:previousQuery ];
           
-            render template:'response', bean:responseObject, var:'responseObject'
+                render template:'response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
                 println "catched"
                 render "error to the maximun"
@@ -152,6 +161,38 @@ class PrototypeController {
     }
 
     def downloadVOTable = {
+/**
+        HelioClient h = new HelioMockClient();
+        HelioEventCatalog c=h.getCatalog("abcd__efgh");
+
+        if(c!=null)
+        {
+            c.getName();
+            c.getDescription();
+
+            List<Column> cols=c.getColumns();
+            if(cols!=null)
+            for(Column col:cols)
+            {
+                println col.getName();
+                println col.getDescription();
+                println col.getUcd();
+                println col.getDisplay();
+
+                /*
+
+                Display will return
+                "numeric"
+                "text"
+                "hidden" //do not show this field
+
+                 
+            }
+        }
+
+**/
+
+
         log.info("downloadVOTable =>" + params  + session)
         if(session.result !=null){
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
