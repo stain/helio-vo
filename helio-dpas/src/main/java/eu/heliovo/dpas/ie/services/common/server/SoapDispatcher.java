@@ -198,10 +198,10 @@ public class SoapDispatcher implements Provider<Source> {
 					 System.out.println(" : save to file location :  "+saveTo);
 					 //passing save to value to common TO.	
 					 commonTO.setSaveto(saveTo);
-					 commonTO.setLongRunningQueryStatus("LongRunning");
+					 commonTO.setLongRunningQueryStatus("id");
 					 //
 					 fileTO.setRandomUUIDString(randomUUIDString);
-
+					 //
 					 String xmlString=CommonUtils.createXmlForWebService(fileTO);
 					 System.out.println(" : XML String : "+xmlString);
 					 BufferedWriter bw =null;
@@ -217,7 +217,7 @@ public class SoapDispatcher implements Provider<Source> {
 					 if(saveTo!=null && saveTo.contains("ftp")){
 					    FileUtils.saveFileToFtp(saveTo,"votable_"+randomUUIDString+".xml");	    			    	
 					 }else{
-					 //Save the file to local system.
+						//Save the file to local system.
 					    saveFilePath=saveTo+"/votable_"+randomUUIDString+".xml";
 					    file = new File(saveFilePath);
 						bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
@@ -244,7 +244,7 @@ public class SoapDispatcher implements Provider<Source> {
 				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
 		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
 				 }
-				 commonTO.setLongRunningQueryStatus("LongRunning");
+				 commonTO.setLongRunningQueryStatus("status");
 				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
 					if(sStatus==null || sStatus.trim().equals(""))
 					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);
@@ -267,7 +267,7 @@ public class SoapDispatcher implements Provider<Source> {
 				 if(inputDoc.getElementsByTagNameNS("*","ID").getLength()>0 && inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild()!=null){
 		    		 sID = inputDoc.getElementsByTagNameNS("*","ID").item(0).getFirstChild().getNodeValue();
 				 }
-				 commonTO.setLongRunningQueryStatus("LongRunning");
+				 commonTO.setLongRunningQueryStatus("result");
 				 String sStatus=LongRunningQueryIdHolders.getInstance().getProperty(sID);
 					if(sStatus==null || sStatus.trim().equals(""))
 					  sStatus=HsqlDbUtils.getInstance().getStatusFromHsqlDB(sID);

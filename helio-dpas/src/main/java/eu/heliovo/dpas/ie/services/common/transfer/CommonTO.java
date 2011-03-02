@@ -53,6 +53,9 @@ public class CommonTO {
 	private String ftpPwd;
 	private String ftpFileName;
 	private String ftpDateFileName;
+	private String providerType;
+	private String longrunningRequestStatus;
+	
 	
 	public String getFtpHost() {
 		return ftpHost;
@@ -397,5 +400,21 @@ public class CommonTO {
 
 	public void setFtpPattern(String ftpPattern) {
 		this.ftpPattern = ftpPattern;
+	}
+
+	public String getProviderType() {
+		return providerType;
+	}
+
+	public void setProviderType(String providerType) {
+		this.providerType = providerType;
+	}
+
+	public String getLongrunningRequestStatus() {
+		return longrunningRequestStatus;
+	}
+
+	public void setLongrunningRequestStatus(String longrunningRequestStatus) {
+		this.longrunningRequestStatus = longrunningRequestStatus;
 	}	
 }

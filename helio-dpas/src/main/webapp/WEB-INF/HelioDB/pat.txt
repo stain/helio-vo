@@ -182,3 +182,12 @@ HINODE__XRT,DIR,http,XRT,,HSDCE,ack_HSDCE,2,,,,,,,,remote
 HINODE__XRT1,SODA,http,XRT,,HSDCE,ack_HSDCE,1,,,,,,,,remote
 RHESSI__HESSI_GMR1,DIR,http,HESSI_GMR,,LSSP,ack_NASA-LSSP,1,,,,,,,,
 RHESSI__HALPHA,DIR,http,HALPHA,,LSSP,ack_NASA-LSSP,1,,,,,,,,
+MEUD__SHELIO,DIR,ftp,MEUD,,BASS2000,ack BASS2K,1,,,,,,,,remote
+MEUD__HELIO,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+PDMO__CLIMSO,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+PDMO__COGHA,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+NANC__NRH,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+NANC__NTRFA,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+NANC__NDA,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+OAUC__SHELIO,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote
+PDMO__COGHA,DIR,ftp,MEUD,,HSDCE,ack_HSDCE,1,,,,,,,,remote

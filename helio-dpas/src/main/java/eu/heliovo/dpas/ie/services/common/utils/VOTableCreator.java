@@ -31,7 +31,7 @@ public class VOTableCreator {
     	if(longRunning!=null  && longRunning.equals("LongRunning")){
     		out=(BufferedWriter) comCriteriaTO.getPrintWriter();
     	}else{
-    		out = new BufferedWriter( comCriteriaTO.getPrintWriter() );
+    		out = comCriteriaTO.getBufferOutput();
     	}
     	//Adding response header start for WebService VOTABLE.
 		if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
@@ -92,17 +92,21 @@ public class VOTableCreator {
     public static void writeErrorTables( CommonTO comCriteriaTO ) throws Exception {
     	BufferedWriter out =null;
     	String status=comCriteriaTO.getStatus();
+    	//
+    	String longRunning= comCriteriaTO.getLongRunningQueryStatus();
     	String expStatus=comCriteriaTO.getExceptionStatus();
     	out = comCriteriaTO.getBufferOutput();
     	//If any exception occurs print error votable.
     	if(expStatus!=null && !expStatus.trim().equals("")){
-	    	if(status!=null && !status.equals("")){
-				 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
-			}
+    		if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
+   			 	out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
+    		}else if(longRunning!=null && longRunning.equals("LongRunning")){
+    			out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.1\">");
+    		}
         	out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
     	}
 		//Error resource
-    	out.write( "<RESOURCE>\n" );
+    		out.write( "<RESOURCE>\n" );
 	        out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
 	        out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
 	        out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
@@ -111,13 +115,15 @@ public class VOTableCreator {
 	        if(comCriteriaTO.getQuerystatus().equals("ERROR")){
 	        	 out.write( "<INFO name=\"QUERY_ERROR\" value=\""+comCriteriaTO.getQuerydescription()+"\"/>");
 	        }
-	    out.write( "</RESOURCE>\n" );
+	        out.write( "</RESOURCE>\n" );
 	    //If any exception occurs print error votable.
 	    if(expStatus!=null && !expStatus.trim().equals("")){
 			out.write( "</VOTABLE>\n" );
 	        //Adding response header start for WebService VOTABLE.
-	        if(status!=null && !status.equals("") ){
+			if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
 				 out.write("</helio:queryResponse>");
+			}else if(longRunning!=null && longRunning.equals("LongRunning")){
+				out.write("</helio:resultResponse>");
 			}
 	        out.flush();
 	        out.close();
@@ -131,12 +137,16 @@ public class VOTableCreator {
      */
     public static void writeFooterOfTables( CommonTO comCriteriaTO ) throws Exception {
     	String status=comCriteriaTO.getStatus();
+    	//Long running query status
+    	String longRunning= comCriteriaTO.getLongRunningQueryStatus();
     	BufferedWriter out =null;	
     	out = comCriteriaTO.getBufferOutput();
     	out.write( "</VOTABLE>\n" );
-        //Adding response header start for WebService VOTABLE.
-        if(status!=null && !status.equals("") ){
+    	//Adding response header start for WebService VOTABLE.
+		if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
 			 out.write("</helio:queryResponse>");
+		}else if(longRunning!=null && longRunning.equals("LongRunning")){
+			out.write("</helio:resultResponse>");
 		}
         out.flush();
         out.close();

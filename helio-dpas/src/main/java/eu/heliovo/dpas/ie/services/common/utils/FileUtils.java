@@ -18,6 +18,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PipedReader;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -129,7 +130,13 @@ public class FileUtils {
 	  }
 	   
 
-		// This method writes a DOM document to a file 
+	 /**
+	  * 
+	  * @param is
+	  * @param filename
+	  * @throws IOException
+	  * @throws ParserConfigurationException
+	  */
 	 public static void writeXmlFile(StreamSource is, String filename) throws IOException, ParserConfigurationException { 
 		 try { 
 			 // Prepare the DOM document for writing 
@@ -149,7 +156,11 @@ public class FileUtils {
 		 
 	   }    
 
-	 
+	 /**
+	  * 
+	  * @param inputStream
+	  * @param fileName
+	  */
 	 public static void createXmlFileFromInputStream(InputStream inputStream,String fileName)
 	 {
 		 try {
@@ -186,6 +197,11 @@ public class FileUtils {
 		}
  	 }
 	 
+	 /**
+	  * 
+	  * @param fileName
+	  * @return
+	  */
 	 public static XMLStreamReader streamXmlDataFromFile(String fileName){
 		 try{
 			 
@@ -201,7 +217,12 @@ public class FileUtils {
 		return null;
 	 }
 	 
-  
+    /**
+     * 
+     * @param file
+     * @param reader
+     * @throws Exception
+     */
     @SuppressWarnings("unused")
     public static void exportToOoWriter(File file,PipedReader reader) throws Exception
 	{
@@ -225,7 +246,12 @@ public class FileUtils {
 	
 	}
   
-  
+  /**
+   * 
+   * @param doc
+   * @return
+   * @throws Exception
+   */
   public static StringBuilder readDataFromFile(Document doc) throws Exception {
 	  
       TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -239,8 +265,44 @@ public class FileUtils {
       return sb;
     }
   
-  /*
-   * Save the file to ftp.
+  /**
+   * 
+   * @param is
+   * @return
+   * @throws IOException
+   */
+  public static StringBuilder convertStreamToString(InputStream is) throws IOException {
+        /*
+           * To convert the InputStream to String we use the
+          * Reader.read(char[] buffer) method. We iterate until the
+           * Reader return -1 which means there's no more data to
+          * read. We use the StringWriter class to produce the string.
+          */
+          if (is != null) {
+              Writer writer = new StringWriter();
+   
+             char[] buffer = new char[1024];
+              try {
+                  Reader reader = new BufferedReader(
+                          new InputStreamReader(is, "UTF-8"));
+                 int n;
+                while ((n = reader.read(buffer)) != -1) {
+                    writer.write(buffer, 0, n);
+                  }
+              } finally {
+                 is.close();
+             }
+             return new StringBuilder().append(writer.toString());
+         } else {       
+              return null;
+         }
+     }
+  
+  /**
+   * 
+   * @param ftpUrl
+   * @param saveFile
+   * @throws Exception
    */
   public static void saveFileToFtp(String ftpUrl,String saveFile) throws Exception
   {
@@ -291,8 +353,10 @@ public class FileUtils {
   }
   
   
-  /*
-   * Get the data from the file
+  /**
+   * 
+   * @param ftpUrl
+   * @return
    */
   public static StringBuilder  getFileDataFromFtp(String ftpUrl){
 	  StringBuilder  fTextArea=new StringBuilder();
@@ -315,6 +379,11 @@ public class FileUtils {
 		return fTextArea;
   }
   
+  /**
+   * 
+   * @param httpUrl
+   * @return
+   */
   public static String readFileFromHttpServer(String httpUrl)
   {
 	   StringBuffer sb=new StringBuffer();
@@ -355,7 +424,11 @@ public class FileUtils {
 	    } 
   
   
-  
+  /**
+   * 
+   * @param locUrl
+   * @param fileName
+   */
   public static void createFileInHttpServer(String locUrl,String fileName) {  
 	  try {
 
@@ -378,7 +451,6 @@ public class FileUtils {
 	    dos.close();
 
 	  } // end of "try"
-
 	  catch (MalformedURLException mue) { 
 	    System.out.println(" Exception while creating createFileInHttpServer() "+mue);
 	  } 
@@ -387,12 +459,8 @@ public class FileUtils {
 	  }
 
 	}  // end of createFileInHttpServer() method 
-
-  
-
   }
   
-    
   class NullResolver implements EntityResolver {
 	   public InputSource resolveEntity(String publicId, String systemId) throws SAXException,
 	       IOException {

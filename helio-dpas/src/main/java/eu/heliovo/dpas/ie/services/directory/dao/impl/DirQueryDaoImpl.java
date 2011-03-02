@@ -32,22 +32,15 @@ public class DirQueryDaoImpl implements DirQueryDao {
 		 dirTO.setStatus(commonTO.getStatus());
 		 dirTO.setHelioInstrument(commonTO.getHelioInstrument());
 		 dirTO.setContextUrl(commonTO.getContextUrl());
+		 dirTO.setProviderType(commonTO.getProviderType());
+		 dirTO.setParaInstrument(commonTO.getParaInstrument());
 		 //Ftp trasfer object.
 		 dirTO.setProviderSource(commonTO.getProviderSource());
-		 dirTO.setYearPattern(commonTO.getYearPattern());
-		 dirTO.setMonthPattern(commonTO.getMonthPattern());
-		 dirTO.setFtpHost(commonTO.getFtpHost());
-		 dirTO.setFtpUser(commonTO.getFtpUser());
-		 dirTO.setFtpPwd(commonTO.getFtpPwd());
-		 dirTO.setFtpDateFormat(commonTO.getFtpDateFormat());
-		 dirTO.setFtpPattern(commonTO.getFtpPattern());
-		 dirTO.setWorkingDir(commonTO.getWorkingDir());
 	     dirProvider.query(dirTO) ;
 	}
 		
 	@Override
-	public List<DPASResultItem> query(String instrument, Calendar dateFrom,
-			Calendar dateTo, int maxResults) throws Exception {
+	public List<DPASResultItem> query(String instrument, Calendar dateFrom,Calendar dateTo, int maxResults) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -23,8 +23,20 @@ public class DirProvider
 		List<DPASResultItem> 		results 		= null;
 		StarTable[] tables=null;
 		int count=0;
+		//Provider type
+		String providerType=dirTO.getProviderType();
+		//Instrument name
+		String instName=dirTO.getInstrument();
         try{
+        	//Checking whether ftp directory archive.
+        	if(providerType!=null && !providerType.trim().equals("") && providerType.trim().equalsIgnoreCase("ftp")){
+        		dirTO.setInstrument(providerType.toUpperCase());
+        		dirTO.setVotableDescription("Ftp Archive query response");
+        	}
         	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO);
+        	//Setting Instrument
+        	dirTO.setInstrument(instName);
+        	//Getting results from Data Provider.
         	results=dpasDataProvider.query(dirTO.getInstrument(), dpasUtils.HELIOTimeToCalendar(dirTO.getDateFrom()), dpasUtils.HELIOTimeToCalendar(dirTO.getDateTo()), 2);
         	//
         	if(results!=null && results.size()>0){

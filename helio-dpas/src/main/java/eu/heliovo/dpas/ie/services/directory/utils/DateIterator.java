@@ -4,8 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-public class DateIterator
-   implements Iterator<Date>, Iterable<Date>
+public class DateIterator implements Iterator<Date>, Iterable<Date>
 {
 
     private Calendar end = Calendar.getInstance();
@@ -32,8 +31,7 @@ public class DateIterator
 
     public void remove()
     {
-        throw new UnsupportedOperationException(
-           "Cannot remove");
+        throw new UnsupportedOperationException("Cannot remove");
     }
 
     public Iterator<Date> iterator()

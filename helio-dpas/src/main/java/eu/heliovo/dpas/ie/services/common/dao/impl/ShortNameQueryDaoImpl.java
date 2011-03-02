@@ -329,7 +329,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 	 * @throws Exception 
 	 * 
 	 */
-	public void generateVOTable(CommonTO commonTO) throws Exception
+	public synchronized void generateVOTable(CommonTO commonTO) throws Exception
 	{
 		 String[] startTime =commonTO.getStartTimes();
 	     String[] stopTime =commonTO.getStopTimes();

@@ -27,7 +27,6 @@ public class FtpProvider implements DirQueryDao
 
 	private void initialize(FtpDataTO ftpTO)
 	{
-		
 		explorer	=	new FtpArchiveExplorer(ftpTO);	
 	}
 
@@ -45,6 +44,5 @@ public class FtpProvider implements DirQueryDao
 	@Override
 	public void query(CommonTO commonTO) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 }

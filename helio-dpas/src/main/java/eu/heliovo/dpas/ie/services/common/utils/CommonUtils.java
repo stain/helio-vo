@@ -135,6 +135,8 @@ public class CommonUtils {
 	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderName());
 	    	 commonTO.setInstrument(resultTo[0].getInst());
 	    	 System.out.println(" : Instrument : "+resultTo[0].getInst());
+	    	 commonTO.setProviderType(resultTo[0].getProviderType());
+	    	 System.out.println(" : Instrument : "+resultTo[0].getProviderType());
 		     //Calling DAO factory to connect PROVIDERS
 		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 		    	 System.out.println("--->  VSO Provider intiated--->");
@@ -169,42 +171,8 @@ public class CommonUtils {
 		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 soteriaQueryDao.query(commonTO);
 		     }
-		 }else if(resultTo==null || resultTo.length==1 || resultTo[0]!=null){
-			 //getting details from Provider access table
-			 resultTo=HsqlDbUtils.getInstance().getFtpAccessTableBasedOnInst(commonTO.getParaInstrument());
-			 //
-			 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
-				 //Helio Instrument
-				 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
-				 //
-				 commonTO.setInstrument(resultTo[0].getProviderName());
-				 //Provider Source
-				 commonTO.setProviderSource(resultTo[0].getProviderName());
-				 //
-				 commonTO.setWhichProvider(resultTo[0].getProviderType());
-				 //Working Dir
-				 commonTO.setWorkingDir(resultTo[0].getWorkingDir());
-				 //Year Pattern
-				 commonTO.setYearPattern(resultTo[0].getYearPattern());
-				 //Month Pattern
-				 commonTO.setMonthPattern(resultTo[0].getMonthPattern());
-				 //Ftp Host
-				 commonTO.setFtpHost(resultTo[0].getFtpHost());
-				 //Ftp User
-				 commonTO.setFtpUser(resultTo[0].getFtpUser());
-				 //Ftp Password
-				 commonTO.setFtpPwd(resultTo[0].getFtpPwd());
-				 //Ftp Pattern
-				 commonTO.setFtpPattern(resultTo[0].getFtpPattern());
-				 //Ftp date pattern
-				 commonTO.setFtpDateFormat(resultTo[0].getFtpDatePattern());
-				 commonTO.setVotableDescription("Ftp Archive query response");
-		    	 System.out.println("--->  Ftp Directory Provider intiated--->");
-		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
-		    	 dirQueryDao.query(commonTO);
-			 }
-			 //
-		 }else{
+		 }
+		 else{
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));
 	    	 commonTO.setVotableDescription("Error, no data for "+commonTO.getWhichProvider()+" provider");
 	    	 commonTO.setQuerystatus("ERROR");
@@ -218,7 +186,7 @@ public class CommonUtils {
 		 */
 		 public static String createXmlForWebService(FileResultTO fileTO) throws Exception {
 			 StringBuilder xmlString = new StringBuilder();
-			 xmlString.append("<ResultInfo>");
+			 //xmlString.append("<ResultInfo>");
 			 xmlString.append("<ID>");
 			 xmlString.append(fileTO.getRandomUUIDString());
 			 xmlString.append("</ID>");
@@ -233,16 +201,19 @@ public class CommonUtils {
 				 sDes=statusArray[1];
 			 //Status for the service
 			 if(Status!=null && !Status.trim().equals("")){
+				 xmlString.append("<Status>");
 				 xmlString.append("<status>");
 				 xmlString.append(statusArray[0]);
 				 xmlString.append("</status>");
-			 }
 			 
-			// Des for the file location.
-			 if(sDes!=null && !sDes.trim().equals("")){
-				 xmlString.append("<statusdescription>");
-				 xmlString.append(sDes);
-				 xmlString.append("</statusdescription>");
+				// Des for the file location.
+				 if(sDes!=null && !sDes.trim().equals("")){
+					 xmlString.append("<statusdescription>");
+					 xmlString.append(sDes);
+					 xmlString.append("</statusdescription>");
+				 }
+				 //
+				 xmlString.append("</Status>");
 			 }
 			 String sUrl=fileTO.getsUrl();
 			 // Url for the file location.
@@ -259,7 +230,7 @@ public class CommonUtils {
 				 xmlString.append("</fileInfo>");
 			 }
 			 //Result end
-			 xmlString.append("</ResultInfo>");
+			 //xmlString.append("</ResultInfo>");
 			 
 		     return xmlString.toString();
 	      }

@@ -318,13 +318,21 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 			String status=commonTO.getLongRunningQueryStatus();
 			out =commonTO.getBufferOutput();
 			//Adding response header start for WebService VOTABLE.
-			if(status!=null && !status.equals("")){
-				 out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.1\">");
+			if(status!=null && !status.equals("") && status.trim().equals("id")){
+				 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.9\">");
+			}else if(status!=null && !status.equals("") && status.trim().equals("status")){
+				out.write("<helio:statusResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.9\">");
+			}else if(status!=null && !status.equals("") && status.trim().equals("result")){
+				out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.9\">");
 			}
 			out.write(commonTO.getDataXml());
 			//Adding response header start for WebService VOTABLE.
-			if(status!=null && !status.equals("")){
-				 out.write("</helio:resultResponse>");
+			if(status!=null && !status.equals("") && status.trim().equals("id")){
+				 out.write("</helio:queryResponse>");
+			}else if(status!=null && !status.equals("") && status.trim().equals("status")){
+				out.write("</helio:statusResponse>");
+			}else if(status!=null && !status.equals("") && status.trim().equals("result")){
+				out.write("</helio:resultResponse>");
 			}
 		}catch(Exception pe) {
         	pe.printStackTrace();
