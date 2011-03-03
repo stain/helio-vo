@@ -1,22 +1,17 @@
 package eu.heliovo.shared.util;
 
+import java.util.Collection;
+
 /**
  * Utility methods for validity checks of method calls.  
  * @author marco soldati at fhnw ch
  *
  */
 public class AssertUtil {
-    /**
-     * Throw an {@link IllegalArgumentException} if 'object' is null.
-     * @param object the object.
-     * @param objectName the name of the object for user feedback.
-     * @throws IllegalArgumentException if object is null.
-     */
-    public static void assertNotNull(Object object, String objectName) throws IllegalArgumentException {
-        if (object == null)
-            throw new IllegalArgumentException("Configuration Error: " + objectName + " must not be null");
-    }
-
+	private static final String ASSERT_ARGUMENT_NOT_NULL = "Argument '%1$s' must not be null.";
+	private static final String ASSERT_ARGUMENT_HAS_TEXT = "Argument '%1$s' must not be empty.";
+	private static final String ASSERT_ARGUMENT_NOT_EMPTY = "Argument '%1$s' must not be empty.";;
+	
     /**
      * Throw an {@link IllegalArgumentException} if 'argument' is null.
      * @param argument the argument.
@@ -25,18 +20,41 @@ public class AssertUtil {
      */
     public static void assertArgumentNotNull(Object argument, String argumentName) throws IllegalArgumentException {
         if (argument == null)
-            throw new IllegalArgumentException("Argument '" + argumentName + "' must not be null");
+            throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_NULL, argumentName));
     }
     
     /**
      * Check if 'text' contains anything.
      * @param text the text to check
-     * @param propertyName name of the property to check for user feedback.
+     * @param argumentName name of the argument to check for user feedback.
      * @throws IllegalArgumentException if(text == null || text.isEmpty())
      */
-    public static void assertHasText(String text, String propertyName) throws IllegalArgumentException {
+    public static void assertArgumentHasText(String text, String argumentName) throws IllegalArgumentException {
         if (text == null || text.isEmpty()) 
-            throw new IllegalArgumentException("Configuration Error: " + propertyName + " must not be empty.");
+            throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_HAS_TEXT, argumentName));
     }
 
+    /**
+     * Check if a collection is neither null nor empty.
+     * @param collection the collection to check.
+     * @param argumentName the name of the argument.
+     */
+	public static void assertArgumentNotEmpty(Collection<?> collection, String argumentName) {
+		assertArgumentNotNull(collection, argumentName);
+		if (collection.size() == 0) {
+			throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_EMPTY, argumentName));
+		}
+	}
+
+	/**
+	 * Assure that an array is neiter null nor empty.
+	 * @param array the array to check
+	 * @param argumentName the name of the arguemnt.
+	 */
+	public static void assertArgumentNotEmpty(Object[] array, String argumentName) {
+		assertArgumentNotNull(array, argumentName);
+		if (array.length == 0) {
+			throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_EMPTY, argumentName));
+		}	
+	}
 }
