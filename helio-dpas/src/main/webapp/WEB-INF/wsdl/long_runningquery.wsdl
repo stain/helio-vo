@@ -2,7 +2,6 @@
 <wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://helio-vo.eu/xml/LongQueryService/v0.9" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="LongHelioQueryService" targetNamespace="http://helio-vo.eu/xml/LongQueryService/v0.9">
  <wsdl:types>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ins="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:tns="http://helio-vo.eu/xml/LongQueryService/v0.9" elementFormDefault="unqualified" targetNamespace="http://helio-vo.eu/xml/LongQueryService/v0.9" version="1.0">
-  
   <xs:import xmlns:ins="http://helio-vo.eu/xml/Instruments/v0.1" namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="http://msslxw.mssl.ucl.ac.uk:8080/helio-ics-r3/HelioLongQueryService?xsd=1" />   
  
    
@@ -72,6 +71,7 @@
 		<xs:enumeration value="COMPLETED" />
 		<xs:enumeration value="ERROR" />
 		<xs:enumeration value="PENDING" />
+		<xs:enumeration value="TIMEOUT" />		
 	</xs:restriction>
 </xs:simpleType>
 
@@ -84,8 +84,9 @@
 
 <xs:complexType name="Status">
 	<xs:sequence>
+ 		<xs:element minOccurs="1" maxOccurs="1" name="ID" type="xs:string" />
  		<xs:element minOccurs="1" maxOccurs="1" name="status" type="tns:StatusValue" />
- 		<xs:element minOccurs="1" maxOccurs="1" name="description" type="xs:string" /> 		
+ 		<xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string" /> 
 	</xs:sequence>
 </xs:complexType>
 
@@ -104,11 +105,11 @@
 
 <xs:complexType name="ResultInfo">
 	<xs:sequence>
+ 		<xs:element minOccurs="1" maxOccurs="1" name="ID" type="xs:string" />
  		<xs:element minOccurs="0" maxOccurs="1" name="resultURI" type="xs:anyURI" />
  		<xs:element minOccurs="0" maxOccurs="1" name="fileInfo" type="xs:string" /> 
  		<xs:element minOccurs="0" maxOccurs="1" name="status" type="tns:StatusValue" />
- 		<xs:element minOccurs="0" maxOccurs="1" name="statusdescription" type="xs:string" /> 	
- 		<xs:element minOccurs="1" maxOccurs="1" name="ID" type="xs:string" />
+ 		<xs:element minOccurs="0" maxOccurs="1" name="description" type="xs:string" /> 	
 	</xs:sequence>
 </xs:complexType>
 

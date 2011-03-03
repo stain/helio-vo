@@ -254,11 +254,13 @@ public class CommonUtils {
 					 xmlString.append("</status>");
 	  				 // Des for the file location.
 					 if(sDes!=null && !sDes.trim().equals("")){
-						 xmlString.append("<statusdescription>");
+						 xmlString.append("<description>");
 						 xmlString.append(sDes);
-						 xmlString.append("</statusdescription>");
+						 xmlString.append("</description>");
 					 }
 			    }
+				
+				//
 				xmlString.append("</ResultInfo>");
 		    }
 		     return xmlString.toString();

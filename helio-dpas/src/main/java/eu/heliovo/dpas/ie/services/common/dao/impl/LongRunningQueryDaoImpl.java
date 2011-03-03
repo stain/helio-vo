@@ -326,6 +326,7 @@ public class LongRunningQueryDaoImpl implements LongRunningQueryDao {
 				out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.9\">");
 			}
 			out.write(commonTO.getDataXml());
+			System.out.println("   longRunning Query Response : "+commonTO.getDataXml());
 			//Adding response header start for WebService VOTABLE.
 			if(status!=null && !status.equals("") && status.trim().equals("id")){
 				 out.write("</helio:queryResponse>");
