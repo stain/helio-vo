@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/DECORATION/1.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd"
-  name="helio-shared">
+  name="helio-sms">
   <bannerLeft>
     <name>Helio</name>
     <src>../images/helio_logo4_sm.jpg</src>
-    <href>helio-dev.i4ds.technik.fhnw.ch/heliovo</href>
+    <href>helio-dev.i4ds.ch/heliovo</href>
   </bannerLeft>
 
   <body>
@@ -14,7 +14,7 @@
       <link rel="stylesheet" type="text/css" href="../css/site.css" />
     </head>
     <breadcrumbs>
-        <item name="shared" href="index.html" />
+        <item name="sms" href="index.html" />
     </breadcrumbs>
   
     <menu ref="parent"/>
