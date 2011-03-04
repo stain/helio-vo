@@ -68,11 +68,11 @@ public class DpasQueryServlet extends HttpServlet {
 		     shortNameDao.generateVOTable(commonTO);
 		}catch(Exception e){
 			e.printStackTrace();
-			System.out.println(" : Exception occured while creating the file :  "+e.getMessage());
+			System.out.println(" : Exception occurred while creating the file :  "+e.getMessage());
 			if(instruments!=null && instruments.length==1)
 				commonTO.setExceptionStatus("exception");
 			commonTO.setBufferOutput(new BufferedWriter(pw));
-			commonTO.setVotableDescription("Could not create VOTABLE, exception occured : "+e.getMessage());
+			commonTO.setVotableDescription("Could not create VOTABLE, exception occurred : "+e.getMessage());
 			commonTO.setQuerystatus("ERROR");
 			commonTO.setQuerydescription(e.getMessage());
 			try {

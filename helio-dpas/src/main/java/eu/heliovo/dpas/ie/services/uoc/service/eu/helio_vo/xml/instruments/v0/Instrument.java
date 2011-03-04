@@ -15,6 +15,7 @@ import javax.xml.bind.annotation.XmlType;
  * &lt;simpleType name="instrument">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="SMM__GRS"/>
+ *     &lt;enumeration value="MGS__MAG"/>
  *     &lt;enumeration value="SMM__HXRBS"/>
  *     &lt;enumeration value="SMM__HXIS"/>
  *     &lt;enumeration value="SMM__BCS"/>
@@ -201,6 +202,15 @@ public enum Instrument {
      */
     @XmlEnumValue("SMM__GRS")
     SMM_GRS("SMM__GRS"),
+    
+    /**
+     * 
+     *               Gamma-Ray Spectrometer
+     *              
+     * 
+     */
+    @XmlEnumValue("MGS__MAG ")
+    MGS__MAG ("MGS__MAG"),
 
     /**
      * 

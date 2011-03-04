@@ -74,7 +74,7 @@ public class FileUploadAction extends ActionSupport implements
 					else
 						System.out.println("File "+uploadedFileName+ " could not be deleted.");
 				}
-				InstanceHolders.getInstance().setProperty("patFileName",null);
+				//
 				File fileToCreate = new File(hsqlFilePath, this.userFileFileName);
 				//Copying file HSQL database.
 				FileUtils.copyFile(this.userFile, fileToCreate);
@@ -89,7 +89,9 @@ public class FileUploadAction extends ActionSupport implements
 					//Provider access file name
 					InstanceHolders.getInstance().setProperty("patFtpFileName",this.userFileFileName);
 					//
+					//System.out.println(" :: "+InstanceHolders.getInstance().getProperty("patFileName"));
 					setUploadedFtpFileName(this.userFileFileName);
+					setUploadedFileName(InstanceHolders.getInstance().getProperty("patFileName"));
 				}else{
 					//
 					InstanceHolders.getInstance().removeProperty("patFileName");
@@ -97,9 +99,13 @@ public class FileUploadAction extends ActionSupport implements
 					HsqlDbUtils.getInstance().loadProviderAccessTable(this.userFileFileName,"pat");		
 					//Provider access file name
 					InstanceHolders.getInstance().setProperty("patFileName",this.userFileFileName);
+					//
+					//System.out.println(" :: "+InstanceHolders.getInstance().getProperty("patFtpFileName"));
+					setUploadedFileName(this.userFileFileName);
+					setUploadedFtpFileName(InstanceHolders.getInstance().getProperty("patFtpFileName"));
 				}
 				setStatusDisplay(true);
-				setUploadedFileName(this.userFileFileName);
+				
 			//}else{
 				//addActionError("'"+userFileFileName+"' file is already uploaded, please upload the file with different name.");
 				//return INPUT;

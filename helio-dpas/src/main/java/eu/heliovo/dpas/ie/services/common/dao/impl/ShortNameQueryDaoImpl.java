@@ -130,7 +130,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				return resultTO;
 			}catch(Exception e){
 				e.printStackTrace();
-				logger.fatal(" Exception occured in getAccessTableBasedOnInst() : ",e);
+				logger.fatal(" Exception occured in getFtpAccessTableBasedOnInst() : ",e);
 			}
 			
 			finally
@@ -250,7 +250,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 			ResultTO[] resultTO=null;
 			try{
 				String query="select * from pat";
-				System.out.println("  :  -----> getAccessTableBasedOnInst() method -----> : Reslut For ");
+				System.out.println("  :  -----> getAccessTableDetails() method -----> : Reslut For ");
 				//Connecting to database.						
 				con = ConnectionManager.getConnection();
 				st = con.createStatement();
@@ -296,7 +296,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				return resultTO;
 			}catch(Exception e){
 				e.printStackTrace();
-				logger.fatal(" Exception occured in getAccessTableBasedOnInst() : ",e);
+				logger.fatal(" Exception occured in getAccessTableDetails() : ",e);
 			}
 			
 			finally

@@ -33,12 +33,12 @@ public class StartupServlet extends HttpServlet {
 			System.out.println("---> done database path configuration-------->");
 			System.out.println("---> Setting PAT table -------->");
 			//Setting .txt for 'pat' table.
-			HsqlDbUtils.getInstance().loadProviderAccessTable("pat.txt","pat");	
+			//HsqlDbUtils.getInstance().loadProviderAccessTable("pat.txt","pat");	
 			// Pat File Name
 			InstanceHolders.getInstance().setProperty("patFileName","pat.txt");
 			//
 			//Setting .txt for 'pat' table.
-			HsqlDbUtils.getInstance().loadProviderAccessTable("ftppat.txt","ftppat");
+			//HsqlDbUtils.getInstance().loadProviderAccessTable("ftppat.txt","ftppat");
 			//Ftp Pat File Name
 			InstanceHolders.getInstance().setProperty("patFtpFileName","ftppat.txt");
 			System.out.println("---> Done configuration of PAT table -------->");
