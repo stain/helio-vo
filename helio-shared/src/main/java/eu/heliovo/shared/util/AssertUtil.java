@@ -10,7 +10,7 @@ import java.util.Collection;
 public class AssertUtil {
 	private static final String ASSERT_ARGUMENT_NOT_NULL = "Argument '%1$s' must not be null.";
 	private static final String ASSERT_ARGUMENT_HAS_TEXT = "Argument '%1$s' must not be empty.";
-	private static final String ASSERT_ARGUMENT_NOT_EMPTY = "Argument '%1$s' must not be empty.";;
+	private static final String ASSERT_ARGUMENT_NOT_EMPTY = "Argument '%1$s' must not be null or empty.";;
 	
     /**
      * Throw an {@link IllegalArgumentException} if 'argument' is null.
