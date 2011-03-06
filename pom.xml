@@ -142,7 +142,7 @@
 		<module>helio-hfc</module>
 		<module>helio-hfe</module>
 		<module>helio-sms</module>
-		<!--module>helio-client</module-->
+		<module>helio-client</module>
 		<module>helio-registryclient</module>
   </modules>
 
