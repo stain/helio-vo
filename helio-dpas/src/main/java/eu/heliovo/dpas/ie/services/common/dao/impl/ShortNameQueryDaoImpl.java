@@ -340,17 +340,31 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 		 if(startTime.length==stopTime.length){
 				 //For loop
 		     for(int count=0;count<instruments.length;count++){
+		    	 try{
 			      //Setting Instrument Value
 			      commonTO.setParaInstrument(instruments[count]);
-			   	  if((startTime.length>1 && stopTime.length>1 && instruments.length==1) || (startTime.length==1 && stopTime.length==1 && instruments.length>1) || (startTime.length==1 && stopTime.length==1 && instruments.length==1)){
-				    		 for(int counter=0;counter<startTime.length;counter++){
-					    		 commonTO.setDateFrom(startTime[counter]);
-							     System.out.println(" : Start Date Contraint : "+startTime[counter]);
-							     commonTO.setDateTo(stopTime[counter]);	
-						    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
-						    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
-				    	     }
-				   }else if(startTime.length==stopTime.length && instruments.length==stopTime.length){
+			   	  if((startTime.length>1 && stopTime.length>1 && instruments.length==1) || (startTime.length==1 && stopTime.length==1 && instruments.length>1) || (startTime.length==1 && stopTime.length==1 && instruments.length==1)){ 
+			    	 	for(int counter=0;counter<startTime.length;counter++){
+			    	 		try{
+				    		 commonTO.setDateFrom(startTime[counter]);
+						     System.out.println(" : Start Date Contraint : "+startTime[counter]);
+						     commonTO.setDateTo(stopTime[counter]);	
+					    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
+					    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
+			    	 		}catch(Exception e)
+					    	 {
+					    		commonTO.setVotableDescription(" Exception occured while querying  "+commonTO.getWhichProvider()+": "+e.getMessage());
+					 			commonTO.setQuerystatus("ERROR");
+					 			commonTO.setQuerydescription(e.getMessage());
+					 			try{
+					 				//Sending error messages
+					 				VOTableCreator.writeErrorTables(commonTO);
+					 			}catch (Exception e1) {
+					 				e1.printStackTrace();
+					 			}
+					    	 }
+			    	     }
+			       }else if(startTime.length==stopTime.length && instruments.length==stopTime.length){
 				    		  commonTO.setDateFrom(startTime[count]);
 							  System.out.println(" : Start Date Contraint : "+startTime[count]);
 							  commonTO.setDateTo(stopTime[count]);	
@@ -360,6 +374,18 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				    		  commonTO.setExceptionStatus("exception");
 							  throw new Exception("Please send proper values, request is not succesfull.");
 				   }
+		    	}catch(Exception e)
+		    	 {
+		    		commonTO.setVotableDescription(" Exception occured while querying  "+commonTO.getWhichProvider()+": "+e.getMessage());
+		 			commonTO.setQuerystatus("ERROR");
+		 			commonTO.setQuerydescription(e.getMessage());
+		 			try{
+		 				//Sending error messages
+		 				VOTableCreator.writeErrorTables(commonTO);
+		 			}catch (Exception e1) {
+		 				e1.printStackTrace();
+		 			}
+		    	 }
 			  }
 		 }else{
 			  //commonTO.setExceptionStatus("exception");
