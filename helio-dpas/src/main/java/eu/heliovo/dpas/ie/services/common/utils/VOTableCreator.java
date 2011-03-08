@@ -74,8 +74,6 @@ public class VOTableCreator {
  	        	 out.write( "<INFO name=\"DATA_STATUS\" value=\"No data found, please try with some other date\"/>");
  	         }
 			 out.write( "</RESOURCE>\n" );
-			 
-	          
     	}catch (Exception e) {
     		e.printStackTrace();
     		System.out.println(" Exception occured writeTables():While creating VOTable...!!! "+e.getMessage());

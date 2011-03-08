@@ -346,16 +346,17 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 			   	  if((startTime.length>1 && stopTime.length>1 && instruments.length==1) || (startTime.length==1 && stopTime.length==1 && instruments.length>1) || (startTime.length==1 && stopTime.length==1 && instruments.length==1)){ 
 			    	 	for(int counter=0;counter<startTime.length;counter++){
 			    	 		try{
-				    		 commonTO.setDateFrom(startTime[counter]);
-						     System.out.println(" : Start Date Contraint : "+startTime[counter]);
-						     commonTO.setDateTo(stopTime[counter]);	
-					    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
-					    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
+					    		 commonTO.setDateFrom(startTime[counter]);
+							     System.out.println(" : Start Date Contraint : "+startTime[counter]);
+							     commonTO.setDateTo(stopTime[counter]);	
+						    	 System.out.println(" : Stop Date Contraint : "+stopTime[counter]);
+						    	 CommonUtils.genegrateVotableBasedOnCondition(commonTO);
 			    	 		}catch(Exception e)
-					    	 {
+					    	{
 					    		commonTO.setVotableDescription(" Exception occured while querying  "+commonTO.getWhichProvider()+": "+e.getMessage());
 					 			commonTO.setQuerystatus("ERROR");
 					 			commonTO.setQuerydescription(e.getMessage());
+					 			// 
 					 			try{
 					 				//Sending error messages
 					 				VOTableCreator.writeErrorTables(commonTO);
@@ -375,7 +376,7 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 							  throw new Exception("Please send proper values, request is not succesfull.");
 				   }
 		    	}catch(Exception e)
-		    	 {
+		    	{
 		    		commonTO.setVotableDescription(" Exception occured while querying  "+commonTO.getWhichProvider()+": "+e.getMessage());
 		 			commonTO.setQuerystatus("ERROR");
 		 			commonTO.setQuerydescription(e.getMessage());

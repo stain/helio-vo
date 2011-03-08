@@ -255,7 +255,7 @@ public class SoapDispatcher implements Provider<Source> {
 					String xmlString=CommonUtils.createXmlForWebService(fileTO);
 					System.out.println(" : XML String : "+xmlString);	
 					//Setting piped reader 
-					 commonTO.setLongRunningPrintWriter(pw);
+					commonTO.setLongRunningPrintWriter(pw);
 					//Set data to print writer.
 					commonTO.setDataXml(xmlString);
 					//Thread created to load data into response.

@@ -66,7 +66,7 @@ public class CommonUtils {
 		  String serverName = req.getServerName(); // hostname.com 
 		  int serverPort = req.getServerPort(); // 80 
 		  String contextPath = req.getContextPath(); // mywebapp 
-		  String url = scheme+"://"+serverName+":"+serverPort+contextPath+"/HelioQueryService?STARTTIME="; 
+		  String url = scheme+"://"+serverName+":"+serverPort+contextPath+"/HelioQueryServlet?STARTTIME="; 
 		  return url; 
 	  }	 
 	  
