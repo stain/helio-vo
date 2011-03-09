@@ -324,7 +324,7 @@ if (typeof console!="undefined")console.info("fnInitializeSingleElements");
     
     $('#clearButton').live('click',function() {
         fnClearHistory(this);
-        $("#displayableSpalsh").css("display","block");
+        window.workspace.setDisplay("splash");
     });
     $('#sabe').live('click',function() {
         mysubmit();

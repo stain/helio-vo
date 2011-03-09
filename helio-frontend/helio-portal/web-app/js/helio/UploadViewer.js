@@ -80,6 +80,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             $("#currentDisplay").find("#label").val(label);
                 
             if(result != null){
+                $("#myForm").remove();
 
             
                 $("#responseDivision").html(result);

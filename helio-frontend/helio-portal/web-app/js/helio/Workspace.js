@@ -24,7 +24,8 @@ function Workspace() {
             ingestDivision("loading","#displayableOnLoading");
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
-
+            this.setDisplay("splash");
+            
         },
         getElement: function(){
             if (typeof console!="undefined")console.info("Workspace :: getElement");
@@ -145,6 +146,8 @@ function Workspace() {
             $(".displayable").css("display","none");
             $("#currentDisplay").remove();
             $(".resCont").remove();
+            
+
 
         }
 

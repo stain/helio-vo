@@ -34,9 +34,10 @@ function History() {
             var prevItem =array.pop();
             if(prevItem != null &&prevItem.getType()!="ghost"){
                 array.push(prevItem);
-                current++;
+                
             }
             array.push(item);
+            current=array.length-1;
             array.length >=limit ? offset = array.length-limit: offset =0;
 
         },

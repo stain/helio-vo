@@ -169,7 +169,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
 
             $('#displayableResult').css("display","block");
-
+            fnInitSave();
             $("#currentDisplay").find("#forward").click(function(){ window.workspace.getElement().nextStep() });
             
             

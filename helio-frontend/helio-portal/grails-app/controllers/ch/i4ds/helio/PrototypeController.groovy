@@ -25,6 +25,8 @@ class PrototypeController {
     /** TODO: need to improve this method to get the hash from url or memory and saves it so every call is not opening a file on the system **/
     def asyncGetColumns = {
         log.info("asyncGetColumns =>" +params);
+        render "Advanced search temporarily disabled";
+        return;
 
         if(params.extra == null || params.serviceName == null)return;
         
@@ -80,7 +82,7 @@ class PrototypeController {
     }
     def asyncQuery ={
         log.info("asyncQuery =>" +params);
-
+        
        
         if(params.maxDate != null){
             try{

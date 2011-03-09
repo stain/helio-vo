@@ -74,7 +74,7 @@ function ResultViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             type =typeParam;
         },
         renderContent: function() {
-
+if (typeof console!="undefined")console.info("ResultViewer :: renderContent");
 $('.displayable').css("display","none");
             $("#staticFormContent").html("");
 
@@ -150,50 +150,6 @@ $('.displayable').css("display","none");
                     window.historyBar.setFocus(key);
 
                 });//end dbclick
-$( ".resultDraggable" ).draggable({
-                    revert: "invalid",
 
-
-
-                    zIndex: 1700,
-                    start: function(event,ui ) {
-
-                        //var tooltip =$(this).data('tooltip');
-                        //tooltip.getConf().opacity = 0;
-                        $(".resultDroppable2").droppable("enable");
-                        $(".resultDroppable").droppable("enable");
-
-
-
-                    },
-                    stop: function(event,ui ) {
-
-                        //var tooltip =$(this).data('tooltip');
-                        //tooltip.getConf().opacity = 1;
-                        if($(this).data('returnMe')){
-                            var dropBox =$(this).data('dropBox');
-
-                            fnclearDateTexts2();
-
-                            $("#instArea").html($("#droppable-inner").data("content"));
-                            $(dropBox).removeClass("ui-state-active");
-                            $( dropBox).removeClass( "ui-state-highlight" );
-                            $(this).animate({
-                                "left": $(this).data("Left"),
-                                "top": $(this).data("Top")
-                            }, "slow",function(){
-                                window.historyBar.render();
-                            });
-
-                        }
-                        $(this).data('returnMe',false)
-
-
-
-
-
-
-                    }
-                });
             }};
 }
