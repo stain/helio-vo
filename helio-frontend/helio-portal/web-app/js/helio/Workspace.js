@@ -1,11 +1,12 @@
 function Workspace() {
 
-
+  var divisions = new Object();
+  var element;
 
   
-    var privateMethod = function(){
-    // Access to private fields
-    
+    var ingestDivision = function(keyName,divisionName){
+        divisions[keyName] = $(divisionName).html();
+        $(divisionName).remove();
     };
 
     return {
@@ -13,112 +14,112 @@ function Workspace() {
 
 
         init: function() {
+            if (typeof console!="undefined")console.info("Workspace :: init");
 
-            $(this).data("hec",$("#displayableCatalogue").html());
-            $(this).data("ics",$("#displayableICS").html());
-            $(this).data("ils",$("#displayableILS").html());
-            $(this).data("dpas",$("#displayableDPAS").html());
-            $(this).data("upload",$("#displayableUpload").html());
-            $("#displayableCatalogue").remove();
-            $("#displayableICS").remove();
-            $("#displayableILS").remove();
-            $("#displayableDPAS").remove();
-            $("#displayableUpload").remove();
+            ingestDivision("hec","#displayableHEC");
+            ingestDivision("ics","#displayableICS");
+            ingestDivision("ils","#displayableILS");
+            ingestDivision("dpas","#displayableDPAS");
+            ingestDivision("upload_vot","#displayableUpload");
+            ingestDivision("loading","#displayableOnLoading");
+            ingestDivision("error","#displayableError");
+            ingestDivision("splash","#displayableSplash");
 
         },
+        getElement: function(){
+            if (typeof console!="undefined")console.info("Workspace :: getElement");
+            return this.element;
+            
+
+       },
+         setElement: function(element){
+             if (typeof console!="undefined")console.info("Workspace :: setElement");
+             //if(element ==null)return;
+            this.element = element;
+            element.renderContent();
+           
+       },
+        onLoading: function(){
+            if (typeof console!="undefined")console.info("Workspace :: onLoading");
+         
+            var element = window.historyBar.getCurrent();
+            element.prepareStep($("#currentDisplay").find("form").serialize());
+               this.setDisplay("loading");
+           
+       },
+        setDisplay: function(key){
+            if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
+            this.clear();
+            var newDiv = $('<div></div>');
+            if(divisions[key] == null){
+                key = "error";
+            }//end if
+            newDiv.html(divisions[key]);
+            newDiv.css("display","block");
+            newDiv.attr("id","currentDisplay");
+            newDiv.attr("class","displayable");
+            $("#droppable-inner").append(newDiv);
+            
+       },
+
         render: function(imagePath) {
-            $("#currentDisplay").remove();
-            //console.log("Workspace => "+ imagePath);
+            
+            if (typeof console!="undefined")console.info("Workspace :: render -> " +imagePath);
+
+            
+            
             var fields =imagePath.split('/');
             text = fields[fields.length-1];
-            $(".displayable").css("display","none");
+            fields = text.split(".");
+            text = fields[0];
+            
+            
+            
+            
 
-            var result = null;
-            var temp = $('<div></div>');
+            var element;
+            
+            
             switch (text) {
-                case 'event.png':
-
-                    temp.html($(this).data("hec"));
-
-                    $(temp).css("display","block");
-                    $(temp).attr("id","currentDisplay");
-                    $(temp).attr("class","displayable");
-
-                    $("#droppable-inner").append(temp);
-
-
-                    var element = new HelioElement(imagePath,"ghost");
+                case 'hec':
+                    element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $(".resCont").remove();
+        
                     break;
-                case 'ics.png':
-
-                
-                    temp.html($(this).data("ics"));
-                    $(temp).css("display","block");
-                    $(temp).attr("id","currentDisplay");
-                    $(temp).attr("class","displayable");
-
-                    $("#droppable-inner").append(temp);
-
-
-                    var element = new HelioElement(imagePath,"ghost");
+                case 'ics':
+                    element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $(".resCont").remove();
+                
+            
                     break;
-                case 'ils.png':
-
-                
-                    temp.html($(this).data("ils"));
-                    $(temp).css("display","block");
-                    $(temp).attr("id","currentDisplay");
-                    $(temp).attr("class","displayable");
-
-                    $("#droppable-inner").append(temp);
-
-
-                    var element = new HelioElement(imagePath,"ghost");
+                case 'ils':
+                    element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $(".resCont").remove();
+                
+                   
                     break;
-                case 'dpas.png':
-
-                
-                    temp.html($(this).data("dpas"));
-                    $(temp).css("display","block");
-                    $(temp).attr("id","currentDisplay");
-                    $(temp).attr("class","displayable");
-
-                    $("#droppable-inner").append(temp);
-
-
-                    var element = new HelioElement(imagePath,"ghost");
+                case 'dpas':
+                    element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $(".resCont").remove();
+                
+          
                     $("#droppable-inner").data("content",$("#instArea").html());
                     break;
-                case 'upload_vot.png':
-                    temp.html($(this).data("upload"));
-                    $(temp).css("display","block");
-                    $(temp).attr("id","currentDisplay");
-                    $(temp).attr("class","displayable");
-
-                    $("#droppable-inner").append(temp);
-
-
-                    var element = new HelioElement(imagePath,"ghost");
+                case 'upload_vot':
+                    element = new UploadViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $(".resCont").remove();
-                 var options = {
-        target: '#responseDivision',   // target element(s) to be updated with server response
-        success: fnOnComplete  // post-submit callback
-    };
-    $('#myForm').ajaxForm(options);
+
+               
+                    var options = {
+                        target: '#responseDivision',   // target element(s) to be updated with server response
+                        success: fnOnComplete  // post-submit callback
+                    };
+                    $('#myForm').ajaxForm(options);
                     
                     break;
      
@@ -127,14 +128,23 @@ function Workspace() {
                 
                     break;
             }
+
+            
+
             fnInitDroppable();
+            fnInitializeDatePicker();
 
    
 
 
         },
-        getItem: function(index) {
-            return array[index];
+        clear: function() {
+            if (typeof console!="undefined")console.info("Workspace :: clear");
+          
+            $("#currentDisplay").remove();
+            $(".displayable").css("display","none");
+            $("#currentDisplay").remove();
+            $(".resCont").remove();
 
         }
 

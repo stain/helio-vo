@@ -17,5 +17,8 @@
 
   </div>
 
+<div id="displayableResult" class="displayable" style="display:block">
+
+</div>
 
 </div>

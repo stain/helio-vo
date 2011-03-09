@@ -1,13 +1,14 @@
 <div id="staticForms">
   <div id="formHeader">
-    <div class="deleteViewer">X</div>
-    <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'event.png')}" />
-    <h1 style ="float:left;position:relative;left:15px" > Event Search </h1>
+    
+    <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" />
+    <h1 style ="float:left;position:relative;left:15px" > Event Search</h1>
   </div>
   <div style="clear:both;padding:50px 0 0 80px;">
+    <g:render template="templates/controls" />
 <g:form controller="prototype">
     
-<g:render template="dates" />
+<g:render template="templates/dates" />
 <table style="">
 <tr><td style="text-align:right"> Catalogue:</td><td> <g:select class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="hi_cme_list" from="${[
 'hi_cme_list'
@@ -45,7 +46,7 @@
 <g:hiddenField name="serviceName" value="HEC" />
 <input id="whereField" name="where" style="display:none" type="text"/>
     
-    <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="fnOnLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+    <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
     <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" />
     
      </td></tr>
@@ -56,5 +57,8 @@
   
   </div>
 
+<div id="displayableResult" class="displayable" style="display:block">
 
+</div>
+ 
 </div>

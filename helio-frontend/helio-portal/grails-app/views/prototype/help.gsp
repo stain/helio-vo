@@ -11,6 +11,6 @@
     <title>Helio:Help</title>
   </head>
   <body>
-    <img src="${resource(dir:'images',file:'helpWindow.png')}"   />
+    <img src="${resource(dir:'images',file:'h_help.png')}"   />
   </body>
 </html>

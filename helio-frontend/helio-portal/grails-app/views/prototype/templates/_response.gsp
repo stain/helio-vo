@@ -1,7 +1,8 @@
 <div id="tables">
    
 <div style="border:1px solid blue;margin-top:40px;" id="staticForms">
-  <div class="deleteViewer">X</div>
+  
+  
   <div id="formHeader">
     
     <div style="padding:4px;background-color:white;float:left;position:relative;top:-30px;left:15px;">
@@ -9,14 +10,14 @@
     </div>
     <span style="font-size:1.5em;position:relative;top:-25px;left:20px;">Result Display</span>
   </div>
-  <div style="border-bottom:1px solid blue;margin:20px;padding-left:20px" id>
+  <!--div style="border-bottom:1px solid blue;margin:20px;padding-left:20px" id>
     <b>Previous Query:</b>
     <ol >
      <g:each in="${responseObject?.previousQuery}" var="queries">
        <li >${queries}</li>
      </g:each>
     </ol>
-  </div>
+  </div-->
 
   <div style="clear: both; padding: 20px 5pt 20pt 5px;">
 

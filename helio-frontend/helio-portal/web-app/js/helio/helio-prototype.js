@@ -22,6 +22,7 @@ function fnclearDateTexts2(){
 }
 
 function fnOnCompleteGetColumns(){
+    if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
     $(".columnSelection").keyup(function(){
         mysubmit();
 
@@ -30,7 +31,8 @@ function fnOnCompleteGetColumns(){
 
 
 function mysubmit(){
-     $("#whereField").val("");
+    if (typeof console!="undefined")console.info("mysubmit");
+    $("#whereField").val("");
 
     $(".columnSelection").each(function(i){
         if($(this).val() == ""){
@@ -63,8 +65,17 @@ function mysubmit(){
 function fnInitializeDatePicker(){
     return;
     var dates = $('#minDate, #maxDate').datepicker({
+        
+        showOn: "button",
+        buttonImageOnly: true,
+        buttonImage: "../images/icons/calendar.gif"
+        
+  
+    });
+/**
+     var dates = $('#minDate, #maxDate').datepicker({
         defaultDate: "+1w",
-        dateFormat: 'yy-mm-dd',
+        
         yearRange: '1970:2011',
         changeMonth: true,
         showOn: "button",
@@ -73,17 +84,18 @@ function fnInitializeDatePicker(){
         changeYear: true,
         numberOfMonths: 1,
         onSelect: function(selectedDate) {
-            
+
             var option = this.id == "minDate" ? "minDate" : "maxDate";
             var instance = $(this).data("datepicker");
             var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
             dates.not(this).datepicker("option", option, date);
         }
-    });
+    });**/
 }
 
 //not in use
 function fnInitializeDataTable(){
+    if (typeof console!="undefined")console.info("fnInitializeDataTable");
     $('.resultTable').dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
@@ -131,6 +143,7 @@ function fnInitializeDataTable(){
 }
 
 function fnAppendColumnSelected(){
+    if (typeof console!="undefined")console.info("fnAppendColumnSelected");
     var nCloneTd = $( '<td></td>' );
     nCloneTd.text('0');
     //nCloneTd.css('display','none');
@@ -149,6 +162,7 @@ function fnAppendColumnSelected(){
 }
 
 function fnInitDroppable(){
+    if (typeof console!="undefined")console.info("fnInitDroppable");
     
     $( ".resultDroppable2" ).droppable({
         activeClass: "ui-state-hover",
@@ -185,7 +199,7 @@ function fnInitDroppable(){
                     $( already_dragged).animate({
                         "left": $(already_dragged).data("Left"),
                         "top": $( already_dragged).data("Top")
-                        }, "slow",function(){
+                    }, "slow",function(){
                         });
                 $(this).data('dropped_items',ui.draggable);
 
@@ -263,7 +277,7 @@ function fnInitDroppable(){
                     $( already_dragged).animate({
                         "left": $(already_dragged).data("Left"),
                         "top": $( already_dragged).data("Top")
-                        }, "slow",function(){
+                    }, "slow",function(){
 
                         });
                 $(this).data('dropped_items',ui.draggable);
@@ -303,7 +317,7 @@ function fnInitDroppable(){
 
 }
 function fnInitializeSingleElements(){
-
+if (typeof console!="undefined")console.info("fnInitializeSingleElements");
     
 
 
@@ -332,6 +346,7 @@ function fnInitializeSingleElements(){
 }
 
 function fnInitializeDraggableElements(){
+    if (typeof console!="undefined")console.info("fnInitializeDraggableElements");
     $( ".draggable" ).draggable({
         opacity:0.7,
         zIndex: 5700,
@@ -339,91 +354,16 @@ function fnInitializeDraggableElements(){
     });
     $( ".draggable" ).dblclick(function() {
 
-        var text =  $(this).find("img").attr("src");
-        var fields =text.split('/');
-        text = fields[fields.length-1];
-        var red = 1;
-        fnclearDateTexts();
+        
+        //fnclearDateTexts();
 
         window.workspace.render($(this).find("img").attr("src"));
         return;
-        var result = null;
-        switch (text) {
-            case 'event.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableCatalogue").css("display","block");
-                break;
-            case 'ics.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableICS").css("display","block");
-                break;
-            case 'ils.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableILS").css("display","block");
-                break;
-            case 'dpas.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableDPAS").css("display","block");
-                break;
-            case 'upload_vot.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableUpload").css("display","block");
-                break;
-            case 'timerange50.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableTime").css("display","block");
-                break;
-            case 'filter.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableFilter").css("display","block");
-                break;
-            case 'userspace.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableUserspace").css("display","block");
-                break;
-            case 'date50.png':
-
-                $(".displayable").css("display","none");
-                $("#displayableDate").css("display","block");
-                break;
-            default:
-                $(".displayable").css("display","none");
-                alert("function currently disabled (" +text+")");
-                return;
+       
 
 
-        }
-
-
-        
-        //imageworks =imageworks.replace(".png","50op.png");
-        
-         
-
-
-        var imageworks = $(this).find("img").attr("src");
-        var element = new HelioElement(imageworks,"ghost");
-        window.historyBar.addItem(element);
-        window.historyBar.render();
-        $(".resCont").remove();
-    // imgString =imgString.replace("50.png",".png")
-    //             $(imgString).appendTo("#history");
-    // var img = $( "<img alt='" + "missing" + "' class='floaters' style='float:left; padding:10px;width:40px;height:40px;' />" ).attr( "src", ui.draggable.find("img").attr("src") ).appendTo( "#history" );
-
-    //$(this).html("<form>First name: <input type='text' "+"name='firstname' /><br />Last name: <input type='text' name='lastname' /></form>  ");
-
-
-
-
-    });
+        });
+    
 
 
 
@@ -524,6 +464,8 @@ function fnInitializeDraggableElements(){
 //not in use
 function fnGetSelected( oTableLocal )
 {
+
+    if (typeof console!="undefined")console.info("fnGetSelected");
     var aSelected = new Array();
     var aaData = oTableLocal.fnSettings().aaDataMaster;
     for ( var i=0 ; i<aaData.length ; i++ )
@@ -538,6 +480,7 @@ function fnGetSelected( oTableLocal )
 }
 
 function fnAddSelectedRow(pos,aData,oTable){
+    if (typeof console!="undefined")console.info("fnAddSelectedRow");
 
     
     
@@ -586,28 +529,31 @@ function fnAddSelectedRow(pos,aData,oTable){
 }
 
 function fnOnComplete(){
-    
-    //fnAppendColumnSelected();
-    //fnInitializeDataTable();
+    if (typeof console!="undefined")console.info("fnOnComplete");
 
+    //var tooltipContent =  $("#previousQuery").text();
+    var element = window.historyBar.getCurrent();
+    
+    element.addStep($('#responseDivision').html());
+
+    window.historyBar.render();
+    //window.workspace.setElement(element);
+
+    $('#responseDivision').html()
+    //$("#responseDivision").html("");
+    //var totalSize = $("#totalSize").val();
     
     
-    
-    
-    
-    $('#displayableResult').html("");
-    $(".displayable").css("display","none");
-    
+    return;
     
    
-    var tooltipContent =  $("#previousQuery").text();
-    window.historyBar.solidify(tooltipContent);
-    fnclearDateTexts();
-    var totalSize = $("#totalSize").val();
-    var element = new HelioElement("../images/icons/toolbar/result.png","nativeResult","Amount of entries: "+totalSize);
-    $(element).data("nativeResult",$('#tables').html());
-    window.historyBar.addItem(element);
-    window.historyBar.render();
+    
+    //fnclearDateTexts();
+    
+    //var element = new HelioElement("../images/icons/toolbar/result.png","nativeResult","Amount of entries: "+totalSize);
+    
+    //window.historyBar.addItem(element);
+    //window.historyBar.render();
     $('.resultTable').each(function(){
 
         fnFormatTable(this.id);
@@ -622,7 +568,7 @@ function fnOnComplete(){
     //fnFormatTable("#example");
     $("#responseDivision").html("");
 
-$("#resultSelectionSave").click(function(){
+    $("#resultSelectionSave").click(function(){
         var count =0;
         var totalResult = [];
         $(".resCont").each(function(){
@@ -685,6 +631,7 @@ $("#resultSelectionSave").click(function(){
 }
 
 function fnClearHistory(){
+    if (typeof console!="undefined")console.info("fnClearHistory");
     window.historyBar.clear();
     $(".resCont").remove();
     $('.displayable').css("display","none");
@@ -699,6 +646,7 @@ function fnClearHistory(){
 }
 
 function fnFormatTable(tableName){
+    if (typeof console!="undefined")console.info("fnFormatTable");
    
     $("#"+tableName).dataTable({
         "bJQueryUI": true,
@@ -751,15 +699,72 @@ function fnFormatTable(tableName){
     });
 		
 }
-function fnOnLoading(){
-    
-    $('.displayable').css("display","none");
-    $('#displayableOnLoading').css("display","block");
-    window.historyBar.render();
 
-    
+
+function fnInitSave(){
+    if (typeof console!="undefined")console.info("fnInitSave");
+     $("#resultSelectionSave").click(function(){
+        var count =0;
+        var totalResult = [];
+        $(".resCont").each(function(){
+            count++;
+            $(this).remove();
+            var rowData = $(this).attr("title").split(",");
+
+            var colNames = $(this).attr("title2").split(",");
+
+            var partialResult =[];
+            for(i in colNames){
+
+                partialResult[colNames[i]]=rowData[i];
+            }
+            totalResult.push(partialResult);
+        });
+
+
+        totalResult.count = "Saved elements: " + count;
+
+        var element = new ResultViewer("../images/icons/toolbar/selectedR.png","resultSelection","something",totalResult);
+        window.historyBar.addItem(element);
+        window.historyBar.render();
+        /*
+        $(".even_selected").each(function(){
+            $(this).removeClass("even_selected");
+            $(this).addClass("even");
+        });
+        $(".odd_selected").each(function(){
+            $(this).removeClass("odd_selected");
+            $(this).addClass("odd");
+        });
+        */
+        
+        $(".resCont").remove();
+        
+
+        $('.columnInputs').html("");
+        
+
+        $(".tooltip").css("display","none");
+
+        $("#staticFormContent").html("");
+
+        var content = window.historyBar.lastItem().getContent();
+        $("#staticFormContent").append("Amount of "+ content.count);
+        for(i in content){
+            if(i=="count"){
+                continue;
+            }
+            $("#staticFormContent").append("<br>");
+            $("#staticFormContent").append("<h3>_____________________________</h3>");
+            $("#staticFormContent").append("<ul>");
+            for(j in content[i]){
+                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
+            }
+            $("#staticFormContent").append("</ul>");
+            $("#displayableSeletedResult").css("display","block");
+        }
+    });
 }
-
 
 
 $(document).ready(function()
@@ -778,16 +783,16 @@ $(document).ready(function()
 
     $("#scroller_right").click(function(){
         window.historyBar.shiftRight()
-        });
+    });
     $("#scroller_left").click(function(){
         window.historyBar.shiftLeft()
-        });
+    });
     //window.history = new History();
     $(".catalogueSelector").change(function(){
         $('.columnInputs').html("");
         $('#whereField').val("");
     });
-    fnInitializeDatePicker();
+    
     fnInitializeSingleElements();
     fnInitializeDraggableElements();
 
@@ -883,15 +888,18 @@ window.onbeforeunload = function () {
 });
 
 function myPopup(url,windowname,w,h,x,y){
-window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+    if (typeof console!="undefined")console.info("myPopup");
+    window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
 }
 
 function fnOnChangeHistoryFilterSelect(event){
+    if (typeof console!="undefined")console.info("fnOnChangeHistoryFilterSelect");
     
     window.historyBar.setFilter($(event).find("option:selected").val());
     window.historyBar.render();
 }
 function fnBeforeQuery(){
+    if (typeof console!="undefined")console.info("fnBeforeQuery");
     mysubmit();
 }
 

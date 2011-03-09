@@ -4,10 +4,11 @@
     <h1 style ="float:left;position:relative;left:15px" >Data Provider Access Service</h1>
   </div>
   <div style="clear:both;padding:50px 0 0 80px;">
+    <g:render template="templates/controls" />
 <g:form controller="prototype">
     
 
-<g:render template="dates" />
+<g:render template="templates/dates" />
 <div class="resultDroppable2"style="border:1px solid black;width: 60px; height: 60px; padding: 0; float: left; margin: 10px;">
 <img style="margin:0px" src="${resource(dir:'images/icons',file:'hexagon60_flat.png')}"
 </div>
@@ -202,7 +203,7 @@
 
  <tr><td></td><td>
 <g:hiddenField name="serviceName"  value="DPAS" />
-    <g:submitToRemote style="float:none;margin-right:50" action="asyncQuery" onLoading="fnOnLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+    <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
 
      </td></tr>
     </table>
@@ -210,4 +211,7 @@
   </div>
 
 
+<div id="displayableResult" class="displayable" style="display:block">
+
+</div>
 </div>

@@ -26,18 +26,18 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		compile ('commons-httpclient:commons-httpclient:3.1',
+	/**	compile ('commons-httpclient:commons-httpclient:3.1',
 			'commons-digester:commons-digester:1.6',
 			)  {
 			excludes "xml-apis", "commons-logging"
 		}
-		
-    }
+	
+    }**/
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
 // http://jira.codehaus.org/browse/GRAILS-5943
 // the following hack just deletes this file
-grails.war.resources = { stagingDir ->
-	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")
+/**grails.war.resources = { stagingDir ->
+	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")**/
 }

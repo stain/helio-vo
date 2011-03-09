@@ -4,10 +4,11 @@
     <h1 style ="float:left;position:relative;left:15px" >Instrument Location Service</h1>
   </div>
   <div style="clear:both;padding:50px 0 0 80px;">
+    <g:render template="templates/controls" />
 <g:form controller="prototype">
     
 
-<g:render template="dates" />
+<g:render template="templates/dates" />
 <table>
       <tr><td style="text-align:right"> Catalogue:</td><td> <g:select class="catalogueSelector"  name="extra"  from="${['trajectories']}" />
   </td></tr>
@@ -17,7 +18,7 @@
 <g:hiddenField name="serviceName" value="ILS" />
 <input id="whereField" name="where" style="display:none" type="text"/>
 
-   <g:submitToRemote style="float:none;margin-right:50"  action="asyncQuery" onLoading="fnOnLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+   <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
     <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="ilsResponse" value="Advanced Search" />
      </td></tr>
     </table>
@@ -26,5 +27,8 @@
   </div>
   </div>
 
+<div id="displayableResult" class="displayable" style="display:block">
+
+</div>
 
 </div>

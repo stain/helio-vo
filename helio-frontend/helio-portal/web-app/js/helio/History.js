@@ -5,6 +5,7 @@ function History() {
     var limit = 13;
     var offset =0;
     var filter = "all";
+    var current = 0;
 
     // Private method
     var privateMethod = function(){
@@ -14,63 +15,86 @@ function History() {
 
     return {
         // Public methods
+        getCurrent:  function() {
+            if (typeof console!="undefined")console.info("History :: getCurrent");
+            return array[current];
+        },
+        removeCurrent:  function() {
+            if (typeof console!="undefined")console.info("History :: removeCurrent");
+            this.removeItem(current);
+            window.workspace.clear();
+        },
+
         lastItem:  function() {
+            if (typeof console!="undefined")console.info("History :: lastItem");
             return array[array.length-1]
         },
         addItem: function(item) {
+            if (typeof console!="undefined")console.info("History :: addItem ->"+ item);
             var prevItem =array.pop();
             if(prevItem != null &&prevItem.getType()!="ghost"){
                 array.push(prevItem);
+                current++;
             }
             array.push(item);
             array.length >=limit ? offset = array.length-limit: offset =0;
 
         },
         setFilter: function(filterParam) {
+            if (typeof console!="undefined")console.info("History :: setFilter ->"+ filterParam);
             filter = filterParam;
         },
         getItem: function(index) {
+            if (typeof console!="undefined")console.info("History :: getItem ->"+ index);
             return array[index];
 
         },
         removeItem : function(index) {
+            if (typeof console!="undefined")console.info("History :: removeItem ->"+ index);
           array.splice(index, 1);
+          if(array.length >0)current--;
           
           this.render();
 
         },
         cleanGhost: function(){
-        
+            if (typeof console!="undefined")console.info("History :: cleanGhost ->");
             var element = array.pop();
             if(element.getType()=="ghost"){
-                this.render();
+                
                 return;
             };
             array.push(element);
         
         },
-        solidify: function(query){
+        solidify: function(html){
+            if (typeof console!="undefined")console.info("History :: solidify ->"+ html);
+            
+            //get current
             var element = array.pop();
-        
+            
             if(element.getType()=="ghost"){
                 element.setType("query");
-                element.setContent(query);
-                $(element).data("query",$("#currentDisplay").html());
+                element.setHtml(html);
+                //$(element).data("query",$("#currentDisplay").html());
       
 
-                var serialized = $("#currentDisplay").find("form").serialize();
+                //var serialized = $("#currentDisplay").find("form").serialize();
       
-                $(element).data("serialized",serialized);
-                $("#currentDisplay").remove();
+                //$(element).data("serialized",serialized);
+                //$("#currentDisplay").remove();
       
             }
             array.push(element);
+            
+            this.render();
 
 
         },
-        render: function(){
+        render: function(param){
+            if (typeof console!="undefined")console.info("History :: render ->" + current +" param "+ param);
             //console.log("History => render ");
-
+            if(param !=1)if(array.length >0)window.workspace.setElement(array[current]);
             $('#historyContent').html('');
             var key = 0;
         
@@ -125,7 +149,10 @@ function History() {
             
             
                 if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key]);
+                
             }
+            
+
             $("#historyContent img[title]").tooltip({
                 position: "top center",
                 delay: 100,
@@ -137,17 +164,24 @@ function History() {
         },
 
         shiftRight: function() {
+            if (typeof console!="undefined")console.info("History :: shiftRight");
             offset--;
             if(offset < 0)offset =0;
             this.render();
         },
         shiftLeft: function() {
+            if (typeof console!="undefined")console.info("History :: shiftLeft");
             offset++;
             if(offset > array.length-1)offset =array.length-1;
             if(offset < 0)offset =0;
             this.render();
         },
+        setFocus: function(key){
+           current = key;
+           this.render();
+        },
         clear: function(){
+            if (typeof console!="undefined")console.info("History :: clear");
             array = [];
             this.render();
         }

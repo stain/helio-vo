@@ -1,6 +1,6 @@
 package ch.i4ds.helio;
 import grails.converters.JSON;
-import ch.ResultVT;
+//import ch.ResultVT;
 import net.ivoa.xml.votable.v1.*;
 import ch.i4ds.helio.frontend.parser.*;
 import ch.i4ds.helio.frontend.query.*;
@@ -11,13 +11,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
-/*
-import eu.heliovo.clientapi.model.data.HelioEventCatalog;
-import eu.heliovo.clientapi.model.data.HelioEventColumn;
-import eu.heliovo.mockclient.MockHelioClient;
-import eu.heliovo.clientapi.HelioClient;
-import eu.heliovo.mockclient.model.data.HelioEventCatalogImpl.Column;
-*/
+import eu.heliovo.clientapi.frontend.SimpleInterface;
+import eu.heliovo.clientapi.frontend.ResultVT;
+import eu.heliovo.clientapi.frontend.*;
+
 
 class PrototypeController {
 
@@ -62,9 +59,7 @@ class PrototypeController {
     }
     def asyncUpload ={
         log.info("asyncUpload =>" +params);
-        //def f = request.getFile('fileInput')
-        //println f.getOriginalFilename();
-        //println request.getFile("fileInput").inputStream.text
+  
 
 
         JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
@@ -79,7 +74,7 @@ class PrototypeController {
         def responseObject = [result:result,previousQuery:previousQuery ];
 
         
-        render template:'response', bean:responseObject, var:'responseObject'
+        render template:'templates/response', bean:responseObject, var:'responseObject'
 
         
     }
@@ -102,10 +97,10 @@ class PrototypeController {
                 def previousQuery = params;
                 def responseObject = [result:result,previousQuery:previousQuery ];
           
-                render template:'response', bean:responseObject, var:'responseObject'
+                render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
                 println "catched"
-                render "error to the maximun"
+                println e.printStackTrace();
             }
 
         }
@@ -151,8 +146,13 @@ class PrototypeController {
 
         if(params.where != null)where = params.where;
         String addressPort = PortDirectory.class.getField(params.serviceName).get(String);
+
+        
+        
+        //println result;
+        
         ResultVT result = DataQueryService.queryService(minDateList,maxDateList,extraList,addressPort,where);
-        println result;
+        
 
         
         return result;
@@ -161,36 +161,9 @@ class PrototypeController {
     }
 
     def downloadVOTable = {
-/**
-        HelioClient h = new HelioMockClient();
-        HelioEventCatalog c=h.getCatalog("abcd__efgh");
+       
 
-        if(c!=null)
-        {
-            c.getName();
-            c.getDescription();
 
-            List<Column> cols=c.getColumns();
-            if(cols!=null)
-            for(Column col:cols)
-            {
-                println col.getName();
-                println col.getDescription();
-                println col.getUcd();
-                println col.getDisplay();
-
-                /*
-
-                Display will return
-                "numeric"
-                "text"
-                "hidden" //do not show this field
-
-                 
-            }
-        }
-
-**/
 
 
         log.info("downloadVOTable =>" + params  + session)

@@ -6,11 +6,14 @@ import net.ivoa.xml.votable.v1.TABLEDATA
 import net.ivoa.xml.votable.v1.TD
 import net.ivoa.xml.votable.v1.TR
 import net.ivoa.xml.votable.v1.FIELD
-import ch.ResultVT
+//import ch.ResultVT
 import eu.helio_vo.xml.queryservice.v0.HelioQueryServiceService
 import eu.helio_vo.xml.queryservice.v0.HelioQueryService
-import javax.xml.ws.BindingProvider
-
+import javax.xml.ws.BindingProvider;
+import eu.heliovo.clientapi.frontend.*;
+import eu.heliovo.clientapi.frontend.SimpleInterface;
+import eu.heliovo.clientapi.frontend.ResultVT;
+import eu.heliovo.clientapi.frontend.*;
 
 class DataQueryService {
 
@@ -37,24 +40,25 @@ class DataQueryService {
             log.info("queryService :: cant complete, date fields empty" );
             return;
         }
-        service = new HelioQueryServiceService();
-        port = service.getHelioQueryServicePort();
+        //service = new HelioQueryServiceService();
+       // port = service.getHelioQueryServicePort();
 
         int numberOfDatePairs = minDate.size();
         int numberOfFromSingles = from.size();
 
-        if(portAddress.equals(ch.i4ds.helio.frontend.query.PortDirectory.DPAS))
+        if(portAddress.equals(PortDirectory.DPAS))
         minDate = normalizeList(numberOfFromSingles,minDate);
-        if(portAddress.equals(ch.i4ds.helio.frontend.query.PortDirectory.DPAS))
+        if(portAddress.equals(PortDirectory.DPAS))
         maxDate = normalizeList(numberOfFromSingles,maxDate);
-        if(portAddress.equals(ch.i4ds.helio.frontend.query.PortDirectory.DPAS))
+        if(portAddress.equals(PortDirectory.DPAS))
         from = normalizeList(numberOfDatePairs,from);
 
     
-        BindingProvider bp = (BindingProvider) port;
-        bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, portAddress);
-        VOTABLE result = port.query(minDate,maxDate, from,where,null, maxrecords, startindex);
-        ResultVT resvt= new ResultVT(result);
+        //BindingProvider bp = (BindingProvider) port;
+        //bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, portAddress);
+        //ResultVT resvt = SimpleInterface.queryService(minDate,maxDate, from,where,null, maxrecords, startindex);
+        ResultVT resvt = SimpleInterface.queryService(minDate,maxDate,from,portAddress,where);
+
     
         log.info("queryService :Result:"+ resvt.getStringTable());
         

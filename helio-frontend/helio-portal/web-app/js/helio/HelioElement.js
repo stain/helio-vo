@@ -34,9 +34,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
         getContent: function() {
             return content;
         },
-        getName: function() {
-            return 1;
-        },
+       
         getType: function() {
             return type;
         },
@@ -51,7 +49,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
-                if(label != "")div.append("<div class='customLabel'>custom1</div>");
+                //if(label != "")div.append("<div class='customLabel'>custom1</div>");
                 $("#historyContent").append(div);
             }
             else if(type == 'query'){
@@ -84,7 +82,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                     
                     var element = new HelioElement(imagePath,"ghost");
                     window.historyBar.addItem(element);
-                    window.historyBar.render()
+                    window.historyBar.render();
                     $("#currentDisplay").find("select").find("option").removeAttr("selected");
                     var fields = serializedData.split("&");
                     for(field in fields){
@@ -135,13 +133,17 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                         }//end if
                     }//end fields
                var deleteViewer = $("#currentDisplay").find(".deleteViewer");
+               
                deleteViewer.css("display","block");
                deleteViewer.data("key",key);
                deleteViewer.click(function(){
                    
                    window.historyBar.removeItem($(this).data("key"));
+                   
+                   $("#displayableSpalsh").css("display","block");
+                   $("#currentDisplay").remove();
                });
-               console.log(deleteViewer);
+               
                 });//end dbclick
 
 
@@ -152,8 +154,13 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
             }
             else if(type == 'nativeResult'){
                 //$( "<img title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
-          
-                $( "<img id='"+key+"' title='"+content+"' alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
+                    div = $("<div class='floaters'></div>");
+                    img =   $( "<img id='"+key+"' title='"+content+"' alt='" +"image missing"+"'/>" ).attr( "src",imagePath );
+                    div.append(img);
+                    if(label != null && label != "")div.append("<div class='customLabel'>"+label+"</div>");
+                    $("#historyContent").append(div);
+
+                //$( "<img  alt='" + "image missing" + "' class='floaters'  />" ).attr( "src",imagePath ).appendTo("#historyContent").fadeIn();
                 var nativeResult = $("#"+key);
           
                 nativeResult.dblclick(function()
@@ -172,10 +179,29 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                         $("#"+this.id).dataTable().fnDraw();
                     });
 
-    
+                         var deleteViewer = $("#displayableResult").find(".deleteViewer");
+                         $("#displayableResult").find(".customLabelViewer").css("display","block");
+               deleteViewer.css("display","block");
+               deleteViewer.data("key",key);
+               var customLabel = $("#labelcustom");
+               customLabel.change(function() {
+                   window.historyBar.getItem(key).setLabel($(this).val());
+                   window.historyBar.render();
+               });
+
+
+               customLabel.css("display","block");
+               deleteViewer.click(function(){
+
+                   window.historyBar.removeItem($(this).data("key"));
+                   $("#displayableResult").html("");
+                $("#displayableSpalsh").css("display","block");
+               });
+                
                 
                 });
-                $(".deleteViewer").css("display","block");
+             
+                
             }
             else if(type == 'resultSelection'){
             
