@@ -56,9 +56,10 @@ log4j = {
     //log4j.appender.logfile.File=${com.sun.aas.instanceRoot}/logs/MyApplication.log
     //
     appenders {
-        //console name:'stdout', layout:pattern(conversionPattern: '[%-7p][%d{dd/MM/yyyy HH:mm:ss,SSS}] %C %m%n')
-        //console name:'stdout', layout:pattern(conversionPattern: '[%d{yyyy-MM-dd hh:mm:ss.SSS}] %p %c{5} %m%n')
-
+        //console name:'logfile', layout:pattern(conversionPattern: '[%-7p][%d{dd/MM/yyyy HH:mm:ss,SSS}] %C %m%n')
+        //console name:'logfile', layout:pattern(conversionPattern: '[%d{yyyy-MM-dd hh:mm:ss.SSS}] %p %c{5} %m%n')
+         file name:'file', file:'helio.log', append: false
+	 console name:'stdout'
 
     }
 
@@ -85,9 +86,10 @@ log4j = {
     warn   'org.mortbay.log'
 
     root {
-        //error stdout
-      //  info stdout
-       //debug stdout
+        error 'file'
+
+
+
         additivity = true;
     }
 }

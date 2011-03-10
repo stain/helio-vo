@@ -4,6 +4,6 @@ class ErrorsController {
 
     def notFound = {
 
-        
+        render "internal error"
     }
 }

@@ -9,75 +9,84 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
     var imagePath = imageParam;
     var label = labelParam;
     var resulthtml;
+    var advancedSearch;
     var prevData;
     var printKey;
     var step =0;
     var history = new Array();
 
 
-    // Private method
-    var unserialize = function(formData){
+
+    /*
+     * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.
+     * @formData: serialized form string, Example: "minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00"
+     *
+     */
+    var unserialize = function(formData,advancedSearchParam){
+        
+        $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
+        $('#currentDisplay').find('.columnInputs').css("display","block");
         $("#currentDisplay").find("select").find("option").removeAttr("selected");
         var fields = formData.split("&");
-                    for(field in fields){
-                        //console.log(fields[field]);
-                        var tempField= fields[field];
-                        //minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00
-                        if(tempField.indexOf("minDateList=")!= -1){
-                            tempField =tempField.replace('minDateList=',"");
-                            tempField =tempField.replace('%3A',":");
-                            tempField =tempField.replace('%2C',",");
-                            tempField =tempField.replace('+',"");
-                            $(".minDateList").val(tempField);
-                        }//end if
-                        else if(tempField.indexOf("maxDateList=")!= -1){
-                            tempField =tempField.replace('maxDateList=',"");
-                            tempField =tempField.replace('%3A',":");
-                            tempField =tempField.replace('%2C',",");
-                            tempField =tempField.replace('+',"");
-                            $(".maxDateList").val(tempField);
-                        }//end if
+        for(field in fields){
+            var tempField= fields[field];
+            
+            if(tempField.indexOf("minDateList=")!= -1){
+                tempField =tempField.replace('minDateList=',"");
+                tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%2C',",");
+                tempField =tempField.replace('+',"");
+                $(".minDateList").val(tempField);
+            }//end if
+            else if(tempField.indexOf("maxDateList=")!= -1){
+                tempField =tempField.replace('maxDateList=',"");
+                tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%2C',",");
+                tempField =tempField.replace('+',"");
+                $(".maxDateList").val(tempField);
+            }//end if
 
-                        else if(tempField.indexOf("minDate=")!= -1){
-                            tempField =tempField.replace('minDate=',"");
-                            $("#currentDisplay").find("input[name='minDate']").val(tempField);
-                        }//end if
-                        else if(tempField.indexOf("maxDate=")!= -1){
-                            tempField =tempField.replace('maxDate=',"");
-                            $("#currentDisplay").find("input[name='maxDate']").val(tempField);
-                        }//end if
-                        else if(tempField.indexOf("extra=")!= -1){
-                            tempField =tempField.replace('extra=',"");
-                            $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
+            else if(tempField.indexOf("minDate=")!= -1){
+                tempField =tempField.replace('minDate=',"");
+                $("#currentDisplay").find("input[name='minDate']").val(tempField);
+            }//end if
+            else if(tempField.indexOf("maxDate=")!= -1){
+                tempField =tempField.replace('maxDate=',"");
+                $("#currentDisplay").find("input[name='maxDate']").val(tempField);
+            }//end if
+            else if(tempField.indexOf("extra=")!= -1){
+                tempField =tempField.replace('extra=',"");
+                $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
 
 
-                        }else if(tempField.indexOf("where=")!= -1){
-                            tempField =tempField.replace('where=',"");
-                            tempField =tempField.split("%3B");
-                            for(input in tempField){
-                                var innerTempField = tempField[input].split("%2C");
-                                var value = innerTempField[1];
-                                innerTempField = innerTempField[0].split(".");
-                                var inputName= innerTempField[0];
-                                var labelName = innerTempField[1];
-                                //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
+            }else if(tempField.indexOf("where=")!= -1){
+                tempField =tempField.replace('where=',"");
+                tempField =tempField.split("%3B");
+                for(input in tempField){
+                    var innerTempField = tempField[input].split("%2C");
+                    var value = innerTempField[1];
+                    innerTempField = innerTempField[0].split(".");
+                    var inputName= innerTempField[0];
+                    var labelName = innerTempField[1];
+                    //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
 
-                                $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
-                            }//end input
-                        }//end if
-                    }//end fields
+                    $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
+                }//end input
+            }//end if
+        }//end fields
         
-    };
+    };//end unserialized
 
     return {
         // Public methods
-     getClassName: function() {
+        getClassName: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: getClassName");
             return className;
         },
-         prepareStep: function(formData) {
-             if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
+        prepareStep: function(formData,advancedSearchParams) {
+            if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
             this.prevData=formData;
+            advancedSearch=advancedSearchParams;
         },
 
         addStep: function(result) {
@@ -86,6 +95,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             var object = new Object();
             object['result']=result;
             object['formData']=this.prevData;
+            object['advancedSearch']=advancedSearch;
+            
             history.push(object);
             step = history.length -1;
             
@@ -155,13 +166,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             if(history.length <= 0)return;
             var result = history[step].result;
             var formData = history[step].formData;
+             var advancedSearch= history[step].advancedSearch;
 
-            unserialize(formData);
+
+            unserialize(formData,advancedSearch);
 
             $("#responseDivision").html(result);
             $('.resultTable').each(function(){
 
-              fnFormatTable(this.id);
+                fnFormatTable(this.id);
 
             });
     
@@ -170,51 +183,40 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
             $('#displayableResult').css("display","block");
             fnInitSave();
-            $("#currentDisplay").find("#forward").click(function(){ window.workspace.getElement().nextStep() });
+            $("#currentDisplay").find("#forward").click(function(){
+                window.workspace.getElement().nextStep()
+            });
             
             
-            $("#currentDisplay").find("#backward").click(function(){ window.workspace.getElement().prevStep() });
-            $("#currentDisplay").find("#delete").click(function(){window.historyBar.removeCurrent()});
+            $("#currentDisplay").find("#backward").click(function(){
+                window.workspace.getElement().prevStep()
+            });
+            $("#currentDisplay").find("#delete").click(function(){
+                window.historyBar.removeCurrent()
+            });
             $("#currentDisplay").find("#label").change(function() {
-                   window.historyBar.getCurrent().setLabel($(this).val());
-                   window.historyBar.render(1);
-               });
-             
-               
-               
-               
-               
-
-
-               
-               
-
-
-                
-
+                window.historyBar.getCurrent().setLabel($(this).val());
+                window.historyBar.render(1);
+            });
             $("#responseDivision").html("");
-        },
+        },//end renderContent
         render: function(key) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);
-            //printKey = key;
-
+            
             if(history.length <= 0){
-                
-                // console.log("rendering wild ghost");
+                               
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
-              if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
                 $("#historyContent").append(div);
                 type="ghost";
-            } else{
-                // console.log("im at query");
-                
-                
+            }else{
+                                
                 div = $("<div class='floaters'></div>");
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
                 div.append(img);
-                 if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
                 $("#historyContent").append(div);
                 type="solid";
 
@@ -223,27 +225,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);
                     window.historyBar.setFocus(key);
-                    
-                    
-                    
-
-                  
-                    
-
                 });//end dbclick
-
-
-
-
-            }
-
-
-
-          
-           
-           
-
-        }
-
-    };
-}
+            }//end else
+        }//end render
+    };//end public methods
+}//end class

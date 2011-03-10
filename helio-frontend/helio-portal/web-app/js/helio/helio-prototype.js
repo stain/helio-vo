@@ -901,5 +901,7 @@ function fnOnChangeHistoryFilterSelect(event){
 function fnBeforeQuery(){
     if (typeof console!="undefined")console.info("fnBeforeQuery");
     mysubmit();
+
+    
 }
 

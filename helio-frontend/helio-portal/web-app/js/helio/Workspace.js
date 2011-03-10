@@ -44,7 +44,8 @@ function Workspace() {
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
          
             var element = window.historyBar.getCurrent();
-            element.prepareStep($("#currentDisplay").find("form").serialize());
+            element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
+
                this.setDisplay("loading");
            
        },
