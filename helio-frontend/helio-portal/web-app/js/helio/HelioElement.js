@@ -278,7 +278,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                   
                   
                     }
-                });
+                });//dragable
                 $(".deleteViewer").css("display","block");
 
             }

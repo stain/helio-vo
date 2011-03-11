@@ -114,8 +114,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
 
                 }
                 if(time_start != null && time_end != null) {
-                    $("#time-row").append("<div><div class='adding'>+</div><div class='subbing'>-</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
-                    $("#time-row").append("<div><div class='adding'>+</div><div class='subbing'>-</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
+                    $("#time-row").append("<div><div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
+                    $("#time-row").append("<div><div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
                 }
                 if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ) $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
@@ -126,7 +126,11 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                     var first = fields[0].split("-");
                     var second = fields[1].split(":");
                     var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                    d.setMinutes(d.getMinutes()+"30");
+
+                    
+                    console.debug(d);
+                    d.setMinutes(d.getMinutes()+30);
+                    console.debug(d);
                     
                     var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
                     var day = d.getDay()<10?"0"+d.getDay():d.getDay();
@@ -142,7 +146,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                     var first = fields[0].split("-");
                     var second = fields[1].split(":");
                     var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                    d.setMinutes(d.getMinutes()-"30");
+                    d.setMinutes(d.getMinutes()-30);
 
                     var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
                     var day = d.getDay()<10?"0"+d.getDay():d.getDay();
@@ -162,7 +166,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
         render: function(key) {
          if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
 
-
+/*
             if(window.historyBar.getCurrentKey() == key){
                     var div = $("<div class='newcurrent'> "+"Result Selection"+" </div>");
                 }else{
@@ -187,17 +191,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
 
             });//end dbclick
 
-
-
-
-
-
-
-
-
-
-
-            return;
+return;
+*/
             if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
 
             type = 'solid';
@@ -218,7 +213,52 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                 window.historyBar.setFocus(key);
 
             });//end dbclick
+$( ".resultDraggable" ).draggable({
+                    revert: "invalid",
 
+
+
+                    zIndex: 1700,
+                    start: function(event,ui ) {
+
+                        //var tooltip =$(this).data('tooltip');
+                        //tooltip.getConf().opacity = 0;
+                        $(".resultDroppable2").droppable("enable");
+                        $(".resultDroppable").droppable("enable");
+
+
+
+                    },
+                    stop: function(event,ui ) {
+
+                        //var tooltip =$(this).data('tooltip');
+                        //tooltip.getConf().opacity = 1;
+                        if($(this).data('returnMe')){
+                            var dropBox =$(this).data('dropBox');
+
+                            fnclearDateTexts2();
+
+                            $("#instArea").html($("#droppable-inner").data("content"));
+                            $(dropBox).removeClass("ui-state-active");
+                            $( dropBox).removeClass( "ui-state-highlight" );
+                            $(this).animate({
+                                "left": $(this).data("Left"),
+                                "top": $(this).data("Top")
+                            }, "slow",function(){
+                                //window.historyBar.render();
+                                //fnInitDroppable();
+                            });
+
+                        }
+                        $(this).data('returnMe',false)
+
+
+
+
+
+
+                    }
+                });//dragable
         }
     };
 }

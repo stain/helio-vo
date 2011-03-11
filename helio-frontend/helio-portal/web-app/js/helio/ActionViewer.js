@@ -166,7 +166,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             if(history.length <= 0)return;
             var result = history[step].result;
             var formData = history[step].formData;
-             var advancedSearch= history[step].advancedSearch;
+            var advancedSearch= history[step].advancedSearch;
 
 
             unserialize(formData,advancedSearch);
@@ -203,7 +203,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
         render: function(key) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);
             
-
+/**
             if(history.length <= 0){
 
                 var div = $("<div class='newghost'>Query "+actionNameParam+" </div>");
@@ -213,7 +213,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#historyContent").append(div);
                 type="ghost";
             }
-else{
+            else{
                 if(window.historyBar.getCurrentKey() == key){
                     var div = $("<div class='newcurrent'>Query "+actionNameParam+" "+history.length+" </div>");
                 }else{
@@ -243,6 +243,7 @@ else{
 
 
             return;
+            */
             if(history.length <= 0){
                                
                 var div = $("<div class='floaters'></div>");

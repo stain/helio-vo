@@ -7,7 +7,7 @@
   <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Heliophysics Integrated Observatory</title>
+    <title>Helio: FrondEnd</title>
 
 
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.2.custom.css')}" />
@@ -91,7 +91,7 @@
           
         
       </div>
-      <div>Helio</div>
+      <div style="color:white">Helio</div>
 
        <!-- History  -->
       <div style="display:block;" id="history">

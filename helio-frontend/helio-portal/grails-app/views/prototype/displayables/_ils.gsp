@@ -2,9 +2,10 @@
   <div id="formHeader">
     <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" />
     <h1 style ="float:left;position:relative;left:15px" >Instrument Location Service</h1>
+    <g:render template="templates/controls" />
   </div>
   <div style="clear:both;padding:50px 0 0 80px;">
-    <g:render template="templates/controls" />
+    
 <g:form controller="prototype">
     
 

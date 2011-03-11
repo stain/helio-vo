@@ -112,7 +112,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
         },
         render: function(key) {
 
-
+/*
 
         if(result == null){
 
@@ -161,6 +161,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
 
             return;
+            */
             if (typeof console!="undefined")console.info("UploadViewer :: render ->"+ key);
             
 

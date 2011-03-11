@@ -109,6 +109,7 @@ function Workspace() {
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
+                    fnInitDroppable();
                 
           
                     $("#droppable-inner").data("content",$("#instArea").html());
