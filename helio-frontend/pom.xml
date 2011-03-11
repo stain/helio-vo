@@ -4,17 +4,19 @@
     <artifactId>heliovo</artifactId>
     <groupId>eu.heliovo</groupId>
     <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>eu.heliovo</groupId>
   <artifactId>helio-frontend</artifactId>
+  <version>0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Helio Frontend</name>
   <description>
 		TODO: Add description in helio-frontend/pom.xml
 	</description>
   
-  <version>0.0.1-SNAPSHOT</version>
   <modules>
     <module>helio-portal</module>
   </modules>
