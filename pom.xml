@@ -139,12 +139,11 @@
 		<module>helio-queryservice</module>
 		<module>helio-monitoring</module>
 		<module>helio-dpas</module>
-		<module>helio-hfc</module>
-		<module>helio-hfe</module>
 		<module>helio-sms</module>
 		<module>helio-client</module>
 		<module>helio-registryclient</module>
-  </modules>
+		<module>helio-frontend</module>
+	</modules>
 
 	<scm>
 		<connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
