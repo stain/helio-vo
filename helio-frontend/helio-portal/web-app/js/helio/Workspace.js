@@ -24,6 +24,8 @@ function Workspace() {
             ingestDivision("loading","#displayableOnLoading");
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
+            ingestDivision("selected-result","#displayableSeletedResult");
+
             this.setDisplay("splash");
             
         },

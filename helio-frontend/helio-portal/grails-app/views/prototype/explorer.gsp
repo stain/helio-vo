@@ -1,4 +1,4 @@
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <%@ page import="ch.i4ds.helio.frontend.model.*" %>
 <%@ page import="ch.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -80,28 +80,31 @@
 
 
       <!-- ToolBar -->
-      <div style="display:block;" id="section-navigation">
-        <ul>
-          <li><div class="draggable"><img title="Query heliophysics event catalogues" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" alt="HEC" /></div></li>
-          <li><div class="draggable"><img title="Query capabilities of instruments" src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="ICS" /></div></li>
-          <li><div class="draggable"><img title="Query instrument location" src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="ILS" /></div></li>
-          <li><div class="draggable"><img title="Query for instrument data" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="DPAS" /></div></li>
-          <li><div class="draggable"><img title="Upload VoTable" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="upload" /></div></li>
-          <!--li><div class="draggable"><img title="User Space" src="${resource(dir:'images/icons/toolbar',file:'userspace.png')}" alt="userspace" /></div></li-->
-        </ul>
+      
+      <div style="display:block;clear:both" id="section-navigation">
+        
+          <div class="draggable"><img title="Query heliophysics event catalogues" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" alt="HEC" /></div>
+          <div class="draggable"><img title="Query capabilities of instruments" src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="ICS" /></div>
+          <div class="draggable"><img title="Query instrument location" src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="ILS" /></div>
+          <div class="draggable"><img title="Query for instrument data" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="DPAS" /></div>
+          <div class="draggable"><img title="Upload VoTable" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="upload" /></div>
+          
+        
       </div>
+      <div>Helio</div>
 
-      <!-- History -->
+       <!-- History  -->
       <div style="display:block;" id="history">
-        <div><img id="scroller_left" style="float:left;display:inline;" height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div>
+        <!--div><img id="scroller_left" style="float:left;display:inline;" height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div-->
         <div id="historyContent"></div>
 
-        <select onchange="fnOnChangeHistoryFilterSelect(this);" style="margin-top:15px;float:right"><option selected="yes" >all</option><option>results</option><option>selections</option><option>actions</option></select>
-        <div><img id="scroller_right" style="float:right;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_r.png')}" alt="Angry face" /></div>
-        <div><img style="float:right;display:inline;margin-top:15px"height="30px" id="clearButton" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Angry face" /></div>
+        <!--select onchange="fnOnChangeHistoryFilterSelect(this);" style="margin-top:15px;float:right"><option selected="yes" >all</option><option>results</option><option>selections</option><option>actions</option></select-->
+        <!--div><img id="scroller_right" style="float:right;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_r.png')}" alt="Angry face" /></div-->
+        <!--div><img style="float:right;display:inline;margin-top:15px"height="30px" id="clearButton" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Angry face" /></div-->
 
 
-      </div><!-- History -->
+      </div> <!-- History -->
+      
 
       <!-- Content -->
       <div style="display:block;" id="content">
@@ -115,10 +118,7 @@
     </div>
   </div>
 
-  <!-- To Delete -->
-  <div id="temp">
 
-  </div>
 
 </body>
 </html>

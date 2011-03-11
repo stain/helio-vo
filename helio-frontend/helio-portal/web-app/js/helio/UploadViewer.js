@@ -111,6 +111,56 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             
         },
         render: function(key) {
+
+
+
+        if(result == null){
+
+                // console.log("rendering wild ghost");
+                var div = $("<div class='newghost'> Uploaded Item  </div>");
+
+                //div.append(img);
+                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                $("#historyContent").append(div);
+                type="ghost";
+                
+
+            }else{
+                // console.log("im at query");
+
+                if(window.historyBar.getCurrentKey() == key){
+                    var div = $("<div class='newcurrent'> Uploaded Item  </div>");
+                }else{
+                    var div = $("<div class='new1'> Uploaded Item  </div>");
+                }
+                type="solid";
+                $("#historyContent").append(div);
+
+
+                div.dblclick(function() {
+                    if (typeof console!="undefined")console.info("UploadViewer :: item doubleclicked ->"+ key);
+                    window.historyBar.cleanGhost();
+                    //var item = window.historyBar.getItem(key);
+                    window.historyBar.setFocus(key);
+
+
+
+
+
+
+
+                });//end dbclick
+
+
+            }
+
+
+
+
+
+
+
+            return;
             if (typeof console!="undefined")console.info("UploadViewer :: render ->"+ key);
             
 

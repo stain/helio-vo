@@ -15,6 +15,10 @@ function History() {
 
     return {
         // Public methods
+        getCurrentKey:  function() {
+            if (typeof console!="undefined")console.info("History :: getCurrentKey " +current);
+            return current;
+        },
         getCurrent:  function() {
             if (typeof console!="undefined")console.info("History :: getCurrent");
             return array[current];
@@ -30,7 +34,7 @@ function History() {
             return array[array.length-1]
         },
         addItem: function(item) {
-            if (typeof console!="undefined")console.info("History :: addItem ->"+ item);
+            if (typeof console!="undefined")console.info("History :: addItem ->"+ item.getClassName());
             var prevItem =array.pop();
             if(prevItem != null &&prevItem.getType()!="ghost"){
                 array.push(prevItem);
@@ -148,7 +152,7 @@ function History() {
 
             for(key = offset;key < arrayToRender.length;key++) {
             
-            
+                
                 if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key]);
                 
             }

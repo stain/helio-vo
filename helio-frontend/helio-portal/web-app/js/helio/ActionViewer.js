@@ -203,6 +203,46 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
         render: function(key) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);
             
+
+            if(history.length <= 0){
+
+                var div = $("<div class='newghost'>Query "+actionNameParam+" </div>");
+                
+                //div.append(img);
+                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                $("#historyContent").append(div);
+                type="ghost";
+            }
+else{
+                if(window.historyBar.getCurrentKey() == key){
+                    var div = $("<div class='newcurrent'>Query "+actionNameParam+" "+history.length+" </div>");
+                }else{
+                    var div = $("<div class='new1'>Query "+actionNameParam+" "+history.length+" </div>");
+                }
+
+                
+                
+                //div.append(img);
+                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                $("#historyContent").append(div);
+                
+                type="solid";
+
+                div.dblclick(function() {
+                    if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
+                    window.historyBar.cleanGhost();
+                    //var item = window.historyBar.getItem(key);
+                    window.historyBar.setFocus(key);
+                });//end dbclick
+            }//end else
+
+
+
+
+
+
+
+            return;
             if(history.length <= 0){
                                
                 var div = $("<div class='floaters'></div>");

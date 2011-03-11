@@ -19,7 +19,7 @@
     </ol>
   </div-->
 
-  <div style="clear: both; padding: 20px 5pt 20pt 5px;">
+  <div id="voTables" style="clear: both; padding: 20px 5pt 20pt 5px;">
 
 
 <g:set var="result" value="${responseObject?.result}" />

@@ -127,16 +127,16 @@ td, th {
     }
     #history {
       float: left;
-      display: inline;
-      width: 882px;
-      height:60px;
-      background-color:#DDDDE9;
-      margin: 0px 0 0px 30px;
-      border:1px solid #464693;
+      padding:2px;
+      width: 86px;
+      min-height:425px;
+      background-color:#F5F6F9;
+      margin: 0px 23px 0px 0px;
+      border:1px solid #5B5FA8;
     }
-    #history #historyContent{
+    #history #historyContent1{
         float:left;
-        display:inline;
+        
         overflow:visible;
             max-width: 782px;
       height:60px;
@@ -199,20 +199,21 @@ td, th {
 
     #content-container
     {
-      float: left;
+      
       width: 1000px;
 
     }
 
     #section-navigation
     {
-      float: left;
-      width: 80px;
+      
+      
       padding:0;
       margin: 0px;
-      display: inline;
+      
 
-
+      width: 1000px;
+      height:60px;
 
 
       background-color:#DDDDE9;
@@ -247,9 +248,9 @@ td, th {
       border:1px solid #464693;
       float: left;
       width: 882px;
-      min-height:400px;
+      min-height:425px;
 
-      margin: 15px 0 5px 30px;
+      
     }
 
     #content h2 { margin: 0; }
@@ -292,7 +293,7 @@ td, th {
 
     }
     #staticForms img{
-      float:right;
+      
 
     }
     
@@ -319,3 +320,43 @@ td, th {
     .resultTable th{
         /*width:250px;*/
     }
+
+
+    .row-borders{
+      border-left:1px solid black;
+      min-width: 267px;
+      
+      
+    }
+    .adding{
+        float:left;
+        border:1px solid black;
+        padding:1px;
+}
+.subbing{
+        float:right;
+        border:1px solid black;
+        padding:1px;
+}
+
+.new1{
+    background-color: #DDDEE9;
+    color:#5B5FA8;
+    padding:3px;
+    border:1px solid #5B5FA8;
+    margin-bottom: 2px;
+}
+.newcurrent{
+    background-color: #F4DF9F;
+    color:#5B5FA8;
+    padding:3px;
+    border:1px solid #5B5FA8;
+    margin-bottom: 2px;
+}
+.newghost{
+    background-color: #B7DADD;
+    color:#5B5FA8;
+    padding:3px;
+    border:1px solid #5B5FA8;
+    margin-bottom: 2px;
+}

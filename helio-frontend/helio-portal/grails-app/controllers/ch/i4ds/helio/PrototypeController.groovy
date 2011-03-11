@@ -153,7 +153,7 @@ class PrototypeController {
         //println result;
         
         ResultVT result = DataQueryService.queryService(minDateList,maxDateList,extraList,addressPort,where);
-        
+        //ResultVT result = SimpleInterface.queryService(minDateList,maxDateList,extraList,addressPort,where);
 
         
         return result;

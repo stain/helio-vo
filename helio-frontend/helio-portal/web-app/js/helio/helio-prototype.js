@@ -704,6 +704,16 @@ function fnFormatTable(tableName){
 function fnInitSave(){
     if (typeof console!="undefined")console.info("fnInitSave");
      $("#resultSelectionSave").click(function(){
+         if (typeof console!="undefined")console.info("Save selection clicked");
+
+         $(".odd").remove();
+         $(".even").remove();
+
+         var tablesHtml =$("#voTables").html();
+
+         
+
+         
         var count =0;
         var totalResult = [];
         $(".resCont").each(function(){
@@ -722,9 +732,12 @@ function fnInitSave(){
         });
 
 
-        totalResult.count = "Saved elements: " + count;
+        
 
-        var element = new ResultViewer("../images/icons/toolbar/selectedR.png","resultSelection","something",totalResult);
+
+
+
+        var element = new ResultViewer("../images/icons/toolbar/selectedR.png","resultSelection",tablesHtml,totalResult);
         window.historyBar.addItem(element);
         window.historyBar.render();
         /*
@@ -744,26 +757,13 @@ function fnInitSave(){
         $('.columnInputs').html("");
         
 
-        $(".tooltip").css("display","none");
+        
 
-        $("#staticFormContent").html("");
+        
 
-        var content = window.historyBar.lastItem().getContent();
-        $("#staticFormContent").append("Amount of "+ content.count);
-        for(i in content){
-            if(i=="count"){
-                continue;
-            }
-            $("#staticFormContent").append("<br>");
-            $("#staticFormContent").append("<h3>_____________________________</h3>");
-            $("#staticFormContent").append("<ul>");
-            for(j in content[i]){
-                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
-            }
-            $("#staticFormContent").append("</ul>");
-            $("#displayableSeletedResult").css("display","block");
-        }
-    });
+        
+     
+    });//end click
 }
 
 
