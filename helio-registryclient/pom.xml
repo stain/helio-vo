@@ -6,7 +6,6 @@
 		<artifactId>heliovo</artifactId>
 		<groupId>eu.heliovo</groupId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../trunk</relativePath>
 	</parent>
 
 	<groupId>eu.heliovo</groupId>
