@@ -58,7 +58,7 @@ log4j = {
     appenders {
         //console name:'logfile', layout:pattern(conversionPattern: '[%-7p][%d{dd/MM/yyyy HH:mm:ss,SSS}] %C %m%n')
         //console name:'logfile', layout:pattern(conversionPattern: '[%d{yyyy-MM-dd hh:mm:ss.SSS}] %p %c{5} %m%n')
-         file name:'file', file:'helio.log', append: false
+        // file name:'file', file:'helio.log', append: false
 	 console name:'stdout'
 
     }
@@ -86,7 +86,8 @@ log4j = {
     warn   'org.mortbay.log'
 
     root {
-        error 'file'
+        //error 'file'
+        error 'stdout'
 
 
 

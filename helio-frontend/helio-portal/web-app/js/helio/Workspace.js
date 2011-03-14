@@ -12,7 +12,6 @@ function Workspace() {
     return {
         // Public methods
 
-
         init: function() {
             if (typeof console!="undefined")console.info("Workspace :: init");
 
@@ -135,6 +134,8 @@ function Workspace() {
             }
 
             
+  fnInitializeSingleElements();
+    fnInitializeDraggableElements();
 
             fnInitDroppable();
             fnInitializeDatePicker();

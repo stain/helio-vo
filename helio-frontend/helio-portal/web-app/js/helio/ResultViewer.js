@@ -114,26 +114,31 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
 
                 }
                 if(time_start != null && time_end != null) {
-                    $("#time-row").append("<div><div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
-                    $("#time-row").append("<div><div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
+                    $("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
+                    $("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
                 }
                 if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ) $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
 //2003-01-01T07:49:00 / 2003-01-01T07:59:00
-                $(".adding").click(function(){
-                    var time_start = $(this).parent().find("ul").text();
+               
+            }
+ $(".adding").click(function(){
+                    if (typeof console!="undefined")console.info("ResultViewer :: adding click");
+
+                    var time_start = $(this).parent().children("ul").text();
                     var fields = time_start.split("T");
                     var first = fields[0].split("-");
                     var second = fields[1].split(":");
-                    var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
+                    
+                    var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
+
 
                     
-                    console.debug(d);
                     d.setMinutes(d.getMinutes()+30);
-                    console.debug(d);
                     
+
                     var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                    var day = d.getDay()<10?"0"+d.getDay():d.getDay();
+                    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
                     var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
                     var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
                     var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
@@ -149,15 +154,13 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                     d.setMinutes(d.getMinutes()-30);
 
                     var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                    var day = d.getDay()<10?"0"+d.getDay():d.getDay();
+                    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
                     var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
                     var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
                     var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
 
                     $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
                 });
-            }
-
             
 
 
@@ -165,8 +168,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
         },
         render: function(key) {
          if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
-
 /*
+
             if(window.historyBar.getCurrentKey() == key){
                     var div = $("<div class='newcurrent'> "+"Result Selection"+" </div>");
                 }else{
@@ -192,8 +195,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
             });//end dbclick
 
 return;
-*/
-            if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
+
+  */
+ if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
 
             type = 'solid';
             div = $("<div id='"+key+"' class='floaters resultDraggable'></div>");

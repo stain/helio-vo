@@ -6,7 +6,7 @@ import net.ivoa.xml.votable.v1.TABLEDATA
 import net.ivoa.xml.votable.v1.TD
 import net.ivoa.xml.votable.v1.TR
 import net.ivoa.xml.votable.v1.FIELD
-//import ch.ResultVT
+
 import eu.helio_vo.xml.queryservice.v0.HelioQueryServiceService
 import eu.helio_vo.xml.queryservice.v0.HelioQueryService
 import javax.xml.ws.BindingProvider;
@@ -40,9 +40,8 @@ class DataQueryService {
             log.info("queryService :: cant complete, date fields empty" );
             return;
         }
-        //service = new HelioQueryServiceService();
-       // port = service.getHelioQueryServicePort();
-
+  
+/**
         int numberOfDatePairs = minDate.size();
         int numberOfFromSingles = from.size();
 
@@ -52,11 +51,8 @@ class DataQueryService {
         maxDate = normalizeList(numberOfFromSingles,maxDate);
         if(portAddress.equals(PortDirectory.DPAS))
         from = normalizeList(numberOfDatePairs,from);
-
-    
-        //BindingProvider bp = (BindingProvider) port;
-        //bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, portAddress);
-        //ResultVT resvt = SimpleInterface.queryService(minDate,maxDate, from,where,null, maxrecords, startindex);
+  **/
+        
         ResultVT resvt = SimpleInterface.queryService(minDate,maxDate,from,portAddress,where);
 
     

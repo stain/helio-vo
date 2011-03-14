@@ -60,7 +60,14 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
 
             }else if(tempField.indexOf("where=")!= -1){
+                console.debug(tempField);
                 tempField =tempField.replace('where=',"");
+                tempField =tempField.replace(/%5C/g,"\\");
+                tempField =tempField.replace(/%2F/g,"/");
+
+                console.debug(tempField);
+                
+                
                 tempField =tempField.split("%3B");
                 for(input in tempField){
                     var innerTempField = tempField[input].split("%2C");
@@ -70,7 +77,13 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     var labelName = innerTempField[1];
                     //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
 
-                    $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
+                    $("#currentDisplay").find("label:contains('"+labelName+"')").each(function(){
+                        console.debug($(this));
+                        console.debug(value);
+                        console.debug(inputName);
+                        console.debug(labelName);
+
+                    });
                 }//end input
             }//end if
         }//end fields
@@ -198,7 +211,17 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 window.historyBar.getCurrent().setLabel($(this).val());
                 window.historyBar.render(1);
             });
+             $(".catalogueSelector").change(function(){
+                 $('.columnInputs').html("");
+                 $('#whereField').val("");
+            });
             $("#responseDivision").html("");
+
+              fnInitializeSingleElements();
+    fnInitializeDraggableElements();
+
+            fnInitDroppable();
+            fnInitializeDatePicker();
         },//end renderContent
         render: function(key) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);

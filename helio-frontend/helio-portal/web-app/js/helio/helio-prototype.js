@@ -788,10 +788,7 @@ $(document).ready(function()
         window.historyBar.shiftLeft()
     });
     //window.history = new History();
-    $(".catalogueSelector").change(function(){
-        $('.columnInputs').html("");
-        $('#whereField').val("");
-    });
+   
     
     fnInitializeSingleElements();
     fnInitializeDraggableElements();
