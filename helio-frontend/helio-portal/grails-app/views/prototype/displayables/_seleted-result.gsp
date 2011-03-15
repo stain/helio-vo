@@ -2,6 +2,7 @@
   <div id="formHeader" style="float:none;">
     <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'selectedR.png')}" />
     <h1 style ="float:left;position:relative;left:15px" > Result Selection </h1>
+    <g:render template="templates/controls_reduced" />
   </div>
   <table style="clear:both;width:850px;margin-top:30px;margin-bottom: 30px">
     <tr>

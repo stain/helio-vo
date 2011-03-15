@@ -81,7 +81,6 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                         
 
                         if($(this).text() == labelName+" "){
-                            
                             $(this).parent().find("input").val(value);
 
                         }//if
@@ -220,8 +219,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             });
             $("#responseDivision").html("");
 
-              fnInitializeSingleElements();
-    fnInitializeDraggableElements();
+              
+    
 
            
         },//end renderContent

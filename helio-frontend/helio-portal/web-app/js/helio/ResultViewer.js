@@ -163,7 +163,13 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                 });
             
 
-
+$("#currentDisplay").find("#delete").click(function(){
+                window.historyBar.removeCurrent()
+            });
+            $("#currentDisplay").find("#label").change(function() {
+                window.historyBar.getCurrent().setLabel($(this).val());
+                window.historyBar.render(1);
+            });
 
         },
         render: function(key) {

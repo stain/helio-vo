@@ -316,46 +316,9 @@ function fnInitDroppable(){
 
 
 }
-function fnInitializeSingleElements(){
-    if (typeof console!="undefined")console.info("fnInitializeSingleElements");
-    
-
-
-    
-    $('#clearButton').live('click',function() {
-        fnClearHistory(this);
-        window.workspace.setDisplay("splash");
-    });
-    $('#sabe').live('click',function() {
-        mysubmit();
-    });
-
-    $("#section-navigation img[title]").tooltip({
-        position: "center right",
-        delay: 0
-    });
-/*
-  $("#tooltipme").tooltip({
-        position: "center right",
-        delay: 0
-   });*/
-
-
-    
-    
-}
-
-function fnInitializeDraggableElements(){
-    if (typeof console!="undefined")console.info("fnInitializeDraggableElements");
-    return;
-  
-    
 
 
 
-
-      
-}
 
 //not in use
 function fnGetSelected( oTableLocal )
@@ -526,20 +489,7 @@ function fnOnComplete(){
 
 }
 
-function fnClearHistory(){
-    if (typeof console!="undefined")console.info("fnClearHistory");
-    window.historyBar.clear();
-    $(".resCont").remove();
-    $('.displayable').css("display","none");
-    $('.testdiv').html("");
-    $('.columnInputs').html("");
-    $('#whereField').val("");
-    $("#instArea").html($("#instArea").data("content"));
-    
-    
-    
 
-}
 
 function fnFormatTable(tableName){
     if (typeof console!="undefined")console.info("fnFormatTable");
@@ -678,89 +628,9 @@ $(document).ready(function()
     
    
     
-    fnInitializeSingleElements();
-    fnInitializeDraggableElements();
+    
+    
 /**
-    $("#saveButton").click(function(){
-        var count =0;
-        var totalResult = [];
-        $(".resCont").each(function(){
-            count++;
-            $(this).remove();
-            var rowData = $(this).attr("title").split(",");
-         
-            var colNames = $(this).attr("title2").split(",");
-         
-            var partialResult =[];
-            for(i in colNames){
-
-                partialResult[colNames[i]]=rowData[i];
-            }
-            totalResult.push(partialResult);
-        });
-        
-        
-        totalResult.count = "Saved elements: " + count;
-    
-        var element = new HelioElement("../images/icons/toolbar/selectedR.png","resultSelection",totalResult);
-        window.historyBar.addItem(element);
-        window.historyBar.render();
-        $(".even_selected").each(function(){
-            $(this).removeClass("even_selected");
-            $(this).addClass("even");
-        });
-        $(".odd_selected").each(function(){
-            $(this).removeClass("odd_selected");
-            $(this).addClass("odd");
-        });
-        $('#testdiv').css("display",'none');
-        $(".resCont").remove();
-        $('.displayable').css("display","none");
-    
-        $('.columnInputs').html("");
-        $('#whereField').val("");
-
-        $(".tooltip").css("display","none");
-
-        $("#staticFormContent").html("");
-
-        var content = window.historyBar.lastItem().getContent();
-        $("#staticFormContent").append("Amount of "+ content.count);
-        for(i in content){
-            if(i=="count"){
-                continue;
-            }
-            $("#staticFormContent").append("<br>");
-            $("#staticFormContent").append("<h3>_____________________________</h3>");
-            $("#staticFormContent").append("<ul>");
-            for(j in content[i]){
-                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
-            }
-            $("#staticFormContent").append("</ul>");
-            $("#displayableSeletedResult").css("display","block");
-        }
-    });
-**/
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-/**
-
 window.onbeforeunload = function () {
         
     //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");

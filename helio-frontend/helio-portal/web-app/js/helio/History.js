@@ -19,14 +19,19 @@ function History() {
             $( ".draggable" ).dblclick(function() {
                 window.workspace.render($(this).find("img").attr("src"));
             });
-
+/**
+    $('#clearButton').live('click',function() {
+        window.historyBar.clear();
+        window.workspace.setDisplay("splash");
+    });
+    
             $("#scroller_right").click(function(){
                 window.historyBar.shiftRight()
             });
             $("#scroller_left").click(function(){
                 window.historyBar.shiftLeft()
             });
-
+**/
             $( ".draggable" ).draggable({
                 opacity:0.7,
                 zIndex: 5700,

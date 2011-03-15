@@ -134,8 +134,8 @@ function Workspace() {
             }
 
             
-  fnInitializeSingleElements();
-    fnInitializeDraggableElements();
+  
+    
 
             fnInitDroppable();
             fnInitializeDatePicker();
