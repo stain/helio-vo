@@ -14,6 +14,38 @@ function History() {
     };
 
     return {
+        init: function(){
+            if (typeof console!="undefined")console.info("History :: init");
+            $( ".draggable" ).dblclick(function() {
+                window.workspace.render($(this).find("img").attr("src"));
+            });
+
+            $("#scroller_right").click(function(){
+                window.historyBar.shiftRight()
+            });
+            $("#scroller_left").click(function(){
+                window.historyBar.shiftLeft()
+            });
+
+            $( ".draggable" ).draggable({
+                opacity:0.7,
+                zIndex: 5700,
+                helper:"clone"
+            });
+
+            $( "#droppable-inner" ).droppable({
+                accept: ".draggable",
+
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+
+                drop: function( event, ui ) {
+                    var text =  ui.draggable.find("img").attr("src");
+                    
+                    window.workspace.render(text);
+                }
+            });
+        },
         // Public methods
         getCurrentKey:  function() {
             if (typeof console!="undefined")console.info("History :: getCurrentKey " +current);
@@ -56,10 +88,10 @@ function History() {
         },
         removeItem : function(index) {
             if (typeof console!="undefined")console.info("History :: removeItem ->"+ index);
-          array.splice(index, 1);
-          if(array.length >0)current--;
+            array.splice(index, 1);
+            if(array.length >0)current--;
           
-          this.render();
+            this.render();
 
         },
         cleanGhost: function(){
@@ -81,13 +113,13 @@ function History() {
             if(element.getType()=="ghost"){
                 element.setType("query");
                 element.setHtml(html);
-                //$(element).data("query",$("#currentDisplay").html());
+            //$(element).data("query",$("#currentDisplay").html());
       
 
-                //var serialized = $("#currentDisplay").find("form").serialize();
+            //var serialized = $("#currentDisplay").find("form").serialize();
       
-                //$(element).data("serialized",serialized);
-                //$("#currentDisplay").remove();
+            //$(element).data("serialized",serialized);
+            //$("#currentDisplay").remove();
       
             }
             array.push(element);
@@ -182,8 +214,8 @@ function History() {
             this.render();
         },
         setFocus: function(key){
-           current = key;
-           this.render();
+            current = key;
+            this.render();
         },
         clear: function(){
             if (typeof console!="undefined")console.info("History :: clear");

@@ -317,7 +317,7 @@ function fnInitDroppable(){
 
 }
 function fnInitializeSingleElements(){
-if (typeof console!="undefined")console.info("fnInitializeSingleElements");
+    if (typeof console!="undefined")console.info("fnInitializeSingleElements");
     
 
 
@@ -334,7 +334,7 @@ if (typeof console!="undefined")console.info("fnInitializeSingleElements");
         position: "center right",
         delay: 0
     });
-    /*
+/*
   $("#tooltipme").tooltip({
         position: "center right",
         delay: 0
@@ -347,108 +347,14 @@ if (typeof console!="undefined")console.info("fnInitializeSingleElements");
 
 function fnInitializeDraggableElements(){
     if (typeof console!="undefined")console.info("fnInitializeDraggableElements");
-    $( ".draggable" ).draggable({
-        opacity:0.7,
-        zIndex: 5700,
-        helper:"clone"
-    });
+    return;
   
     
 
 
 
 
-    $( "#droppable-inner" ).droppable({
-        accept: ".draggable",
-
-        activeClass: "ui-state-hover",
-        hoverClass: "ui-state-active",
-        
-        drop: function( event, ui ) {
-            var text =  ui.draggable.find("img").attr("src");
-            fnclearDateTexts();
-            window.workspace.render(text);
-            return;
-            var fields =text.split('/');
-            text = fields[fields.length-1];
-            
-            
-        
-            var red = 1;
-            var result = null;
-            switch (text) {
-                case 'event.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableCatalogue").css("display","block");
-                    break;
-                case 'ics.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableICS").css("display","block");
-                    break;
-                case 'ils.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableILS").css("display","block");
-                    break;
-                case 'dpas.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableDPAS").css("display","block");
-                    break;
-                case 'upload_vot.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableUpload").css("display","block");
-                    break;
-                case 'timerange50.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableTime").css("display","block");
-                    break;
-                case 'filter.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableFilter").css("display","block");
-                    break;
-                case 'userspace.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableUserspace").css("display","block");
-                    break;
-                case 'date50.png':
-
-                    $(".displayable").css("display","none");
-                    $("#displayableDate").css("display","block");
-                    break;
-                default:
-                    $(".displayable").css("display","none");
-                    alert("function currently disabled (" +text+")");
-                    return;
-
-
-            }
-
-
-            var imageworks = ui.draggable.find("img").attr("src");
-            
-            
-            
-            var element = new HelioElement(imageworks,"ghost");
-            window.historyBar.addItem(element);
-            window.historyBar.render();
-            $(".resCont").remove();
-            
-        //alert(x.y); // shows '42'
-
-        // imgString =imgString.replace("50.png",".png")
-        //             $(imgString).appendTo("#history");
-        // var img = $( "<img alt='" + "missing" + "' class='floaters' style='float:left; padding:10px;width:40px;height:40px;' />" ).attr( "src", ui.draggable.find("img").attr("src") ).appendTo( "#history" );
-
-        //$(this).html("<form>First name: <input type='text' "+"name='firstname' /><br />Last name: <input type='text' name='lastname' /></form>  ");
-        }
-    });
+      
 }
 
 //not in use
@@ -693,13 +599,13 @@ function fnFormatTable(tableName){
 
 function fnInitSave(){
     if (typeof console!="undefined")console.info("fnInitSave");
-     $("#resultSelectionSave").click(function(){
-         if (typeof console!="undefined")console.info("Save selection clicked");
+    $("#resultSelectionSave").click(function(){
+        if (typeof console!="undefined")console.info("Save selection clicked");
 
-         $(".odd").remove();
-         $(".even").remove();
+        $(".odd").remove();
+        $(".even").remove();
 
-         var tablesHtml =$("#voTables").html();
+        var tablesHtml =$("#voTables").html();
 
          
 
@@ -757,6 +663,7 @@ function fnInitSave(){
 }
 
 
+//javascript start
 $(document).ready(function()
 {
 
@@ -764,25 +671,16 @@ $(document).ready(function()
     var workspace = new Workspace();
 
     window.historyBar = history;
+    window.historyBar.init();
     window.workspace = workspace;
     window.workspace.init();
-
-      $( ".draggable" ).dblclick(function() {
-        window.workspace.render($(this).find("img").attr("src"));
-        });
-
-    $("#scroller_right").click(function(){
-        window.historyBar.shiftRight()
-    });
-    $("#scroller_left").click(function(){
-        window.historyBar.shiftLeft()
-    });
-    //window.history = new History();
+ 
+    
    
     
     fnInitializeSingleElements();
     fnInitializeDraggableElements();
-
+/**
     $("#saveButton").click(function(){
         var count =0;
         var totalResult = [];
@@ -842,7 +740,7 @@ $(document).ready(function()
             $("#displayableSeletedResult").css("display","block");
         }
     });
-
+**/
 
 
 
