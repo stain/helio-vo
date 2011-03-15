@@ -13,6 +13,7 @@ grails.project.dependency.resolution = {
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
 		mavenLocal()
+		mavenRepo "http://helio-dev.i4ds.ch/archiva/repository/snapshots"
 		mavenRepo "http://helio-dev.i4ds.ch/archiva/repository/internal"
         grailsHome()
 		grailsCentral()
@@ -39,7 +40,6 @@ grails.project.dependency.resolution = {
     }**/
     
 	}
-    pom true
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
