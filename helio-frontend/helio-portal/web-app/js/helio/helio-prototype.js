@@ -341,7 +341,7 @@ if (typeof console!="undefined")console.info("fnInitializeSingleElements");
    });*/
 
 
-    var history = $( "#history" );
+    
     
 }
 
@@ -352,17 +352,7 @@ function fnInitializeDraggableElements(){
         zIndex: 5700,
         helper:"clone"
     });
-    $( ".draggable" ).dblclick(function() {
-
-        
-        //fnclearDateTexts();
-
-        window.workspace.render($(this).find("img").attr("src"));
-        return;
-       
-
-
-        });
+  
     
 
 
@@ -770,16 +760,16 @@ function fnInitSave(){
 $(document).ready(function()
 {
 
-
-
-
-     
     var history = new History();
     var workspace = new Workspace();
 
     window.historyBar = history;
     window.workspace = workspace;
     window.workspace.init();
+
+      $( ".draggable" ).dblclick(function() {
+        window.workspace.render($(this).find("img").attr("src"));
+        });
 
     $("#scroller_right").click(function(){
         window.historyBar.shiftRight()

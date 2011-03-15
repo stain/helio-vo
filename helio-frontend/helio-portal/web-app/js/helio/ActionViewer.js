@@ -223,8 +223,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
               fnInitializeSingleElements();
     fnInitializeDraggableElements();
 
-            fnInitDroppable();
-            fnInitializeDatePicker();
+           
         },//end renderContent
         render: function(key) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);
