@@ -60,12 +60,12 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
 
             }else if(tempField.indexOf("where=")!= -1){
-                console.debug(tempField);
+                
                 tempField =tempField.replace('where=',"");
                 tempField =tempField.replace(/%5C/g,"\\");
                 tempField =tempField.replace(/%2F/g,"/");
 
-                console.debug(tempField);
+                
                 
                 
                 tempField =tempField.split("%3B");
@@ -75,15 +75,18 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     innerTempField = innerTempField[0].split(".");
                     var inputName= innerTempField[0];
                     var labelName = innerTempField[1];
-                    //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
+                    
 
                     $("#currentDisplay").find("label:contains('"+labelName+"')").each(function(){
-                        console.debug($(this));
-                        console.debug(value);
-                        console.debug(inputName);
-                        console.debug(labelName);
+                        
 
-                    });
+                        if($(this).text() == labelName+" "){
+                            
+                            $(this).parent().find("input").val(value);
+
+                        }//if
+
+                    });//each
                 }//end input
             }//end if
         }//end fields
