@@ -16,10 +16,13 @@ function History() {
     return {
         init: function(){
             if (typeof console!="undefined")console.info("History :: init");
+
             $( ".draggable" ).dblclick(function() {
-                window.workspace.render($(this).find("img").attr("src"));
+                window.workspace.createItem($(this).find("img").attr("src"));
             });
-/**
+
+            
+            /**
     $('#clearButton').live('click',function() {
         window.historyBar.clear();
         window.workspace.setDisplay("splash");
@@ -38,18 +41,7 @@ function History() {
                 helper:"clone"
             });
 
-            $( "#droppable-inner" ).droppable({
-                accept: ".draggable",
- 
-                activeClass: "ui-state-hover",
-                hoverClass: "ui-state-active",
-
-                drop: function( event, ui ) {
-                    var text =  ui.draggable.find("img").attr("src");
-                    
-                    window.workspace.render(text);
-                }
-            });
+            
         },
         // Public methods
         getCurrentKey:  function() {
@@ -198,7 +190,7 @@ function History() {
            
         
 
-
+fnInitDroppable();
         },
 
         shiftRight: function() {

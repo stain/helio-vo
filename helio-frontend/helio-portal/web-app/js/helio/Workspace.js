@@ -1,7 +1,7 @@
 function Workspace() {
 
-  var divisions = new Object();
-  var element;
+    var divisions = new Object();
+    var element;
 
   
     var ingestDivision = function(keyName,divisionName){
@@ -33,23 +33,23 @@ function Workspace() {
             return this.element;
             
 
-       },
-         setElement: function(element){
-             if (typeof console!="undefined")console.info("Workspace :: setElement");
-             //if(element ==null)return;
+        },
+        setElement: function(element){
+            if (typeof console!="undefined")console.info("Workspace :: setElement");
+            //if(element ==null)return;
             this.element = element;
             element.renderContent();
            
-       },
+        },
         onLoading: function(){
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
          
             var element = window.historyBar.getCurrent();
             element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
 
-               this.setDisplay("loading");
+            this.setDisplay("loading");
            
-       },
+        },
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
             this.clear();
@@ -63,76 +63,66 @@ function Workspace() {
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
             
-       },
+        },
+        createItem: function(imagePath){
+            if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
 
-        render: function(imagePath) {
-            
-            if (typeof console!="undefined")console.info("Workspace :: render -> " +imagePath);
-
-            
-            
             var fields =imagePath.split('/');
-            text = fields[fields.length-1];
+            var text = fields[fields.length-1];
             fields = text.split(".");
             text = fields[0];
-            
-            
-            
-            
+            //this.render(text);
 
             var element;
-            
-            
+
             switch (text) {
                 case 'hec':
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-        
                     break;
                 case 'ics':
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                
-            
+
                     break;
                 case 'ils':
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                
-                   
                     break;
                 case 'dpas':
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    fnInitDroppable();
-                
-          
                     $("#droppable-inner").data("content",$("#instArea").html());
                     break;
                 case 'upload_vot':
                     element = new UploadViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-
-               
-                    var options = {
-                        target: '#responseDivision',   // target element(s) to be updated with server response
-                        success: fnOnComplete  // post-submit callback
-                    };
-                    $('#myForm').ajaxForm(options);
-                    
                     break;
-     
                 default:
-                
-                
                     break;
-            }
-$( "#droppable-inner" ).droppable({
+            }//end case
+
+            
+
+        },
+        render: function() {
+            if (typeof console!="undefined")console.error("Workspace :: render");
+            return;
+            var options = {
+                target: '#responseDivision',   // target element(s) to be updated with server response
+                success: fnOnComplete  // post-submit callback
+            };
+            $('#myForm').ajaxForm(options);
+            
+            
+            
+            
+            $( "#droppable-inner" ).droppable({
                 accept: ".draggable",
 
                 activeClass: "ui-state-hover",
@@ -141,7 +131,7 @@ $( "#droppable-inner" ).droppable({
                 drop: function( event, ui ) {
                     var text =  ui.draggable.find("img").attr("src");
 
-                    window.workspace.render(text);
+                    window.workspace.createItem(text);
                 }
             });
             

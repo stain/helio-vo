@@ -1,5 +1,5 @@
 #menuContainer {
-    width:100%; position:absolute; left:0; top:120px; overflow:hidden; background:url(../images/navbar/ulback_yellow.png) repeat-x;
+    width:100%; position:absolute; left:0; top:70px; overflow:hidden; background:url(../images/navbar/ulback_yellow.png) repeat-x;
 }
 #menu {padding:0; margin:0; list-style:none; float:left; height:40px; position:relative; left:50%;}
 #menu li {float:left; position:relative; right:50%; margin:0 2px;}

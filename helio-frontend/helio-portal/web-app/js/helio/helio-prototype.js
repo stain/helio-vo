@@ -634,7 +634,7 @@ $(document).ready(function()
     
     
     
-
+/**
 window.onbeforeunload = function () {
         
     //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
@@ -642,7 +642,7 @@ window.onbeforeunload = function () {
 
     return "Leaving this site will clear all your browsing history";
 
-}   
+}  **/
 
 });
 

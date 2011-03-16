@@ -73,12 +73,15 @@ td, th {
 }
 
 
-#logo
-	{
-            z-index:50;
+#logo{
+    
+    background-image:url(../images/background/header_lines.png);
+    background-repeat:repeat-x;
+    
+            z-index:-1;
 		position:absolute;
                 width:100%;
-		top:20px;
+		top:0;
 		left:0;
                 overflow:hidden;
                 
