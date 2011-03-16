@@ -1,26 +1,10 @@
 package ch.i4ds.helio
-import net.ivoa.xml.votable.v1.VOTABLE
-import net.ivoa.xml.votable.v1.RESOURCE
-import net.ivoa.xml.votable.v1.TABLE
-import net.ivoa.xml.votable.v1.TABLEDATA
-import net.ivoa.xml.votable.v1.TD
-import net.ivoa.xml.votable.v1.TR
-import net.ivoa.xml.votable.v1.FIELD
-
-import eu.helio_vo.xml.queryservice.v0.HelioQueryServiceService
-import eu.helio_vo.xml.queryservice.v0.HelioQueryService
-import javax.xml.ws.BindingProvider;
-import eu.heliovo.clientapi.frontend.*;
-import eu.heliovo.clientapi.frontend.SimpleInterface;
 import eu.heliovo.clientapi.frontend.ResultVT;
-import eu.heliovo.clientapi.frontend.*;
+import eu.heliovo.clientapi.frontend.SimpleInterface;
 
 class DataQueryService {
 
     boolean transactional = true
-    HelioQueryServiceService service;
-    HelioQueryService port;
-    
 
     def serviceMethod() {
 
@@ -40,19 +24,7 @@ class DataQueryService {
             log.info("queryService :: cant complete, date fields empty" );
             return;
         }
-  
-/**
-        int numberOfDatePairs = minDate.size();
-        int numberOfFromSingles = from.size();
-
-        if(portAddress.equals(PortDirectory.DPAS))
-        minDate = normalizeList(numberOfFromSingles,minDate);
-        if(portAddress.equals(PortDirectory.DPAS))
-        maxDate = normalizeList(numberOfFromSingles,maxDate);
-        if(portAddress.equals(PortDirectory.DPAS))
-        from = normalizeList(numberOfDatePairs,from);
-  **/
-        
+         
         ResultVT resvt = SimpleInterface.queryService(minDate,maxDate,from,portAddress,where);
 
     
