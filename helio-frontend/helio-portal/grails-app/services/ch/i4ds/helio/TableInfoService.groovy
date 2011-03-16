@@ -1,5 +1,6 @@
 package ch.i4ds.helio
 
+import org.springframework.core.io.ClassPathResource
 
 /**
  *Temporary service while the files with the relevant data are placed in the registry or API
@@ -36,8 +37,10 @@ class TableInfoService {
     def serviceMethod(String filePath) {
         log.info("serviceMethod => "+ filePath );
         Hashtable<String,List> hash = new Hashtable<String,List>();
-        File f = new File(filePath);
-        
+        //InputStream s = getClass().getResourceAsStream(filePath);
+		
+		File f = new ClassPathResource("/" + filePath).getFile();
+        println "file path: " + f;
         //File f = new File("files/tablesils.xml");
         List list = f.readLines();
         LinkedList<String> tableNameList = new LinkedList<String>();
