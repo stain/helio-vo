@@ -27,9 +27,11 @@ public class PointsStarTable  extends RandomStarTable {
     String provider_;
     String status_;
     String[] urlList;
-    public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status ) {
+    String inst;
+    public PointsStarTable( ProviderQueryResponse	resp,String url,String provider,String status,String helio_inst ) {
     	resp_=resp;
     	url_=url;
+    	inst=helio_inst;
     	if(resp.getNo_of_records_returned()!=null)
     		nRow_=resp.getNo_of_records_returned();
     	if(provider!=null)
@@ -62,9 +64,9 @@ public class PointsStarTable  extends RandomStarTable {
         int irow = checkedLongToInt( lrow );
         if(resp_!=null && resp_.getRecord()!=null){
 	        switch ( icol ) {
-	        	case 0: return resp_.getRecord()[irow].getInstrument();
+	        	case 0: return inst;
 	            case 1: return urlList[irow];
-	            case 2: return resp_.getRecord()[irow].getProvider();
+	            case 2: return "VSO:"+resp_.getRecord()[irow].getProvider();
 	            case 3: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getStart());
 	            case 4: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getEnd());
 	            default: throw new IllegalArgumentException();

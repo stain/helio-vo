@@ -24,7 +24,7 @@ public class UOCProvider
 		
 		try{
 	        
-			HelioQueryServiceService ss = new HelioQueryServiceService(new URL("http://140.105.77.30:8080/helio-uoc-r3/HelioService?wsdl"), SERVICE_NAME);
+			HelioQueryServiceService ss = new HelioQueryServiceService(new URL("http://140.105.77.30:8080/helio-uoc/HelioService?wsdl"), SERVICE_NAME);
 	        HelioQueryService port = ss.getHelioQueryServicePort(); 
 	        Query queryParameter=new Query();
 	        //queryParameter.setINSTRUMENT(Instrument.valueOf("RHESSI_HESSI_GMR"));

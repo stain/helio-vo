@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
  *     &lt;enumeration value="SMM__GRS"/>
  *     &lt;enumeration value="MGS__MAG"/>
+ *     &lt;enumeration value="MESSENGER__FIPS"/>
+ *     &lt;enumeration value="MEX__ELS"/>
+ *     &lt;enumeration value="MGS__ER"/>
+ *     &lt;enumeration value="NEAR__MAG"/>
+ *     &lt;enumeration value="VEX__ELS"/>
  *     &lt;enumeration value="SMM__HXRBS"/>
  *     &lt;enumeration value="SMM__HXIS"/>
  *     &lt;enumeration value="SMM__BCS"/>
@@ -211,6 +216,51 @@ public enum Instrument {
      */
     @XmlEnumValue("MGS__MAG ")
     MGS__MAG ("MGS__MAG"),
+    
+    /**
+    * 
+    *               Gamma-Ray Spectrometer
+    *              
+    * 
+    */
+   @XmlEnumValue("MESSENGER__FIPS ")
+   MESSENGER__FIPS ("MESSENGER__FIPS"),
+   
+   /**
+    * 
+    *               Gamma-Ray Spectrometer
+    *              
+    * 
+    */
+   @XmlEnumValue("MEX__ELS")
+   MEX__ELS ("MEX__ELS"),
+   
+   /**
+    * 
+    *               Gamma-Ray Spectrometer
+    *              
+    * 
+    */
+   @XmlEnumValue("MGS__ER")
+   MGS__ER ("MGS__ER"),
+   
+   /**
+    * 
+    *               Gamma-Ray Spectrometer
+    *              
+    * 
+    */
+   @XmlEnumValue("NEAR__MAG")
+   NEAR__MAG ("NEAR__MAG"),
+   
+   /**
+    * 
+    *               Gamma-Ray Spectrometer
+    *              
+    * 
+    */
+   @XmlEnumValue("VEX__ELS")
+   VEX__ELS ("VEX__ELS"),
 
     /**
      * 

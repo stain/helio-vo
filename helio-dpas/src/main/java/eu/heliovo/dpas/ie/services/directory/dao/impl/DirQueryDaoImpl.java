@@ -34,8 +34,8 @@ public class DirQueryDaoImpl implements DirQueryDao {
 		 dirTO.setContextUrl(commonTO.getContextUrl());
 		 dirTO.setProviderType(commonTO.getProviderType());
 		 dirTO.setParaInstrument(commonTO.getParaInstrument());
-		 //Ftp trasfer object.
 		 dirTO.setProviderSource(commonTO.getProviderSource());
+		 dirTO.setMissionName(commonTO.getMissionName());
 	     dirProvider.query(dirTO) ;
 	}
 		

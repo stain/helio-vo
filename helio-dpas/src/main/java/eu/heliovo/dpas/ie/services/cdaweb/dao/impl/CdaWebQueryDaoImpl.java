@@ -34,6 +34,8 @@ public class CdaWebQueryDaoImpl implements CdaWebQueryDao {
 	     cdaWebTO.setStatus(commonTO.getStatus());
 	     cdaWebTO.setHelioInstrument(commonTO.getHelioInstrument());
 	     cdaWebTO.setContextUrl(commonTO.getContextUrl());
+	     cdaWebTO.setMissionName(commonTO.getMissionName());
+	     cdaWebTO.setProviderSource(commonTO.getProviderSource());
 	     cdaWebProvider.query(cdaWebTO) ;
 	}
 	

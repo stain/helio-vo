@@ -17,6 +17,7 @@ public class PointsStarTable  extends RandomStarTable {
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
         new ColumnInfo( "instrument_name", String.class, "Instrument Name" ),
         new ColumnInfo( "url", String.class, "URL for the file" ),
+        new ColumnInfo( "provider", String.class, "Provider Name" ),
         colStartDate,
         colEndDate,
     };
@@ -33,7 +34,7 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( FileDescription[]	resp ,String instruments) {
+    public PointsStarTable( FileDescription[] resp ,String instruments) {
     	resp_=resp;
     	nRow_=(int) resp.length;
     	inst=instruments;
@@ -62,8 +63,9 @@ public class PointsStarTable  extends RandomStarTable {
 	        switch ( icol ) {
 	        	case 0: return inst;
 	            case 1: return resp_[irow].getName();
-	            case 2: return CdaWebUtils.convertCalendarToString(resp_[irow].getStartTime());
-	            case 3: return CdaWebUtils.convertCalendarToString(resp_[irow].getEndTime());
+	            case 2: return "CDAWEB";
+	            case 3: return CdaWebUtils.convertCalendarToString(resp_[irow].getStartTime());
+	            case 4: return CdaWebUtils.convertCalendarToString(resp_[irow].getEndTime());
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

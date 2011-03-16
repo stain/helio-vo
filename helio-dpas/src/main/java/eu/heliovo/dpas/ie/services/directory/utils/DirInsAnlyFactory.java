@@ -24,6 +24,8 @@ public abstract class DirInsAnlyFactory {
 	          return new RhessiProvider();      
 	      case HESSI_HXR    :   
 	    	  return new RhessiProvider();
+	      case HALPHA    :   
+	    	  return new RhessiProvider();
 	      case SP4D		:
 	    	  return new SOT_SPProvider();
 	      case FGIV		:
@@ -54,6 +56,6 @@ public abstract class DirInsAnlyFactory {
 	   	  
 
 	enum DirType{
-		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP
+		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP,HALPHA
 	};
 }

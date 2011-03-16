@@ -20,6 +20,7 @@ public class PointsStarTable  extends RandomStarTable {
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
     	new ColumnInfo( "instrument_name", String.class, "Instrument Name" ),
     	new ColumnInfo( "url", String.class, "URL for the file" ),
+    	new ColumnInfo( "provider", String.class, "Provider Name" ),
     	colStartDate,
     	colEndDate,
     };
@@ -29,6 +30,7 @@ public class PointsStarTable  extends RandomStarTable {
     int nRow_;
     String inst;
     String end_date;
+    String providerSource;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
     DpasUtilities dpasUtils	=	new DpasUtilities();
     /**
@@ -38,11 +40,13 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( List<DPASResultItem> resp,String instrument,String endDate) {
+    public PointsStarTable( List<DPASResultItem> resp,String instrument,String endDate,String providerSource) {
     	resp_=resp;
      	nRow_=(int) resp.size();
      	inst=instrument;
      	end_date=endDate.replace("T", " ");
+     	//
+     	this.providerSource=providerSource;
      	//Start date 
     	colStartDate.setAuxDatum( new DescribedValue( VOStarTable.XTYPE_INFO,"iso8601"));
     	//End date
@@ -68,8 +72,9 @@ public class PointsStarTable  extends RandomStarTable {
 	        switch ( icol ) {
 	        	case 0:return inst;
 	            case 1:return resp_.get(irow).urlFITS;
-	            case 2:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
-	            case 3:return end_date;
+	            case 2:return providerSource;
+	            case 3:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
+	            case 4:return end_date;
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

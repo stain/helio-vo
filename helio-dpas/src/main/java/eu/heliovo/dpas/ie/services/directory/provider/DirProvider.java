@@ -41,7 +41,7 @@ public class DirProvider
         	//
         	if(results!=null && results.size()>0){
         		tables=new StarTable[1];
-        		tables[count]=new PointsStarTable(results,dirTO.getInstrument(),dirTO.getDateTo());
+        		tables[count]=new PointsStarTable(results,dirTO.getHelioInstrument(),dirTO.getDateTo(),dirTO.getProviderSource());
         		tables[count].setName(dirTO.getInstrument());
         	}
         	

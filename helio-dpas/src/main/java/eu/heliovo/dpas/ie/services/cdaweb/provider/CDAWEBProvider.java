@@ -71,7 +71,7 @@ public class CDAWEBProvider
                           System.out.println(" Adding FileDescription ");
                           System.out.println("....DONE !!!");
                        }//for
-                       tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getInstrument());
+                       tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getHelioInstrument());
                        tables[0].setName(cdaWebTO.getInstrument());
                        cdaWebTO.setStarTableArray(tables);
                        cdaWebTO.setQuerystatus("OK");
