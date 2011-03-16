@@ -40,7 +40,7 @@ function History() {
 
             $( "#droppable-inner" ).droppable({
                 accept: ".draggable",
-
+ 
                 activeClass: "ui-state-hover",
                 hoverClass: "ui-state-active",
 
@@ -195,11 +195,7 @@ function History() {
             }
             
 
-            $("#historyContent img[title]").tooltip({
-                position: "top center",
-                delay: 100,
-                predelay:500
-            });
+           
         
 
 

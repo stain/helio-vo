@@ -7,7 +7,7 @@ function fnclearDateTexts(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
   
     $("#instArea").html($("#droppable-inner").data("content"));
-    $(".tooltip").css("display","none");
+    //$(".tooltip").css("display","none");
 }
 function fnclearDateTexts2(){
     $(".hideDates").css("display","block");
@@ -18,7 +18,7 @@ function fnclearDateTexts2(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
 
     $("#instArea").html($("#droppable-inner").data("content"));
-    $(".tooltip").css("display","none");
+    //$(".tooltip").css("display","none");
 }
 
 function fnOnCompleteGetColumns(){
@@ -466,7 +466,7 @@ function fnOnComplete(){
         $('.columnInputs').html("");
         $('#whereField').val("");
 
-        $(".tooltip").css("display","none");
+        //$(".tooltip").css("display","none");
 
         $("#staticFormContent").html("");
 
@@ -625,12 +625,16 @@ $(document).ready(function()
     window.workspace = workspace;
     window.workspace.init();
  
-    
+     $("#section-navigation img[title]").tooltip({
+                position: "top center",
+                delay: 100,
+                predelay:500
+            });
    
     
     
     
-/**
+
 window.onbeforeunload = function () {
         
     //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
@@ -638,7 +642,7 @@ window.onbeforeunload = function () {
 
     return "Leaving this site will clear all your browsing history";
 
-}   **/
+}   
 
 });
 

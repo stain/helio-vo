@@ -132,7 +132,18 @@ function Workspace() {
                 
                     break;
             }
+$( "#droppable-inner" ).droppable({
+                accept: ".draggable",
 
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+
+                drop: function( event, ui ) {
+                    var text =  ui.draggable.find("img").attr("src");
+
+                    window.workspace.render(text);
+                }
+            });
             
   
     
