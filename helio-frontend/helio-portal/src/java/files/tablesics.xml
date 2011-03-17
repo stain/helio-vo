@@ -1,0 +1,305 @@
+<tab:tables
+   xmlns:vr='http://www.ivoa.net/xml/VOResource/v1.0'
+   xmlns:vs='http://www.ivoa.net/xml/VODataService/v1.0'
+   xmlns:tab='urn:astrogrid:schema:TableMetadata'
+   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   xsi:schemaLocation='      http://www.ivoa.net/xml/VOResource/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VOResource/v1.0/VOResource.xsd
+      http://www.ivoa.net/xml/VODataService/v1.0 http://software.astrogrid.org/schema/vo-resource-types/VODataService/v1.0/VODataService.xsd
+      urn:astrogrid:schema:TableMetadata Tables.xsd'>
+  <table>
+    <name>observatory</name>
+    <column>
+      <name>name</name>
+      <description>Observatory Name</description>
+      <ucd>meta.id;instr.obsty</ucd>
+
+    </column>
+    <column>
+      <name>loc_gen</name>
+      <description>Observation type</description>
+    </column>
+    <column>
+      <name>loc_p1</name>
+
+      <description>latitude</description>
+    </column>
+    <column>
+      <name>loc_p2</name>
+      <description>longitude</description>
+    </column>
+    <column>
+
+      <name>time_start</name>
+      <description>Observatory Start Date</description>
+      <ucd>time.start</ucd>
+    </column>
+    <column>
+      <name>time_insertion</name>
+      <description>Time insertion</description>
+
+    </column>
+    <column>
+      <name>time_end</name>
+      <description>Observatory End Time</description>
+      <ucd>time.end</ucd>
+    </column>
+    <column>
+
+      <name>status</name>
+      <description>Observatory operation status</description>
+    </column>
+    <column>
+      <name>longname</name>
+      <description>Observatory full name</description>
+      <ucd>meta.title;instr.obsty</ucd>
+
+    </column>
+    <column>
+      <name>sat_id</name>
+      <description>Satellite Id</description>
+    </column>
+  </table>
+  <table>
+    <name>instrument</name>
+
+    <column>
+      <name>name</name>
+      <description>Instrument Name</description>
+      <ucd>meta.id;instr</ucd>
+    </column>
+    <column>
+      <name>observatory_name</name>
+
+      <description>Observatory Name</description>
+      <ucd>meta.id;instr.obsty</ucd>
+    </column>
+    <column>
+      <name>obsinst_key</name>
+      <description>Helio Instrument Name</description>
+    </column>
+
+    <column>
+      <name>time_start</name>
+      <description>Instrument Start Date</description>
+      <ucd>time.start</ucd>
+    </column>
+    <column>
+      <name>time_end</name>
+
+      <description>Instrument End Date</description>
+      <ucd>time.end</ucd>
+    </column>
+    <column>
+      <name>longname</name>
+      <description>Instrument Full Name</description>
+      <ucd>meta.title;instr</ucd>
+
+    </column>
+    <column>
+      <name>inst_type</name>
+      <description>Instrument type</description>
+    </column>
+    <column>
+      <name>inst_od1</name>
+
+      <description>Instrument observation 1</description>
+    </column>
+    <column>
+      <name>inst_od2</name>
+      <description>Instrument observation 2</description>
+    </column>
+    <column>
+
+      <name>inst_oe1</name>
+      <description>Instrument observation entity element</description>
+    </column>
+    <column>
+      <name>inst_oe2</name>
+      <description>Instrument observation entity type</description>
+    </column>
+
+    <column>
+      <name>inst_fd</name>
+      <description>Instrument observation wave length fd</description>
+    </column>
+    <column>
+      <name>inst_nd</name>
+      <description>Instrument observation wavelength nd</description>
+
+    </column>
+    <column>
+      <name>syn1</name>
+      <description>Synonyms1</description>
+    </column>
+    <column>
+      <name>syn2</name>
+
+      <description>Synonyms2</description>
+    </column>
+    <column>
+      <name>syn3</name>
+      <description>Synonyms3</description>
+    </column>
+    <column>
+
+      <name>syn4</name>
+      <description>Synonyms4</description>
+    </column>
+    <column>
+      <name>group_name</name>
+      <description>Group name</description>
+    </column>
+
+    <column>
+      <name>keywords</name>
+      <description>Complete focusing type</description>
+    </column>
+  </table>
+  <table>
+    <name>instrument_observatory</name>
+
+    <column>
+      <name>inst_name</name>
+      <description>Instrument Name</description>
+      <ucd>meta.id;instr</ucd>
+    </column>
+    <column>
+      <name>observatory_name</name>
+
+      <description>Observatory Name</description>
+      <ucd>meta.id;instr.obsty</ucd>
+    </column>
+    <column>
+      <name>obsinst_key</name>
+      <description>Helio Instrument Name</description>
+    </column>
+
+    <column>
+      <name>inst_start_time</name>
+      <description>Instrument Start Date</description>
+      <ucd>time.start</ucd>
+    </column>
+    <column>
+      <name>inst_end_time</name>
+
+      <description>Instrument End Date</description>
+      <ucd>time.end</ucd>
+    </column>
+    <column>
+      <name>inst_longname</name>
+      <description>Instrument Full Name</description>
+      <ucd>meta.title;instr</ucd>
+
+    </column>
+    <column>
+      <name>inst_type</name>
+      <description>Instrument type</description>
+    </column>
+    <column>
+      <name>inst_od1</name>
+
+      <description>Instrument observation 1</description>
+    </column>
+    <column>
+      <name>inst_od2</name>
+      <description>Instrument observation 2</description>
+    </column>
+    <column>
+
+      <name>inst_oe1</name>
+      <description>Instrument observation entity element</description>
+    </column>
+    <column>
+      <name>inst_oe2</name>
+      <description>Instrument observation entity type</description>
+    </column>
+
+    <column>
+      <name>inst_fd</name>
+      <description>Instrument observation wave length fd</description>
+    </column>
+    <column>
+      <name>inst_nd</name>
+      <description>Instrument observation wavelength nd</description>
+
+    </column>
+    <column>
+      <name>syn1</name>
+      <description>Instrument observation focusing type1</description>
+    </column>
+    <column>
+      <name>syn2</name>
+
+      <description>Instrument observation focusing type2</description>
+    </column>
+    <column>
+      <name>syn3</name>
+      <description>Instrument observation focusing type3</description>
+    </column>
+    <column>
+
+      <name>syn4</name>
+      <description>Instrument observation focusing type4</description>
+    </column>
+    <column>
+      <name>group_name</name>
+      <description>Group name</description>
+    </column>
+
+    <column>
+      <name>keywords</name>
+      <description>Complete focusing type</description>
+    </column>
+    <column>
+      <name>obs_name</name>
+      <description>Observatory Name</description>
+
+      <ucd>meta.id;instr.obsty</ucd>
+    </column>
+    <column>
+      <name>loc_gen</name>
+      <description>Observation type</description>
+    </column>
+    <column>
+
+      <name>loc_p1</name>
+      <description>latitude</description>
+    </column>
+    <column>
+      <name>loc_p2</name>
+      <description>longitude</description>
+    </column>
+
+    <column>
+      <name>obs_start_time</name>
+      <description>Observatory Start Date</description>
+      <ucd>time.start</ucd>
+    </column>
+    <column>
+      <name>time_insertion</name>
+
+      <description>Time insertion</description>
+    </column>
+    <column>
+      <name>obs_end_time</name>
+      <description>Observatory End Time</description>
+      <ucd>time.end</ucd>
+    </column>
+
+    <column>
+      <name>status</name>
+      <description>Observatory operation status</description>
+    </column>
+    <column>
+      <name>obs_longname</name>
+      <description>Observatory full name</description>
+
+      <ucd>meta.title;instr.obsty</ucd>
+    </column>
+    <column>
+      <name>sat_id</name>
+      <description>Satellite Id</description>
+    </column>
+  </table>
+
+</tab:tables>
