@@ -182,7 +182,7 @@ function History() {
             for(key = offset;key < arrayToRender.length;key++) {
             
                 
-                if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key]);
+                if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key],current);
                 
             }
             

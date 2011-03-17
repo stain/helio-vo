@@ -213,9 +213,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 window.historyBar.getCurrent().setLabel($(this).val());
                 window.historyBar.render(1);
             });
-             $(".catalogueSelector").change(function(){
-                 $('.columnInputs').html("");
-                 $('#whereField').val("");
+            $(".catalogueSelector").change(function(){
+                $('.columnInputs').html("");
+                $('#whereField').val("");
             });
             $("#responseDivision").html("");
 
@@ -224,10 +224,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
            
         },//end renderContent
-        render: function(key) {
-            if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key);
+        render: function(key,current) {
+            if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key +" current "+current);
             
-/**
+            /**
             if(history.length <= 0){
 
                 var div = $("<div class='newghost'>Query "+actionNameParam+" </div>");
@@ -274,14 +274,21 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
                 if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                if(key==current){
+                    div.addClass('current');
+                }
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
                                 
                 div = $("<div class='floaters'></div>");
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
+                //history.length
                 div.append(img);
                 if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                if(key==current){
+                    div.addClass('current');
+                }
                 $("#historyContent").append(div);
                 type="solid";
 

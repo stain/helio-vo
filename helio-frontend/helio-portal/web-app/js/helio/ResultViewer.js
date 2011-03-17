@@ -172,8 +172,8 @@ $("#currentDisplay").find("#delete").click(function(){
             });
 
         },
-        render: function(key) {
-         if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
+        render: function(key,current) {
+  //       if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
 /*
 
             if(window.historyBar.getCurrentKey() == key){
@@ -203,14 +203,18 @@ $("#currentDisplay").find("#delete").click(function(){
 return;
 
   */
- if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
+ if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key +" current "+current);
 
             type = 'solid';
             div = $("<div id='"+key+"' class='floaters resultDraggable'></div>");
             img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
             div.append(img);
             if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
-            $("#historyContent").append(div);
+if(key==current){
+ div.addClass('current');
+}
+
+$("#historyContent").append(div);
 
             var draggable = $("#"+key);
             draggable.data("Left", 0).data("Top", 0);

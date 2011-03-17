@@ -7,7 +7,7 @@ function fnclearDateTexts(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
   
     $("#instArea").html($("#droppable-inner").data("content"));
-    //$(".tooltip").css("display","none");
+//$(".tooltip").css("display","none");
 }
 function fnclearDateTexts2(){
     $(".hideDates").css("display","block");
@@ -18,7 +18,7 @@ function fnclearDateTexts2(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
 
     $("#instArea").html($("#droppable-inner").data("content"));
-    //$(".tooltip").css("display","none");
+//$(".tooltip").css("display","none");
 }
 
 function fnOnCompleteGetColumns(){
@@ -407,7 +407,7 @@ function fnOnComplete(){
     
    
     
-    //fnclearDateTexts();
+    
     
     //var element = new HelioElement("../images/icons/toolbar/result.png","nativeResult","Amount of entries: "+totalSize);
     
@@ -625,11 +625,11 @@ $(document).ready(function()
     window.workspace = workspace;
     window.workspace.init();
  
-     $("#section-navigation img[title]").tooltip({
-                position: "top center",
-                delay: 100,
-                predelay:500
-            });
+    $("#section-navigation img[title]").tooltip({
+        position: "top center",
+        delay: 100,
+        predelay:500
+    });
    
     
     

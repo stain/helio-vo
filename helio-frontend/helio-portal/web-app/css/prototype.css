@@ -135,7 +135,8 @@ td, th {
     }
     #history {
       float: left;
-      padding:2px;
+      
+      
       width: 86px;
       min-height:425px;
       background-color:#F5F6F9;
@@ -173,7 +174,8 @@ td, th {
     .floaters{
         width:35px;
         height:35px;
-
+        margin-left:15px;
+        margin-top:2px;
         float:left;
         padding:10px;
     }
@@ -363,4 +365,17 @@ td, th {
     padding:3px;
     border:1px solid #5B5FA8;
     margin-bottom: 2px;
+}
+.current{
+    border:1px solid #5B5FA8;
+}
+.resultDroppable{
+    background-image:url(../images/helio/circle_time_grey.png);
+    background-repeat: no-repeat;
+    background-position: 12px 12px;
+}
+.resultDroppable2{
+    background-image:url(../images/helio/circle_inst_grey.png);
+    background-repeat: no-repeat;
+    background-position: 12px 12px;
 }
