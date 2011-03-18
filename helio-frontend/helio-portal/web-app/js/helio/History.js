@@ -1,17 +1,11 @@
 function History() {
-    // Private variable
+    
   
     var array=[];
     var limit = 13;
     var offset =0;
     var filter = "all";
     var current = 0;
-
-    // Private method
-    var privateMethod = function(){
-    // Access to private fields
-    
-    };
 
     return {
         init: function(){
@@ -53,9 +47,9 @@ function History() {
             return array[current];
         },
         removeCurrent:  function() {
-            if (typeof console!="undefined")console.info("History :: removeCurrent");
+            if (typeof console!="undefined")console.info("History :: removeCurrent" + current);
             this.removeItem(current);
-            window.workspace.clear();
+            //window.workspace.clear();
         },
 
         lastItem:  function() {
@@ -85,8 +79,11 @@ function History() {
         },
         removeItem : function(index) {
             if (typeof console!="undefined")console.info("History :: removeItem ->"+ index);
+            
+            
             array.splice(index, 1);
             if(array.length >0)current--;
+            
           
             this.render();
 
@@ -128,7 +125,14 @@ function History() {
         render: function(param){
             if (typeof console!="undefined")console.info("History :: render ->" + current +" param "+ param);
             //console.log("History => render ");
-            if(param !=1)if(array.length >0)window.workspace.setElement(array[current]);
+            if(param !=1){
+                if(array.length >0 && current >=0){
+
+                    window.workspace.setElement(array[current]);
+                }else{
+                    window.workspace.setDisplay("splash");
+                }
+            }
             $('#historyContent').html('');
             var key = 0;
         
@@ -190,7 +194,7 @@ function History() {
            
         
 
-fnInitDroppable();
+            fnInitDroppable();
         },
 
         shiftRight: function() {

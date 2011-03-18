@@ -1,17 +1,15 @@
 function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelParam) {
 
-    // Private variable
-    //console.log("HelioElement created "+ imageParam);
     var className = "ActionViewer";
     var actionName = actionNameParam;
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
     var label = labelParam;
-    var resulthtml;
+    
     var advancedSearch;
     var prevData;
-    var printKey;
+    
     var step =0;
     var history = new Array();
 
@@ -100,7 +98,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
         },
         prepareStep: function(formData,advancedSearchParams) {
             if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
-            this.prevData=formData;
+            prevData=formData;
             advancedSearch=advancedSearchParams;
         },
 
@@ -109,7 +107,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
           
             var object = new Object();
             object['result']=result;
-            object['formData']=this.prevData;
+            object['formData']=prevData;
             object['advancedSearch']=advancedSearch;
             
             history.push(object);
@@ -220,7 +218,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             $("#responseDivision").html("");
 
               
-    
+    fnInitializeDatePicker();
 
            
         },//end renderContent

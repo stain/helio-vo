@@ -108,8 +108,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
 
                     }
 
-                    //$("#time-row").append("<li> "+j +"  : " +content[i][j]+" </li>");
-                    //$("#instrument-row").append("<li> "+j +"  : " +content[i][j]+" </li>");
+                //$("#time-row").append("<li> "+j +"  : " +content[i][j]+" </li>");
+                //$("#instrument-row").append("<li> "+j +"  : " +content[i][j]+" </li>");
                     
 
                 }
@@ -119,51 +119,51 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                 }
                 if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ) $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
-//2003-01-01T07:49:00 / 2003-01-01T07:59:00
+            //2003-01-01T07:49:00 / 2003-01-01T07:59:00
                
             }
- $(".adding").click(function(){
-                    if (typeof console!="undefined")console.info("ResultViewer :: adding click");
+            $(".adding").click(function(){
+                if (typeof console!="undefined")console.info("ResultViewer :: adding click");
 
-                    var time_start = $(this).parent().children("ul").text();
-                    var fields = time_start.split("T");
-                    var first = fields[0].split("-");
-                    var second = fields[1].split(":");
+                var time_start = $(this).parent().children("ul").text();
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
                     
-                    var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
 
 
                     
-                    d.setMinutes(d.getMinutes()+30);
+                d.setMinutes(d.getMinutes()+30);
                     
 
-                    var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                    var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                    var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                    var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
 
-                    $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-                });
-                $(".subbing").click(function(){
-                    var time_start = $(this).parent().find("ul").text();
-                    var fields = time_start.split("T");
-                    var first = fields[0].split("-");
-                    var second = fields[1].split(":");
-                    var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                    d.setMinutes(d.getMinutes()-30);
+                $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+            });
+            $(".subbing").click(function(){
+                var time_start = $(this).parent().find("ul").text();
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
+                d.setMinutes(d.getMinutes()-30);
 
-                    var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                    var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                    var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                    var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
 
-                    $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-                });
+                $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+            });
             
 
-$("#currentDisplay").find("#delete").click(function(){
+            $("#currentDisplay").find("#delete").click(function(){
                 window.historyBar.removeCurrent()
             });
             $("#currentDisplay").find("#label").change(function() {
@@ -173,8 +173,8 @@ $("#currentDisplay").find("#delete").click(function(){
 
         },
         render: function(key,current) {
-  //       if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
-/*
+            //       if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
+            /*
 
             if(window.historyBar.getCurrentKey() == key){
                     var div = $("<div class='newcurrent'> "+"Result Selection"+" </div>");
@@ -203,18 +203,18 @@ $("#currentDisplay").find("#delete").click(function(){
 return;
 
   */
- if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key +" current "+current);
+            if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key +" current "+current);
 
             type = 'solid';
             div = $("<div id='"+key+"' class='floaters resultDraggable'></div>");
             img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
             div.append(img);
             if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
-if(key==current){
- div.addClass('current');
-}
+            if(key==current){
+                div.addClass('current');
+            }
 
-$("#historyContent").append(div);
+            $("#historyContent").append(div);
 
             var draggable = $("#"+key);
             draggable.data("Left", 0).data("Top", 0);
@@ -227,52 +227,52 @@ $("#historyContent").append(div);
                 window.historyBar.setFocus(key);
 
             });//end dbclick
-$( ".resultDraggable" ).draggable({
-                    revert: "invalid",
+            $( ".resultDraggable" ).draggable({
+                revert: "invalid",
 
 
 
-                    zIndex: 1700,
-                    start: function(event,ui ) {
+                zIndex: 1700,
+                start: function(event,ui ) {
 
-                        //var tooltip =$(this).data('tooltip');
-                        //tooltip.getConf().opacity = 0;
-                        $(".resultDroppable2").droppable("enable");
-                        $(".resultDroppable").droppable("enable");
+                    //var tooltip =$(this).data('tooltip');
+                    //tooltip.getConf().opacity = 0;
+                    $(".resultDroppable2").droppable("enable");
+                    $(".resultDroppable").droppable("enable");
 
 
 
-                    },
-                    stop: function(event,ui ) {
+                },
+                stop: function(event,ui ) {
 
-                        //var tooltip =$(this).data('tooltip');
-                        //tooltip.getConf().opacity = 1;
-                        if($(this).data('returnMe')){
-                            var dropBox =$(this).data('dropBox');
+                    //var tooltip =$(this).data('tooltip');
+                    //tooltip.getConf().opacity = 1;
+                    if($(this).data('returnMe')){
+                        var dropBox =$(this).data('dropBox');
 
-                            fnclearDateTexts2();
+                        fnclearDateTexts2();
 
-                            $("#instArea").html($("#droppable-inner").data("content"));
-                            $(dropBox).removeClass("ui-state-active");
-                            $( dropBox).removeClass( "ui-state-highlight" );
-                            $(this).animate({
-                                "left": $(this).data("Left"),
-                                "top": $(this).data("Top")
-                            }, "slow",function(){
-                                //window.historyBar.render();
-                                //fnInitDroppable();
+                        $("#instArea").html($("#droppable-inner").data("content"));
+                        $(dropBox).removeClass("ui-state-active");
+                        $( dropBox).removeClass( "ui-state-highlight" );
+                        $(this).animate({
+                            "left": $(this).data("Left"),
+                            "top": $(this).data("Top")
+                        }, "slow",function(){
+                            //window.historyBar.render();
+                            //fnInitDroppable();
                             });
 
-                        }
-                        $(this).data('returnMe',false)
-
-
-
-
-
-
                     }
-                });//dragable
+                    $(this).data('returnMe',false)
+
+
+
+
+
+
+                }
+            });//dragable
         }
     };
 }

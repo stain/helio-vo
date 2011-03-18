@@ -20,6 +20,7 @@
 
 html{
     font: 11px verdana, arial, helvetica, sans-serif;
+    color: black;
 }
 .deleteViewer{
     float:right;
@@ -177,7 +178,10 @@ td, th {
         margin-left:15px;
         margin-top:2px;
         float:left;
-        padding:10px;
+
+        padding:5px 15px;
+        padding-bottom:15px;
+        overflow: hidden;
     }
     .floaters .customLabel{
         
@@ -378,4 +382,7 @@ td, th {
     background-image:url(../images/helio/circle_inst_grey.png);
     background-repeat: no-repeat;
     background-position: 12px 12px;
+}
+.fg-button{
+    padding:0 10px;
 }

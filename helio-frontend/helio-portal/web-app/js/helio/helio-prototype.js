@@ -1,14 +1,8 @@
-function fnclearDateTexts(){
-    //$(".hideDates").css("display","block");
-    //$(".TextAreas").css("display","none");
-    //$(".minDateList").val("");
-    //$(".maxDateList").val("");
-    $(".resultDroppable" ).removeClass( "ui-state-highlight" );
-    $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
-  
-    $("#instArea").html($("#droppable-inner").data("content"));
-//$(".tooltip").css("display","none");
-}
+/*
+ *clears the datefields back to the original state when a droppable circle is dragged out of target
+ *clears the highlighting of the droparea as well
+ *@TODO: needs to be reworked into a droppable item methods in their corresponding viewer
+ **/
 function fnclearDateTexts2(){
     $(".hideDates").css("display","block");
     $(".TextAreas").css("display","none");
@@ -21,6 +15,10 @@ function fnclearDateTexts2(){
 //$(".tooltip").css("display","none");
 }
 
+/*
+ *method called when the ajax query for advanced parameters
+ *@TODO: needs to me worked into the actionviewer class
+ */
 function fnOnCompleteGetColumns(){
     if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
     $(".columnSelection").keyup(function(){
@@ -29,6 +27,12 @@ function fnOnCompleteGetColumns(){
     });
 }
 
+/*
+ *method called when submiting a query to gather the data of the advanced parameters fields and convert it into a single line by filling out the whereField
+ *works in conjuction with a listener set on the .columnSelection onChange
+ *
+ *@TODO: rework all queries into a similar method using the forms plugin for jquery
+ */
 
 function mysubmit(){
     if (typeof console!="undefined")console.info("mysubmit");
@@ -58,12 +62,15 @@ function mysubmit(){
         }
         return true;
     });
-//$('#pqlQuery').append($("#minDate").text());
+
 }
 
-
+/*
+ *test method to check functionality of datepicker
+ *@TODO: rework into the actionviewer class
+ */
 function fnInitializeDatePicker(){
-    return;
+    /**
     var dates = $('#minDate, #maxDate').datepicker({
         
         showOn: "button",
@@ -72,7 +79,8 @@ function fnInitializeDatePicker(){
         
   
     });
-/**
+    **/
+
      var dates = $('#minDate, #maxDate').datepicker({
         defaultDate: "+1w",
         
@@ -90,58 +98,16 @@ function fnInitializeDatePicker(){
             var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
             dates.not(this).datepicker("option", option, date);
         }
-    });**/
-}
-
-//not in use
-function fnInitializeDataTable(){
-    if (typeof console!="undefined")console.info("fnInitializeDataTable");
-    $('.resultTable').dataTable({
-        "bJQueryUI": true,
-        "bAutoWidth": true,
-        "bLengthChange": false,
-        "sPaginationType": "full_numbers",
-        "sScrollX": "100%",
-        "sScrollXInner": "100%",
-        "bScrollCollapse": true,
-        "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-            var dataIndex =aData.length-1;
-            $(nRow).unbind();
-            if($(nRow).hasClass("odd") && $(nRow).hasClass("even_selected")||$(nRow).hasClass("odd") && $(nRow).hasClass("odd_selected")){
-                $(nRow).removeClass("odd");
-            }
-            if($(nRow).hasClass("even") && $(nRow).hasClass("even_selected")||$(nRow).hasClass("even") && $(nRow).hasClass("odd_selected")){
-                $(nRow).removeClass("even");
-            }
-            /* Deal with a click on each row
-
-            $(nRow).click( function() {
-                
-                var pos =oTable.fnGetPosition(this);
-
-                fnAddSelectedRow(pos,aData);
-
-                if ( aData[dataIndex] == 1 )
-                {
-                    aData[dataIndex] = 0;
-                }
-                else
-                {
-                    aData[dataIndex] = 1;
-                }
-
-
-                this.className = (aData[dataIndex] == 1) ?
-                this.className+'_selected' :
-                this.className.replace( /_selected/, "" );
-            });
-            */
-            return nRow;
-        }
     });
-    
 }
 
+
+/*
+ *Method not in use
+ *adds an extra row to the datatables for keeping track of what was selected previously
+ *
+ *@TODO: rework into the votable manager concept
+ */
 function fnAppendColumnSelected(){
     if (typeof console!="undefined")console.info("fnAppendColumnSelected");
     var nCloneTd = $( '<td></td>' );
@@ -161,6 +127,10 @@ function fnAppendColumnSelected(){
     } );
 }
 
+/*
+ *initializes the droppable areas for the selected results.
+ *@TODO: should be part of actionviewer
+ */
 function fnInitDroppable(){
     if (typeof console!="undefined")console.info("fnInitDroppable");
     
@@ -221,14 +191,6 @@ function fnInitDroppable(){
 
 
             }
-
-
-
-
-
-
-
-
 
         }
     }).data('dropped_items',"");
@@ -320,11 +282,15 @@ function fnInitDroppable(){
 
 
 
-//not in use
+/*
+ *Test method to check data being selected properly
+ *
+ *@TODO: check if this method is still in use and clean if its not
+ */
 function fnGetSelected( oTableLocal )
 {
 
-    if (typeof console!="undefined")console.info("fnGetSelected");
+    if (typeof console!="undefined")console.error("fnGetSelected");
     var aSelected = new Array();
     var aaData = oTableLocal.fnSettings().aaDataMaster;
     for ( var i=0 ; i<aaData.length ; i++ )
@@ -338,14 +304,15 @@ function fnGetSelected( oTableLocal )
     return aSelected;
 }
 
+
+/*
+ *callback method that is used to keep track of whats been selected in a dataTable
+ *contents are kept in an invisible division called #testdiv and the elements added are .resCont
+ *they have attributes that keept track of the row selected and header corresponding to that row
+ */
 function fnAddSelectedRow(pos,aData,oTable){
     if (typeof console!="undefined")console.info("fnAddSelectedRow");
-
-    
-    
-    
-    //var count =parseInt($("#resultSelectionCounter").text());
-    
+        
     
     var totalResult =[];
     var headers =oTable.fnSettings().aoColumns;
@@ -387,6 +354,13 @@ function fnAddSelectedRow(pos,aData,oTable){
     $("#resultSelectionCounter").text($('.resCont').length);
 }
 
+
+/*
+ *Called when the ajax asynchQuery is finished
+ *gets the currently displayed element and adds a step to it. Element are always ResultViewer
+ *@TODO: should be moved to ResultViewer
+ *
+ */
 function fnOnComplete(){
     if (typeof console!="undefined")console.info("fnOnComplete");
 
@@ -403,93 +377,16 @@ function fnOnComplete(){
     //var totalSize = $("#totalSize").val();
     
     
-    return;
-    
-   
-    
-    
-    
-    //var element = new HelioElement("../images/icons/toolbar/result.png","nativeResult","Amount of entries: "+totalSize);
-    
-    //window.historyBar.addItem(element);
-    //window.historyBar.render();
-    $('.resultTable').each(function(){
-
-        fnFormatTable(this.id);
-
-    });
-    //$('#displayableResult').append($("#previousQuery").text());
-    $('#displayableResult').append($('#tables'));
-
-
-    $('#displayableResult').css("display","block");
-
-    //fnFormatTable("#example");
-    $("#responseDivision").html("");
-
-    $("#resultSelectionSave").click(function(){
-        var count =0;
-        var totalResult = [];
-        $(".resCont").each(function(){
-            count++;
-            $(this).remove();
-            var rowData = $(this).attr("title").split(",");
-
-            var colNames = $(this).attr("title2").split(",");
-
-            var partialResult =[];
-            for(i in colNames){
-
-                partialResult[colNames[i]]=rowData[i];
-            }
-            totalResult.push(partialResult);
-        });
-
-
-        totalResult.count = "Saved elements: " + count;
-
-        var element = new HelioElement("../images/icons/toolbar/selectedR.png","resultSelection",totalResult);
-        window.historyBar.addItem(element);
-        window.historyBar.render();
-        $(".even_selected").each(function(){
-            $(this).removeClass("even_selected");
-            $(this).addClass("even");
-        });
-        $(".odd_selected").each(function(){
-            $(this).removeClass("odd_selected");
-            $(this).addClass("odd");
-        });
-        $('#testdiv').css("display",'none');
-        $(".resCont").remove();
-        $('.displayable').css("display","none");
-
-        $('.columnInputs').html("");
-        $('#whereField').val("");
-
-        //$(".tooltip").css("display","none");
-
-        $("#staticFormContent").html("");
-
-        var content = window.historyBar.lastItem().getContent();
-        $("#staticFormContent").append("Amount of "+ content.count);
-        for(i in content){
-            if(i=="count"){
-                continue;
-            }
-            $("#staticFormContent").append("<br>");
-            $("#staticFormContent").append("<h3>_____________________________</h3>");
-            $("#staticFormContent").append("<ul>");
-            for(j in content[i]){
-                $("#staticFormContent").append("<li>"+j +"  : " +content[i][j]+"</li>");
-            }
-            $("#staticFormContent").append("</ul>");
-            $("#displayableSeletedResult").css("display","block");
-        }
-    });
 
 }
 
 
+/*
+ *Formats every datatable in the system and adds listeners to the rows to be clicked
+ *
+ *@param tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
+ *
+ */
 
 function fnFormatTable(tableName){
     if (typeof console!="undefined")console.info("fnFormatTable");
@@ -546,12 +443,37 @@ function fnFormatTable(tableName){
 		
 }
 
-
+/*
+ *Initializes the save result button, creates the new selected result element and adds it to the history bar with its relevant content
+ *@TODO: should be moved into resultviewer since its an action that can only be done in there.
+ */
 function fnInitSave(){
     if (typeof console!="undefined")console.info("fnInitSave");
     $("#resultSelectionSave").click(function(){
         if (typeof console!="undefined")console.info("Save selection clicked");
 
+if($(".resCont").length==0){
+    var div =$('<div></div>');
+    div.attr('id','dialog-message');
+    div.attr('title','Information');
+var message ="You need to select at least one row from your results at the bottom";
+     div.append('<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>')
+     $("#testdiv").append(div);
+
+
+	   $('#dialog-message').dialog({
+
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+                
+                return;
+
+}
         $(".odd").remove();
         $(".even").remove();
 
@@ -583,7 +505,7 @@ function fnInitSave(){
 
 
 
-        var element = new ResultViewer("../images/icons/toolbar/selectedR.png","resultSelection",tablesHtml,totalResult);
+        var element = new ResultViewer("../images/icons/toolbar/circle_time.png","resultSelection",tablesHtml,totalResult);
         window.historyBar.addItem(element);
         window.historyBar.render();
         /*
@@ -611,12 +533,42 @@ function fnInitSave(){
      
     });//end click
 }
+/* Creates a popup for the help section
+ * @params url,windowname,w,h,x,y pretty self explanatory just set the initial size and position of the new window
+ *
+ */
+function myPopup(url,windowname,w,h,x,y){
+    if (typeof console!="undefined")console.info("myPopup");
+    window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+}
+/*
+ * clears the current selection of the catalogue selectors in the actions
+ * @TODO: if selectors are staying theway they are, move to ResultViewer
+ */
+function fnOnChangeHistoryFilterSelect(event){
+    if (typeof console!="undefined")console.info("fnOnChangeHistoryFilterSelect");
+
+    window.historyBar.setFilter($(event).find("option:selected").val());
+    window.historyBar.render();
+}
+/**
+ * method called before the asynchQuery is done to take all the parameters in advanced parameters and combine them into the box of the where field
+ * @TODO: move to resultVierwer
+ */
+function fnBeforeQuery(){
+    if (typeof console!="undefined")console.info("fnBeforeQuery");
+    mysubmit();
+
+
+}
+
 
 
 //javascript start
 $(document).ready(function()
 {
 
+    
     var history = new History();
     var workspace = new Workspace();
 
@@ -624,7 +576,8 @@ $(document).ready(function()
     window.historyBar.init();
     window.workspace = workspace;
     window.workspace.init();
- 
+ //Test code area
+
     $("#section-navigation img[title]").tooltip({
         position: "top center",
         delay: 100,
@@ -633,8 +586,14 @@ $(document).ready(function()
    
     
     
-    
-/**
+
+	$('#collapsable .header').click(function() {
+            alert("being clicked");
+		$(this).next().toggle('slow');
+		return false;
+	}).next().hide();
+
+$("#collapsable").css('display','none');
 window.onbeforeunload = function () {
         
     //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
@@ -642,25 +601,7 @@ window.onbeforeunload = function () {
 
     return "Leaving this site will clear all your browsing history";
 
-}  **/
+}  
 
 });
-
-function myPopup(url,windowname,w,h,x,y){
-    if (typeof console!="undefined")console.info("myPopup");
-    window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
-}
-
-function fnOnChangeHistoryFilterSelect(event){
-    if (typeof console!="undefined")console.info("fnOnChangeHistoryFilterSelect");
-    
-    window.historyBar.setFilter($(event).find("option:selected").val());
-    window.historyBar.render();
-}
-function fnBeforeQuery(){
-    if (typeof console!="undefined")console.info("fnBeforeQuery");
-    mysubmit();
-
-    
-}
 

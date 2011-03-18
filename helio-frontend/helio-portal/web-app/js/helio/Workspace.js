@@ -62,7 +62,7 @@ function Workspace() {
             newDiv.attr("id","currentDisplay");
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
-            
+            fnInitializeDatePicker();
         },
         createItem: function(imagePath){
             if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
@@ -102,22 +102,26 @@ function Workspace() {
                     element = new UploadViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
+                          var options = {
+                target: '#responseDivision',   // target element(s) to be updated with server response
+                success: fnOnComplete  // post-submit callback
+            };
+            $('#myForm').ajaxForm(options);
                     break;
                 default:
                     break;
             }//end case
-
+  $("#currentDisplay").find("#delete").click(function(){
+                window.historyBar.removeCurrent()
+            });
+            fnInitializeDatePicker();
             
 
         },
         render: function() {
             if (typeof console!="undefined")console.error("Workspace :: render");
             return;
-            var options = {
-                target: '#responseDivision',   // target element(s) to be updated with server response
-                success: fnOnComplete  // post-submit callback
-            };
-            $('#myForm').ajaxForm(options);
+      
             
             
             
