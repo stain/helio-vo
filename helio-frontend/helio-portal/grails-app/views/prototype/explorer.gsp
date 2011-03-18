@@ -10,7 +10,7 @@
     <title>Helio: FrondEnd</title>
 
 
-    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.2.custom.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
     
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
@@ -109,12 +109,23 @@
       <!-- Content -->
       <div style="display:block;" id="content">
         <!-- 1st level droppable -->
-        <div style="border:none" id="droppable-inner" class="ui-widget-header">
+        <div style="border:none" id="droppable-inner" >
            <g:render template="templates/displayable-content" />
         </div>
       </div>
 
       <div id="responseDivision" style="width:858px;"></div>
+
+      <div id="collapsable" style="border:1px solid black;width: 100%;clear:both;">
+        <h3><a class="header" href="#">First header</a></h3>
+    <div>First content</div>
+    <h3><a href="#">Second header</a></h3>
+    <div>Second content</div>
+
+      </div>
+
+   
+
     </div>
   </div>
 

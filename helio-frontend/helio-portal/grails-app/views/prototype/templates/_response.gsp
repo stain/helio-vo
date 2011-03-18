@@ -24,7 +24,7 @@
 
 <g:set var="result" value="${responseObject?.result}" />
 <g:set var="result" scope="session" value="${responseObject?.result}" />
-    <g:form controller="prototype"><g:actionSubmit style="padding:3px;float:left" action="downloadVOTable" value="Download VOTable" name="download"/></g:form>
+    <g:form controller="prototype"><g:actionSubmit style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/></g:form>
     <div id="resultSelectionCounter" style="margin-right:10px;padding:3px;float:right;width:15px;height:15px;border:1px solid black">0</div>
     <div id="resultSelectionSave" style="margin-right:10px;padding:3px;float:right;width:auto;height:15px;border:1px solid black">Save Selection</div>
 
@@ -50,7 +50,7 @@
     </thead>
     <tbody>
     <g:each in="${tables?.getData()}" status="i" var="testInstance">
-      <tr class="${(i % 2) == 0 ? 'gradeB' : 'gradeC'}">
+      <tr class="${(i % 2) == 0 ? 'gradeB' : 'gradeB'}">
       <g:each in="${testInstance}" status="j" var="row">
         <g:if test="${urls == j}"><td><a href="${row}">${row.substring(row.lastIndexOf('/')+1,row.length())}</a></td></g:if>
         <g:else><td>${row}</td></g:else>
