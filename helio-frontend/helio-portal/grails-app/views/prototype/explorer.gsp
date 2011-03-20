@@ -86,9 +86,9 @@
         
           <div class="draggable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" id="hec_draggable" alt="HELIO Event Catalog" /></div>
           <div class="draggable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="Instrument Capabilties Service" /></div>
-          <div class="draggable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the right place for a certain observation." src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="Instrument Location Service" /></div>
-          <div class="draggable"><img title="<b>Data Provider Access Service<b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="Data Provide Access Service" /></div>
-          <div class="draggable"><img title="Upload your data as VoTable" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="Upload a VOTable" /></div>
+          <div class="draggable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="Instrument Location Service" /></div>
+          <div class="draggable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="Data Provide Access Service" /></div>
+          <div class="draggable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="Upload a VOTable" /></div>
       </div>
       
       <div style="color:white">Helio</div>
