@@ -219,6 +219,13 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
               
     fnInitializeDatePicker();
+     $( "input:button").button();
+            $( "input:file").button();
+            $( "input:submit").button();
+            $( ".controls").button();
+            $( ".custom-button").button();
+
+
 
            
         },//end renderContent
@@ -290,7 +297,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#historyContent").append(div);
                 type="solid";
 
-                div.dblclick(function() {
+                div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);

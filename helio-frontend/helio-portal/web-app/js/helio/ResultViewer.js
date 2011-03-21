@@ -220,7 +220,7 @@ return;
             draggable.data("Left", 0).data("Top", 0);
             draggable.data('returnMe',false);
                 
-            div.dblclick(function() {
+            div.click(function() {
                 if (typeof console!="undefined")console.info("ResultViewer :: item doubleclicked ->"+ key);
                 window.historyBar.cleanGhost();
                 //var item = window.historyBar.getItem(key);

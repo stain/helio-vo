@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
 
   <g:javascript library="jquery" plugin="jquery"/>
-  <g:javascript src="jquery-ui-1.8.5.custom.min.js"/>
+  <g:javascript src="jquery-ui-1.8.11.custom.min.js"/>
+  
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
   <g:javascript src="/helio/ActionViewer.js"/>
@@ -57,7 +58,7 @@
     <!--img src="${resource(dir:'images/helio',file:'helio_logo.jpg')}" width="200px" height="100px"  /-->
     <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   />
     <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   />
-    <!--img style="position:relative;top:-10px;float:right" src="${resource(dir:'images/background',file:'logo7.png')}"   /-->
+    <img style="position:relative;top:-10px;float:right;height: 90px" src="${resource(dir:'images/background',file:'logo7.png')}"  />
   </div>
 
   <!-- Navigation Bar -->
@@ -121,6 +122,9 @@
     <div>First content</div>
     <h3><a href="#">Second header</a></h3>
     <div>Second content</div>
+
+
+
 
       </div>
 

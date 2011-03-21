@@ -1,8 +1,8 @@
 .controls{
-    border:1px solid black;
+    margin-top: 10px;
     float:left;
-    padding: 2px 6px;
-    margin-right:1px;
+    
+    
 
 }
 .message{
@@ -385,4 +385,12 @@ td, th {
 }
 .fg-button{
     padding:0 10px;
+}
+html{
+    -moz-user-select: none;
+    -khtml-user-select: none;
+}
+input{
+    -moz-user-select: all;
+    -khtml-user-select: all;
 }

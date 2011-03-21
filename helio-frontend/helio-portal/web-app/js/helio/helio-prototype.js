@@ -85,6 +85,7 @@ function fnInitializeDatePicker(){
         defaultDate: "+1w",
         
         yearRange: '1970:2011',
+        dateFormat: 'yy-mm-dd',
         changeMonth: true,
         showOn: "button",
         buttonImageOnly: true,
@@ -398,6 +399,7 @@ function fnFormatTable(tableName){
         "sPaginationType": "full_numbers",
         "sScrollX": "100%",
         "iDisplayLength": 25,
+        "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         //"sScrollXInner": "100%",
         "bScrollCollapse": true,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
@@ -557,6 +559,11 @@ function fnOnChangeHistoryFilterSelect(event){
  */
 function fnBeforeQuery(){
     if (typeof console!="undefined")console.info("fnBeforeQuery");
+    
+    var mindate = $('#minDate').val();
+    var maxdate = $('#maxDate').val();
+
+    
     mysubmit();
 
 
@@ -586,6 +593,10 @@ $(document).ready(function()
    
     
     
+		
+
+	
+
 
 	$('#collapsable .header').click(function() {
             alert("being clicked");

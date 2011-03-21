@@ -111,11 +111,15 @@ function Workspace() {
                 default:
                     break;
             }//end case
+
   $("#currentDisplay").find("#delete").click(function(){
                 window.historyBar.removeCurrent()
             });
             fnInitializeDatePicker();
-            
+            $( "input:button").button();
+            $( ".controls").button();
+            $( ".custom-button").button();
+            $( "input:submit").button();
 
         },
         render: function() {
