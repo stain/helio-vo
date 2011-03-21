@@ -9,19 +9,9 @@
   <table>
     <name>hi_cme_list</name>
     <column>
-      <name>time_start</name>
-      <description>time_start</description>
-    </column>
-    <column>
-
       <name>instrument</name>
       <description>instrument</description>
     </column>
-    <column>
-      <name>time_end</name>
-      <description>time_end</description>
-    </column>
-
     <column>
       <name>data_gap</name>
       <description>data_gap</description>
@@ -29,7 +19,6 @@
     <column>
       <name>cme_type</name>
       <description>cme_type</description>
-
     </column>
     <column>
       <name>brightness</name>
@@ -37,7 +26,6 @@
     </column>
     <column>
       <name>pa_central</name>
-
       <description>pa_central</description>
     </column>
     <column>
@@ -45,7 +33,6 @@
       <description>pa_width</description>
     </column>
     <column>
-
       <name>time_onset</name>
       <description>time_onset</description>
     </column>
@@ -81,19 +68,9 @@
   <table>
     <name>bas_magnetic_storms</name>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-
       <name>time_peak</name>
       <description>event peak time</description>
     </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-    </column>
-
     <column>
       <name>dst</name>
       <description>magnetic field [nT]</description>
@@ -143,31 +120,12 @@
       <description>first_bs_flag</description>
 
     </column>
-    <column>
-      <name>time_start</name>
-      <description>time_start</description>
-    </column>
-    <column>
-      <name>time_end</name>
-
-      <description>time_end</description>
-    </column>
   </table>
   <table>
     <name>yohkoh_flare_list</name>
     <column>
-      <name>time_start</name>
-
-      <description>event start time</description>
-    </column>
-    <column>
       <name>time_peak</name>
       <description>event peak time</description>
-    </column>
-    <column>
-
-      <name>time_end</name>
-      <description>event end time</description>
     </column>
     <column>
       <name>nar</name>
@@ -222,11 +180,6 @@
   </table>
   <table>
     <name>dsd_list</name>
-
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
     <column>
       <name>radio_10cm</name>
       <description>radio emission at 10 cm</description>
@@ -291,11 +244,6 @@
   <table>
     <name>hi_event</name>
     <column>
-      <name>time_start</name>
-      <description>time_start</description>
-    </column>
-
-    <column>
       <name>date</name>
       <description>date</description>
     </column>
@@ -334,19 +282,9 @@
       <name>ntime_start</name>
       <description>selection start time</description>
     </column>
-
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
     <column>
       <name>time_peak</name>
       <description>event peak time</description>
-
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
     </column>
     <column>
       <name>ntime_end</name>
@@ -383,16 +321,6 @@
   </table>
   <table>
     <name>drao_10cm_flux</name>
-
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-
-    </column>
     <column>
       <name>sfu_observed</name>
       <description>observed solar flux units</description>
@@ -411,19 +339,10 @@
   <table>
     <name>apstar_list</name>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
 
       <name>time_peak</name>
       <description>event peak time</description>
     </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-    </column>
-
     <column>
       <name>hduration</name>
       <description>duration [h]</description>
@@ -445,12 +364,7 @@
   </table>
   <table>
     <name>lasco_cme_list</name>
-    <column>
-      <name>time_start</name>
-
-      <description>event start time</description>
-    </column>
-    <column>
+     <column>
       <name>pa_central</name>
       <description>polar angle [deg]</description>
     </column>
@@ -462,11 +376,6 @@
   </table>
   <table>
     <name>ssc_list</name>
-    <column>
-
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
     <column>
       <name>nstn_A</name>
       <description>Number stations reporting an A event</description>
@@ -490,10 +399,6 @@
     <name>kso_flare</name>
 
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
       <name>time_start_m</name>
       <description>event start time modifier</description>
 
@@ -506,10 +411,6 @@
       <name>time_peak_m</name>
 
       <description>event peak modifier</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
     </column>
     <column>
 
@@ -538,10 +439,6 @@
   <table>
     <name>forbush_list</name>
 
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
     <column>
       <name>sc</name>
       <description>forbush sc</description>
@@ -606,27 +503,12 @@
   <table>
     <name>gle_list</name>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-    </column>
-    <column>
       <name>rem</name>
       <description>Remarks</description>
-
     </column>
   </table>
   <table>
     <name>srs_list</name>
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-
-    </column>
     <column>
       <name>nar</name>
       <description>active region number</description>
@@ -685,15 +567,6 @@
   </table>
   <table>
     <name>solar_wind_event</name>
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-    </column>
     <column>
       <name>sw_list</name>
       <description>solar wind list index</description>
@@ -772,15 +645,6 @@
     <name>soho_camp</name>
 
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-
-    </column>
-    <column>
       <name>sohoc_num</name>
       <description>SoHO Campaign number</description>
     </column>
@@ -815,11 +679,6 @@
   </table>
   <table>
     <name>noaa_proton_event</name>
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-
-    </column>
     <column>
       <name>time_peak</name>
       <description>event peak time</description>
@@ -865,18 +724,8 @@
   <table>
     <name>hessi_flare</name>
     <column>
-      <name>time_start</name>
-
-      <description>event start time</description>
-    </column>
-    <column>
       <name>time_peak</name>
       <description>event peak time</description>
-    </column>
-    <column>
-
-      <name>time_end</name>
-      <description>event end time</description>
     </column>
     <column>
       <name>nar</name>
@@ -956,15 +805,6 @@
     </column>
 
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-
-    </column>
-    <column>
       <name>time_sxt_trace</name>
       <description>Time of the TRACE image closest to time_start_sxt</description>
     </column>
@@ -1014,17 +854,9 @@
   <table>
     <name>halpha_flares_event</name>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
 
       <name>time_peak</name>
       <description>event peak time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
     </column>
 
     <column>
@@ -1063,18 +895,8 @@
       <description>selection start time</description>
     </column>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-
-    <column>
       <name>time_peak</name>
       <description>event peak time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-
     </column>
     <column>
       <name>ntime_end</name>
@@ -1134,19 +956,10 @@
   </table>
   <table>
     <name>wind_imf_mag_cloud</name>
-    <column>
-      <name>time_start</name>
-      <description>time_start</description>
-    </column>
 
     <column>
       <name>doy_start</name>
       <description>doy_start</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>time_end</description>
-
     </column>
     <column>
       <name>doy_end</name>
@@ -1165,15 +978,6 @@
 
   <table>
     <name>lasco_cme_cat</name>
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-
-      <name>time_end</name>
-      <description>event end time</description>
-    </column>
     <column>
       <name>pa_central</name>
       <description>polar angle [deg]</description>
@@ -1214,11 +1018,6 @@
   </table>
   <table>
     <name>eit_list</name>
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-
     <column>
       <name>previmg_time</name>
       <description>Previous Image Time</description>
@@ -1264,18 +1063,8 @@
   <table>
     <name>aastar_list</name>
     <column>
-      <name>time_start</name>
-      <description>event start time</description>
-
-    </column>
-    <column>
       <name>time_peak</name>
       <description>event peak time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-
-      <description>event end time</description>
     </column>
     <column>
       <name>hduration</name>
@@ -1299,15 +1088,6 @@
   <table>
     <name>sidc_sunspot_number</name>
 
-    <column>
-      <name>time_start</name>
-      <description>event start time</description>
-    </column>
-    <column>
-      <name>time_end</name>
-      <description>event end time</description>
-
-    </column>
     <column>
       <name>ssn</name>
       <description>sunspot number</description>
