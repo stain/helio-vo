@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>helio-idlclient</artifactId>
+    <groupId>eu.heliovo</groupId>
+    <version>0.4-SNAPSHOT</version>
+  </parent>
+  <groupId>eu.heliovo</groupId>
+  <artifactId>helio-idlclient-provider</artifactId>
+  <version>0.4-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>helio-idlclient-provider</name>
+  <dependencies>
+    <dependency>
+    	<groupId>commons-beanutils</groupId>
+    	<artifactId>commons-beanutils</artifactId>
+    	<version>1.8.3</version>
+    	<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>javax.servlet</groupId>
+    	<artifactId>servlet-api</artifactId>
+    	<version>2.4</version>
+    	<type>pom</type>
+    	<scope>provided</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>helio-idlclient-provider</finalName>
+  </build>
+</project>
