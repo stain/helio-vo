@@ -21,6 +21,7 @@ import uk.ac.starlink.registry.BasicRegistryClient;
 import uk.ac.starlink.registry.BasicResource;
 import uk.ac.starlink.registry.SoapClient;
 
+@SuppressWarnings("unused")
 public class RegistryClient {
 	Logger log = getLogger(RegistryClient.class.getName());
 
