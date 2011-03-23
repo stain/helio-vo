@@ -179,4 +179,37 @@ class PrototypeController {
         }
 
     }
+
+
+    def downloadPartialVOTable = {
+
+return;
+
+
+
+
+        log.info("downloadVOTable =>" + params  + session)
+
+        String indexes =params.indexes;
+        String[] fields = indexes.split(",");
+        for(String field:fields){
+            String[] holder = field.split("resultTable");
+            int row = Integer.parseInt(holder[0]);
+            int table = Integer.parseInt(holder[1]);
+            println "row "+row;
+            println "table "+table;
+        }
+
+
+        if(session.result !=null){
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+            Date date = new Date();
+            def name= formatter.format(date);
+            name = session.serviceq +"-"+name;
+            response.setContentType("application/xml")
+            response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
+            response.outputStream << session.result.getStringTable()
+        }
+
+    }
 }

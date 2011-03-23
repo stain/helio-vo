@@ -120,6 +120,16 @@ function Workspace() {
             $( ".controls").button();
             $( ".custom-button").button();
             $( "input:submit").button();
+              //@TODO: tooltips
+    //tooltipme
+     $(".tooltipme").tooltip({
+        position: "top center",
+        delay: 0,
+        predelay:0
+    });
+
+$("#minDate").val(window.minDate);
+$("#maxDate").val(window.maxDate);
 
         },
         render: function() {

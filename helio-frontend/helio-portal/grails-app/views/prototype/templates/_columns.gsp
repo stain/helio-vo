@@ -1,5 +1,5 @@
 <h1 style="position:relative;right:35px;margin-bottom:20px;float:none;">Catalogue Parameters</h1>
-
+<input class="column-reset" type="button" value="Reset the form">
 <table>
   
 

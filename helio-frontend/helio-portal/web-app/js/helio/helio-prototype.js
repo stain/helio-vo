@@ -21,6 +21,11 @@ function fnclearDateTexts2(){
  */
 function fnOnCompleteGetColumns(){
     if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
+    $(".column-reset").button();
+    $(".column-reset").click(function(){
+        
+      $(".columnSelection").val("");
+    });
     $(".columnSelection").keyup(function(){
         mysubmit();
 
@@ -93,12 +98,21 @@ function fnInitializeDatePicker(){
         changeYear: true,
         numberOfMonths: 1,
         onSelect: function(selectedDate) {
-
+           
+            this.id == "minDate" ? window.minDate = selectedDate : window.maxDate = selectedDate;
             var option = this.id == "minDate" ? "minDate" : "maxDate";
             var instance = $(this).data("datepicker");
             var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
             dates.not(this).datepicker("option", option, date);
+
         }
+    });
+    $("#minDate").keyup(function(){
+        
+       window.minDate=$(this).val();
+    });
+    $("#maxDate").keyup(function(){
+        window.maxDate=$(this).val();
     });
 }
 
@@ -483,10 +497,12 @@ var message ="You need to select at least one row from your results at the botto
 
          
 
-         
+         var indexes = new Array();
         var count =0;
         var totalResult = [];
         $(".resCont").each(function(){
+            indexes.push($(this).text());
+            console.debug($(this).text());
             count++;
             $(this).remove();
             var rowData = $(this).attr("title").split(",");
@@ -507,7 +523,7 @@ var message ="You need to select at least one row from your results at the botto
 
 
 
-        var element = new ResultViewer("../images/icons/toolbar/circle_time.png","resultSelection",tablesHtml,totalResult);
+        var element = new ResultViewer("../images/icons/toolbar/circle_time.png","resultSelection",tablesHtml,totalResult,indexes);
         window.historyBar.addItem(element);
         window.historyBar.render();
         /*
@@ -560,6 +576,7 @@ function fnOnChangeHistoryFilterSelect(event){
 function fnBeforeQuery(){
     if (typeof console!="undefined")console.info("fnBeforeQuery");
     
+    //@TODO: validation
     var mindate = $('#minDate').val();
     var maxdate = $('#maxDate').val();
 
@@ -583,18 +600,19 @@ $(document).ready(function()
     window.historyBar.init();
     window.workspace = workspace;
     window.workspace.init();
- //Test code area
 
+    //TODO:hack of dates
+    
+ //Test code area
+window.maxDate="2003-01-03";
+window.minDate="2003-01-01";
     $("#section-navigation img[title]").tooltip({
         position: "top center",
         delay: 100,
         predelay:500
     });
    
-    
-    
-		
-
+  
 	
 
 

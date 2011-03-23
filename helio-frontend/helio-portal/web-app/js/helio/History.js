@@ -11,7 +11,7 @@ function History() {
         init: function(){
             if (typeof console!="undefined")console.info("History :: init");
 
-            $( ".draggable" ).click(function() {
+            $( ".draggable" ).dblclick(function() {
                 window.workspace.createItem($(this).find("img").attr("src"));
             });
 

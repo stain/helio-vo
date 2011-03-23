@@ -3,8 +3,11 @@
     <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'circle_obs.png')}" />
     <h1 style ="float:left;position:relative;left:15px" > Result Selection </h1>
     <g:render template="templates/controls_reduced" />
+    
   </div>
+  
   <table style="clear:both;width:850px;margin-top:30px;margin-bottom: 30px">
+    
     <tr>
       <td class="row-borders" id="time-row">
         <img style="margin-left:100px;height:40px;padding-bottom:20px " src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}" />
@@ -20,6 +23,11 @@
       </td>
     </tr>
   </table>
+  <div id="voTables" style="clear: both; padding: 20px 5pt 20pt 5px;">
+  <g:form controller="prototype"><g:actionSubmit style="padding:3px;float:left" action="downloadPartialVOTable" value="Save as VOTable" name="download"/>
+          <input id="indexes" type="hidden" value="" name="indexes" />
+  </g:form>
+  </div>
 
   <div id="displayableResult" class="displayable" style="display:block">
 

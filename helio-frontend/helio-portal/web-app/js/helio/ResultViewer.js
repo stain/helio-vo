@@ -1,4 +1,4 @@
-function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelParam) {
+function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesParam) {
 
     // Private variable
 
@@ -8,7 +8,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = labelParam;
+    var label = "";
+    var indexes = indexesParam;
     var resulthtml;
     var prevData;
     var printKey;
@@ -171,6 +172,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,labelPar
                 window.historyBar.render(1);
             });
 
+            $("#indexes").val(indexes);
+
         },
         render: function(key,current) {
             //       if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
@@ -220,7 +223,7 @@ return;
             draggable.data("Left", 0).data("Top", 0);
             draggable.data('returnMe',false);
                 
-            div.click(function() {
+            div.dblclick(function() {
                 if (typeof console!="undefined")console.info("ResultViewer :: item doubleclicked ->"+ key);
                 window.historyBar.cleanGhost();
                 //var item = window.historyBar.getItem(key);

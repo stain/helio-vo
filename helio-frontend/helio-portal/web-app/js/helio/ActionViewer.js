@@ -225,7 +225,11 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             $( ".controls").button();
             $( ".custom-button").button();
 
-
+ $(".tooltipme").tooltip({
+        position: "top center",
+        delay: 0,
+        predelay:0
+    });
 
            
         },//end renderContent
@@ -297,7 +301,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#historyContent").append(div);
                 type="solid";
 
-                div.click(function() {
+                div.dblclick(function() {
                     if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);
