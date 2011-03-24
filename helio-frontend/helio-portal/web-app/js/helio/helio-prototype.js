@@ -15,22 +15,88 @@ function fnclearDateTexts2(){
 //$(".tooltip").css("display","none");
 }
 
+
 /*
  *method called when the ajax query for advanced parameters
  *@TODO: needs to me worked into the actionviewer class
  */
 function fnOnCompleteGetColumns(){
-    if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
-    $(".column-reset").button();
-    $(".column-reset").click(function(){
-        
-      $(".columnSelection").val("");
-    });
-    $(".columnSelection").keyup(function(){
-        mysubmit();
-
-    });
+	if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
+	$(".column-reset").button();
+	$(".column-reset").click(function(){
+		
+		$(".columnSelection").val("");
+	});
+	$(".columnSelection").keyup(function(){
+		mysubmit();
+		
+	});
 }
+
+/**
+ * register click handler on advanced query link
+ */
+jQuery(document).ready(function() {
+	$(".content").hide();
+	// load the content of the body from remote.
+	$(".advancedHecQueryHeading").click(function() {
+		var source = this;
+		// get the checkbox content
+		var selected = [];
+		console.debug($('#catalogueSelector :checked'));
+	    $('#catalogueSelector :checked').each(function() {
+	      selected.push($(this).val());
+	    });
+	    if (selected.length == 0) {
+	    	$('#hecResponse').html("<p>Please select a list before opening this section.</p>");
+	    	return;
+	    }
+	    var data = {"extra":jQuery.param(selected), "serviceName":"HEC"};
+	    jQuery.ajax(
+			{type:'POST',
+			 data:data,
+			 source:source,
+			 url:'/helio-portal/prototype/asyncGetColumns',
+			 success:function(data,textStatus){$("#hecResponse").slideToggle(200); $('#hecResponse').html(data);},
+			 error: _fnOnErrorGetColumns1,
+			 complete:_fnOnCompleteGetColumns1});
+	    return false;
+	});
+});
+
+/*
+ *method called when the ajax query for advanced parameters
+ *@TODO: needs to me worked into the actionviewer class
+ *MSo: change method to use a link instead of a button (for HEC query)
+ */
+function _fnOnCompleteGetColumns1(xmlHttpRequest,textStatus){
+	if (typeof console!="undefined") console.info("_fnOnCompleteGetColumns1");
+	
+	// disable checkboxes
+	$('.advancedHecQueryHeading').toggle(
+		function() {
+			$('#catalogueSelector input').each(function() {
+				$(this).attr('disabled', 'disabled');
+			});},
+		function() {
+			$('#catalogueSelector input').each(function() {
+				$(this).removeAttr('disabled');
+			});}
+	);
+		
+	//$("#hecResponse").slideToggle(200);
+}
+
+/**
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
+function _fnOnErrorGetColumns1(XMLHttpREquest,textStatus,errorThrown) {
+	console.log(textStatus + ": " + errorThrown);
+}
+
 
 /*
  *method called when submiting a query to gather the data of the advanced parameters fields and convert it into a single line by filling out the whereField

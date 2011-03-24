@@ -13,6 +13,28 @@
     padding: 5px 5px 5px 30px
  }
  
+.pqlmessage table tbody tr td {
+	padding: 0px 2px;
+	border: none red;
+}
+
+/**
+ * collapsible sections
+ */
+.advancedHecQueryHeading {
+	margin: 1px;
+	color: black;
+	font-weight: bold;
+	padding: 3px 10px;
+	cursor: pointer;
+	position: relative;
+    background-color:white;
+}
+
+.content {
+    padding: 5px 10px;
+    background-color:#fafafa;
+}
 
 
 html{
