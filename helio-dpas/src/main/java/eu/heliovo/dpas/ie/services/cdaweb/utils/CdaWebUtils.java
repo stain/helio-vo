@@ -1,20 +1,14 @@
 /* #ident	"%W%" */
 package eu.heliovo.dpas.ie.services.cdaweb.utils;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
 import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
-
 
 public class CdaWebUtils {
 	
@@ -64,6 +58,27 @@ public class CdaWebUtils {
 		    return both;
 	  }
 	  
+	  public static String[] addArrays(String[] first, String[] second) {
+		     String[] both = new String[first.length + second.length];  
+		     System.arraycopy(first, 0, both, 0, first.length);  
+		     System.arraycopy(second, 0, both, first.length, second.length);
+		    
+		    return both;
+	  }
+	  
+	  /**
+	   * 
+	   * @param dataSetId
+	   * @param length
+	   * @return
+	   */
+	  public static String[] getDataSetArray(String dataSetId,int length)
+	  {
+		  String[] dataSetIdArray=new String[length];
+		  Arrays.fill(dataSetIdArray, dataSetId);
+		  return dataSetIdArray;
+	  }
+	  
 	  public static String convertCalendarToString(Calendar date){
 			
 			 try
@@ -81,6 +96,5 @@ public class CdaWebUtils {
 			    e.printStackTrace();
 			 }
 			  return null;
-		  }
-				
+		  }		
 }

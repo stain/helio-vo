@@ -15,6 +15,7 @@ public class PointsStarTable  extends RandomStarTable {
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
         new ColumnInfo( "instrument_name", String.class, "Instrument name" ),
+        new ColumnInfo( "provider_instrument", String.class, "Provider Instrument name" ),
         new ColumnInfo( "url", String.class, "URL for the file" ),
         new ColumnInfo( "provider", String.class, "Provider Name" ),
         colStartDate,colEndDate,
@@ -48,7 +49,7 @@ public class PointsStarTable  extends RandomStarTable {
     }
 
     public int getColumnCount() {
-        return 5;
+        return 6;
     }
       
     public long getRowCount() {
@@ -65,10 +66,11 @@ public class PointsStarTable  extends RandomStarTable {
         if(resp_!=null && resp_.getRecord()!=null){
 	        switch ( icol ) {
 	        	case 0: return inst;
-	            case 1: return urlList[irow];
-	            case 2: return "VSO:"+resp_.getRecord()[irow].getProvider();
-	            case 3: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getStart());
-	            case 4: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getEnd());
+	        	case 1: return resp_.getRecord()[irow].getInstrument();
+	            case 2: return urlList[irow];
+	            case 3: return "VSO:"+resp_.getRecord()[irow].getProvider();
+	            case 4: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getStart());
+	            case 5: return VsoUtils.changeFormat(resp_.getRecord()[irow].getTime().getEnd());
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

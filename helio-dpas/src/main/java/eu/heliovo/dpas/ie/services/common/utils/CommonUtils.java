@@ -176,6 +176,9 @@ public class CommonUtils {
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));
 	    	 commonTO.setVotableDescription("Error, no data for "+commonTO.getWhichProvider()+" provider");
 	    	 commonTO.setQuerystatus("ERROR");
+	    	 commonTO.setHelioInstrument(commonTO.getParaInstrument());
+	    	 commonTO.setInstrument(null);
+	    	 commonTO.setMissionName(null);
 	    	 commonTO.setQuerydescription(" Provider access table is not configured for Instrument : "+commonTO.getParaInstrument());
 			 VOTableCreator.writeErrorTables(commonTO);
 		 }

@@ -16,6 +16,7 @@ public class PointsStarTable  extends RandomStarTable {
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
         new ColumnInfo( "instrument_name", String.class, "Instrument Name" ),
+        new ColumnInfo( "provider_instrument", String.class, "Provider Instrument name" ),
         new ColumnInfo( "url", String.class, "URL for the file" ),
         new ColumnInfo( "provider", String.class, "Provider Name" ),
         colStartDate,
@@ -26,6 +27,8 @@ public class PointsStarTable  extends RandomStarTable {
     FileDescription[]	resp_;
     int nRow_;
     String inst;
+    String provider_ins;
+    String[] dataSetIdArray;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
     /**
      * 
@@ -34,10 +37,12 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( FileDescription[] resp ,String instruments) {
-    	resp_=resp;
-    	nRow_=(int) resp.length;
-    	inst=instruments;
+    public PointsStarTable( FileDescription[] resp ,String helio_instrument,String instrument,String[] dataSetIdArray) {
+    	this.resp_=resp;
+    	this.nRow_=(int) resp.length;
+    	this.inst=helio_instrument;
+    	this.provider_ins=instrument;
+    	this.dataSetIdArray=dataSetIdArray;
     	//Start date 
     	colStartDate.setAuxDatum( new DescribedValue( VOStarTable.XTYPE_INFO,"iso8601"));
     	//End date
@@ -45,7 +50,7 @@ public class PointsStarTable  extends RandomStarTable {
     }
 
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
       
     public long getRowCount() {
@@ -62,10 +67,11 @@ public class PointsStarTable  extends RandomStarTable {
         if(resp_!=null && resp_[irow]!=null){
 	        switch ( icol ) {
 	        	case 0: return inst;
-	            case 1: return resp_[irow].getName();
-	            case 2: return "CDAWEB";
-	            case 3: return CdaWebUtils.convertCalendarToString(resp_[irow].getStartTime());
-	            case 4: return CdaWebUtils.convertCalendarToString(resp_[irow].getEndTime());
+	        	case 1:return dataSetIdArray[irow];
+	            case 2: return resp_[irow].getName();
+	            case 3: return "CDAWEB";
+	            case 4: return CdaWebUtils.convertCalendarToString(resp_[irow].getStartTime());
+	            case 5: return CdaWebUtils.convertCalendarToString(resp_[irow].getEndTime());
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

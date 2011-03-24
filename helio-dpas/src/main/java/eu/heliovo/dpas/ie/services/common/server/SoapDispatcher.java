@@ -158,7 +158,7 @@ public class SoapDispatcher implements Provider<Source> {
 				 String whereClause = inputDoc.getElementsByTagNameNS("*","WHERE").item(0).getFirstChild().getNodeValue();
 				
 			 }
-			 	     
+			 
 		     //
 		     pr = new PipedReader();
 			 pw = new PipedWriter(pr);
@@ -180,7 +180,6 @@ public class SoapDispatcher implements Provider<Source> {
 		    	 commonTO.setAllInstrument(CommonUtils.arrayToString(instruments,","));
 		     
 		     if(interfaceName == "LongTimeQuery".intern() || interfaceName == "LongQuery".intern()){
-		     
 		     if(startTime!=null && startTime.length>0 && stopTime!=null && stopTime.length>0 && instruments!=null && instruments.length>0 && instruments.length==startTime.length && instruments.length==stopTime.length){
 		    	 
 		     		 //Setting for No Of Rows parameter.
@@ -260,7 +259,7 @@ public class SoapDispatcher implements Provider<Source> {
 					commonTO.setDataXml(xmlString);
 					//Thread created to load data into response.
 					LongRunningQueryDao longRunningQueryDao= CommonDaoFactory.getInstance().getLongRunningQueryDao();
-					longRunningQueryDao.generatelongRunningQueryXML(commonTO);	
+					longRunningQueryDao.generatelongRunningQueryXML(commonTO);
 					//Long running query file location path result.
 			 }else if(interfaceName == "GetResult".intern()){
 				 String sID =null;
@@ -324,7 +323,7 @@ public class SoapDispatcher implements Provider<Source> {
 	     //else
 		  // response reader.  
 	   responseReader= new StreamSource(pr);
-	   
+	   return responseReader;
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(" : Exception occurred while creating the file :  "+e.getMessage());
@@ -343,7 +342,7 @@ public class SoapDispatcher implements Provider<Source> {
 			}
 		}
 		
-		return responseReader;
+		return null;
 	
 	}
 	

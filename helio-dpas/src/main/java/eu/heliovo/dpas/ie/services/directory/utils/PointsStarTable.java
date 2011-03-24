@@ -19,6 +19,7 @@ public class PointsStarTable  extends RandomStarTable {
     // Define the metadata object for each of the columns.
     ColumnInfo[] colInfos_ = new ColumnInfo[] {
     	new ColumnInfo( "instrument_name", String.class, "Instrument Name" ),
+    	new ColumnInfo( "provider_instrument", String.class, "Provider Instrument name" ),
     	new ColumnInfo( "url", String.class, "URL for the file" ),
     	new ColumnInfo( "provider", String.class, "Provider Name" ),
     	colStartDate,
@@ -30,6 +31,7 @@ public class PointsStarTable  extends RandomStarTable {
     int nRow_;
     String inst;
     String end_date;
+    String provd_inst;
     String providerSource;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
     DpasUtilities dpasUtils	=	new DpasUtilities();
@@ -40,10 +42,11 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( List<DPASResultItem> resp,String instrument,String endDate,String providerSource) {
+    public PointsStarTable( List<DPASResultItem> resp,String instrument,String endDate,String providerSource,String provider_instrument) {
     	resp_=resp;
      	nRow_=(int) resp.size();
      	inst=instrument;
+     	provd_inst=provider_instrument;
      	end_date=endDate.replace("T", " ");
      	//
      	this.providerSource=providerSource;
@@ -54,7 +57,7 @@ public class PointsStarTable  extends RandomStarTable {
     }
 
     public int getColumnCount() {
-        return 4;
+        return 6;
     }
       
     public long getRowCount() {
@@ -71,10 +74,11 @@ public class PointsStarTable  extends RandomStarTable {
         if(resp_!=null && resp_.get(irow)!=null){
 	        switch ( icol ) {
 	        	case 0:return inst;
-	            case 1:return resp_.get(irow).urlFITS;
-	            case 2:return providerSource;
-	            case 3:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
-	            case 4:return end_date;
+	        	case 1:return provd_inst;
+	            case 2:return resp_.get(irow).urlFITS;
+	            case 3:return providerSource;
+	            case 4:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
+	            case 5:return end_date;
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

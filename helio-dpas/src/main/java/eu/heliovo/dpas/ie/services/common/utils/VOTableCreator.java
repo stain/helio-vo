@@ -59,15 +59,15 @@ public class VOTableCreator {
        		 //Writing VOTABLE Resource
     		 out.write( "<RESOURCE>\n" );
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
- 	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
- 	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
- 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
+ 	         out.write( "<INFO name=\"QUERY_STATUS\">"+comCriteriaTO.getQuerystatus()+"</INFO>");
+ 	         out.write( "<INFO name=\"EXECUTED_AT\">"+now()+"</INFO>");
+ 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\">"+comCriteriaTO.getHelioInstrument()+"</INFO>");
  	         if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");
+	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\">"+comCriteriaTO.getInstrument()+"</INFO>");
 	         if(comCriteriaTO.getMissionName()!=null && !comCriteriaTO.getMissionName().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\" value=\""+comCriteriaTO.getMissionName()+"\"/>");
- 	         out.write( "<INFO name=\"TIME_RANGE\" value=\"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
- 	         out.write("<INFO  name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
+	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\">"+comCriteriaTO.getMissionName()+"</INFO>");
+ 	         out.write( "<INFO name=\"TIME_RANGE\">"+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"</INFO>");
+ 	         out.write("<INFO  name=\"QUERY_URL\">"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
 			         //VoTable Creator
@@ -75,7 +75,7 @@ public class VOTableCreator {
 		    	     vos.writeInlineTableElement(out);
 	 	         }
  	         }else{
- 	        	 out.write( "<INFO name=\"DATA_STATUS\" value=\"No data found, please try with some other date\"/>");
+ 	        	 out.write( "<INFO name=\"DATA_STATUS\">"+"No data found, please try with some other date</INFO>");
  	         }
 			 out.write( "</RESOURCE>\n" );
     	}catch (Exception e) {
@@ -110,16 +110,16 @@ public class VOTableCreator {
 		//Error resource
     		out.write( "<RESOURCE>\n" );
 	        out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
-	        out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
-	        out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
-	        out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
+	        out.write( "<INFO name=\"QUERY_STATUS\">"+comCriteriaTO.getQuerystatus()+"</INFO>");
+	        out.write( "<INFO name=\"EXECUTED_AT\">"+now()+"</INFO>");
+	        out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\">"+comCriteriaTO.getHelioInstrument()+"</INFO>");
 	        if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");
+	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\">"+comCriteriaTO.getInstrument()+"</INFO>");
 	        if(comCriteriaTO.getMissionName()!=null && !comCriteriaTO.getMissionName().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\" value=\""+comCriteriaTO.getMissionName()+"\"/>");
-	        out.write( "<INFO name=\"TIME_RANGE\" value=\"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
+	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\">"+comCriteriaTO.getMissionName()+"</INFO>");
+	        out.write( "<INFO name=\"TIME_RANGE\">"+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"</INFO>");
 	        if(comCriteriaTO.getQuerystatus().equals("ERROR")){
-	        	 out.write( "<INFO name=\"QUERY_ERROR\" value=\""+comCriteriaTO.getQuerydescription()+"\"/>");
+	        	 out.write( "<INFO name=\"QUERY_ERROR\">"+comCriteriaTO.getQuerydescription()+"</INFO>");
 	        }
 	        out.write( "</RESOURCE>\n" );
 	    //If any exception occurs print error votable.

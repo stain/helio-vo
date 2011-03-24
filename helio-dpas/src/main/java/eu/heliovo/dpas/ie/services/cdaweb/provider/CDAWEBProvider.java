@@ -44,6 +44,7 @@ public class CDAWEBProvider
             Calendar endTemp = Calendar.getInstance();
             //
             FileDescription[] fileDesc=new FileDescription[0] ;
+            String[] dataSetIdArray=new String[0];
             for(int i = 0;i < views.length;i++) {
                 if(views[i].isPublicAccess() && views[i].getId().equals("sp_phys")) {
                        binding = (CoordinatedDataAnalysisSystemBindingStub)new CDASWSLocator().getCoordinatedDataAnalysisSystemPort(new URL(views[i].getEndpointAddress()));
@@ -65,13 +66,17 @@ public class CDAWEBProvider
                           }else {
                               endTemp = endTime;
                           }
-                          System.out.println(" Getting FileDescription for CDAWEB ");
+                          System.out.println(" Getting FileDescription for CDAWEB  ");
                           FileDescription[] fds = binding.getDataFiles(dsd[k].getId(),startTemp,endTemp);
                           fileDesc=CdaWebUtils.addArrays(fileDesc, fds);
+                          //Data Set Array
+                          String[] dataSetTempArray=CdaWebUtils.getDataSetArray(dsd[k].getId(), fds.length);
+                          //
+                          dataSetIdArray=CdaWebUtils.addArrays(dataSetIdArray, dataSetTempArray);
                           System.out.println(" Adding FileDescription ");
                           System.out.println("....DONE !!!");
                        }//for
-                       tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getHelioInstrument());
+                       tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getHelioInstrument(),cdaWebTO.getInstrument(),dataSetIdArray);
                        tables[0].setName(cdaWebTO.getInstrument());
                        cdaWebTO.setStarTableArray(tables);
                        cdaWebTO.setQuerystatus("OK");

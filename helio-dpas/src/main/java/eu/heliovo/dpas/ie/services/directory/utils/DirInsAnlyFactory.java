@@ -6,6 +6,8 @@ import eu.heliovo.dpas.ie.services.common.utils.HsqlDbUtils;
 import eu.heliovo.dpas.ie.services.directory.provider.FtpProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.NOBEProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.Phoenix2Provider;
+import eu.heliovo.dpas.ie.services.directory.provider.ProbaLyraProvider;
+import eu.heliovo.dpas.ie.services.directory.provider.ProbaSwapProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.RhessiProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.SOT_FGProvider;
 import eu.heliovo.dpas.ie.services.directory.provider.SOT_SPProvider;
@@ -32,6 +34,10 @@ public abstract class DirInsAnlyFactory {
 	    	  return new SOT_FGProvider();
 	      case XRT		:
 	    	  return new XRTProvider();
+	      case SWAP		:
+	    	  return new ProbaSwapProvider();
+	      case LYRA		:
+	    	  return new ProbaLyraProvider();
 	      case NORH		:
 	    	  return new NOBEProvider();
 	      case FTP	:
@@ -53,9 +59,8 @@ public abstract class DirInsAnlyFactory {
 	          return null;
 	    }
 	  }
-	   	  
-
+	
 	enum DirType{
-		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP,HALPHA
+		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP,HALPHA,SWAP,LYRA
 	};
 }
