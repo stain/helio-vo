@@ -5,5 +5,5 @@
   
   
 </ul>
-<h3 style="padding:15px;">Please double click a service on the TOP menu.</h3>
+<h3 style="padding:15px;">Please double click a service on the TOP bar.</h3>
 

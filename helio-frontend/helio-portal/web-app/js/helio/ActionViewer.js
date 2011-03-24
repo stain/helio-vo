@@ -185,6 +185,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             unserialize(formData,advancedSearch);
 
             $("#responseDivision").html(result);
+            
             $('.resultTable').each(function(){
 
                 fnFormatTable(this.id);
@@ -192,7 +193,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             });
     
             $('#displayableResult').append($('#tables'));
-
+           
 
             $('#displayableResult').css("display","block");
             fnInitSave();
@@ -216,6 +217,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $('#whereField').val("");
             });
             $("#responseDivision").html("");
+           
 
               
     fnInitializeDatePicker();

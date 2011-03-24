@@ -410,7 +410,9 @@ function fnOnComplete(){
 
 function fnFormatTable(tableName){
     if (typeof console!="undefined")console.info("fnFormatTable");
-   
+  
+  //Run some code here
+
     $("#"+tableName).dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
@@ -461,7 +463,7 @@ function fnFormatTable(tableName){
 
 
     });
-		
+
 }
 
 /*

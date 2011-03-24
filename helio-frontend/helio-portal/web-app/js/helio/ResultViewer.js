@@ -173,6 +173,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             });
 
             $("#indexes").val(indexes);
+            $('input:submit').button();
 
         },
         render: function(key,current) {
