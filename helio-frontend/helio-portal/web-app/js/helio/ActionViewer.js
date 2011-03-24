@@ -231,7 +231,11 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
         predelay:0
     });
 
-           
+            
+    $(".column-reset").click(function(){
+
+      $(".columnSelection").val("");
+    });
         },//end renderContent
         render: function(key,current) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key +" current "+current);

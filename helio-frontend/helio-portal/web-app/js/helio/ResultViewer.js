@@ -79,7 +79,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             
             window.workspace.setDisplay("selected-result");
             var content = window.historyBar.getCurrent().getContent();
-            //console.debug(content);
+            
             $("#displayableResult").html(resultHtml);
             $("#displayableResult").css('display','block');
             $("#resultSelectionSave").remove();

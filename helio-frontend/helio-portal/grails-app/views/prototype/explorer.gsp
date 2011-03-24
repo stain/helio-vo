@@ -28,6 +28,7 @@
   <g:javascript src="/helio/History.js"/>
   <g:javascript src="/helio/Workspace.js"/>
   <g:javascript src="/helio/HelioElement.js"/>
+  <g:javascript src="/helio/cookies.js"/>
   <g:javascript src="jquery.form.js"/>
 
   <g:javascript src="jquery.dataTables.js" />

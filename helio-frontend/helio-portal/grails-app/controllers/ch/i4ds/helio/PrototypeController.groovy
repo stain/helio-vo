@@ -100,7 +100,7 @@ class PrototypeController {
           
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
-                println "catched"
+                
                 println e.printStackTrace();
             }
 
@@ -183,32 +183,105 @@ class PrototypeController {
 
     def downloadPartialVOTable = {
 
-return;
 
 
 
 
-        log.info("downloadVOTable =>" + params  + session)
+
+        log.info("downloadPartialVOTable =>" + params  + session)
 
         String indexes =params.indexes;
         String[] fields = indexes.split(",");
+        def rowIndexSelection = [];
+        def tableIndexSelection = [];
         for(String field:fields){
             String[] holder = field.split("resultTable");
             int row = Integer.parseInt(holder[0]);
             int table = Integer.parseInt(holder[1]);
-            println "row "+row;
-            println "table "+table;
+            rowIndexSelection.add(table+"."+row);
+            if(!tableIndexSelection.contains(table))tableIndexSelection.add(table);
         }
+      
+
+        VOTABLE res = session.result.getVOTABLE();
+       
+        
+        
+        for(int resourceIndex =0;resourceIndex < res.getRESOURCE().size();resourceIndex++)
+        {
+            
+            RESOURCE resource = res.getRESOURCE().get(resourceIndex);
+
+            if(!tableIndexSelection.contains(resourceIndex)){
+                    res.getRESOURCE().set(resourceIndex,null);
+                    
+                    continue;
+            }
+           
+
+
+
+            for(int tableIndex =0;tableIndex < resource.getTABLE().size();tableIndex++)
+            {
+                
+                
+                TABLE table= resource.getTABLE().get(tableIndex);
+                
+        
+                for(int trIndex=0;trIndex < table.getDATA().getTABLEDATA().getTR().size();trIndex++)
+                {
+                    if(!rowIndexSelection.contains(resourceIndex+"."+trIndex)){
+                        
+                       table.getDATA().getTABLEDATA().getTR().set(trIndex,null);
+                       
+                    }
+                    
+                    
+                    
+          
+          
+                }/*
+                 for(int trIndex=0;trIndex < table.getDATA().getTABLEDATA().getTR().size();trIndex++){
+                     if(table.getDATA().getTABLEDATA().getTR().get(trIndex)==null){
+                         
+                         table.getDATA().getTABLEDATA().getTR().remove(trIndex);
+                         trIndex--;
+                     }else{
+                         println "i wasnt deleted wtf "+ trIndex;
+                     }
+                 }
+                  */
+               
+               
+            }
+           
+            
+
+        }
+        /**
+        for(int resourceIndex =0;resourceIndex < res.getRESOURCE().size();resourceIndex++)
+        {
+            if(res.getRESOURCE().get(resourceIndex) == null){
+                res.getRESOURCE().remove(resourceIndex);
+                println "removing "+ resourceIndex;
+                resourceIndex--;
+            }
+            
+        }
+        **/
+
+
 
 
         if(session.result !=null){
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
-            name = session.serviceq +"-"+name;
+            name = session.serviceq +"-reduced-"+name;
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << session.result.getStringTable()
+            
         }
 
     }

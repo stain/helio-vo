@@ -99,7 +99,9 @@ function fnInitializeDatePicker(){
         numberOfMonths: 1,
         onSelect: function(selectedDate) {
            
-            this.id == "minDate" ? window.minDate = selectedDate : window.maxDate = selectedDate;
+            //this.id == "minDate" ? window.minDate = selectedDate : window.maxDate = selectedDate;
+            this.id == "minDate" ? $.cookie("minDate",selectedDate) : $.cookie("maxDate",selectedDate);
+
             var option = this.id == "minDate" ? "minDate" : "maxDate";
             var instance = $(this).data("datepicker");
             var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
@@ -109,10 +111,13 @@ function fnInitializeDatePicker(){
     });
     $("#minDate").keyup(function(){
         
-       window.minDate=$(this).val();
+       //window.minDate=$(this).val();
+       $.cookie("minDate",$(this).val());
     });
     $("#maxDate").keyup(function(){
-        window.maxDate=$(this).val();
+        //window.maxDate=$(this).val();
+        
+    $.cookie("maxDate",$(this).val());
     });
 }
 
@@ -366,7 +371,7 @@ function fnAddSelectedRow(pos,aData,oTable){
     }else{
         $('#testdiv').css('display','none');
     }
-    $("#resultSelectionCounter").text($('.resCont').length);
+    $("#resultSelectionCounter").find('span').text($('.resCont').length);
 }
 
 
@@ -502,7 +507,7 @@ var message ="You need to select at least one row from your results at the botto
         var totalResult = [];
         $(".resCont").each(function(){
             indexes.push($(this).text());
-            console.debug($(this).text());
+            
             count++;
             $(this).remove();
             var rowData = $(this).attr("title").split(",");
@@ -604,8 +609,11 @@ $(document).ready(function()
     //TODO:hack of dates
     
  //Test code area
-window.maxDate="2003-01-03";
-window.minDate="2003-01-01";
+if($.cookie("mixDate")==null)$.cookie("minDate","2003-01-01");
+if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
+
+//window.maxDate="2003-01-03";
+//window.minDate="2003-01-01";
     $("#section-navigation img[title]").tooltip({
         position: "top center",
         delay: 100,

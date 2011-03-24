@@ -128,8 +128,11 @@ function Workspace() {
         predelay:0
     });
 
-$("#minDate").val(window.minDate);
-$("#maxDate").val(window.maxDate);
+//$("#minDate").val(window.minDate);
+//$("#maxDate").val(window.maxDate);
+$("#minDate").val($.cookie("minDate"));
+$("#maxDate").val($.cookie("maxDate"));
+
 
         },
         render: function() {
