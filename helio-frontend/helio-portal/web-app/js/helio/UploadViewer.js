@@ -74,60 +74,60 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             if (typeof console!="undefined")console.info("UploadViewer :: renderContent");
             try{
                 
-window.workspace.setDisplay(actionName);
+                window.workspace.setDisplay(actionName);
             
-            $("#currentDisplay").find("#label").val(label);
+                $("#currentDisplay").find("#label").val(label);
                 
-            if(result != null){
+                if(result != null){
                 
 
             
-                $("#responseDivision").html(result);
-                $('.resultTable').each(function(){
+                    $("#responseDivision").html(result);
+                    $('.resultTable').each(function(){
 
-                    fnFormatTable(this.id);
+                        fnFormatTable(this.id);
 
+                    });
+                
+                    $('#displayableResult').append($('#tables'));
+                    $("#myForm").remove();
+
+                    $('#displayableResult').css("display","block");
+                    $("#responseDivision").html("");
+
+                    fnInitSave();
+                }
+            
+
+
+            
+            
+                $("#currentDisplay").find("#delete").click(function(){
+                    window.historyBar.removeCurrent();
                 });
-                
-                $('#displayableResult').append($('#tables'));
-                $("#myForm").remove();
-
-                $('#displayableResult').css("display","block");
+                $("#currentDisplay").find("#label").change(function() {
+                    window.historyBar.getCurrent().setLabel($(this).val());
+                    window.historyBar.render(1);
+                });
+            }catch(err){
                 $("#responseDivision").html("");
-
-                fnInitSave();
-            }
-            
-
-
-            
-            
-           $("#currentDisplay").find("#delete").click(function(){
-                window.historyBar.removeCurrent();
-            });
-            $("#currentDisplay").find("#label").change(function() {
-                window.historyBar.getCurrent().setLabel($(this).val());
-                window.historyBar.render(1);
-            });
-  }catch(err){
-                $("#responseDivision").html("");
-                 //$("#currentDisplay").remove();
+                //$("#currentDisplay").remove();
                 console.debug("another error");
                 result=null;
                 //window.workspace.setDisplay(actionName);
                 console.debug("RENDERING AGAIN");
                 this.renderContent();
                 var options = {
-                target: '#responseDivision',   // target element(s) to be updated with server response
-                success: fnOnComplete  // post-submit callback
-            };
-            $('#myForm').ajaxForm(options);
-              $( "input:button").button();
-            $( ".controls").button();
-            $( ".custom-button").button();
-            $( "input:submit").button();
-            $("#myForm").append("<br><br><span style='color:red'>Error Ocurred when parsing the VoTable please revise your syntax.</span>");
-                //window.historyBar.removeCurrent();
+                    target: '#responseDivision',   // target element(s) to be updated with server response
+                    success: fnOnComplete  // post-submit callback
+                };
+                $('#myForm').ajaxForm(options);
+                $( "input:button").button();
+                $( ".controls").button();
+                $( ".custom-button").button();
+                $( "input:submit").button();
+                $("#myForm").append("<br><br><span style='color:red'>Error Ocurred when parsing the VoTable please revise your syntax.</span>");
+            //window.historyBar.removeCurrent();
 
                 
             }

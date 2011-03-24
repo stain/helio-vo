@@ -13,10 +13,7 @@
     padding: 5px 5px 5px 30px
  }
  
-.pqlmessage table tbody tr td {
-	padding: 0px 2px;
-	border: none red;
-}
+
 
 html{
     font: 11px verdana, arial, helvetica, sans-serif;
@@ -42,11 +39,11 @@ html{
     min-height:480px;
     padding:10px;
 }
-td, th {
+.resultTable td, th {
     font: 11px verdana, arial, helvetica, sans-serif;
     line-height: 12px;
     padding: 5px 6px;
-    text-align: left;
+    
     vertical-align: top;
 }
 

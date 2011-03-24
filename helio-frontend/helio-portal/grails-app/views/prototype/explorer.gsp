@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
 
+
+
+
   <g:javascript library="jquery" plugin="jquery"/>
   <g:javascript src="jquery-ui-1.8.11.custom.min.js"/>
   
@@ -32,8 +35,6 @@
   <g:javascript src="jquery.form.js"/>
 
   <g:javascript src="jquery.dataTables.js" />
-
-
 
 
 

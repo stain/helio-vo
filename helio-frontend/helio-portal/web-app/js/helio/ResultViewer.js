@@ -114,16 +114,23 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     
 
                 }
+
                 if(time_start != null && time_end != null) {
-                    $("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
-                    $("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
+                    //$("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
+                    //$("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
+                    $("#times-table").append(
+                        '<tr><td><input type="text" value="'+ time_start+'"/></td>'+
+                        '<td><input type="checkbox"/></td>'+
+                        '<td><input type="text" value="'+ time_end+'"/></td></tr>');
                 }
+                
                 if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ) $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
             //2003-01-01T07:49:00 / 2003-01-01T07:59:00
                
             }
             $(".adding").click(function(){
+                return;
                 if (typeof console!="undefined")console.info("ResultViewer :: adding click");
 
                 var time_start = $(this).parent().children("ul").text();
@@ -147,6 +154,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 $(this).parent().find("ul").text(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
             });
             $(".subbing").click(function(){
+                return;
                 var time_start = $(this).parent().find("ul").text();
                 var fields = time_start.split("T");
                 var first = fields[0].split("-");

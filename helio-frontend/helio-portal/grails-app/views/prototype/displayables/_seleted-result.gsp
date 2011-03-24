@@ -12,15 +12,27 @@
       <td class="row-borders" id="time-row">
         <img style="margin-left:100px;height:40px;padding-bottom:20px " src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}" />
        <center> <h2>Time Selection</h2></center>
+      <table id="times-table" style="width:100%;text-align:center">
+          <tr >
+            <td>
+              Time Start:
+            </td>
+            <td>.</td>
+            <td>
+              Time End:
+            </td>
+          </tr>
+        </table>
       </td>
       <td class="row-borders" id="instrument-row">
         <img style="margin-left:100px;height:40px;padding-bottom:20px" src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}" />
         <center><h2>Instrument Selection</h2></center>
+       
       </td>
-      <td class="row-borders" id="observatory-row" style="border-right:1px solid black">
+      <!--td class="row-borders" id="observatory-row" style="border-right:1px solid black">
         <img style="margin-left:100px;height:40px;padding-bottom:20px" src="${resource(dir:'images/icons/toolbar',file:'circle_obs.png')}" />
         <center><h2>Observatory Selection</h2></center>
-      </td>
+      </td-->
     </tr>
   </table>
   <div id="voTables" style="clear: both; padding: 20px 5pt 20pt 5px;">
