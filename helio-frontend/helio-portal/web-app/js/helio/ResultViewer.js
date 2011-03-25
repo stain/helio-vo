@@ -77,7 +77,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
         renderContent: function() {
             if (typeof console!="undefined")console.info("ResultViewer :: renderContent");
             
-            window.workspace.setDisplay("selected-result");
+            window.workspace.setDisplay("selected_result");
             var content = window.historyBar.getCurrent().getContent();
             
             $("#displayableResult").html(resultHtml);

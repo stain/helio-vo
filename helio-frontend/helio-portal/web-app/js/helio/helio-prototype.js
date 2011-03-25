@@ -36,7 +36,7 @@ function fnOnCompleteGetColumns(){
 /**
  * register click handler on advanced query link
  */
-jQuery(document).ready(function() {
+function fnInitHecExtended(){
 	$(".content").hide();
 	// load the content of the body from remote.
 	$(".advancedHecQueryHeading").click(function() {
@@ -62,7 +62,7 @@ jQuery(document).ready(function() {
 			 complete:_fnOnCompleteGetColumns1});
 	    return false;
 	});
-});
+}
 
 /*
  *method called when the ajax query for advanced parameters

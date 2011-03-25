@@ -56,6 +56,8 @@ class PrototypeController {
             resultMap[table] = hash.get(table);
         }
         render template:'templates/columns', bean:resultMap, var:'resultMap'
+        
+        //render template:'templates/columns_extended', bean:resultMap, var:'resultMap'
 
     }
     def asyncUpload ={

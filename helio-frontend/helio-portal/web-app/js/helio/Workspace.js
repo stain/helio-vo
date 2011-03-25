@@ -10,11 +10,12 @@ function Workspace() {
     };
 
     return {
-        // Public methods
-
+        
+        //Iinitializes by filling the @divisions map with the html contained in the sections, also removes the html to not overlap ids
         init: function() {
             if (typeof console!="undefined")console.info("Workspace :: init");
 
+            ingestDivision("hec_extended","#displayableHEC_extended");
             ingestDivision("hec","#displayableHEC");
             ingestDivision("ics","#displayableICS");
             ingestDivision("ils","#displayableILS");
@@ -23,7 +24,7 @@ function Workspace() {
             ingestDivision("loading","#displayableOnLoading");
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
-            ingestDivision("selected-result","#displayableSeletedResult");
+            ingestDivision("selected_result","#displayableSeletedResult");
 
             this.setDisplay("splash");
             
@@ -76,6 +77,12 @@ function Workspace() {
             var element;
 
             switch (text) {
+                case 'hec_extended':
+                    element = new ActionViewer(imagePath,"ghost",text);
+                    window.historyBar.addItem(element);
+                    window.historyBar.render();
+                    fnInitHecExtended();
+                    break;
                 case 'hec':
                     element = new ActionViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
