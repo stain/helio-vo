@@ -6,7 +6,7 @@
   </div>
   <div style="clear:both;padding:50px 0 0 80px;">  
     <g:form controller="prototype">
-      <table width="100%">
+      <table width="100%" cellpadding="0" cellspacing="0">
         <col width="*" />
         <col width="250"/> 
         <tbody>
@@ -23,12 +23,12 @@
           <td>
             <table>
               <tr>
-                <td colspan="2"><b>Event catalog</b></td>
+                <td colspan="2"><b>Event list</b></td>
               </tr>
               <tr>
                 <td colspan="2">
-                  <div id="catalogueSelector">
-                    <table><tr>
+                  <div id="hecExtendedCatalogSelector">
+                    <table cellpadding="0" cellspacing="0"><tr>
                       <td>
                       <g:each status="status" var="list" in="${[
                         'hi_cme_list'
@@ -59,8 +59,9 @@
                         ,'aastar_list'
                         ,'sidc_sunspot_number'
                            ].sort()}">
+                           <%-- create a new column in the selection table --%>
                           <g:if test="${status % 9 == 0}"><%="</td><td>"%></g:if>
-                          <input type="checkbox" value="${list}" />${list}<br/>
+                          <input type="checkbox" name="extra" value="${list}" />${list}<br/>
                         </g:each> 
                       </td>
                     </tr></table>
@@ -76,21 +77,27 @@
         <%-- advanced query --%>
         <%-- g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" --%>
         <tr>
-          <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-            <div class="advancedHecQueryHeading">&gt; Advanced Query</div>
-            <div class="columnInputs" id="hecResponse"></div>
-            <input id="whereField" name="where" style="display:none" type="text"/>
+          <td style="border-top: solid 1px gray;">
+            <div id="hecExtendedQueryHeadingClosed">&gt; Advanced Query <span id="hecExtendedQueryHeadingError"></span></div>
+            <div id="hecExtendedQueryHeadingOpen">v Advanced Query</div>
           </td>
-          <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-            <div class="message"><b>Step 3</b><br/>Select advanced qualifiers</div>
+          <td style="border-top: solid 1px gray;">
+            <div class="message"><b>Step 3</b> (optional)<br/>Select advanced qualifiers for selected columns<br/>Close this section to select different catalogs</div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div id="hecExtendedQueryContent" class="columnInputs"></div>
+            <input name="serviceName" type="hidden" value="HEC"/>          
+            <input id="whereField" name="where" style="display:none" type="text"/>          
           </td>
         </tr>
         <%-- submit button --%>
         <tr>
-          <td style="border-bottom: solid 1px gray;">
-            <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+          <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
+            <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncHecQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
           </td>
-          <td style="border-bottom: solid 1px gray;">
+          <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
             <div class="message"><b>Step 4</b><br/>Submit query to HELIO</div>
           </td>
         </tr>

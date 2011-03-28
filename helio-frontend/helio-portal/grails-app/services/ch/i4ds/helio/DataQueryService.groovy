@@ -1,4 +1,6 @@
-package ch.i4ds.helio
+package ch.i4ds.helio;
+import java.util.logging.Logger;
+
 import eu.heliovo.clientapi.frontend.ResultVT;
 import eu.heliovo.clientapi.frontend.SimpleInterface;
 
@@ -26,24 +28,32 @@ class DataQueryService {
         }
          
         ResultVT resvt = SimpleInterface.queryService(minDate,maxDate,from,portAddress,where);
-
     
-        log.info("queryService :Result:"+ resvt.getStringTable());
+        log.info("queryService ::Result:"+ resvt.getStringTable());
         
         return resvt;
     }
 
-    //TODO: need to check if functionality will hold for propagation model usecase
-    private ArrayList<String> normalizeList(int max,ArrayList<String> list){
-        log.info("normalizeList ::" +max+" "+list);
-        ArrayList<String> result = new ArrayList<String>();
-        
-        for(int i = 0; i< max ;i++){
-         result.addAll(list);
-
-        }
-        return result;
-
-
+	    def queryService(String serviceName, List<String> minDate, List<String> maxDate, List<String> from, String where) {
+    	log.info("queryServic  ::" + serviceName + ", " + minDate+", "+maxDate+", "+from+", " + where);
+    	
+    	int maxrecords = 0;
+    	int startindex = 0;
+    	
+    	if(minDate.size()==0){
+    		log.info("queryService :: cant complete, date fields empty" );
+    		return;
+    	}
+    	if(maxDate.size()==0){
+    		log.info("queryService :: cant complete, date fields empty" );
+    		return;
+    	}
+    	
+    	ResultVT resvt = SimpleInterface.queryService(serviceName, minDate, maxDate, from, where);
+    	
+    	
+    	log.info("queryService :Result:"+ resvt.getStringTable());
+    	
+    	return resvt;
     }
 }

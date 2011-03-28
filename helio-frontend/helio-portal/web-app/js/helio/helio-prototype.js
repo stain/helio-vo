@@ -36,66 +36,127 @@ function fnOnCompleteGetColumns(){
 /**
  * register click handler on advanced query link
  */
-function fnInitHecExtended(){
-	$(".content").hide();
+function fnInitHecExtended(){	
+	// hide the section that displays the result of the HEC columns.
+	$("#hecExtendedQueryHeadingOpen").hide();
+	$("#hecExtendedQueryHeadingClosed").show();
+	$("#hecExtendedQueryContent").hide();
+	
 	// load the content of the body from remote.
-	$(".advancedHecQueryHeading").click(function() {
-		var source = this;
+	$("#hecExtendedQueryHeadingClosed").click(function() {
+		// reset status message if any..
+		$('#hecExtendedQueryHeadingError').remove(">*");
+		
 		// get the checkbox content
 		var selected = [];
-		console.debug($('#catalogueSelector :checked'));
-	    $('#catalogueSelector :checked').each(function() {
+	    $('#hecExtendedCatalogSelector :checked').each(function() {
 	      selected.push($(this).val());
 	    });
+	    
+	    // show message if nothing has been selected. 
 	    if (selected.length == 0) {
-	    	$('#hecResponse').html("<p>Please select a list before opening this section.</p>");
+	    	$('#hecExtendedQueryHeadingError').html("(Please select a list before opening this section).");
 	    	return;
 	    }
-	    var data = {"extra":jQuery.param(selected), "serviceName":"HEC"};
+	    
+	    // prepare the data
+	    var data = {"extra":selected.join(",")};
+	    
+	    // create the response handlers for the ajax calls
+	    /**
+	     * Called after successful loading of HEC columns
+	     * @param data HTML stub containing the loaded columns
+	     * @param textStatus a status message.
+	     */
+	    var _onSuccessGetHecColumns = function(data,textStatus) {
+	    	if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
+	    	$('#hecExtendedQueryContent').html(data);
+	    };
+
+	    /**
+	     * Method called in case an error occurs when loading the HEC table.
+	     * @param XMLHttpREquest the underlying request
+	     * @param textStatus status message
+	     * @param errorThrown error object
+	     */
+	    var _onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
+	    	$('#hecExtendedQueryContent').html("<div>" +
+	    			"<p>Error occurred while loading columns from remote: " + textStatus + " </p>" +
+	    			"<p>" + errorThrown + "</p>" +
+	    		    "</div>");
+	    };
+
+	    /**
+	     * Called after onSucess, onError
+	     */
+	    var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
+	    	// trace method
+	    	if (typeof console!="undefined") { 
+	    		console.info("_onCompleteGetHecColumns " + textStatus );
+	    	}
+
+	        $('#hecExtendedQueryHeadingError').html("");
+
+	    	// swap section header
+	        $("#hecExtendedQueryHeadingClosed").hide();
+	    	$("#hecExtendedQueryHeadingOpen").show();
+
+	    	// disable checkboxes
+	    	$('#hecExtendedCatalogSelector input').each(function() {
+	    		$(this).attr('disabled', 'disabled');
+	    	});
+	    		    	
+	    	// show content
+	    	$("#hecExtendedQueryContent").slideDown(500);
+	    	
+	    	// scroll to right location
+	    	$('html,body').scrollTop($("#hecExtendedQueryHeadingOpen").offset().top);
+	    };
+	    
+	    // call getHecColumns asynchronously 
+	    // TODO: this should not be a hard coded URL. Add some global constants to the main GSP
+	    $('#hecExtendedQueryHeadingError').html(" - Loading...");
 	    jQuery.ajax(
-			{type:'POST',
-			 data:data,
-			 source:source,
-			 url:'/helio-portal/prototype/asyncGetColumns',
-			 success:function(data,textStatus){$("#hecResponse").slideToggle(200); $('#hecResponse').html(data);},
-			 error: _fnOnErrorGetColumns1,
-			 complete:_fnOnCompleteGetColumns1});
+			{type : 'GET',
+			 data : data,
+			 url : '/helio-portal/prototype/getHecColumns',
+			 success: _onSuccessGetHecColumns,
+			 error: _onErrorGetHecColumns,
+			 complete: _onCompleteGetHecColumns}
+		);
 	    return false;
+	});
+	
+	/**
+	 * Remove all extended tables and close the section if open.
+	 * 
+	 */
+	$("#hecExtendedQueryHeadingOpen").click(function() {
+		// reset status message if any..
+		$('#hecExtendedQueryHeadingError').remove(">*");
+		
+		// remove the checkbox content
+		$("#hecExtendedQueryContent").slideUp(500);
+		$("#hecExtendedQueryContent").remove(">*");
+		$("#hecExtendedQueryHeadingError").remove(">*");
+		$("#hecExtendedQueryHeadingOpen").hide();
+		$("#hecExtendedQueryHeadingClosed").show();
+		
+		// re-enable checkboxes
+		$('#hecExtendedCatalogSelector input').each(function() {
+			$(this).removeAttr('disabled');
+		});
 	});
 }
 
-/*
- *method called when the ajax query for advanced parameters
- *@TODO: needs to me worked into the actionviewer class
- *MSo: change method to use a link instead of a button (for HEC query)
+/**
+ * Submit the HecQuery
  */
-function _fnOnCompleteGetColumns1(xmlHttpRequest,textStatus){
-	if (typeof console!="undefined") console.info("_fnOnCompleteGetColumns1");
+function doSubmitHecQuery() {
 	
-	// disable checkboxes
-	$('.advancedHecQueryHeading').toggle(
-		function() {
-			$('#catalogueSelector input').each(function() {
-				$(this).attr('disabled', 'disabled');
-			});},
-		function() {
-			$('#catalogueSelector input').each(function() {
-				$(this).removeAttr('disabled');
-			});}
-	);
-		
-	//$("#hecResponse").slideToggle(200);
 }
 
-/**
- * Method called in case an error occurs when loading the HEC table.
- * @param XMLHttpREquest the underlying request
- * @param textStatus status message
- * @param errorThrown error object
- */
-function _fnOnErrorGetColumns1(XMLHttpREquest,textStatus,errorThrown) {
-	console.log(textStatus + ": " + errorThrown);
-}
+
 
 
 /*
@@ -652,11 +713,7 @@ function fnBeforeQuery(){
     //@TODO: validation
     var mindate = $('#minDate').val();
     var maxdate = $('#maxDate').val();
-
-    
     mysubmit();
-
-
 }
 
 

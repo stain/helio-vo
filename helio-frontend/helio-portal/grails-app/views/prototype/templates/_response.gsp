@@ -31,7 +31,7 @@
     <div style="clear:both;width:100%"></div>
 
 <g:if test="${result?.queryInfo.contains('QUERY_ERROR')}" >
-  "An error has occured with the service and has been logged, perhaps revise your query or download the response VO-Table contaning the error state"
+  "An error has occurred on the server side. Please download the response VOTable to see the reported cause and revise your query."
 </g:if>
  <g:each in="${result?.getTables()}"  status="x" var="tables">
    <span style="clear:both"> NAME: "${tables.getName()}"</span>

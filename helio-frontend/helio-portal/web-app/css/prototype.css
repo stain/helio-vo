@@ -10,18 +10,20 @@
     border: 1px solid #b2d1ff;
     color: #006dba;
     margin: 10px 0 5px 0;
-    padding: 5px 5px 5px 30px
+    padding: 5px 5px 5px 30px;
+	text-align: left;
  }
  
 .pqlmessage table tbody tr td {
 	padding: 0px 2px;
 	border: none red;
+	text-align: left;
 }
 
 /**
  * collapsible sections
  */
-.advancedHecQueryHeading {
+#hecExtendedQueryHeadingOpen, #hecExtendedQueryHeadingClosed {
 	margin: 1px;
 	color: black;
 	font-weight: bold;
