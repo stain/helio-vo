@@ -321,7 +321,7 @@
 	    <testSourceDirectory>test/unit</testSourceDirectory>
 	    <resources>
 	        <resource>
-                <directory>src/java</directory>
+                <directory>src/resources</directory>
                 <filtering>true</filtering>
             </resource>
 	    </resources>
