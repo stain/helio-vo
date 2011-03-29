@@ -46,7 +46,7 @@ public class BuildInfo {
 	private BuildInfo() {
 		InputStream inputStream = BuildInfo.class.getResourceAsStream(BUILD_INFO);
 		if (inputStream == null) {
-			_LOGGER.warn("Cannot find resource '" + BUILD_INFO + "' in classpath");
+			throw new RuntimeException("Cannot find resource '" + BUILD_INFO + "' in classpath.");
 		}
 		try {
 			props.load(inputStream);

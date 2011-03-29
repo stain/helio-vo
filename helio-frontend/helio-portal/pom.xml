@@ -318,9 +318,10 @@
   	</dependencies>
   
 	<build>
+	    <testSourceDirectory>test/unit</testSourceDirectory>
 	    <resources>
 	        <resource>
-                <directory>src/main/resources</directory>
+                <directory>src/java</directory>
                 <filtering>true</filtering>
             </resource>
 	    </resources>
