@@ -95,7 +95,7 @@
         <%-- submit button --%>
         <tr>
           <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-            <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncHecQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+            <g:submitToRemote  before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncHecQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
           </td>
           <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
             <div class="message"><b>Step 4</b><br/>Submit query to HELIO</div>

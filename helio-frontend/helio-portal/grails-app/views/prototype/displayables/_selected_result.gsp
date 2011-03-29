@@ -12,12 +12,12 @@
       <td class="row-borders" id="time-row">
         <img style="margin-left:100px;height:40px;padding-bottom:20px " src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}" />
        <center> <h2>Time Selection</h2></center>
-      <table id="times-table" style="width:100%;text-align:center">
+      <table id="times-table" style="width:100%;text-align:left">
           <tr >
             <td>
               Time Start:
             </td>
-            <td>.</td>
+            <td></td>
             <td>
               Time End:
             </td>

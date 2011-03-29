@@ -78,29 +78,29 @@ function Workspace() {
 
             switch (text) {
                 case 'hec_extended':
-                    element = new ActionViewer(imagePath,"ghost",text);
+                    element = new ActionViewer(imagePath,"ghost",text,"label","hec");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
                     fnInitHecExtended();
                     break;
                 case 'hec':
-                    element = new ActionViewer(imagePath,"ghost",text);
+                    element = new ActionViewer(imagePath,"ghost",text,"label","hec");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
                     break;
                 case 'ics':
-                    element = new ActionViewer(imagePath,"ghost",text);
+                    element = new ActionViewer(imagePath,"ghost",text,"label","ics");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
 
                     break;
                 case 'ils':
-                    element = new ActionViewer(imagePath,"ghost",text);
+                    element = new ActionViewer(imagePath,"ghost",text,"label","ils");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
                     break;
                 case 'dpas':
-                    element = new ActionViewer(imagePath,"ghost",text);
+                    element = new ActionViewer(imagePath,"ghost",text,"label","dpas");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
                     $("#droppable-inner").data("content",$("#instArea").html());

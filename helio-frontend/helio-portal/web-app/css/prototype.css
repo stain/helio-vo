@@ -354,7 +354,7 @@ html{
 
 
     .row-borders{
-      border-left:1px solid black;
+      
       min-width: 267px;
       
       
@@ -365,7 +365,7 @@ html{
         padding:1px;
 }
 .subbing{
-        float:left;
+        float:right;
         border:1px solid black;
         padding:1px;
 }
@@ -414,4 +414,8 @@ html{
 input{
     -moz-user-select: all;
     -khtml-user-select: all;
+}
+#times-table input{
+    height: 25px
+
 }

@@ -41,7 +41,21 @@ function fnInitHecExtended(){
 	$("#hecExtendedQueryHeadingOpen").hide();
 	$("#hecExtendedQueryHeadingClosed").show();
 	$("#hecExtendedQueryContent").hide();
-	
+        $( "input[value=Search]" ).button({ disabled: true });
+	$("input:checkbox").change(function(){
+           if($("input:checked").val()){
+               //alert("something is checked");
+               //$("input[value=Search]").removeAttr("disabled");
+               $( "input[value=Search]" ).button({ disabled: false });
+               //$("input[value=Search]").button();
+           }else{
+
+               $( "input[value=Search]" ).button({ disabled: true });
+               
+              
+           }
+
+        });
 	// load the content of the body from remote.
 	$("#hecExtendedQueryHeadingClosed").click(function() {
 		// reset status message if any..
@@ -656,6 +670,7 @@ var message ="You need to select at least one row from your results at the botto
 
 
 
+        console.log(window.historyBar.getCurrent().getServiceName());
 
         var element = new ResultViewer("../images/icons/toolbar/circle_time.png","resultSelection",tablesHtml,totalResult,indexes);
         window.historyBar.addItem(element);
@@ -709,12 +724,18 @@ function fnOnChangeHistoryFilterSelect(event){
  */
 function fnBeforeQuery(){
     if (typeof console!="undefined")console.info("fnBeforeQuery");
-    
+
+
+
+
+
     //@TODO: validation
     var mindate = $('#minDate').val();
     var maxdate = $('#maxDate').val();
     mysubmit();
 }
+
+
 
 
 

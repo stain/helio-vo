@@ -102,7 +102,7 @@ class PrototypeController {
 			ArrayList<String> minDateList= new ArrayList<String>();
 		
 			// use ingested parameter list
-			if(params.maxDateList.trim() != "" && params.minDateList.trim() != "")
+			if(params.maxDateList.trim() != null && params.minDateList.trim() != null)
 			{
 				maxDateList = [params.maxDateList.split(",")].flatten();
 				minDateList = [params.minDateList.split(",")].flatten();

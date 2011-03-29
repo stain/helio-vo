@@ -1,9 +1,10 @@
-function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelParam) {
+function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNameParam) {
 
     var className = "ActionViewer";
     var actionName = actionNameParam;
+    var serviceName = serviceNameParam;
     var type = typeParam;
-    var content = contentParam;
+    var content;
     var imagePath = imageParam;
     var label = labelParam;
     
@@ -96,6 +97,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             if (typeof console!="undefined")console.info("ActionViewer :: getClassName");
             return className;
         },
+         getServiceName: function() {
+            if (typeof console!="undefined")console.info("ActionViewer :: getServiceName");
+            return serviceName;
+        },
         prepareStep: function(formData,advancedSearchParams) {
             if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
             prevData=formData;
@@ -174,6 +179,16 @@ function ActionViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             //console.log("rendering content " + step );
             
             window.workspace.setDisplay(actionName);
+            console.log("actionName" +actionName);
+
+            switch(actionName){
+                case 'hec_extended':
+                    fnInitHecExtended();
+                    break;
+                default:
+                    break;
+
+            }
             $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
             $("#currentDisplay").find("#label").val(label);
             if(history.length <= 0)return;
