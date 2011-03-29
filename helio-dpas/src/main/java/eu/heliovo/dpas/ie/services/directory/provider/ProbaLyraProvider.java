@@ -7,7 +7,7 @@ import eu.heliovo.dpas.ie.services.directory.archives.ArchiveExplorer;
 import eu.heliovo.dpas.ie.services.directory.archives.GenericNewPathFragment;
 import eu.heliovo.dpas.ie.services.directory.archives.NewPath;
 import eu.heliovo.dpas.ie.services.directory.archives.NewPathFragment;
-import eu.heliovo.dpas.ie.services.directory.archives.ProbaSwapFileFragment;
+import eu.heliovo.dpas.ie.services.directory.archives.ProbaLyraFileFragment;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.directory.transfer.DirDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
@@ -66,7 +66,7 @@ public class ProbaLyraProvider implements DirQueryDao
 				Calendar.DATE,
 				dayPattern);
 
-		NewPathFragment	fileFragment	=	new ProbaSwapFileFragment();
+		NewPathFragment	fileFragment	=	new ProbaLyraFileFragment();
 
 		path.add(rootFragment);
 		path.add(yearFragment);

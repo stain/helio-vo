@@ -78,7 +78,7 @@ public class PointsStarTable  extends RandomStarTable {
 	            case 2:return resp_.get(irow).urlFITS;
 	            case 3:return providerSource;
 	            case 4:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
-	            case 5:return end_date;
+	            case 5:return dpasUtils.calendarToHELIOTime((Calendar)resp_.get(irow).measurementStart);
 	            default: throw new IllegalArgumentException();
 	        }
        }else{

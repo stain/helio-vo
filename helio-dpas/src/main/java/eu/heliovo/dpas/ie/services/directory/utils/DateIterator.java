@@ -13,9 +13,9 @@ public class DateIterator implements Iterator<Date>, Iterable<Date>
     public DateIterator(Date start, Date end)
     {
         this.end.setTime(end);
-        this.end.add(Calendar.DATE, -1);
+        this.end.add(Calendar.MONTH, -1);
         this.current.setTime(start);
-        this.current.add(Calendar.DATE, -1);
+        this.current.add(Calendar.MONTH, -1);
     }
 
     public boolean hasNext()

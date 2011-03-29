@@ -72,7 +72,7 @@ public class ProbaSwapFileFragment implements NewPathFragment
 		date.set(Calendar.DATE, Integer.valueOf(fragment.substring(15, 17)));
 //		System.out.println(date.getTime());
 
-//		System.out.println("Hour  	= " + fragment.substring(12, 14));
+		System.out.println("Hour  	= " + fragment.substring(18, 20));
 		date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(fragment.substring(18, 20)));
 //		System.out.println(date.getTime());
 

@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
@@ -45,14 +46,16 @@ public class FtpUtils {
 	{
 		DPASResultItem				currDpasResult	=	new DPASResultItem();
 		Calendar					currCalendar	=	null;
+		Calendar					fromDate=Calendar.getInstance();
+		Calendar					toDate=Calendar.getInstance();
 		System.out.println("-------->  Working Folder ------->"+ftpTO.getWorkingDir());
+		fromDate.setTime(ftpTO.getDateValueFrom());
+		toDate.setTime(ftpTO.getDateValueTo());
 		client.changeWorkingDirectory(ftpTO.getWorkingDir()); 
 		client.enterLocalPassiveMode();
         FTPFile[] ftpFiles = client.listFiles();
         for (FTPFile ftpFile : ftpFiles) {
         	if (ftpFile.getType() == FTPFile.FILE_TYPE && !ftpFile.getName().contains("robots.txt")) {
-                System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
-               // System.out.println(" Date from fragment --> "+new HalphaFileFragment().fragmentToDate(ftpFile.getName()));
                 currDpasResult	=	new DPASResultItem();
     			currCalendar	=	new GregorianCalendar();
     			ftpTO.setFtpFileName(ftpFile.getName());
@@ -60,11 +63,14 @@ public class FtpUtils {
     			ftpTO.setFtpDateFileName(getFileNameBasedOnPattern(ftpTO));
     			//Setting time
     			currCalendar.setTime(convertDateFormatBasedOnProvider(ftpTO));
-    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
-    			currDpasResult.measurementStart	=	currCalendar;
-    			currDpasResult.fileSize =	 FileUtils.byteCountToDisplaySize(ftpFile.getSize());
-    			
-    			results.add(currDpasResult);
+    			System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
+    			if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
+	    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
+	    			currDpasResult.measurementStart	=	currCalendar;
+	    			currDpasResult.fileSize =	 FileUtils.byteCountToDisplaySize(ftpFile.getSize());
+	    			
+	    			results.add(currDpasResult);
+    			}
             }
         }
 		

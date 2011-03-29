@@ -77,7 +77,7 @@ public class CDAWEBProvider
                           System.out.println("....DONE !!!");
                        }//for
                        tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getHelioInstrument(),cdaWebTO.getInstrument(),dataSetIdArray);
-                       tables[0].setName(cdaWebTO.getInstrument());
+                       tables[0].setName(cdaWebTO.getHelioInstrument());
                        cdaWebTO.setStarTableArray(tables);
                        cdaWebTO.setQuerystatus("OK");
                        System.out.println(" Generating Votable for CDAWEB ");

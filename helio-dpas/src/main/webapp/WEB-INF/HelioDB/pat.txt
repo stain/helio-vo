@@ -164,8 +164,8 @@ HINODE__XRT,DIR,http,XRT,,HSDCE,ack_HSDCE,2,,,,,,,,remote
 
 PROBA2__SWAP,DIR,http,SWAP,,PROBA2-SC,ack_PROBA2-SC,1,,,,,,,,remote
 PROBA2__LYRA,DIR,http,LYRA,,PROBA2-SC,ack_PROBA2-SC,1,,,,,,,,remote
+NOBE__RHELIO,DIR,http,NORH,,NAOJ-NRO,ack_NAOJ,1,,,,,,,,remote
 
-NOBE__RHELIO,DIR,ftp,NORH,,NAOJ-NRO,ack_NAOJ,1,,,,,,,,remote
 MEUD__SHELIO,DIR,ftp,MEUD__SHELIO ,MEUD,BASS2000,ack BASS2K,1,,,,,,,,remote
 MEUD__HELIO,DIR,ftp,MEUD__HELIO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,remote
 PDMO__CLIMSO,DIR,ftp,PDMO__CLIMSO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,remote

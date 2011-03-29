@@ -36,7 +36,7 @@ public class NOBEProvider implements DirQueryDao
 		 */
 		NewPath	path	=	new NewPath();
 		
-		String			rootString		=	"ftp://solar.nro.nao.ac.jp/pub/norh/fits/daily/";
+		String			rootString		=	"http://solar.nro.nao.ac.jp/norh/images/daily/";
 		String			yearPattern		=	"yyyy";
 		String			monthPattern	=	"MM";
 

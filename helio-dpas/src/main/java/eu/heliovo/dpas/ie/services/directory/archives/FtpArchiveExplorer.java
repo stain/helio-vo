@@ -41,7 +41,10 @@ public class FtpArchiveExplorer
 	 */
 	public LinkedList<DPASResultItem> query(Date from, Date to) throws MalformedURLException,IOException,Exception
 	{
+		System.out.println("   TO    "+to+"   FROM   "+from);
 		SimpleDateFormat df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
+		ftpTO.setDateValueTo(to);
+		ftpTO.setDateValueFrom(from);
 		System.out.println(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
 		FtpUtils  ftpUtils=new FtpUtils(ftpTO.getFtpHost(),ftpTO.getFtpUser(),ftpTO.getFtpPwd());
 		//
@@ -49,13 +52,13 @@ public class FtpArchiveExplorer
     	if(workingDir!=null){
     		String[] dirArray=workingDir.split("::");
 	    	for(int count=0;count<dirArray.length;count++){
-	    		System.out.println("---------->"+dirArray[count]);
+	    		//System.out.println("----------> work"+dirArray[count]);
 	    		Iterator<Date> i = new DateIterator(from, to);
 		    	while(i.hasNext())
 		    	{
 		    		Date date = i.next();
 		    		String formatDate=df.format(date);
-		    		System.out.println("------------>"+formatDate);
+		    		System.out.println("------------> for"+formatDate);
 		    		//
 		    		ftpTO.setWorkingDir(dirArray[count]+formatDate);
 		    		ftpUtils.getFtpFileDetails(ftpTO);

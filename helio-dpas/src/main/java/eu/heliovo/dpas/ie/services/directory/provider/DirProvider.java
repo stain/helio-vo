@@ -40,9 +40,10 @@ public class DirProvider
         	results=dpasDataProvider.query(dirTO.getInstrument(), dpasUtils.HELIOTimeToCalendar(dirTO.getDateFrom()), dpasUtils.HELIOTimeToCalendar(dirTO.getDateTo()), 2);
         	//
         	if(results!=null && results.size()>0){
+        		System.out.println("------------------> :   Date to or end date : ----------------------->"+dirTO.getDateTo());
         		tables=new StarTable[1];
         		tables[count]=new PointsStarTable(results,dirTO.getHelioInstrument(),dirTO.getDateTo(),dirTO.getProviderSource(),dirTO.getInstrument());
-        		tables[count].setName(dirTO.getInstrument());
+        		tables[count].setName(dirTO.getHelioInstrument());
         	}
         	
         	dirTO.setStarTableArray(tables);
