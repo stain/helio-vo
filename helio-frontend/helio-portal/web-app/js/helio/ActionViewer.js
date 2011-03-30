@@ -179,7 +179,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             //console.log("rendering content " + step );
             
             window.workspace.setDisplay(actionName);
-            console.log("actionName" +actionName);
+            
 
             switch(actionName){
                 case 'hec_extended':
@@ -241,6 +241,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             $( "input:submit").button();
             $( ".controls").button();
             $( ".custom-button").button();
+            
 
  $(".tooltipme").tooltip({
         position: "top center",

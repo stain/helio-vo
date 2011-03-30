@@ -1,9 +1,10 @@
-function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesParam) {
+function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesParam,serviceNameParam) {
 
     
 
 
     var className = "ResultViewer";
+    var serviceName =serviceNameParam;
     var resultHtml = resultHtmlParam;
     var type = typeParam;
     var content = contentParam;
@@ -83,6 +84,30 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $("#displayableResult").html(resultHtml);
             $("#displayableResult").css('display','block');
             $("#resultSelectionSave").remove();
+
+            
+            /*
+            switch(serviceName){
+                case 'hec':
+                    $("#time-row").css("display","block");
+                    $("#instrument-row").css("display","none");
+                    break;
+                case 'ics':
+                    $("#time-row").css("display","block");
+                    $("#instrument-row").css("display","block");
+                    break;
+                case 'ils':
+                    $("#time-row").css("display","block");
+                    $("#instrument-row").css("display","none");
+                    break;
+                case 'dpas':
+                    $("#time-row").css("display","none");
+                    $("#instrument-row").css("display","none");
+                    break;
+                default:
+                    break
+            }/**/
+            //time-row,instrument-row
             $("#displayableResult").find("input[type=submit]").remove();
             for(i in content){
 
@@ -95,24 +120,17 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     
                     if(j == "time_start "){
                         time_start = content[i][j];
-                        
-
                         carry.data("time_start",i+","+j);
-                                              
                     }
                     if(j == "time_end "){
                         time_end = content[i][j];
                         carry.data("time_end",i+","+j);
-                        
-                        
                     }
                     if(j == "tar_object "){
                         tar_object = content[i][j];
-                        
                     }
                     if(j == "obsinst_key "){
                         obsinst_key = content[i][j];
-
                     }
 
                 //$("#time-row").append("<li> "+j +"  : " +content[i][j]+" </li>");
@@ -122,8 +140,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 }
 
                 if(time_start != null && time_end != null) {
-                    //$("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>St: </div><ul>"+time_start+"</ul></div>");
-                    //$("#time-row").append("<div> <div class='subbing'>-</div><div class='adding'>+</div><div style='float:left;'>Et: </div><ul>"+ time_end+"</ul></div>");
+                    $("#time-row").css("display","block");
+                    
                     $("#times-table").append(
                         '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
                         '<td><input type="checkbox"/></td>'+
@@ -131,8 +149,12 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 }
                 
                 $(".cbutton").button();
-                if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
-                if(obsinst_key != null ) $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
+                //if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
+                if(obsinst_key != null ){
+
+                    $("#instrument-row").css("display","block");
+                    $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
+                }
             //2003-01-01T07:49:00 / 2003-01-01T07:59:00
                
             }
@@ -211,6 +233,25 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
 
             $("#indexes").val(indexes);
             $('input:submit').button();
+            $( ".controls").button();
+
+            
+            $("#time-row-check, #inst-row-check").change(function(){
+                
+                if($('#time-row-check').attr('checked') && $('#inst-row-check').attr('checked')){
+                    imagePath = "../images/icons/toolbar/circle_both.png";
+                }else if($('#time-row-check').attr('checked')){
+                    imagePath = "../images/icons/toolbar/circle_time.png";
+                }else if($('#inst-row-check').attr('checked')){
+                    imagePath = "../images/icons/toolbar/circle_inst.png";
+                }else{
+                    imagePath = "../images/icons/toolbar/circle_empty.png";
+
+                
+
+            }
+            window.historyBar.render(1);
+            });
 
         },
         render: function(key,current) {

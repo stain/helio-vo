@@ -670,9 +670,9 @@ var message ="You need to select at least one row from your results at the botto
 
 
 
-        console.log(window.historyBar.getCurrent().getServiceName());
+        
 
-        var element = new ResultViewer("../images/icons/toolbar/circle_time.png","resultSelection",tablesHtml,totalResult,indexes);
+        var element = new ResultViewer("../images/icons/toolbar/circle_empty.png","resultSelection",tablesHtml,totalResult,indexes,window.historyBar.getCurrent().getServiceName());
         window.historyBar.addItem(element);
         window.historyBar.render();
         /*
