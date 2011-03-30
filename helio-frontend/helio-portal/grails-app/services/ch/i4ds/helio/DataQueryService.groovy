@@ -13,7 +13,7 @@ class DataQueryService {
     }
 
   
-	    def queryService(String serviceName, List<String> minDate, List<String> maxDate, List<String> from, String where) {
+    def queryService(String serviceName, List<String> minDate, List<String> maxDate, List<String> from, String where) {
     	log.info("queryService  ::" + serviceName + ", " + minDate+", "+maxDate+", "+from+", " + where);
     	
     	int maxrecords = 0;
