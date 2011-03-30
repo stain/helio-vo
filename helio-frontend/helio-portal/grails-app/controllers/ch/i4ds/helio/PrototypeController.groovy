@@ -102,7 +102,7 @@ class PrototypeController {
 			ArrayList<String> minDateList= new ArrayList<String>();
 		
 			// use ingested parameter list
-			if(params.maxDateList.trim() != null && params.minDateList.trim() != null)
+			if(params.maxDateList.trim() != "" && params.minDateList.trim() != "")
 			{
 				maxDateList = [params.maxDateList.split(",")].flatten();
 				minDateList = [params.minDateList.split(",")].flatten();
@@ -113,7 +113,7 @@ class PrototypeController {
 				maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
 				minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
 			}
-			def extraList = [params.extra.split(",")].flatten();
+			def extraList = [params.extra].flatten();
 			String where ="";
 		
 			if(params.where != null) where = params.where;
