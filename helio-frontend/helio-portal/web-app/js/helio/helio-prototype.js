@@ -33,6 +33,8 @@ function fnOnCompleteGetColumns(){
 	});
 }
 
+
+// ==================================== methods related to the HEC query ===================================
 /**
  * register click handler on advanced query link
  */
@@ -41,21 +43,17 @@ function fnInitHecExtended(){
 	$("#hecExtendedQueryHeadingOpen").hide();
 	$("#hecExtendedQueryHeadingClosed").show();
 	$("#hecExtendedQueryContent").hide();
-        $( "input[value=Search]" ).button({ disabled: true });
+	
+	// disable search button as long as no column is selected. 
+    $("input[value=Search]" ).button({ disabled: true });
 	$("input:checkbox").change(function(){
-           if($("input:checked").val()){
-               //alert("something is checked");
-               //$("input[value=Search]").removeAttr("disabled");
-               $( "input[value=Search]" ).button({ disabled: false });
-               //$("input[value=Search]").button();
-           }else{
-
-               $( "input[value=Search]" ).button({ disabled: true });
-               
-              
-           }
-
-        });
+        if($("input:checked").val()){
+            $( "input[value=Search]" ).button({ disabled: false });
+        }else{
+            $( "input[value=Search]" ).button({ disabled: true });              
+        }
+    });
+	
 	// load the content of the body from remote.
 	$("#hecExtendedQueryHeadingClosed").click(function() {
 		// reset status message if any..
@@ -119,7 +117,11 @@ function fnInitHecExtended(){
 	    	$('#hecExtendedCatalogSelector input').each(function() {
 	    		$(this).attr('disabled', 'disabled');
 	    	});
-	    		    	
+
+	    	$('.column-reset').each(function() {
+	    		$(this).button();
+	    	});
+	    	
 	    	// show content
 	    	$("#hecExtendedQueryContent").slideDown(500);
 	    	
@@ -164,10 +166,59 @@ function fnInitHecExtended(){
 }
 
 /**
- * Submit the HecQuery
+ * Called before submitting the HecQuery
  */
-function doSubmitHecQuery() {
+function beforeHecQuery() {
+	// TODO: input validation
 	
+	_populateWhereClause();
+}
+
+/**
+ * Create the were statement in PQL.
+ */
+function _populateWhereClause() {
+	if (typeof console!="undefined") console.info("_populateWhereClause");
+	
+	// reset where field
+	$("#whereField").val("");
+
+	// loop over all extra parameters
+	$(".columnSelection").each(function(i){
+		if($(this).val() == ""){
+			// nothing to do
+		} else {
+			var columnText = $(this).parent().text();
+			var value = $(this).val();
+			var id = $(this).attr('name');
+
+			if($("#whereField").val()!=""){
+				var prevVal = $("#whereField").val();
+				$("#whereField").val(prevVal+";"+id+"."+columnText.trim()+","+value);
+			}else{
+				$("#whereField").val(id+"."+columnText.trim()+","+value);
+			}
+		}
+		return true;
+	});
+}
+
+/**
+ * Called after submitting the HecQuery
+ */
+function afterHecQuery(event) {
+    if (typeof console!="undefined")console.info("afterHecQuery");
+
+    //var tooltipContent =  $("#previousQuery").text();
+    var element = window.historyBar.getCurrent();
+    
+    element.addStep($('#responseDivision').html());
+
+    window.historyBar.render();
+ 
+    //$('#responseDivision').html();
+    //$("#responseDivision").html("");
+    //var totalSize = $("#totalSize").val();
 }
 
 
