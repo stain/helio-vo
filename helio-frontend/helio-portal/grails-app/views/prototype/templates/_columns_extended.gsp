@@ -1,13 +1,14 @@
 <div>
-  <input class="column-reset" type="button" value="Reset the form">
   <table width="100%">
     <g:each in="${resultMap.keySet()}" var="itr">
       <tr>
         <td>
           <h3>Catalog: <span style="color:highlight">${itr}</span></h3>
+              <input type="hidden" name="extra" value="${itr}" />
+              <input class="column-reset" type="button" value="Reset the form" onclick="resetHecForm('${itr}')">
           <ul style="list-style-type:none;">
             <g:each in="${resultMap[itr]}" var="column">
-              <li><label style=" display: block;float: left;width: 150px;">${column}</label> <input class="columnSelection" name="${itr}" type="text"/></li>
+              <li><label style=" display: block;float: left;width: 150px;">${column}</label> <input class="columnSelection" name="${itr}.${column}" type="text"/></li>
             </g:each>
           </ul>
         </td>
