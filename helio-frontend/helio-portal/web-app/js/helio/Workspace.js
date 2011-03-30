@@ -92,6 +92,8 @@ function Workspace() {
                     element = new ActionViewer(imagePath,"ghost",text,"label","ics");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
+                    $.collapsible(".header", "group1");
+                    
 
                     break;
                 case 'ils':

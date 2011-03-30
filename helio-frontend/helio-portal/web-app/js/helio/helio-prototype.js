@@ -768,15 +768,12 @@ if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
    
   
 	
+ 
 
 
-	$('#collapsable .header').click(function() {
-            alert("being clicked");
-		$(this).next().toggle('slow');
-		return false;
-	}).next().hide();
+	
 
-$("#collapsable").css('display','none');
+
 window.onbeforeunload = function () {
         
     //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");

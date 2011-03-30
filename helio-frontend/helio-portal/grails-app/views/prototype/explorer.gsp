@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
 
 
 
@@ -35,6 +36,7 @@
   <g:javascript src="jquery.form.js"/>
 
   <g:javascript src="jquery.dataTables.js" />
+  <g:javascript src="/plugins/jquery.collapsible.js" />
 
 
 
@@ -120,12 +122,7 @@
 
       <div id="responseDivision" style="width:858px;"></div>
 
-      <div id="collapsable" style="border:1px solid black;width: 100%;clear:both;">
-        <h3><a class="header" href="#">First header</a></h3>
-    <div>First content</div>
-    <h3><a href="#">Second header</a></h3>
-    <div>Second content</div>
-      </div>
+
     </div>
   </div>
 </body>

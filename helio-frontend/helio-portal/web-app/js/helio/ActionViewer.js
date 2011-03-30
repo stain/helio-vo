@@ -234,13 +234,14 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             $("#responseDivision").html("");
            
 
-              
+            
     fnInitializeDatePicker();
      $( "input:button").button();
             $( "input:file").button();
             $( "input:submit").button();
             $( ".controls").button();
             $( ".custom-button").button();
+            $.collapsible(".header", "group1");
             
 
  $(".tooltipme").tooltip({
