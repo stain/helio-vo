@@ -37,7 +37,7 @@
       </td-->
     </tr>
   </table>
-  <div id="voTables" style="clear: both; padding: 20px 5pt 20pt 5px;">
+  <div id="voTables" style="clear: both;">
   <g:form target="_blank" controller="prototype">
     <g:actionSubmit style="padding:3px;float:left"  action="downloadPartialVOTable" value="Save as VOTable" name="download"/>
           <input id="indexes" type="hidden" value="" name="indexes" />

@@ -1,4 +1,4 @@
-<div class="module" style="width:700px;margin-top: 20px">
+<div class="module" style="width:99%;margin-top: 20px">
   <div class="header advancedParameters viewerHeader">
     <h1>Catalogue Parameters</h1>
   </div>

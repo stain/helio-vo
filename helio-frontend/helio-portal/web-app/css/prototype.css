@@ -33,6 +33,18 @@
     background-color:white;
 }
 
+/**
+ * Common class for tooltips on labels in the HEC screen.
+ */
+.hecLabelTooltip {
+    max-width: 500px;
+    font-size:12px;
+    border:1px solid black;
+    background-color:grey;
+    padding:3px;
+    color:#fff;
+}
+
 .content {
     padding: 5px 10px;
     background-color:#fafafa;
@@ -436,6 +448,23 @@ background: linear-gradient(top, #fff9eb, #cccac0);
 margin-bottom: 10px;
 /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
 
+}
+
+.module {
+    border: 1px solid #CCCCCC;
+    margin: 0 2px 20px;
+}
+
+.module .content {
+    clear: both;
+    padding: 4px;
+}
+
+.module .header h1, .module .header2 h1 {
+    display: inline;
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0;
 }
 
 body{
