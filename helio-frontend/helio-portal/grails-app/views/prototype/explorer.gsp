@@ -7,7 +7,7 @@
   <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Helio: FrondEnd</title>
+    <title>HELIO FrontEnd</title>
 
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" />
