@@ -9,14 +9,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Helio: FrondEnd</title>
 
-
+<link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
     
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
+    
 
 
 
