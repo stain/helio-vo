@@ -16,19 +16,6 @@ function History() {
             });
 
             
-            /**
-    $('#clearButton').live('click',function() {
-        window.historyBar.clear();
-        window.workspace.setDisplay("splash");
-    });
-    
-            $("#scroller_right").click(function(){
-                window.historyBar.shiftRight()
-            });
-            $("#scroller_left").click(function(){
-                window.historyBar.shiftLeft()
-            });
-**/
             $( ".draggable" ).draggable({
                 opacity:0.7,
                 zIndex: 5700,
@@ -37,7 +24,7 @@ function History() {
 
             
         },
-        // Public methods
+        
         getCurrentKey:  function() {
             if (typeof console!="undefined")console.info("History :: getCurrentKey " +current);
             return current;
@@ -124,7 +111,7 @@ function History() {
         },
         render: function(param){
             if (typeof console!="undefined")console.info("History :: render ->" + current +" param "+ param);
-            //console.log("History => render ");
+            
             if(param !=1){
                 if(array.length >0 && current >=0){
 
@@ -189,10 +176,6 @@ function History() {
                 if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key],current);
                 
             }
-            
-
-           
-        
 
             fnInitDroppable();
         },

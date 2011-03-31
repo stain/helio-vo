@@ -54,8 +54,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#currentDisplay").find("input[name='maxDate']").val(tempField);
             }//end if
             else if(tempField.indexOf("extra=")!= -1){
+                console.debug(tempField);
                 tempField =tempField.replace('extra=',"");
                 $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
+                $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
 
 
             }else if(tempField.indexOf("where=")!= -1){
