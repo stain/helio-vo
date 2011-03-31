@@ -187,9 +187,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 fields = fields.split(",");
                 var i =fields[0];
                 var j =fields[1];
-                console.debug(content[i][j]);
+                
                 content[i][j]= $(this).parent().find("input").val();
-                console.debug(content[i][j]);
+                
                 
                 window.historyBar.getCurrent().setContent(content);
                 
@@ -215,9 +215,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 fields = fields.split(",");
                 var i =fields[0];
                 var j =fields[1];
-                console.debug(content[i][j]);
+                
                 content[i][j]= $(this).parent().find("input").val();
-                console.debug(content[i][j]);
+                
 
                 window.historyBar.getCurrent().setContent(content);
             });
