@@ -81,7 +81,7 @@ function Workspace() {
                     element = new ActionViewer(imagePath,"ghost",text,"label","hec");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    fnInitHecExtended();
+                    //fnInitHecExtended(); not required as already don in the line above.
                     break;
                 case 'hec':
                     element = new ActionViewer(imagePath,"ghost",text,"label","hec");
@@ -133,7 +133,7 @@ function Workspace() {
               //@TODO: tooltips
     //tooltipme
      $(".tooltipme").tooltip({
-        position: "top center",
+        position: "bottom right",
         delay: 0,
         predelay:0
     });
