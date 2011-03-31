@@ -47,16 +47,11 @@
         <div id="icsResponse" class="columnInputs" >
     </div>
   </g:form>
-</div>
-</div>
-
- <div id="displayableResult" class="displayable" style="display:block">
-
     </div>
+  </div>
 
-
-
-
+  <div id="displayableResult" class="displayable" style="display:block">
+  </div>
 </div>
 
 
