@@ -241,7 +241,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             $( "input:submit").button();
             $( ".controls").button();
             $( ".custom-button").button();
-            $.collapsible(".header", "group1");
+            $(".placeholder").remove();
+            $.collapsible(".queryHeader","group1");
+            $.collapsible(".advancedParameters","group2");
             
 
  $(".tooltipme").tooltip({

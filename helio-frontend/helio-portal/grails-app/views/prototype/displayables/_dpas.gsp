@@ -1,13 +1,35 @@
-<div id="staticForms">
-  <div id="formHeader">
-    <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" />
-    <h1 style ="float:left;position:relative;left:15px" >Data Provider Access Service</h1>
-    <g:render template="templates/controls" />
+<div id="actionViewer">
+  <div class="viewerHeader">
+    <table  style="height:30px;width: 100%;">
+      <tr >
+        <td>
+          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" />
+        </td>
+        <td>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Data Provider Access Service</h1>
+          Label: <input style="margin-top:5px;" id="label" type="text"/>
+        </td>
+        <td>
+          <div style="float:right;" class="controls" id="delete">X</div>
+          <div style="float:right;" class="controls" id="forward">Next</div>
+
+          <div style="float:right;" class="controls" id="counter" ></div>
+
+          <div style="float:right;" class="controls" id="backward" >Prev</div>
+        </td>
+      </tr>
+    </table>
+
   </div>
-  <div style="clear:both;padding:50px 0 0 80px;">
-    
-<g:form controller="prototype">
-    
+
+  <div class="module ">
+    <div class="header queryHeader viewerHeader">
+      <h1>Query Form</h1>
+    </div>
+    <div class="content">
+
+     <g:form controller="prototype">
+
 
 <g:render template="templates/dates" />
 <div class="resultDroppable2"style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
@@ -16,7 +38,7 @@
 
 
    <table>
-     
+
    <tr><td style="text-align:right"> Provider:</td><td> <g:select id="instArea" class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="SOHO__CDS" from="${[
 'SOHO__EIT'
 ,'SOHO__CDS'
@@ -209,10 +231,16 @@
      </td></tr>
     </table>
   </g:form>
-  </div>
-
-
-<div id="displayableResult" class="displayable" style="display:block">
-
 </div>
 </div>
+
+ <div id="displayableResult" class="displayable" style="display:block">
+
+    </div>
+
+
+
+
+</div>
+
+

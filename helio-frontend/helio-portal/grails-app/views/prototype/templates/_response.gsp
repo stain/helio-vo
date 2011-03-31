@@ -1,15 +1,16 @@
 <div id="tables">
-   
-<div style="border:1px solid blue;margin-top:40px;" id="staticForms">
-  
-  
-  <div id="formHeader">
-    
-    <div style="padding:4px;background-color:white;float:left;position:relative;top:-30px;left:15px;">
-      <img src="${resource(dir:'images/icons/toolbar',file:'result.png')}"  />
-    </div>
-    <span style="font-size:1.5em;position:relative;top:-25px;left:20px;">Result Display</span>
+<div class="module">
+  <div class="header queryHeader viewerHeader">
+    <h1>Result</h1>
   </div>
+  <div class="content">
+
+
+   
+<div >
+  
+  
+  
   <!--div style="border-bottom:1px solid blue;margin:20px;padding-left:20px" id>
     <b>Previous Query:</b>
     <ol >
@@ -65,6 +66,10 @@
 
 </div>
    </div>
+
+
+  </div>
+</div>
 
 
 </div>

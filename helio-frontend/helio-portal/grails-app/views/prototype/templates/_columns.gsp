@@ -1,12 +1,18 @@
-<h1 style="margin-bottom:20px;float:none;">Catalogue Parameters</h1>
+<div class="module" style="width:700px;margin-top: 20px">
+  <div class="header advancedParameters viewerHeader">
+    <h1>Catalogue Parameters</h1>
+  </div>
+  <div class="content">
+
+<h1 style="margin-bottom:10px;float:none;"></h1>
 <input class="column-reset" type="button" value="Reset the form">
 <table>
-  
+
 
 <g:each in="${resultMap.keySet()}" var="itr">
 <tr>
   <td>
-    <h3>Catalogue: <span style="color:highlight">${itr}</span></h3>
+    <h3 style=";margin: 10px 0 20px 0">Catalogue: <span style="color:highlight">${itr}</span></h3>
     <ul style="list-style-type:none;">
       <g:each in="${resultMap[itr]}" var="column">
         <li><label style=" display: block;float: left;width: 150px;">${column} </label> <input class="columnSelection" name="${itr}" type="text"/></li>
@@ -16,7 +22,7 @@
   <td>
   <div style="" class="message pqlmessage">
 <b>Usage:</b>
-<p>The current version of HELIO supports 
+<p>The current version of HELIO supports
 <a href="http://www.ivoa.net/internal/IVOA/TableAccess/PQL-0.2-20090520.pdf" target="blank" title="Parameterized Query Language">PQL</a> only.
 </p>
 <table border="0" cellpadding="0" cellspacing="0">
@@ -38,3 +44,5 @@
 
 
 </table>
+  </div>
+</div>

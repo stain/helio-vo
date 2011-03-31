@@ -92,7 +92,7 @@ function Workspace() {
                     element = new ActionViewer(imagePath,"ghost",text,"label","ics");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    $.collapsible(".header", "group1");
+                    
                     
 
                     break;
@@ -129,6 +129,7 @@ function Workspace() {
             $( ".controls").button();
             $( ".custom-button").button();
             $( "input:submit").button();
+            $.collapsible(".queryHeader","group1");
               //@TODO: tooltips
     //tooltipme
      $(".tooltipme").tooltip({

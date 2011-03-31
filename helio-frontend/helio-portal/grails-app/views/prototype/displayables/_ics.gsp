@@ -1,13 +1,29 @@
-<div id="staticForms">
-  <div id="formHeader">
-    <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" />
-    <h1 >Instrument Capabilities Service</h1>
-    <g:render template="templates/controls" />
-    <div style="clear:both">1</div>
+<div id="actionViewer">
+  <div class="viewerHeader">
+    <table  style="height:30px;width: 100%;">
+      <tr >
+        <td>
+          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" />
+        </td>
+        <td>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Instrument Capabilities Service</h1>
+          Label: <input style="margin-top:5px;" id="label" type="text"/>
+        </td>
+        <td>
+          <div style="float:right;" class="controls" id="delete">X</div>
+          <div style="float:right;" class="controls" id="forward">Next</div>
+
+          <div style="float:right;" class="controls" id="counter" ></div>
+
+          <div style="float:right;" class="controls" id="backward" >Prev</div>
+        </td>
+      </tr>
+    </table>
+
   </div>
 
   <div class="module ">
-    <div class="header">
+    <div class="header queryHeader viewerHeader">
       <h1>Query Form</h1>
     </div>
     <div class="content">
@@ -28,31 +44,16 @@
       <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="icsResponse" value="Advanced Search" />
       </td></tr>
     </table>
+        <div id="icsResponse" class="columnInputs" >
+    </div>
   </g:form>
 </div>
 </div>
 
-<div class="module ">
-  <div class="header">
-    <h1>Aditional Parameters</h1>
-  </div>
-  <div class="content">
-    <div id="icsResponse" class="columnInputs" >
-    </div>
-  </div>
-</div>
-
-<div class="module ">
-  <div class="header">
-    <h1>Result</h1>
-  </div>
-  <div class="content">
-
-    <div id="displayableResult" class="displayable" style="display:block">
+ <div id="displayableResult" class="displayable" style="display:block">
 
     </div>
-  </div>
-</div>
+
 
 
 

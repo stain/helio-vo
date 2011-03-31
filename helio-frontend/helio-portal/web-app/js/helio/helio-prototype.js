@@ -31,6 +31,8 @@ function fnOnCompleteGetColumns(){
 		mysubmit();
 		
 	});
+        $.collapsible(".advancedParameters","group2");
+
 }
 
 
