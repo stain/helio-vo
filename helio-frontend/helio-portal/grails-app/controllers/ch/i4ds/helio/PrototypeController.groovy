@@ -12,6 +12,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
 import eu.heliovo.clientapi.frontend.*;
+import eu.heliovo.clientapi.model.catalog.impl.HecStaticCatalogRegistry;
+import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
+import eu.heliovo.clientapi.model.field.HelioField;
 
 
 class PrototypeController {
@@ -63,20 +66,26 @@ class PrototypeController {
 	 */
 	def getHecColumns = {
 		log.info("getHecasyncGetColumns =>" +params);
-
+				
 		if(params.extra == null)
 			throw new java.lang.IllegalArgumentException("Parameter 'extra' must be set.");
 
 		// get the HEC columns
-		Hashtable hash = TableInfoService.serviceMethod("files/tableshec.xml");
+		//Hashtable hash = TableInfoService.serviceMethod("files/tableshec.xml");
 
-		def extraList = [params.extra.split(",")].flatten();
+		HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
 
+		def extraList = params.extra.split(",");
 		def resultMap =[:];
 
 		for (String catalog : extraList){
-			resultMap[catalog] = hash.get(catalog);
+			HelioField<?>[] fields = registry.getFields(catalog);
+			if (fields != null) {
+				resultMap[catalog] =  fields;
+			}
 		}
+		
+		print resultMap;
 
 		// render the columns as HTML template
 		render template:'templates/columns_extended', bean:resultMap, var:'resultMap'
@@ -198,10 +207,15 @@ def index = {
 }
 
 def explorer={
-
 	log.info("Explorer =>" +params)
 
+	// init calalog list for HEC GUI
+	HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
+	HelioField<String> catalogField = registry.getCatalogField();
+	DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
+	def initParams = [hecCatalogs:valueDomain];
 
+	render view:'explorer', model:initParams
 }
 
 

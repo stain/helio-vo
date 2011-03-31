@@ -40,15 +40,17 @@ function fnOnCompleteGetColumns(){
 /**
  * register click handler on advanced query link
  */
-function fnInitHecExtended(){	
+function fnInitHecExtended(){
+
 	// hide the section that displays the result of the HEC columns.
-	$("#hecExtendedQueryHeadingOpen").hide();
-	$("#hecExtendedQueryHeadingClosed").show();
-	$("#hecExtendedQueryContent").hide();
+//	$("#hecExtendedQueryHeadingOpen").hide();
+//	$("#hecExtendedQueryHeadingClosed").show();
+//	$("#hecExtendedQueryContent").hide();
 	
 	// disable search button as long as no column is selected. 
-    $("input[value=Search]" ).button({ disabled: true });
-	$("input:checkbox").change(function(){
+    $("input[value=Search]" ).button({ disabled: true });   
+    var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
+    catalogCheckboxes.change(function(){
         if($("input:checked").val()){
             $( "input[value=Search]" ).button({ disabled: false });
         }else{
@@ -56,94 +58,25 @@ function fnInitHecExtended(){
         }
     });
 	
-	// load the content of the body from remote.
-	$("#hecExtendedQueryHeadingClosed").click(function() {
-		// reset status message if any..
-		$('#hecExtendedQueryHeadingError').remove(">*");
-		
-		// get the checkbox content
-		var selected = [];
-	    $('#hecExtendedCatalogSelector :checked').each(function() {
-	      selected.push($(this).val());
-	    });
-	    
-	    // show message if nothing has been selected. 
-	    if (selected.length == 0) {
-	    	$('#hecExtendedQueryHeadingError').html("(Please select a list before opening this section).");
-	    	return;
-	    }
-	    
-	    // prepare the data
-	    var data = {"extra":selected.join(",")};
-	    
-	    // create the response handlers for the ajax calls
-	    /**
-	     * Called after successful loading of HEC columns
-	     * @param data HTML stub containing the loaded columns
-	     * @param textStatus a status message.
-	     */
-	    var _onSuccessGetHecColumns = function(data,textStatus) {
-	    	if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
-	    	$('#hecExtendedQueryContent').html(data);
-	    };
-
-	    /**
-	     * Method called in case an error occurs when loading the HEC table.
-	     * @param XMLHttpREquest the underlying request
-	     * @param textStatus status message
-	     * @param errorThrown error object
-	     */
-	    var _onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
-	    	$('#hecExtendedQueryContent').html("<div>" +
-	    			"<p>Error occurred while loading columns from remote: " + textStatus + " </p>" +
-	    			"<p>" + errorThrown + "</p>" +
-	    		    "</div>");
-	    };
-
-	    /**
-	     * Called after onSucess, onError
-	     */
-	    var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
-	    	// trace method
-	    	if (typeof console!="undefined") { 
-	    		console.info("_onCompleteGetHecColumns " + textStatus );
-	    	}
-
-	        $('#hecExtendedQueryHeadingError').html("");
-
-	    	// swap section header
-	        $("#hecExtendedQueryHeadingClosed").hide();
-	    	$("#hecExtendedQueryHeadingOpen").show();
-
-	    	// disable checkboxes
-	    	$('#hecExtendedCatalogSelector input').each(function() {
-	    		$(this).attr('disabled', 'disabled');
-	    	});
-
-	    	$('.column-reset').each(function() {
-	    		$(this).button();
-	    	});
-	    	
-	    	// show content
-	    	$("#hecExtendedQueryContent").slideDown(500);
-	    	
-	    	// scroll to right location
-	    	$('html,body').scrollTop($("#hecExtendedQueryHeadingOpen").offset().top);
-	    };
-	    
-	    // call getHecColumns asynchronously 
-	    // TODO: this should not be a hard coded URL. Add some global constants to the main GSP
-	    $('#hecExtendedQueryHeadingError').html(" - Loading...");
-	    jQuery.ajax(
-			{type : 'GET',
-			 data : data,
-			 url : '/helio-portal/prototype/getHecColumns',
-			 success: _onSuccessGetHecColumns,
-			 error: _onErrorGetHecColumns,
-			 complete: _onCompleteGetHecColumns}
-		);
-	    return false;
+    
+	catalogCheckboxes.change(function(){
+        if($("input:checked").val()){
+        	var catalogName = $(this).val();
+        	_loadHecCatalog(catalogName);
+        }else{
+        }
+    });
+	
+	
+	// setup tooltips
+	$(".hecLabelTooltipMe").tooltip({
+		position: "bottom right",
+		tipClass: 'hecLabelTooltip',
+		delay: 0,
+		offset: [3, -220]
 	});
+	
+	
 	
 	/**
 	 * Remove all extended tables and close the section if open.
@@ -165,6 +98,75 @@ function fnInitHecExtended(){
 			$(this).removeAttr('disabled');
 		});
 	});
+}
+
+/**
+ * Load the input fields for a given catalog from remote
+ */
+function _loadHecCatalog(catalogName) {		
+	// prepare the data
+    var data = {"extra":catalogName};
+    
+    // create the response handlers for the ajax calls
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var _onSuccessGetHecColumns = function(data,textStatus) {
+    	//if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
+    	$('#hecExtendedQueryContent').html(data);
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var _onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
+    	$('#hecExtendedQueryContent').html('<div id="hec_' + catalogName + '">' +
+			"<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
+			"Reason: " + textStatus + " </p>" +
+			"<p>" + errorThrown + "</p>" +
+		    "</div>");
+    };
+
+    /**
+     * Called after onSucess, onError
+     */
+    var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
+    	// trace method
+    	if (typeof console!="undefined") { 
+    		console.info("_onCompleteGetHecColumns " + textStatus );
+    	}
+
+    	$('.column-reset').each(function() {
+    		$(this).button();
+    	});
+    	
+    	// setup tooltips
+    	$(".hecColLabelTooltipMe").tooltip({
+    		position: "bottom right",
+    		tipClass: 'hecLabelTooltip',
+    		delay: 0,
+    		offset: [3, -150]
+    	});
+
+    	// scroll to right location
+    	//$('html,body').scrollTop($("#hecExtendedQueryHeadingOpen").offset().top);
+    };
+    
+    // call getHecColumns asynchronously 
+    jQuery.ajax(
+		{type : 'GET',
+		 data : data,
+		 url : 'getHecColumns',
+		 success: _onSuccessGetHecColumns,
+		 error: _onErrorGetHecColumns,
+		 complete: _onCompleteGetHecColumns}
+	);
+    return false;
 }
 
 /**
@@ -223,6 +225,15 @@ function afterHecQuery(event) {
     //var totalSize = $("#totalSize").val();
 }
 
+/**
+ * Called by the reset form actions in the list details form.
+ */
+function resetHecForm(listName) {
+	var fields = $('input[name^="' + listName + '"]');
+	fields.each(function() {
+		$(this).val("");
+	});
+}
 
 
 

@@ -3,12 +3,15 @@
     <g:each in="${resultMap.keySet()}" var="itr">
       <tr>
         <td>
-          <h3>Catalog: <span style="color:highlight">${itr}</span></h3>
-              <input type="hidden" name="extra" value="${itr}" />
-              <input class="column-reset" type="button" value="Reset the form" onclick="resetHecForm('${itr}')">
+          <input type="hidden" name="extra" value="${itr}" />
+          <b>Event list: <span style="color:highlight">${itr}</span></b>
+          <input class="column-reset" type="button" value="x" title="Reset this form" onclick="resetHecForm('${itr}')">
           <ul style="list-style-type:none;">
             <g:each in="${resultMap[itr]}" var="column">
-              <li><label style=" display: block;float: left;width: 150px;">${column}</label> <input class="columnSelection" name="${itr}.${column}" type="text"/></li>
+              <li>
+                <label class="hecColLabelTooltipMe" style="display:block; float:left; width:150px;" title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${column.description?.encodeAsHTML()}&lt;/pre&gt;">${column.label}</label>
+                <input class="columnSelection" name="${itr}.${column.name}" type="text"/>
+              </li>
             </g:each>
           </ul>
         </td>
