@@ -309,7 +309,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
-                if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
                 if(key==current){
                     div.addClass('current');
                 }
@@ -321,9 +321,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
                 //history.length
                 div.append(img);
-                if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                
+                
+                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
                 if(key==current){
                     div.addClass('current');
+                }
+                
+                for(i in history){
+                    div.append("<div class='ui-state-default new1'>"+"Page "+i+"</div>");
                 }
                 $("#historyContent").append(div);
                 type="solid";

@@ -221,7 +221,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
 
                 window.historyBar.getCurrent().setContent(content);
             });
-            
+            $.collapsible(".queryHeader","group3");
 
             $("#currentDisplay").find("#delete").click(function(){
                 window.historyBar.removeCurrent()

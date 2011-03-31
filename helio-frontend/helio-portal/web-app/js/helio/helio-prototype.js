@@ -5,6 +5,7 @@
  **/
 function fnclearDateTexts2(){
     $(".hideDates").css("display","block");
+    $(".biggerInput").remove();
     $(".TextAreas").css("display","none");
     $(".minDateList").val("");
     $(".maxDateList").val("");
@@ -482,7 +483,7 @@ function fnInitDroppable(){
             var content =item.getContent();
             $(".minDateList").val("");
             $(".maxDateList").val("");
-            $(".TextAreas").css("display","block");
+            //$(".TextAreas").css("display","block");
             var maxTemp = [];
             var minTemp = [];
             for ( i in content){
@@ -490,15 +491,40 @@ function fnInitDroppable(){
                 if(temp != null)minTemp.push(temp);
                 temp =content[i]["time_end "];
                 if(temp != null)maxTemp.push(temp);
-            }
+            
 
+                var carry =$("<div id='carry'></div>");
+                 var time_start;
+                var time_end;
+                for(j in content[i]){
 
+                    if(j == "time_start "){
+                        time_start = content[i][j];
+                        carry.data("time_start",i+","+j);
+                    }
+                    if(j == "time_end "){
+                        time_end = content[i][j];
+                        carry.data("time_end",i+","+j);
+                    }
+
+                }//j
+                 if(time_start != null && time_end != null) {
+                    
+
+                    $(".dateTable").append(
+                        '<tr class="biggerInput" ><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                        '<td><input type="checkbox"/></td>'+
+                        '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+                }
+
+                $(".cbutton").button();
+            }//i
             $(".minDateList").val(minTemp);
             $(".maxDateList").val(maxTemp);
 
 
 
-        }
+        }//drop
     }).data('dropped_items',"");
 
 
