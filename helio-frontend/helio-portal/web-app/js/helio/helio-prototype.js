@@ -39,35 +39,26 @@ function fnOnCompleteGetColumns(){
 
 // ==================================== methods related to the HEC query ===================================
 /**
- * register click handler on advanced query link
+ * register click handler on advanced HEC query.
  */
-function fnInitHecExtended(){
-
-	// hide the section that displays the result of the HEC columns.
-//	$("#hecExtendedQueryHeadingOpen").hide();
-//	$("#hecExtendedQueryHeadingClosed").show();
-//	$("#hecExtendedQueryContent").hide();
+function fnInitHecExtended(){	
+	var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
 	
 	// disable search button as long as no column is selected. 
-    $("input[value=Search]" ).button({ disabled: true });   
-    var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
-    catalogCheckboxes.change(function(){
-        if($("input:checked").val()){
-            $( "input[value=Search]" ).button({ disabled: false });
-        }else{
-            $( "input[value=Search]" ).button({ disabled: true });              
-        }
-    });
+    var onChangeSearchButton = function(event){
+    	$("input[name='hecSearchButton']").button({ disabled: !$("#hecExtendedCatalogSelector input:checked").val() });
+    };
+    onChangeSearchButton();  // init button state
+    catalogCheckboxes.change(onChangeSearchButton); // register button handler
 	
-    
-	catalogCheckboxes.change(function(){
-        if($("input:checked").val()){
-        	var catalogName = $(this).val();
+    catalogCheckboxes.change(function(event){
+    	var catalogName = $(this).val();
+        if($(event.currentTarget).is(':checked')){
         	_loadHecCatalog(catalogName);
         }else{
+        	_removeHecCatalog(catalogName);
         }
     });
-	
 	
 	// setup tooltips
 	$(".hecLabelTooltipMe").tooltip({
@@ -76,38 +67,12 @@ function fnInitHecExtended(){
 		delay: 0,
 		offset: [3, -220]
 	});
-	
-	
-	
-	/**
-	 * Remove all extended tables and close the section if open.
-	 * 
-	 */
-	$("#hecExtendedQueryHeadingOpen").click(function() {
-		// reset status message if any..
-		$('#hecExtendedQueryHeadingError').remove(">*");
-		
-		// remove the checkbox content
-		$("#hecExtendedQueryContent").slideUp(500);
-		$("#hecExtendedQueryContent").remove(">*");
-		$("#hecExtendedQueryHeadingError").remove(">*");
-		$("#hecExtendedQueryHeadingOpen").hide();
-		$("#hecExtendedQueryHeadingClosed").show();
-		
-		// re-enable checkboxes
-		$('#hecExtendedCatalogSelector input').each(function() {
-			$(this).removeAttr('disabled');
-		});
-	});
 }
 
 /**
  * Load the input fields for a given catalog from remote
  */
 function _loadHecCatalog(catalogName) {		
-	// prepare the data
-    var data = {"extra":catalogName};
-    
     // create the response handlers for the ajax calls
     /**
      * Called after successful loading of HEC columns
@@ -116,7 +81,7 @@ function _loadHecCatalog(catalogName) {
      */
     var _onSuccessGetHecColumns = function(data,textStatus) {
     	//if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
-    	$('#hecExtendedQueryContent').html(data);
+    	$('#hecExtendedQueryContent').append(data);
     };
 
     /**
@@ -138,10 +103,10 @@ function _loadHecCatalog(catalogName) {
      */
     var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
     	// trace method
-    	if (typeof console!="undefined") { 
-    		console.info("_onCompleteGetHecColumns " + textStatus );
-    	}
-
+//    	if (typeof console!="undefined") { 
+//    		console.info("_onCompleteGetHecColumns " + textStatus );
+//    	}
+    	
     	$('.column-reset').each(function() {
     		$(this).button();
     	});
@@ -151,23 +116,24 @@ function _loadHecCatalog(catalogName) {
     		position: "bottom right",
     		tipClass: 'hecLabelTooltip',
     		delay: 0,
-    		offset: [3, -150]
+    		offset: [3, -120]
     	});
-
-    	// scroll to right location
-    	//$('html,body').scrollTop($("#hecExtendedQueryHeadingOpen").offset().top);
     };
     
     // call getHecColumns asynchronously 
     jQuery.ajax(
 		{type : 'GET',
-		 data : data,
+		 data : {"catalog":catalogName},
 		 url : 'getHecColumns',
 		 success: _onSuccessGetHecColumns,
 		 error: _onErrorGetHecColumns,
 		 complete: _onCompleteGetHecColumns}
 	);
     return false;
+}
+
+function _removeHecCatalog(catalogName) {
+	$("#hec_" + catalogName).remove();
 }
 
 /**
@@ -183,7 +149,7 @@ function beforeHecQuery() {
  * Create the were statement in PQL.
  */
 function _populateWhereClause() {
-	if (typeof console!="undefined") console.info("_populateWhereClause");
+	//if (typeof console!="undefined") console.info("_populateWhereClause");
 	
 	// reset where field
 	$("#whereField").val("");
@@ -193,15 +159,14 @@ function _populateWhereClause() {
 		if($(this).val() == ""){
 			// nothing to do
 		} else {
-			var columnText = $(this).parent().text();
 			var value = $(this).val();
 			var id = $(this).attr('name');
 
 			if($("#whereField").val()!=""){
 				var prevVal = $("#whereField").val();
-				$("#whereField").val(prevVal+";"+id+"."+columnText.trim()+","+value);
+				$("#whereField").val(prevVal + ";" + id + "," + value);
 			}else{
-				$("#whereField").val(id+"."+columnText.trim()+","+value);
+				$("#whereField").val(id + "," + value);
 			}
 		}
 		return true;
@@ -212,18 +177,12 @@ function _populateWhereClause() {
  * Called after submitting the HecQuery
  */
 function afterHecQuery(event) {
-    if (typeof console!="undefined")console.info("afterHecQuery");
-
-    //var tooltipContent =  $("#previousQuery").text();
-    var element = window.historyBar.getCurrent();
-    
+    var element = window.historyBar.getCurrent();    
     element.addStep($('#responseDivision').html());
-
     window.historyBar.render();
- 
-    //$('#responseDivision').html();
-    //$("#responseDivision").html("");
-    //var totalSize = $("#totalSize").val();
+    
+    var rowpos = $('#displayableResult').position();
+    $('html,body').scrollTop(rowpos.top);
 }
 
 /**
@@ -590,7 +549,7 @@ function fnAddSelectedRow(pos,aData,oTable){
     if(flag){
 
         var div = $('<div></div>');
-        div.addClass('resCont')
+        div.addClass('resCont');
         div.text(pos);
         div.attr("title",aData);
         div.attr("title2",totalResult);
@@ -623,7 +582,7 @@ function fnOnComplete(){
     window.historyBar.render();
     //window.workspace.setElement(element);
 
-    $('#responseDivision').html()
+    $('#responseDivision').html();
     //$("#responseDivision").html("");
     //var totalSize = $("#totalSize").val();
     
@@ -711,7 +670,7 @@ if($(".resCont").length==0){
     div.attr('id','dialog-message');
     div.attr('title','Information');
 var message ="You need to select at least one row from your results at the bottom";
-     div.append('<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>')
+     div.append('<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
      $("#testdiv").append(div);
 
 
@@ -832,8 +791,6 @@ function fnBeforeQuery(){
 //javascript start
 $(document).ready(function()
 {
-
-    
     var history = new History();
     var workspace = new Workspace();
 
@@ -844,34 +801,20 @@ $(document).ready(function()
 
     //TODO:hack of dates
     
- //Test code area
-if($.cookie("mixDate")==null)$.cookie("minDate","2003-01-01");
-if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
+    //Test code area
+    if($.cookie("mixDate")==null)$.cookie("minDate","2003-01-01");
+    if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
 
-//window.maxDate="2003-01-03";
-//window.minDate="2003-01-01";
+    //window.maxDate="2003-01-03";
+    //window.minDate="2003-01-01";
     $("#section-navigation img[title]").tooltip({
         position: "top center",
         delay: 100,
         predelay:500
     });
    
-  
-	
- 
-
-
-	
-
-
-window.onbeforeunload = function () {
-        
-    //location.replace("http://localhost:8080/ThrirdTry/prototype/explorer");
-        
-
-    return "Leaving this site will clear all your browsing history";
-
-}  
-
+    window.onbeforeunload = function () {
+        return "Leaving this site will clear all your browsing history";
+    };
 });
 

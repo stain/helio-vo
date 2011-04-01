@@ -47,7 +47,7 @@
                   <tr>
                     <td colspan="2">
                       <div id="hecExtendedCatalogSelector">
-                        <table cellpadding="0" cellspacing="0"><tr>
+                        <table cellpadding="0" cellspacing="1"><tr>
                         <g:each status="status" var="catalog" in="${hecCatalogs}">
                           <td width="24" align="center">
                                <%-- create a new column in the selection table --%>
@@ -67,33 +67,25 @@
               <td style="vertical-align: top;"> 
                 <div class="message"><b>Step 2</b><br/>Select the event list(s) you are interested in. <br/>
                 Hover with your mouse over the event lists to get more information.</div>
+                <div class="message"><b>Step 3</b> (optional)<br/>Now use the advanced parameters below to further qualify your query.</div>
               </td>
             </tr>
-            <%-- advanced query 
-            <tr>
-              <td style="border-top: solid 1px gray;">
-                <div id="hecExtendedQueryHeadingClosed">&gt; Advanced Query <span id="hecExtendedQueryHeadingError"></span></div>
-                <div id="hecExtendedQueryHeadingOpen">v Advanced Query</div>
-              </td>
-              <td style="border-top: solid 1px gray; vertical-align: top;">
-                <div class="message"><b>Step 3</b> (optional)<br/>Provide advanced search terms</div>
-              </td>
-            </tr> --%>
+            <%-- advanced query --%>
             <tr>
               <td colspan="2">
                 <div class="header queryHeader viewerHeader">
                   <h1>Advanced Parameters</h1>
                 </div>
-                <div id="hecExtendedQueryContent" class="columnInputs content">
-                  <input name="serviceName" type="hidden" value="HEC"/>          
-                  <input id="whereField" name="where" style="display:none" type="text"/>
-                </div>          
+                <div id="hecExtendedQueryContent" class="content collapsed">
+                </div>
+                <input name="serviceName" type="hidden" value="HEC"/>
+                <input id="whereField" name="where" style="display:none" type="text"/>
               </td>
             </tr>
             <%-- submit button --%>
             <tr>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-                <g:submitToRemote  before="beforeHecQuery();" style="float:none;margin-right:50"  action="asyncHecQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="afterHecQuery();"/>
+                <g:submitToRemote name="hecSearchButton" before="beforeHecQuery();" style="float:none;margin-right:50"  action="asyncHecQuery" onLoading="window.workspace.onLoading();" update="[success : 'responseDivision', failure : 'responseDivision']" value="Search" onComplete="afterHecQuery();"/>
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
                 <div class="message"><b>Step 4</b><br/>Submit query to HELIO</div>

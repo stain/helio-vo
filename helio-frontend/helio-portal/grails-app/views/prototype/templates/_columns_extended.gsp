@@ -1,19 +1,29 @@
-<div>
+<div id="hec_${catalog.catalogName}">
   <table width="100%">
-    <g:each in="${resultMap.keySet()}" var="itr">
-      <tr>
-        <td>
-          <input type="hidden" name="extra" value="${itr}" />
-          <b>Event list: <span style="color:highlight">${itr}</span></b>
-          <input class="column-reset" type="button" value="x" title="Reset this form" onclick="resetHecForm('${itr}')">
-          <ul style="list-style-type:none;">
-            <g:each in="${resultMap[itr]}" var="column">
+    <tr>
+      <g:set var="hasFields" value="${false}" />
+      <td valign="top" align="left">
+        <h4 title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${catalog.description?.encodeAsHTML()}&lt;/pre&gt;" class="hecColLabelTooltipMe">
+          Event list: <span style="color:highlight">${catalog.label} (${catalog.catalogName})</span>
+        </h4>
+        <ul style="list-style-type:none;">
+          <g:each in="${catalog.fields}" var="field">
+            <g:if test="${field.name != '#' && field.name != 'HEC_id' && !field.name.startsWith('time_')}">
+              <g:set var="hasFields" value="${true}" />
               <li>
-                <label class="hecColLabelTooltipMe" style="display:block; float:left; width:150px;" title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${column.description?.encodeAsHTML()}&lt;/pre&gt;">${column.label}</label>
-                <input class="columnSelection" name="${itr}.${column.name}" type="text"/>
+                <label class="hecColLabelTooltipMe" style="display:block; float:left; width:150px;" title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${field.description?.encodeAsHTML()}&lt;/pre&gt;">${field.label}</label>
+                <input class="columnSelection" name="${catalog.catalogName}.${field.name}" type="text"/>
               </li>
-            </g:each>
-          </ul>
+            </g:if>
+          </g:each>
+        </ul>
+        <g:if test="${!hasFields}">
+            No field definition found for this event list.
+        </g:if>
+      </td>
+      <g:if test="${hasFields}">
+        <td align="left" valign="top">
+          <input style="padding: 0 0.2em 0.2em 0.2em" class="column-reset" type="button" value="x" title="Reset this form" onclick="resetHecForm('${catalog.catalogName}')">      
         </td>
         <td align="right">
           <div style="" class="message pqlmessage">
@@ -35,7 +45,7 @@
             </table>
           </div>
         </td>
-      </tr>
-    </g:each>
+      </g:if>
+    </tr>
   </table>
 </div>

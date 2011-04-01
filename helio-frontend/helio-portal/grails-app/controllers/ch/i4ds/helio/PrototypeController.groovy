@@ -65,30 +65,18 @@ class PrototypeController {
 	 * Expects the catalog names in a comma separated list in parameter 'extra'. 
 	 */
 	def getHecColumns = {
-		log.info("getHecasyncGetColumns =>" +params);
+		log.info("getHecColumns =>" +params);
 				
-		if(params.extra == null)
-			throw new java.lang.IllegalArgumentException("Parameter 'extra' must be set.");
-
-		// get the HEC columns
-		//Hashtable hash = TableInfoService.serviceMethod("files/tableshec.xml");
+		if(params.catalog == null)
+			throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
 
 		HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
-
-		def extraList = params.extra.split(",");
-		def resultMap =[:];
-
-		for (String catalog : extraList){
-			HelioField<?>[] fields = registry.getFields(catalog);
-			if (fields != null) {
-				resultMap[catalog] =  fields;
-			}
+		def catalog = registry.getCatalogById(params.catalog);
+		if (catalog != null) {
+			render template:'templates/columns_extended', bean:catalog, var:'catalog';
+		} else {
+			render "Unable to load catalog defintion with id '" + params.catalog + "'";
 		}
-		
-		print resultMap;
-
-		// render the columns as HTML template
-		render template:'templates/columns_extended', bean:resultMap, var:'resultMap'
 	}
 
 	/**
