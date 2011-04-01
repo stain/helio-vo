@@ -3,7 +3,6 @@ function Workspace() {
     var divisions = new Object();
     var element;
 
-  
     var ingestDivision = function(keyName,divisionName){
         divisions[keyName] = $(divisionName).html();
         $(divisionName).remove();
@@ -25,31 +24,24 @@ function Workspace() {
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
             ingestDivision("selected_result","#displayableSeletedResult");
-
             this.setDisplay("splash");
             
         },
         getElement: function(){
             if (typeof console!="undefined")console.info("Workspace :: getElement");
             return this.element;
-            
-
         },
         setElement: function(element){
             if (typeof console!="undefined")console.info("Workspace :: setElement");
             //if(element ==null)return;
             this.element = element;
             element.renderContent();
-           
         },
         onLoading: function(){
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
-         
             var element = window.historyBar.getCurrent();
             element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
-
             this.setDisplay("loading");
-           
         },
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
@@ -58,6 +50,7 @@ function Workspace() {
             if(divisions[key] == null){
                 key = "error";
             }//end if
+            
             newDiv.html(divisions[key]);
             newDiv.css("display","block");
             newDiv.attr("id","currentDisplay");
@@ -92,9 +85,6 @@ function Workspace() {
                     element = new ActionViewer(imagePath,"ghost",text,"label","ics");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    
-                    
-
                     break;
                 case 'ils':
                     element = new ActionViewer(imagePath,"ghost",text,"label","ils");
@@ -120,7 +110,8 @@ function Workspace() {
                 default:
                     break;
             }//end case
-
+            
+/*
   $("#currentDisplay").find("#delete").click(function(){
                 window.historyBar.removeCurrent()
             });
@@ -143,7 +134,7 @@ function Workspace() {
 $("#minDate").val($.cookie("minDate"));
 $("#maxDate").val($.cookie("maxDate"));
 
-
+*/
         },
         render: function() {
             if (typeof console!="undefined")console.error("Workspace :: render");

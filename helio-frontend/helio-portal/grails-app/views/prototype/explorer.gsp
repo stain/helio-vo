@@ -120,7 +120,7 @@
         </div>
       </div>
 
-      <div id="responseDivision" style="width:858px;"></div>
+      <div id="responseDivision" style="width:858px;display:none"></div>
 
 
     </div>

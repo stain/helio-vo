@@ -74,7 +74,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     var innerTempField = tempField[input].split("%2C");
                     var value = innerTempField[1];
                     innerTempField = innerTempField[0].split(".");
-                    var inputName= innerTempField[0];
+                    var inputName = innerTempField[0];
                     var labelName = innerTempField[1];
                     
 
@@ -178,10 +178,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         },
         renderContent: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: renderContent");
-            //console.log("rendering content " + step );
-            
+                    
             window.workspace.setDisplay(actionName);
-            
+            $("#minDate").val($.cookie("minDate"));
+            $("#maxDate").val($.cookie("maxDate"));
 
             switch(actionName){
                 case 'hec_extended':
@@ -191,6 +191,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     break;
 
             }
+
             $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
             $("#currentDisplay").find("#label").val(label);
             if(history.length <= 0)return;

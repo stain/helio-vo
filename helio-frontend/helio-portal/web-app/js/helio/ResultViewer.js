@@ -249,8 +249,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
 
                 
 
-            }
-            window.historyBar.render(1);
+                }
+                window.historyBar.render(1);
             });
 
         },

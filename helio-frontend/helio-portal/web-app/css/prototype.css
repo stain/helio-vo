@@ -502,3 +502,5 @@ body{
 #staticForms{
     padding:10px;
 }
+
+body {overflow-y: scroll;}
