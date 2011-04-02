@@ -35,6 +35,7 @@ function History() {
         },
         removeCurrent:  function() {
             if (typeof console!="undefined")console.info("History :: removeCurrent" + current);
+            
             this.removeItem(current);
             //window.workspace.clear();
         },

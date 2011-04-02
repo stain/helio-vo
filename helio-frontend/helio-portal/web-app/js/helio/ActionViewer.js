@@ -7,23 +7,81 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
     var content;
     var imagePath = imageParam;
     var label = labelParam;
-    
     var advancedSearch;
     var prevData;
-    
     var step =0;
     var history = new Array();
 
 
+    var _initGhostElements = function(){
+        if (typeof console!="undefined")console.info("ActionViewer :: _initSolidElements ");
+            
+        fnInitializeDatePicker();
+        fnInitializeDatePicker();
+        $("#minDate").val($.cookie("minDate"));
+        $("#maxDate").val($.cookie("maxDate"));
 
+          
+        $.collapsible(".queryHeader","group1");
+        $.collapsible(".advancedParameters","group2");
+        $("#currentDisplay").find("#delete").click(function(){
+            if(history.length>0){
+                history.splice(step, 1);
+                step = history.length-1;
+                window.historyBar.render();
+
+
+            }else{
+                window.historyBar.removeCurrent();
+            }
+
+        });
+
+        $(".catalogueSelector").change(function(){
+            $('.columnInputs').html("");
+            $('#whereField').val("");
+        });
+            
+        $( ".custom_button").button();
+        $(".column-reset").click(function(){
+
+            $(".columnSelection").val("");
+        });
+    }
+    var _initSolidElements = function(){
+        if (typeof console!="undefined")console.info("ActionViewer:: _initSolidElements ");
+        $("#currentDisplay").find("#counter").css("display","block");
+        $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
+        $("#currentDisplay").find("#label").val(label);
+
+        $(".placeholder").remove();
+        $.collapsible(".queryHeader","group1");
+        $.collapsible(".advancedParameters","group2");
+
+        $("#currentDisplay").find("#forward").css("display","block");
+        $("#currentDisplay").find("#forward").click(function(){
+            window.workspace.getElement().nextStep()
+        });
+
+        $("#currentDisplay").find("#backward").css("display","block");
+        $("#currentDisplay").find("#backward").click(function(){
+            window.workspace.getElement().prevStep()
+        });
+
+        $("#currentDisplay").find("#label").change(function() {
+
+            window.historyBar.getCurrent().setLabel($(this).val());
+            window.historyBar.render(1);
+        });
+    }
     /*
      * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.
      * @formData: serialized form string, Example: "minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00"
      *
      */
-    var unserialize = function(formData,advancedSearchParam){
+    var _unserialize = function(formData,advancedSearchParam){
 
-        $('#currentDisplay').find('#hecExtendedQueryContent').html(advancedSearchParam);
+        
         $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
         $('#currentDisplay').find('.columnInputs').css("display","block");
         $("#currentDisplay").find("select").find("option").removeAttr("selected");
@@ -58,7 +116,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 
                 tempField =tempField.replace('extra=',"");
                 $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
-                $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
+                
 
 
             }else if(tempField.indexOf("where=")!= -1){
@@ -100,22 +158,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             if (typeof console!="undefined")console.info("ActionViewer :: getClassName");
             return className;
         },
-        initActionViewerElements: function(){
-
-
- $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
-            $("#currentDisplay").find("#label").val(label);
-            fnInitializeDatePicker();
-     $( "input:button").button();
-            $( "input:file").button();
-            $( "input:submit").button();
-            $( ".controls").button();
-            $( ".custom-button").button();
-            $(".placeholder").remove();
-            $.collapsible(".queryHeader","group1");
-            $.collapsible(".advancedParameters","group2");
-        },
-         getServiceName: function() {
+       
+        getServiceName: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: getServiceName");
             return serviceName;
         },
@@ -195,120 +239,53 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         },
         renderContent: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: renderContent");
-            
-                    
             window.workspace.setDisplay(actionName);
-            $("#minDate").val($.cookie("minDate"));
-            $("#maxDate").val($.cookie("maxDate"));
+            if(history.length > 0){
 
-            switch(actionName){
-                case 'hec_extended':
-                    fnInitHecExtended();
-                    break;
-                default:
-                    break;
-
+                var result = history[step].result;
+                var formData = history[step].formData;
+                var advancedSearch= history[step].advancedSearch;
+                _unserialize(formData,advancedSearch);
+                $("#responseDivision").html(result);
+                $('.resultTable').each(function(){
+                    fnFormatTable(this.id);
+                });
+                $('#displayableResult').append($('#tables'));
+                $('#displayableResult').css("display","block");
+                fnInitSave();
+                $("#responseDivision").html("");
+                $(".tooltipme").tooltip({
+                    position: "top center",
+                    delay: 0,
+                    predelay:0
+                });
+                _initSolidElements();
             }
-            this.initActionViewerElements();
-
+            _initGhostElements();
+                  
             
-            if(history.length <= 0)return;
-            var result = history[step].result;
-            var formData = history[step].formData;
-            var advancedSearch= history[step].advancedSearch;
-            unserialize(formData,advancedSearch);
-            $("#responseDivision").html(result);
-            $('.resultTable').each(function(){
-                fnFormatTable(this.id);
-            });
-    
-            $('#displayableResult').append($('#tables'));
+         
            
 
-            $('#displayableResult').css("display","block");
-            fnInitSave();
-            $("#currentDisplay").find("#forward").click(function(){
-                window.workspace.getElement().nextStep()
-            });
-            
-            
-            $("#currentDisplay").find("#backward").click(function(){
-                window.workspace.getElement().prevStep()
-            });
-            $("#currentDisplay").find("#delete").click(function(){
-                window.historyBar.removeCurrent()
-            });
-            $("#currentDisplay").find("#label").change(function() {
-                window.historyBar.getCurrent().setLabel($(this).val());
-                window.historyBar.render(1);
-            });
-            $(".catalogueSelector").change(function(){
-                $('.columnInputs').html("");
-                $('#whereField').val("");
-            });
-            $("#responseDivision").html("");
+   
            
 
             
    
             
 
- $(".tooltipme").tooltip({
-        position: "top center",
-        delay: 0,
-        predelay:0
-    });
+            $(".tooltipme").tooltip({
+                position: "top center",
+                delay: 0,
+                predelay:0
+            });
 
             
-    $(".column-reset").click(function(){
-
-      $(".columnSelection").val("");
-    });
+        
         },//end renderContent
         render: function(key,current) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key +" current "+current);
-            
-            /**
-            if(history.length <= 0){
 
-                var div = $("<div class='newghost'>Query "+actionNameParam+" </div>");
-                
-                //div.append(img);
-                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
-                $("#historyContent").append(div);
-                type="ghost";
-            }
-            else{
-                if(window.historyBar.getCurrentKey() == key){
-                    var div = $("<div class='newcurrent'>Query "+actionNameParam+" "+history.length+" </div>");
-                }else{
-                    var div = $("<div class='new1'>Query "+actionNameParam+" "+history.length+" </div>");
-                }
-
-                
-                
-                //div.append(img);
-                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
-                $("#historyContent").append(div);
-                
-                type="solid";
-
-                div.dblclick(function() {
-                    if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
-                    window.historyBar.cleanGhost();
-                    //var item = window.historyBar.getItem(key);
-                    window.historyBar.setFocus(key);
-                });//end dbclick
-            }//end else
-
-
-
-
-
-
-
-            return;
-            */
             if(history.length <= 0){
                                
                 var div = $("<div class='floaters'></div>");

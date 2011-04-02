@@ -14,6 +14,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
     /* * register click handler on advanced HEC query. */
     var _initGhostElements = function(){
+        fnInitializeDatePicker();
+        $("#minDate").val($.cookie("minDate"));
+        $("#maxDate").val($.cookie("maxDate"));
         if (typeof console!="undefined")console.info("ActionViewerExtended :: _initGhostElements");
 
         var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
@@ -36,9 +39,18 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 _removeHecCatalog(catalogName);
             }
         });
-        $("#currentDisplay").find("#delete").click(function(){
-            window.historyBar.removeCurrent();
-        });
+       $("#currentDisplay").find("#delete").click(function(){
+                  if(history.length>0){
+                    history.splice(step, 1);
+                    step = history.length-1;
+                    window.historyBar.render();
+
+
+                }else{
+                    window.historyBar.removeCurrent();
+                }
+
+            });
         $( ".custom_button").button();
         // setup tooltips
         $(".hecLabelTooltipMeOFF").tooltip({
@@ -51,9 +63,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
     var _initSolidElements = function(){
         if (typeof console!="undefined")console.info("ActionViewerExtended :: _initSolidElements ");
-        fnInitializeDatePicker();
-        $("#minDate").val($.cookie("minDate"));
-        $("#maxDate").val($.cookie("maxDate"));
+        
         $("#currentDisplay").find("#counter").css("display","block");
         $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
         $("#currentDisplay").find("#label").val(label);

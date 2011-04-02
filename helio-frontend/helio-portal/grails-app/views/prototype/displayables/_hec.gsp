@@ -10,12 +10,10 @@
           Label: <input style="margin-top:5px;" id="label" type="text"/>
         </td>
         <td>
-          <div style="float:right;" class="controls" id="delete">X</div>
-          <div style="float:right;" class="controls" id="forward">Next</div>
-
-          <div style="float:right;" class="controls" id="counter" ></div>
-
-          <div style="float:right;" class="controls" id="backward" >Prev</div>
+         <div style="float:right;" class="controls custom_button" id="delete">X</div>
+          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
+          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
+          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
         </td>
       </tr>
     </table>
@@ -69,8 +67,8 @@
 <g:hiddenField name="serviceName" value="HEC" />
 <input id="whereField" name="where" style="display:none" type="text"/>
 
-    <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
-    <g:submitToRemote style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" />
+    <g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+    <g:submitToRemote class="custom_button" style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" />
 
      </td></tr>
     </table>

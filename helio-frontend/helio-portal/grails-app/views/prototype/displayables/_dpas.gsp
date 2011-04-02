@@ -10,12 +10,10 @@
           Label: <input style="margin-top:5px;" id="label" type="text"/>
         </td>
         <td>
-          <div style="float:right;" class="controls" id="delete">X</div>
-          <div style="float:right;" class="controls" id="forward">Next</div>
-
-          <div style="float:right;" class="controls" id="counter" ></div>
-
-          <div style="float:right;" class="controls" id="backward" >Prev</div>
+         <div style="float:right;" class="controls custom_button" id="delete">X</div>
+          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
+          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
+          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
         </td>
       </tr>
     </table>
@@ -221,12 +219,14 @@
 ,'HINODE__SOT_FG'
 ,'HINODE__SOT_SP'
 ,'HINODE__XRT'].sort()}"/>
-  </td><td><img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:10px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /></td></tr>
+  </td><td>
+    <!--img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:10px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /-->
+    </td></tr>
 
 
  <tr><td></td><td>
 <g:hiddenField name="serviceName"  value="DPAS" />
-    <g:submitToRemote before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+    <g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
 
      </td></tr>
     </table>
