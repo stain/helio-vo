@@ -1,4 +1,4 @@
-<div id="hec_${catalog.catalogName}">
+<div class="hec_${catalog.catalogName}">
   <table width="100%">
     <tr>
       <g:set var="hasFields" value="${false}" />

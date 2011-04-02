@@ -72,6 +72,7 @@ class PrototypeController {
 
 		HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
 		def catalog = registry.getCatalogById(params.catalog);
+                
 		if (catalog != null) {
 			render template:'templates/columns_extended', bean:catalog, var:'catalog';
 		} else {

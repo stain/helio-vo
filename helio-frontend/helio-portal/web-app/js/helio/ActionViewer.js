@@ -22,7 +22,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
      *
      */
     var unserialize = function(formData,advancedSearchParam){
-        
+
+        $('#currentDisplay').find('#hecExtendedQueryContent').html(advancedSearchParam);
         $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
         $('#currentDisplay').find('.columnInputs').css("display","block");
         $("#currentDisplay").find("select").find("option").removeAttr("selected");
@@ -99,12 +100,28 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             if (typeof console!="undefined")console.info("ActionViewer :: getClassName");
             return className;
         },
+        initActionViewerElements: function(){
+
+
+ $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
+            $("#currentDisplay").find("#label").val(label);
+            fnInitializeDatePicker();
+     $( "input:button").button();
+            $( "input:file").button();
+            $( "input:submit").button();
+            $( ".controls").button();
+            $( ".custom-button").button();
+            $(".placeholder").remove();
+            $.collapsible(".queryHeader","group1");
+            $.collapsible(".advancedParameters","group2");
+        },
          getServiceName: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: getServiceName");
             return serviceName;
         },
         prepareStep: function(formData,advancedSearchParams) {
             if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
+            
             prevData=formData;
             advancedSearch=advancedSearchParams;
         },
@@ -178,6 +195,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         },
         renderContent: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: renderContent");
+            
                     
             window.workspace.setDisplay(actionName);
             $("#minDate").val($.cookie("minDate"));
@@ -191,23 +209,17 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     break;
 
             }
+            this.initActionViewerElements();
 
-            $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
-            $("#currentDisplay").find("#label").val(label);
+            
             if(history.length <= 0)return;
             var result = history[step].result;
             var formData = history[step].formData;
             var advancedSearch= history[step].advancedSearch;
-
-
             unserialize(formData,advancedSearch);
-
             $("#responseDivision").html(result);
-            
             $('.resultTable').each(function(){
-
                 fnFormatTable(this.id);
-
             });
     
             $('#displayableResult').append($('#tables'));
@@ -238,15 +250,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
            
 
             
-    fnInitializeDatePicker();
-     $( "input:button").button();
-            $( "input:file").button();
-            $( "input:submit").button();
-            $( ".controls").button();
-            $( ".custom-button").button();
-            $(".placeholder").remove();
-            $.collapsible(".queryHeader","group1");
-            $.collapsible(".advancedParameters","group2");
+   
             
 
  $(".tooltipme").tooltip({

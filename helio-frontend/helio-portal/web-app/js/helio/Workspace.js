@@ -40,7 +40,11 @@ function Workspace() {
         onLoading: function(){
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
             var element = window.historyBar.getCurrent();
-            element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
+            //element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
+            //element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.hecExtendedCatalogSelector').html());
+            element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#hecExtendedQueryContent').html());
+
+
             this.setDisplay("loading");
         },
         setDisplay: function(key){
@@ -71,10 +75,9 @@ function Workspace() {
 
             switch (text) {
                 case 'hec_extended':
-                    element = new ActionViewer(imagePath,"ghost",text,"label","hec");
+                    element = new ActionViewerExtended(imagePath,"ghost",text,"label","hec");
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    //fnInitHecExtended(); not required as already don in the line above.
                     break;
                 case 'hec':
                     element = new ActionViewer(imagePath,"ghost",text,"label","hec");
@@ -101,49 +104,21 @@ function Workspace() {
                     element = new UploadViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                          var options = {
-                target: '#responseDivision',   // target element(s) to be updated with server response
-                success: fnOnComplete  // post-submit callback
-            };
-            $('#myForm').ajaxForm(options);
+                    var options = {
+                        target: '#responseDivision',   // target element(s) to be updated with server response
+                        success: fnOnComplete  // post-submit callback
+                    };
+                    $('#myForm').ajaxForm(options);
                     break;
                 default:
                     break;
             }//end case
-            
-/*
-  $("#currentDisplay").find("#delete").click(function(){
-                window.historyBar.removeCurrent()
-            });
-            fnInitializeDatePicker();
-            $( "input:button").button();
-            $( ".controls").button();
-            $( ".custom-button").button();
-            $( "input:submit").button();
-            $.collapsible(".queryHeader","group1");
-              //@TODO: tooltips
-    //tooltipme
-     $(".tooltipme").tooltip({
-        position: "bottom right",
-        delay: 0,
-        predelay:0
-    });
 
-//$("#minDate").val(window.minDate);
-//$("#maxDate").val(window.maxDate);
-$("#minDate").val($.cookie("minDate"));
-$("#maxDate").val($.cookie("maxDate"));
-
-*/
         },
+        //@TODO: delete
         render: function() {
             if (typeof console!="undefined")console.error("Workspace :: render");
-            return;
-      
-            
-            
-            
-            
+            return;          
             $( "#droppable-inner" ).droppable({
                 accept: ".draggable",
 
@@ -156,16 +131,8 @@ $("#maxDate").val($.cookie("maxDate"));
                     window.workspace.createItem(text);
                 }
             });
-            
-  
-    
-
             fnInitDroppable();
             fnInitializeDatePicker();
-
-   
-
-
         },
         clear: function() {
             if (typeof console!="undefined")console.info("Workspace :: clear");
@@ -174,12 +141,6 @@ $("#maxDate").val($.cookie("maxDate"));
             $(".displayable").css("display","none");
             $("#currentDisplay").remove();
             $(".resCont").remove();
-            
-
-
         }
-
-    
-   
     };
 }

@@ -27,6 +27,7 @@
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
   <g:javascript src="/helio/ActionViewer.js"/>
+  <g:javascript src="/helio/ActionViewerExtended.js"/>
   <g:javascript src="/helio/UploadViewer.js"/>
   <g:javascript src="/helio/ResultViewer.js"/>
   <g:javascript src="/helio/History.js"/>

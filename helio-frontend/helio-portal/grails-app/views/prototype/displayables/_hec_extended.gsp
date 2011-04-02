@@ -10,10 +10,10 @@
           Label: <input style="margin-top:5px;" id="label" type="text"/>
         </td>
         <td>
-          <div style="float:right;" class="controls" id="delete">X</div>
-          <div style="float:right;" class="controls" id="forward">Next</div>
-          <div style="float:right;" class="controls" id="counter" ></div>
-          <div style="float:right;" class="controls" id="backward" >Prev</div>
+          <div style="float:right;" class="controls custom_button" id="delete">X</div>
+          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
+          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
+          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
         </td>
       </tr>
     </table>
@@ -76,7 +76,7 @@
                 <div class="header queryHeader viewerHeader">
                   <h1>Advanced Parameters</h1>
                 </div>
-                <div id="hecExtendedQueryContent" class="content collapsed">
+                <div id="hecExtendedQueryContent" >
                 </div>
                 <input name="serviceName" type="hidden" value="HEC"/>
                 <input id="whereField" name="where" style="display:none" type="text"/>

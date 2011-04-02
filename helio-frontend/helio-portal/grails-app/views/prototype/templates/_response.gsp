@@ -26,8 +26,8 @@
 <g:set var="result" value="${responseObject?.result}" />
 <g:set var="result" scope="session" value="${responseObject?.result}" />
     <g:form target="_blank" controller="prototype"><g:actionSubmit style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/></g:form>
-    <div id="resultSelectionCounter" class="custom-button" style="margin-right:10px;float:right;">0</div>
-    <div id="resultSelectionSave" class="custom-button" style="margin-right:10px;float:right;">Save Selection</div>
+    <div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div>
+    <div id="resultSelectionSave" class="custom_button" style="margin-right:10px;float:right;">Save Selection</div>
 
     <div style="clear:both;width:100%"></div>
 
