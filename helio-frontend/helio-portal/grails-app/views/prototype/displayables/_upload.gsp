@@ -1,26 +1,37 @@
-
-<div id="staticForms">
-  <div id="formHeader">
-    <img style ="float:left;position:relative;top:10px;left:10px" height="30px" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" />
-    <h1 style ="float:left;position:relative;left:15px" >Upload VOTable</h1>
-    <g:render template="templates/controls_reduced" />
-    
+<div id="actionViewer">
+  <div class="viewerHeader">
+    <table  style="height:30px;width: 100%;">
+      <tr >
+        <td>
+          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" />
+        </td>
+        <td>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Upload VOTable</h1>
+          Label: <input style="margin-top:5px;" id="label" type="text"/>
+        </td>
+        <td>
+          <div style="float:right;" class="controls custom_button" id="delete">X</div>
+        </td>
+      </tr>
+    </table>
   </div>
-  <div style="clear:both;padding:50px 0 0 80px;">
+  <div class="module ">
+    <div class="header queryHeader viewerHeader">
+      <h1>Query Form</h1>
+    </div>
+    <div class="content">
 
-<form id="myForm" action="asyncUpload" method="post">
+      <form id="myForm" action="asyncUpload" method="post">
 
-    File to upload: <input type="file" name="fileInput"/>
+        File to upload: <input type="file" name="fileInput"/>
 
-    <input type="submit" value="Submit" />
-</form>
-    
-  
+        <input type="submit" value="Submit" />
+      </form>
 
+    </div>
   </div>
 
-<div id="displayableResult" class="displayable" style="display:block">
-
+  <div id="displayableResult" class="displayable" style="display:block">
+  </div>
 </div>
 
-</div>

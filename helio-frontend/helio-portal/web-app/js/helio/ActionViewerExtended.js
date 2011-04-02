@@ -14,10 +14,12 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
     /* * register click handler on advanced HEC query. */
     var _initGhostElements = function(){
+        if (typeof console!="undefined")console.info("ActionViewerExtended :: _initGhostElements");
+        
         fnInitializeDatePicker();
         $("#minDate").val($.cookie("minDate"));
         $("#maxDate").val($.cookie("maxDate"));
-        if (typeof console!="undefined")console.info("ActionViewerExtended :: _initGhostElements");
+        
 
         var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
 
@@ -53,7 +55,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             });
         $( ".custom_button").button();
         // setup tooltips
-        $(".hecLabelTooltipMeOFF").tooltip({
+        $(".hecLabelTooltipMe").tooltip({
             position: "bottom right",
             tipClass: 'hecLabelTooltip',
             delay: 0,
@@ -352,7 +354,7 @@ function _loadHecCatalog(catalogName) {
         });
 
         // setup tooltips
-        $(".hecColLabelTooltipMeOFF").tooltip({
+        $(".hecColLabelTooltipMe").tooltip({
             position: "bottom right",
             tipClass: 'hecLabelTooltip',
             delay: 0,
