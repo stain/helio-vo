@@ -83,17 +83,18 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
             
                     $("#responseDivision").html(result);
-                    $('.resultTable').each(function(){
-
-                        fnFormatTable(this.id);
-
-                    });
+                   
                 
                     $('#displayableResult').append($('#tables'));
                     $("#myForm").remove();
 
                     $('#displayableResult').css("display","block");
                     $("#responseDivision").html("");
+                     $('.resultTable').each(function(){
+
+                        fnFormatTable(this.id);
+
+                    });
 
                     fnInitSave();
                 }
@@ -112,25 +113,28 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             }catch(err){
                 $("#responseDivision").html("");
                 //$("#currentDisplay").remove();
-                console.debug("another error");
+                
                 result=null;
                 //window.workspace.setDisplay(actionName);
-                console.debug("RENDERING AGAIN");
+                
                 this.renderContent();
                 var options = {
                     target: '#responseDivision',   // target element(s) to be updated with server response
                     success: fnOnComplete  // post-submit callback
                 };
                 $('#myForm').ajaxForm(options);
-                $( "input:button").button();
-                $( ".controls").button();
-                $( ".custom-button").button();
-                $( "input:submit").button();
+                
+                
+                
+                
                 $("#myForm").append("<br><br><span style='color:red'>Error Ocurred when parsing the VoTable please revise your syntax.</span>");
+                
             //window.historyBar.removeCurrent();
 
                 
             }
+            $( "input:submit").button();
+            $( ".custom_button").button();
             
         },
         render: function(key) {

@@ -17,7 +17,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         if (typeof console!="undefined")console.info("ActionViewer :: _initSolidElements ");
             
         fnInitializeDatePicker();
-        fnInitializeDatePicker();
+        
         $("#minDate").val($.cookie("minDate"));
         $("#maxDate").val($.cookie("maxDate"));
 
@@ -247,9 +247,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 var advancedSearch= history[step].advancedSearch;
                 _unserialize(formData,advancedSearch);
                 $("#responseDivision").html(result);
-                $('.resultTable').each(function(){
-                    fnFormatTable(this.id);
-                });
+                
+                
                 $('#displayableResult').append($('#tables'));
                 $('#displayableResult').css("display","block");
                 fnInitSave();
@@ -259,6 +258,12 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     delay: 0,
                     predelay:0
                 });
+                $('.resultTable').each(function(){
+                    fnFormatTable(this.id);
+                });
+                //$('#resultTable0').dataTable().fnUpdate();
+                //$('#resultTable0').dataTable().fnDraw();
+                
                 _initSolidElements();
             }
             _initGhostElements();

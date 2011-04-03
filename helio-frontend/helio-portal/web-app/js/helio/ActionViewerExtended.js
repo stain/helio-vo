@@ -248,9 +248,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 var advancedSearch= history[step].advancedSearch;
                 _unserialize(formData,advancedSearch);
                 $("#responseDivision").html(result);
-                $('.resultTable').each(function(){
-                    fnFormatTable(this.id);
-                });
                 $('#displayableResult').append($('#tables'));
                 $('#displayableResult').css("display","block");
                 fnInitSave();
@@ -259,6 +256,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                     position: "top center",
                     delay: 0,
                     predelay:0
+                });
+                $('.resultTable').each(function(){
+                    fnFormatTable(this.id);
                 });
                 _initSolidElements();
             }

@@ -448,6 +448,8 @@ function fnFormatTable(tableName){
     $("#"+tableName).dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
+        "bRetrieve":true,
+        "bDestroy":true,
         "bLengthChange": true,
         "sPaginationType": "full_numbers",
         "sScrollX": "100%",
