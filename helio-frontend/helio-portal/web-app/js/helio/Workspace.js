@@ -65,7 +65,7 @@ function Workspace() {
             newDiv.attr("id","currentDisplay");
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
-            fnInitializeDatePicker();
+            
         },
         createItem: function(imagePath){
             if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);

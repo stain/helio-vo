@@ -128,6 +128,57 @@ function fnInitializeDatePicker(){
     $("#maxTime").keyup(function(){
         $.cookie("maxTime",$(this).val());
     });
+
+    $("#maxTime,#minTime,#minDate,#maxDate").change(function(){
+        try{
+            var maxTime = $("#maxTime").val();
+            var minTime = $("#minTime").val();
+            var maxDate = $("#maxDate").val();
+            var minDate = $("#minDate").val();
+            var IsoDate = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+            var IsoTime = new RegExp("^([0-9]{2}):([0-9]{2})$");
+            var matches = IsoDate.exec(maxDate);
+
+            if(matches ==null){
+                $("#maxDate").addClass("inputError");
+            }else{
+                $("#maxDate").removeClass("inputError");
+            //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
+            //console.debug(maxDateObject);
+            }
+            matches = IsoDate.exec(minDate);
+            if(matches ==null){
+                $("#minDate").addClass("inputError");
+            }
+            else{
+                $("#minDate").removeClass("inputError");
+            }
+            matches = IsoTime.exec(maxTime);
+            if(matches ==null){
+                $("#maxTime").addClass("inputError");
+            }else{
+                $("#maxTime").removeClass("inputError");
+            }
+            matches = IsoTime.exec(minTime);
+            if(matches ==null){
+                $("#minTime").addClass("inputError");
+            }
+            else{
+                $("#minTime").removeClass("inputError");
+            }
+
+
+        /*
+            if(matches[1]!=null&&matches[2]&&matches[3]){
+
+            }
+            $("#dateError").remove();
+            */
+        }
+        catch(err){
+            $(".dateTable").append("<span style='color:red' id='dateError'>Error occurred please revise your input</span>");
+        }
+    });
 }
 
 

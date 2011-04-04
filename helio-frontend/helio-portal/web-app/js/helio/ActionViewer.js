@@ -278,19 +278,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 
                 _initSolidElements();
             }
-            _initGhostElements();
-                  
-            
-         
-           
-
-   
-           
-
-            
-   
-            
-
+            _initGhostElements();           
             $(".tooltipme").tooltip({
                 position: "top center",
                 delay: 0,
