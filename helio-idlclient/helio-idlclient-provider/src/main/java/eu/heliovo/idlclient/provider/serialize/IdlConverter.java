@@ -1,6 +1,5 @@
 package eu.heliovo.idlclient.provider.serialize;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,10 +28,11 @@ public class IdlConverter {
 	 * @param bean for serialize. Null is not allowed.
 	 * @return String with serialized bean object
 	 */
+	@SuppressWarnings("unchecked")
 	private static String idlserialize_recursive(Object bean) {
 		
 		PropertyUtilsBean beanutil = new PropertyUtilsBean();
-		Map map;
+		Map<String, Object> map;
 		StringBuilder output = new StringBuilder();
 		
 		//Convert the bean object to a map with beanutils
@@ -57,10 +57,8 @@ public class IdlConverter {
 
 		
 		//iterate through every key/value pair of the map
-		Iterator it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pairs = (Map.Entry)it.next();
-			
+		for (Map.Entry<String, Object> pairs : map.entrySet()) {
+				
 			//Check if value is null
 			if(pairs.getValue() == null)
 			{
