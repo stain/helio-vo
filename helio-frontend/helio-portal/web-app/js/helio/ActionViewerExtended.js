@@ -309,7 +309,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 $("#historyContent").append(div);
                 type="solid";
 
-                div.dblclick(function() {
+                div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewerExtended :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     

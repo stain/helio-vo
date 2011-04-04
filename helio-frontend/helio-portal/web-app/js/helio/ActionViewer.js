@@ -321,7 +321,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#historyContent").append(div);
                 type="solid";
 
-                div.dblclick(function() {
+                div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);

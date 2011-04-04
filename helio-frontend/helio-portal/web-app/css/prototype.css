@@ -212,11 +212,10 @@ html{
     }
     .floaters{
         width:45px;
-        
         margin-left:5px;
         margin-top:2px;
         float:left;
-
+        cursor: pointer;
         padding:5px 15px;
         padding-bottom:15px;
         overflow: hidden;

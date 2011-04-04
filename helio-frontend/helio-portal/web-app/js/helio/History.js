@@ -16,7 +16,7 @@ function History() {
         init: function(){
             if (typeof console!="undefined")console.info("History :: init");
 
-            $( ".draggable" ).dblclick(function() {
+            $( ".draggable" ).click(function() {
                 window.workspace.createItem($(this).find("img").attr("src"));
             });
              $( "#clearSystem" ).click(function() {
