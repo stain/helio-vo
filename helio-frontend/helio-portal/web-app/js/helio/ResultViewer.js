@@ -293,8 +293,8 @@ return;
             if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key +" current "+current);
 
             type = 'solid';
-            div = $("<div id='"+key+"' class='floaters resultDraggable'></div>");
-            img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
+            div = $("<div  class='floaters'></div>");
+            img =   $( "<img id='"+key+"' class='resultDraggable' alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
             div.append(img);
             if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
             if(key==current){
@@ -320,8 +320,6 @@ return;
                 helper:"clone",
                 zIndex: 1700,
                 start: function(event,ui ) {
-
-                    console.debug("STARTED THE DRAG");
                     //var tooltip =$(this).data('tooltip');
                     //tooltip.getConf().opacity = 0;
                     $(".resultDroppable2").droppable("enable");
@@ -331,8 +329,6 @@ return;
                 },
                 stop: function(event,ui ) {
                      $(this).removeClass('noclick');
-
-                    console.debug("stopped the drag");
                     //var tooltip =$(this).data('tooltip');
                     //tooltip.getConf().opacity = 1;
                     if($(this).data('returnMe')){
