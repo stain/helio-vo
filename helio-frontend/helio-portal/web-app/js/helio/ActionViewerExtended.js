@@ -92,6 +92,29 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
         });
+           $("#resultSelectionSelectAll").click(function(){
+            console.debug("click it like its hot");
+            var tableId =$(this).attr('reference');
+
+            $("#"+tableId).find("tbody").find("tr").each(function(){
+                
+                
+                var cssClass =$(this).attr('class');
+                if(cssClass.indexOf("odd")!= -1){
+                    $(this).removeClass('odd');
+                    $(this).removeClass('odd_selected');
+                    $(this).addClass('odd_selected');
+                }else if(cssClass.indexOf("even")!= -1){
+                    $(this).removeClass('even');
+                    $(this).removeClass('even_selected');
+                    $(this).addClass('even_selected');
+                }
+                
+                
+                
+
+            });
+        });
     }
     /*
      * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.

@@ -76,6 +76,18 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
         });
+        $("#resultSelectionSelectAll").click(function(){
+            console.debug("click it like its hot");
+            var tableId =$(this).attr('reference');
+            
+            $("#"+tableId).find("tbody").find("tr").each(function(){
+                console.debug(this);
+                console.debug($(this));
+                this.className.replace( /_selected/, "" );
+                this.className+'_selected';
+                
+            });
+        });
     }
     /*
      * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.
