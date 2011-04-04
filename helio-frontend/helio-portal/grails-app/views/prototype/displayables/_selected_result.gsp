@@ -34,7 +34,7 @@
     <tr>
       <td class="row-borders" id="time-row" style="display:block">
 
-        <div style="margin-left:100px;height:40px;padding-bottom:20px "><input id="time-row-check" type="checkbox"/><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
+        <div style="margin-left:100px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
        <center> <h2>Time Selection</h2></center>
       <table id="times-table" style="width:100%;text-align:left">
           <tr >
