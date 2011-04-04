@@ -307,7 +307,8 @@ return;
             draggable.data("Left", 0).data("Top", 0);
             draggable.data('returnMe',false);
                 
-            div.dblclick(function() {
+            div.click(function() {
+                if($(this).hasClass('noclick'))return;
                 if (typeof console!="undefined")console.info("ResultViewer :: item doubleclicked ->"+ key);
                 window.historyBar.cleanGhost();
                 //var item = window.historyBar.getItem(key);
@@ -316,22 +317,22 @@ return;
             });//end dbclick
             $( ".resultDraggable" ).draggable({
                 revert: "invalid",
-
-
-
+                helper:"clone",
                 zIndex: 1700,
                 start: function(event,ui ) {
 
+                    console.debug("STARTED THE DRAG");
                     //var tooltip =$(this).data('tooltip');
                     //tooltip.getConf().opacity = 0;
                     $(".resultDroppable2").droppable("enable");
                     $(".resultDroppable").droppable("enable");
-
-
+                    $(this).addClass('noclick');
 
                 },
                 stop: function(event,ui ) {
+                     $(this).removeClass('noclick');
 
+                    console.debug("stopped the drag");
                     //var tooltip =$(this).data('tooltip');
                     //tooltip.getConf().opacity = 1;
                     if($(this).data('returnMe')){

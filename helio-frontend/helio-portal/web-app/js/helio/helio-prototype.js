@@ -129,7 +129,7 @@ function fnInitializeDatePicker(){
         $.cookie("maxTime",$(this).val());
     });
 
-    $("#maxTime,#minTime,#minDate,#maxDate").change(function(){
+    var validateDates = function(){
         try{
             var maxTime = $("#maxTime").val();
             var minTime = $("#minTime").val();
@@ -178,7 +178,9 @@ function fnInitializeDatePicker(){
         catch(err){
             $(".dateTable").append("<span style='color:red' id='dateError'>Error occurred please revise your input</span>");
         }
-    });
+    };
+    $("#maxTime,#minTime,#minDate,#maxDate").keydown(validateDates);
+    $("#maxTime,#minTime,#minDate,#maxDate").keyup(validateDates);
 }
 
 

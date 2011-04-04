@@ -44,6 +44,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 _removeHecCatalog(catalogName);
             }
         });
+        
        $("#currentDisplay").find("#delete").click(function(){
                   if(history.length>0){
                     history.splice(step, 1);
