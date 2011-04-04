@@ -1,6 +1,6 @@
 function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,serviceNameParam) {
 
-    var className = "ActionViewerExtendedExtended";
+    var className = "ActionViewerExtended";
     var actionName = actionNameParam;
     var serviceName = serviceNameParam;
     var type = typeParam;
@@ -33,7 +33,8 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         };
         onChangeSearchButton();  // init button state
         catalogCheckboxes.change(onChangeSearchButton); // register button handler
-
+        $.collapsible(".queryHeader","group1");
+        
         catalogCheckboxes.change(function(event){
             if (typeof console!="undefined")console.info("ActionViewerExtended ::  catalogCheckboxes.change "+$(this).val());
             var catalogName = $(this).val();
@@ -73,7 +74,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         $("#currentDisplay").find("#label").val(label);
         
         $(".placeholder").remove();
-        $.collapsible(".queryHeader","group1");
         $.collapsible(".advancedParameters","group2");
 
         $("#currentDisplay").find("#forward").css("display","block");

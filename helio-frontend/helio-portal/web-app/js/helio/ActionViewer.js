@@ -57,8 +57,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         $("#currentDisplay").find("#label").val(label);
 
         $(".placeholder").remove();
-        $.collapsible(".queryHeader","group1");
-        $.collapsible(".advancedParameters","group2");
+        
+        
 
         $("#currentDisplay").find("#forward").css("display","block");
         $("#currentDisplay").find("#forward").click(function(){

@@ -40,9 +40,14 @@ function Workspace() {
         onLoading: function(){
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
             var element = window.historyBar.getCurrent();
-            //element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
-            //element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.hecExtendedCatalogSelector').html());
-            element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#hecExtendedQueryContent').html());
+            if(element.getClassName() == 'ActionViewer'){
+                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
+            }else{
+                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#hecExtendedQueryContent').html());
+            }
+            
+            
+            
 
 
             this.setDisplay("loading");
