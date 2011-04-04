@@ -31,35 +31,45 @@
 
 <g:render template="templates/dates" />
 <table style="">
-<tr><td style="text-align:right"> Catalogue:</td><td> <g:select class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="hi_cme_list" from="${[
-'hi_cme_list'
-,'bas_magnetic_storms'
-,'wind_imf_bow_shock'
-,'yohkoh_flare_list'
-,'dsd_list'
-,'hi_event'
-,'goes_xray_flare'
-,'drao_10cm_flux'
-,'apstar_list'
-,'lasco_cme_list'
-,'ssc_list'
-,'kso_flare'
-,'forbush_list'
-,'gle_list'
-,'srs_list'
-,'solar_wind_event'
-,'soho_camp'
-,'noaa_proton_event'
-,'hessi_flare'
-,'yohkoh_sxt_trace_list'
-,'halpha_flares_event'
-,'sgas_event'
-,'wind_imf_mag_cloud'
-,'lasco_cme_cat'
-,'eit_list'
-,'aastar_list'
-,'sidc_sunspot_number'
-   ].sort()}" />
+<tr><td style="text-align:right"> Catalogue:</td><td> <g:select class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="goes_sxr_flare" from="${[
+'goes_sxr_flare',
+'ngdc_halpha_flare',
+'noaa_energetic_event',
+'stereo_euvi_event',
+'soho_lasco_cme',
+'stereo_hi_cme',
+'goes_proton_event',
+'cme_forbush_event',
+'aad_gle',
+'ngdc_aastar_storm',
+'ngdc_apstar_storm',
+'ngdc_ssc',
+'wind_mfi_mag_cloud',
+'wind_mfi_ip_shock',
+'soho_pm_ip_shock',
+'istp_sw_event',
+'stereo_hi_sw_transient',
+'ulysses_swoops_icme',
+'wind_stereo_ii_iv_radioburst',
+'wind_typeii_soho_cme',
+'yohkoh_hxr_flare',
+'rhessi_hxr_flare',
+'kso_halpha_flare',
+'tsrs_solar_radio_event',
+'soho_eit_wave_transient',
+'wind_mfi_bs_crossing_time',
+'wind_sw_crossing_time',
+'imp8_sw_crossing_time',
+'cactus_soho_cme',
+'cactus_stereoa_cme',
+'cactus_stereob_cme',
+'cactus_soho_flow',
+'cactus_stereoa_flow',
+'cactus_stereob_flow',
+'ulysses_grb_xray_flare',
+'halo_cme_flare_magnetic_storm',
+'noaa_active_region_summary',
+'noaa_daily_solar_data']}" />
   </td><td><img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:40px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /></td>
 
 </tr>
