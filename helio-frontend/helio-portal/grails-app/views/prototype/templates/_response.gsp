@@ -42,7 +42,7 @@
       <tr>
     <g:each in="${tables?.getHeaders()}" status="i" var="testInstance">
 
-      <g:if test="${testInstance == 'URL'}"><g:set var="urls" value="${i}" /></g:if>
+      <g:if test="${testInstance == 'url'}"><g:set var="urls" value="${i}" /></g:if>
       <th>${testInstance} </th>
 
     </g:each>
