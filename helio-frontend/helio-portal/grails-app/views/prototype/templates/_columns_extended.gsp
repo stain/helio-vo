@@ -23,7 +23,7 @@
       </td>
       <g:if test="${hasFields}">
         <td align="left" valign="top">
-          <input style="padding: 0 0.2em 0.2em 0.2em" class="column-reset" type="button" value="x" title="Reset this form" onclick="resetHecForm('${catalog.catalogName}')">      
+          <input style="padding: 0 0.2em 0.2em 0.2em" class="column-reset" type="button" value="Reset Fields" title="Reset this form" onclick="resetHecForm('${catalog.catalogName}')">
         </td>
         <td align="right">
           <div style="" class="message pqlmessage">

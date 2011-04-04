@@ -144,7 +144,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     
                     $("#times-table").append(
                         '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
-                        '<td><input type="checkbox"/></td>'+
+                        '<td><!--input type="checkbox"/--></td>'+
                         '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
                 }
                 
