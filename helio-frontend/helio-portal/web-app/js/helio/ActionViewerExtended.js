@@ -19,6 +19,8 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         fnInitializeDatePicker();
         $("#minDate").val($.cookie("minDate"));
         $("#maxDate").val($.cookie("maxDate"));
+        $("#minTime").val($.cookie("minTime"));
+        $("#maxTime").val($.cookie("maxTime"));
         
 
         var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
@@ -117,7 +119,16 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 tempField =tempField.replace('+',"");
                 $(".maxDateList").val(tempField);
             }//end if
-
+            else if(tempField.indexOf("minTime=")!= -1){
+                tempField =tempField.replace('minTime=',"");
+                tempField =tempField.replace('%3A',":");
+                $("#currentDisplay").find("input[name='minTime']").val(tempField);
+            }//end if
+            else if(tempField.indexOf("maxTime=")!= -1){
+                tempField =tempField.replace('maxTime=',"");
+                tempField =tempField.replace('%3A',":");
+                $("#currentDisplay").find("input[name='maxTime']").val(tempField);
+            }//end if
             else if(tempField.indexOf("minDate=")!= -1){
                 tempField =tempField.replace('minDate=',"");
                 $("#currentDisplay").find("input[name='minDate']").val(tempField);

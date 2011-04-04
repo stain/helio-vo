@@ -22,17 +22,17 @@ function fnclearDateTexts2(){
  *@TODO: needs to me worked into the actionviewer class
  */
 function fnOnCompleteGetColumns(){
-	if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
-	$(".column-reset").button();
-	$(".column-reset").click(function(){
+    if (typeof console!="undefined")console.info("fnOnCompleteGetColumns");
+    $(".column-reset").button();
+    $(".column-reset").click(function(){
 		
-		$(".columnSelection").val("");
-	});
-	$(".columnSelection").keyup(function(){
-		mysubmit();
+        $(".columnSelection").val("");
+    });
+    $(".columnSelection").keyup(function(){
+        mysubmit();
 		
-	});
-        $.collapsible(".advancedParameters","group2");
+    });
+    $.collapsible(".advancedParameters","group2");
 
 }
 
@@ -93,7 +93,7 @@ function fnInitializeDatePicker(){
     });
     **/
 
-     var dates = $('#minDate, #maxDate').datepicker({
+    var dates = $('#minDate, #maxDate').datepicker({
         defaultDate: "+1w",
         
         yearRange: '1970:2011',
@@ -117,14 +117,16 @@ function fnInitializeDatePicker(){
         }
     });
     $("#minDate").keyup(function(){
-        
-       //window.minDate=$(this).val();
-       $.cookie("minDate",$(this).val());
+        $.cookie("minDate",$(this).val());
     });
-    $("#maxDate").keyup(function(){
-        //window.maxDate=$(this).val();
-        
-    $.cookie("maxDate",$(this).val());
+    $("#maxDate").keyup(function(){    
+        $.cookie("maxDate",$(this).val());
+    });
+    $("#minTime").keyup(function(){
+        $.cookie("minTime",$(this).val());
+    });
+    $("#maxTime").keyup(function(){
+        $.cookie("maxTime",$(this).val());
     });
 }
 
@@ -295,7 +297,7 @@ function fnInitDroppable(){
             
 
                 var carry =$("<div id='carry'></div>");
-                 var time_start;
+                var time_start;
                 var time_end;
                 for(j in content[i]){
 
@@ -309,7 +311,7 @@ function fnInitDroppable(){
                     }
 
                 }//j
-                 if(time_start != null && time_end != null) {
+                if(time_start != null && time_end != null) {
                     
 
                     $(".dateTable").append(
@@ -425,8 +427,8 @@ function fnOnComplete(){
     //window.workspace.setElement(element);
 
     $('#responseDivision').html();
-    //$("#responseDivision").html("");
-    //var totalSize = $("#totalSize").val();
+//$("#responseDivision").html("");
+//var totalSize = $("#totalSize").val();
     
     
 
@@ -443,7 +445,7 @@ function fnOnComplete(){
 function fnFormatTable(tableName){
     if (typeof console!="undefined")console.info("fnFormatTable");
   
-  //Run some code here
+    //Run some code here
 
     $("#"+tableName).dataTable({
         "bJQueryUI": true,
@@ -509,36 +511,47 @@ function fnInitSave(){
     $("#resultSelectionSave").click(function(){
         if (typeof console!="undefined")console.info("Save selection clicked");
 
-if($(".resCont").length==0){
-    var div =$('<div></div>');
-    div.attr('id','dialog-message');
-    div.attr('title','Information');
-var message ="You need to select at least one row from your results at the bottom";
-     div.append('<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
-     $("#testdiv").append(div);
+        if($(".resCont").length==0){
+            var div =$('<div></div>');
+            div.attr('id','dialog-message');
+            div.attr('title','Information');
+            var message ="You need to select at least one row from your results at the bottom";
+            div.append('<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
+            $("#testdiv").append(div);
 
 
-	   $('#dialog-message').dialog({
+            $('#dialog-message').dialog({
 
-			modal: true,
-			buttons: {
-				Ok: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
+                modal: true,
+                buttons: {
+                    Ok: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
                 
-                return;
+            return;
 
-}
-        $(".odd").remove();
-        $(".even").remove();
+        }
+        $(".resultTable").each(function(){
 
+            if($(this).attr("id")!= ""){
+                var id =$(this).attr("id");
+                console.debug(id);
+                id =id.replace("_wrapper","");
+                console.debug(id);
+                $("#"+id).dataTable().fnDestroy();
+            }
+        });
+        
+        $(".resultTable").find('tbody').find("tr").each(function(){            
+            $(this).removeClass("gradeB");
+            if($(this).attr("class") ==""){
+                $(this).remove();
+            }
+        });
         var tablesHtml =$("#voTables").html();
-
-         
-
-         var indexes = new Array();
+        var indexes = new Array();
         var count =0;
         var totalResult = [];
         $(".resCont").each(function(){
@@ -646,8 +659,10 @@ $(document).ready(function()
     //TODO:hack of dates
     
     //Test code area
-    if($.cookie("mixDate")==null)$.cookie("minDate","2003-01-01");
+    if($.cookie("minDate")==null)$.cookie("minDate","2003-01-01");
     if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
+    if($.cookie("minTime")==null)$.cookie("minTime","00:00");
+    if($.cookie("maxTime")==null)$.cookie("maxTime","00:00");
 
     //window.maxDate="2003-01-03";
     //window.minDate="2003-01-01";

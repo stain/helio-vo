@@ -235,6 +235,11 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $('input:submit').button();
             $( ".controls").button();
 
+            //$("div:contains('resultTable')").css("text-decoration", "underline");]")
+           $('.resultTable').each(function(){
+                    fnFormatTable(this.id);
+                });
+
             
             $("#time-row-check, #inst-row-check").change(function(){
                 

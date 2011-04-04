@@ -20,6 +20,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         
         $("#minDate").val($.cookie("minDate"));
         $("#maxDate").val($.cookie("maxDate"));
+        $("#minTime").val($.cookie("minTime"));
+        $("#maxTime").val($.cookie("maxTime"));
 
           
         $.collapsible(".queryHeader","group1");
@@ -103,7 +105,16 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 tempField =tempField.replace('+',"");
                 $(".maxDateList").val(tempField);
             }//end if
-
+            else if(tempField.indexOf("minTime=")!= -1){
+                tempField =tempField.replace('minTime=',"");
+                tempField =tempField.replace('%3A',":");
+                $("#currentDisplay").find("input[name='minTime']").val(tempField);
+            }//end if
+            else if(tempField.indexOf("maxTime=")!= -1){
+                tempField =tempField.replace('maxTime=',"");
+                tempField =tempField.replace('%3A',":");
+                $("#currentDisplay").find("input[name='maxTime']").val(tempField);
+            }//end if
             else if(tempField.indexOf("minDate=")!= -1){
                 tempField =tempField.replace('minDate=',"");
                 $("#currentDisplay").find("input[name='minDate']").val(tempField);
@@ -316,7 +327,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 }
                 
                 for(i in history){
-                    div.append("<div class='ui-state-default new1'>"+"Page "+i+"</div>");
+                    div.append("<div class='ui-state-default new1'>"+"Page "+(parseInt(i,10)+1)+"</div>");
                 }
                 $("#historyContent").append(div);
                 type="solid";
