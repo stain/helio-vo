@@ -11,6 +11,8 @@ public class CatalogService {
 	
 	private String description;
 	
+	private String[] Stringarray;
+	
 	private List<HelioCatalog> catalogs = new ArrayList<HelioCatalog>();
 
 	public String getName() {
@@ -35,6 +37,14 @@ public class CatalogService {
 
 	public void setCatalogs(List<HelioCatalog> catalogs) {
 		this.catalogs = catalogs;
+	}
+
+	public void setStringarray(String[] stringarray) {
+		Stringarray = stringarray;
+	}
+
+	public String[] getStringarray() {
+		return Stringarray;
 	}
 	
 	

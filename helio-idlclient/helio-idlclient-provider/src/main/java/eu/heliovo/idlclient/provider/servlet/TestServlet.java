@@ -29,13 +29,21 @@ public class TestServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
+
+		String starttime = request.getParameter("starttime");
+		String endtime = request.getParameter("endtime");
 		
-		//Generate Data
+		//Generate dummy testdata & fill in parameters
 		CatalogService cs = new CatalogService();
 		dummydata.fill(cs);
+		if(starttime != null && endtime != null)
+		{
+			cs.getCatalogs().get(0).getFields().get(0).setMyFloat(Float.valueOf(starttime));
+			cs.getCatalogs().get(0).getFields().get(1).setMyFloat(Float.valueOf(endtime));
+		}
 		
 		//Serialize data to idl structure
-		String out = IdlConverter.idl(cs);
+		String out = IdlConverter.idlserialize(cs);
 		writer.append(out);
 	}
 
@@ -43,7 +51,12 @@ public class TestServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		response.setContentType("text/plain");
+		PrintWriter writer = response.getWriter();
+		
+		System.out.println("Post");
+		
+		writer.append("test");
 	}
 
 }

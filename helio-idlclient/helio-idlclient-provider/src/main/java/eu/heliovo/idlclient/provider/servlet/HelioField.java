@@ -6,9 +6,11 @@ public class HelioField {
 	private String name;
 	
 	private String description;
-	
-	private float MyFloat;
 
+	private float MyFloat;
+	
+	private float MyArray[];
+	
 	public String getName() {
 		return name;
 	}
@@ -31,5 +33,13 @@ public class HelioField {
 
 	public void setMyFloat(float myFloat) {
 		MyFloat = myFloat;
+	}
+
+	public void setMyArray(float myArray[]) {
+		MyArray = myArray;
+	}
+
+	public float[] getMyArray() {
+		return MyArray;
 	}
 }

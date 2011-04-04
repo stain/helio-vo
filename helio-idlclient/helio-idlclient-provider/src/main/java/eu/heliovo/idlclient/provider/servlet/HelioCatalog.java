@@ -7,8 +7,10 @@ import java.util.List;
 public class HelioCatalog {
 
 	private String name;
-	
+
 	private String description;
+	
+	private HelioField HelioArray[];
 	
 	private List<HelioField> fields = new ArrayList<HelioField>();
 
@@ -34,6 +36,14 @@ public class HelioCatalog {
 
 	public void setFields(List<HelioField> fields) {
 		this.fields = fields;
+	}
+
+	public void setHelioArray(HelioField helioArray[]) {
+		HelioArray = helioArray;
+	}
+
+	public HelioField[] getHelioArray() {
+		return HelioArray;
 	}
 	
 	

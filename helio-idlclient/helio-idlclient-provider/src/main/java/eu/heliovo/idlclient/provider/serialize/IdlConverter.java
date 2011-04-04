@@ -1,88 +1,220 @@
 package eu.heliovo.idlclient.provider.serialize;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
-//Serialisierung nach idl mit Rahmen für Zuweisung einer Variabel in idl.
 public class IdlConverter {
-	public static String idl(Object bean)
+	
+	/**
+	 * IDL serializer. Converts Java beans to idl structs.
+	 * @param bean for serialize to idl struct. Null is not allowed.
+	 * @return serialized string with idl syntax for struct.
+	 */
+	public static String idlserialize(Object bean)
 	{
-		String out = new String();
+		StringBuilder out = new StringBuilder();
 		
-		try {
-			//String erzeugen mit der Metgode doit
-			out = "str =" + doit(bean);
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		out.append("str =").append(idlserialize_recursive(bean));
 		
-		return out;
+		return out.toString();
 	}
 	
-	//Serialisierungsmethode für Javabeans nach idl syntax.
-	private static String doit(Object bean) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	/**
+	 * Recursive IDL serialize method.
+	 * @param bean for serialize. Null is not allowed.
+	 * @return String with serialized bean object
+	 */
+	private static String idlserialize_recursive(Object bean) {
 		
-		//initialisieren der Objekte
 		PropertyUtilsBean beanutil = new PropertyUtilsBean();
 		Map map;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder output = new StringBuilder();
 		
-		//Bean Objekt mit beanutils in eine map konvertieren
-		map = beanutil.describe(bean);
+		//Convert the bean object to a map with beanutils
+		try {
+			map = beanutil.describe(bean);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Unable to access bean " + bean + ": " + e.getMessage(), e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		}
 		
-		//Beginn des idl struct Rahmen
-		sb.append("{");
+		//start idl syntax for named structs.
+		output.append("{");
+		Object beanname = map.get("name");
+		if(beanname instanceof String)
+		{
+			String bname = (String)beanname;
+			output.append(bname).append(",");
+		}
+
 		
-		//Iteration durch alle key/value Paare in der Map
+		//iterate through every key/value pair of the map
 		Iterator it = map.entrySet().iterator();
 		while (it.hasNext()) {
 			Map.Entry pairs = (Map.Entry)it.next();
 			
-			//überprüfen ob Value ein einfacher datentyp ist (int, double, float, string)
-			if(pairs.getValue() instanceof Integer || pairs.getValue() instanceof String || pairs.getValue() instanceof Double || pairs.getValue() instanceof Float)
+			//Check if value is null
+			if(pairs.getValue() == null)
 			{
-				//Key und Value mit idl syntax anfügen;
-				sb.append(pairs.getKey() + ":'" + pairs.getValue() + "', ");
+				//add key and null value to output
+				output.append(pairs.getKey() + ":_FillValue, ");
+			}
+	
+			//Check if value is a Number (int, double, float...)
+			else if(pairs.getValue() instanceof Number)
+			{
+				//add key and value with idl syntax to output (key:value, )
+				output.append(pairs.getKey() + ":" + pairs.getValue() + ", ");
 			}
 			
-			//überprüfung ob Value eine ArrayList ist
-			if(pairs.getValue() instanceof ArrayList)
+			//Check if value is a String
+			else if(pairs.getValue() instanceof String)
 			{
-				//anfügen der idl systax für array
-				sb.append(pairs.getKey() + ":[");
+				//add key and value with idl syntax to output (key:'value', )
+				output.append(pairs.getKey() + ":'" + pairs.getValue() + "', ");
+			}
+			
+			//Check if value is an arrays
+			else if(pairs.getValue().getClass().isArray())
+			{
+				//open idl systax for arrays (name:[e1,e2])
+				output.append(pairs.getKey() + ":[");
 				
-				//value in eine ArrayList casten und durch alle Elemente iterieren.
-				ArrayList aList = (ArrayList)pairs.getValue();
-				for(int i=0; i < aList.size(); ++i)
+				//Check if array is float[]
+				if(pairs.getValue() instanceof float[])
 				{
-					//Rekursierer Methodenaufruf für alle Objekte in der Liste
-					sb.append(doit(aList.get(i))+ ", ");
+					System.out.println(pairs.getKey() + " is float array");
+					float[] array = (float[])(pairs.getValue());
+					boolean first = true;
+					for (float item : array)
+					{
+						if (first) {
+							first = false;
+						} else {
+							output.append(", ");
+						}
+						
+						output.append(item);
+					}
+				}
+				//Check if array is int[]
+				else if(pairs.getValue() instanceof int[] )
+				{
+					System.out.println(pairs.getKey() + " is int array");
+					float[] array = (float[])(pairs.getValue());
+					boolean first = true;
+					for (float item : array)
+					{
+						if (first) {
+							first = false;
+						} else {
+							output.append(", ");
+						}
+						
+						output.append(item);
+					}
+				}
+				//Check if array is double[]
+				else if(pairs.getValue() instanceof double[] )
+				{
+					System.out.println(pairs.getKey() + " is double array");
+					float[] array = (float[])(pairs.getValue());
+					boolean first = true;
+					for (float item : array)
+					{
+						if (first) {
+							first = false;
+						} else {
+							output.append(", ");
+						}
+						
+						output.append(item);
+					}
+				}
+				//Check if array is String[]
+				else if(pairs.getValue() instanceof String[] )
+				{
+					System.out.println(pairs.getKey() + " is object array");
+					
+					//Cast value to object array.
+					String[] array = (String[])(pairs.getValue());
+					boolean first = true;
+					for (String item : array)
+					{
+						if (first) {
+							first = false;
+						} else {
+							output.append(", ");
+						}
+						//Call this method recursive for every element.
+						output.append("'" + item + "'");	
+					}
+				}
+				//Check if array is Object[]
+				else if(pairs.getValue() instanceof Object[] )
+				{
+					System.out.println(pairs.getKey() + " is object array");
+					
+					//Cast value to object array.
+					Object[] array = (Object[])(pairs.getValue());
+					boolean first = true;
+					for (Object item : array)
+					{
+						if (first) {
+							first = false;
+						} else {
+							output.append(", ");
+						}
+						//Call this method recursive for every element.
+						output.append(idlserialize_recursive(item));	
+					}
+				}
+				else
+				{
+					throw new RuntimeException("Arraytype '" + pairs.getValue().getClass() + "' is not supported");
 				}
 				
-				//löschen des Trennzeichens nach dem letzten Element
-				sb.delete(sb.length()-2, sb.length());
+				//Close idl array syntax
+				output.append("], ");
+			}
+			
+			//check if value is a collection.
+			else if(pairs.getValue() instanceof Collection<?>)
+			{
+				//open idl systax for arrays (name:[e1,e2])
+				output.append(pairs.getKey() + ":[");
 				
-				//Idl Array Systax schliessen
-				sb.append("], ");
+				//Cast value to a collection and iterate through all elements.
+				Collection<?> collection = (Collection<?>)pairs.getValue();
+				boolean first = true;
+				for (Object item : collection) {
+					if (first) {
+						first = false;
+					} else {
+						output.append(", ");
+					}
+					//Call this method recursive for every element.
+					output.append(idlserialize_recursive(item));					
+				}
+				
+				//Close idl array syntax
+				output.append("], ");
 			}
 		}
-		//löschen des Trennzeichens nach dem letzen Element
-		sb.delete(sb.length()-2, sb.length());
+		//delete separator after last element
+		output.delete(output.length()-2, output.length());
 		
-		//Idl Struct systax schliessen
-		sb.append("}");
+		//close idl syntax
+		output.append("}");
 		
-		return sb.toString();
+		return output.toString();
 	}
 }
