@@ -63,7 +63,7 @@ public class IdlConverter {
 			if(pairs.getValue() == null)
 			{
 				//add key and null value to output
-				output.append(pairs.getKey() + ":_FillValue, ");
+				output.append(pairs.getKey() + ":PTR_NEW(), ");
 			}
 	
 			//Check if value is a Number (int, double, float...)
@@ -89,7 +89,7 @@ public class IdlConverter {
 				//Check if array is float[]
 				if(pairs.getValue() instanceof float[])
 				{
-					System.out.println(pairs.getKey() + " is float array");
+					//System.out.println(pairs.getKey() + " is float array");
 					float[] array = (float[])(pairs.getValue());
 					boolean first = true;
 					for (float item : array)
@@ -106,7 +106,7 @@ public class IdlConverter {
 				//Check if array is int[]
 				else if(pairs.getValue() instanceof int[] )
 				{
-					System.out.println(pairs.getKey() + " is int array");
+					//System.out.println(pairs.getKey() + " is int array");
 					float[] array = (float[])(pairs.getValue());
 					boolean first = true;
 					for (float item : array)
@@ -123,7 +123,7 @@ public class IdlConverter {
 				//Check if array is double[]
 				else if(pairs.getValue() instanceof double[] )
 				{
-					System.out.println(pairs.getKey() + " is double array");
+					//System.out.println(pairs.getKey() + " is double array");
 					float[] array = (float[])(pairs.getValue());
 					boolean first = true;
 					for (float item : array)
@@ -140,7 +140,7 @@ public class IdlConverter {
 				//Check if array is String[]
 				else if(pairs.getValue() instanceof String[] )
 				{
-					System.out.println(pairs.getKey() + " is object array");
+					//System.out.println(pairs.getKey() + " is object array");
 					
 					//Cast value to object array.
 					String[] array = (String[])(pairs.getValue());
@@ -159,7 +159,7 @@ public class IdlConverter {
 				//Check if array is Object[]
 				else if(pairs.getValue() instanceof Object[] )
 				{
-					System.out.println(pairs.getKey() + " is object array");
+					//System.out.println(pairs.getKey() + " is object array");
 					
 					//Cast value to object array.
 					Object[] array = (Object[])(pairs.getValue());
