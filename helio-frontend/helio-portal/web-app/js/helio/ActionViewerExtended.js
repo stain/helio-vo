@@ -12,6 +12,84 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
     var step =0;
     var history = new Array();
 
+    /**
+     * Initialize the tooltips and reset button of columns 
+     * Called after onSucess, onError
+     */
+    var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
+        // trace method
+        //    	if (typeof console!="undefined") {
+        //    		console.info("_onCompleteGetHecColumns " + textStatus );
+        //    	}
+
+        $('.column-reset').each(function() {
+            $(this).button();
+        });
+
+        // setup tooltips
+        $(".hecColLabelTooltipMe").each(function() {
+        	var me = this;
+        	$(this).tooltip({
+                position: "center right",
+                tipClass: 'ctooltip_' + this.id.substring(6),
+                delay: 0,
+                predelay:0,
+                relative: true
+            });
+		});
+        
+    };
+    
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccessGetHecColumns = function(data,textStatus) {
+        //if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
+        $('#hecExtendedQueryContent').append(data);
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
+        $('#hecExtendedQueryContent').append('<div class="hec_' + catalogName + '">' +
+            "<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
+            "Reason: " + textStatus + " </p>" +
+            "<p>" + errorThrown + "</p>" +
+            "</div>");
+    };
+
+    /**
+     * Load the input fields for a given catalog from remote
+     */
+    var _loadHecCatalog = function(catalogName) {
+        if (typeof console!="undefined")console.info("ActionViewerExtended ::  _loadHecCatalog "+catalogName);
+
+        // call getHecColumns asynchronously
+        jQuery.ajax(
+        {
+            type : 'GET',
+            data : {
+                "catalog":catalogName
+            },
+            url : 'getHecColumns',
+            success: __onSuccessGetHecColumns,
+            error: __onErrorGetHecColumns,
+            complete: _onCompleteGetHecColumns
+        });
+        return false;
+    };
+
+    var _removeHecCatalog = function(catalogName) {
+        if (typeof console!="undefined")console.info("ActionViewerExtended ::  _removeHecCatalog "+catalogName);
+        $(".hec_" + catalogName).remove();
+    };
+    
     /* * register click handler on advanced HEC query. */
     var _initGhostElements = function(){
         if (typeof console!="undefined")console.info("ActionViewerExtended :: _initGhostElements");
@@ -58,14 +136,21 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
             });
         $( ".custom_button").button();
+
         // setup tooltips
-        $(".hecLabelTooltipMe").tooltip({
-            position: "bottom right",
-            tipClass: 'hecLabelTooltip',
-            delay: 0,
-            offset: [3, -220]
+        $(".hecLabelTooltipMe").each(function() {
+        	$(this).tooltip({
+                position: "center right",
+                tipClass: 'hecLabelTooltip',
+                delay: 0,
+                predelay:0,
+                relative: true
+            });
         });
-    }
+        
+        // setup column tooltips
+        _onCompleteGetHecColumns();
+    };
 
     var _initSolidElements = function(){
         if (typeof console!="undefined")console.info("ActionViewerExtended :: _initSolidElements ");
@@ -79,12 +164,12 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
         $("#currentDisplay").find("#forward").css("display","block");
         $("#currentDisplay").find("#forward").click(function(){
-            window.workspace.getElement().nextStep()
+            window.workspace.getElement().nextStep();
         });
 
         $("#currentDisplay").find("#backward").css("display","block");
         $("#currentDisplay").find("#backward").click(function(){
-            window.workspace.getElement().prevStep()
+            window.workspace.getElement().prevStep();
         });
 
         $("#currentDisplay").find("#label").change(function() {
@@ -98,7 +183,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
             $("#"+tableId).find("tbody").find("tr").each(function(){
                 
-                
                 var cssClass =$(this).attr('class');
                 if(cssClass.indexOf("odd")!= -1){
                     $(this).removeClass('odd');
@@ -109,13 +193,10 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                     $(this).removeClass('even_selected');
                     $(this).addClass('even_selected');
                 }
-                
-                
-                
-
             });
         });
-    }
+    };
+    
     /*
      * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.
      * @formData: serialized form string, Example: "minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00"
@@ -173,9 +254,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 tempField =tempField.replace('where=',"");
                 tempField =tempField.replace(/%5C/g,"\\");
                 tempField =tempField.replace(/%2F/g,"/");
-
-
-
 
                 tempField =tempField.split("%3B");
                 for(input in tempField){
@@ -246,8 +324,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             if (typeof console!="undefined")console.info("ActionViewerExtended :: getLabel");
             return label;
         },
-
-
         setImagePath: function(path) {
             if (typeof console!="undefined")console.info("ActionViewerExtended :: setImagePath -> " +path);
             imagePath = path;
@@ -343,81 +419,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         }//end render
     };//end public methods
 }//end class
-
-
-/**
- * Load the input fields for a given catalog from remote
- */
-function _loadHecCatalog(catalogName) {
-    if (typeof console!="undefined")console.info("ActionViewerExtended ::  _loadHecCatalog "+catalogName);
-    // create the response handlers for the ajax calls
-    /**
-     * Called after successful loading of HEC columns
-     * @param data HTML stub containing the loaded columns
-     * @param textStatus a status message.
-     */
-    var _onSuccessGetHecColumns = function(data,textStatus) {
-        //if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
-        $('#hecExtendedQueryContent').append(data);
-    };
-
-    /**
-     * Method called in case an error occurs when loading the HEC table.
-     * @param XMLHttpREquest the underlying request
-     * @param textStatus status message
-     * @param errorThrown error object
-     */
-    var _onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
-        $('#hecExtendedQueryContent').html('<div class="hec_' + catalogName + '">' +
-            "<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
-            "Reason: " + textStatus + " </p>" +
-            "<p>" + errorThrown + "</p>" +
-            "</div>");
-    };
-
-    /**
-     * Called after onSucess, onError
-     */
-    var _onCompleteGetHecColumns = function(xmlHttpRequest,textStatus,jqXHR){
-        // trace method
-        //    	if (typeof console!="undefined") {
-        //    		console.info("_onCompleteGetHecColumns " + textStatus );
-        //    	}
-
-        $('.column-reset').each(function() {
-            $(this).button();
-        });
-
-        // setup tooltips
-        $(".hecColLabelTooltipMe").tooltip({
-            position: "bottom right",
-            tipClass: 'hecLabelTooltip',
-            delay: 0,
-            offset: [3, -120]
-        });
-    };
-
-    // call getHecColumns asynchronously
-    jQuery.ajax(
-    {
-        type : 'GET',
-        data : {
-            "catalog":catalogName
-        },
-        url : 'getHecColumns',
-        success: _onSuccessGetHecColumns,
-        error: _onErrorGetHecColumns,
-        complete: _onCompleteGetHecColumns
-    }
-    );
-    return false;
-}
-
-function _removeHecCatalog(catalogName) {
-    if (typeof console!="undefined")console.info("ActionViewerExtended ::  _removeHecCatalog "+catalogName);
-    $(".hec_" + catalogName).remove();
-    
-}
 
 /**
  * Called before submitting the HecQuery

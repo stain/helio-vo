@@ -40,29 +40,31 @@
             <%-- column selection area --%>
             <tr>
               <td>
-                <table>
-                  <tr>
-                    <td colspan="2"><b>Event list</b></td>
-                  </tr>
-                  <tr>
-                    <td colspan="2">
-                      <div id="hecExtendedCatalogSelector">
-                        <table cellpadding="0" cellspacing="1"><tr>
-                        <g:each status="status" var="catalog" in="${hecCatalogs}">
-                          <td width="24" align="center">
-                               <%-- create a new column in the selection table --%>
-                              <input class="columnInputs" type="checkbox" name="extra" value="${catalog.value}" title="${catalog.label}" />
-                          </td>
-                          <td class="hecLabelTooltipMe" title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${catalog.description?.encodeAsHTML()}&lt;/pre&gt;">
-                              <label>${catalog.label ? catalog.label : catalog.value}</label>
-                          </td>
-                          <g:if test="${(status+1) % 2 == 0}"><%="</tr><tr>"%></g:if>
-                        </g:each> 
-                        </tr></table>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
+                <b>Event list</b>
+                <div id="hecExtendedCatalogSelector">
+                  <table>
+                    <tr>
+                        <td width="50%" valign="top">
+                      <g:each status="status" var="catalog" in="${hecCatalogs}">
+                          <table cellpadding="0" cellspacing="1"><tr>
+                            <tr>
+                              <td width="24" align="center" valign="top">
+                                   <%-- create a new column in the selection table --%>
+                                  <input class="columnInputs" type="checkbox" name="extra" value="${catalog.value}" title="${catalog.label}" />
+                              </td>
+                              <td valign="top">
+                                  <label>${catalog.label ? catalog.label : catalog.value}</label>
+                                  <span id="info_${catalog.value}" class="hecLabelTooltipMe ui-icon ui-icon-info" style="display:inline-block; vertical-align: top;" ></span>
+                                  <div class="hecLabelTooltip tooltip_${catalog.value}"><pre style="white-space: pre-wrap">${catalog.description ? catalog.description : 'n/a'}</pre></div>
+                              </td>
+                            </tr>
+                            <g:if test="${(status) == (int)(hecCatalogs.size()/2)}"><%='</table></td><td width="50%" valign="top"><table cellpadding="0" cellspacing="1">'%></g:if>
+                          </table>                            
+                      </g:each> 
+                        </td>
+                    </tr>
+                  </table>
+                </div>
               </td>
               <td style="vertical-align: top;"> 
                 <div class="message"><b>Step 2</b><br/>Select the event list(s) you are interested in. <br/>

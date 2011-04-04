@@ -40,12 +40,15 @@
  * Common class for tooltips on labels in the HEC screen.
  */
 .hecLabelTooltip {
+	position:fixed;
+	display:none;
     max-width: 500px;
     font-size:12px;
     border:1px solid black;
     background-color:grey;
     padding:3px;
     color:#fff;
+    z-index: 999;
 }
 
 .content {

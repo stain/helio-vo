@@ -2,27 +2,41 @@
   <table width="100%">
     <tr>
       <g:set var="hasFields" value="${false}" />
-      <td valign="top" align="left">
-        <h4 title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${catalog.description?.encodeAsHTML()}&lt;/pre&gt;" class="hecColLabelTooltipMe">
+      <td valign="top" align="left" colspan="3">
+        <h4>
           Event list: <span style="color:highlight">${catalog.label} (${catalog.catalogName})</span>
+          <img id="cinfo_${catalog.catalogName}" class="hecColLabelTooltipMe" src="${resource(dir:'images/icons',file:'info.png')}" style="width:16px; height: 16px;" />
         </h4>
-        <ul style="list-style-type:none;">
+        <div class="hecLabelTooltip ctooltip_${catalog.catalogName}"><pre style="white-space: pre-wrap">${catalog.description ? catalog.description : 'n/a'}</pre></div>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">  
+        <table>
           <g:each in="${catalog.fields}" var="field">
             <g:if test="${field.name != '#' && field.name != 'HEC_id' && !field.name.startsWith('time_')}">
               <g:set var="hasFields" value="${true}" />
-              <li>
-                <label class="hecColLabelTooltipMe" style="display:block; float:left; width:150px;" title="&lt;pre style=&quot;white-space: pre-wrap;&quot;&gt;${field.description?.encodeAsHTML()}&lt;/pre&gt;">${field.label}</label>
-                <input class="columnSelection" name="${catalog.catalogName}.${field.name}" type="text"/>
-              </li>
+              <tr>
+                <td>
+                  <label style="display:block; float:left; width:150px;">${field.label}</label>
+                </td>
+                <td>
+                  <span id="cinfo_${catalog.catalogName}_${field.name}" class="hecColLabelTooltipMe ui-icon ui-icon-info" style="display:inline-block; vertical-align: top;" ></span>                                  
+                  <div class="hecLabelTooltip ctooltip_${catalog.catalogName}_${field.name}"><pre style="white-space: pre-wrap">${field.description? field.description : 'n/a'}</pre></div>
+                </td>  
+                <td>
+                  <input class="columnSelection" name="${catalog.catalogName}.${field.name}" type="text"/>
+                </td>
+              </tr>
             </g:if>
           </g:each>
-        </ul>
+        </table>
         <g:if test="${!hasFields}">
-            No field definition found for this event list.
+            <p>No field definition found for this event list.</p>
         </g:if>
       </td>
       <g:if test="${hasFields}">
-        <td align="left" valign="top">
+        <td width="*" align="left" valign="top">
           <input style="padding: 0 0.2em 0.2em 0.2em" class="column-reset" type="button" value="Reset Fields" title="Reset this form" onclick="resetHecForm('${catalog.catalogName}')">
         </td>
         <td align="right">
@@ -46,6 +60,9 @@
           </div>
         </td>
       </g:if>
+      <g:else>
+        <td></td><td></td>
+      </g:else>
     </tr>
   </table>
 </div>
