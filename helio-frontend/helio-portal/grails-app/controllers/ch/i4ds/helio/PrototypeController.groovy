@@ -1,20 +1,19 @@
 package ch.i4ds.helio;
-import grails.converters.JSON;
-//import ch.ResultVT;
-import net.ivoa.xml.votable.v1.*;
-import ch.i4ds.helio.frontend.parser.*;
-import ch.i4ds.helio.frontend.query.*;
-import java.text.SimpleDateFormat
-import java.text.DateFormat;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
 
-import eu.heliovo.clientapi.frontend.*;
-import eu.heliovo.clientapi.model.catalog.impl.HecStaticCatalogRegistry;
-import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
-import eu.heliovo.clientapi.model.field.HelioField;
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+
+import javax.xml.bind.JAXBContext
+import javax.xml.bind.Unmarshaller
+import javax.xml.transform.stream.StreamSource
+
+import net.ivoa.xml.votable.v1.*
+import ch.i4ds.helio.frontend.parser.*
+import ch.i4ds.helio.frontend.query.*
+import eu.heliovo.clientapi.frontend.*
+import eu.heliovo.clientapi.model.catalog.impl.HecStaticCatalogRegistry
+import eu.heliovo.clientapi.model.field.DomainValueDescriptor
+import eu.heliovo.clientapi.model.field.HelioField
 
 
 class PrototypeController {
@@ -62,10 +61,10 @@ class PrototypeController {
 
 	/**
 	 * Action to asynchronously get the HEC columns.
-	 * Expects the catalog names in a comma separated list in parameter 'extra'. 
+	 * Expects parameter: catalog=CATALOG_NAME. 
 	 */
 	def getHecColumns = {
-		log.info("getHecColumns =>" +params);
+		//log.info("getHecColumns =>" +params);
 				
 		if(params.catalog == null)
 			throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
@@ -86,47 +85,53 @@ class PrototypeController {
 	def asyncHecQuery ={
 		log.info("asyncHecQuery =>" +params);
 
-		// analyze the params
-		if(params.maxDate == null) {
-			throw new RuntimeException("Parameter maxDate must not be null.");
-		}
-		if (params.minDate == null) {
-			throw new RuntimeException("Parameter minDate must not be null.");
-		}
-
 		try {
-			// prepare query
-			ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
-			ArrayList<String> minDateList= new ArrayList<String>();
+			// prepare query 
+			ArrayList<String> startTime= new ArrayList<String>(); // initialize lists for web service request
+			ArrayList<String> endTime= new ArrayList<String>(); 
 		
 			// use ingested parameter list
-			if(params.maxDateList.trim() != "" && params.minDateList.trim() != "")
-			{
-				maxDateList = [params.maxDateList.split(",")].flatten();
-				minDateList = [params.minDateList.split(",")].flatten();
+			if(params.maxDateList.trim() != "" && params.minDateList.trim() != "") {
+				startTime = [params.minDateList.split(",")].flatten();
+				endTime = [params.maxDateList.split(",")].flatten();
 			} else 	{
-				// use user specified date range
+				// use user specified date range, if provided
+				if(params.maxDate == null) {
+					throw new RuntimeException("Parameter 'maxDate' must be set.");
+				}
+				if (params.minDate == null) {
+					throw new RuntimeException("Parameter 'minDate' must be set.");
+				}
+		
 				Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
 				Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",params.maxDate+"/"+params.maxTime);
-				maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
-				minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
+				startTime.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
+				endTime.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
 			}
 			def extraList = [params.extra].flatten();
 			String where ="";
 		
-			if(params.where != null) where = params.where;
+			if(params.where != null) { 
+				where = params.where;
+			}
+			
 			String serviceName = params.serviceName;
-			ResultVT result = DataQueryService.queryService(serviceName, minDateList, maxDateList, extraList, where);
-		
+			
+			
+			ResultVT result = DataQueryService.queryService(serviceName, startTime, endTime, extraList, where);
+			
 			// TODO: need to fix this argument once the data object is here
 			session.serviceq=params.serviceName;
-			params.remove("action");
-			params.remove("controller");
-
-			if(params.minDateList.trim() == "" ) params.remove("minDateList");
-			if(params.maxDateList.trim() == "" ) params.remove("maxDateList");
-			if(params.where =="") params.remove("where");
+			
+			// adjust the previous query based on the params
 			def previousQuery = params;
+			
+			previousQuery.remove("action");
+			previousQuery.remove("controller");
+
+			if(previousQuery.minDateList.trim() == "" ) previousQuery.remove("minDateList");
+			if(previousQuery.maxDateList.trim() == "" ) previousQuery.remove("maxDateList");
+			if(previousQuery.where =="") previousQuery.remove("where");
 			def responseObject = [result:result,previousQuery:previousQuery ];
 
 			render template:'templates/response', bean:responseObject, var:'responseObject'
