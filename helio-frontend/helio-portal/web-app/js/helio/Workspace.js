@@ -146,6 +146,7 @@ function Workspace() {
             $(".displayable").css("display","none");
             $("#currentDisplay").remove();
             $(".resCont").remove();
+            //this.setDisplay("splash");
         }
     };
 }

@@ -35,6 +35,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
             }else{
                 window.historyBar.removeCurrent();
+                window.workspace.setDisplay("splash");
             }
 
         });

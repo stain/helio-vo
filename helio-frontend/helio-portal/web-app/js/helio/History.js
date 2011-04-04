@@ -8,13 +8,21 @@ function History() {
     var current = 0;
 
     return {
+        clear: function(){
+            if (typeof console!="undefined")console.info("History :: clear");
+            array = [];
+            this.render();
+        },
         init: function(){
             if (typeof console!="undefined")console.info("History :: init");
 
             $( ".draggable" ).dblclick(function() {
                 window.workspace.createItem($(this).find("img").attr("src"));
             });
-
+             $( "#clearSystem" ).click(function() {
+                window.historyBar.clear();
+            });
+/*
             
             $( ".draggable" ).draggable({
                 opacity:0.7,
@@ -22,7 +30,7 @@ function History() {
                 helper:"clone"
             });
 
-            
+  */
         },
         
         getCurrentKey:  function() {
@@ -37,7 +45,7 @@ function History() {
             if (typeof console!="undefined")console.info("History :: removeCurrent" + current);
             
             this.removeItem(current);
-            //window.workspace.clear();
+            window.workspace.clear();
         },
 
         lastItem:  function() {
@@ -197,11 +205,7 @@ function History() {
         setFocus: function(key){
             current = key;
             this.render();
-        },
-        clear: function(){
-            if (typeof console!="undefined")console.info("History :: clear");
-            array = [];
-            this.render();
         }
+        
     };
 }
