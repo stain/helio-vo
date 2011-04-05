@@ -36,7 +36,8 @@
   "An error has occurred on the server side. Please download the response VOTable to see the reported cause and revise your query."
 </g:if>
  <g:each in="${result?.getTables()}"  status="x" var="tables">
-   <span style="clear:both"> NAME: "${tables.getName()}"</span><div reference="resultTable${x}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div>
+   <span style="clear:both"> NAME: "${tables.getName()}"</span>
+   <!--div reference="resultTable${x}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
   <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${x}">
 
     <thead>

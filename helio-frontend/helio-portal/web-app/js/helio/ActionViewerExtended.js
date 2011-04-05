@@ -177,8 +177,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
         });
+        /*
            $("#resultSelectionSelectAll").click(function(){
-            console.debug("click it like its hot");
+            
             var tableId =$(this).attr('reference');
 
             $("#"+tableId).find("tbody").find("tr").each(function(){
@@ -194,7 +195,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                     $(this).addClass('even_selected');
                 }
             });
-        });
+        });*/
     };
     
     /*

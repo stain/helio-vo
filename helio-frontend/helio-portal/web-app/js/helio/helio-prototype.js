@@ -144,7 +144,7 @@ function fnInitializeDatePicker(){
             }else{
                 $("#maxDate").removeClass("inputError");
             //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
-            //console.debug(maxDateObject);
+            
             }
             matches = IsoDate.exec(minDate);
             if(matches ==null){
@@ -590,9 +590,7 @@ function fnInitSave(){
 
             if($(this).attr("id")!= ""){
                 var id =$(this).attr("id");
-                console.debug(id);
                 id =id.replace("_wrapper","");
-                console.debug(id);
                 $("#"+id).dataTable().fnDestroy();
             }
         });
