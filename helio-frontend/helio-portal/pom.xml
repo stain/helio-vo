@@ -1,42 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>helio-frontend</artifactId>
-    <groupId>eu.heliovo</groupId>
-    <version>0.4-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
-  <groupId>eu.heliovo</groupId>
-  <artifactId>helio-portal</artifactId>
-  <name>helio-portal</name>
-  <version>0.4-SNAPSHOT</version>
-  <packaging>war</packaging>
-  <description>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>helio-frontend</artifactId>
+		<groupId>eu.heliovo</groupId>
+		<version>0.4-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<groupId>eu.heliovo</groupId>
+	<artifactId>helio-portal</artifactId>
+	<name>helio-portal</name>
+	<version>0.4-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<description>
 		TODO: Add description in helio-frontend/helio-portal/pom.xml
   </description>
-  
-  
+
+
 	<!-- NOTEWORTHY -->
 	<!-- ${grails.version} cannot be resolved in the Grails plugin. Replace 
 		the version manually -->
 	<!-- Do NOT forget to set MAVEN_OPTS = -XX:MaxPermSize=192m or to add -XX:MaxPermSize=192m 
 		to the JRE JVM (Window -> Preferences -> Java -> Installed JREs -> [select 
 		current] -> Edit -> [edit "Default VM Arguments"]) -->
-  
-  	<properties>
+
+	<properties>
 		<grails.version>1.3.7</grails.version>
 	</properties>
-  
-  	<dependencies>
-	  	<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>servlet-api</artifactId>
-		    <version>2.5</version>
-		    <scope>compile</scope>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>compile</scope>
 		</dependency>
-  	
+
 		<dependency>
 			<groupId>org.grails</groupId>
 			<artifactId>grails-bootstrap</artifactId>
@@ -315,19 +316,43 @@
 			<type>pom</type>
 			<scope>compile</scope>
 		</dependency>
-  	</dependencies>
-  
+	</dependencies>
+
 	<build>
-	    <testSourceDirectory>test/unit</testSourceDirectory>
-	    <resources>
-	        <resource>
-                <directory>src/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-	    </resources>
+		<testSourceDirectory>test/unit</testSourceDirectory>
+		<resources>
+			<resource>
+				<directory>src/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 		<pluginManagement />
 
 		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.5</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/resources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/resources</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 			<plugin>
 				<groupId>org.grails</groupId>
 				<artifactId>grails-maven-plugin</artifactId>
@@ -359,7 +384,7 @@
 		</plugins>
 	</build>
 
-  	<profiles>
+	<profiles>
 		<profile>
 			<id>tools</id>
 			<activation>

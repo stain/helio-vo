@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class BuildInfoTest {
 	
-	@Ignore @Test public void getProperties() {
+    @Test public void getProperties() {
 		BuildInfo instance = BuildInfo.getInstance();
 		assertNotNull(instance.getBuildID());
 		assertNotNull(instance.getBuildNumber());
