@@ -470,7 +470,34 @@ function fnAddSelectedRow(pos,aData,oTable){
  */
 function fnOnComplete(){
     if (typeof console!="undefined")console.info("fnOnComplete");
+    
+    if($("#errorResponse").length != 0){
+        window.historyBar.render();
+        
+        
+        var div =$('<div></div>');
+        div.attr('id','dialog-message');
+        div.attr('title','Error');
+        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again."
+        var stackTrace = $("#errorResponse").html();
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error Source</b>: <span style="color:red" >'+stackTrace+'</span></p>');
+        $("#testdiv").append(div);
 
+
+        $('#dialog-message').dialog({
+
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+        $("#errorResponse").remove();
+
+        return;
+    }
     //var tooltipContent =  $("#previousQuery").text();
     var element = window.historyBar.getCurrent();
     
@@ -622,12 +649,6 @@ function fnInitSave(){
             totalResult.push(partialResult);
         });
 
-
-        
-
-
-
-        
 
         var element = new ResultViewer("../images/icons/toolbar/circle_empty.png","resultSelection",tablesHtml,totalResult,indexes,window.historyBar.getCurrent().getServiceName());
         window.historyBar.addItem(element);
