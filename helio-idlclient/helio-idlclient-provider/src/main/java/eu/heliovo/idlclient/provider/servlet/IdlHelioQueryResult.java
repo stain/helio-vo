@@ -2,7 +2,12 @@ package eu.heliovo.idlclient.provider.servlet;
 
 import java.util.logging.LogRecord;
 
-public class IdlHelioResult {
+/**
+ * Container object for a set of results for IDL.
+ * @author Matthias Meyer
+ *
+ */
+public class IdlHelioQueryResult {
 	
 	private String url;
 	

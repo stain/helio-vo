@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.logging.LogRecord;
 
 import javax.servlet.ServletException;
@@ -19,7 +20,9 @@ import eu.heliovo.clientapi.registry.impl.LongRunningServiceDescriptor;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
 
 /**
- * Servlet implementation class AsyncQueryServiceServlet
+ * AsyncQueryServiceServlet for IDL Clients.
+ * Accept a query from IDL and pass it to the HELIO query.
+ * Result is serialized for IDL and passed to IDL client.
  */
 public class AsyncQueryServiceServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -42,23 +45,46 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 		String startTime = request.getParameter("starttime");
 		String endTime = request.getParameter("endtime");
 		String from = request.getParameter("from");
+		String service = request.getParameter("service");
 		
-		IdlHelioResult idlresult = new IdlHelioResult();
+		IdlHelioQueryResult idlresult = new IdlHelioQueryResult();
 		
-		if(startTime != null && endTime != null && from != null)
+		if(startTime != null && endTime != null && from != null && service != null)
 		{
 			SimpleDateFormat df = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss" );
 			try {
 				df.parse(startTime);
 				df.parse(endTime);
 			} catch (ParseException e) {
-				throw new RuntimeException(e);
+				throw new RuntimeException("Wrong date format. Date must be in ISO-8601 standard", e);
 			}
+
+			String[] startTimeArray = startTime.split(",");
+			String[] endTimeArray = endTime.split(",");
+			String[] fromArray = from.split(",");
 			
-			//writer.append(startTime + " - " + endTime + " : " + from);
+			LongRunningServiceDescriptor lrsd;
+			
+			if(service.toUpperCase().compareTo("HEC") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_HEC;
+			else if(service.toUpperCase().compareTo("UOC") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_UOC;
+			else if(service.toUpperCase().compareTo("DPAS") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_DPAS;
+			else if(service.toUpperCase().compareTo("ICS") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_ICS;
+			else if(service.toUpperCase().compareTo("ILS") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_ILS;
+			else if(service.toUpperCase().compareTo("MDES") == 0)
+				lrsd = LongRunningServiceDescriptor.ASYNC_MDES;
+			else
+				throw new RuntimeException("Error, unknown Service spezified");
+			
 			LongRunningQueryServiceFactory queryServiceFactory = LongRunningQueryServiceFactory.getInstance();
-			AsyncQueryService queryService = queryServiceFactory.getLongRunningQueryService(LongRunningServiceDescriptor.ASYNC_ILS);
-			HelioQueryResult result = queryService.timeQuery(startTime, endTime, from, 100, 0, null);
+			AsyncQueryService queryService = queryServiceFactory.getLongRunningQueryService(lrsd);
+			HelioQueryResult result;
+
+			result = queryService.timeQuery(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), 100, 0, null);
 			
 			if(result != null)
 			{

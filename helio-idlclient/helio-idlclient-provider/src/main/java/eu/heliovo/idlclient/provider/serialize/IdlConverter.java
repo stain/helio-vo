@@ -107,9 +107,9 @@ public class IdlConverter {
 				else if(pairs.getValue() instanceof int[] )
 				{
 					//System.out.println(pairs.getKey() + " is int array");
-					float[] array = (float[])(pairs.getValue());
+					int[] array = (int[])(pairs.getValue());
 					boolean first = true;
-					for (float item : array)
+					for (int item : array)
 					{
 						if (first) {
 							first = false;
@@ -124,9 +124,9 @@ public class IdlConverter {
 				else if(pairs.getValue() instanceof double[] )
 				{
 					//System.out.println(pairs.getKey() + " is double array");
-					float[] array = (float[])(pairs.getValue());
+					double[] array = (double[])(pairs.getValue());
 					boolean first = true;
-					for (float item : array)
+					for (double item : array)
 					{
 						if (first) {
 							first = false;
