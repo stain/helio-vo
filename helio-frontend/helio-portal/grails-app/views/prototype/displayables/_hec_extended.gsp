@@ -6,7 +6,7 @@
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" />
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Event Catalog Service</h1>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">HELIO Event Catalog Service</h1>
           Label: <input style="margin-top:5px;" id="label" type="text"/>
         </td>
         <td>
@@ -31,7 +31,7 @@
           <tbody>
             <%-- date selection area --%>
             <tr>
-              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;"><b>Data Range</b><br/>
+              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;"><b>Date Range</b><br/>
               <g:render template="templates/dates" /></td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
                 <div class="message"><b>Step 1</b><br/>Choose a date range or drop a result from a previous query into the 'hole'.</div>
@@ -44,7 +44,7 @@
                 <div id="hecExtendedCatalogSelector">
                   <table>
                     <tr>
-                        <td width="50%" valign="top">
+                      <td width="50%" valign="top">
                       <g:each status="status" var="catalog" in="${hecCatalogs}">
                           <table cellpadding="0" cellspacing="1"><tr>
                             <tr>
