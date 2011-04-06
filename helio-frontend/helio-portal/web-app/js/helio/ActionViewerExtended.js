@@ -56,7 +56,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
      * @param textStatus status message
      * @param errorThrown error object
      */
-    var __onErrorGetHecColumns = function(XMLHttpREquest,textStatus,errorThrown) {
+    var __onErrorGetHecColumns = function(xmlHttpRequest,textStatus,errorThrown) {
         $('#hecExtendedQueryContent').append('<div class="hec_' + catalogName + '">' +
             "<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
             "Reason: " + textStatus + " </p>" +
@@ -100,7 +100,6 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         $("#minTime").val($.cookie("minTime"));
         $("#maxTime").val($.cookie("maxTime"));
         
-
         var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
 
         // disable search button as long as no column is selected.
@@ -111,6 +110,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         };
         onChangeSearchButton();  // init button state
         catalogCheckboxes.change(onChangeSearchButton); // register button handler
+        
         $.collapsible(".queryHeader","group1");
         
         catalogCheckboxes.change(function(event){
@@ -123,18 +123,18 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             }
         });
         
-       $("#currentDisplay").find("#delete").click(function(){
-                  if(history.length>0){
-                    history.splice(step, 1);
-                    step = history.length-1;
-                    window.historyBar.render();
-
-
-                }else{
-                    window.historyBar.removeCurrent();
-                }
-
-            });
+        // initialize the pager controll's delete button ('X')
+        $("#currentDisplay").find("#delete").click(function(){
+            if(history.length>0){
+                history.splice(step, 1);
+                step = history.length-1;
+                window.historyBar.render();
+            }else{
+                window.historyBar.removeCurrent();
+                window.workspace.setDisplay("splash");
+            }
+        });
+        
         $( ".custom_button").button();
 
         // setup tooltips
@@ -246,9 +246,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             else if(tempField.indexOf("extra=")!= -1){
 
                 tempField =tempField.replace('extra=',"");
-                
                 $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
-
 
             }else if(tempField.indexOf("where=")!= -1){
 
