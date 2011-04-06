@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +14,7 @@ import org.apache.commons.net.ftp.FTPFile;
 import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 
 public class FtpUtils {
-	static FTPClient client=null;
+	FTPClient client=null;
 	LinkedList<DPASResultItem> 	results = null;
 	/**
 	 * 
@@ -35,6 +34,11 @@ public class FtpUtils {
 	public LinkedList<DPASResultItem> returnDPASResultItem()
 	{
 		return results;
+	}
+	
+	public FTPClient getFtpConection() throws IOException
+	{
+		return client;
 	}
 	
 	/**

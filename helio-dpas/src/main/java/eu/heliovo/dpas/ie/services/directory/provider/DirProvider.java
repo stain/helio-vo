@@ -31,7 +31,7 @@ public class DirProvider
         	//Checking whether ftp directory archive.
         	if(providerType!=null && !providerType.trim().equals("") && providerType.trim().equalsIgnoreCase("ftp")){
         		dirTO.setInstrument(providerType.toUpperCase());
-        		dirTO.setVotableDescription("Ftp Archive query response");
+        		dirTO.setVotableDescription("BASS2000 Archive query response");
         	}
         	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO);
         	//Setting Instrument

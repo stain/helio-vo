@@ -37,15 +37,15 @@ public class ProbaLyraFileFragment implements NewPathFragment
 		date.set(Calendar.DATE, Integer.valueOf(fragment.substring(11, 13)));
 //		System.out.println(date.getTime());
 
-		System.out.println("Hour  	= " + fragment.substring(13, 15));
+		//System.out.println("Hour  	= " + fragment.substring(13, 15));
 		date.set(Calendar.HOUR_OF_DAY, Integer.valueOf(fragment.substring(13, 15)));
 //		System.out.println(date.getTime());
 
-		System.out.println("Minutes = " + fragment.substring(15, 17));
+		//System.out.println("Minutes = " + fragment.substring(15, 17));
 		date.set(Calendar.MINUTE, Integer.valueOf(fragment.substring(15, 17)));
 //		System.out.println(date.getTime());
 
-		System.out.println("Seconds = " + fragment.substring(17, 19));
+		//System.out.println("Seconds = " + fragment.substring(17, 19));
 		date.set(Calendar.SECOND, Integer.valueOf(fragment.substring(17, 19)));
 //		System.out.println(date.getTime());
 		

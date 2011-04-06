@@ -12,12 +12,10 @@ import java.util.LinkedList;
 import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.directory.utils.DateIterator;
-import eu.heliovo.dpas.ie.services.directory.utils.DebugUtilities;
 import eu.heliovo.dpas.ie.services.directory.utils.FtpUtils;
 
 public class FtpArchiveExplorer
 {
-	private	DebugUtilities		debugUtils	=	new DebugUtilities();
 	private FtpDataTO 			ftpTO 		= null;
 	/**
 	 * Instantiates a new new archive explorer.
@@ -46,8 +44,9 @@ public class FtpArchiveExplorer
 		ftpTO.setDateValueTo(to);
 		ftpTO.setDateValueFrom(from);
 		System.out.println(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
+		
 		FtpUtils  ftpUtils=new FtpUtils(ftpTO.getFtpHost(),ftpTO.getFtpUser(),ftpTO.getFtpPwd());
-		//
+		try{
 		String workingDir=ftpTO.getWorkingDir();
     	if(workingDir!=null){
     		String[] dirArray=workingDir.split("::");
@@ -65,6 +64,29 @@ public class FtpArchiveExplorer
 		    	}
 	    	}
     	}
+		}
+		catch(IOException e)
+		{
+			throw new Exception("Exception occurred while conneting ftp server ");
+		}
+		catch(Exception e)
+		{
+			throw new Exception(e.getMessage());
+		}
+		finally
+		{
+			if (ftpUtils.getFtpConection()!=null && ftpUtils.getFtpConection().isConnected())
+            {
+                try
+                {
+                	ftpUtils.getFtpConection().disconnect();
+                }
+                catch (IOException f)
+                {
+                    f.printStackTrace();
+                }
+            }
+		}
     	//
 		return ftpUtils.returnDPASResultItem();
 	}

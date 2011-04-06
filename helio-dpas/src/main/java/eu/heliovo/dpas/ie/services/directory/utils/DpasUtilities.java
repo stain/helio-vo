@@ -27,7 +27,7 @@ public class DpasUtilities
 	public	String	calendarToHELIOTime(Calendar c)
 	{
 		helioFormatter.setLenient(false);
-		return helioFormatter.format(c.getTime());
+		return helioFormatter.format(c.getTime()).replace(" ", "T");
 	}
 
 	public	Date	HELIOTimeToDate(String s) throws ParseException
