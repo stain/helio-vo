@@ -29,7 +29,7 @@
     <div class="content">
 
 
-  <table style="clear:both;margin-top:30px;margin-bottom: 30px">
+  <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px">
 
     <tr>
       <td class="row-borders" id="time-row" style="display:block">
