@@ -335,8 +335,9 @@
 				<executions>
 					<execution>
 						<id>copy-resources</id>
-						<!-- here the phase you need -->
-						<phase>validate</phase>
+						<!-- the grails-tomcat plugin seems to delete the resources.
+						 Therefore we need to copy the buildinfo resource after compile -->
+						<phase>process-classes</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
