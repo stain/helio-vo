@@ -443,10 +443,10 @@ input{
     -moz-box-shadow:0px 0px 2px #000000;
     -webkit-box-shadow:0px 0px 2px #000000;
     box-shadow:0px 0px 2px #000000;
-    background: -moz-linear-gradient(top, #fff9eb, #cccac0);
-    background: -webkit-gradient(linear, center top, center bottom, from(#fff9eb), to(#cccac0));
-    background: -o-linear-gradient(top, #fff9eb, #cccac0);
-    background: linear-gradient(top, #fff9eb, #cccac0);
+    background: -moz-linear-gradient(top, #bac7e9, #8591b4);
+    background: -webkit-gradient(linear, center top, center bottom, from(#bac7e9), to(#8591b4));
+    background: -o-linear-gradient(top, #bac7e9, #8591b4);
+    background: linear-gradient(top, #bac7e9, #8591b4);
     margin-bottom: 10px;
     /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
 
