@@ -54,10 +54,26 @@
 
         </div>
       </div>
-
-
     </div>
   </div>
+  <%-- show the user log if available --%>
+  <g:if test="${responseObject?.result && responseObject.result?.logRecords.length > 0}"> 
+    <div class="module">
+      <div class="header queryHeader viewerHeader collapsed">
+        <h1>Log</h1>
+      </div>
+      <div class="content">
+        <table cellpadding="0" cellspacing="0" border="1" align="left">
+          <g:each in="${responseObject.result.logRecords}" var="record">
+            <tr>
+              <td valign="top" align="left"><%=record.level %></td>
+              <td valign="top" align="left"><%=record.message %></td>
+            </tr>
+          </g:each>
+        </table>
+      </div>
+    </div>
+  </g:if>
  </div>
 </g:if>
 
