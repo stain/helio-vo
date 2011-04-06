@@ -416,13 +416,13 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 }
                 $("#historyContent").append(div);
                 type="solid";
-                /*
+                
                 div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewerExtended :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     
                     window.historyBar.setFocus(key);
-                });//end dbclick*/
+                });//end dbclick
             }//end else
         }//end render
     };//end public methods

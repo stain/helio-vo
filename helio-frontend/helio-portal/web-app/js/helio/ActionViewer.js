@@ -353,8 +353,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 for(var i=0;i < history.length;i++){
                     var pageDiv =$("<div id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
                     pageDiv.click(function(){
+                        
                        step = parseInt($(this).attr('id'),10);
                        window.historyBar.render();
+                       
                     });
 
                     div.append(pageDiv);
@@ -364,7 +366,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 type="solid";
 
                 div.click(function() {
-                    if (typeof console!="undefined")console.info("ActionViewer :: item doubleclicked ->"+ key);
+                    if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);
                     window.historyBar.setFocus(key);

@@ -128,7 +128,6 @@ html{
 
 #container
 {
-
     margin: 50px auto;
     width: 1000px;
 }
@@ -289,17 +288,11 @@ html{
 
 #content
 {
-
     background-color:white;
-
-
-
     border:1px solid #464693;
     float: left;
-    width: 882px;
+    width: 887px;
     min-height:425px;
-
-
 }
 
 #content h2 { margin: 0; }

@@ -86,27 +86,31 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $("#resultSelectionSave").remove();
 
             
-            /*
+            
             switch(serviceName){
                 case 'hec':
                     $("#time-row").css("display","block");
                     $("#instrument-row").css("display","none");
+                    imagePath = "../images/icons/toolbar/circle_time.png";
                     break;
                 case 'ics':
-                    $("#time-row").css("display","block");
+                    $("#time-row").css("display","none");
                     $("#instrument-row").css("display","block");
+                    imagePath = "../images/icons/toolbar/circle_inst.png";
                     break;
                 case 'ils':
                     $("#time-row").css("display","block");
                     $("#instrument-row").css("display","none");
+                    imagePath = "../images/icons/toolbar/circle_time.png";
                     break;
                 case 'dpas':
                     $("#time-row").css("display","none");
                     $("#instrument-row").css("display","none");
+                    imagePath = "../images/icons/toolbar/circle_both.png";
                     break;
                 default:
                     break
-            }/**/
+            }
             //time-row,instrument-row
             $("#displayableResult").find("input[type=submit]").remove();
             for(i in content){
@@ -140,7 +144,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 }
 
                 if(time_start != null && time_end != null) {
-                    $("#time-row").css("display","block");
+                    //$("#time-row").css("display","block");
                     
                     $("#times-table").append(
                         '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
@@ -152,7 +156,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 //if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ){
 
-                    $("#instrument-row").css("display","block");
+                    //$("#instrument-row").css("display","block");
                     $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
                 }
             //2003-01-01T07:49:00 / 2003-01-01T07:59:00
@@ -250,10 +254,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 }else if($('#inst-row-check').attr('checked')){
                     imagePath = "../images/icons/toolbar/circle_inst.png";
                 }else{
-                    imagePath = "../images/icons/toolbar/circle_empty.png";
-
-                
-
+                    //imagePath = "../images/icons/toolbar/circle_empty.png";
                 }
                 window.historyBar.render(1);
             });

@@ -11,11 +11,6 @@
         </td>
         <td>
           <div style="float:right;" class="controls" id="delete">X</div>
-          
-
-          
-
-          
         </td>
       </tr>
     </table>
@@ -29,14 +24,14 @@
     <div class="content">
 
 
-  <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px">
+  <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:170px">
 
     <tr>
       <td class="row-borders" id="time-row" style="display:block">
 
-        <div style="margin-left:100px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
+        <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
        <center> <h2>Time Selection</h2></center>
-      <table id="times-table" style="width:100%;text-align:left">
+      <table id="times-table" style="width:100%;text-align:left;">
           <tr >
             <td>
               Time Start:
@@ -50,7 +45,7 @@
        
       </td>
       <td class="row-borders" id="instrument-row" style="display:none">
-        <div style="margin-left:100px;height:40px;padding-bottom:20px "><input id="inst-row-check" type="checkbox"/><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
+        <div style="margin-left:200px;height:40px;padding-bottom:20px "><input id="inst-row-check" type="checkbox"/><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
         <center><h2>Instrument Selection</h2></center>
        
       </td>
