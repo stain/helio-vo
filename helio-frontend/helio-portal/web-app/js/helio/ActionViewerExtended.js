@@ -404,18 +404,25 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                     div.addClass('current');
                 }
 
-                for(i in history){
-                    div.append("<div class='ui-state-default new1'>"+"Page "+(parseInt(i,10)+1)+"</div>");
+                for(var i=0;i < history.length;i++){
+                    var pageDiv =$("<div id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
+                    pageDiv.click(function(){                       
+                       step = parseInt($(this).attr('id'),10);
+                       window.historyBar.render();
+                    });
+                    
+                    div.append(pageDiv);
+
                 }
                 $("#historyContent").append(div);
                 type="solid";
-
+                /*
                 div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewerExtended :: item doubleclicked ->"+ key);
                     window.historyBar.cleanGhost();
                     
                     window.historyBar.setFocus(key);
-                });//end dbclick
+                });//end dbclick*/
             }//end else
         }//end render
     };//end public methods

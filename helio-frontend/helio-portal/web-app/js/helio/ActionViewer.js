@@ -350,8 +350,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     div.addClass('current');
                 }
                 
-                for(i in history){
-                    div.append("<div class='ui-state-default new1'>"+"Page "+(parseInt(i,10)+1)+"</div>");
+                for(var i=0;i < history.length;i++){
+                    var pageDiv =$("<div id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
+                    pageDiv.click(function(){
+                       step = parseInt($(this).attr('id'),10);
+                       window.historyBar.render();
+                    });
+
+                    div.append(pageDiv);
+
                 }
                 $("#historyContent").append(div);
                 type="solid";
