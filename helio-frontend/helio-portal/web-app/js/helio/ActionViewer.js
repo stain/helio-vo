@@ -11,10 +11,96 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
     var prevData;
     var step =0;
     var history = new Array();
+    
+    /**
+     * Initialize the tooltips and reset buttons of columns 
+     * Called after onSucess, onError
+     */
+    var _initAdvancedParams = function(xmlHttpRequest,textStatus,jqXHR){
+        // trace method
+        //    	if (typeof console!="undefined") {
+        //    		console.info("_initAdvancedParams " + textStatus );
+        //    	}
+        
+        $('.column-reset').each(function() {
+            $(this).button();
+        });
 
+        // setup tooltips
+        $(".colLabelTooltipMe").each(function() {
+        	var me = this;
+        	$(this).tooltip({
+                position: "center right",
+                tipClass: 'ctooltip_' + this.id.substring(6),
+                delay: 0,
+                predelay:0,
+                relative: true
+            });
+		});
+    };
+    
+    /**
+     * Called after successful loading of columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccessGetAdvancedParams = function(data,textStatus) {
+        //if (typeof console!="undefined") console.info("_onSuccessGetHECColumns");
+        $('#advancedParams').append(data);
+    };
+
+    /**
+     * Method called in case an error occurs when loading the advanced param table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onErrorGetAdvancedParams = function(xmlHttpRequest,textStatus,errorThrown) {
+    	var vars = [];
+    	var hashes = this.data.split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+          var hash = hashes[i].split('=');
+          vars.push(hash[0]);
+          vars[hash[0]] = hash[1];
+        }
+    	var catalogName = vars['catalog'];
+        $('#advancedParams').append('<div class="' + serviceName + '_' + catalogName + '">' +
+            "<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
+            "Reason: " + textStatus + " </p>" +
+            "<p>" + errorThrown + "</p>" +
+            "</div>");
+    };
+
+    /**
+     * Load the input fields for a given catalog from remote
+     */
+    var _loadAdvancedParams = function(serviceName, catalogName) {
+        if (typeof console!="undefined")console.info("ActionViewer ::  _loadAdvancedParams for " + serviceName + "_" + catalogName);
+
+        // call getAdvancedParams asynchronously
+        jQuery.ajax(
+        {
+            type : 'GET',
+            data : {
+            	"serviceName":serviceName,
+                "catalog":catalogName
+            },
+            url : 'getAdvancedParams',
+            success: __onSuccessGetAdvancedParams,
+            error: __onErrorGetAdvancedParams,
+            complete: _initAdvancedParams
+        });
+        return false;
+    };
+
+    var _removeAdvancedParams = function(serviceName, catalogName) {
+        if (typeof console!="undefined")console.info("ActionViewer ::  _removeAdvancedParams for " + serviceName + "_" + catalogName);
+        $("." + serviceName + "_" + catalogName).remove();
+    };
 
     var _initGhostElements = function(){
-        if (typeof console!="undefined")console.info("ActionViewer :: _initSolidElements ");
+        if (typeof console!="undefined")console.info("ActionViewer :: _initGhostElements");
             
         fnInitializeDatePicker();
         
@@ -23,35 +109,75 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         $("#minTime").val($.cookie("minTime"));
         $("#maxTime").val($.cookie("maxTime"));
 
-          
+        var catalogCheckboxes = $(".catalogueSelector input:checkbox");
+
+        // disable search button as long as no column is selected.
+        var onChangeSearchButton = function(event){
+        	$('.submit_button').button({
+        		disabled: !$(".catalogueSelector input:checked").val()
+        	});
+        };
+        onChangeSearchButton();  // init button state
+        catalogCheckboxes.change(onChangeSearchButton); // register button handler
+        
         $.collapsible(".queryHeader","group1");
+        
+        var onChangeCheckboxes = function(event){
+            if (typeof console!="undefined")console.info("ActionViewer ::  catalogCheckboxes.change "+$(this).val());
+            var catalogName = $(this).val();
+            if($(this).is(':checked')){
+                _loadAdvancedParams(serviceName, catalogName);
+            }else{
+                _removeAdvancedParams(serviceName, catalogName);
+            }
+        };
+        
+        // init preselected checkboxes
+        $(".catalogueSelector input:checked").each(function() {		
+        	onChangeCheckboxes.call(this);  
+		});
+        catalogCheckboxes.change(onChangeCheckboxes); // register checkbox handler
+
         $.collapsible(".advancedParameters","group2");
+        
+        // initialize the pager controll's delete button ('X')
         $("#currentDisplay").find("#delete").click(function(){
             if(history.length>0){
                 history.splice(step, 1);
                 step = history.length-1;
                 window.historyBar.render();
-
-
             }else{
                 window.historyBar.removeCurrent();
                 window.workspace.setDisplay("splash");
             }
-
         });
 
+        // remove column inputs if catalog selector is disabled
+        // TODO: remove
         $(".catalogueSelector").change(function(){
             $('.columnInputs').html("");
             $('#whereField').val("");
         });
             
         $( ".custom_button").button();
+        
+        // setup tooltips
+        $(".labelTooltipMe").each(function() {
+        	$(this).tooltip({
+                position: "center right",
+                tipClass: 'hecLabelTooltip',
+                delay: 0,
+                predelay:0,
+                relative: true
+            });
+        });
+
         $(".column-reset").click(function(){
 
             $(".columnSelection").val("");
         });
 
-      var options = {
+        var options = {
         target:        '#responseDivision',   // target element(s) to be updated with server response
         beforeSerialize: fnBeforeQuery,
         beforeSubmit:  window.workspace.onLoading,  // pre-submit callback
@@ -72,7 +198,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
       
     $('#actionViewerForm').ajaxForm(options);
 
-    }
+        
+     // setup column tooltips
+        _initAdvancedParams();
+    };
     var _initSolidElements = function(){
         if (typeof console!="undefined")console.info("ActionViewer:: _initSolidElements ");
         $("#currentDisplay").find("#counter").css("display","block");
@@ -81,16 +210,14 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
         $(".placeholder").remove();
         
-        
-
         $("#currentDisplay").find("#forward").css("display","block");
         $("#currentDisplay").find("#forward").click(function(){
-            window.workspace.getElement().nextStep()
+            window.workspace.getElement().nextStep();
         });
 
         $("#currentDisplay").find("#backward").css("display","block");
         $("#currentDisplay").find("#backward").click(function(){
-            window.workspace.getElement().prevStep()
+            window.workspace.getElement().prevStep();
         });
 
         $("#currentDisplay").find("#label").change(function() {
@@ -100,18 +227,18 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         });
         /*
         $("#resultSelectionSelectAll").click(function(){
-            
+            console.debug("click it like its hot");
             var tableId =$(this).attr('reference');
             
             $("#"+tableId).find("tbody").find("tr").each(function(){
-                
-                
+                console.debug(this);
+                console.debug($(this));
                 this.className.replace( /_selected/, "" );
                 this.className+'_selected';
                 
             });
         });*/
-    }
+    };
     /*
      * Takes in the serialized parameters from the previous form, parses and redraws them into the new form.
      * @formData: serialized form string, Example: "minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00"
@@ -119,14 +246,17 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
      */
     var _unserialize = function(formData,advancedSearchParam){
 
+		$('#currentDisplay').find('#advancedParams').html(advancedSearchParam);
+
         
         $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
-        $('#currentDisplay').find('.columnInputs').css("display","block");
-        $("#currentDisplay").find("select").find("option").removeAttr("selected");
+        
+        $('#currentDisplay').find('.columnInputs').css("display","block"); // remove
+        $("#currentDisplay").find("select").find("option").removeAttr("selected"); // remove
         var fields = formData.split("&");
         for(field in fields){
             var tempField= fields[field];
-            
+
             if(tempField.indexOf("minDateList=")!= -1){
                 tempField =tempField.replace('minDateList=',"");
                 tempField =tempField.replace('%3A',":");
@@ -160,21 +290,17 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#currentDisplay").find("input[name='maxDate']").val(tempField);
             }//end if
             else if(tempField.indexOf("extra=")!= -1){
-                
-                tempField =tempField.replace('extra=',"");
-                $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected");
-                
 
+                tempField =tempField.replace('extra=',"");
+                $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected"); // remove
+                $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
 
             }else if(tempField.indexOf("where=")!= -1){
-                
+
                 tempField =tempField.replace('where=',"");
                 tempField =tempField.replace(/%5C/g,"\\");
                 tempField =tempField.replace(/%2F/g,"/");
 
-                
-                
-                
                 tempField =tempField.split("%3B");
                 for(input in tempField){
                     var innerTempField = tempField[input].split("%2C");
@@ -182,17 +308,13 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     innerTempField = innerTempField[0].split(".");
                     var inputName = innerTempField[0];
                     var labelName = innerTempField[1];
-                    
 
-                    $("#currentDisplay").find("label:contains('"+labelName+"')").each(function(){
-                        
-
+					$("#currentDisplay").find("label:contains('"+labelName+"')").each(function(){  // remove
                         if($(this).text() == labelName+" "){
                             $(this).parent().find("input").val(value);
-
                         }//if
-
                     });//each
+                    $("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
                 }//end input
             }//end if
         }//end fields
@@ -212,24 +334,20 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         },
         prepareStep: function(formData,advancedSearchParams) {
             if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
-            
             prevData=formData;
             advancedSearch=advancedSearchParams;
         },
 
         addStep: function(result) {
             if (typeof console!="undefined")console.info("ActionViewer :: addStep -> notshown");
-          
             var object = new Object();
             object['result']=result;
             object['formData']=prevData;
             object['advancedSearch']=advancedSearch;
-            
+
             history.push(object);
             step = history.length -1;
-            
-            
-            
+
         },
         nextStep: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: nextStep");
@@ -294,8 +412,6 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 var advancedSearch= history[step].advancedSearch;
                 _unserialize(formData,advancedSearch);
                 $("#responseDivision").html(result);
-                
-                
                 $('#displayableResult').append($('#tables'));
                 $('#displayableResult').css("display","block");
                 fnInitSave();
@@ -308,9 +424,6 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $('.resultTable').each(function(){
                     fnFormatTable(this.id);
                 });
-                //$('#resultTable0').dataTable().fnUpdate();
-                //$('#resultTable0').dataTable().fnDraw();
-                
                 _initSolidElements();
             }
             _initGhostElements();           
@@ -319,15 +432,12 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 delay: 0,
                 predelay:0
             });
-
-            
-        
         },//end renderContent
         render: function(key,current) {
             if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key +" current "+current);
 
             if(history.length <= 0){
-                               
+
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);

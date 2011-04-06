@@ -48,34 +48,27 @@ function fnOnCompleteGetColumns(){
 
 function mysubmit(){
     if (typeof console!="undefined")console.info("mysubmit");
+     // reset where field
     $("#whereField").val("");
 
+    // loop over all extra parameters
     $(".columnSelection").each(function(i){
         if($(this).val() == ""){
-            
-        }else{
-
-            var columnText = $(this).parent().text();
+        // nothing to do
+        } else {
             var value = $(this).val();
             var id = $(this).attr('name');
-            
-            
-            
+
             if($("#whereField").val()!=""){
                 var prevVal = $("#whereField").val();
-                $("#whereField").val(prevVal+";"+id+"."+columnText.trim()+","+value);
+                $("#whereField").val(prevVal + ";" + id + "," + value);
             }else{
-                $("#whereField").val(id+"."+columnText.trim()+","+value);
+                $("#whereField").val(id + "," + value);
             }
-
-
-            
-
         }
         return true;
     });
-
-}
+ }
 
 /*
  *test method to check functionality of datepicker
@@ -478,7 +471,7 @@ function fnOnComplete(){
         var div =$('<div></div>');
         div.attr('id','dialog-message');
         div.attr('title','Error');
-        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again."
+        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again.";
         var stackTrace = $("#errorResponse").html();
         div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error Source</b>: <span style="color:red" >'+stackTrace+'</span></p>');
         $("#testdiv").append(div);

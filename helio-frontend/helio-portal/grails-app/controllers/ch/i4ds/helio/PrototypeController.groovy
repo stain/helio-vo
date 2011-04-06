@@ -60,6 +60,34 @@ class PrototypeController {
     }
 
     /**
+     * Action to asynchronously get advanced columns of a service.
+     * Expects parameter: serviceName=SERVICE_NAME, catalog=CATALOG_NAME.
+     */
+    def getAdvancedParams = {
+		//log.info("getAdvancedParams =>" +params);
+
+		if(params.serviceName == null)
+			throw new java.lang.IllegalArgumentException("Parameter 'service' must be set.");
+		if(params.catalog == null)
+			throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
+
+		def template;  // name of the template to use
+		if(params.serviceName == "ics")	{
+			def hash = TableInfoService.serviceMethod("files/tablesics.xml");
+			def catalog = hash.get(params.catalog);
+			template = "ics_" + params.catalog;
+			render template:'templates/' + template, bean:catalog, var:'catalog';
+		} else if(params.serviceName == "ils")	{
+			def hash = TableInfoService.serviceMethod("files/tablesils.xml");
+			def catalog = hash.get(params.catalog);
+			template = "ils_" + params.catalog;
+			render template:'templates/' + template, bean:catalog, var:'catalog';
+		} else {
+			throw new java.lang.IllegalArgumentException("Service " + params.serviceName + " is not supported through this method.");
+		}
+	}
+	
+    /**
      * Action to asynchronously get the HEC columns.
      * Expects parameter: catalog=CATALOG_NAME.
      */
@@ -75,7 +103,7 @@ class PrototypeController {
         if (catalog != null) {
             render template:'templates/columns_extended', bean:catalog, var:'catalog';
         } else {
-            render "Unable to load catalog defintion with id '" + params.catalog + "'";
+            render "<p>Unable to load catalog defintion with id '" + params.catalog + "'</p>";
         }
     }
 

@@ -9,297 +9,336 @@
   <table>
     <name>observatory</name>
     <column>
-      <name>name</name>
-      <description>Observatory Name</description>
+    <name>name</name>
+    <description>Observatory Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr.obsty</ucd>
-
     </column>
     <column>
-      <name>loc_gen</name>
-      <description>Observation type</description>
+    <name>loc_gen</name>
+    <description>Observation type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>loc_p1</name>
-
-      <description>latitude</description>
+    <name>loc_p1</name>
+    <description>latitude</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>loc_p2</name>
-      <description>longitude</description>
+    <name>loc_p2</name>
+    <description>longitude</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>time_start</name>
-      <description>Observatory Start Date</description>
+    <name>time_start</name>
+    <description>Observatory Start Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.start</ucd>
     </column>
     <column>
-      <name>time_insertion</name>
-      <description>Time insertion</description>
-
+    <name>time_insertion</name>
+    <description>Time insertion</description>
+    <datatype>datetime</datatype>
     </column>
     <column>
-      <name>time_end</name>
-      <description>Observatory End Time</description>
+    <name>time_end</name>
+    <description>Observatory End Time</description>
+    <datatype>datetime</datatype>
       <ucd>time.end</ucd>
     </column>
     <column>
-
-      <name>status</name>
-      <description>Observatory operation status</description>
+    <name>status</name>
+    <description>Observatory operation status</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>longname</name>
-      <description>Observatory full name</description>
+    <name>longname</name>
+    <description>Observatory full name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.title;instr.obsty</ucd>
-
     </column>
     <column>
-      <name>sat_id</name>
-      <description>Satellite Id</description>
+    <name>sat_id</name>
+    <description>Satellite Id</description>
+    <datatype>varchar</datatype>
     </column>
   </table>
   <table>
     <name>instrument</name>
-
     <column>
-      <name>name</name>
-      <description>Instrument Name</description>
+    <name>name</name>
+    <description>Instrument Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr</ucd>
     </column>
     <column>
-      <name>observatory_name</name>
-
-      <description>Observatory Name</description>
+    <name>observatory_name</name>
+    <description>Observatory Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr.obsty</ucd>
     </column>
     <column>
-      <name>obsinst_key</name>
-      <description>Helio Instrument Name</description>
+    <name>obsinst_key</name>
+    <description>Helio Instrument Name</description>
+    <datatype>varchar</datatype>
     </column>
-
     <column>
-      <name>time_start</name>
-      <description>Instrument Start Date</description>
+    <name>time_start</name>
+    <description>Instrument Start Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.start</ucd>
     </column>
     <column>
-      <name>time_end</name>
-
-      <description>Instrument End Date</description>
+    <name>time_end</name>
+    <description>Instrument End Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.end</ucd>
     </column>
     <column>
-      <name>longname</name>
-      <description>Instrument Full Name</description>
+    <name>longname</name>
+    <description>Instrument Full Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.title;instr</ucd>
-
     </column>
     <column>
-      <name>inst_type</name>
-      <description>Instrument type</description>
+    <name>inst_type</name>
+    <description>Instrument type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_od1</name>
-
-      <description>Instrument observation 1</description>
+    <name>inst_od1</name>
+    <description>Instrument observation 1</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_od2</name>
-      <description>Instrument observation 2</description>
+    <name>inst_od2</name>
+    <description>Instrument observation 2</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>inst_oe1</name>
-      <description>Instrument observation entity element</description>
+    <name>inst_oe1</name>
+    <description>Instrument observation entity element</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_oe2</name>
-      <description>Instrument observation entity type</description>
-    </column>
-
-    <column>
-      <name>inst_fd</name>
-      <description>Instrument observation wave length fd</description>
+    <name>inst_oe2</name>
+    <description>Instrument observation entity type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_nd</name>
-      <description>Instrument observation wavelength nd</description>
-
+    <name>inst_fd</name>
+    <description>Instrument observation wave length fd</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn1</name>
-      <description>Synonyms1</description>
+    <name>inst_nd</name>
+    <description>Instrument observation wavelength nd</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn2</name>
-
-      <description>Synonyms2</description>
+    <name>syn1</name>
+    <description>Synonyms1</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn3</name>
-      <description>Synonyms3</description>
+    <name>syn2</name>
+    <description>Synonyms2</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>syn4</name>
-      <description>Synonyms4</description>
+    <name>syn3</name>
+    <description>Synonyms3</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>group_name</name>
-      <description>Group name</description>
+    <name>syn4</name>
+    <description>Synonyms4</description>
+    <datatype>varchar</datatype>
     </column>
-
     <column>
-      <name>keywords</name>
-      <description>Complete focusing type</description>
+    <name>group_name</name>
+    <description>Group name</description>
+    <datatype>varchar</datatype>
+    </column>
+    <column>
+    <name>keywords</name>
+    <description>Complete focusing type</description>
+    <datatype>varchar</datatype>
+    </column>
+  </table>
+  <table>
+    <name>ics_pat</name>
+    <column>
+    <name>cnt</name>
+    <description>PAT Sequence</description>
+    <datatype>varchar</datatype>
+    </column>
+    <column>
+    <name>nsrc</name>
+    <description>Pat Number</description>
+    <datatype>int</datatype>
+    </column>
+    <column>
+    <name>helio_obsint</name>
+    <description>Helio Instrument Name</description>
+    <datatype>varchar</datatype>
     </column>
   </table>
   <table>
     <name>instrument_observatory</name>
-
     <column>
-      <name>inst_name</name>
-      <description>Instrument Name</description>
+    <name>inst_name</name>
+    <description>Instrument Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr</ucd>
     </column>
     <column>
-      <name>observatory_name</name>
-
-      <description>Observatory Name</description>
+    <name>observatory_name</name>
+    <description>Observatory Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr.obsty</ucd>
     </column>
     <column>
-      <name>obsinst_key</name>
-      <description>Helio Instrument Name</description>
+    <name>obsinst_key</name>
+    <description>Helio Instrument Name</description>
+    <datatype>varchar</datatype>
     </column>
-
     <column>
-      <name>inst_start_time</name>
-      <description>Instrument Start Date</description>
+    <name>inst_start_time</name>
+    <description>Instrument Start Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.start</ucd>
     </column>
     <column>
-      <name>inst_end_time</name>
-
-      <description>Instrument End Date</description>
+    <name>inst_end_time</name>
+    <description>Instrument End Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.end</ucd>
     </column>
     <column>
-      <name>inst_longname</name>
-      <description>Instrument Full Name</description>
+    <name>inst_longname</name>
+    <description>Instrument Full Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.title;instr</ucd>
-
     </column>
     <column>
-      <name>inst_type</name>
-      <description>Instrument type</description>
+    <name>inst_type</name>
+    <description>Instrument type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_od1</name>
-
-      <description>Instrument observation 1</description>
+    <name>inst_od1</name>
+    <description>Instrument observation 1</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_od2</name>
-      <description>Instrument observation 2</description>
+    <name>inst_od2</name>
+    <description>Instrument observation 2</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>inst_oe1</name>
-      <description>Instrument observation entity element</description>
+    <name>inst_oe1</name>
+    <description>Instrument observation entity element</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_oe2</name>
-      <description>Instrument observation entity type</description>
-    </column>
-
-    <column>
-      <name>inst_fd</name>
-      <description>Instrument observation wave length fd</description>
+    <name>inst_oe2</name>
+    <description>Instrument observation entity type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>inst_nd</name>
-      <description>Instrument observation wavelength nd</description>
-
+    <name>inst_fd</name>
+    <description>Instrument observation wave length fd</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn1</name>
-      <description>Instrument observation focusing type1</description>
+    <name>inst_nd</name>
+    <description>Instrument observation wavelength nd</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn2</name>
-
-      <description>Instrument observation focusing type2</description>
+    <name>syn1</name>
+    <description>Instrument observation focusing type1</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>syn3</name>
-      <description>Instrument observation focusing type3</description>
+    <name>syn2</name>
+    <description>Instrument observation focusing type2</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>syn4</name>
-      <description>Instrument observation focusing type4</description>
+    <name>syn3</name>
+    <description>Instrument observation focusing type3</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>group_name</name>
-      <description>Group name</description>
-    </column>
-
-    <column>
-      <name>keywords</name>
-      <description>Complete focusing type</description>
+    <name>syn4</name>
+    <description>Instrument observation focusing type4</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>obs_name</name>
-      <description>Observatory Name</description>
-
+    <name>group_name</name>
+    <description>Group name</description>
+    <datatype>varchar</datatype>
+    </column>
+    <column>
+    <name>keywords</name>
+    <description>Complete focusing type</description>
+    <datatype>varchar</datatype>
+    </column>
+    <column>
+    <name>obs_name</name>
+    <description>Observatory Name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.id;instr.obsty</ucd>
     </column>
     <column>
-      <name>loc_gen</name>
-      <description>Observation type</description>
+    <name>loc_gen</name>
+    <description>Observation type</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-
-      <name>loc_p1</name>
-      <description>latitude</description>
+    <name>loc_p1</name>
+    <description>latitude</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>loc_p2</name>
-      <description>longitude</description>
+    <name>loc_p2</name>
+    <description>longitude</description>
+    <datatype>varchar</datatype>
     </column>
-
     <column>
-      <name>obs_start_time</name>
-      <description>Observatory Start Date</description>
+    <name>obs_start_time</name>
+    <description>Observatory Start Date</description>
+    <datatype>datetime</datatype>
       <ucd>time.start</ucd>
     </column>
     <column>
-      <name>time_insertion</name>
-
-      <description>Time insertion</description>
+    <name>time_insertion</name>
+    <description>Time insertion</description>
+    <datatype>datetime</datatype>
     </column>
     <column>
-      <name>obs_end_time</name>
-      <description>Observatory End Time</description>
+    <name>obs_end_time</name>
+    <description>Observatory End Time</description>
+    <datatype>datetime</datatype>
       <ucd>time.end</ucd>
     </column>
-
     <column>
-      <name>status</name>
-      <description>Observatory operation status</description>
+    <name>status</name>
+    <description>Observatory operation status</description>
+    <datatype>varchar</datatype>
     </column>
     <column>
-      <name>obs_longname</name>
-      <description>Observatory full name</description>
-
+    <name>obs_longname</name>
+    <description>Observatory full name</description>
+    <datatype>varchar</datatype>
       <ucd>meta.title;instr.obsty</ucd>
     </column>
     <column>
-      <name>sat_id</name>
-      <description>Satellite Id</description>
+    <name>sat_id</name>
+    <description>Satellite Id</description>
+    <datatype>varchar</datatype>
     </column>
   </table>
-
 </tab:tables>

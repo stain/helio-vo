@@ -5,7 +5,7 @@
       <td valign="top" align="left" colspan="3">
         <h4>
           Event list: <span style="color:highlight">${catalog.label} (${catalog.catalogName})</span>
-          <img id="cinfo_${catalog.catalogName}" class="hecColLabelTooltipMe" src="${resource(dir:'images/icons',file:'info.png')}" style="width:16px; height: 16px;" />
+          <span id="cinfo_${catalog.catalogName}" class="hecColLabelTooltipMe ui-icon ui-icon-info" style="display:inline-block; vertical-align: top;" ></span>          
         </h4>
         <div class="hecLabelTooltip ctooltip_${catalog.catalogName}"><pre style="white-space: pre-wrap">${catalog.description ? catalog.description : 'n/a'}</pre></div>
       </td>
