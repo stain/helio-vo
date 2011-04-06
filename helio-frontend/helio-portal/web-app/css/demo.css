@@ -12,8 +12,9 @@
 }
 	.module .header, .module .header2
 	{
-		background-color:#efefef;
+		background:#FFAC0F url(../images/jquery/ui-bg_inset-soft_75_ffac0f_1x100.png) repeat-x scroll 50% 50%;
 		padding-left:10px;
+                height: 16px;
 	}
 		.module .header h1, .module .header2 h1
 		{

@@ -119,30 +119,17 @@ html{
 
     background-image:url(../images/background/header_lines.png);
     background-repeat:repeat-x;
-
     z-index:-1;
-    position:absolute;
     width:100%;
-    top:0;
-    left:0;
     overflow:hidden;
 
 
 }
-#logo #line{
-    position:absolute;
-    width:20px;
-    width:100%;
-    display:inline;
 
-
-
-}
 #container
 {
-    position:relative;
-    top:190px;
-    margin: 0 auto;
+
+    margin: 50px auto;
     width: 1000px;
 }
 #navigation{
@@ -510,3 +497,19 @@ body{
 }
 
 body {overflow-y: scroll;}
+
+
+.ui-widget{
+    font-size: 1em;
+}
+input.ui-button{
+    padding:0.2em 0.5em;
+}
+.ui-buttonset .ui-button{
+    margin-right: -1px;
+}
+
+.paging_full_numbers{
+    height: 25px;
+}
+
