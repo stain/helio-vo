@@ -50,6 +50,28 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
             $(".columnSelection").val("");
         });
+
+      var options = {
+        target:        '#responseDivision',   // target element(s) to be updated with server response
+        beforeSerialize: fnBeforeQuery,
+        beforeSubmit:  window.workspace.onLoading,  // pre-submit callback
+        success:       fnOnComplete,  // post-submit callback
+        
+        // other available options:
+        //url:       "asyncQuery",        // override for form's 'action' attribute
+        //type:      'POST'        // 'get' or 'post', override for form's 'method' attribute
+        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type)
+        //clearForm: true        // clear all form fields after successful submit
+        //resetForm: true        // reset the form after successful submit
+
+        // $.ajax options can be used here too, for example:
+        timeout:   3000
+    };
+
+    // bind form using 'ajaxForm'
+      
+    $('#actionViewerForm').ajaxForm(options);
+
     }
     var _initSolidElements = function(){
         if (typeof console!="undefined")console.info("ActionViewer:: _initSolidElements ");

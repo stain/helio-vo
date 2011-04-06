@@ -24,7 +24,7 @@ function Workspace() {
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
             ingestDivision("selected_result","#displayableSeletedResult");
-            this.setDisplay("splash");
+            window.workspace.setDisplay("splash");
             
         },
         getElement: function(){
@@ -50,7 +50,7 @@ function Workspace() {
             
 
 
-            this.setDisplay("loading");
+            window.workspace.setDisplay("loading");
         },
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);

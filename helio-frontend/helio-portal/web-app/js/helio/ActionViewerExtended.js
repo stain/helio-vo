@@ -405,7 +405,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 }
 
                 for(i in history){
-                    div.append("<div class='ui-state-default new1'>"+"Page "+i+"</div>");
+                    div.append("<div class='ui-state-default new1'>"+"Page "+(parseInt(i,10)+1)+"</div>");
                 }
                 $("#historyContent").append(div);
                 type="solid";

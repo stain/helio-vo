@@ -26,7 +26,7 @@
     </div>
     <div class="content">
 
-      <g:form  controller="prototype">
+      <form id="actionViewerForm"  action="asyncQuery" method="POST">
 
         <g:render template="templates/dates" />
         <table>
@@ -39,13 +39,14 @@
       <g:hiddenField name="serviceName" value="ICS" />
       <input id="whereField" name="where" style="display:none" type="text"/>
 
-      <g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+      <input type="submit" class="custom_button" style="float:none;margin-right:50"/>
+      <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
       <g:submitToRemote class="custom_button" style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="icsResponse" value="Advanced Search" />
       </td></tr>
     </table>
         <div id="icsResponse" class="columnInputs" >
     </div>
-  </g:form>
+  </form>
     </div>
   </div>
 
