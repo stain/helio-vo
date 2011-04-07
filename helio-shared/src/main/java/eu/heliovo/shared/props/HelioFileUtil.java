@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.log4j.Logger;
 
@@ -61,18 +62,24 @@ public class HelioFileUtil {
 		// create the cache dir
 		File cacheDir = getHelioTempDir(cacheFileDir);
 		File cacheFile = cacheDir == null ? null : new File(cacheDir, cacheFileName);
-		
+		//System.out.println(cacheFile);
 		// try to get the File from remote
 		InputStream remoteInputStream;
 		try {
-			remoteInputStream = remoteURL.openStream();
-			// and update the cache.
-			try {
-				IOUtil.ioCopy(remoteInputStream, new FileOutputStream(cacheFile));
-			} catch (FileNotFoundException e) {
-				_LOGGER.info("Unable to find cache file: " + cacheFile + ": " + e.getMessage(), e);				
-			} catch (IOException e) {
-				_LOGGER.info("Unable to write cache file: " + cacheFile + ": " + e.getMessage(), e);				
+			URLConnection conn = remoteURL.openConnection();
+			conn.setUseCaches(false);
+			remoteInputStream = conn.getInputStream();
+			if (remoteInputStream.available() > 0) { 
+				// and update the cache.
+				try {
+					IOUtil.ioCopy(remoteInputStream, new FileOutputStream(cacheFile));
+				} catch (FileNotFoundException e) {
+					_LOGGER.info("Unable to find cache file: " + cacheFile + ": " + e.getMessage(), e);				
+				} catch (IOException e) {
+					_LOGGER.info("Unable to write cache file: " + cacheFile + ": " + e.getMessage(), e);				
+				}
+			} else {
+				_LOGGER.info("Unable to find cache file: " + cacheFile + ". The host seems to be disconnected.");								
 			}
 		} catch (IOException e) {
 			_LOGGER.info("Unable to load cached file from remote URL: " + remoteURL + ": " + e.getMessage(), e);
