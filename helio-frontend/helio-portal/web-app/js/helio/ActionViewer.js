@@ -28,15 +28,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
         // setup tooltips
         $(".colLabelTooltipMe").each(function() {
-        	var me = this;
-        	$(this).tooltip({
+            var me = this;
+            $(this).tooltip({
                 position: "center right",
                 tipClass: 'ctooltip_' + this.id.substring(6),
                 delay: 0,
                 predelay:0,
                 relative: true
             });
-		});
+        });
     };
     
     /**
@@ -56,15 +56,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
      * @param errorThrown error object
      */
     var __onErrorGetAdvancedParams = function(xmlHttpRequest,textStatus,errorThrown) {
-    	var vars = [];
-    	var hashes = this.data.split('&');
+        var vars = [];
+        var hashes = this.data.split('&');
         for(var i = 0; i < hashes.length; i++)
         {
-          var hash = hashes[i].split('=');
-          vars.push(hash[0]);
-          vars[hash[0]] = hash[1];
+            var hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
         }
-    	var catalogName = vars['catalog'];
+        var catalogName = vars['catalog'];
         $('#advancedParams').append('<div class="' + serviceName + '_' + catalogName + '">' +
             "<p>Error occurred while loading catalog info for " + catalogName + ".</p>" +
             "Reason: " + textStatus + " </p>" +
@@ -83,7 +83,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         {
             type : 'GET',
             data : {
-            	"serviceName":serviceName,
+                "serviceName":serviceName,
                 "catalog":catalogName
             },
             url : 'getAdvancedParams',
@@ -113,9 +113,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
         // disable search button as long as no column is selected.
         var onChangeSearchButton = function(event){
-        	$('.submit_button').button({
-        		disabled: !$(".catalogueSelector input:checked").val()
-        	});
+            $('.submit_button').button({
+                disabled: !$(".catalogueSelector input:checked").val()
+            });
         };
         onChangeSearchButton();  // init button state
         catalogCheckboxes.change(onChangeSearchButton); // register button handler
@@ -133,14 +133,14 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         };
         
         // init preselected checkboxes
-//        $(".catalogueSelector input:checked").each(function() {
-//        	var catalogName = $(this).val();
-//        	var catSection = $("." + serviceName + "_" + catalogName);
-//        	
-//        	if (catSection.length == 0) {
-//        		onChangeCheckboxes.call(this);  
-//        	}
-//		});
+        $(".catalogueSelector input:checked").each(function() {
+        	var catalogName = $(this).val();
+        	var catSection = $("." + serviceName + "_" + catalogName);
+        	
+        	if (catSection.length == 0) {
+        		onChangeCheckboxes.call(this);  
+        	}
+		});
         
         catalogCheckboxes.change(onChangeCheckboxes); // register checkbox handler
 
@@ -169,7 +169,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         
         // setup tooltips
         $(".labelTooltipMe").each(function() {
-        	$(this).tooltip({
+            $(this).tooltip({
                 position: "center right",
                 tipClass: 'hecLabelTooltip',
                 delay: 0,
@@ -184,28 +184,28 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         });
 
         var options = {
-        target:        '#responseDivision',   // target element(s) to be updated with server response
-        beforeSerialize: fnBeforeQuery,
-        beforeSubmit:  window.workspace.onLoading,  // pre-submit callback
-        success:       fnOnComplete,  // post-submit callback
-        
-        // other available options:
-        //url:       "asyncQuery",        // override for form's 'action' attribute
-        //type:      'POST'        // 'get' or 'post', override for form's 'method' attribute
-        //dataType:  null        // 'xml', 'script', or 'json' (expected server response type)
-        //clearForm: true        // clear all form fields after successful submit
-        //resetForm: true        // reset the form after successful submit
+            target:        '#responseDivision',   // target element(s) to be updated with server response
+            beforeSerialize: fnBeforeQuery,
+            beforeSubmit:  window.workspace.onLoading,  // pre-submit callback
+            success:       fnOnComplete,  // post-submit callback
+            error:         fnOnErrorAsynchQuery,
+            // other available options:
+            //url:       "asyncQuery",        // override for form's 'action' attribute
+            //type:      'POST'        // 'get' or 'post', override for form's 'method' attribute
+            //dataType:  null        // 'xml', 'script', or 'json' (expected server response type)
+            //clearForm: true        // clear all form fields after successful submit
+            //resetForm: true        // reset the form after successful submit
 
-        // $.ajax options can be used here too, for example:
-        timeout:   3000
-    };
+            // $.ajax options can be used here too, for example:
+            timeout:   5000
+        };
 
-    // bind form using 'ajaxForm'
+        // bind form using 'ajaxForm'
       
-    $('#actionViewerForm').ajaxForm(options);
+        $('#actionViewerForm').ajaxForm(options);
 
         
-     // setup column tooltips
+        // setup column tooltips
         _initAdvancedParams();
     };
     var _initSolidElements = function(){
@@ -231,7 +231,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
         });
-        /*
+    /*
         $("#resultSelectionSelectAll").click(function(){
             console.debug("click it like its hot");
             var tableId =$(this).attr('reference');
@@ -252,13 +252,13 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
      */
     var _unserialize = function(formData,advancedSearchParam){
 
-		$('#currentDisplay').find('#advancedParams').html(advancedSearchParam);
+        $('#currentDisplay').find('#advancedParams').html(advancedSearchParam);
 
         
-        $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
+       // $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
         
-        $('#currentDisplay').find('.columnInputs').css("display","block"); // remove
-        $("#currentDisplay").find("select").find("option").removeAttr("selected"); // remove
+        //$('#currentDisplay').find('.columnInputs').css("display","block"); // remove
+        //$("#currentDisplay").find("select").find("option").removeAttr("selected"); // remove
         var fields = formData.split("&");
         for(field in fields){
             var tempField= fields[field];
@@ -309,18 +309,16 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
                 tempField =tempField.split("%3B");
                 for(input in tempField){
+                    
                     var innerTempField = tempField[input].split("%2C");
                     var value = innerTempField[1];
-                    innerTempField = innerTempField[0].split(".");
-                    var inputName = innerTempField[0];
-                    var labelName = innerTempField[1];
-
-					$("#currentDisplay").find("label:contains('"+labelName+"')").each(function(){  // remove
-                        if($(this).text() == labelName+" "){
-                            $(this).parent().find("input").val(value);
-                        }//if
-                    });//each
-                    $("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
+                    innerTempField = innerTempField[0];
+                    console.debug(innerTempField);
+                    console.debug(value);
+                    console.debug($("#currentDisplay").find(".columnSelection"));
+                    $("#currentDisplay").find("input[name='"+innerTempField+"']").val(value);
+                    
+                    //$("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
                 }//end input
             }//end if
         }//end fields
@@ -339,7 +337,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             return serviceName;
         },
         prepareStep: function(formData,advancedSearchParams) {
-            if (typeof console!="undefined")console.info("ActionViewer :: prepareStep ->"+ formData);
+            if (typeof console!="undefined")console.info("ActionViewer :: prepareStep :: advancedSearchData ="+ advancedSearchParams+"formData ="+ formData);
             prevData=formData;
             advancedSearch=advancedSearchParams;
         },
@@ -470,8 +468,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     var pageDiv =$("<div id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
                     pageDiv.click(function(){
                         
-                       step = parseInt($(this).attr('id'),10);
-                       window.historyBar.render();
+                        step = parseInt($(this).attr('id'),10);
+                        window.historyBar.render();
                        
                     });
 

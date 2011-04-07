@@ -454,7 +454,36 @@ function fnAddSelectedRow(pos,aData,oTable){
     $("#resultSelectionCounter").find('span').text($('.resCont').length);
 }
 
+function fnOnErrorAsynchQuery(xmlHttpRequest,textStatus,errorThrown){
+    window.historyBar.render();
 
+        var stackTrace = $("#errorResponse").html();
+        if(textStatus=="timeout"){
+            stackTrace = "service took too long to answer";
+        }
+        var div =$('<div></div>');
+        div.attr('id','dialog-message');
+        div.attr('title','Error');
+        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again.";
+        
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error Source</b>: <span style="color:red" >'+stackTrace+'</span></p>');
+        $("#testdiv").append(div);
+
+
+        $('#dialog-message').dialog({
+
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+
+
+
+}
 /*
  *Called when the ajax asynchQuery is finished
  *gets the currently displayed element and adds a step to it. Element are always ResultViewer

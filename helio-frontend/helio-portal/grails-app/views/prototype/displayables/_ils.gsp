@@ -78,7 +78,7 @@
             <%-- submit button --%>
             <tr>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-                <input type="submit" class="custom_button submit_button" style="float:none;margin-right:50"/>
+                <input type="submit" value="Submit" class="custom_button submit_button" style="float:none;margin-right:50"/>
                 <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">

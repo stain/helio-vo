@@ -16,7 +16,7 @@
                   <div class="hecLabelTooltip ctooltip_observatory_${field}"><pre style="white-space: pre-wrap">n/a</pre></div>
                 </td>  
                 <td>
-                  <input class="columnSelection" name="observatory.${field}" type="text"/>
+                  <input class="columnSelection" name="observatory.${field}" type="text" />
                 </td>
               </tr>
             </g:if>

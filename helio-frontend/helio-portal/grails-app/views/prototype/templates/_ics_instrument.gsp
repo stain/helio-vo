@@ -16,7 +16,7 @@
                   <div class="hecLabelTooltip ctooltip_instrument_${field}"><pre style="white-space: pre-wrap">n/a</pre></div>
                 </td>  
                 <td>
-                  <input class="columnSelection" name="instrument.${field}" type="text"/>
+                  <input class="columnSelection" name="instrument.${field}" type="text" />
                 </td>
               </tr>
             </g:if>
@@ -42,7 +42,7 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input name="od1[]" value="Sun" type="checkbox"></input>
+              <input name="od1[]" value="Sun" type="checkbox"/></input>
               Sun
             </td>
             <td>

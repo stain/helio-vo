@@ -41,7 +41,7 @@ function Workspace() {
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
             var element = window.historyBar.getCurrent();
             if(element.getClassName() == 'ActionViewer'){
-                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('.columnInputs').html());
+                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#advancedParams').html());
             }else{
                 element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#hecExtendedQueryContent').html());
             }

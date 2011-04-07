@@ -50,7 +50,7 @@
  *
  * http://docs.jquery.com/UI/Theming/API
  *
- * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=2px&bgColorHeader=ffac0f&bgTextureHeader=05_inset_soft.png&bgImgOpacityHeader=75&borderColorHeader=c4965f&fcHeader=3c3c5d&iconColorHeader=3c3c5d&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=c4965f&fcContent=3c3c5d&iconColorContent=3c3c5d&bgColorDefault=c2c2c2&bgTextureDefault=03_highlight_soft.png&bgImgOpacityDefault=75&borderColorDefault=c4965f&fcDefault=4f4f64&iconColorDefault=4f4f64&bgColorHover=e0e0e0&bgTextureHover=03_highlight_soft.png&bgImgOpacityHover=75&borderColorHover=c4965f&fcHover=3c3c5d&iconColorHover=3c3c5d&bgColorActive=ffffff&bgTextureActive=03_highlight_soft.png&bgImgOpacityActive=65&borderColorActive=c4965f&fcActive=3c3c5d&iconColorActive=3c3c5d&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=34328f&iconColorHighlight=0064f5&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
+ * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Verdana,Arial,sans-serif&fwDefault=normal&fsDefault=1.1em&cornerRadius=2px&bgColorHeader=ffc15c&bgTextureHeader=02_glass.png&bgImgOpacityHeader=75&borderColorHeader=c4965f&fcHeader=3c3c5d&iconColorHeader=3c3c5d&bgColorContent=ffffff&bgTextureContent=01_flat.png&bgImgOpacityContent=75&borderColorContent=c4965f&fcContent=3c3c5d&iconColorContent=3c3c5d&bgColorDefault=dedede&bgTextureDefault=02_glass.png&bgImgOpacityDefault=75&borderColorDefault=c4965f&fcDefault=4f4f64&iconColorDefault=4f4f64&bgColorHover=c9c9c9&bgTextureHover=02_glass.png&bgImgOpacityHover=75&borderColorHover=c4965f&fcHover=3c3c5d&iconColorHover=3c3c5d&bgColorActive=ffffff&bgTextureActive=02_glass.png&bgImgOpacityActive=65&borderColorActive=c4965f&fcActive=3c3c5d&iconColorActive=3c3c5d&bgColorHighlight=fbf9ee&bgTextureHighlight=02_glass.png&bgImgOpacityHighlight=55&borderColorHighlight=fcefa1&fcHighlight=34328f&iconColorHighlight=0064f5&bgColorError=fef1ec&bgTextureError=05_inset_soft.png&bgImgOpacityError=95&borderColorError=cd0a0a&fcError=cd0a0a&iconColorError=cd0a0a&bgColorOverlay=aaaaaa&bgTextureOverlay=01_flat.png&bgImgOpacityOverlay=0&opacityOverlay=30&bgColorShadow=aaaaaa&bgTextureShadow=01_flat.png&bgImgOpacityShadow=0&opacityShadow=30&thicknessShadow=8px&offsetTopShadow=-8px&offsetLeftShadow=-8px&cornerRadiusShadow=8px
  */
 
 
@@ -61,16 +61,16 @@
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: Verdana,Arial,sans-serif; font-size: 1em; }
 .ui-widget-content { border: 1px solid #c4965f; background: #ffffff url(../images/jquery/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x; color: #3c3c5d; }
 .ui-widget-content a { color: #3c3c5d; }
-.ui-widget-header { border: 1px solid #c4965f; background: #ffac0f url(../images/jquery/ui-bg_inset-soft_75_ffac0f_1x100.png) 50% 50% repeat-x; color: #3c3c5d; font-weight: bold; }
+.ui-widget-header { border: 1px solid #c4965f; background: #ffc15c url(../images/jquery/ui-bg_glass_75_ffc15c_1x400.png) 50% 50% repeat-x; color: #3c3c5d; font-weight: bold; }
 .ui-widget-header a { color: #3c3c5d; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #c4965f; background: #c2c2c2 url(../images/jquery/ui-bg_highlight-soft_75_c2c2c2_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #4f4f64; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #c4965f; background: #dedede url(../images/jquery/ui-bg_glass_75_dedede_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #4f4f64; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #4f4f64; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #c4965f; background: #e0e0e0 url(../images/jquery/ui-bg_highlight-soft_75_e0e0e0_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #3c3c5d; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #c4965f; background: #c9c9c9 url(../images/jquery/ui-bg_glass_75_c9c9c9_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #3c3c5d; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #3c3c5d; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #c4965f; background: #ffffff url(../images/jquery/ui-bg_highlight-soft_65_ffffff_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #3c3c5d; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #c4965f; background: #ffffff url(../images/jquery/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #3c3c5d; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #3c3c5d; text-decoration: none; }
 .ui-widget :active { outline: none; }
 

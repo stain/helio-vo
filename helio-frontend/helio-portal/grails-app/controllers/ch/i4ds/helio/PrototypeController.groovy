@@ -225,7 +225,7 @@ class PrototypeController {
 	}
 	else {
             //TODO: need to send java stacktrace back
-            render "error"
+            
 	}
 
     }

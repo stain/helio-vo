@@ -26,7 +26,7 @@
     </div>
     <div class="content">
 
-     <g:form controller="prototype">
+     <form id="actionViewerForm"  action="asyncQuery" method="POST">
 
 
 <g:render template="templates/dates" />
@@ -226,11 +226,11 @@
 
  <tr><td></td><td>
 <g:hiddenField name="serviceName"  value="DPAS" />
-    <g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
+    <input type="submit" value="Submit" class="custom_button submit_button" style="float:none;margin-right:50"/>
 
      </td></tr>
     </table>
-  </g:form>
+  </form>
 </div>
 </div>
 
