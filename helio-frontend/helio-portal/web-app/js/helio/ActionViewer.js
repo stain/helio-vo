@@ -237,12 +237,12 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         });
     /*
         $("#resultSelectionSelectAll").click(function(){
-            console.debug("click it like its hot");
+            
             var tableId =$(this).attr('reference');
             
             $("#"+tableId).find("tbody").find("tr").each(function(){
-                console.debug(this);
-                console.debug($(this));
+                
+                
                 this.className.replace( /_selected/, "" );
                 this.className+'_selected';
                 

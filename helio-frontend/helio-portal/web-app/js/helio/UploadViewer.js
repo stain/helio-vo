@@ -144,7 +144,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
             if(result == null){
 
-                // console.log("rendering wild ghost");
+                
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
@@ -153,7 +153,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#historyContent").append(div);
                 
             }else{
-                // console.log("im at query");
+                
 
                 type = 'solid';
                 div = $("<div class='floaters'></div>");

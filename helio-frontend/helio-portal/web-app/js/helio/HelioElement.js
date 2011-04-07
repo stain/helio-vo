@@ -1,7 +1,7 @@
 
 function HelioElement(imageParam,typeParam,contentParam,labelParam) {
     // Private variable
-    //console.log("HelioElement created "+ imageParam);
+    
     
     var type=typeParam;
     var content=contentParam;
@@ -86,7 +86,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                     $("#currentDisplay").find("select").find("option").removeAttr("selected");
                     var fields = serializedData.split("&");
                     for(field in fields){
-                        //console.log(fields[field]);
+                        
                         var tempField= fields[field];
                         //minDateList=2003-01-01T07%3A49%3A00%2C2003-01-02T04%3A41%3A00%2C2003-01-02T12%3A58%3A00
                         if(tempField.indexOf("minDateList=")!= -1){
@@ -126,7 +126,7 @@ function HelioElement(imageParam,typeParam,contentParam,labelParam) {
                                 innerTempField = innerTempField[0].split(".");
                                 var inputName= innerTempField[0];
                                 var labelName = innerTempField[1];
-                                //console.log("inputName:"+inputName + " labelName:"+labelName+" value:"+value);
+                                
 
                                 $("#currentDisplay").find("label:contains('"+labelName+"')").parent("li").find("input").val(value);
                             }//end input
