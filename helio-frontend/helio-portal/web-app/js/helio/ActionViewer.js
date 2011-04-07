@@ -201,7 +201,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             //resetForm: true        // reset the form after successful submit
 
             // $.ajax options can be used here too, for example:
-            timeout:   5000
+            timeout:   50000
         };
 
         // bind form using 'ajaxForm'
@@ -211,6 +211,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         
         // setup column tooltips
         _initAdvancedParams();
+        
+        // format dpas selection box
+        $("#instArea").selectBox();
     };
     var _initSolidElements = function(){
         if (typeof console!="undefined")console.info("ActionViewer:: _initSolidElements ");
@@ -235,6 +238,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
         });
+        
     /*
         $("#resultSelectionSelectAll").click(function(){
             

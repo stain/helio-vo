@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.selectBox.css')}" />
     
 
 
@@ -38,6 +39,7 @@
 
   <g:javascript src="jquery.dataTables.js" />
   <g:javascript src="/plugins/jquery.collapsible.js" />
+  <g:javascript src="/plugins/jquery.selectBox.min.js" />
 
 
 
