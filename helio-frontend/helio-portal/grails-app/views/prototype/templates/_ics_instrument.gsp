@@ -282,3 +282,4 @@ Radioheliograph <input name="key[]" value="radioheliograph" type="checkbox"></in
    
   </table --%>
 </div>
+

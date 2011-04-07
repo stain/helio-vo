@@ -133,6 +133,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         };
         
         // init preselected checkboxes
+        if($("input:checked").length == 0){
+
+            $('input[title="Instrument"]').attr("checked","checked");
+        }
         $(".catalogueSelector input:checked").each(function() {
         	var catalogName = $(this).val();
         	var catSection = $("." + serviceName + "_" + catalogName);
@@ -420,11 +424,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $('#displayableResult').css("display","block");
                 fnInitSave();
                 $("#responseDivision").html("");
-                $(".tooltipme").tooltip({
-                    position: "top center",
-                    delay: 0,
-                    predelay:0
-                });
+               
                 $('.resultTable').each(function(){
                     fnFormatTable(this.id);
                 });
@@ -442,6 +442,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
             if(history.length <= 0){
 
+                var title ="Element contains no data yet";
                 var div = $("<div class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
@@ -452,8 +453,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
-                                
-                div = $("<div class='floaters'></div>");
+                var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+                
+                div = $("<div title='"+title+"' class='floaters'></div>");
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
                 //history.length
                 div.append(img);
@@ -477,6 +479,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
                 }
                 $("#historyContent").append(div);
+                
                 type="solid";
 
                 div.click(function() {

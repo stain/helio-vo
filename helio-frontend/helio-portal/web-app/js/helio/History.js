@@ -187,6 +187,11 @@ function History() {
             }
 
             fnInitDroppable();
+             $(".floaters[title]").tooltip({
+                    position: "center right",
+                    delay: 0,
+                    predelay:500
+                });
         },
 
         shiftRight: function() {

@@ -48,7 +48,7 @@
                     <tr>
                       <td width="24" align="center" valign="top">
                         <%-- create a new column in the selection table --%>
-                        <input type="checkbox" name="extra" value="instrument" title="Instrument" checked="checked"/>
+                        <input type="checkbox" name="extra" value="instrument" title="Instrument" />
                       </td>
                       <td valign="top">
                         <label>Instrument</label>
