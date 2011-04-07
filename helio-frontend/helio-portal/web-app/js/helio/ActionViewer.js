@@ -317,9 +317,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     var innerTempField = tempField[input].split("%2C");
                     var value = innerTempField[1];
                     innerTempField = innerTempField[0];
-                    console.debug(innerTempField);
-                    console.debug(value);
-                    console.debug($("#currentDisplay").find(".columnSelection"));
+                    
+                    
+                    
                     $("#currentDisplay").find("input[name='"+innerTempField+"']").val(value);
                     
                     //$("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
