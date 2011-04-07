@@ -133,9 +133,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         };
         
         // init preselected checkboxes
-        $(".catalogueSelector input:checked").each(function() {		
-        	onChangeCheckboxes.call(this);  
-		});
+//        $(".catalogueSelector input:checked").each(function() {
+//        	var catalogName = $(this).val();
+//        	var catSection = $("." + serviceName + "_" + catalogName);
+//        	
+//        	if (catSection.length == 0) {
+//        		onChangeCheckboxes.call(this);  
+//        	}
+//		});
+        
         catalogCheckboxes.change(onChangeCheckboxes); // register checkbox handler
 
         $.collapsible(".advancedParameters","group2");

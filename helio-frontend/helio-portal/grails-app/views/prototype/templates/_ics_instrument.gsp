@@ -28,7 +28,6 @@
       </td>
     </tr>
   </table>
-  <hr/>
   <%--h4>
     Instrument
   </h4>
