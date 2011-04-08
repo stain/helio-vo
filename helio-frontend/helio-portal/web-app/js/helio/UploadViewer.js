@@ -95,7 +95,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     $('#responseDivision').css("display","block");
                     $("#responseDivision").html("");
                 }
-            
+                $.collapsible(".queryHeader","group1");
                 $("#currentDisplay").find("#delete").click(function(){
                     window.historyBar.removeCurrent();
                 });
@@ -160,8 +160,8 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#historyContent").append(div);
                 
 
-                div.dblclick(function() {
-                    if (typeof console!="undefined")console.info("UploadViewer :: item doubleclicked ->"+ key);
+                div.click(function() {
+                    if (typeof console!="undefined")console.info("UploadViewer :: item click ->"+ key);
                     window.historyBar.cleanGhost();
                     //var item = window.historyBar.getItem(key);
                     window.historyBar.setFocus(key);
