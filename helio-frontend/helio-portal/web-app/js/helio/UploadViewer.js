@@ -19,7 +19,10 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
     return {
         
-
+ getServiceName: function() {
+            if (typeof console!="undefined")console.info("ActionViewer :: getServiceName");
+            return "upload";
+        },
         
         getClassName: function() {
             if (typeof console!="undefined")console.info("UploadViewer :: getClassName");
@@ -90,7 +93,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     $("#uploadForm").find('input').remove();
                     $("#uploadForm").text("File Name: "+$("#uploadId").text());
                     $('#responseDivision').css("display","block");
-                    //$("#responseDivision").html("");
+                    $("#responseDivision").html("");
                 }
             
                 $("#currentDisplay").find("#delete").click(function(){

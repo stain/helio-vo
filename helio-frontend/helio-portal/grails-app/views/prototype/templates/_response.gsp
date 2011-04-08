@@ -91,7 +91,7 @@ ${responseObject?.error}
 </g:if>
 
 <g:if test="${responseObject?.uploadId != null}" >
-  <div id="uploadId" style="display:block">
+  <div id="uploadId" style="display:none">
 ${responseObject?.uploadId}
   </div>
 

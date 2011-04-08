@@ -108,7 +108,12 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     $("#instrument-row").css("display","none");
                     imagePath = "../images/icons/toolbar/circle_both.png";
                     break;
+                  case 'upload':
+                   $("#time-row").css("display","block");
+                    $("#instrument-row").css("display","block");
+                    imagePath = "../images/icons/toolbar/circle_both.png";
                 default:
+                   
                     break
             }
             //time-row,instrument-row
