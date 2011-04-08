@@ -29,7 +29,7 @@ public class HelioFileUtil {
 	 * @return the home dir
 	 */
 	public static File getHelioHomeDir(String area) {
-		File homeDir = new File(System.getProperty("user.home"), ".helio");
+		File homeDir = new File(System.getProperty("user.home"), ".helio" + File.separator + area);
 		if (!homeDir.exists() && !homeDir.mkdirs()) {
 			throw new RuntimeException("Unable to create home dir: " + homeDir);
 		}
