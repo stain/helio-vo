@@ -21,7 +21,7 @@
     </div>
     <div class="content">
 
-      <form id="myForm" action="asyncUpload" method="post">
+      <form id="uploadForm" action="asyncUpload" method="post">
 
         File to upload: <input type="file" name="fileInput"/>
 

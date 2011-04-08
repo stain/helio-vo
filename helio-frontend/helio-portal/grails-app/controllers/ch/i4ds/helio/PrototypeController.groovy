@@ -165,22 +165,26 @@ class PrototypeController {
     def asyncUpload ={
 	log.info("asyncUpload =>" +params);
 
+        try{
+    
+            if(request.getFile("fileInput").getOriginalFilename()=="")throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
+            if(!request.getFile("fileInput").getOriginalFilename().endsWith(".xml"))throw new RuntimeException("Not a valid xml file.");
+            JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
+            VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( request.getFile("fileInput").inputStream.text ) ));
+            def serviceName = 'upload';
+            ResultVT result = new ResultVT(votable);
+            int resultId= ResultVTManagerService.addResult(result,serviceName);
+            def responseObject = [result:result,resultId:resultId ];
+            render template:'templates/response', bean:responseObject, var:'responseObject'
 
-	JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
-	Unmarshaller unmarshaller = context.createUnmarshaller();
+        }catch(Exception e){
 
-	VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( request.getFile("fileInput").inputStream.text ) ));
-
-	ResultVT result = new ResultVT(votable);
-
-
-	def previousQuery = "uploaded file";
-	def responseObject = [result:result,previousQuery:previousQuery ];
-
-
-	render template:'templates/response', bean:responseObject, var:'responseObject'
-
+            println e.printStackTrace();
+            def responseObject = [error:e.getMessage() ];
+            render template:'templates/response', bean:responseObject, var:'responseObject'
+        }
 
     }
     def asyncQuery ={
@@ -195,7 +199,7 @@ class PrototypeController {
                 String serviceName = params.serviceName;
                 int resultId= ResultVTManagerService.addResult(result,serviceName);
 
-            def responseObject = [result:result,resultId:resultId ];
+                def responseObject = [result:result,resultId:resultId ];
                 
 
                 render template:'templates/response', bean:responseObject, var:'responseObject'

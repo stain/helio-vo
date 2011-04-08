@@ -75,33 +75,19 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             try{
                 
                 window.workspace.setDisplay(actionName);
-            
                 $("#currentDisplay").find("#label").val(label);
                 
                 if(result != null){
-                
-
-            
                     $("#responseDivision").html(result);
-                   
-                
                     $('#displayableResult').append($('#tables'));
                     $("#myForm").remove();
-
                     $('#displayableResult').css("display","block");
                     $("#responseDivision").html("");
-                     $('.resultTable').each(function(){
-
+                    $('.resultTable').each(function(){
                         fnFormatTable(this.id);
-
                     });
-
                     fnInitSave();
                 }
-            
-
-
-            
             
                 $("#currentDisplay").find("#delete").click(function(){
                     window.historyBar.removeCurrent();
@@ -110,24 +96,28 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     window.historyBar.getCurrent().setLabel($(this).val());
                     window.historyBar.render(1);
                 });
+                  var options = {
+                        target: '#responseDivision',   // target element(s) to be updated with server response
+                        success: fnOnComplete  // post-submit callback
+                    };
+                    $('#uploadForm').ajaxForm(options);
+
             }catch(err){
                 $("#responseDivision").html("");
                 //$("#currentDisplay").remove();
-                
-                result=null;
+                   result=null;
                 //window.workspace.setDisplay(actionName);
-                
-                this.renderContent();
+                   this.renderContent();
                 var options = {
                     target: '#responseDivision',   // target element(s) to be updated with server response
                     success: fnOnComplete  // post-submit callback
                 };
-                $('#myForm').ajaxForm(options);
+                $('#uploadForm').ajaxForm(options);
                 
                 
                 
                 
-                $("#myForm").append("<br><br><span style='color:red'>Error Ocurred when parsing the VoTable please revise your syntax.</span>");
+                $("#uploadForm").append("<br><br><span style='color:red'>Error Ocurred when parsing the VoTable please revise your syntax.</span>");
                 
             //window.historyBar.removeCurrent();
 

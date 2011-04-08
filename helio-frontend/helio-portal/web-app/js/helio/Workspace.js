@@ -109,11 +109,7 @@ function Workspace() {
                     element = new UploadViewer(imagePath,"ghost",text);
                     window.historyBar.addItem(element);
                     window.historyBar.render();
-                    var options = {
-                        target: '#responseDivision',   // target element(s) to be updated with server response
-                        success: fnOnComplete  // post-submit callback
-                    };
-                    $('#myForm').ajaxForm(options);
+                  
                     break;
                 default:
                     break;

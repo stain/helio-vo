@@ -62,7 +62,7 @@
     </div>
   </div>
   <%-- show the user log if available --%>
-  <g:if test="${responseObject?.result && responseObject.result?.logRecords.length > 0}"> 
+  <g:if test="${responseObject?.result && responseObject.result?.logRecords?.length > 0}">
     <div class="module">
       <div class="header queryHeader viewerHeader collapsed">
         <h1>Log</h1>
