@@ -2,7 +2,7 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td>
+        <td width="60">
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'circle_obs.png')}" alt="image missing"/>
         </td>
         <td>
@@ -22,10 +22,14 @@
       <h1>Parameter Extraction</h1>
     </div>
     <div class="content">
-
+      <table width="100%">
+        <col width="*">
+        <col width="250">
+        <tbody>
+          <tr>
+            <td>
 
       <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:170px">
-
         <tr>
           <td class="row-borders" id="time-row" style="display:block">
 
@@ -56,6 +60,19 @@
             <center><h2>Observatory Selection</h2></center>
           </td-->
         </tr>
+      </table>
+            </td>
+            <td valign="top">
+              <div class="message"><b>Step 1</b><br/>
+                Select the data products you want to use as input of another service. Your selection will be stored in the left sidebar.<br/>
+                If this section is empty you cannot reuse any data product from the table below, but you still can download the results.
+              </div>
+              <div class="message"><b>Step 2</b><br/>
+                Select a service from the top bar and drag and drop the data product from the left side to this service.
+              </div>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>

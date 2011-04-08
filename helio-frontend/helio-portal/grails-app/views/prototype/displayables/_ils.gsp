@@ -2,7 +2,7 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td>
+        <td width="60">
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" />
         </td>
         <td>

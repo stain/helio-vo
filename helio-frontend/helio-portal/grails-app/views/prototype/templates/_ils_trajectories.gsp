@@ -23,7 +23,7 @@
           </g:each>
         </table>
         <g:if test="${!hasFields}">
-            <p>No field definition found for the Trajectories table.</p>
+            <p>No field definition found for the trajectories table.</p>
         </g:if>
       </td>
     </tr>

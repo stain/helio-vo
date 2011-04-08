@@ -2,7 +2,7 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td>
+        <td width="60">
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" />
         </td>
         <td>
@@ -68,7 +68,7 @@
               </td>
               <td style="vertical-align: top;"> 
                 <div class="message"><b>Step 2</b><br/>Select the event list(s) you are interested in. <br/>
-                Hover with your mouse over the event lists to get more information.</div>
+                Hover with your mouse over the info icons to get more information.</div>
                 <div class="message"><b>Step 3</b> (optional)<br/>Now use the advanced parameters below to further qualify your query.</div>
               </td>
             </tr>

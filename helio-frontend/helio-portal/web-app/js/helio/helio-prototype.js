@@ -169,7 +169,7 @@ function fnInitializeDatePicker(){
             */
         }
         catch(err){
-            $(".dateTable").append("<span style='color:red' id='dateError'>Error occurred please revise your input</span>");
+            $(".dateTable").append("<span style='color:red' id='dateError'>Error occurred. Please revise your input</span>");
         }
     };
     $("#maxTime,#minTime,#minDate,#maxDate").keydown(validateDates);
@@ -464,9 +464,9 @@ function fnOnErrorAsynchQuery(xmlHttpRequest,textStatus,errorThrown){
         var div =$('<div></div>');
         div.attr('id','dialog-message');
         div.attr('title','Error');
-        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again.";
+        var message = "An unexpected error occured in the HELIO Front End. We apologize for the inconvenience. Please check your internet connection and try again.";
         
-        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error Source</b>: <span style="color:red" >'+stackTrace+'</span></p>');
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error context</b>: <span style="color:red;" >'+stackTrace+'</span></p>');
         $("#testdiv").append(div);
 
 
@@ -500,9 +500,9 @@ function fnOnComplete(){
         var div =$('<div></div>');
         div.attr('id','dialog-message');
         div.attr('title','Error');
-        var message = "We apologize for the inconvenience but an error has occured, we suggest you check your internet conectivity and try again.";
+        var message = "An unexpected error occured in the HELIO Front End. We apologize for the inconvenience. Please check your internet connection and try again.";
         var stackTrace = $("#errorResponse").html();
-        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error Source</b>: <span style="color:red" >'+stackTrace+'</span></p>');
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error context</b>: <span style="color:red" >'+stackTrace+'</span></p>');
         $("#testdiv").append(div);
 
 

@@ -2,7 +2,7 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td>
+        <td width="60">
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" />
         </td>
         <td>
@@ -71,7 +71,7 @@
                 <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
-                <div class="message"><b>Step 3</b><br/>Submit query to HELIO. Please note that queries to the DPAS may take up to several seconds.</div>
+                <div class="message"><b>Step 3</b><br/>Submit query to HELIO. Queries to the DPAS may take up to several seconds.</div>
               </td>
             </tr> 
           </tbody>
