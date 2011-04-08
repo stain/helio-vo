@@ -5,10 +5,18 @@
         <h1>Result</h1>
       </div>
       <div class="content">
-        <div >
-          <div id="voTables" style="clear: both; padding: 20px 5pt 20pt 5px;">
-
-
+        <div>
+          <table width="100%">
+            <col width="*" />
+            <col width="250"/>
+            <tr>
+              <td></td>
+              <td>
+                <div class="message" style="float: right; margin: 0; clear: both; padding: 0px pt 20pt 5px;"><b>Select result</b><br/>Select the data rows you are interested in. These rows can be used as input parameters for other services. Click on "Save Selection" when done.</div>                
+              </td>
+            </tr> 
+          </table>
+          <div id="voTables" style="clear: both; padding: 0px pt 20pt 5px;">
             <g:set var="result" value="${responseObject?.result}" />
             <g:set var="result" scope="session" value="${responseObject?.result}" />
             <g:form target="_blank" controller="prototype">
