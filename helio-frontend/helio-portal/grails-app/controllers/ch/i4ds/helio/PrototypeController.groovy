@@ -15,13 +15,13 @@ import eu.heliovo.clientapi.model.catalog.impl.DpasStaticCatalogRegistry;
 import eu.heliovo.clientapi.model.catalog.impl.HecStaticCatalogRegistry
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
-
+import ch.i4ds.*;
 
 class PrototypeController {
 
     def DataQueryService;
     def TableInfoService;
-
+    def ResultVTManagerService;
 
     /** TODO: need to improve this method to get the hash from url or memory and saves it so every call is not opening a file on the system **/
     def asyncGetColumns = {
@@ -65,28 +65,28 @@ class PrototypeController {
      * Expects parameter: serviceName=SERVICE_NAME, catalog=CATALOG_NAME.
      */
     def getAdvancedParams = {
-		//log.info("getAdvancedParams =>" +params);
+        //log.info("getAdvancedParams =>" +params);
 
-		if(params.serviceName == null)
-			throw new java.lang.IllegalArgumentException("Parameter 'service' must be set.");
-		if(params.catalog == null)
-			throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
+        if(params.serviceName == null)
+        throw new java.lang.IllegalArgumentException("Parameter 'service' must be set.");
+        if(params.catalog == null)
+        throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
 
-		def template;  // name of the template to use
-		if(params.serviceName == "ics")	{
-			def hash = TableInfoService.serviceMethod("files/tablesics.xml");
-			def catalog = hash.get(params.catalog);
-			template = "ics_" + params.catalog;
-			render template:'templates/' + template, bean:catalog, var:'catalog';
-		} else if(params.serviceName == "ils")	{
-			def hash = TableInfoService.serviceMethod("files/tablesils.xml");
-			def catalog = hash.get(params.catalog);
-			template = "ils_" + params.catalog;
-			render template:'templates/' + template, bean:catalog, var:'catalog';
-		} else {
-			throw new java.lang.IllegalArgumentException("Service " + params.serviceName + " is not supported through this method.");
-		}
-	}
+        def template;  // name of the template to use
+        if(params.serviceName == "ics")	{
+            def hash = TableInfoService.serviceMethod("files/tablesics.xml");
+            def catalog = hash.get(params.catalog);
+            template = "ics_" + params.catalog;
+            render template:'templates/' + template, bean:catalog, var:'catalog';
+        } else if(params.serviceName == "ils")	{
+            def hash = TableInfoService.serviceMethod("files/tablesils.xml");
+            def catalog = hash.get(params.catalog);
+            template = "ils_" + params.catalog;
+            render template:'templates/' + template, bean:catalog, var:'catalog';
+        } else {
+            throw new java.lang.IllegalArgumentException("Service " + params.serviceName + " is not supported through this method.");
+        }
+    }
 	
     /**
      * Action to asynchronously get the HEC columns.
@@ -116,7 +116,7 @@ class PrototypeController {
 
         try {
             // prepare query
-                        
+                    
             ArrayList<String> startTime= new ArrayList<String>(); // initialize lists for web service request
             ArrayList<String> endTime= new ArrayList<String>();
 		
@@ -149,20 +149,9 @@ class PrototypeController {
 			
 			
             ResultVT result = DataQueryService.queryService(serviceName, startTime, endTime, extraList, where);
-			
-            // TODO: need to fix this argument once the data object is here
-            session.serviceq=params.serviceName;
-			
-            // adjust the previous query based on the params
-            def previousQuery = params;
-			
-            previousQuery.remove("action");
-            previousQuery.remove("controller");
-
-            if(previousQuery.minDateList.trim() == "" ) previousQuery.remove("minDateList");
-            if(previousQuery.maxDateList.trim() == "" ) previousQuery.remove("maxDateList");
-            if(previousQuery.where =="") previousQuery.remove("where");
-            def responseObject = [result:result,previousQuery:previousQuery ];
+            int resultId= ResultVTManagerService.addResult(result,serviceName);
+        
+            def responseObject = [result:result,resultId:resultId ];
 
             render template:'templates/response', bean:responseObject, var:'responseObject'
         }catch(Exception e){
@@ -203,16 +192,11 @@ class PrototypeController {
                 //throw new RuntimeException("let me see this error.");
                 ResultVT  result = search(params);
 
-                // TODO: need to fix this argument once the data object is here
-                session.serviceq=params.serviceName;
-                params.remove("action");
-                params.remove("controller");
+                String serviceName = params.serviceName;
+                int resultId= ResultVTManagerService.addResult(result,serviceName);
 
-                if(params.minDateList.trim() == "" )params.remove("minDateList");
-                if(params.maxDateList.trim() == "" )params.remove("maxDateList");
-                if(params.where =="")params.remove("where");
-                def previousQuery = params;
-                def responseObject = [result:result,previousQuery:previousQuery ];
+            def responseObject = [result:result,resultId:resultId ];
+                
 
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
@@ -285,20 +269,17 @@ class PrototypeController {
     }
 
     def downloadVOTable = {
-
-
-
-
-
-	log.info("downloadVOTable =>" + params  + session)
-	if(session.result !=null){
+	log.info("downloadVOTable =>" + params);
+        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+	if(result !=null){
+            
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
-            name = session.serviceq +"-"+name;
+            name = ResultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-"+name;
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
-            response.outputStream << session.result.getStringTable()
+            response.outputStream << result.getStringTable()
 	}
 
     }
@@ -312,7 +293,7 @@ class PrototypeController {
 
             VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( session.result.getStringTable() ) ));
             ResultVT result = new ResultVT(votable);
-
+            
             String indexes =params.indexes;
             String[] fields = indexes.split(",");
             def rowIndexSelection = [];
@@ -324,43 +305,24 @@ class PrototypeController {
                 rowIndexSelection.add(table+"."+row);
                 if(!tableIndexSelection.contains(table))tableIndexSelection.add(table);
             }
-
-
             VOTABLE res = result.getVOTABLE();
-
-
-
             for(int resourceIndex =0;resourceIndex < res.getRESOURCE().size();resourceIndex++)
             {
-
                 RESOURCE resource = res.getRESOURCE().get(resourceIndex);
-
                 if(!tableIndexSelection.contains(resourceIndex)){
                     res.getRESOURCE().set(resourceIndex,null);
-
                     continue;
                 }
-
-
-
-
                 for(int tableIndex =0;tableIndex < resource.getTABLE().size();tableIndex++)
                 {
-
-
                     TABLE table= resource.getTABLE().get(tableIndex);
-
-
                     for(int trIndex=0;trIndex < table.getDATA().getTABLEDATA().getTR().size();trIndex++)
                     {
                         if(!rowIndexSelection.contains(resourceIndex+"."+trIndex)){
 
                             table.getDATA().getTABLEDATA().getTR().set(trIndex,null);
-
                         }
-
                     }
-
                 }
             }
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");

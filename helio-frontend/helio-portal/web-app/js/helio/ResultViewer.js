@@ -151,6 +151,14 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                         '<td><!--input type="checkbox"/--></td>'+
                         '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
                 }
+                else if(time_start != null) {
+                    //$("#time-row").css("display","block");
+
+                    $("#times-table").append(
+                        '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
+                        '<td><!--input type="checkbox"/--></td>'+
+                        '<td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
+                }
                 
                 $(".cbutton").button();
                 //if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");

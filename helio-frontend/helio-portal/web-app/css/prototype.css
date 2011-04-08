@@ -419,14 +419,15 @@ html{
 .fg-button{
     padding:0 10px;
 }
+/*
 html{
     -moz-user-select: none;
     -khtml-user-select: none;
 }
 input{
     -moz-user-select: all;
-    -khtml-user-select: all;
-}
+    //-khtml-user-select: all;
+}*/
 #times-table input{
     height: 30px;
     width:160px;

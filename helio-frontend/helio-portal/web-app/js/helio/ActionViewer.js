@@ -208,7 +208,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
       
         $('#actionViewerForm').ajaxForm(options);
 
-        
+         $('.submit_button').button({disabled: !$(".catalogueSelector input:checked").val()});
         // setup column tooltips
         _initAdvancedParams();
         
