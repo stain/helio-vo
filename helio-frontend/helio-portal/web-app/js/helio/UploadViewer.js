@@ -82,11 +82,15 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                     $('#displayableResult').append($('#tables'));
                     $("#myForm").remove();
                     $('#displayableResult').css("display","block");
-                    $("#responseDivision").html("");
+                    
                     $('.resultTable').each(function(){
                         fnFormatTable(this.id);
                     });
                     fnInitSave();
+                    $("#uploadForm").find('input').remove();
+                    $("#uploadForm").text("File Name: "+$("#uploadId").text());
+                    $('#responseDivision').css("display","block");
+                    //$("#responseDivision").html("");
                 }
             
                 $("#currentDisplay").find("#delete").click(function(){

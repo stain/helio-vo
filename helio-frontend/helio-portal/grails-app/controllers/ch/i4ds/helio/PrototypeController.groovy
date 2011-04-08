@@ -176,7 +176,9 @@ class PrototypeController {
             def serviceName = 'upload';
             ResultVT result = new ResultVT(votable);
             int resultId= ResultVTManagerService.addResult(result,serviceName);
-            def responseObject = [result:result,resultId:resultId ];
+            def uploadId =request.getFile("fileInput").getOriginalFilename();
+            
+            def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
             render template:'templates/response', bean:responseObject, var:'responseObject'
 
         }catch(Exception e){
