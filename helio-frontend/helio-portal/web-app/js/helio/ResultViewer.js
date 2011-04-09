@@ -9,7 +9,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = "";
+    var label = "change me";
     var indexes = indexesParam;
     var resulthtml;
     var prevData;
@@ -108,8 +108,8 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     $("#instrument-row").css("display","none");
                     imagePath = "../images/icons/toolbar/circle_both.png";
                     break;
-                  case 'upload':
-                   $("#time-row").css("display","block");
+                case 'upload':
+                    $("#time-row").css("display","block");
                     $("#instrument-row").css("display","block");
                     imagePath = "../images/icons/toolbar/circle_both.png";
                 default:
@@ -243,9 +243,16 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $("#currentDisplay").find("#delete").click(function(){
                 window.historyBar.removeCurrent()
             });
+            $("#currentDisplay").find("#label").val(label);
             $("#currentDisplay").find("#label").change(function() {
                 window.historyBar.getCurrent().setLabel($(this).val());
                 window.historyBar.render(1);
+                if($(".destroyMe").length != 0)return;
+                $(this).parent().append("<span class='destroyMe' style='color:white'><b>label set!</b></span>");
+                $('.destroyMe').fadeOut(2000, function() {
+                    $(".destroyMe").remove();
+                });
+
             });
 
             $("#indexes").val(indexes);
@@ -253,9 +260,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $( ".controls").button();
 
             //$("div:contains('resultTable')").css("text-decoration", "underline");]")
-           $('.resultTable').each(function(){
-                    fnFormatTable(this.id);
-                });
+            $('.resultTable').each(function(){
+                fnFormatTable(this.id);
+            });
 
             
             $("#time-row-check, #inst-row-check").change(function(){
@@ -267,7 +274,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 }else if($('#inst-row-check').attr('checked')){
                     imagePath = "../images/icons/toolbar/circle_inst.png";
                 }else{
-                    //imagePath = "../images/icons/toolbar/circle_empty.png";
+                //imagePath = "../images/icons/toolbar/circle_empty.png";
                 }
                 window.historyBar.render(1);
             });
@@ -342,7 +349,7 @@ return;
 
                 },
                 stop: function(event,ui ) {
-                     $(this).removeClass('noclick');
+                    $(this).removeClass('noclick');
                     //var tooltip =$(this).data('tooltip');
                     //tooltip.getConf().opacity = 1;
                     if($(this).data('returnMe')){

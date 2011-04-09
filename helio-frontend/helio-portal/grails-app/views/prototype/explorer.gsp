@@ -65,7 +65,7 @@
     <!--img src="${resource(dir:'images/helio',file:'helio_logo.jpg')}" width="200px" height="100px"  /-->
     <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   />
     <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   />
-    <img style="position:relative;top:-10px;float:right;height: 90px" src="${resource(dir:'images/background',file:'logo7.png')}"  />
+    <img style="position:relative;top:-10px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  />
   </div>
 
   <!-- Navigation Bar -->

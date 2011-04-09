@@ -5,7 +5,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = labelParam;
+    var label = "change me";
     var resulthtml;
     var prevData;
     var printKey;
@@ -19,7 +19,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
     return {
         
- getServiceName: function() {
+        getServiceName: function() {
             if (typeof console!="undefined")console.info("ActionViewer :: getServiceName");
             return "upload";
         },
@@ -78,7 +78,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             try{
                 
                 window.workspace.setDisplay(actionName);
-                $("#currentDisplay").find("#label").val(label);
+                
                 
                 if(result != null){
                     $("#responseDivision").html(result);
@@ -99,22 +99,29 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 $("#currentDisplay").find("#delete").click(function(){
                     window.historyBar.removeCurrent();
                 });
+                $("#currentDisplay").find("#label").val(label);
                 $("#currentDisplay").find("#label").change(function() {
                     window.historyBar.getCurrent().setLabel($(this).val());
                     window.historyBar.render(1);
+                    if($(".destroyMe").length != 0)return;
+                    $(this).parent().append("<span class='destroyMe' style='color:white'><b>label set!</b></span>");
+                    $('.destroyMe').fadeOut(2000, function() {
+                        $(".destroyMe").remove();
+                    });
+
                 });
-                  var options = {
-                        target: '#responseDivision',   // target element(s) to be updated with server response
-                        success: fnOnComplete  // post-submit callback
-                    };
-                    $('#uploadForm').ajaxForm(options);
+                var options = {
+                    target: '#responseDivision',   // target element(s) to be updated with server response
+                    success: fnOnComplete  // post-submit callback
+                };
+                $('#uploadForm').ajaxForm(options);
 
             }catch(err){
                 $("#responseDivision").html("");
                 //$("#currentDisplay").remove();
-                   result=null;
+                result=null;
                 //window.workspace.setDisplay(actionName);
-                   this.renderContent();
+                this.renderContent();
                 var options = {
                     target: '#responseDivision',   // target element(s) to be updated with server response
                     success: fnOnComplete  // post-submit callback
@@ -134,7 +141,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
             $( ".custom_button").button();
             
         },
-        render: function(key) {
+        render: function(key,current) {
 
             if (typeof console!="undefined")console.info("UploadViewer :: render ->"+ key);
             
@@ -147,6 +154,9 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 div.append(img);
                 type = 'ghost';
                 if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                if(key==current){
+                    div.addClass('current');
+                }
                 $("#historyContent").append(div);
                 
             }else{
@@ -154,6 +164,9 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
 
                 type = 'solid';
                 div = $("<div class='floaters'></div>");
+                if(key==current){
+                    div.addClass('current');
+                }
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
                 div.append(img);
                 if(label != null)div.append("<div class='customLabel'>"+label+"</div>");

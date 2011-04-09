@@ -6,7 +6,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
     var type = typeParam;
     var content;
     var imagePath = imageParam;
-    var label = labelParam;
+    var label = "change me";
     var advancedSearch;
     var prevData;
     var step =0;
@@ -150,6 +150,17 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         
         // setup column tooltips
         _onCompleteGetHecColumns();
+        $("#currentDisplay").find("#label").val(label);
+        $("#currentDisplay").find("#label").change(function() {
+            window.historyBar.getCurrent().setLabel($(this).val());
+            window.historyBar.render(1);
+            if($(".destroyMe").length != 0)return;
+            $(this).parent().append("<span class='destroyMe' style='color:white'><b>label set!</b></span>");
+            $('.destroyMe').fadeOut(2000, function() {
+                $(".destroyMe").remove();
+            });
+
+        });
     };
 
     var _initSolidElements = function(){
@@ -157,7 +168,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         
         $("#currentDisplay").find("#counter").css("display","block");
         $("#currentDisplay").find("#counter").text((step+1)+"/"+history.length);
-        $("#currentDisplay").find("#label").val(label);
+        
         
         $(".placeholder").remove();
         $.collapsible(".advancedParameters","group2");
@@ -172,11 +183,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             window.workspace.getElement().prevStep();
         });
 
-        $("#currentDisplay").find("#label").change(function() {
-
-            window.historyBar.getCurrent().setLabel($(this).val());
-            window.historyBar.render(1);
-        });
+        
         /*
            $("#resultSelectionSelectAll").click(function(){
             
@@ -380,7 +387,8 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
             if(history.length <= 0){
 
-                var div = $("<div class='floaters'></div>");
+                var title ="Element contains no data yet";
+                var div = $("<div  title='"+title+"' class='floaters'></div>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
                 div.append(img);
                 //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
@@ -390,8 +398,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
+                var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
 
-                div = $("<div class='floaters'></div>");
+                div = $("<div style='cursor:default'  title='"+title+"' class='floaters'></div>");
                 img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
                 //history.length
                 div.append(img);
@@ -403,10 +412,16 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 }
 
                 for(var i=0;i < history.length;i++){
-                    var pageDiv =$("<div id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
-                    pageDiv.click(function(){                       
-                       step = parseInt($(this).attr('id'),10);
-                       window.historyBar.render();
+                    var pageDiv =$("<div style='cursor:pointer' id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
+                    pageDiv.click(function(){
+
+                        step = parseInt($(this).attr('id'),10);
+                        $('#currentDisplay').fadeOut(500, function(){
+                            window.historyBar.cleanGhost();
+                            window.historyBar.setFocus(key);
+                            //window.historyBar.render();
+                        });
+                        
                     });
                     
                     div.append(pageDiv);
@@ -417,9 +432,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 
                 div.click(function() {
                     if (typeof console!="undefined")console.info("ActionViewerExtended :: item doubleclicked ->"+ key);
-                    window.historyBar.cleanGhost();
+                   // window.historyBar.cleanGhost();
                     
-                    window.historyBar.setFocus(key);
+                    //window.historyBar.setFocus(key);
                 });//end dbclick
             }//end else
         }//end render

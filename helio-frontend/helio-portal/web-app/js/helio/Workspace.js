@@ -66,6 +66,7 @@ function Workspace() {
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
             
+            
         },
         createItem: function(imagePath){
             if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
@@ -137,12 +138,12 @@ function Workspace() {
         },
         clear: function() {
             if (typeof console!="undefined")console.info("Workspace :: clear");
-          
+            //$('#currentDisplay').fadeOut(1000,0);
             $("#currentDisplay").remove();
             $(".displayable").css("display","none");
-            $("#currentDisplay").remove();
             $(".resCont").remove();
-            //this.setDisplay("splash");
-        }
-    };
+            $(".tooltip").remove();
+            
+    }
+};
 }
