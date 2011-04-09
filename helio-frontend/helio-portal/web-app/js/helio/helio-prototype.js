@@ -266,6 +266,8 @@ function fnInitDroppable(){
 
 
             }
+            $("#instArea").selectBox('destroy');
+            $("#instArea").selectBox();
 
         }
     }).data('dropped_items',"");

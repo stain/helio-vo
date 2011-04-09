@@ -214,7 +214,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         _initAdvancedParams();
         
         // format dpas selection box
-        $("#instArea").selectBox();
+        $("#instArea").selectBox('destroy');
+            $("#instArea").selectBox();
           $("#currentDisplay").find("#label").val(label);
         $("#currentDisplay").find("#label").change(function() {
             window.historyBar.getCurrent().setLabel($(this).val());
@@ -314,7 +315,10 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             else if(tempField.indexOf("extra=")!= -1){
 
                 tempField =tempField.replace('extra=',"");
+                
+                
                 $("#currentDisplay").find("select").find("option[value='"+tempField+"']").attr("selected","selected"); // remove
+                
                 $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
 
             }else if(tempField.indexOf("where=")!= -1){
@@ -353,7 +357,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             return serviceName;
         },
         prepareStep: function(formData,advancedSearchParams) {
-            if (typeof console!="undefined")console.info("ActionViewer :: prepareStep :: advancedSearchData ="+ advancedSearchParams+"formData ="+ formData);
+            if (typeof console!="undefined")console.info("ActionViewer :: prepareStep :: formData ="+ formData);
             prevData=formData;
             advancedSearch=advancedSearchParams;
         },
