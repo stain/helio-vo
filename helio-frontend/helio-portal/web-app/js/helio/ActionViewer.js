@@ -6,7 +6,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
     var type = typeParam;
     var content;
     var imagePath = imageParam;
-    var label = "change me";
+    var label = "label";
     var advancedSearch;
     var prevData;
     var step =0;
@@ -138,13 +138,13 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             $('input[title="Instrument"]').attr("checked","checked");
         }
         $(".catalogueSelector input:checked").each(function() {
-        	var catalogName = $(this).val();
-        	var catSection = $("." + serviceName + "_" + catalogName);
+            var catalogName = $(this).val();
+            var catSection = $("." + serviceName + "_" + catalogName);
         	
-        	if (catSection.length == 0) {
-        		onChangeCheckboxes.call(this);  
-        	}
-		});
+            if (catSection.length == 0) {
+                onChangeCheckboxes.call(this);
+            }
+        });
         
         catalogCheckboxes.change(onChangeCheckboxes); // register checkbox handler
 
@@ -208,15 +208,17 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
       
         $('#actionViewerForm').ajaxForm(options);
 
-         $('.submit_button').button({disabled: !$(".catalogueSelector input:checked").val()});
+        $('.submit_button').button({
+            disabled: !$(".catalogueSelector input:checked").val()
+        });
          
         // setup column tooltips
         _initAdvancedParams();
         
         // format dpas selection box
         $("#instArea").selectBox('destroy');
-            $("#instArea").selectBox();
-          $("#currentDisplay").find("#label").val(label);
+        $("#instArea").selectBox();
+        $("#currentDisplay").find("#label").val(label);
         $("#currentDisplay").find("#label").change(function() {
             window.historyBar.getCurrent().setLabel($(this).val());
             window.historyBar.render(1);
@@ -272,7 +274,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         $('#currentDisplay').find('#advancedParams').html(advancedSearchParam);
 
         
-       // $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
+        // $('#currentDisplay').find('.columnInputs').html(advancedSearchParam);
         
         //$('#currentDisplay').find('.columnInputs').css("display","block"); // remove
         //$("#currentDisplay").find("select").find("option").removeAttr("selected"); // remove
@@ -338,7 +340,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     
                     $("#currentDisplay").find("input[name='"+innerTempField+"']").val(value);
                     
-                    //$("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
+                //$("#currentDisplay").find("input[name='"+inputName+"."+labelName+"']").val(value);
                 }//end input
             }//end if
         }//end fields
@@ -458,62 +460,87 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
             if(history.length <= 0){
 
-                var title ="Element contains no data yet";
+                var title ="Element contains no data";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
+                var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+                var tr =$("<tr></tr>");
+                var td =$("<td></td>");
                 var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
-                div.append(img);
-                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                td.append(img);
+                tr.append(td);
+                if(label != null){
+                    td =$("<td></td>");
+                    td.css("padding-left","3px");
+                    td.append(label);
+                    tr.append(td);
+                }
                 if(key==current){
                     div.addClass('current');
                 }
+                table.append(tr);
+                div.append(table);
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
                 var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
-                
-                div = $("<div style='cursor:default'  title='"+title+"' class='floaters'></div>");
-                img =   $( "<img alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
-                //history.length
-                div.append(img);
-                
-                
-                //if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+                var div = $("<div  title='"+title+"' class='floaters'></div>");
+                var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+                var tr =$("<tr></tr>");
+                var td =$("<td></td>");
+                var img =   $( "<img alt='"+"image missing"+"'/>" ).attr( "src",imagePath );
+                td.append(img);
+                tr.append(td);
+                if(label != null){
+                    td =$("<td></td>");
+                    td.css("padding-left","3px");
+                    td.append(label);
+                    tr.append(td);
+                }
+                table.append(tr);
+                div.append(table);
                 if(key==current){
                     div.addClass('current');
-                }
-                
-                for(var i=0;i < history.length;i++){
-                    var pageDiv =$("<div style='cursor:pointer' id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
-                    pageDiv.click(function(){
+                    
+                    for(var i=0;i < history.length;i++){
+                        var pageDiv =$("<div style='cursor:pointer' id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
+                        pageDiv.click(function(){
+
+                            step = parseInt($(this).attr('id'),10);
+                            $('#currentDisplay').fadeOut(500, function(){
+                                window.historyBar.cleanGhost();
+                                window.historyBar.setFocus(key);
+                            //window.historyBar.render();
+                            });
                         
-                        step = parseInt($(this).attr('id'),10);
+
+                        });
+                        div.append(pageDiv);
+                    }
+                    
+
+                }else{
+                    div.css("cursor","pointer");
+                    div.click(function() {
+                        if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
+
                         $('#currentDisplay').fadeOut(500, function(){
                             window.historyBar.cleanGhost();
                             window.historyBar.setFocus(key);
-                            //window.historyBar.render();
+                        //window.historyBar.render();
                         });
-                        
-                       
-                    });
 
-                    div.append(pageDiv);
 
+                    //var item = window.historyBar.getItem(key);
+
+
+                    });//end dbclick
                 }
+                
                 $("#historyContent").append(div);
                 
                 type="solid";
 
-                div.click(function() {
-                    if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
-                    
-                        //window.historyBar.cleanGhost();
-                        //window.historyBar.setFocus(key);
-                    
-
-                    //var item = window.historyBar.getItem(key);
-
-                    
-                });//end dbclick
+               
             }//end else
         }//end render
     };//end public methods

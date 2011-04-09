@@ -7,7 +7,7 @@
         </td>
         <td>
           <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Event Search</h1>
-          Label: <input style="margin-top:5px;" id="label" type="text"/>
+          Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
         </td>
         <td>
          <div style="float:right;" class="controls custom_button" id="delete">X</div>

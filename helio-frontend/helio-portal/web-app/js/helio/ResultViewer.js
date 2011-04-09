@@ -9,7 +9,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = "change me";
+    var label = "label";
     var indexes = indexesParam;
     var resulthtml;
     var prevData;
@@ -281,43 +281,26 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
 
         },
         render: function(key,current) {
-            //       if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key);
-            /*
-
-            if(window.historyBar.getCurrentKey() == key){
-                    var div = $("<div class='newcurrent'> "+"Result Selection"+" </div>");
-                }else{
-                    var div = $("<div class='new1'> "+"Result Selection"+" </div>");
-                }
-
-            
-            
-            
-            
-
-            
-            $("#historyContent").append(div);
-
-           
-
-            div.dblclick(function() {
-                if (typeof console!="undefined")console.info("ResultViewer :: item doubleclicked ->"+ key);
-                window.historyBar.cleanGhost();
-                //var item = window.historyBar.getItem(key);
-                window.historyBar.setFocus(key);
-
-            });//end dbclick
-
-return;
-
-  */
             if (typeof console!="undefined")console.info("ResultViewer :: render ->"+ key +" current "+current);
 
+            var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+            var div = $("<div  title='"+title+"' class='floaters'></div>");
+            var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+            var tr =$("<tr></tr>");
+            var td =$("<td></td>");
+            var img =   img =   $( "<img id='"+key+"' class='resultDraggable' alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
+            td.append(img);
+            tr.append(td);
+            if(label != null){
+                td =$("<td></td>");
+                td.css("padding-left","3px");
+                td.append(label);
+                tr.append(td);
+            }
+            table.append(tr);
+            div.append(table);
             type = 'solid';
-            div = $("<div  class='floaters'></div>");
-            img =   $( "<img id='"+key+"' class='resultDraggable' alt='" +"image missing"+"'   />" ).attr( "src",imagePath );
-            div.append(img);
-            if(label != null)div.append("<div class='customLabel'>"+label+"</div>");
+
             if(key==current){
                 div.addClass('current');
             }
@@ -330,10 +313,12 @@ return;
                 
             div.click(function() {
                 if($(this).hasClass('noclick'))return;
-                if (typeof console!="undefined")console.info("ResultViewer :: item doubleclicked ->"+ key);
-                window.historyBar.cleanGhost();
-                //var item = window.historyBar.getItem(key);
-                window.historyBar.setFocus(key);
+                if (typeof console!="undefined")console.info("ResultViewer :: item clicked ->"+ key);
+                $('#currentDisplay').fadeOut(500, function(){
+                                window.historyBar.cleanGhost();
+                                window.historyBar.setFocus(key);
+                            //window.historyBar.render();
+                            });
 
             });//end dbclick
             $( ".resultDraggable" ).draggable({

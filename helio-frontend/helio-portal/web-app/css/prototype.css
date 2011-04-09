@@ -200,13 +200,13 @@ html{
     filter:alpha(opacity=40);
 }
 .floaters{
-    width:45px;
+    
     margin-left:5px;
     margin-top:2px;
     float:left;
     cursor: pointer;
-    padding:5px 15px;
-    padding-bottom:15px;
+    padding:2px 0 3px 4px;
+    
     overflow: hidden;
 
 
@@ -219,10 +219,18 @@ html{
     background: -o-linear-gradient(top, #bac7e9, #8591b4);
     background: linear-gradient(top, #bac7e9, #8591b4);
     margin-bottom: 5px;
+    width: 72px;
+
 
 
 }
+.floaters table{
+    color:white;
+    font-weight: bold;
+
+}
 .floaters .customLabel{
+    
 
 }
 

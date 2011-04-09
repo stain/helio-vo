@@ -19,10 +19,30 @@ function History() {
             $( ".draggable" ).click(function() {
                 window.workspace.createItem($(this).find("img").attr("src"));
             });
-             $( "#clearSystem" ).click(function() {
-                window.historyBar.clear();
+            $( "#clearSystem" ).click(function() {
+                var div =$('<div></div>');
+                div.attr('id','dialog-message');
+                div.attr('title','Reset System');
+                var message = "You are about to clear the system to a fresh state, are you sure?";
+
+                div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span></p>'+message+'');
+                $("#testdiv").append(div);
+                $('#dialog-message').dialog({
+                    modal: true,
+                    buttons: {
+				"Delete all items": function() {
+					$( this ).dialog( "close" );
+                                        window.historyBar.clear();
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+
+                });
+                
             });
-/*
+        /*
             
             $( ".draggable" ).draggable({
                 opacity:0.7,
@@ -45,6 +65,7 @@ function History() {
             if (typeof console!="undefined")console.info("History :: removeCurrent" + current);
             
             this.removeItem(current);
+            
             window.workspace.clear();
         },
 
@@ -78,7 +99,8 @@ function History() {
             
             
             array.splice(index, 1);
-            if(array.length >0)current--;
+            //if(array.length >0)current--;
+            current =-1;
             
           
             this.render();
@@ -187,11 +209,11 @@ function History() {
             }
 
             fnInitDroppable();
-             $(".floaters[title]").tooltip({
-                    position: "center right",
-                    delay: 0,
-                    predelay:500
-                });
+            $(".floaters[title]").tooltip({
+                position: "center right",
+                delay: 0,
+                predelay:500
+            });
         },
 
         shiftRight: function() {
