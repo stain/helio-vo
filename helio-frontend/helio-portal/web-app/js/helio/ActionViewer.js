@@ -211,13 +211,25 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         $('.submit_button').button({
             disabled: !$(".catalogueSelector input:checked").val()
         });
+
+        
+
          
         // setup column tooltips
         _initAdvancedParams();
         
         // format dpas selection box
         $("#instArea").selectBox('destroy');
-        $("#instArea").selectBox();
+        $("#instArea").selectBox().change( function() {
+            $('.submit_button2').button({ disabled: $(".selectBox-selected").length ==0 });
+        });
+
+        
+        $('.submit_button2').button({
+            disabled: ($(".selectBox-selected").length ==0)
+        });
+
+
         $("#currentDisplay").find("#label").val(label);
         $("#currentDisplay").find("#label").change(function() {
             window.historyBar.getCurrent().setLabel($(this).val());

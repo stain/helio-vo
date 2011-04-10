@@ -29,13 +29,13 @@
           <tr>
             <td>
 
-      <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:170px">
-        <tr>
+      <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:70px">
+        <tr id="noParams">
           <td class="row-borders" id="time-row" style="display:block">
 
             <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
-            <center> <h2>Time Selection</h2></center>
-            <table id="times-table" style="width:100%;text-align:left;">
+            <center> <h2 style="border-bottom:1px solid black">Time Selection</h2></center>
+            <table id="times-table" style="margin-top:20px;width:100%;text-align:left;">
               <tr >
                 <td>
                   Time Start:
@@ -45,20 +45,19 @@
                   Time End:
                 </td>
               </tr>
+              
             </table>
 
           </td>
         </tr>
         <tr style="border-top:1px solid black">
           <td class="row-borders" id="instrument-row" style="display:none">
-            <div style="margin-left:200px;height:40px;padding-bottom:20px "><!--input id="inst-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
-            <center><h2>Instrument Selection</h2></center>
-
+            <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="inst-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
+            <center><h2 style="border-bottom:1px solid black">Instrument Selection</h2></center>
+            <table id="instrument-table" style="margin-top:20px;width:100%;text-align:center;">
+              <tr id="noParamsInst"><td>No parameters of this type could be extracted</td></tr>
+            </table>
           </td>
-          <!--td class="row-borders" id="observatory-row" style="border-right:1px solid black">
-            <img style="margin-left:100px;height:40px;padding-bottom:20px" src="${resource(dir:'images/icons/toolbar',file:'circle_obs.png')}" />
-            <center><h2>Observatory Selection</h2></center>
-          </td-->
         </tr>
       </table>
             </td>

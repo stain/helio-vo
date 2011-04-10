@@ -84,8 +84,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $("#displayableResult").html(resultHtml);
             $("#displayableResult").css('display','block');
             $("#resultSelectionSave").remove();
+            $("#currentDisplay").find('form').append($("input[name='resultId']"));
 
-            
+            $("#resultSelectionCounter").remove();
             
             switch(serviceName){
                 case 'hec':
@@ -104,9 +105,11 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     imagePath = "../images/icons/toolbar/circle_time.png";
                     break;
                 case 'dpas':
-                    $("#time-row").css("display","none");
+                    //$("#time-row").css("display","none");
+                    $("#time-row").html("Extracting parameters from this service is disabled");
                     $("#instrument-row").css("display","none");
-                    imagePath = "../images/icons/toolbar/circle_both.png";
+                    imagePath = "../images/icons/toolbar/circle_empty.png";
+                    
                     break;
                 case 'upload':
                     $("#time-row").css("display","block");
@@ -157,7 +160,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                         '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
                 }
                 else if(time_start != null) {
-                    //$("#time-row").css("display","block");
+                    
 
                     $("#times-table").append(
                         '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
@@ -168,9 +171,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 $(".cbutton").button();
                 //if(tar_object != null ) $("#observatory-row").append("<ul>"+tar_object+"</ul>");
                 if(obsinst_key != null ){
-
+                    $("#noParamsInst").remove();
                     //$("#instrument-row").css("display","block");
-                    $("#instrument-row").append("<ul>"+obsinst_key+"</ul>");
+                    $("#instrument-table").append("<tr><td>"+obsinst_key+"</tr></td>");
                 }
             //2003-01-01T07:49:00 / 2003-01-01T07:59:00
                
@@ -261,7 +264,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
 
             //$("div:contains('resultTable')").css("text-decoration", "underline");]")
             $('.resultTable').each(function(){
-                fnFormatTable(this.id);
+                fnFormatTableNoSelection(this.id);
             });
 
             

@@ -293,13 +293,9 @@ class PrototypeController {
 
     def downloadPartialVOTable = {
 	log.info("downloadPartialVOTable =>" + params  + session)
-	if(session.result !=null){
-            JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
+        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+	if(result !=null){
 
-            VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( session.result.getStringTable() ) ));
-            ResultVT result = new ResultVT(votable);
-            
             String indexes =params.indexes;
             String[] fields = indexes.split(",");
             def rowIndexSelection = [];
@@ -334,7 +330,8 @@ class PrototypeController {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
-            name = session.serviceq +"-reduced-"+name;
+            name = ResultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-reduced-"+name;
+            
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << result.getStringTable()

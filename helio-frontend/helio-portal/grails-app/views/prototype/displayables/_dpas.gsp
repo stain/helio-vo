@@ -54,7 +54,7 @@
                       </div>
                     </td>
                     <td>
-                      <g:select id="instArea" class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" from="${dpasInstruments}" optionKey="value" optionValue="label" />
+                      <g:select id="instArea" style="display:none" class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" from="${dpasInstruments}" optionKey="value" optionValue="label" />
                     </td>
                   </tr>
                 </table>

@@ -537,7 +537,29 @@ function fnOnComplete(){
     
 
 }
+function fnFormatTableNoSelection(tableName){
+    if (typeof console!="undefined")console.info("fnFormatTable");
 
+    //Run some code here
+
+    $("#"+tableName).dataTable({
+        "bJQueryUI": true,
+        "bAutoWidth": true,
+        "bRetrieve":true,
+        "bDestroy":true,
+        "bLengthChange": true,
+        "sPaginationType": "full_numbers",
+        "sScrollX": "100%",
+        "iDisplayLength": 25,
+        "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        //"sScrollXInner": "100%",
+        "bScrollCollapse": true
+        
+
+
+    });
+
+}
 
 /*
  *Formats every datatable in the system and adds listeners to the rows to be clicked
