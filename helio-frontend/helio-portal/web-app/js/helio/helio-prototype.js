@@ -48,7 +48,7 @@ function fnOnCompleteGetColumns(){
 
 function mysubmit(){
     if (typeof console!="undefined")console.info("mysubmit");
-     // reset where field
+    // reset where field
     $("#whereField").val("");
 
     // loop over all extra parameters
@@ -68,7 +68,7 @@ function mysubmit(){
         }
         return true;
     });
- }
+}
 
 /*
  *test method to check functionality of datepicker
@@ -267,7 +267,14 @@ function fnInitDroppable(){
 
             }
             $("#instArea").selectBox('destroy');
-            $("#instArea").selectBox();
+        $("#instArea").selectBox().change( function() {
+            $('.submit_button2').button({ disabled: $(".selectBox-selected").length ==0 });
+        });
+
+
+        $('.submit_button2').button({
+            disabled: ($(".selectBox-selected").length ==0)
+        });
 
         }
     }).data('dropped_items',"");
@@ -304,6 +311,7 @@ function fnInitDroppable(){
         },
 
         drop: function( event, ui ) {
+            $(".dropInput").remove();
 
             var already_dragged = $(this).data('dropped_items');
 
@@ -363,16 +371,108 @@ function fnInitDroppable(){
                     
 
                     $(".dateTable").append(
-                        '<tr class="biggerInput" ><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
-                        '<td><input type="checkbox"/></td>'+
+                        '<tr class="biggerInput dropInput" ><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                        '<td><input type="checkbox" checked="checked"/></td>'+
                         '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+                    $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
+                    
                 }
-
-                $(".cbutton").button();
             }//i
+
+            var revertButton = $('<input style="margin-top:10px" class="custom_button dropInput" value="Revert Drop" type="button"/>');
+            revertButton.click(function(){
+                $(".dropInput").remove();
+                $(".hideDates").css('display','block');
+                $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
+                $(".resultDroppable").css('background-image','url(../images/helio/circle_time_grey.png)');
+            });
+            $(".dateTable").append(revertButton);
+            $(".custom_button").button();
+            $(".cbutton").button();
+
+
             $(".minDateList").val(minTemp);
             $(".maxDateList").val(maxTemp);
+            $(".adding").click(function(){
 
+                if (typeof console!="undefined")console.info("ResultViewer :: adding click");
+
+                var time_start = $(this).parent().children("input").val();
+
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
+
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
+                d.setMinutes(d.getMinutes()+30);
+
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+
+                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+                var fields = $(this).parent().find("input").attr("index");
+                fields = fields.split(",");
+                var i =fields[0];
+                var j =fields[1];
+
+                content[i][j]= $(this).parent().find("input").val();
+                minTemp=[];
+                maxTemp=[];
+                for ( i in content){
+                    var temp =content[i]["time_start "];
+                    if(temp != null)minTemp.push(temp);
+                    temp =content[i]["time_end "];
+                    if(temp != null)maxTemp.push(temp);
+
+                    $(".minDateList").val(minTemp);
+                    $(".maxDateList").val(maxTemp);
+                }
+
+                
+            });
+            $(".subbing").click(function(){
+
+                var time_start = $(this).parent().children("input").val();
+
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
+                d.setMinutes(d.getMinutes()-30);
+
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+
+                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+
+                var fields = $(this).parent().find("input").attr("index");
+                fields = fields.split(",");
+                var i =fields[0];
+                var j =fields[1];
+
+                content[i][j]= $(this).parent().find("input").val();
+                minTemp=[];
+                maxTemp=[];
+                for ( i in content){
+
+                    var temp =content[i]["time_start "];
+                    if(temp != null)minTemp.push(temp);
+                    temp =content[i]["time_end "];
+                    if(temp != null)maxTemp.push(temp);
+
+
+                    $(".minDateList").val(minTemp);
+                    $(".maxDateList").val(maxTemp);
+                }
+
+
+            });
 
 
         }//drop
@@ -459,28 +559,28 @@ function fnAddSelectedRow(pos,aData,oTable){
 function fnOnErrorAsynchQuery(xmlHttpRequest,textStatus,errorThrown){
     window.historyBar.render();
 
-        var stackTrace = $("#errorResponse").html();
-        if(textStatus=="timeout"){
-            stackTrace = "service took too long to answer";
-        }
-        var div =$('<div></div>');
-        div.attr('id','dialog-message');
-        div.attr('title','Error');
-        var message = "An unexpected error occured in the HELIO Front End. We apologize for the inconvenience. Please check your internet connection and try again.";
+    var stackTrace = $("#errorResponse").html();
+    if(textStatus=="timeout"){
+        stackTrace = "service took too long to answer";
+    }
+    var div =$('<div></div>');
+    div.attr('id','dialog-message');
+    div.attr('title','Error');
+    var message = "An unexpected error occured in the HELIO Front End. We apologize for the inconvenience. Please check your internet connection and try again.";
         
-        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error context</b>: <span style="color:red;" >'+stackTrace+'</span></p>');
-        $("#testdiv").append(div);
+    div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error context</b>: <span style="color:red;" >'+stackTrace+'</span></p>');
+    $("#testdiv").append(div);
 
 
-        $('#dialog-message').dialog({
+    $('#dialog-message').dialog({
 
-            modal: true,
-            buttons: {
-                Ok: function() {
-                    $( this ).dialog( "close" );
-                }
+        modal: true,
+        buttons: {
+            Ok: function() {
+                $( this ).dialog( "close" );
             }
-        });
+        }
+    });
 
 
 

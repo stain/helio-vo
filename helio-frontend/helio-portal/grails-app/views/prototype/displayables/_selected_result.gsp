@@ -41,7 +41,7 @@
                   Time Start:
                 </td>
                 <td></td>
-                <td>
+                <td id="singleTimeRemove">
                   Time End:
                 </td>
               </tr>

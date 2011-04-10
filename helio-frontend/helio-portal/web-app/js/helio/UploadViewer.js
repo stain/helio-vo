@@ -5,7 +5,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = "label";
+    var label = "";
     var resulthtml;
     var prevData;
     var printKey;

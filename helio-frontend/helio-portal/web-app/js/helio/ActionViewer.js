@@ -6,7 +6,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
     var type = typeParam;
     var content;
     var imagePath = imageParam;
-    var label = "label";
+    var label = "";
     var advancedSearch;
     var prevData;
     var step =0;

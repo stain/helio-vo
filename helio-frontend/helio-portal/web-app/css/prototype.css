@@ -417,6 +417,7 @@ html{
 }
 .resultDroppable{
     background-image:url(../images/helio/circle_time_grey.png);
+    
     background-repeat: no-repeat;
     background-position: 12px 12px;
 }

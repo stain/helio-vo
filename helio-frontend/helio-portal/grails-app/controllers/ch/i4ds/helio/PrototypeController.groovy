@@ -155,7 +155,11 @@ class PrototypeController {
 
             render template:'templates/response', bean:responseObject, var:'responseObject'
         }catch(Exception e){
-            e.printStackTrace();
+            println e.printStackTrace();
+
+            def responseObject = [error:e.getMessage() ];
+            render template:'templates/response', bean:responseObject, var:'responseObject'
+
 
                         
         }

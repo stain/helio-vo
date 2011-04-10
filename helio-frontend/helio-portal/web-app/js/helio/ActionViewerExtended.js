@@ -6,7 +6,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
     var type = typeParam;
     var content;
     var imagePath = imageParam;
-    var label = "label";
+    var label = "";
     var advancedSearch;
     var prevData;
     var step =0;
@@ -514,6 +514,34 @@ function _populateWhereClause() {
  * Called after submitting the HecQuery
  */
 function afterHecQuery(event) {
+
+    if($("#errorResponse").length != 0){
+        window.historyBar.render();
+
+
+        var div =$('<div></div>');
+        div.attr('id','dialog-message');
+        div.attr('title','Error');
+        var message = "An unexpected error occured in the HELIO Front End. We apologize for the inconvenience. Please check your internet connection and try again.";
+        var stackTrace = $("#errorResponse").html();
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p><br><p><b>Error context</b>: <span style="color:red" >'+stackTrace+'</span></p>');
+        $("#testdiv").append(div);
+
+
+        $('#dialog-message').dialog({
+
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+
+        $("#errorResponse").remove();
+
+        return;
+    }
     var element = window.historyBar.getCurrent();
     element.addStep($('#responseDivision').html());
     window.historyBar.render();

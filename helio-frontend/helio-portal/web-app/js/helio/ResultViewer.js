@@ -9,7 +9,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
     var type = typeParam;
     var content = contentParam;
     var imagePath = imageParam;
-    var label = "label";
+    var label = "";
     var indexes = indexesParam;
     var resulthtml;
     var prevData;
@@ -160,12 +160,10 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                         '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
                 }
                 else if(time_start != null) {
-                    
+                    $("#singleTimeRemove").remove();
 
                     $("#times-table").append(
-                        '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
-                        '<td><!--input type="checkbox"/--></td>'+
-                        '<td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
+                        '<tr><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
                 }
                 
                 $(".cbutton").button();
