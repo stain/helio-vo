@@ -100,9 +100,9 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     imagePath = "../images/icons/toolbar/circle_inst.png";
                     break;
                 case 'ils':
-                    $("#time-row").css("display","block");
+                    $("#time-row").html("Extracting parameters from this service is disabled");
                     $("#instrument-row").css("display","none");
-                    imagePath = "../images/icons/toolbar/circle_time.png";
+                    imagePath = "../images/icons/toolbar/circle_empty.png";
                     break;
                 case 'dpas':
                     //$("#time-row").css("display","none");

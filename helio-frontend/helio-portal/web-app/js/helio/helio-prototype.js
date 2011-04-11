@@ -232,7 +232,14 @@ function fnInitDroppable(){
                 var temp =content[i]["obsinst_key "];
                 if(temp != null)flag =true;
             }
+            
+            
 
+            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_inst.png"){
+                
+                $(this).droppable("disable") ;
+                
+            }
             if(!flag)$(this).droppable("disable");
         },
         drop: function( event, ui ) {
@@ -266,15 +273,36 @@ function fnInitDroppable(){
 
 
             }
+            $(".resultDroppable2").css('background-image','url(../images/icons/toolbar/circle_inst.png)');
             $("#instArea").selectBox('destroy');
-        $("#instArea").selectBox().change( function() {
-            $('.submit_button2').button({ disabled: $(".selectBox-selected").length ==0 });
-        });
+            $("#instArea").selectBox().change( function() {
+                $('.submit_button2').button({
+                    disabled: $(".selectBox-selected").length ==0
+                });
+            });
 
 
-        $('.submit_button2').button({
-            disabled: ($(".selectBox-selected").length ==0)
-        });
+            $('.submit_button2').button({
+                disabled: ($(".selectBox-selected").length ==0)
+            });
+            var revertButton = $('<input style="margin-top:10px" class="custom_button dropInput2" value="Revert Drop" type="button"/>');
+            revertButton.click(function(){
+                $(".dropInput2").remove();
+                $("#instArea").html($("#droppable-inner").data("content"));
+                $("#instArea").selectBox('destroy');
+                $("#instArea").selectBox().change( function() {
+                    $('.submit_button2').button({
+                        disabled: $(".selectBox-selected").length ==0
+                    });
+                });
+                $('.submit_button2').button({
+                    disabled: ($(".selectBox-selected").length ==0)
+                });
+
+                $(".resultDroppable2").css('background-image','url(../images/helio/circle_inst_grey.png)');
+            });
+            $("#instArea").parent().parent().append(revertButton);
+            $(".custom_button").button();
 
         }
     }).data('dropped_items',"");
@@ -294,62 +322,44 @@ function fnInitDroppable(){
             var flag = false;
             for ( i in content){
                 var start = content[i]["time_start "];
-                var end = content[i]["time_end "];
-                if(start != null&& end != null)flag =true;
+                
+                if(start != null)flag =true;
+            }
+            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_time.png"){
+
+                $(this).droppable("disable") ;
+
             }
 
             if(!flag)$(this).droppable("disable");
+            $(".tooltip").css("display","none");
         },
 
         out: function(event,ui) {
-            ui.draggable.data('returnMe',true);
-            ui.draggable.data('dropBox',this);
+           // ui.draggable.data('returnMe',true);
+           // ui.draggable.data('dropBox',this);
             
 
-
+            $(".tooltip").css("display","none");
 
         },
 
         drop: function( event, ui ) {
             $(".dropInput").remove();
-
-            var already_dragged = $(this).data('dropped_items');
-
-            if(already_dragged == ""){
-
-                $(this).data('dropped_items',ui.draggable);
-            } else {
-
-                if(already_dragged != ui.draggable)
-                    $( already_dragged).animate({
-                        "left": $(already_dragged).data("Left"),
-                        "top": $( already_dragged).data("Top")
-                    }, "slow",function(){
-
-                        });
-                $(this).data('dropped_items',ui.draggable);
-
-            }
-
-
-
-
-
-
             $(".hideDates").css("display","none");
             $( this ).addClass( "ui-state-highlight" );
             var item=window.historyBar.getItem(ui.draggable.attr("id"));
             var content =item.getContent();
-            $(".minDateList").val("");
-            $(".maxDateList").val("");
-            //$(".TextAreas").css("display","block");
-            var maxTemp = [];
-            var minTemp = [];
+            //$(".minDateList").val("");
+            //$(".maxDateList").val("");
+            
+            //var maxTemp = [];
+            //var minTemp = [];
             for ( i in content){
-                var temp =content[i]["time_start "];
-                if(temp != null)minTemp.push(temp);
-                temp =content[i]["time_end "];
-                if(temp != null)maxTemp.push(temp);
+                //  var temp =content[i]["time_start "];
+                //  if(temp != null)minTemp.push(temp);
+                //  temp =content[i]["time_end "];
+                //  if(temp != null)maxTemp.push(temp);
             
 
                 var carry =$("<div id='carry'></div>");
@@ -371,11 +381,22 @@ function fnInitDroppable(){
                     
 
                     $(".dateTable").append(
-                        '<tr class="biggerInput dropInput" ><td><input type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
-                        '<td><input type="checkbox" checked="checked"/></td>'+
-                        '<td><input type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+                        '<tr class="biggerInput dropInput">'+
+                        '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                        '<td><!--input type="checkbox" checked="checked"/--></td>'+
+                        '<td><input name="maxDateList" type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
                     $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
                     
+                }else if(time_start != null) {
+
+                
+                    $(".dateTable").append(
+                        '<tr class="biggerInput dropInput">'+
+                        '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                        '<td><!--input type="checkbox" checked="checked"/--></td>'+
+                        '<td><input name="maxDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+                    $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
+
                 }
             }//i
 
@@ -391,8 +412,8 @@ function fnInitDroppable(){
             $(".cbutton").button();
 
 
-            $(".minDateList").val(minTemp);
-            $(".maxDateList").val(maxTemp);
+            //$(".minDateList").val(minTemp);
+            //$(".maxDateList").val(maxTemp);
             $(".adding").click(function(){
 
                 if (typeof console!="undefined")console.info("ResultViewer :: adding click");
@@ -418,18 +439,18 @@ function fnInitDroppable(){
                 var i =fields[0];
                 var j =fields[1];
 
-                content[i][j]= $(this).parent().find("input").val();
-                minTemp=[];
-                maxTemp=[];
+                //content[i][j]= $(this).parent().find("input").val();
+                //minTemp=[];
+                //maxTemp=[];
                 for ( i in content){
-                    var temp =content[i]["time_start "];
-                    if(temp != null)minTemp.push(temp);
-                    temp =content[i]["time_end "];
-                    if(temp != null)maxTemp.push(temp);
+                    //  var temp =content[i]["time_start "];
+                    //if(temp != null)minTemp.push(temp);
+                    //temp =content[i]["time_end "];
+                    // if(temp != null)maxTemp.push(temp);
 
-                    $(".minDateList").val(minTemp);
-                    $(".maxDateList").val(maxTemp);
-                }
+                    //      $(".minDateList").val(minTemp);
+                    //    $(".maxDateList").val(maxTemp);
+                    }
 
                 
             });
@@ -456,25 +477,25 @@ function fnInitDroppable(){
                 var i =fields[0];
                 var j =fields[1];
 
-                content[i][j]= $(this).parent().find("input").val();
-                minTemp=[];
-                maxTemp=[];
+                //content[i][j]= $(this).parent().find("input").val();
+                //minTemp=[];
+                //maxTemp=[];
                 for ( i in content){
 
-                    var temp =content[i]["time_start "];
-                    if(temp != null)minTemp.push(temp);
-                    temp =content[i]["time_end "];
-                    if(temp != null)maxTemp.push(temp);
+                    //var temp =content[i]["time_start "];
+                    //if(temp != null)minTemp.push(temp);
+                    //temp =content[i]["time_end "];
+                    //if(temp != null)maxTemp.push(temp);
 
 
-                    $(".minDateList").val(minTemp);
-                    $(".maxDateList").val(maxTemp);
-                }
+                    //$(".minDateList").val(minTemp);
+                    //$(".maxDateList").val(maxTemp);
+                    }
 
 
             });
 
-
+            $(".tooltip").css("display","none");
         }//drop
     }).data('dropped_items',"");
 
@@ -885,10 +906,10 @@ $(document).ready(function()
     //window.maxDate="2003-01-03";
     //window.minDate="2003-01-01";
     $("#section-navigation img[title]").tooltip({
-        position: "top center",
-        delay: 100,
-        predelay:500
-    });
+                position: "bottom right",
+                delay: 0,
+                predelay:0
+            });
    
     window.onbeforeunload = function () {
         return "Leaving this site will clear all your browsing history";

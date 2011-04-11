@@ -142,7 +142,7 @@ function Workspace() {
             $("#currentDisplay").remove();
             $(".displayable").css("display","none");
             $(".resCont").remove();
-            $(".tooltip").remove();
+            $(".tooltip").css("display","none");
             
     }
 };

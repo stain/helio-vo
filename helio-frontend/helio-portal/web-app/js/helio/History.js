@@ -30,14 +30,14 @@ function History() {
                 $('#dialog-message').dialog({
                     modal: true,
                     buttons: {
-				"Delete all items": function() {
-					$( this ).dialog( "close" );
-                                        window.historyBar.clear();
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
+                        "Delete all items": function() {
+                            $( this ).dialog( "close" );
+                            window.historyBar.clear();
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
 
                 });
                 
@@ -214,6 +214,7 @@ function History() {
                 delay: 0,
                 predelay:500
             });
+            
         },
 
         shiftRight: function() {

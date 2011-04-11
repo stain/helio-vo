@@ -121,9 +121,11 @@ class PrototypeController {
             ArrayList<String> endTime= new ArrayList<String>();
 		
             // use ingested parameter list
-            if(params.maxDateList.trim() != "" && params.minDateList.trim() != "") {
-                startTime = [params.minDateList.split(",")].flatten();
-                endTime = [params.maxDateList.split(",")].flatten();
+            if(params.maxDateList != null && params.minDateList != null) {
+                //startTime = [params.minDateList.split(",")].flatten();
+                startTime = [params.minDateList].flatten();
+                endTime = [params.maxDateList].flatten();
+                //endTime = [params.maxDateList.split(",")].flatten();
             } else 	{
                 // use user specified date range, if provided
                 if(params.maxDate == null) {
@@ -253,10 +255,11 @@ class PrototypeController {
 	ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
 	ArrayList<String> minDateList= new ArrayList<String>();
 
-	if(params.maxDateList.trim() != "" && params.minDateList.trim() != "")
-	{
-            maxDateList = [params.maxDateList.split(",")].flatten();
-            minDateList = [params.minDateList.split(",")].flatten();
+	 if(params.maxDateList != null && params.minDateList != null) {
+                //startTime = [params.minDateList.split(",")].flatten();
+                minDateList = [params.minDateList].flatten();
+                maxDateList = [params.maxDateList].flatten();
+                //endTime = [params.maxDateList.split(",")].flatten();
 
 	}else
 	{

@@ -29,20 +29,7 @@
             <input type="text" name="maxTime" id="maxTime" value="00:00" />
           </td>
         </tr>
-        <tr class="TextAreas" style="display:none">
-          <td>
-            <label style="text-align:right" for="minDate">From</label>
-          </td>
-          <td>
-            <textarea  class="minDateList" name="minDateList"> </textarea>
-          </td>
-          <td>
-            <label style="margin-right:20px" for="maxDate">To :</label>
-          </td>
-          <td>
-            <textarea  class="maxDateList" name="maxDateList"> </textarea>
-          </td>
-        </tr>
+        
       </table>
     </td>
   </tr>

@@ -9,22 +9,22 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>HELIO FrontEnd</title>
 
-<link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
+    <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
-    
+
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
     <link rel="stylesheet" href="${resource(dir:'css',file:'jquery.selectBox.css')}" />
-    
+
 
 
 
 
   <g:javascript library="jquery" plugin="jquery"/>
   <g:javascript src="jquery-ui-1.8.11.custom.min.js"/>
-  
+
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
   <g:javascript src="/helio/ActionViewer.js"/>
@@ -89,21 +89,21 @@
 
 
       <!-- ToolBar -->
-      
+
       <div style="display:block;clear:both" id="section-navigation">
         <div class="draggable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar',file:'hec_extended.png')}" alt="HELIO Event Catalog" /></div>
           <!--div class="draggable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" alt="HELIO Event Catalog" /></div-->
-          <div class="draggable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="Instrument Capabilties Service" /></div>
-          <div class="draggable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="Instrument Location Service" /></div>
-          <div class="draggable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="Data Provide Access Service" /></div>
-          <div class="draggable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="Upload a VOTable" /></div>
-          
-          <div id="clearSystem" style="float:right"><img title="Reset System" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Reset System" /></div>
+        <div class="draggable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="Instrument Capabilties Service" /></div>
+        <div class="draggable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="Instrument Location Service" /></div>
+        <div class="draggable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="Data Provide Access Service" /></div>
+        <div class="draggable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="Upload a VOTable" /></div>
+
+        <div id="clearSystem" style="float:right"><img title="Reset System" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Reset System" /></div>
       </div>
-      
+
       <div style="color:white">Helio</div>
 
-       <!-- History  -->
+      <!-- History  -->
       <div style="display:block;" id="history">
         <!--div><img id="scroller_left" style="float:left;display:inline;" height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div-->
         <div id="historyContent"></div>
@@ -114,13 +114,13 @@
 
 
       </div> <!-- History -->
-      
+
 
       <!-- Content -->
       <div style="display:block;" id="content">
         <!-- 1st level droppable -->
         <div style="border:none" id="droppable-inner" >
-           <g:render template="templates/displayable_content" />
+          <g:render template="templates/displayable_content" />
         </div>
       </div>
 
