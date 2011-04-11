@@ -5,6 +5,7 @@
 
 
 }
+
 .inputError{
     border:1px solid red;
 }
@@ -181,6 +182,8 @@ html{
 #history #historyContent img{
     width:35px;
     height:35px;
+        cursor: move;
+
 
 
 

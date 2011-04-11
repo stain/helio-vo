@@ -243,6 +243,7 @@ function fnInitDroppable(){
             if(!flag)$(this).droppable("disable");
         },
         drop: function( event, ui ) {
+            $(".dropInput2").remove();
             var already_dragged = $(this).data('dropped_items');
             if(already_dragged == ""){
                 $(this).data('dropped_items',ui.draggable);
@@ -388,7 +389,6 @@ function fnInitDroppable(){
                     $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
                     
                 }else if(time_start != null) {
-
                 
                     $(".dateTable").append(
                         '<tr class="biggerInput dropInput">'+
@@ -396,14 +396,13 @@ function fnInitDroppable(){
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
                         '<td><input name="maxDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
                     $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
-
                 }
             }//i
 
             var revertButton = $('<input style="margin-top:10px" class="custom_button dropInput" value="Revert Drop" type="button"/>');
             revertButton.click(function(){
                 $(".dropInput").remove();
-                $(".hideDates").css('display','block');
+                $(".hideDates").css('display','inherit');
                 $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
                 $(".resultDroppable").css('background-image','url(../images/helio/circle_time_grey.png)');
             });
@@ -644,13 +643,16 @@ function fnOnComplete(){
         return;
     }
     //var tooltipContent =  $("#previousQuery").text();
+    
     var element = window.historyBar.getCurrent();
     
     element.addStep($('#responseDivision').html());
 
     window.historyBar.render();
     //window.workspace.setElement(element);
-
+    
+     var rowpos = $('#displayableResult').position();
+    $('html,body').scrollTop(rowpos.top);
     $('#responseDivision').html();
 //$("#responseDivision").html("");
 //var totalSize = $("#totalSize").val();

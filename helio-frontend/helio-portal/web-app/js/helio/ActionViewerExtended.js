@@ -28,15 +28,15 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
         // setup tooltips
         $(".hecColLabelTooltipMe").each(function() {
-        	var me = this;
-        	$(this).tooltip({
+            var me = this;
+            $(this).tooltip({
                 position: "center right",
                 tipClass: 'ctooltip_' + this.id.substring(6),
                 delay: 0,
                 predelay:0,
                 relative: true
             });
-		});
+        });
         
     };
     
@@ -139,7 +139,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
         // setup tooltips
         $(".hecLabelTooltipMe").each(function() {
-        	$(this).tooltip({
+            $(this).tooltip({
                 position: "center right",
                 tipClass: 'hecLabelTooltip',
                 delay: 0,
@@ -184,7 +184,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         });
 
         
-        /*
+    /*
            $("#resultSelectionSelectAll").click(function(){
             
             var tableId =$(this).attr('reference');
@@ -385,7 +385,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         render: function(key,current) {
             if (typeof console!="undefined")console.info("ActionViewerExtended :: render ->"+ key +" current "+current);
 
-           if(history.length <= 0){
+            if(history.length <= 0){
 
                 var title ="Element contains no data";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
