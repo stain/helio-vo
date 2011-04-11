@@ -26,6 +26,13 @@
     	<type>pom</type>
     	<scope>provided</scope>
     </dependency>
+    <dependency>
+    	<groupId>eu.heliovo</groupId>
+    	<artifactId>helio-clientapi</artifactId>
+    	<version>0.4-SNAPSHOT</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
     <finalName>helio-idlclient-provider</finalName>

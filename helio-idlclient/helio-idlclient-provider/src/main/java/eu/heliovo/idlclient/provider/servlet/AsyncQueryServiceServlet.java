@@ -2,12 +2,9 @@ package eu.heliovo.idlclient.provider.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.logging.LogRecord;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
