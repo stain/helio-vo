@@ -235,8 +235,8 @@ function fnInitDroppable(){
             
             
 
-            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_inst.png"){
-                
+            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_inst.png" ){
+                if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_both.png")
                 $(this).droppable("disable") ;
                 
             }
@@ -326,8 +326,8 @@ function fnInitDroppable(){
                 
                 if(start != null)flag =true;
             }
-            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_time.png"){
-
+            if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_time.png" ){
+                if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_both.png")
                 $(this).droppable("disable") ;
 
             }
@@ -403,6 +403,7 @@ function fnInitDroppable(){
             revertButton.click(function(){
                 $(".dropInput").remove();
                 $(".hideDates").css('display','inherit');
+
                 $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
                 $(".resultDroppable").css('background-image','url(../images/helio/circle_time_grey.png)');
             });
