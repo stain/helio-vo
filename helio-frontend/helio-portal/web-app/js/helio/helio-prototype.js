@@ -851,7 +851,8 @@ function fnInitSave(){
  */
 function myPopup(url,windowname,w,h,x,y){
     if (typeof console!="undefined")console.info("myPopup");
-    window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+    mywin = window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+    mywin.focus();
 }
 /*
  * clears the current selection of the catalogue selectors in the actions
