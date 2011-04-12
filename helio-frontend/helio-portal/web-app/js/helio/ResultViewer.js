@@ -341,7 +341,7 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                     if($(this).data('returnMe')){
                         var dropBox =$(this).data('dropBox');
 
-                        fnclearDateTexts2();
+                        //fnclearDateTexts2();
 
                         $("#instArea").html($("#droppable-inner").data("content"));
                         $(dropBox).removeClass("ui-state-active");

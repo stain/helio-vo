@@ -201,7 +201,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             //resetForm: true        // reset the form after successful submit
 
             // $.ajax options can be used here too, for example:
-            timeout:   50000
+            timeout:   100000
         };
 
         // bind form using 'ajaxForm'
@@ -221,7 +221,9 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         // format dpas selection box
         $("#instArea").selectBox('destroy');
         $("#instArea").selectBox().change( function() {
-            $('.submit_button2').button({ disabled: $(".selectBox-selected").length ==0 });
+            $('.submit_button2').button({
+                disabled: $(".selectBox-selected").length ==0
+            });
         });
 
         
@@ -291,22 +293,32 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
         //$('#currentDisplay').find('.columnInputs').css("display","block"); // remove
         //$("#currentDisplay").find("select").find("option").removeAttr("selected"); // remove
         var fields = formData.split("&");
+        var minDateList =new Array();
+        var maxDateList =new Array();
         for(field in fields){
             var tempField= fields[field];
 
             if(tempField.indexOf("minDateList=")!= -1){
                 tempField =tempField.replace('minDateList=',"");
                 tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%3A',":");
                 tempField =tempField.replace('%2C',",");
                 tempField =tempField.replace('+',"");
-                $(".minDateList").val(tempField);
+                //$(".minDateList").val(tempField);
+                minDateList.push(tempField);
+                
+                
+
             }//end if
             else if(tempField.indexOf("maxDateList=")!= -1){
                 tempField =tempField.replace('maxDateList=',"");
                 tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%3A',":");
                 tempField =tempField.replace('%2C',",");
                 tempField =tempField.replace('+',"");
-                $(".maxDateList").val(tempField);
+                //$(".maxDateList").val(tempField);
+                maxDateList.push(tempField);
+               
             }//end if
             else if(tempField.indexOf("minTime=")!= -1){
                 tempField =tempField.replace('minTime=',"");
@@ -340,11 +352,14 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 tempField =tempField.replace('where=',"");
                 tempField =tempField.replace(/%5C/g,"\\");
                 tempField =tempField.replace(/%2F/g,"/");
-
+                tempField =tempField.replace(/%3B/g,";");
+                tempField =tempField.replace(/%2C/g,",");
+                
                 tempField =tempField.split("%3B");
+                
                 for(input in tempField){
                     
-                    var innerTempField = tempField[input].split("%2C");
+                    var innerTempField = tempField[input].split(";");
                     var value = innerTempField[1];
                     innerTempField = innerTempField[0];
                     
@@ -357,6 +372,20 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             }//end if
         }//end fields
         
+        
+        if(maxDateList != null && maxDateList.length>0) for(var i = 0; i< maxDateList.length;i++){
+            
+            $(".hideDates").css("display","none");
+            $(".dateTable").append(
+                '<tr class="biggerInput dropInput">'+
+                '<td><input name="minDateList" type="text" value="'+ minDateList[i]+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                '<td><!--input type="checkbox" checked="checked"/--></td>'+
+                '<td><input name="maxDateList" type="text" value="'+ maxDateList[i]+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+            $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
+        }//end for i
+
+
+        $(".cbutton").button();
     };//end unserialized
 
     return {
