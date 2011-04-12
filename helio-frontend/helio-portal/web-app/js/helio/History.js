@@ -209,7 +209,7 @@ function History() {
             }
 
             fnInitDroppable();
-            $(".floaters[title]").tooltip({
+            $(".floadters[title]").tooltip({
                 position: "center right",
                 delay: 0,
                 predelay:500

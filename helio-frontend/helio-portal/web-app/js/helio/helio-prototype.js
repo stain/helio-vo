@@ -383,9 +383,9 @@ function fnInitDroppable(){
 
                     $(".dateTable").append(
                         '<tr class="biggerInput dropInput">'+
-                        '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
+                        '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
-                        '<td><input name="maxDateList" type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
+                        '<td><input name="maxDateList" type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
                     $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
                     
                 }else if(time_start != null) {
@@ -920,3 +920,43 @@ $(document).ready(function()
     };
 });
 
+function addingButton(){
+     $(".adding").click(function(){
+
+                var time_start = $(this).parent().children("input").val();
+
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
+
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
+                d.setMinutes(d.getMinutes()+30);
+
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+
+                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+            });
+}
+function subbingButton(){
+
+                var time_start = $(this).parent().children("input").val();
+
+                var fields = time_start.split("T");
+                var first = fields[0].split("-");
+                var second = fields[1].split(":");
+                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
+                d.setMinutes(d.getMinutes()-30);
+
+                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
+                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+
+                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+
+            }

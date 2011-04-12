@@ -215,22 +215,26 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
         $('#currentDisplay').find('#hecExtendedQueryContent').html(advancedSearchParam);
 
         var fields = formData.split("&");
+        var minDateList =new Array();
+        var maxDateList =new Array();
         for(field in fields){
             var tempField= fields[field];
 
             if(tempField.indexOf("minDateList=")!= -1){
                 tempField =tempField.replace('minDateList=',"");
                 tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%3A',":");
                 tempField =tempField.replace('%2C',",");
                 tempField =tempField.replace('+',"");
-                $(".minDateList").val(tempField);
+                minDateList.push(tempField);
             }//end if
             else if(tempField.indexOf("maxDateList=")!= -1){
                 tempField =tempField.replace('maxDateList=',"");
                 tempField =tempField.replace('%3A',":");
+                tempField =tempField.replace('%3A',":");
                 tempField =tempField.replace('%2C',",");
                 tempField =tempField.replace('+',"");
-                $(".maxDateList").val(tempField);
+                maxDateList.push(tempField);
             }//end if
             else if(tempField.indexOf("minTime=")!= -1){
                 tempField =tempField.replace('minTime=',"");
@@ -273,7 +277,20 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 }//end input
             }//end if
         }//end fields
+if(maxDateList != null && maxDateList.length>0) for(var i = 0; i< maxDateList.length;i++){
 
+            $(".hideDates").css("display","none");
+            $(".dateTable").append(
+                '<tr class="biggerInput dropInput">'+
+                '<td><input name="minDateList" type="text" value="'+ minDateList[i]+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
+                '<td><!--input type="checkbox" checked="checked"/--></td>'+
+                '<td><input name="maxDateList" type="text" value="'+ maxDateList[i]+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
+            $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
+        }//end for i
+        $(".subbing").click(subbingButton);
+        $(".adding").click(addingButton);
+
+        $(".cbutton").button();
     };//end unserialized
 
     return {
@@ -387,7 +404,8 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
 
             if(history.length <= 0){
 
-                var title ="Element contains no data";
+                //var title ="Element contains no data";
+                var title ="";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
                 var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                 var tr =$("<tr></tr>");
@@ -409,7 +427,9 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
-                var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+
+                //var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+                var title ="";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
                 var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                 var tr =$("<tr></tr>");
@@ -433,7 +453,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                         pageDiv.click(function(){
 
                             step = parseInt($(this).attr('id'),10);
-                            $('#currentDisplay').fadeOut(500, function(){
+                            $('#currentDisplay').fadeOut(300, function(){
                                 window.historyBar.cleanGhost();
                                 window.historyBar.setFocus(key);
                             //window.historyBar.render();
@@ -450,7 +470,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                     div.click(function() {
                         if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
 
-                        $('#currentDisplay').fadeOut(500, function(){
+                        $('#currentDisplay').fadeOut(300, function(){
                             window.historyBar.cleanGhost();
                             window.historyBar.setFocus(key);
                         //window.historyBar.render();

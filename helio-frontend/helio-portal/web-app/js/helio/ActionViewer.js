@@ -201,7 +201,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
             //resetForm: true        // reset the form after successful submit
 
             // $.ajax options can be used here too, for example:
-            timeout:   100000
+            timeout:   50000
         };
 
         // bind form using 'ajaxForm'
@@ -348,18 +348,15 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#currentDisplay").find("input[value='"+tempField+"']").attr("checked","checked");
 
             }else if(tempField.indexOf("where=")!= -1){
-
+            
                 tempField =tempField.replace('where=',"");
                 tempField =tempField.replace(/%5C/g,"\\");
                 tempField =tempField.replace(/%2F/g,"/");
-                tempField =tempField.replace(/%3B/g,";");
-                tempField =tempField.replace(/%2C/g,",");
-                
+
                 tempField =tempField.split("%3B");
-                
                 for(input in tempField){
                     
-                    var innerTempField = tempField[input].split(";");
+                    var innerTempField = tempField[input].split("%2C");
                     var value = innerTempField[1];
                     innerTempField = innerTempField[0];
                     
@@ -383,7 +380,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 '<td><input name="maxDateList" type="text" value="'+ maxDateList[i]+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
             $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
         }//end for i
-
+        $(".subbing").click(subbingButton);
+        $(".adding").click(addingButton);
 
         $(".cbutton").button();
     };//end unserialized
@@ -501,7 +499,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
 
             if(history.length <= 0){
 
-                var title ="Element contains no data";
+                //var title ="Element contains no data";
+                var title ="";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
                 var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                 var tr =$("<tr></tr>");
@@ -523,7 +522,8 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                 $("#historyContent").append(div);
                 type="ghost";
             }else{
-                var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+                //var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
+                var title ="";
                 var div = $("<div  title='"+title+"' class='floaters'></div>");
                 var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                 var tr =$("<tr></tr>");
@@ -547,7 +547,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                         pageDiv.click(function(){
 
                             step = parseInt($(this).attr('id'),10);
-                            $('#currentDisplay').fadeOut(500, function(){
+                            $('#currentDisplay').fadeOut(300, function(){
                                 window.historyBar.cleanGhost();
                                 window.historyBar.setFocus(key);
                             //window.historyBar.render();
@@ -564,7 +564,7 @@ function ActionViewer(imageParam,typeParam,actionNameParam,labelParam,serviceNam
                     div.click(function() {
                         if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
 
-                        $('#currentDisplay').fadeOut(500, function(){
+                        $('#currentDisplay').fadeOut(300, function(){
                             window.historyBar.cleanGhost();
                             window.historyBar.setFocus(key);
                         //window.historyBar.render();
