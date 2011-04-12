@@ -137,12 +137,13 @@
 	<modules>
 		<module>helio-shared</module>
 		<module>helio-queryservice</module>
-		<module>helio-monitoring</module>
+		<!--  >module>helio-monitoring</module-->
 		<module>helio-dpas</module>
 		<module>helio-sms</module>
 		<module>helio-client</module>
 		<module>helio-registryclient</module>
 		<module>helio-frontend</module>
+		<module>helio-idlclient</module>
 	</modules>
 
 	<scm>
