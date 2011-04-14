@@ -29,6 +29,7 @@ public class PointsStarTable  extends RandomStarTable {
     String inst;
     String provider_ins;
     String[] dataSetIdArray;
+    String detective_feild;
     SimpleDateFormat formatter = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
     /**
      * 
@@ -37,12 +38,14 @@ public class PointsStarTable  extends RandomStarTable {
      * @param provider
      * @param status
      */
-    public PointsStarTable( FileDescription[] resp ,String helio_instrument,String instrument,String[] dataSetIdArray) {
+    public PointsStarTable( FileDescription[] resp ,String helio_instrument,String instrument,String[] dataSetIdArray,String detective) {
     	this.resp_=resp;
     	this.nRow_=(int) resp.length;
     	this.inst=helio_instrument;
     	this.provider_ins=instrument;
     	this.dataSetIdArray=dataSetIdArray;
+    	//
+    	detective_feild=detective;
     	//Start date 
     	colStartDate.setAuxDatum( new DescribedValue( VOStarTable.XTYPE_INFO,"iso8601"));
     	//End date
@@ -65,6 +68,7 @@ public class PointsStarTable  extends RandomStarTable {
     public Object getCell( long lrow, int icol ) {
         int irow = checkedLongToInt( lrow );
         if(resp_!=null && resp_[irow]!=null){
+        	System.out.println(" ++++++++++++++++ Dective Filed ++++++++++++++++"+detective_feild);
 	        switch ( icol ) {
 	        	case 0: return inst;
 	        	case 1:return dataSetIdArray[irow];
