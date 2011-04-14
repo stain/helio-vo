@@ -20,6 +20,7 @@ public class ResultTO {
 	private String ftpPwd;
 	private String ftpPattern;
 	private String ftpDatePattern;
+	private String detectiveField;
 	
 	public String getHelioInst() {
 		return helioInst;
@@ -130,5 +131,12 @@ public class ResultTO {
 	public void setFtpDatePattern(String ftpDatePattern) {
 		this.ftpDatePattern = ftpDatePattern;
 	}
+	public String getDetectiveField() {
+		return detectiveField;
+	}
+	public void setDetectiveField(String detectiveField) {
+		this.detectiveField = detectiveField;
+	}
 		
+	
 }

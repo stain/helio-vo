@@ -139,6 +139,8 @@ public class CommonUtils {
 	    	 System.out.println(" : Instrument : "+resultTo[0].getProviderType());
 	    	 commonTO.setMissionName(resultTo[0].getObsId());
 	    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
+	    	 //Detector Field
+	    	 commonTO.setDetectiveField(resultTo[0].getDetectiveField());
 		     //Calling DAO factory to connect PROVIDERS
 		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 		    	 System.out.println("--->  VSO Provider intiated--->");

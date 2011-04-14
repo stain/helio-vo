@@ -205,6 +205,9 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 					//Vso Int id
 					if(rs.getString(10)!=null)
 						resultTO[count].setPvdrVsoKey(rs.getString(10));
+					//Detector Id
+					if(rs.getString(17)!=null)
+						resultTO[count].setDetectiveField(rs.getString(17));
 					//
 					count++;
                 }

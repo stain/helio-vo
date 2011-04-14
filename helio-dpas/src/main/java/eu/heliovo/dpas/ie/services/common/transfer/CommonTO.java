@@ -55,7 +55,7 @@ public class CommonTO {
 	private String ftpDateFileName;
 	private String providerType;
 	private String longrunningRequestStatus;
-	
+	private String detectiveField;
 	
 	public String getFtpHost() {
 		return ftpHost;
@@ -416,5 +416,14 @@ public class CommonTO {
 
 	public void setLongrunningRequestStatus(String longrunningRequestStatus) {
 		this.longrunningRequestStatus = longrunningRequestStatus;
+	}
+
+	public String getDetectiveField() {
+		return detectiveField;
+	}
+
+	public void setDetectiveField(String detectiveField) {
+		this.detectiveField = detectiveField;
 	}	
+	
 }
