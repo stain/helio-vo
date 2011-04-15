@@ -2,11 +2,16 @@ package eu.heliovo.idlclient.provider.serialize;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
+/**
+ * Utility to convert
+ * @author Matthias Meyer at fhnw ch
+ * @author Marco Soldati at fhnw ch
+ *
+ */
 public class IdlConverter {
 	
 	/**
@@ -77,7 +82,7 @@ public class IdlConverter {
 			else if(pairs.getValue() instanceof String)
 			{
 				//add key and value with idl syntax to output (key:'value', )
-				output.append(pairs.getKey() + ":'" + pairs.getValue() + "', ");
+				output.append(pairs.getKey() + ":'" + escapeQuotes((String)pairs.getValue()) + "', ");
 			}
 			
 			//Check if value is an arrays
@@ -153,7 +158,7 @@ public class IdlConverter {
 							output.append(", ");
 						}
 						//Call this method recursive for every element.
-						output.append("'" + item + "'");	
+						output.append("'" + escapeQuotes(item) + "'");	
 					}
 				}
 				//Check if array is Object[]
@@ -214,5 +219,14 @@ public class IdlConverter {
 		output.append("}");
 		
 		return output.toString();
+	}
+	
+	/**
+	 * Escape single quotes (') with double single quotes ('')
+	 * @param text the text to escape
+	 * @return the escaped string
+	 */
+	private static String escapeQuotes(String text) {
+	    return text.replaceAll("'", "''");
 	}
 }
