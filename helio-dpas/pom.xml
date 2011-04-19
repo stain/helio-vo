@@ -8,11 +8,12 @@
 	<!-- NOTEWORTHY -->
 	<!-- Manually added junit to compile scope to prevent 'junit.framework.XXX not found' exception. Remove after moving tests to test section -->
 
-	<version>3.0.1-SNAPSHOT</version>
+	<version>0.4-SNAPSHOT</version>
 	<parent>
 		<artifactId>heliovo</artifactId>
 		<groupId>eu.heliovo</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.4-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<name>helio-dpas</name>
 	<packaging>war</packaging>

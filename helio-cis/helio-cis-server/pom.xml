@@ -9,7 +9,7 @@
   
   <groupId>eu.heliovo</groupId>
   <artifactId>helio-cis-server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <name>helio-cis-server</name>
   <url>http://maven.apache.org</url>
   <packaging>war</packaging>
@@ -18,7 +18,8 @@
   <parent>
     <artifactId>helio-cis</artifactId>
     <groupId>eu.heliovo</groupId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.4-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <build>

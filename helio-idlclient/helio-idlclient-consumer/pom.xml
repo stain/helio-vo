@@ -1,19 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>heliovo</artifactId>
+    <artifactId>helio-idlclient</artifactId>
     <groupId>eu.heliovo</groupId>
     <version>0.4-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <groupId>eu.heliovo</groupId>
-  <artifactId>helio-client</artifactId>
-  <name>helio-client</name>
+  <artifactId>helio-idlclient-consumer</artifactId>
   <version>0.4-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <description>Parent project of the helio client API and all implementations.</description>
-  <modules>
-  	<module>helio-clientapi</module>
-  	<!--  >module>helio-mockclient</module-->
-  </modules>
+  <packaging>jar</packaging>
+  <name>helio-idlclient-consumer</name>
+  <description>IDL side of the helio client</description>
 </project>

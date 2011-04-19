@@ -6,7 +6,7 @@
   <groupId>eu.heliovo</groupId>
   <artifactId>helio-hit</artifactId>
   <name>HELIO HIT Library collection</name>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
   
   <description>Pseudo-module to make requiring the HIT stack easier.</description>

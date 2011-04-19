@@ -15,11 +15,6 @@
   <packaging>war</packaging>
   <name>helio-idlclient-provider</name>
 
-  <properties>
-    <jettyVersion>7.3.1.v20110307</jettyVersion>
-  </properties>
-
-
   <dependencies>    
     <dependency>
       <groupId>commons-beanutils</groupId>
@@ -35,12 +30,6 @@
       <scope>provided</scope>
     </dependency>
     
-    <!--dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jettyVersion}</version>
-    </dependency-->
-     
     <dependency>
     	<groupId>eu.heliovo</groupId>
     	<artifactId>helio-clientapi</artifactId>
@@ -51,7 +40,7 @@
     <dependency>
     	<groupId>eu.heliovo</groupId>
     	<artifactId>helio-shared</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>0.4-SNAPSHOT</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
