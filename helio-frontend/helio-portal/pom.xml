@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>helio-frontend</artifactId>
 		<groupId>eu.heliovo</groupId>
-		<version>0.4-SNAPSHOT</version>
+		<version>0.4</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-portal</artifactId>
 	<name>helio-portal</name>
-	<version>0.4-SNAPSHOT</version>
+	<version>0.4</version>
 	<packaging>war</packaging>
 	<description>
 		TODO: Add description in helio-frontend/helio-portal/pom.xml
@@ -297,7 +295,7 @@
 		<dependency>
 			<groupId>eu.heliovo</groupId>
 			<artifactId>helio-clientapi</artifactId>
-			<version>0.4-SNAPSHOT</version>
+			<version>0.4</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
