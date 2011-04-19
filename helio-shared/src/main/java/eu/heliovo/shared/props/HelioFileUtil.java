@@ -79,10 +79,10 @@ public class HelioFileUtil {
 					_LOGGER.info("Unable to write cache file: " + cacheFile + ": " + e.getMessage(), e);				
 				}
 			} else {
-				_LOGGER.info("Unable to find cache file: " + cacheFile + ". The host seems to be disconnected.");								
+				_LOGGER.info("Unable to retrieve cached file from remote URL: " + remoteURL + ". The host seems to be disconnected.");								
 			}
 		} catch (IOException e) {
-			_LOGGER.info("Unable to load cached file from remote URL: " + remoteURL + ": " + e.getMessage(), e);
+			_LOGGER.info("Unable to load cached file from remote URL: " + remoteURL + ": " + e.getMessage() + ". Trying to get local copy");
 		}
 
 		if (!cacheFile.exists()) {
