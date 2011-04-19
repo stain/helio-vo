@@ -42,7 +42,7 @@
     <dependency>
     	<groupId>eu.heliovo</groupId>
     	<artifactId>helio-shared</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
+    	<version>0.4-SNAPSHOT</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
