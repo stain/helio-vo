@@ -14,7 +14,7 @@
     </description>
 	<url>http://www.helio-vo.eu/</url>
 
-	<version>0.4</version>
+	<version>5.0-SNAPSHOT</version>
 
 	<issueManagement>
 		<system>Sourceforge</system>
@@ -147,9 +147,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/tags/heliovo-0.4</connection>
-		<developerConnection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/tags/heliovo-0.4</developerConnection>
-		<url>http://helio-vo.svn.sourceforge.net/viewvc/helio-vo/tags/heliovo-0.4</url>
+		<connection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</connection>
+		<developerConnection>scm:svn:https://helio-vo.svn.sourceforge.net/svnroot/helio-vo/trunk</developerConnection>
+		<url>http://helio-vo.svn.sourceforge.net/viewvc/helio-vo/</url>
 	</scm>
 
 	<reporting>

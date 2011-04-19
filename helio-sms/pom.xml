@@ -4,12 +4,12 @@
     <parent>
         <artifactId>heliovo</artifactId>
         <groupId>eu.heliovo</groupId>
-        <version>0.4</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>eu.heliovo</groupId>
     <artifactId>helio-sms</artifactId>
-    <version>0.4</version>
+    <version>5.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>helio-sms</name>
     <!-- <repositories> <repository> <id>heliovo-releases</id> <name>Helio-VO 

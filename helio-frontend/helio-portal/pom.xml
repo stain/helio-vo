@@ -4,13 +4,13 @@
 	<parent>
 		<artifactId>helio-frontend</artifactId>
 		<groupId>eu.heliovo</groupId>
-		<version>0.4</version>
+		<version>5.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-portal</artifactId>
 	<name>helio-portal</name>
-	<version>0.4</version>
+	<version>5.0-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<description>
 		TODO: Add description in helio-frontend/helio-portal/pom.xml
@@ -295,7 +295,7 @@
 		<dependency>
 			<groupId>eu.heliovo</groupId>
 			<artifactId>helio-clientapi</artifactId>
-			<version>0.4</version>
+			<version>5.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>

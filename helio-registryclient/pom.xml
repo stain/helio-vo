@@ -4,14 +4,14 @@
 	<parent>
 		<artifactId>heliovo</artifactId>
 		<groupId>eu.heliovo</groupId>
-		<version>0.4</version>
+		<version>5.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
 	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-registryclient</artifactId>
 	<name>HELIO Registry client</name>
-	<version>0.4</version>
+	<version>5.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<description>This is a simple client of the HELIO Registry.</description>
 	<inceptionYear>2011</inceptionYear>
