@@ -11,8 +11,10 @@ import net.ivoa.xml.votable.v1.*
 import ch.i4ds.helio.frontend.parser.*
 import ch.i4ds.helio.frontend.query.*
 import eu.heliovo.clientapi.frontend.*
-import eu.heliovo.clientapi.model.catalog.impl.DpasStaticCatalogRegistry;
-import eu.heliovo.clientapi.model.catalog.impl.HecStaticCatalogRegistry
+import eu.heliovo.clientapi.model.catalog.HelioCatalogDao;
+import eu.heliovo.clientapi.model.catalog.impl.DpasDao;
+import eu.heliovo.clientapi.model.catalog.impl.HecDao
+import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import ch.i4ds.*;
@@ -98,8 +100,8 @@ class PrototypeController {
         if(params.catalog == null)
         throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
 
-        HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
-        def catalog = registry.getCatalogById(params.catalog);
+        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("hec");;
+        def catalog = hecDao.getCatalogById(params.catalog);
                 
         if (catalog != null) {
             render template:'templates/columns_extended', bean:catalog, var:'catalog';
@@ -235,13 +237,13 @@ class PrototypeController {
         log.info("Explorer =>" +params)
 	
     	// init calalog list for HEC GUI
-    	HecStaticCatalogRegistry registry = HecStaticCatalogRegistry.getInstance();
-    	HelioField<String> catalogField = registry.getCatalogField();
+        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("hec");;
+        HelioField<String> catalogField = hecDao.getCatalogField();
     	DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
     	
         // init catalog list for DPAS GUI
-        DpasStaticCatalogRegistry dpasRegistry = DpasStaticCatalogRegistry.getInstance();
-        HelioField<String> dpasInstrumentsField = dpasRegistry.getCatalogById('dpas').getFieldById('instrument');
+        HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("dpas");;
+        HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
         def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments];
