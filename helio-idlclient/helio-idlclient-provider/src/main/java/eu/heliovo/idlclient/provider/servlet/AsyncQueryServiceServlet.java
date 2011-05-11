@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import eu.heliovo.clientapi.query.HelioQueryResult;
-import eu.heliovo.clientapi.query.longrunningquery.AsyncQueryService;
-import eu.heliovo.clientapi.query.longrunningquery.impl.AsyncQueryServiceFactory;
+import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService;
+import eu.heliovo.clientapi.query.asyncquery.impl.AsyncQueryServiceFactory;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
 import eu.heliovo.shared.util.AssertUtil;
 
