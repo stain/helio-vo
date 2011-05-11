@@ -18,10 +18,10 @@
 ;     /post - use http-post instead of http-get. Not working yet!
 ;
 ;Last Modified: 
-;      5 Mar 2011 - Matthias Meyer 
+;      10 Mai 2011 - Matthias Meyer 
   
 
-PRO helioidl, starttime = starttime, $
+function helioidl, starttime = starttime, $
               endtime = endtime, $
               from = from, $
               service = service
@@ -49,8 +49,9 @@ PRO helioidl, starttime = starttime, $
    
    ; Make a get request to an HTTP server.
    oUrl->SetProperty, URL_HOST = 'localhost'
-   oUrl->SetProperty, URL_PORT = '8080'
-   oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/AsyncQueryServiceServlet'
+   oUrl->SetProperty, URL_PORT = '8085'
+   ;oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/AsyncQueryServiceServlet'
+   oUrl->SetProperty, URL_PATH = 'AsyncQueryServiceServlet'
    oUrl->SetProperty, URL_QUERY = 'service='+service+'&starttime='+starttime+'&endtime='+endtime+'&from='+from
    ;oUrl->SetProperty, URL_QUERY = 'starttime=2003-02-01T00:00:00&endtime=2003-02-02T00:00:00&from=trajectories'
    result = oUrl->Get(/STRING_ARRAY)
@@ -59,8 +60,12 @@ PRO helioidl, starttime = starttime, $
    
    ;Execute returncode
    res = EXECUTE(result[0])
+
+   ;Check for Java exception and print message.
+   status = tag_exist(str,'stacktrace')
+   if status eq 1b then $
+   print, 'Exception: ', str.message
+
+   return, str
    
-   help, str, /str
-   
-   print, str.log.message
 END
