@@ -136,6 +136,7 @@
 	</dependencies>
 	<modules>
 		<module>helio-shared</module>
+		<module>helio-cis</module>
 		<module>helio-queryservice</module>
 		<!--  >module>helio-monitoring</module-->
 		<module>helio-dpas</module>
