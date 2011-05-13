@@ -4,13 +4,29 @@ package eu.heliovo.dpas.ie.services.vso.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataContainer;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataRequestItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.FileidItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataRequest;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataResponseItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.MethodItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOGetDataRequest;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOGetDataResponse;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOiPort;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOiService;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryResponseBlock;
+
+
 
 
 public class VsoUtils {
@@ -85,14 +101,14 @@ public class VsoUtils {
 	   * @param resp
 	   * @return
 	   */
-	  public static boolean getProviderResultCount(ProviderQueryResponse[]	resp)
+	/*  public static boolean getProviderResultCount(ProviderQueryResponse[]	resp)
 	  {
 		  boolean status=false;
 		  if(resp[0]!=null && resp[0].getRecord()!=null){
 			  status=true;
 		  }
 		  return status;
-	  }
+	  }*/
 	  
 	  /**
 	   * 
@@ -121,5 +137,77 @@ public class VsoUtils {
 				return strDate;
 			}
 		}
-				
+	  
+	  
+	  
+	public static List<DataItem> getVsoProviderUrl(List<QueryResponseBlock> resp,String provider){
+	   VSOiService service   = new VSOiService();
+	   VSOiPort    port      = service.getNsoVSOi();
+       //Now all fileids got saved into the hashmap
+       //Build the GetData request     
+       
+       VSOGetDataRequest vsoGDRequest = new VSOGetDataRequest();
+       GetDataRequest  gdRequest = new GetDataRequest();
+       //Set desired download method
+       MethodItem methodItem = new MethodItem();
+       List<String> getDataMethods = methodItem.getMethodtype();
+       getDataMethods.add("URL-FILE");
+       gdRequest.setMethod(methodItem);
+       
+       //Set Container information
+       DataContainer dataType = new DataContainer();
+       
+       List<DataRequestItem> dataList = new ArrayList<DataRequestItem>();
+       
+       List<DataRequestItem> dataRequestList = new ArrayList<DataRequestItem>();
+       
+       //Go over the getDataMap hashmap and set fileid info
+       //for (Object provider: getDataMap.keySet().toArray()) {
+       DataRequestItem elem = new DataRequestItem();
+       //since provider is being passed as an argument we could use either
+       //the argument or the queryresponsebloc.  I will use the block.
+       elem.setProvider((String) provider);
+      
+       dataRequestList.add(elem);
+       FileidItem fileIdItem = new FileidItem();
+       elem.setFileiditem(fileIdItem);
+       List <String> fileIdList = fileIdItem.getFileid();
+
+       for (QueryResponseBlock rec:resp) {
+    	   fileIdList.add(rec.getFileid());
+       }
+       
+       //dataList.addAll(dataRequestList); //not sure why the example code had this line.
+       
+       List<DataRequestItem> dri = dataType.getDatarequestitem();
+       dri.addAll(dataRequestList);
+       
+       gdRequest.setDatacontainer(dataType);
+
+       vsoGDRequest.setRequest(gdRequest);
+       vsoGDRequest.setVersion("1");
+       //Performs the GetData Request
+       VSOGetDataResponse gdResponse = port.getData(vsoGDRequest);
+       
+       List<GetDataResponseItem> gdRespItem = gdResponse.getGetdataresponseitem();
+       List<DataItem> addalldataItem =null;
+       //List<DataItem> addalldataItem = new ArrayList<DataItem>();
+       int count=0;
+       //Read response
+       for (GetDataResponseItem item:gdRespItem) {
+           String _provider = item.getProvider();
+           GetDataItem gdItem = item.getGetdataitem();
+           List<DataItem> dataItem = gdItem.getDataitem();
+           if(_provider!=null && provider!=null && _provider.trim().equals(provider)){
+        	   //if(count==0)
+        	   //I think we can just return the dataitem.
+        		   addalldataItem=dataItem;
+        	   //else
+        	   //   addalldataItem.addAll(dataItem);
+           }
+
+       }
+	  return addalldataItem;
+  }
+			
 }

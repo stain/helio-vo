@@ -206,8 +206,12 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 					if(rs.getString(10)!=null)
 						resultTO[count].setPvdrVsoKey(rs.getString(10));
 					//Detector Id
-					if(rs.getString(17)!=null)
-						resultTO[count].setDetectiveField(rs.getString(17));
+					if(rs.getString(11)!=null) {
+						resultTO[count].setDetectiveField(rs.getString(11));
+						System.out.println("DETECTOR FOUND11: " + resultTO[count].getDetectiveField());
+					}else {
+						System.out.println("NO DETECTOR, setting to null");
+					}
 					//
 					count++;
                 }

@@ -71,11 +71,19 @@ public class CDAWEBProvider
                           fileDesc=CdaWebUtils.addArrays(fileDesc, fds);
                           //Data Set Array
                           String[] dataSetTempArray=CdaWebUtils.getDataSetArray(dsd[k].getId(), fds.length);
+                          
                           //
                           dataSetIdArray=CdaWebUtils.addArrays(dataSetIdArray, dataSetTempArray);
                           System.out.println(" Adding FileDescription ");
                           System.out.println("....DONE !!!");
                        }//for
+                       if(cdaWebTO.getDetectiveField() != null) {
+                    	   System.out.println("BEFORE: filter based on detector size before: " + fileDesc.length + " dsid size = " + dataSetIdArray.length );
+                    	   fileDesc = CdaWebUtils.filterDetector(fileDesc,dataSetIdArray,cdaWebTO.getDetectiveField());
+                    	   dataSetIdArray = CdaWebUtils.filterDetector(dataSetIdArray,cdaWebTO.getDetectiveField());
+                    	   System.out.println("AFTER: filter based on detector size before: " + fileDesc.length + " dsid size = " + dataSetIdArray.length );
+                    	   
+                       }
                        tables[0]=new PointsStarTable(fileDesc,cdaWebTO.getHelioInstrument(),cdaWebTO.getInstrument(),dataSetIdArray,cdaWebTO.getDetectiveField());
                        tables[0].setName(cdaWebTO.getHelioInstrument());
                        cdaWebTO.setStarTableArray(tables);

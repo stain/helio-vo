@@ -68,7 +68,7 @@ public class PointsStarTable  extends RandomStarTable {
     public Object getCell( long lrow, int icol ) {
         int irow = checkedLongToInt( lrow );
         if(resp_!=null && resp_[irow]!=null){
-        	System.out.println(" ++++++++++++++++ Dective Filed ++++++++++++++++"+detective_feild);
+        	//System.out.println(" ++++++++++++++++ Dective Filed ++++++++++++++++"+detective_feild);
 	        switch ( icol ) {
 	        	case 0: return inst;
 	        	case 1:return dataSetIdArray[irow];

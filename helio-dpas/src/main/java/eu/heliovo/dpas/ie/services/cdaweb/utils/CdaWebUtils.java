@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.cdaweb.service.org.ws.cdaw.FileDescription;
 import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
+import java.util.ArrayList;
 
 public class CdaWebUtils {
 	
@@ -49,12 +50,30 @@ public class CdaWebUtils {
 		  return null;
 	  }
 	  
+	  public static FileDescription[] filterDetector(FileDescription []first,String []cdawebID, String detector) {
+		  ArrayList<FileDescription> al = new ArrayList<FileDescription>();
+		  for(int i = 0;i < first.length;i++) {
+			  if(cdawebID[i].indexOf(detector) != -1) {
+				  al.add(first[i]);
+			  }//if
+		  }//for
+		  return al.toArray(new FileDescription[0]);
+	  }
+	  
+	  public static String[] filterDetector(String []cdawebID, String detector) {
+		  ArrayList<String> al = new ArrayList<String>();
+		  for(int i = 0;i < cdawebID.length;i++) {
+			  if(cdawebID[i].indexOf(detector) != -1) {
+				  al.add(cdawebID[i]);
+			  }//if
+		  }//for
+		  return al.toArray(new String[0]);
+	  }
 	  
 	  public static FileDescription[] addArrays(FileDescription[] first, FileDescription[] second) {
 		     FileDescription[] both = new FileDescription[first.length + second.length];  
 		     System.arraycopy(first, 0, both, 0, first.length);  
-		     System.arraycopy(second, 0, both, first.length, second.length);
-		    
+		     System.arraycopy(second, 0, both, first.length, second.length);		    
 		    return both;
 	  }
 	  

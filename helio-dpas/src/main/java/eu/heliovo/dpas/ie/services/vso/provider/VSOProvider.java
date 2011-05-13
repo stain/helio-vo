@@ -1,48 +1,231 @@
 package eu.heliovo.dpas.ie.services.vso.provider;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import uk.ac.starlink.table.StarTable;
 import eu.heliovo.dpas.ie.services.common.utils.DAOFactory;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Data;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.DataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.GetDataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderGetDataResponse;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.ProviderQueryResponse;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.QueryRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.QueryRequestBlock;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.Time;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOGetDataRequest;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiBindingStub;
-import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.VSO.VSOi.VSOiServiceLocator;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataRequest;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.ProviderQueryResponse;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryRequest;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryRequestBlock;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.Time;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOGetDataRequest;
 import eu.heliovo.dpas.ie.services.vso.transfer.VsoDataTO;
 import eu.heliovo.dpas.ie.services.vso.utils.PointsStarTable;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataContainer;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.DataRequestItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.Field;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.FileidItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.GetDataResponseItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.MethodItem;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryResponse;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryResponseBlock;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.QueryResponseBlockArray;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOGetDataResponse;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOiPort;
+import eu.heliovo.dpas.ie.services.vso.service.org.virtualsolar.vsoi.v0_6.VSOiService;
 
 
 public class VSOProvider
 {
+	public void query(VsoDataTO vsoTO) throws DataNotFoundException {
+		System.out.println("vsoto detectfield  = " + vsoTO.getDetectiveField());
+	   StarTable[] tables=null;
+	   try{
+	   VSOiService service   = new VSOiService();
+       VSOiPort    port      = service.getNsoVSOi();
+       QueryRequest request = new QueryRequest();
+       request.setVersion(new Float("0.6").floatValue());
+       QueryRequestBlock block = new QueryRequestBlock();
+       //Set Time object
+       // This example finds the last record available
+       // by using the "near time" feature
+       Time timeParam = new Time();
+       timeParam.setStart(VsoUtils.getDateFormat(vsoTO.getDateFrom()));
+       timeParam.setEnd(VsoUtils.getDateFormat(vsoTO.getDateTo()));
+       
+       block.setTime(timeParam );
+       //Set Provider
+       block.setSource(vsoTO.getProviderSource());
+       block.setInstrument(vsoTO.getInstrument());
+       if(vsoTO.getDetectiveField() != null) {
+    	   //System.out.println("Using detector field: " + vsoTO.getDetectiveField().replace('|',','));
+    	   block.setDetector(vsoTO.getDetectiveField());
+       }
+       
+       //If Field information is set the provider
+       // might sent extra information. 
+       // Such as thumnail urls
+       // Detector information if applicable etc.
+       // In the JSOC case is irrelevant as there are
+       // no thumnails available right now.
+       
+       //Finishing setting up the Query message
+       request.setBlock(block );
+           
+       //Finally perform the request.
+       QueryResponse response = port.query(request);
+       
+       //Request is sent and received.
+       //The request is type array.
+       List<ProviderQueryResponse> qReturn = response.getProvideritem();
+       
+       Map<String,List<String>> getDataMap = new HashMap<String,List<String>>();  //Hash map where fileids are kept
+                                                                                  //Later on we'll use them to do the
+                                                                                  //GetData Request
+       int count=0;
+       
+      
+       tables=new StarTable[qReturn.size()];
+       //Go over the returned array
+       for (ProviderQueryResponse qr:qReturn) {
+    	   /*
+           logger.info("Provider:" + qr.getProvider());
+           
+           if (qr.getStatus() != null)
+               System.out.println("status:" + qr.getStatus());
+           logger.info("Number of records found:" + qr.getNoOfRecordsFound());
+           logger.info("Number of records returned:" + qr.getNoOfRecordsReturned());
+           */
+    	   
+           QueryResponseBlockArray blk= qr.getRecord();
+
+           if (blk == null) {
+               System.err.println("Record block is empty.");
+               continue;
+           }
+           //The  QueryResponseBlock contains an array of the provider records.
+           List<QueryResponseBlock> resp = blk.getRecorditem();
+           
+           if (resp != null && !resp.isEmpty() &&  resp.size()>0) {
+               
+        	   tables[count]=new PointsStarTable(resp,vsoTO.getUrl(),qr.getProvider(),vsoTO.getStatus(),vsoTO.getHelioInstrument());
+	           tables[count].setName(vsoTO.getHelioInstrument());
+        	  
+           }
+           /*
+           for (QueryResponseBlock rec:resp) {
+               
+               List<String> fileids = null;
+               String provider = rec.getProvider();
+               if (!getDataMap.containsKey(provider) ) {
+                   fileids = new ArrayList<String>();
+                   getDataMap.put(provider, fileids);
+               } else {
+                   fileids = getDataMap.get(provider);
+               }
+           
+               fileids.add(rec.getFileid());
+       
+               System.out.println("Provider:" + provider + 
+                       "; instrument:" + rec.getInstrument() + 
+                       "; start time:" + rec.getTime().getStart() +
+                       "; FileID:" + rec.getFileid()); 
+           }
+           */
+           count++;
+       }
+       
+       vsoTO.setStarTableArray(tables);
+       vsoTO.setQuerystatus("OK");
+       vsoTO.setProviderStatus(true);
+       //
+       System.out.println(" Genrating VOTABLE for VSO ");
+       VsoQueryDao vsoQueryDao=(VsoQueryDao) DAOFactory.getDAOFactory(vsoTO.getWhichProvider());
+       vsoQueryDao.generateVOTable(vsoTO);
+       System.out.println(" DONE !!! ");
+      /* //This section simply finalizes the setting of the request structure
+       dataList.addAll(dataRequestList);
+       List<DataRequestItem> dri = dataType.getDatarequestitem();
+       
+       dri.addAll(dataRequestList);
+       
+       List<DataRequestItem> dri2 = dataType.getDatarequestitem();
+       
+       for (DataRequestItem drItem:dri2) {
+           List<String> fileids = drItem.getFileiditem().getFileid();
+           System.out.println(fileids);
+       }
+   
+   
+       gdRequest.setDatacontainer(dataType);
+
+       vsoGDRequest.setRequest(gdRequest);
+       vsoGDRequest.setVersion("1");
+       
+       
+       //Performs the GetData Request
+       VSOGetDataResponse gdResponse = port.getData(vsoGDRequest);
+       
+       List<GetDataResponseItem> gdRespItem = gdResponse.getGetdataresponseitem();
+
+       //Read response
+       for (GetDataResponseItem item:gdRespItem) {
+           String provider = item.getProvider();
+           System.out.println("GetData response provider:" + provider);
+           GetDataItem gdItem = item.getGetdataitem();
+           List<DataItem> dataItem = gdItem.getDataitem();
+           
+           for (DataItem di:dataItem) {
+               System.out.println(di.getProvider() + ";" + di.getUrl());
+           }
+       }
+
+       System.out.println("End");
+       /*
+       The output should be something like:
+           Start time:20100909202514
+           End time:20100909232514
+           Provider:JSOC
+           Number of records found:1
+           Number of records returned:1
+           Provider:JSOC; instrument:AIA; start time:20100909230918; FileID:aia_synoptic2:193:11812767
+           Request GetData
+           GetData response provider:JSOC
+           http://vso.tuc.noao.edu/cgi-bin/drms_test/drms_export.cgi?series=aia_synoptic2;record=193_11812767-11812767
+           End                 
+        Or for near time
+           Start time:20101130214829
+           End time:20101204034829
+           Provider:JSOC
+           Number of records found:1
+           Number of records returned:1
+           Provider:JSOC; instrument:AIA; start time:20101203213743; FileID:aia_synoptic2:193:11894306
+           Request GetData
+           GetData response provider:JSOC
+           http://vso.tuc.noao.edu/cgi-bin/drms_test/drms_export.cgi?series=aia_synoptic2;record=193_11894306-11894306
+           End
+       */
+	   }catch(Exception e){
+       	throw new DataNotFoundException(e.getMessage());
+       }
+   }
+	
 	/**
 	 * 
 	 * @param vsoTO
 	 * @throws DataNotFoundException
 	 */
-	public	void query(VsoDataTO vsoTO) throws DataNotFoundException {
+	/*public	void query(VsoDataTO vsoTO) throws DataNotFoundException {
 		
 		/*
 		 * Creating the query parameter for the time in the VSO format		
 		*/
-		 StarTable[] tables=null;
+		/* StarTable[] tables=null;
 		 System.out.println(" Executing VSO provider ");
          try{
 	        Time queryTime = new Time(VsoUtils.getDateFormat(vsoTO.getDateFrom()), VsoUtils.getDateFormat(vsoTO.getDateTo()));
 			/*
 			 * These lines create the query request in the VSO format.
 			 */
-			QueryRequestBlock rb	=	new QueryRequestBlock();
+			/*QueryRequestBlock rb	=	new QueryRequestBlock();
 			rb.setInstrument(vsoTO.getInstrument());
 			rb.setTime(queryTime);
 			System.out.println("---> : Provider name for Votable response : "+vsoTO.getProviderSource());
@@ -53,12 +236,12 @@ public class VSOProvider
 			/*
 			 * Now I create the bindings for the VSO port
 			 */
-	        VSOiBindingStub binding;
+	       /* VSOiBindingStub binding;
 	        binding = (VSOiBindingStub) new VSOiServiceLocator().getsdacVSOi();
 	        /*
 	         * Executing the query
 	        */
-	        System.out.println(" Getting provider response for VSO ");
+	       /* System.out.println(" Getting provider response for VSO ");
 	        ProviderQueryResponse[]	resp = binding.query(r);    
 	        //
 	        if(resp!=null && resp.length>0){
@@ -84,18 +267,18 @@ public class VSOProvider
         }
 
 	}
-	
+	*/
 	
 	/**
 	 *    
 	 * @param vsoTO
 	 * @throws IOException
 	 */
-    public void getFitsFile(VsoDataTO vsoTO) throws IOException {
+   /* public void getFitsFile(VsoDataTO vsoTO) throws IOException {
     	/*
 		 * Now I create the bindings for the VSO port
 		*/
-      try {
+     /* try {
     	   VSOiBindingStub binding;
 	       binding = (VSOiBindingStub) new VSOiServiceLocator().getsdacVSOi();
 	       Float versionNumber = new Float(1.0);
@@ -144,11 +327,11 @@ public class VSOProvider
      * @param sProvider
      * @return
      */
-    public String[] getVsoURL(ProviderQueryResponse	resp,String sProvider)  {
+   /* public String[] getVsoURL(ProviderQueryResponse	resp,String sProvider)  {
     	/*
 		 * Now I create the bindings for the VSO port
 		*/
-      try {
+     /* try {
     	   System.out.println("  : In method getVsoURL() , getting list of File Id :  ");
     	   VSOiBindingStub binding;
 	       binding = (VSOiBindingStub) new VSOiServiceLocator().getsdacVSOi();
@@ -200,7 +383,7 @@ public class VSOProvider
     * @return
     * @throws IOException
     */
-   public String[] getVsoURL(ProviderQueryResponse	resp) throws IOException {
+  /* public String[] getVsoURL(ProviderQueryResponse	resp) throws IOException {
 	   System.out.println(" VSO URLS List Size "+resp.getNo_of_records_returned());
     	String[] fileId=new String[resp.getNo_of_records_returned()];
     	
@@ -210,5 +393,7 @@ public class VSOProvider
     	//Return file id array
     	return fileId;
     }
-    
+   */
+   
+  
 }

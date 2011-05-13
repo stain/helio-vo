@@ -136,18 +136,21 @@ public class CommonUtils {
 	    	 commonTO.setInstrument(resultTo[0].getInst());
 	    	 System.out.println(" : Instrument : "+resultTo[0].getInst());
 	    	 commonTO.setProviderType(resultTo[0].getProviderType());
-	    	 System.out.println(" : Instrument : "+resultTo[0].getProviderType());
+	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderType());
 	    	 commonTO.setMissionName(resultTo[0].getObsId());
 	    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
+	    	 
 	    	 //Detector Field
 	    	 commonTO.setDetectiveField(resultTo[0].getDetectiveField());
 		     //Calling DAO factory to connect PROVIDERS
 		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
 		    	 System.out.println("--->  VSO Provider intiated--->");
 		    	 System.out.println(" : VSO Provider Name : "+resultTo[0].getProviderSource());
+		    	 commonTO.setProviderSource(resultTo[0].getObsId());
 		    	 commonTO.setVotableDescription("VSO query response "+ resultTo[0].getProviderSource());
 		    	 commonTO.setUrl(VsoUtils.getUrl(commonTO.getRequest()));
 		    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 System.out.println("2-ok commonto after copy from resultto = " + commonTO.getDetectiveField());
 	         	 vsoQueryDao.query(commonTO);
 		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
 		    	 commonTO.setVotableDescription("UOC query response");

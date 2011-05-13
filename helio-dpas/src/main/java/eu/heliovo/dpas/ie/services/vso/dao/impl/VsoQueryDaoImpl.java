@@ -36,6 +36,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 	     vsoTO.setContextUrl(commonTO.getContextUrl());
 	     vsoTO.setMissionName(commonTO.getMissionName());
 	     vsoTO.setProviderSource(commonTO.getProviderSource());
+	     vsoTO.setDetectiveField(commonTO.getDetectiveField());
 		vsoProvider.query(vsoTO) ;
 	}
 	
@@ -65,8 +66,7 @@ public class VsoQueryDaoImpl implements VsoQueryDao {
 	
 	public void getFitsFile(VsoDataTO vsoTO) throws Exception
 	{
-		// TODO Auto-generated method stu
-		vsoProvider.getFitsFile(vsoTO) ;
+
 	}
 
 	

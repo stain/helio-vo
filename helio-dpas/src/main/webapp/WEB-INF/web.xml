@@ -87,6 +87,11 @@
 		<url-pattern>/HelioQueryServlet</url-pattern>
 	</servlet-mapping>
 	
+	<servlet-mapping>
+		<servlet-name>DpasQueryServlet</servlet-name>
+		<url-pattern>/HelioQueryService</url-pattern>
+	</servlet-mapping>
+	
 	 <servlet>
       	<description>
       	</description>
