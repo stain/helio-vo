@@ -2,9 +2,8 @@
     margin-top: 10px;
     float:left;
 
-
-
 }
+
 
 .inputError{
     border:1px solid red;
@@ -22,6 +21,14 @@
     padding: 0px 2px;
     border: none red;
     text-align: left;
+}
+
+.advanced_param_table {
+      margin-left: 5px;
+}
+
+.advanced_param_table tr td {
+      padding: 2px 10px 0px 2px;
 }
 
 /**

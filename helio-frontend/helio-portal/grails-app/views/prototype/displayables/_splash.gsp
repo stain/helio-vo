@@ -14,7 +14,7 @@
 <img src="${resource(dir:'images/icons/toolbar',file:'action_empty.png')}"/>
     </td>
     <td>
-      <p>This shape represents an Task. Chose one by clicking it and
+      <p>This shape represents a Task. Choose one by clicking it and
       adjust the parameters until you are satisfied with the result.
     </p>
     <p>
