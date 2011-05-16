@@ -98,7 +98,11 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 		} catch (Exception e) {
 		    _LOGGER.warn("Exception while processing request: " + e.getMessage(), e);
 		    String out = IdlConverter.idlserialize(e);
-            response.sendError(500, out);
+            //response.sendError(200, out);
+		    PrintWriter writer = response.getWriter();
+	        response.setContentType("text/plain");
+	        response.setContentLength(out.length());
+			writer.append(out);
         }
 	}
 
