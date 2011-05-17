@@ -29,7 +29,7 @@ public class CommunityInteractionServiceTest
 	}
 
 				
-	@Test public void testValidateLogin() 
+	@Ignore @Test public void testValidateLogin() 
 	{	
 		/*
 		 * Removing the configuration file...
