@@ -14,6 +14,7 @@ import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0.Q
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryService;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryServiceService;
 import eu.heliovo.dpas.ie.services.uoc.transfer.UocDataTO;
+import eu.heliovo.dpas.ie.services.uoc.utils.UocUtils;
 
 
 public class UOCProvider
@@ -23,8 +24,7 @@ public class UOCProvider
 	public	void query(UocDataTO uocTO) throws DataNotFoundException {
 		
 		try{
-	        
-			HelioQueryServiceService ss = new HelioQueryServiceService(new URL("http://140.105.77.30:8080/helio-uoc/HelioService?wsdl"), SERVICE_NAME);
+	 		HelioQueryServiceService ss = new HelioQueryServiceService(new URL(UocUtils.getWorkingHQIURLBasedType(uocTO.getWhichProvider())), SERVICE_NAME);
 	        HelioQueryService port = ss.getHelioQueryServicePort(); 
 	        Query queryParameter=new Query();
 	        //queryParameter.setINSTRUMENT(Instrument.valueOf("RHESSI_HESSI_GMR"));
@@ -50,7 +50,6 @@ public class UOCProvider
 		    //Calling UOC provider
 	        UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(uocTO.getWhichProvider());
 	        uocQueryDao.generateVOTable(uocTO);
-
         }catch(Exception e){
         	e.printStackTrace();
         	throw new DataNotFoundException(e.getMessage());

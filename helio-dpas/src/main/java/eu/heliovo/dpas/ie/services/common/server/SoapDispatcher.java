@@ -87,6 +87,7 @@ public class SoapDispatcher implements Provider<Source> {
 	    String[] stopTime =null;
 	    String[] instruments =null;
 	    String[] from =null;
+	    String sSelect=null;
 	    String saveTo =null;
 	    FileResultTO fileTO=new FileResultTO();
 	    //Creating UUID and generating unique ID.
@@ -137,6 +138,11 @@ public class SoapDispatcher implements Provider<Source> {
 		    		 instruments[i]=nodeList.item(i).getFirstChild().getNodeValue();
 		    	 }			 
 			 }
+		     //Select Preferance parameter
+		   //Setting for Start Row parameter.
+			 if(inputDoc.getElementsByTagNameNS("*","SELECT").getLength()>0 && inputDoc.getElementsByTagNameNS("*","SELECT").item(0).getFirstChild()!=null){
+				 sSelect= inputDoc.getElementsByTagNameNS("*","SELECT").item(0).getFirstChild().getNodeValue().toUpperCase();
+			 }
 		     
 		     //Setting for Start Row parameter.
 			 if(inputDoc.getElementsByTagNameNS("*","STARTINDEX").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTINDEX").item(0).getFirstChild()!=null){
@@ -169,6 +175,7 @@ public class SoapDispatcher implements Provider<Source> {
 		     commonTO.setStopTimes(stopTime);
 		     commonTO.setRequest(req);
 		     commonTO.setContextUrl(CommonUtils.getUrl(req));
+		     commonTO.setSelect(sSelect);
 		     //Start time
 		     if(startTime!=null && !startTime.toString().trim().equals(""))
 		    	 commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));

@@ -126,7 +126,7 @@ public class CommonUtils {
 	 public static void genegrateVotableBasedOnCondition(CommonTO commonTO) throws Exception
 	 {
 		 //getting details from Provider access table
-		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(commonTO.getParaInstrument());
+		 ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableBasedOnInst(commonTO.getParaInstrument(),commonTO.getSelect());
 		 System.out.println("---------->"+resultTo+"------->"+resultTo.length+"------>"+resultTo[0]);
 		 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 	    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());

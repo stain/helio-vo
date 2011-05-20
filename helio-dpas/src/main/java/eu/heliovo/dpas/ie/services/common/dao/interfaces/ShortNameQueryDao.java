@@ -8,7 +8,7 @@ import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 
 public interface ShortNameQueryDao {
 
-	public ResultTO[] getAccessTableBasedOnInst(String fileName) throws DetailsNotFoundException;
+	public ResultTO[] getAccessTableBasedOnInst(String fileName,String prvdType) throws DetailsNotFoundException;
 	public ResultTO[] getAccessTableDetails() throws DetailsNotFoundException;
 	public void generateVOTable(CommonTO commonTO) throws Exception;
 	public void loadProviderAccessTable(String fileName,String tableName) throws DetailsNotFoundException;

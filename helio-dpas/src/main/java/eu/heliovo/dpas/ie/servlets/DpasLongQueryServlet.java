@@ -40,6 +40,13 @@ public class DpasLongQueryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml;charset=UTF-8");
 		CommonTO commonTO=new CommonTO();
 		PrintWriter pw =  response.getWriter(); 
@@ -64,6 +71,8 @@ public class DpasLongQueryServlet extends HttpServlet {
 		     if(sInstrument!=null && !sInstrument.trim().equals(""))
 		    	 instruments=sInstrument.split(",");
 		     String saveTo=request.getParameter("SAVETO");
+		     //Setting SELECT parameter
+		     String sSelect=request.getParameter("SELECT");
 		     // Setting Print Writer.
 		     commonTO.setContextUrl(CommonUtils.getUrl(request));
 		     commonTO.setAllDateFrom(sStartTime);
@@ -72,6 +81,8 @@ public class DpasLongQueryServlet extends HttpServlet {
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
+		     if(sSelect!=null && !sSelect.trim().equals(""))
+		    	 commonTO.setSelect(sSelect.toUpperCase());
 		     // Save To file.
 			if(saveTo==null || saveTo==""){
 				    saveTo= InstanceHolders.getInstance().getProperty("hsqldb.database.path")+"/files";
@@ -146,13 +157,6 @@ public class DpasLongQueryServlet extends HttpServlet {
 				pw=null;
 			}
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }

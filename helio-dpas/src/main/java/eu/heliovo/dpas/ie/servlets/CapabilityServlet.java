@@ -31,6 +31,9 @@ public class CapabilityServlet extends VosiServlet {
       System.out.println(" : URL string : "+getUrl());
       String tapUriHttp          = getUrl() + "HelioQueryService";
       String tapUriWeb          = getUrl() + "HelioService";
+      //
+      String tapLongUriHttp          = getUrl() + "LongRunningQueryService";
+      String tapLongUriWeb          = getUrl() + "HelioLongQueryService";
       String capabilitiesUri = getUrl() + "VOSI/capabilities";
     
       String tablesUri       = getUrl() + "VOSI/tables";

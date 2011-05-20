@@ -56,6 +56,7 @@ public class CommonTO {
 	private String providerType;
 	private String longrunningRequestStatus;
 	private String detectiveField;
+	private String select;
 	
 	public String getFtpHost() {
 		return ftpHost;
@@ -424,6 +425,16 @@ public class CommonTO {
 
 	public void setDetectiveField(String detectiveField) {
 		this.detectiveField = detectiveField;
+	}
+
+	public String getSelect() {
+		return select;
+	}
+
+	public void setSelect(String select) {
+		this.select = select;
 	}	
+	
+	
 	
 }

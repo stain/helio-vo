@@ -22,17 +22,21 @@ public abstract class VosiServlet extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
+   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 Writer writer = response.getWriter();
-
-	     response.setContentType("text/xml");
-	     response.setCharacterEncoding("UTF-8");
-	     //Setting URL string
-	     setUrl(request);
-	     //Printing out to writer.
-	     output(writer);
+		doPost(request,response);
 	}
 	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    	Writer writer = response.getWriter();
+
+		     response.setContentType("text/xml");
+		     response.setCharacterEncoding("UTF-8");
+		     //Setting URL string
+		     setUrl(request);
+		     //Printing out to writer.
+		     output(writer);
+	    }
 	
 	
 	  /**

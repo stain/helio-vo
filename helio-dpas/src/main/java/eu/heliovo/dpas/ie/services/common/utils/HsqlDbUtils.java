@@ -36,10 +36,10 @@ public class HsqlDbUtils {
 	 /*
 	  * 
 	  */
-	 public synchronized ResultTO[]  getAccessTableBasedOnInst(String instName) throws DetailsNotFoundException
+	 public synchronized ResultTO[]  getAccessTableBasedOnInst(String instName,String prvdType) throws DetailsNotFoundException
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
-		 return shortNameDao.getAccessTableBasedOnInst(instName);
+		 return shortNameDao.getAccessTableBasedOnInst(instName,prvdType);
 	 }
 	 
 	 /*

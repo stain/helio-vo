@@ -85,44 +85,44 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				while(rs.next()){
 					resultTO[count]=new ResultTO();
 					//Helio Inst
-					if(rs.getString(1)!=null)
-						resultTO[count].setHelioInst(rs.getString(1));
+					if(rs.getString("HELIO_OBS_INST")!=null)
+						resultTO[count].setHelioInst(rs.getString("HELIO_OBS_INST"));
 					//Provider Type
-					if(rs.getString(2)!=null)
-						resultTO[count].setProviderType(rs.getString(2));
+					if(rs.getString("PVDR_NAME")!=null)
+						resultTO[count].setProviderType(rs.getString("PVDR_NAME"));
 					//Provider Name
-					if(rs.getString(3)!=null)
-						resultTO[count].setProviderName(rs.getString(3));
+					if(rs.getString("PVDR_TYPE")!=null)
+						resultTO[count].setProviderName(rs.getString("PVDR_TYPE"));
 					//Provider Type
-					if(rs.getString(4)!=null)
-						resultTO[count].setWorkingDir(rs.getString(4));
+					if(rs.getString("PVDR_DIR_LOC")!=null)
+						resultTO[count].setWorkingDir(rs.getString("PVDR_DIR_LOC"));
 					//Instrument
-					if(rs.getString(5)!=null)
-						resultTO[count].setYearPattern(rs.getString(5));
+					if(rs.getString("PVDR_YR_PATTERN")!=null)
+						resultTO[count].setYearPattern(rs.getString("PVDR_YR_PATTERN"));
 					//Obsevatory Id
-					if(rs.getString(6)!=null)
-						resultTO[count].setMonthPattern(rs.getString(6));
+					if(rs.getString("PVDR_MON_PATTERN")!=null)
+						resultTO[count].setMonthPattern(rs.getString("PVDR_MON_PATTERN"));
 					//Provider Source
-					if(rs.getString(7)!=null)
-						resultTO[count].setFtpHost(rs.getString(7));
+					if(rs.getString("PVDR_HOST_NAME")!=null)
+						resultTO[count].setFtpHost(rs.getString("PVDR_HOST_NAME"));
 					//Provider Ack
-					if(rs.getString(8)!=null)
-						resultTO[count].setFtpUser(rs.getString(8));
+					if(rs.getString("PVDR_USER_NAME")!=null)
+						resultTO[count].setFtpUser(rs.getString("PVDR_USER_NAME"));
 					//Provider Ack
-					if(rs.getString(9)!=null)
-						resultTO[count].setFtpPwd(rs.getString(9));
+					if(rs.getString("PVDR_PSW")!=null)
+						resultTO[count].setFtpPwd(rs.getString("PVDR_PSW"));
 					//Provider Ack
-					if(rs.getString(10)!=null)
-						resultTO[count].setFtpPattern(rs.getString(10));
+					if(rs.getString("PVDR_FTP_PATTERN")!=null)
+						resultTO[count].setFtpPattern(rs.getString("PVDR_FTP_PATTERN"));
 					//Provider Ack
-					if(rs.getString(11)!=null)
-						resultTO[count].setFtpDatePattern(rs.getString(11));
+					if(rs.getString("PVDR_DATE_PATTERN")!=null)
+						resultTO[count].setFtpDatePattern(rs.getString("PVDR_DATE_PATTERN"));
 					//Provider quality
-					if(rs.getString(12)!=null)
-						resultTO[count].setPvdrRanking(rs.getString(12));
+					if(rs.getString("PVDR_RANKING")!=null)
+						resultTO[count].setPvdrRanking(rs.getString("PVDR_RANKING"));
 					//Vso Int id
-					if(rs.getString(13)!=null)
-						resultTO[count].setPvdrQuality(rs.getString(13));
+					if(rs.getString("PVDR_QUALITY")!=null)
+						resultTO[count].setPvdrQuality(rs.getString("PVDR_QUALITY"));
 					//
 					count++;
                 }
@@ -160,11 +160,18 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 		}
 	
 	@Override
-	public ResultTO[] getAccessTableBasedOnInst(String strIns) throws DetailsNotFoundException {
+	public ResultTO[] getAccessTableBasedOnInst(String strIns,String prvdType) throws DetailsNotFoundException {
 			int count=0;
 			ResultTO[] resultTO=null;
 			try{
-				String query="select * from pat where helio_obs_inst='"+strIns+"' order by pvdr_ranking limit 1";
+				String queryPrvdType="";
+				String query="select * from pat where helio_obs_inst='"+strIns+"'";
+				if(prvdType!=null && !prvdType.trim().equals(""))
+					queryPrvdType=" and pvdr_name='"+prvdType+"'";
+				if(queryPrvdType!=null && !queryPrvdType.trim().equals(""))
+					query=query+queryPrvdType+" limit 1";
+				else
+					query=query+" order by pvdr_ranking limit 1";
 				System.out.println("  :  -----> getAccessTableBasedOnInst() method -----> : Reslut For "+strIns);
 				//Connecting to database.						
 				con = ConnectionManager.getConnection();
@@ -176,41 +183,39 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				while(rs.next()){
 					resultTO[count]=new ResultTO();
 					//Helio Inst
-					if(rs.getString(1)!=null)
-						resultTO[count].setHelioInst(rs.getString(1));
+					if(rs.getString("HELIO_OBS_INST")!=null)
+						resultTO[count].setHelioInst(rs.getString("HELIO_OBS_INST"));
 					//Provider Name
-					if(rs.getString(2)!=null)
-						resultTO[count].setProviderName(rs.getString(2));
+					if(rs.getString("PVDR_NAME")!=null)
+						resultTO[count].setProviderName(rs.getString("PVDR_NAME"));
 					//Provider Type
-					if(rs.getString(3)!=null)
-						resultTO[count].setProviderType(rs.getString(3));
+					if(rs.getString("PVDR_TYPE")!=null)
+						resultTO[count].setProviderType(rs.getString("PVDR_TYPE"));
 					//Instrument
-					if(rs.getString(4)!=null)
-						resultTO[count].setInst(rs.getString(4));
+					if(rs.getString("PVDR_KEY1")!=null)
+						resultTO[count].setInst(rs.getString("PVDR_KEY1"));
 					//Obsevatory Id
-					if(rs.getString(5)!=null)
-						resultTO[count].setObsId(rs.getString(5));
+					if(rs.getString("PVDR_KEY2")!=null)
+						resultTO[count].setObsId(rs.getString("PVDR_KEY2"));
 					//Provider Source
-					if(rs.getString(6)!=null)
-						resultTO[count].setProviderSource(rs.getString(6));
+					if(rs.getString("PVDR_SOURCE")!=null)
+						resultTO[count].setProviderSource(rs.getString("PVDR_SOURCE"));
 					//Provider Ack
-					if(rs.getString(7)!=null)
-						resultTO[count].setProviderAck(rs.getString(7));
+					if(rs.getString("PVDR_ACK")!=null)
+						resultTO[count].setProviderAck(rs.getString("PVDR_ACK"));
 					//Provider Ranking
-					if(rs.getString(8)!=null)
-						resultTO[count].setPvdrRanking(rs.getString(8));
+					if(rs.getString("PVDR_RANKING")!=null)
+						resultTO[count].setPvdrRanking(rs.getString("PVDR_RANKING"));
 					//Provider quality
-					if(rs.getString(9)!=null)
-						resultTO[count].setPvdrQuality(rs.getString(9));
+					if(rs.getString("PVDR_QUALITY")!=null)
+						resultTO[count].setPvdrQuality(rs.getString("PVDR_QUALITY"));
 					//Vso Int id
-					if(rs.getString(10)!=null)
-						resultTO[count].setPvdrVsoKey(rs.getString(10));
+					if(rs.getString("PVDR_VSO_KEY")!=null)
+						resultTO[count].setPvdrVsoKey(rs.getString("PVDR_VSO_KEY"));
 					//Detector Id
-					if(rs.getString(11)!=null) {
-						resultTO[count].setDetectiveField(rs.getString(11));
-						System.out.println("DETECTOR FOUND11: " + resultTO[count].getDetectiveField());
-					}else {
-						System.out.println("NO DETECTOR, setting to null");
+					if(rs.getString("DETECTOR")!=null) {
+						resultTO[count].setDetectiveField(rs.getString("DETECTOR"));
+						//System.out.println("DETECTOR FOUND11: " + resultTO[count].getDetectiveField());
 					}
 					//
 					count++;
@@ -268,35 +273,38 @@ public class ShortNameQueryDaoImpl implements ShortNameQueryDao {
 				while(rs.next()){
 					resultTO[count]=new ResultTO();
 					//Helio Inst
-					if(rs.getString(1)!=null)
-						resultTO[count].setHelioInst(rs.getString(1));
+					if(rs.getString("HELIO_OBS_INST")!=null)
+						resultTO[count].setHelioInst(rs.getString("HELIO_OBS_INST"));
 					//Provider Name
-					if(rs.getString(2)!=null)
-						resultTO[count].setProviderName(rs.getString(2));
+					if(rs.getString("PVDR_NAME")!=null)
+						resultTO[count].setProviderName(rs.getString("PVDR_NAME"));
 					//Provider Type
-					if(rs.getString(3)!=null)
-						resultTO[count].setProviderType(rs.getString(3));
+					if(rs.getString("PVDR_TYPE")!=null)
+						resultTO[count].setProviderType(rs.getString("PVDR_TYPE"));
 					//Instrument
-					if(rs.getString(4)!=null)
-						resultTO[count].setInst(rs.getString(4));
+					if(rs.getString("PVDR_KEY1")!=null)
+						resultTO[count].setInst(rs.getString("PVDR_KEY1"));
 					//Obsevatory Id
-					if(rs.getString(5)!=null)
-						resultTO[count].setObsId(rs.getString(5));
+					if(rs.getString("PVDR_KEY2")!=null)
+						resultTO[count].setObsId(rs.getString("PVDR_KEY2"));
 					//Provider Source
-					if(rs.getString(6)!=null)
-						resultTO[count].setProviderSource(rs.getString(6));
+					if(rs.getString("PVDR_SOURCE")!=null)
+						resultTO[count].setProviderSource(rs.getString("PVDR_SOURCE"));
 					//Provider Ack
-					if(rs.getString(7)!=null)
-						resultTO[count].setProviderAck(rs.getString(7));
+					if(rs.getString("PVDR_ACK")!=null)
+						resultTO[count].setProviderAck(rs.getString("PVDR_ACK"));
 					//Provider Ranking
-					if(rs.getString(8)!=null)
-						resultTO[count].setPvdrRanking(rs.getString(8));
+					if(rs.getString("PVDR_RANKING")!=null)
+						resultTO[count].setPvdrRanking(rs.getString("PVDR_RANKING"));
 					//Provider quality
-					if(rs.getString(9)!=null)
-						resultTO[count].setPvdrQuality(rs.getString(9));
+					if(rs.getString("PVDR_QUALITY")!=null)
+						resultTO[count].setPvdrQuality(rs.getString("PVDR_QUALITY"));
 					//Vso Int id
-					if(rs.getString(10)!=null)
-						resultTO[count].setPvdrVsoKey(rs.getString(10));
+					if(rs.getString("PVDR_VSO_KEY")!=null)
+						resultTO[count].setPvdrVsoKey(rs.getString("PVDR_VSO_KEY"));
+					//Vso Int id
+					if(rs.getString("DETECTOR")!=null)
+						resultTO[count].setDetectiveField(rs.getString("DETECTOR"));
 					count++;
                 }
 				System.out.println("  :  -----> Success -----> Reslut For : ");

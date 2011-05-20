@@ -1,0 +1,3 @@
+query.url.uoc=http://140.105.77.30:8080/helio-uoc1/HelioService?wsdl::http://140.105.77.30:8080/helio-uoc/HelioService?wsdl
+query.url.medoc=
+

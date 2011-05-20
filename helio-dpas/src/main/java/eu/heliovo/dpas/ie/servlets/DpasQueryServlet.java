@@ -31,6 +31,13 @@ public class DpasQueryServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request,response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/xml;charset=UTF-8");
 		CommonTO commonTO=new CommonTO();
 		PrintWriter pw =  response.getWriter(); 
@@ -44,6 +51,8 @@ public class DpasQueryServlet extends HttpServlet {
 		     String sEndTime=request.getParameter("ENDTIME");			
 		     //Setting for Instrument parameter.
 		     String sInstrument=request.getParameter("INSTRUMENT");
+		     //Setting SELECT parameter
+		     String sSelect=request.getParameter("SELECT");
 		     //Start time
 		     if(sStartTime!=null && !sStartTime.trim().equals(""))
 		    	 startTime=sStartTime.split(",");
@@ -63,6 +72,8 @@ public class DpasQueryServlet extends HttpServlet {
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
+		     if(sSelect!=null && !sSelect.trim().equals(""))
+		    	 commonTO.setSelect(sSelect.toUpperCase());
 		    
 		     ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
 		     shortNameDao.generateVOTable(commonTO);
@@ -91,13 +102,6 @@ public class DpasQueryServlet extends HttpServlet {
 				pw=null;
 			}
 		}
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	}
 
 }
