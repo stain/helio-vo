@@ -18,19 +18,21 @@
 ;     /post - use http-post instead of http-get. Not working yet!
 ;
 ;Last Modified: 
-;      10 Mai 2011 - Matthias Meyer 
+;      16 Mai 2011 - Matthias Meyer 
   
 
 function helioidl, starttime = starttime, $
               endtime = endtime, $
               from = from, $
-              service = service
+              service = service, $
+              where = where
    
    ;Default Parameters
    checkvar, starttime, '2003-02-01T00:00:00'   
    checkvar, endtime, '2003-02-02T00:00:00'
    checkvar, from, 'trajectories'
-   checkvar, service, 'ILS'       
+   checkvar, where, ''
+   checkvar, service, 'ILS'      
               
    ; create a new IDLnetURL object   
    oUrl = OBJ_NEW('IDLnetUrl') 
@@ -52,7 +54,7 @@ function helioidl, starttime = starttime, $
    oUrl->SetProperty, URL_PORT = '8085'
    ;oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/AsyncQueryServiceServlet'
    oUrl->SetProperty, URL_PATH = 'AsyncQueryServiceServlet'
-   oUrl->SetProperty, URL_QUERY = 'service='+service+'&starttime='+starttime+'&endtime='+endtime+'&from='+from
+   oUrl->SetProperty, URL_QUERY = 'service='+service+'&starttime='+starttime+'&endtime='+endtime+'&from='+from+'&where='+where
    ;oUrl->SetProperty, URL_QUERY = 'starttime=2003-02-01T00:00:00&endtime=2003-02-02T00:00:00&from=trajectories'
    result = oUrl->Get(/STRING_ARRAY)
    
