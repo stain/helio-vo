@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>Helio IDL-Client Install</title>
+	</head>
+	<body>
+		<div>
+<big><b>Helio IDL-Client Install:</b></big><br><br>
+
+If you have a working Java 1.6 installation, skip step 1.<br><br>
+
+1. Download and Install Java 1.6 from <a href="http://www.java.com">http://www.java.com</a><br><br>
+
+2. Download the helio-idlclient-startup.war and helioidl.pro from <a href="">Hudson</a><br><br>
+
+3. Start the java idl-servlet with the command: <i>java -jar helio-idlclient-startup.war</i><br><br>
+
+4. Test if the servlet is working correct with the url: <a href="http://localhost:8085/AsyncQueryServiceServlet">http://localhost:8085/AsyncQueryServiceServlet</a><br>
+   It should show a idl command starting with "str = {message..."<br><br>
+
+5. Start idlssw and run helioidl.pro<br>
+   For a single starttime and endtime use the command:<br>
+	<i>result = helioidl(service = 'ils', starttime = '2003-03-04T00:00:00', endtime = '2003-03-06T00:00:00', from = 'trajectories')</i><br>
+   For more than one starttime and endtime use the command:<br>
+	<i>result = helioidl(service = 'ils', starttime = '2003-03-04T00:00:00,2005-03-04T00:00:00', endtime = '2003-03-06T00:00:00,2005-03-06T00:00:00', from = 'trajectories')</i><br>
+		</div>
+	</body>
+</html>
