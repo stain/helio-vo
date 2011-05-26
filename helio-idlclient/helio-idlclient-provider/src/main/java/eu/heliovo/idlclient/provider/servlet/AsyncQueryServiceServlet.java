@@ -5,11 +5,15 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.logging.LogRecord;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import model.IdlHelioQueryResult;
+import model.IdlLogRecord;
 
 import org.apache.log4j.Logger;
 
@@ -44,6 +48,10 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		IdlConverter idl = IdlConverter.getInstance();
+		idl.registerSerialisationHandler(HelioQueryResult.class, IdlHelioQueryResult.class);
+		idl.registerSerialisationHandler(LogRecord.class, IdlLogRecord.class);
+		
 		try {
     		String service = request.getParameter("service");
     		String from = request.getParameter("from");
@@ -55,9 +63,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
     		AssertUtil.assertArgumentHasText(from, "from");
     		AssertUtil.assertArgumentHasText(startTime, "startTime");
     		AssertUtil.assertArgumentHasText(endTime, "endTime");
-    		
-    		IdlHelioQueryResult idlresult = new IdlHelioQueryResult();
-    		
+    		    		
 			//Split arguments to arrays
 			String[] startTimeArray = startTime.split(",");
 			String[] endTimeArray = endTime.split(",");
@@ -85,10 +91,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			
 			if(result != null)
 			{
-				idlresult.setUrl(result.asURL().toString());
-				idlresult.setLog(result.getUserLogs());
-				
-				String out = IdlConverter.idlserialize(idlresult);
+				String out = idl.idlserialize(result);
 
 				PrintWriter writer = response.getWriter();
 		        response.setContentType("text/plain");
@@ -97,7 +100,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 		    _LOGGER.warn("Exception while processing request: " + e.getMessage(), e);
-		    String out = IdlConverter.idlserialize(e);
+		    String out = idl.idlserialize(e);
             //response.sendError(200, out);
 		    PrintWriter writer = response.getWriter();
 	        response.setContentType("text/plain");
