@@ -17,11 +17,19 @@ If you have a working Java 1.6 installation, skip step 1.<br><br>
 4. Test if the servlet is working correct with the url: <a href="http://localhost:8085/AsyncQueryServiceServlet">http://localhost:8085/AsyncQueryServiceServlet</a><br>
    It should show a idl command starting with "str = {message..."<br><br>
 
-5. Start idlssw and run helioidl.pro<br>
+5. Start idlssw and run helioidl.pro<br><br>
+   Catalog Request:<br>
+   For a list of all catalgs use the command:<br>
+	<i>result = helioidlshowcatalog()</i><br>
+   For more information about a catalog use the command:<br>
+	<i>result = helioidlshowcatalog(catalog = 'goes_sxr_flare')</i><br><br>
+   HelioQuery:<br>
    For a single starttime and endtime use the command:<br>
-	<i>result = helioidl(service = 'ils', starttime = '2003-03-04T00:00:00', endtime = '2003-03-06T00:00:00', from = 'trajectories')</i><br>
+	<i>result = helioidlquery(service = 'ils', starttime = '2003-03-04T00:00:00', endtime = '2003-03-06T00:00:00', from = 'trajectories')</i><br>
    For more than one starttime and endtime use the command:<br>
-	<i>result = helioidl(service = 'ils', starttime = '2003-03-04T00:00:00,2005-03-04T00:00:00', endtime = '2003-03-06T00:00:00,2005-03-06T00:00:00', from = 'trajectories')</i><br>
+	<i>result = helioidlquery(service = 'ils', starttime = '2003-03-04T00:00:00,2005-03-04T00:00:00', endtime = '2003-03-06T00:00:00,2005-03-06T00:00:00', from = 'trajectories')</i><br>
+   For optinal where parameter use the command:<br>
+	<i>result = helioidlquery(service = 'ils', starttime = '2003-03-04T00:00:00', endtime = '2003-03-06T00:00:00', from = 'trajectories', where = 'wherestatement')</i><br>
 		</div>
 	</body>
 </html>

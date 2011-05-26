@@ -10,8 +10,18 @@
   	<description></description>
   	<servlet-class>eu.heliovo.idlclient.provider.servlet.AsyncQueryServiceServlet</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>HecStaticCatalogRegistryServlet</servlet-name>
+  	<display-name>HecStaticCatalogRegistryServlet</display-name>
+  	<description></description>
+  	<servlet-class>eu.heliovo.idlclient.provider.servlet.HecStaticCatalogRegistryServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
   	<servlet-name>AsyncQueryServiceServlet</servlet-name>
   	<url-pattern>/AsyncQueryServiceServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>HecStaticCatalogRegistryServlet</servlet-name>
+  	<url-pattern>/HecStaticCatalogRegistryServlet</url-pattern>
   </servlet-mapping>
 </web-app>

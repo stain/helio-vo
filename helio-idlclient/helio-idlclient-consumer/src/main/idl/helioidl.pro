@@ -18,10 +18,10 @@
 ;     /post - use http-post instead of http-get. Not working yet!
 ;
 ;Last Modified: 
-;      16 Mai 2011 - Matthias Meyer 
+;      10 Mai 2011 - Matthias Meyer 
   
 
-function helioidl, starttime = starttime, $
+function helioidlquery, starttime = starttime, $
               endtime = endtime, $
               from = from, $
               service = service, $
@@ -32,14 +32,14 @@ function helioidl, starttime = starttime, $
    checkvar, endtime, '2003-02-02T00:00:00'
    checkvar, from, 'trajectories'
    checkvar, where, ''
-   checkvar, service, 'ILS'      
+   ;checkvar, service, 'ILS'       
               
    ; create a new IDLnetURL object   
    oUrl = OBJ_NEW('IDLnetUrl') 
    
    if keyword_set(post) then begin 
    
-   ; Make a post request to an HTTP server.
+   ; Make a post request to a HTTP server.
    oUrl->SetProperty, URL_HOST = 'localhost'
    oUrl->SetProperty, URL_PORT = '8080'
    oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/AsyncQuersServiceServlet'
@@ -49,8 +49,9 @@ function helioidl, starttime = starttime, $
    
    endif else begin
    
-   ; Make a get request to an HTTP server.
+   ; Make a get request to a HTTP server.
    oUrl->SetProperty, URL_HOST = 'localhost'
+   ;oUrl->SetProperty, URL_PORT = '8080'
    oUrl->SetProperty, URL_PORT = '8085'
    ;oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/AsyncQueryServiceServlet'
    oUrl->SetProperty, URL_PATH = 'AsyncQueryServiceServlet'
@@ -64,10 +65,37 @@ function helioidl, starttime = starttime, $
    res = EXECUTE(result[0])
 
    ;Check for Java exception and print message.
-   status = tag_exist(str,'stacktrace')
+   status = tag_exist(var,'stacktrace')
    if status eq 1b then $
    print, 'Exception: ', str.message
 
-   return, str
+   return, var
    
+END
+
+function helioshowcatalog, catalog = catalog
+
+   checkvar, catalog, ''
+   
+   ; create a new IDLnetURL object   
+   oUrl = OBJ_NEW('IDLnetUrl')
+
+   ; Make a get request to a HTTP server.
+   oUrl->SetProperty, URL_HOST = 'localhost'
+   ;oUrl->SetProperty, URL_PORT = '8080'
+   oUrl->SetProperty, URL_PORT = '8085'
+   ;oUrl->SetProperty, URL_PATH = 'helio-idlclient-provider/HecStaticCatalogRegistryServlet'
+   oUrl->SetProperty, URL_PATH = 'HecStaticCatalogRegistryServlet'
+   oUrl->SetProperty, URL_QUERY = 'catalog='+catalog
+   result = oUrl->Get(/STRING_ARRAY)
+   
+   ;Execute returncode
+   res = EXECUTE(result[0])
+
+   ;Check for Java exception and print message.
+   status = tag_exist(var,'stacktrace')
+   if status eq 1b then $
+   print, 'Exception: ', str.message
+
+   return, var
 END
