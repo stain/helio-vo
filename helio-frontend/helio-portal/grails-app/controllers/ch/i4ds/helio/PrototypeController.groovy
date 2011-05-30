@@ -17,6 +17,7 @@ import eu.heliovo.clientapi.model.catalog.impl.HecDao
 import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
+import eu.heliovo.clientapi.model.service.HelioServiceName;
 import ch.i4ds.*;
 
 class PrototypeController {
@@ -237,16 +238,19 @@ class PrototypeController {
         log.info("Explorer =>" +params)
 	
     	// init calalog list for HEC GUI
-        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("hec");;
+        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
         HelioField<String> catalogField = hecDao.getCatalogField();
     	DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
     	
         // init catalog list for DPAS GUI
-        HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("dpas");;
+        HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS.getName());
+        if (dpasDao == null) {
+            throw new NullPointerException("Unable to find service DPAS");    
+        }
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
-        def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments];
+        def initParams = [HelioServiceNameCatalogs:valueDomain, dpasInstruments: dpasInstruments];
         
         render view:'explorer', model:initParams
     }
