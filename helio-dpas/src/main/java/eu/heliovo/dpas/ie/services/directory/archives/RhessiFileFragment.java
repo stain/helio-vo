@@ -5,9 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathException;
 import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathFragmentException;
-import eu.heliovo.dpas.ie.services.directory.dao.exception.PathBuilderException;
 
 public class RhessiFileFragment implements NewPathFragment
 {

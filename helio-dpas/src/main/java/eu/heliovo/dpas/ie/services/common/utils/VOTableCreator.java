@@ -42,7 +42,7 @@ public class VOTableCreator {
 		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
 		//Checking for multiple Resources
 		if((comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1) || (comCriteriaTO.getAllDateTo()!=null && comCriteriaTO.getAllDateTo().split(",").length>1) || (comCriteriaTO.getAllInstrument()!=null && comCriteriaTO.getAllInstrument().split(",").length>1))
-			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
+			out.write("<INFO name=\"QUERY_URL\" value="+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"/>");
     }
     
     /**
@@ -59,20 +59,22 @@ public class VOTableCreator {
        		 //Writing VOTABLE Resource
     		 out.write( "<RESOURCE>\n" );
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
- 	         out.write( "<INFO name=\"QUERY_STATUS\">"+comCriteriaTO.getQuerystatus()+"</INFO>");
- 	         out.write( "<INFO name=\"EXECUTED_AT\">"+now()+"</INFO>");
- 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\">"+comCriteriaTO.getHelioInstrument()+"</INFO>");
+ 	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
+ 	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
+ 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"\"/>");
  	         if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\">"+comCriteriaTO.getInstrument()+"</INFO>");
+	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");
 	         if(comCriteriaTO.getMissionName()!=null && !comCriteriaTO.getMissionName().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\">"+comCriteriaTO.getMissionName()+"</INFO>");
- 	         out.write( "<INFO name=\"TIME_RANGE\">"+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"</INFO>");
- 	         out.write("<INFO  name=\"QUERY_URL\">"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
+	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\" value=\""+comCriteriaTO.getMissionName()+"\"/>");
+ 	         out.write( "<INFO name=\"TIME_RANGE\" value=\""+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
+ 	         out.write("<INFO  name=\"QUERY_URL\" value=\""+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"\"/>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
+	 	        	 if(tables[0]!=null){
 			         //VoTable Creator
 		    		 VOSerializer vos = VOSerializer.makeSerializer( DataFormat.TABLEDATA, tables[count]);
 		    	     vos.writeInlineTableElement(out);
+	 	        	 }
 	 	         }
  	         }else{
  	        	 out.write( "<INFO name=\"DATA_STATUS\">"+"No data found, please try with some other date</INFO>");
@@ -110,16 +112,16 @@ public class VOTableCreator {
 		//Error resource
     		out.write( "<RESOURCE>\n" );
 	        out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
-	        out.write( "<INFO name=\"QUERY_STATUS\">"+comCriteriaTO.getQuerystatus()+"</INFO>");
-	        out.write( "<INFO name=\"EXECUTED_AT\">"+now()+"</INFO>");
-	        out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\">"+comCriteriaTO.getHelioInstrument()+"</INFO>");
+	        out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
+	        out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
+	        out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
 	        if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\">"+comCriteriaTO.getInstrument()+"</INFO>");
+	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");
 	        if(comCriteriaTO.getMissionName()!=null && !comCriteriaTO.getMissionName().trim().equals(""))
-	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\">"+comCriteriaTO.getMissionName()+"</INFO>");
-	        out.write( "<INFO name=\"TIME_RANGE\">"+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"</INFO>");
+	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\" value=\""+comCriteriaTO.getMissionName()+"\"/>");
+	        out.write( "<INFO name=\"TIME_RANGE\" value=\""+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
 	        if(comCriteriaTO.getQuerystatus().equals("ERROR")){
-	        	 out.write( "<INFO name=\"QUERY_ERROR\">"+comCriteriaTO.getQuerydescription()+"</INFO>");
+	        	 out.write( "<INFO name=\"QUERY_ERROR\" value=\""+comCriteriaTO.getQuerydescription()+"\"/>");
 	        }
 	        out.write( "</RESOURCE>\n" );
 	    //If any exception occurs print error votable.

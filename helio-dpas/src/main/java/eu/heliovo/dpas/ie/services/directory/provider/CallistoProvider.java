@@ -7,17 +7,17 @@ import eu.heliovo.dpas.ie.services.directory.archives.ArchiveExplorer;
 import eu.heliovo.dpas.ie.services.directory.archives.GenericNewPathFragment;
 import eu.heliovo.dpas.ie.services.directory.archives.NewPath;
 import eu.heliovo.dpas.ie.services.directory.archives.NewPathFragment;
-import eu.heliovo.dpas.ie.services.directory.archives.RhessiFileFragment;
+import eu.heliovo.dpas.ie.services.directory.archives.CallistoFileFragment;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.directory.transfer.DirDataTO;
 import eu.heliovo.dpas.ie.services.directory.utils.DPASResultItem;
 import eu.heliovo.dpas.ie.services.vso.dao.exception.DataNotFoundException;
 
-public class RhessiProvider implements DirQueryDao
+public class CallistoProvider implements DirQueryDao
 {
 	ArchiveExplorer	explorer	=	null;
 
-	public RhessiProvider()
+	public CallistoProvider()
 	{
 		super();
 		initialize();
@@ -25,9 +25,12 @@ public class RhessiProvider implements DirQueryDao
 
 	private void initialize()
 	{
+		/*
+		 * Initialiazing the path for the archive explorer
+		 */
 		NewPath	path	=	new NewPath();
 		
-		String			rootString		=	"http://soleil.i4ds.ch/hessidata";
+		String			rootString		=	"http://soleil.i4ds.ch/solarradio/data/2002-20yy_Callisto/";
 		String			yearPattern		=	"yyyy";
 		String			monthPattern	=	"MM";
 		String			dayPattern		=	"dd";
@@ -56,14 +59,14 @@ public class RhessiProvider implements DirQueryDao
 				Calendar.DATE,
 				dayPattern);
 
-		NewPathFragment	fileFragment	=	new RhessiFileFragment();
+		NewPathFragment	fileFragment	=	new CallistoFileFragment();
 
 		path.add(rootFragment);
 		path.add(yearFragment);
 		path.add(monthFragment);
 		path.add(dayFragment);
 		path.add(fileFragment);	
-		
+				
 		explorer	=	new ArchiveExplorer(path);	
 	}
 
