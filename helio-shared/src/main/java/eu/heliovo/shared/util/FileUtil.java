@@ -199,6 +199,24 @@ public class FileUtil {
     }
     
     /**
+     * Delete a file and make sure it is really gone.
+     * @param fileToDelete the file to be deleted
+     */
+    public static boolean removeFile(File fileToDelete) {
+        int i = 3;
+        // retry sometimes as Windows sometimes takes its time to remove files.
+        while( i > 0 && !fileToDelete.delete()) {
+            System.gc();
+            i--;
+        }
+        
+        if (i == 0) {
+            return false;
+        }
+        return true;
+    }
+    
+    /**
      * Copy a File or recursively copy a directory and all its sub directories.
      * @param sourceFile the File or Directory to copy.
      * @param targetFile the location where to copy the file to. Could be either a File or a directory.
@@ -505,4 +523,5 @@ public class FileUtil {
         }
         return l;
     }
+
 }
