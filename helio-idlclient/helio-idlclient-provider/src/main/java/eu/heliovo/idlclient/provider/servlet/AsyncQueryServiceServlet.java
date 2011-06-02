@@ -17,6 +17,7 @@ import model.IdlLogRecord;
 
 import org.apache.log4j.Logger;
 
+import eu.heliovo.clientapi.model.service.HelioServiceName;
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService;
 import eu.heliovo.clientapi.query.asyncquery.impl.AsyncQueryServiceFactory;
@@ -80,15 +81,14 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			
 			
 			AsyncQueryServiceFactory queryServiceFactory = AsyncQueryServiceFactory.getInstance();
-			AsyncQueryService queryService = queryServiceFactory.getAsyncQueryService(service.toUpperCase());
+			AsyncQueryService queryService = queryServiceFactory.getAsyncQueryService(HelioServiceName.valueOf(service.toUpperCase()).getName());
 			if (queryService == null) {
 			    throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
 			}
 						
 			HelioQueryResult result;
 			
-			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
-			
+			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, -1, 0, null);
 			if(result != null)
 			{
 				String out = idl.idlserialize(result);

@@ -3,12 +3,15 @@ package eu.heliovo.idlclient.provider.serialize;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import model.IdlName;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
 
@@ -64,7 +67,7 @@ public class IdlConverter {
 	{
 		StringBuilder out = new StringBuilder();
 		
-		out.append("var =").append(idlserialize_recursive(bean));
+		out.append("FUNCTION HELIOIDLAPI\nreturn, ").append(idlserialize_recursive(bean)).append("\nEND");
 		
 		return out.toString();
 	}
@@ -135,11 +138,11 @@ public class IdlConverter {
 		}
 		
 		if(collection != null)
-		{
+		{			
 		    StringBuilder output = new StringBuilder();
 		    
 			//open idl systax for arrays (name:[e1,e2])
-			output.append("[");
+			output.append("ptr_new([");
 			
 			//iterate through all elements.
 			
@@ -155,7 +158,7 @@ public class IdlConverter {
 			}
 			
 			//Close idl array syntax
-			output.append("]");
+			output.append("])");
 			
 			return output.toString();
 		}
@@ -197,28 +200,36 @@ public class IdlConverter {
 			try {
 				map = beanutil.describe(bean);
 			} catch (IllegalAccessException e) {
-				System.out.println("null");
-				return null;
-				//throw new RuntimeException("Unable to access bean " + bean + ": " + e.getMessage(), e);
+				throw new RuntimeException("Unable to access bean " + bean + ": " + e.getMessage(), e);
 			} catch (InvocationTargetException e) {
-				System.out.println("null");
-				return null;
-				//throw new RuntimeException(e);
+				throw new RuntimeException("Unable to access bean " + bean + ": " + e.getMessage(), e);
 			} catch (NoSuchMethodException e) {
-				System.out.println("null");
-				return null;
-				//throw new RuntimeException(e);
+				throw new RuntimeException("Unable to access bean " + bean + ": " + e.getMessage(), e);
 			}
 			
 			if(map.isEmpty()) return null;
 			
 			//start idl syntax for named structs.
 			output.append("{");
-			Object beanname = map.get("idlstrucname");
-			if(beanname instanceof String)
+			for(Method met : bean.getClass().getDeclaredMethods())
 			{
-				String bname = (String)beanname;
-				output.append(bname).append(", ");
+				if(met.getAnnotation(IdlName.class) != null)
+				{
+					Class<?>[] paramTypes = met.getParameterTypes();
+					if(met.getReturnType() == String.class && paramTypes.length == 0)
+					{
+						try {
+							Object idlname = met.invoke(bean, (Object[])null);
+							output.append(idlname).append(", ");
+						} catch (IllegalArgumentException e) {
+							throw new RuntimeException("Unable to access method " + met + " on " + bean + ": " + e.getMessage(), e);
+						} catch (IllegalAccessException e) {
+							throw new RuntimeException("Unable to access method " + met + " on "  + bean + ": " + e.getMessage(), e);
+						} catch (InvocationTargetException e) {
+							throw new RuntimeException("Unable to access method " + met + " on "  + bean + ": " + e.getMessage(), e);
+						}
+					}
+				}
 			}
 			
 			//iterate through every key/value pair of the map

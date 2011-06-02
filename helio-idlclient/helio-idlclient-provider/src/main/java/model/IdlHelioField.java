@@ -27,10 +27,5 @@ public class IdlHelioField {
 	{
 		return helioField.getType().getName();
 	}
-	
-	public String getXsdType()
-	{
-		return helioField.getType().getXsdType();
-	}
 
 }

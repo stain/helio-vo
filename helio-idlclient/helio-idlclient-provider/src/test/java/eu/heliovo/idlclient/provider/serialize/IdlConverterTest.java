@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
 import model.IdlHelioQueryResult;
+import model.IdlName;
 import net.ivoa.xml.votable.v1.VOTABLE;
 
 import org.junit.BeforeClass;
@@ -34,7 +35,7 @@ public class IdlConverterTest {
 		Object bean = new NullBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={null:PTR_NEW()}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {null:PTR_NEW()}\nEND", ser);
 	}
 	
 	public static class NullBean {
@@ -43,12 +44,11 @@ public class IdlConverterTest {
 		}
 	}
 	
-	// TODO: Fix this test
-	@Ignore @Test public void testSerializeStringBean() {
+	@Test public void testSerializeStringBean() {
 		Object bean = new StringBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={hello world, name:'hello world'}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {name:'hello world'}\nEND", ser);
 	}
 	
 	public static class StringBean {
@@ -57,12 +57,26 @@ public class IdlConverterTest {
 		}
 	}
 	
+	@Test public void testSerializeNamedStringBean() {
+		Object bean = new NamedStringBean();
+		
+		String ser = idl.idlserialize(bean);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {hello_world, name:'hello_world'}\nEND", ser);
+	}
+	
+	public static class NamedStringBean {
+		@IdlName
+		public String getName() {
+			return "hello_world";
+		}
+	}
+	
 	
 	@Test public void testSerializeIntBean() {
 		Object bean = new IntBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={int:5}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {int:5}\nEND", ser);
 	}
 	
 	public static class IntBean {
@@ -76,7 +90,7 @@ public class IdlConverterTest {
 		Object bean = new FloatBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={float:1.5}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {float:1.5}\nEND", ser);
 	}
 	
 	public static class FloatBean {
@@ -90,7 +104,7 @@ public class IdlConverterTest {
 		Object bean = new DoubleBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={double:6.22}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {double:6.22}\nEND", ser);
 	}
 	
 	public static class DoubleBean {
@@ -104,7 +118,7 @@ public class IdlConverterTest {
 		Object bean = new StringArrayBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={stringArray:['Hello', 'World']}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {stringArray:ptr_new(['Hello', 'World'])}\nEND", ser);
 	}
 	
 	public static class StringArrayBean {
@@ -118,7 +132,7 @@ public class IdlConverterTest {
 		Object bean = new IntArrayBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={intArray:[3, 45]}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {intArray:ptr_new([3, 45])}\nEND", ser);
 	}
 	
 	public static class IntArrayBean {
@@ -131,7 +145,7 @@ public class IdlConverterTest {
 		Object bean = new FloatArrayBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={floatArray:[1.5, 1.2]}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {floatArray:ptr_new([1.5, 1.2])}\nEND", ser);
 	}
 	
 	public static class FloatArrayBean {
@@ -144,7 +158,7 @@ public class IdlConverterTest {
 		Object bean = new DoubleArrayBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={doubleArray:[1.5, 1.2]}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {doubleArray:ptr_new([1.5, 1.2])}\nEND", ser);
 	}
 	
 	public static class DoubleArrayBean {
@@ -153,12 +167,11 @@ public class IdlConverterTest {
 		}
 	}
 	
-	// TODO: Fix this test
-    @Ignore @Test public void testSerializeObjectArrayBean() {
+	@Test public void testSerializeObjectArrayBean() {
 		Object bean = new ObjectArrayBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={objectArray:[{null:PTR_NEW()}, {hello world, name:'hello world'}, {int:5}, {float:1.5}, {double:6.22}]}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {objectArray:ptr_new([{null:PTR_NEW()}, {name:'hello world'}, {int:5}, {float:1.5}, {double:6.22}])}\nEND", ser);
 	}
 	
 	public static class ObjectArrayBean {
@@ -167,12 +180,11 @@ public class IdlConverterTest {
 		}
 	}
 	
-	// TODO: Fix this test
-    @Ignore @Test public void testSerializeCollectionBean() {
+	@Test public void testSerializeCollectionBean() {
 		Object bean = new CollectionBean();
 		
 		String ser = idl.idlserialize(bean);
-		assertEquals("var ={collection:[{null:PTR_NEW()}, {hello world, name:'hello world'}, {int:5}, {float:1.5}, {double:6.22}]}", ser);
+		assertEquals("FUNCTION HELIOIDLAPI\nreturn, {collection:ptr_new([{null:PTR_NEW()}, {name:'hello world'}, {int:5}, {float:1.5}, {double:6.22}])}\nEND", ser);
 	}
 	
 	public static class CollectionBean {

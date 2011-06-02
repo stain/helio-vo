@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.IdlClass;
+import model.IdlFieldType;
 import model.IdlHelioCatalog;
 import model.IdlHelioField;
 
@@ -16,7 +18,9 @@ import eu.heliovo.clientapi.model.catalog.HelioCatalog;
 import eu.heliovo.clientapi.model.catalog.HelioCatalogDao;
 import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
+import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
+import eu.heliovo.clientapi.model.service.HelioServiceName;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
 
 /**
@@ -43,27 +47,20 @@ public class HecStaticCatalogRegistryServlet extends HttpServlet {
 		IdlConverter idl = IdlConverter.getInstance();
 		idl.registerSerialisationHandler(HelioCatalog.class, IdlHelioCatalog.class);
 		idl.registerSerialisationHandler(HelioField.class, IdlHelioField.class);
+		idl.registerSerialisationHandler(FieldType.class, IdlFieldType.class);
+		idl.registerSerialisationHandler(Class.class, IdlClass.class);
 		
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
-		String catalog = request.getParameter("catalog");
-		HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("hec");
+		HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
 		
-		if(catalog != null && catalog != "")
-		{
-			HelioCatalog hc = hecDao.getCatalogById(catalog);
-			writer.println((idl.idlserialize(hc)));
-		}
-		else
-		{
-			ArrayList<String> catList = new ArrayList<String>();
-			for (DomainValueDescriptor<String> c : hecDao.getCatalogField().getValueDomain()) {
-				HelioCatalog hc = hecDao.getCatalogById(c.getValue());
-				catList.add(hc.getCatalogName());
-	        }
-			writer.println((idl.idlserialize(catList)));
-		}
+		ArrayList<HelioCatalog> catList = new ArrayList<HelioCatalog>();
+		for (DomainValueDescriptor<String> c : hecDao.getCatalogField().getValueDomain()) {
+			HelioCatalog hc = hecDao.getCatalogById(c.getValue());
+			catList.add(hc);
+        }
+		writer.println((idl.idlserialize(catList)));
 	}
 
 	/**

@@ -16,14 +16,15 @@ public class IdlHelioCatalog {
 		return helioCatalog.getCatalogName();
 	}
 
-	/*public String getValue() {
+	public String getValue() {
 		return helioCatalog.getValue();
-	}*/
+	}
 
 	public String getLabel() {
 		return helioCatalog.getLabel();
 	}
 
+	@IdlName
 	public HelioField<?>[] getFields() {
 		return helioCatalog.getFields();
 	}
