@@ -1,9 +1,9 @@
-package eu.heliovo.clientapi.registry.impl;
+package eu.heliovo.registryclient.impl;
 
 import java.net.URL;
 
-import eu.heliovo.clientapi.registry.AccessInterface;
-import eu.heliovo.clientapi.registry.AccessInterfaceType;
+import eu.heliovo.registryclient.AccessInterface;
+import eu.heliovo.registryclient.AccessInterfaceType;
 import eu.heliovo.shared.util.AssertUtil;
 
 /**

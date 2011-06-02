@@ -1,4 +1,4 @@
-package eu.heliovo.clientapi.registry.impl;
+package eu.heliovo.registryclient.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import uk.ac.starlink.registry.SoapClient;
  * @author Marco Soldati 
  * @history MSo 26/05/2011 added access to the property /interface/@xsi-type 
  */
-public class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
+class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
 
     /**
      * Constructor.

@@ -1,15 +1,15 @@
-package eu.heliovo.clientapi.registry;
+package eu.heliovo.registryclient;
 
 import java.util.Set;
 
 /**
  * Describe a service in general (i.e. not a particular instance of the service). 
- * The description can be retrieved through the {@link HelioServiceRegistryDao}.
+ * The description can be retrieved through the {@link ServiceRegistryClient}.
  * The business key of this object is the "name - type" tuple. 
  * @author marco soldati at fhnw ch
  *
  */
-public interface HelioServiceDescriptor {
+public interface ServiceDescriptor {
 
 	/**
 	 * Return the name of the service
@@ -33,7 +33,7 @@ public interface HelioServiceDescriptor {
 	 * Get the capabilities of a service
 	 * @return the type of a service.
 	 */
-	public Set<HelioServiceCapability> getCapabilities();
+	public Set<ServiceCapability> getCapabilities();
 
 	/**
 	 * Check if the name and capabilties are equal
@@ -51,6 +51,6 @@ public interface HelioServiceDescriptor {
      * @param capability the capability to add.
      * @return true if the capability did not already exist, false otherwise.
      */
-    public boolean addCapability(HelioServiceCapability capability);
+    public boolean addCapability(ServiceCapability capability);
 
 }

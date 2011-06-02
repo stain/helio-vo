@@ -1,4 +1,4 @@
-package eu.heliovo.clientapi.registry;
+package eu.heliovo.registryclient;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,13 +9,16 @@ import eu.heliovo.shared.util.AssertUtil;
 
 /**
  * Type of an access interface.
- * This class provides some predefined types, but allows to be extended by 
- * additional types.
+ * This class behaves like a dynamic enum. It provides constants for 
+ * some predefined types, but allows to be extended at runtime.
  * @author MarcoSoldati
  *
  */
 public class AccessInterfaceType implements Iterable<AccessInterfaceType> {
-    
+
+    /**
+     * Hold the registered access interface types. Key is the name property.
+     */
     private static final Map<String, AccessInterfaceType> enumMap = new HashMap<String, AccessInterfaceType>();
     
     public static final AccessInterfaceType SOAP_SERVICE = register("SOAP_SERVICE", "vr:WebService");
@@ -25,10 +28,10 @@ public class AccessInterfaceType implements Iterable<AccessInterfaceType> {
     /**
      * Interface type is not specified (i.e. null).
      */
-    public static final AccessInterfaceType UNDEFINED = register("undefined", null);
+    public static final AccessInterfaceType UNDEFINED = register("UNDEFINED", null);
     
     /**
-     * Name of the interface type
+     * Name of the interface type. The name must be unique and is a human readable form of the xsiType.
      */
     private final String name;
     

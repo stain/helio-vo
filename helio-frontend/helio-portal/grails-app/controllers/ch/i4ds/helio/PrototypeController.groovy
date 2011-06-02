@@ -17,7 +17,7 @@ import eu.heliovo.clientapi.model.catalog.impl.HecDao
 import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
-import eu.heliovo.clientapi.model.service.HelioServiceName;
+import eu.heliovo.registryclient.HelioServiceName;
 import ch.i4ds.*;
 
 class PrototypeController {
@@ -96,12 +96,12 @@ class PrototypeController {
      * Expects parameter: catalog=CATALOG_NAME.
      */
     def getHecColumns = {
-        //log.info("getHecColumns =>" +params);
+        log.info("getHecColumns =>" +params);
 			
         if(params.catalog == null)
         throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
 
-        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao("hec");;
+        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
         def catalog = hecDao.getCatalogById(params.catalog);
                 
         if (catalog != null) {
@@ -150,11 +150,9 @@ class PrototypeController {
                 where = params.where;
             }
 			
-            String serviceName = params.serviceName;
-			
-			
-            ResultVT result = DataQueryService.queryService(serviceName, startTime, endTime, extraList, where);
-            int resultId= ResultVTManagerService.addResult(result,serviceName);
+            HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());			
+            ResultVT result = DataQueryService.queryService(serviceName.getName(), startTime, endTime, extraList, where);
+            int resultId= ResultVTManagerService.addResult(result,params.serviceName);
         
             def responseObject = [result:result,resultId:resultId ];
 
@@ -279,8 +277,8 @@ class PrototypeController {
 	String where ="";
 
 	if(params.where != null)where = params.where;
-	String serviceName = params.serviceName;
-	ResultVT result = DataQueryService.queryService(serviceName, minDateList, maxDateList, extraList, where);
+	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
+	ResultVT result = DataQueryService.queryService(serviceName.getName(), minDateList, maxDateList, extraList, where);
 
 	return result;
 

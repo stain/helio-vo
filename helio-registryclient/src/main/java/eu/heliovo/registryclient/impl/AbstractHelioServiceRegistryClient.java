@@ -1,22 +1,24 @@
-package eu.heliovo.clientapi.registry.impl;
+package eu.heliovo.registryclient.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import eu.heliovo.clientapi.registry.AccessInterface;
-import eu.heliovo.clientapi.registry.AccessInterfaceType;
-import eu.heliovo.clientapi.registry.HelioServiceCapability;
-import eu.heliovo.clientapi.registry.HelioServiceDescriptor;
-import eu.heliovo.clientapi.registry.HelioServiceRegistryDao;
-import eu.heliovo.clientapi.registry.ServiceResolutionException;
+import eu.heliovo.registryclient.AccessInterface;
+import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.ServiceCapability;
+import eu.heliovo.registryclient.ServiceDescriptor;
+import eu.heliovo.registryclient.ServiceRegistryClient;
+import eu.heliovo.registryclient.ServiceResolutionException;
 import eu.heliovo.shared.util.AssertUtil;
 
-public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao {
+public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient {
 
     /**
      * The logger for this registry impl
@@ -26,24 +28,24 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
     /**
      * Store the registered service descriptors.
      */
-    protected final Set<HelioServiceDescriptor> serviceDescriptors = new HashSet<HelioServiceDescriptor>();
+    protected final Set<ServiceDescriptor> serviceDescriptors = new HashSet<ServiceDescriptor>();
 
     /**
      * Store the registered service instance descriptor
      */
-    protected final Map<HelioServiceDescriptor, Set<HelioServiceInstanceDescriptor>> instanceDescriptors = new HashMap<HelioServiceDescriptor, Set<HelioServiceInstanceDescriptor>>();
+    protected final Map<ServiceDescriptor, Set<HelioServiceInstanceDescriptor>> instanceDescriptors = new HashMap<ServiceDescriptor, Set<HelioServiceInstanceDescriptor>>();
 
     /**
      * Register a service descriptor. If the service descriptor already exists it is ignored.
      * @param helioServiceDescriptor the service descriptor.
      * @return true if the descriptor has not been registered before. false if a previous instance of the service already existed.
      */
-    public HelioServiceDescriptor registerServiceDescriptor(HelioServiceDescriptor helioServiceDescriptor) {
-        HelioServiceDescriptor ret;
+    public ServiceDescriptor registerServiceDescriptor(ServiceDescriptor helioServiceDescriptor) {
+        ServiceDescriptor ret;
         boolean exists = serviceDescriptors.add(helioServiceDescriptor);
         if (!exists) {
             ret = null;
-            for (HelioServiceDescriptor currentDescriptor : serviceDescriptors) {
+            for (ServiceDescriptor currentDescriptor : serviceDescriptors) {
                 if (currentDescriptor.equals(helioServiceDescriptor)) {
                     ret = currentDescriptor;
                     break;
@@ -72,10 +74,10 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
      * @param description the description of the service.
      * @param accessInterface the access interface pointing to valid endpoints for this service.
      */
-    protected void registerServiceInstance(String serviceName, String label, String description, HelioServiceCapability capability, AccessInterface accessInterface) {
+    protected void registerServiceInstance(String serviceName, String label, String description, ServiceCapability capability, AccessInterface accessInterface) {
     	// create the descriptor
-    	HelioServiceDescriptor serviceDescriptor = 
-    		new GenericHelioServiceDescriptor(serviceName, label, description, (HelioServiceCapability[])null);
+    	ServiceDescriptor serviceDescriptor = 
+    		new GenericServiceDescriptor(serviceName, label, description, (ServiceCapability[])null);
     	registerServiceInstance(serviceDescriptor, capability, accessInterface);
     }
 
@@ -86,7 +88,7 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
      * @param accessInterface the accessInterface associated with the capability.
      * @return true if the descriptor has not been registered before, false if a instance of this descriptor already exists.
      */
-    public boolean registerServiceInstance(HelioServiceDescriptor serviceDescriptor, HelioServiceCapability capability, AccessInterface accessInterface) {
+    public boolean registerServiceInstance(ServiceDescriptor serviceDescriptor, ServiceCapability capability, AccessInterface accessInterface) {
     	// check if service descriptor is already registered, if not do so.
         serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
         // sanity check
@@ -118,14 +120,14 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
     }
 
     @Override
-    public HelioServiceDescriptor[] getAllServiceDescriptors() {
-    	return serviceDescriptors.toArray(new HelioServiceDescriptor[serviceDescriptors.size()]);
+    public ServiceDescriptor[] getAllServiceDescriptors() {
+    	return serviceDescriptors.toArray(new ServiceDescriptor[serviceDescriptors.size()]);
     }
     
     @Override
-    public HelioServiceDescriptor getServiceDescriptor(String name) {
-    	HelioServiceDescriptor ret = null;
-    	for (HelioServiceDescriptor currentDescriptor : serviceDescriptors) {
+    public ServiceDescriptor getServiceDescriptor(String name) {
+    	ServiceDescriptor ret = null;
+    	for (ServiceDescriptor currentDescriptor : serviceDescriptors) {
     		if (currentDescriptor.getName().equals(name)) {
     			ret = currentDescriptor;
     			break;
@@ -135,26 +137,27 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
     }
 
     @Override
-    public AccessInterface[] getAllEndpoints(HelioServiceDescriptor descriptor) {
+    public AccessInterface[] getAllEndpoints(ServiceDescriptor descriptor, ServiceCapability capability, AccessInterfaceType type) {
     	AssertUtil.assertArgumentNotNull(descriptor, "descriptor");
     	Set<HelioServiceInstanceDescriptor> serviceInstances = instanceDescriptors.get(descriptor);
     	if (serviceInstances == null) {
     		return new AccessInterface[0];
     	}
-    	// fill in array of access interfaces.
-    	AccessInterface[] ret = new AccessInterface[serviceInstances.size()];
-    	int i = 0;
-    	for (HelioServiceInstanceDescriptor helioServiceInstanceDescriptor : serviceInstances) {
-    		ret[i] = helioServiceInstanceDescriptor.getAccessInterface();
-    		i++;
-    	}
     	
-    	return ret;
+    	// fill in array of access interfaces.
+    	List<AccessInterface> ret = new ArrayList<AccessInterface>();
+    	for (HelioServiceInstanceDescriptor helioServiceInstanceDescriptor : serviceInstances) {
+    	    if ((capability == null || capability.equals(helioServiceInstanceDescriptor.getCapability())) && 
+    	        (type == null || type.equals(helioServiceInstanceDescriptor.getAccessInterface().getInterfaceType()))) {
+    	        ret.add(helioServiceInstanceDescriptor.getAccessInterface());
+    	    }
+    	}
+    	return ret.toArray(new AccessInterface[ret.size()]);
     }
 
     @Override
-    public AccessInterface getBestEndpoint(String name, HelioServiceCapability capability, AccessInterfaceType type) {
-        HelioServiceDescriptor serviceDescsriptor = getServiceDescriptor(name);
+    public AccessInterface getBestEndpoint(String name, ServiceCapability capability, AccessInterfaceType type) {
+        ServiceDescriptor serviceDescsriptor = getServiceDescriptor(name);
         if (serviceDescsriptor == null) {
             throw new ServiceResolutionException("No service found with name " + name + ".");
         }
@@ -169,7 +172,7 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
      * This implementation just takes the first match.
      */
     @Override
-    public AccessInterface getBestEndpoint(HelioServiceDescriptor descriptor, HelioServiceCapability capability, AccessInterfaceType type) {
+    public AccessInterface getBestEndpoint(ServiceDescriptor descriptor, ServiceCapability capability, AccessInterfaceType type) {
     	AssertUtil.assertArgumentNotNull(descriptor, "descriptor");
     	AssertUtil.assertArgumentNotNull(capability, "capability");
     	AssertUtil.assertArgumentNotNull(type, "type");
@@ -189,14 +192,14 @@ public class AbstractHelioServiceRegistryDao implements HelioServiceRegistryDao 
     }
 
 
-    public AbstractHelioServiceRegistryDao() {
+    public AbstractHelioServiceRegistryClient() {
         super();
     }
 }
 
 /**
  * Descriptor of a concrete instance of a service.
- * Do not instantiate this class outside of {@link AbstractHelioServiceRegistryDao}. It's public for the XMLEncoder
+ * Do not instantiate this class outside of {@link AbstractHelioServiceRegistryClient}. It's public for the XMLEncoder
  * @author MarcoSoldati
  *
  */
@@ -204,12 +207,12 @@ class HelioServiceInstanceDescriptor {
     /**
      * The assigned service descriptor
      */
-    private final HelioServiceDescriptor serviceDescriptor;
+    private final ServiceDescriptor serviceDescriptor;
 
     /**
      * The capability assigned with this interface.
      */
-    private final HelioServiceCapability capability;
+    private final ServiceCapability capability;
     
     /**
      * Pointer to the access interface
@@ -223,7 +226,7 @@ class HelioServiceInstanceDescriptor {
      * @param capability the capability described by this descriptor
      * @param accessInterface the URL and interface type assigned with this descriptor.
      */
-    public HelioServiceInstanceDescriptor(HelioServiceDescriptor serviceDescriptor, HelioServiceCapability capability, AccessInterface accessInterface) {
+    public HelioServiceInstanceDescriptor(ServiceDescriptor serviceDescriptor, ServiceCapability capability, AccessInterface accessInterface) {
         AssertUtil.assertArgumentNotNull(serviceDescriptor, "serviceDescriptor");
         AssertUtil.assertArgumentNotNull(capability, "capability");
         AssertUtil.assertArgumentNotNull(accessInterface, "accessInterface");
@@ -236,7 +239,7 @@ class HelioServiceInstanceDescriptor {
      * Get the descriptor of the service.
      * @return the service descriptor.
      */
-    public HelioServiceDescriptor getServiceDescriptor() {
+    public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;
     }
     
@@ -244,7 +247,7 @@ class HelioServiceInstanceDescriptor {
      * The capability implemented by this descriptor.
      * @return the capability
      */
-    public HelioServiceCapability getCapability() {
+    public ServiceCapability getCapability() {
         return capability;
     }
     

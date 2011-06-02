@@ -1,13 +1,12 @@
-package eu.heliovo.clientapi.registry.impl;
+package eu.heliovo.registryclient.impl;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import eu.heliovo.clientapi.registry.HelioServiceCapability;
-import eu.heliovo.clientapi.registry.HelioServiceDescriptor;
-import eu.heliovo.clientapi.registry.HelioServiceRegistryDao;
+import eu.heliovo.registryclient.ServiceCapability;
+import eu.heliovo.registryclient.ServiceDescriptor;
 import eu.heliovo.shared.util.AssertUtil;
 
 /**
@@ -17,7 +16,7 @@ import eu.heliovo.shared.util.AssertUtil;
  * @author MarcoSoldati
  *
  */
-public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
+public class GenericServiceDescriptor implements ServiceDescriptor {
 	
 	/**
 	 * A unique identifier of the service
@@ -37,7 +36,7 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
 	/**
 	 * The type of this service
 	 */
-	private final Set<HelioServiceCapability> capabilities = new HashSet<HelioServiceCapability>();
+	private final Set<ServiceCapability> capabilities = new HashSet<ServiceCapability>();
 	
 	/**
 	 * Create a descriptor for a service.
@@ -47,7 +46,7 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
 	 * @param capabilities the capabilities assigned with this service. Ignored if null. More capabilities can be added later.
 	 * 
 	 */
-	public GenericHelioServiceDescriptor(String name, String label, String description, HelioServiceCapability ... capabilities) {
+	public GenericServiceDescriptor(String name, String label, String description, ServiceCapability ... capabilities) {
 		AssertUtil.assertArgumentHasText(name, "name");
 		this.name = name;
 		this.label = label == null ? name : label;
@@ -64,7 +63,7 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
 	 * @param description the description of the service. May be null.
 	 * @param capabilities the capabilities assigned with this service. Ignored if null.
 	 */
-	public GenericHelioServiceDescriptor(String name, String label, String description, Collection<HelioServiceCapability> capabilities) {
+	public GenericServiceDescriptor(String name, String label, String description, Collection<ServiceCapability> capabilities) {
 	    AssertUtil.assertArgumentHasText(name, "name");
 	    this.name = name;
 	    this.label = label == null ? name : label;
@@ -102,7 +101,7 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
 	 * @see eu.heliovo.clientapi.registry.HelioServiceDescriptor#getType()
 	 */
 	@Override
-	public Set<HelioServiceCapability> getCapabilities() {
+	public Set<ServiceCapability> getCapabilities() {
 		return Collections.unmodifiableSet(capabilities);
 	}
 	
@@ -113,7 +112,7 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
      * @return true if the capability did not already exist, false otherwise.
      */
     @Override
-    public boolean addCapability(HelioServiceCapability capability) {
+    public boolean addCapability(ServiceCapability capability) {
         if (capability != null) {
             return this.capabilities.add(capability);
         }
@@ -125,9 +124,9 @@ public class GenericHelioServiceDescriptor implements HelioServiceDescriptor {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null || !(obj instanceof GenericHelioServiceDescriptor))
+		if (obj == null || !(obj instanceof GenericServiceDescriptor))
 			return false;
-		return name.equals(((GenericHelioServiceDescriptor)obj).name);
+		return name.equals(((GenericServiceDescriptor)obj).name);
 	}
 	
 	/* (non-Javadoc)

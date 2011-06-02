@@ -1,7 +1,12 @@
-package eu.heliovo.clientapi.registry;
+package eu.heliovo.registryclient;
 
 import java.net.URL;
 
+/**
+ * Descriptor of an access interface for a given service.
+ * @author MarcoSoldati
+ *
+ */
 public interface AccessInterface {
     /**
      * Get the URL assigned with this access interface
@@ -14,7 +19,4 @@ public interface AccessInterface {
      * @return the interface type.
      */
     public AccessInterfaceType getInterfaceType();
-    
-    
-
 }

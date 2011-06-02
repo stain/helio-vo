@@ -1,4 +1,4 @@
-package eu.heliovo.clientapi.model.service;
+package eu.heliovo.registryclient;
 
 /**
  * Enumeration of well known HELIO service names.

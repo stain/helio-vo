@@ -1,4 +1,4 @@
-package eu.heliovo.clientapi.registry.impl;
+package eu.heliovo.registryclient.impl;
 
 
 import static uk.ac.starlink.registry.RegistryRequestFactory.keywordSearch;
@@ -14,11 +14,11 @@ import uk.ac.starlink.registry.AbstractRegistryClient;
 import uk.ac.starlink.registry.BasicCapability;
 import uk.ac.starlink.registry.BasicResource;
 import uk.ac.starlink.registry.SoapClient;
-import eu.heliovo.clientapi.registry.AccessInterface;
-import eu.heliovo.clientapi.registry.AccessInterfaceType;
-import eu.heliovo.clientapi.registry.HelioServiceCapability;
-import eu.heliovo.clientapi.registry.HelioServiceDescriptor;
-import eu.heliovo.clientapi.registry.ServiceResolutionException;
+import eu.heliovo.registryclient.AccessInterface;
+import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.ServiceCapability;
+import eu.heliovo.registryclient.ServiceDescriptor;
+import eu.heliovo.registryclient.ServiceResolutionException;
 import eu.heliovo.shared.props.HelioFileUtil;
 
 /**
@@ -27,8 +27,8 @@ import eu.heliovo.shared.props.HelioFileUtil;
  * @author donal k fellows
  * @author marco soldati at fhnw ch
  */
-class RemoteHelioServiceRegistryDao extends AbstractHelioServiceRegistryDao {
-	private static final Logger _LOGGER = Logger.getLogger(RemoteHelioServiceRegistryDao.class);
+class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+	private static final Logger _LOGGER = Logger.getLogger(HelioRemoteServiceRegistryClient.class);
 
 	/** The default address of the registry. */
 	public static final String REGISTRY_AT_MSSL = "http://msslxw.mssl.ucl.ac.uk:8080/helio_registry/services/RegistryQueryv1_0";
@@ -41,7 +41,7 @@ class RemoteHelioServiceRegistryDao extends AbstractHelioServiceRegistryDao {
 	/**
 	 * Create the registry impl and initialize it accordingly.
 	 */
-	public RemoteHelioServiceRegistryDao() {
+	public HelioRemoteServiceRegistryClient() {
 	    setRegistryURL(HelioFileUtil.asURL(REGISTRY_AT_MSSL));
 	}
 
@@ -83,16 +83,16 @@ class RemoteHelioServiceRegistryDao extends AbstractHelioServiceRegistryDao {
         for (BasicResource r : allServices) {
             _LOGGER.info("found match: " + r.getIdentifier() + " (" + r.getTitle() + ")");
             String description = getDescription(r);
-            HelioServiceDescriptor serviceDescriptor = new GenericHelioServiceDescriptor(r.getIdentifier(), r.getTitle(), description, (HelioServiceCapability)null);
+            ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(r.getIdentifier(), r.getTitle(), description, (ServiceCapability)null);
             serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
             
             // register capabilities
             for (BasicCapability c : r.getCapabilities()) {
-                HelioServiceCapability cap = HelioServiceCapability.findCapabilityById(c.getStandardId());
+                ServiceCapability cap = ServiceCapability.findServiceCapabilityByStandardId(c.getStandardId());
                 //System.out.println(c.getStandardId() + ", " + c.getXsiType() + ", " +  c.getDescription() + ", " + c.getVersion() + ", "+ c.getAccessUrl());
                 if (cap == null) {
-                    //cap = HelioServiceCapability.register(c.getStandardId(), c.getXsiType(), c.getDescription(), c.getVersion());
-                    cap = HelioServiceCapability.UNKNOWN;
+                    //cap = ServiceCapability.register(c.getStandardId(), c.getXsiType(), c.getDescription(), c.getVersion());
+                    cap = ServiceCapability.UNDEFINED;
                 }
                 
                 AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
