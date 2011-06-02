@@ -248,7 +248,7 @@ class PrototypeController {
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
-        def initParams = [HelioServiceNameCatalogs:valueDomain, dpasInstruments: dpasInstruments];
+        def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments];
         
         render view:'explorer', model:initParams
     }
