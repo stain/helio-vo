@@ -19,4 +19,10 @@ public interface AccessInterface {
      * @return the interface type.
      */
     public AccessInterfaceType getInterfaceType();
+    
+    /**
+     * Get the capability associated with this access interface.
+     * @return the service capability
+     */
+    public ServiceCapability getCapability();
 }

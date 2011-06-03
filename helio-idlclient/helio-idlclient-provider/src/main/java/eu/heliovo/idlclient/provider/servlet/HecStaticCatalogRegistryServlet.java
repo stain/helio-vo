@@ -13,15 +13,14 @@ import model.IdlClass;
 import model.IdlFieldType;
 import model.IdlHelioCatalog;
 import model.IdlHelioField;
-
 import eu.heliovo.clientapi.model.catalog.HelioCatalog;
 import eu.heliovo.clientapi.model.catalog.HelioCatalogDao;
 import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
 import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
-import eu.heliovo.clientapi.model.service.HelioServiceName;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
+import eu.heliovo.registryclient.HelioServiceName;
 
 /**
  * AsyncQueryServiceServlet for IDL Clients.

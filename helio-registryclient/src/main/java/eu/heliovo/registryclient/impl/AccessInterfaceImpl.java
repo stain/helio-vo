@@ -4,6 +4,7 @@ import java.net.URL;
 
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.util.AssertUtil;
 
 /**
@@ -24,14 +25,21 @@ public class AccessInterfaceImpl implements AccessInterface {
     private final URL url;
 
     /**
+     * The capability provided by this interface
+     */
+    private final ServiceCapability serviceCapability;
+
+    /**
      * The type of the interface
      * @param type the interface type
      * @param url the URL of the endpoint
      */
-    public AccessInterfaceImpl(AccessInterfaceType type, URL url) {
+    public AccessInterfaceImpl(AccessInterfaceType type, ServiceCapability serviceCapability, URL url) {
         AssertUtil.assertArgumentNotNull(type, "type");
+        AssertUtil.assertArgumentNotNull(serviceCapability, "serviceCapability");
         AssertUtil.assertArgumentNotNull(url, "url");
         this.type = type;
+        this.serviceCapability = serviceCapability;
         this.url = url;
     }
     
@@ -46,11 +54,17 @@ public class AccessInterfaceImpl implements AccessInterface {
     }
     
     @Override
+    public ServiceCapability getCapability() {
+        return serviceCapability;
+    }
+    
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("AccessInterfaceImpl [");
-        sb.append("url:").append(url);
-        sb.append("type:").append(type);
+        sb.append("capability:").append(serviceCapability.getName());
+        sb.append(", type:").append(type);
+        sb.append(", url:").append(url);
         return sb.toString();
     }
     
@@ -59,6 +73,7 @@ public class AccessInterfaceImpl implements AccessInterface {
         if (obj instanceof AccessInterface) {
             AccessInterface other = (AccessInterface) obj;
             return (other.getInterfaceType().equals(this.getInterfaceType()) 
+                &&  other.getCapability().equals(this.getCapability())
                 &&  other.getUrl().equals(this.getUrl()));
         }
         return false;
@@ -66,6 +81,6 @@ public class AccessInterfaceImpl implements AccessInterface {
     
     @Override
     public int hashCode() {
-        return this.type.hashCode() * 13 + this.url.hashCode() * 37;
+        return this.type.hashCode() * 13 + this.url.hashCode() * 37 + this.serviceCapability.hashCode() * 31;
     }
 }

@@ -71,12 +71,12 @@ public class LocalHelioRegistryImplTest {
 		ServiceDescriptor descriptor = new GenericServiceDescriptor("test2", "test service", "a test service", ServiceCapability.UNDEFINED);
 		
 		// create service instance descriptor
-		helioRegistry.registerServiceInstance(descriptor, ServiceCapability.UNDEFINED, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, new URL("http://www.example.com/test.wsdl")));
+		helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test.wsdl")));
 		
 		assertNotNull(helioRegistry.getServiceDescriptor("test2"));
 		
 		// register a service with the same name and type
-		assertFalse(helioRegistry.registerServiceInstance(descriptor, ServiceCapability.UNDEFINED, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, new URL("http://www.example.com/test.wsdl"))));
+		assertFalse(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test.wsdl"))));
 	}
 	
 	/**
@@ -86,9 +86,9 @@ public class LocalHelioRegistryImplTest {
 	@Test public void testGetBestEndpoint() throws Exception {
 		ServiceDescriptor descriptor = new GenericServiceDescriptor("test3", "test service", "a test service", ServiceCapability.UNDEFINED);
 		assertNotNull(helioRegistry.registerServiceDescriptor(descriptor));
-		assertTrue(helioRegistry.registerServiceInstance(descriptor, ServiceCapability.UNDEFINED, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, new URL("http://www.example.com/test2.wsdl"))));
-		assertTrue(helioRegistry.registerServiceInstance(descriptor, ServiceCapability.UNDEFINED, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, new URL("http://www.example.com/test3.wsdl"))));
-		assertTrue(helioRegistry.registerServiceInstance(descriptor, ServiceCapability.UNDEFINED, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, new URL("http://www.example.com/test1.wsdl"))));
+		assertTrue(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test2.wsdl"))));
+		assertTrue(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test3.wsdl"))));
+		assertTrue(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test1.wsdl"))));
 		
 		AccessInterface bestEndPoint = helioRegistry.getBestEndpoint(descriptor, ServiceCapability.UNDEFINED, AccessInterfaceType.SOAP_SERVICE);
 		assertNotNull(bestEndPoint);

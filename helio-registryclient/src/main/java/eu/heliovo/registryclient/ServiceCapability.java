@@ -86,6 +86,14 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
     }
     
     /**
+     * Return the standard id of a service as defined in the registry.
+     * @return the standard id.
+     */
+    public String getStandardId() {
+        return standardId;
+    }
+    
+    /**
      * Register a service capability if it's not already there.
      * @param name the name of the capability. must not be null. primary key.
      * @param standardId the id of the capability. May be null.
@@ -118,7 +126,7 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
         return null;
     }
 
-    private static Collection<ServiceCapability> values() {
+    public static Collection<ServiceCapability> values() {
         return enumMap.values();
     }
 

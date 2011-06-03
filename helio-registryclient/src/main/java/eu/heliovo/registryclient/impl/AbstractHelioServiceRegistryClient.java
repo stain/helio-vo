@@ -74,11 +74,11 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
      * @param description the description of the service.
      * @param accessInterface the access interface pointing to valid endpoints for this service.
      */
-    protected void registerServiceInstance(String serviceName, String label, String description, ServiceCapability capability, AccessInterface accessInterface) {
+    protected void registerServiceInstance(String serviceName, String label, String description, AccessInterface accessInterface) {
     	// create the descriptor
     	ServiceDescriptor serviceDescriptor = 
     		new GenericServiceDescriptor(serviceName, label, description, (ServiceCapability[])null);
-    	registerServiceInstance(serviceDescriptor, capability, accessInterface);
+    	registerServiceInstance(serviceDescriptor, accessInterface);
     }
 
     /**
@@ -88,7 +88,7 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
      * @param accessInterface the accessInterface associated with the capability.
      * @return true if the descriptor has not been registered before, false if a instance of this descriptor already exists.
      */
-    public boolean registerServiceInstance(ServiceDescriptor serviceDescriptor, ServiceCapability capability, AccessInterface accessInterface) {
+    public boolean registerServiceInstance(ServiceDescriptor serviceDescriptor, AccessInterface accessInterface) {
     	// check if service descriptor is already registered, if not do so.
         serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
         // sanity check
@@ -97,7 +97,7 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
         }
     
     	// add capabilty if necessary
-        serviceDescriptor.addCapability(capability);
+        serviceDescriptor.addCapability(accessInterface.getCapability());
     
     	
     	Set<HelioServiceInstanceDescriptor> currentInstanceDescriptors = instanceDescriptors.get(serviceDescriptor);
@@ -108,13 +108,13 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     		instanceDescriptors.put(serviceDescriptor, currentInstanceDescriptors);
     	}
     	
-    	HelioServiceInstanceDescriptor instanceDescriptor = new HelioServiceInstanceDescriptor(serviceDescriptor, capability, accessInterface);
+    	HelioServiceInstanceDescriptor instanceDescriptor = new HelioServiceInstanceDescriptor(serviceDescriptor, accessInterface);
 
     	boolean ret = currentInstanceDescriptors.add(instanceDescriptor);
     	if (!ret) {
     	    _LOGGER.warn("Service instance descriptor '" +  instanceDescriptor + "' has been previously registered.");
     	}  else {
-            _LOGGER.info("Register access interface '" + accessInterface + "' with capability '" + capability + "' for service '" + serviceDescriptor + "' ");
+            _LOGGER.info("Register access interface '" + accessInterface + "' for service '" + serviceDescriptor + "' ");
         }
     	return ret;
     }
@@ -147,7 +147,7 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     	// fill in array of access interfaces.
     	List<AccessInterface> ret = new ArrayList<AccessInterface>();
     	for (HelioServiceInstanceDescriptor helioServiceInstanceDescriptor : serviceInstances) {
-    	    if ((capability == null || capability.equals(helioServiceInstanceDescriptor.getCapability())) && 
+    	    if ((capability == null || capability.equals(helioServiceInstanceDescriptor.getAccessInterface().getCapability())) && 
     	        (type == null || type.equals(helioServiceInstanceDescriptor.getAccessInterface().getInterfaceType()))) {
     	        ret.add(helioServiceInstanceDescriptor.getAccessInterface());
     	    }
@@ -183,7 +183,8 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     	
     	// just take the first entry that matches the capability
     	for (HelioServiceInstanceDescriptor helioServiceInstanceDescriptor : serviceInstances) {
-    	    if (helioServiceInstanceDescriptor.getCapability().equals(capability) && type.equals(helioServiceInstanceDescriptor.getAccessInterface().getInterfaceType())) {
+    	    if (helioServiceInstanceDescriptor.getAccessInterface().getCapability().equals(capability) && 
+    	        type.equals(helioServiceInstanceDescriptor.getAccessInterface().getInterfaceType())) {
     	        return helioServiceInstanceDescriptor.getAccessInterface();
     	    }
     	}
@@ -210,11 +211,6 @@ class HelioServiceInstanceDescriptor {
     private final ServiceDescriptor serviceDescriptor;
 
     /**
-     * The capability assigned with this interface.
-     */
-    private final ServiceCapability capability;
-    
-    /**
      * Pointer to the access interface
      */
     private final AccessInterface accessInterface;
@@ -226,11 +222,9 @@ class HelioServiceInstanceDescriptor {
      * @param capability the capability described by this descriptor
      * @param accessInterface the URL and interface type assigned with this descriptor.
      */
-    public HelioServiceInstanceDescriptor(ServiceDescriptor serviceDescriptor, ServiceCapability capability, AccessInterface accessInterface) {
+    public HelioServiceInstanceDescriptor(ServiceDescriptor serviceDescriptor, AccessInterface accessInterface) {
         AssertUtil.assertArgumentNotNull(serviceDescriptor, "serviceDescriptor");
-        AssertUtil.assertArgumentNotNull(capability, "capability");
         AssertUtil.assertArgumentNotNull(accessInterface, "accessInterface");
-        this.capability = capability;
         this.serviceDescriptor = serviceDescriptor;
         this.accessInterface = accessInterface;
     }
@@ -242,15 +236,7 @@ class HelioServiceInstanceDescriptor {
     public ServiceDescriptor getServiceDescriptor() {
         return serviceDescriptor;
     }
-    
-    /**
-     * The capability implemented by this descriptor.
-     * @return the capability
-     */
-    public ServiceCapability getCapability() {
-        return capability;
-    }
-    
+        
     /**
      * Get a pointer to the access interface.
      * @return the access interface
@@ -266,13 +252,20 @@ class HelioServiceInstanceDescriptor {
         }
         
         return serviceDescriptor.equals(((HelioServiceInstanceDescriptor)other).serviceDescriptor) &&
-            capability.equals(((HelioServiceInstanceDescriptor)other).capability) &&
             accessInterface.equals(((HelioServiceInstanceDescriptor)other).accessInterface);
         
     }
     
     @Override
     public int hashCode() {
-        return accessInterface.hashCode() *13 + serviceDescriptor.hashCode() *11 + capability.hashCode() * 31;
+        return accessInterface.hashCode() *13 + serviceDescriptor.hashCode() *11;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(serviceDescriptor);
+        sb.append(", accessInterface=").append(accessInterface);
+        return sb.toString();
     }
 }

@@ -81,7 +81,9 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 
         // loop through all services and qualify them
         for (BasicResource r : allServices) {
-            _LOGGER.info("found match: " + r.getIdentifier() + " (" + r.getTitle() + ")");
+            if (_LOGGER.isTraceEnabled()) {
+                _LOGGER.trace("found match: " + r.getIdentifier() + " (" + r.getTitle() + ")");
+            }
             String description = getDescription(r);
             ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(r.getIdentifier(), r.getTitle(), description, (ServiceCapability)null);
             serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
@@ -91,8 +93,11 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
                 ServiceCapability cap = ServiceCapability.findServiceCapabilityByStandardId(c.getStandardId());
                 //System.out.println(c.getStandardId() + ", " + c.getXsiType() + ", " +  c.getDescription() + ", " + c.getVersion() + ", "+ c.getAccessUrl());
                 if (cap == null) {
-                    //cap = ServiceCapability.register(c.getStandardId(), c.getXsiType(), c.getDescription(), c.getVersion());
-                    cap = ServiceCapability.UNDEFINED;
+                    if (c.getStandardId() != null) {
+                        cap = ServiceCapability.register(c.getStandardId(), c.getStandardId());
+                    } else {
+                        cap = ServiceCapability.UNDEFINED;
+                    }
                 }
                 
                 AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
@@ -101,8 +106,8 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
                     accessInterfaceType = AccessInterfaceType.register(c.getXsiType(), c.getXsiType());
                 }
                 try {
-                    AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, new URL(c.getAccessUrl()));
-                    registerServiceInstance(serviceDescriptor, cap, accessInterface);
+                    AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, cap, new URL(c.getAccessUrl()));
+                    registerServiceInstance(serviceDescriptor, accessInterface);
                 } catch (MalformedURLException e) {
                     _LOGGER.warn("Unable to register URL " + c.getAccessUrl() + " for " + serviceDescriptor + "::" + cap + ": " + e.getMessage(), e);
                 }
