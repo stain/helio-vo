@@ -68,6 +68,15 @@ public class IdlConverter {
 		StringBuilder out = new StringBuilder();
 		
 		out.append("FUNCTION HELIOIDLAPI\nreturn, ").append(idlserialize_recursive(bean)).append("\nEND");
+
+		if(out.length() > 37)
+		{
+			if(out.substring(29, 37).compareTo("ptr_new(") == 0)
+			{
+				out.delete(29, 37);
+				out.delete(out.length()-5, out.length()-4);
+			}
+		}
 		
 		return out.toString();
 	}
