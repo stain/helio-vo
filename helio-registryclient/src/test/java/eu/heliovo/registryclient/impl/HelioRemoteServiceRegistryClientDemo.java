@@ -14,7 +14,7 @@ import eu.heliovo.registryclient.ServiceDescriptor;
 public class HelioRemoteServiceRegistryClientDemo {
 
 
-    private static final String REGISTRY_TABLE_FORMAT = "| %-80s | %-50s | %-20s | %-90s |";
+    private static final String REGISTRY_TABLE_FORMAT = "| %-80s | %-50s | %-20s | %-90s |";
     
     public static void main(String[] args) {
         HelioRemoteServiceRegistryClient serviceRegistryClient = new HelioRemoteServiceRegistryClient();
