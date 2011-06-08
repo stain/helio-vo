@@ -76,8 +76,6 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
         } catch (IOException e) {
             throw new ServiceResolutionException("failed to access registry", e);
         }
-        
-        
 
         // loop through all services and qualify them
         for (BasicResource r : allServices) {

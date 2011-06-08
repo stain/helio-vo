@@ -92,7 +92,9 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
         private static final String DESCRIPTION_PATH =
             CAPABILITY_PATH + "/description";
         private static final String CAPINTERFACE_PATH =
-            CAPABILITY_PATH + "/interface";
+            CAPABILITY_PATH + "/interface";        
+        private static final String WSDLURL_PATH =
+            CAPINTERFACE_PATH + "/wsdlURL";
         private static final String ACCESSURL_PATH =
             CAPINTERFACE_PATH + "/accessURL";
         private static final String VERSION_PATH =
@@ -140,6 +142,7 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
                             STDID_PATH,
                             XSITYPE_PATH,
                             DESCRIPTION_PATH,
+                            WSDLURL_PATH,
                             ACCESSURL_PATH,
                             VERSION_PATH,
                             INTERFACE_XSITYPE_PATH
@@ -285,8 +288,11 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
          */
         private static BasicCapability
         createBasicCapability( final Store cStore ) {
-            BasicCapability cap = new BasicCapability();
-            cap.setAccessUrl( cStore.removeScalar( ACCESSURL_PATH ) );
+            BasicCapability cap = new BasicCapability();            
+            String wsdlUrl = cStore.removeScalar( WSDLURL_PATH ) ;
+            String accessUrl = cStore.removeScalar( ACCESSURL_PATH );
+            cap.setAccessUrl( wsdlUrl != null ? wsdlUrl : accessUrl + "?wsdl" );
+            
             cap.setDescription( cStore.removeScalar( DESCRIPTION_PATH ) );
             cap.setStandardId( cStore.removeScalar( STDID_PATH ) );
             cap.setVersion( cStore.removeScalar( VERSION_PATH ) );
