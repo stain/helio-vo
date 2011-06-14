@@ -1,13 +1,12 @@
-package eu.heliovo.hit.info;
+package eu.heliovo.cis.service.hit.info;
 
 import java.util.Date;
 
-
 import condor.classad.Constant;
 import condor.classad.RecordExpr;
-import eu.heliovo.cil.common.ClassAdUtilities;
-import eu.heliovo.cil.common.ClassAdUtilitiesException;
-import eu.heliovo.cil.common.UniqueIdentifierUtilities;
+import eu.heliovo.cis.service.common.ClassAdUtilities;
+import eu.heliovo.cis.service.common.ClassAdUtilitiesException;
+import eu.heliovo.cis.service.common.UniqueIdentifierUtilities;
 
 /*
  * The information of the HIT is structured in the following schema:
@@ -261,11 +260,24 @@ public class HITInfo
 		cadDescription.insertAttribute(HITInfoTags.identity, idInfo);
 	}
 	
-	public String toString() 
+	public String toReadeableString() 
 	{
 		return cadUtils.exprToReadeableString(cadDescription);
 	}
-	
+
+	public String toString() 
+	{
+		try 
+		{
+			return cadUtils.expr2String(cadDescription);
+		} 
+		catch (ClassAdUtilitiesException e) 
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public void addProfile(String userProfile) throws HITInfoException
 	{
 		/*
