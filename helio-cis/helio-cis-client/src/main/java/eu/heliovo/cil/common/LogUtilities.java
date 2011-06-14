@@ -1,4 +1,6 @@
-package eu.heliovo.cil.common;
+package eu.heliovo.cis.service.common;
+
+import eu.heliovo.shared.common.utilities.TimeUtilities;
 
 
 public class LogUtilities

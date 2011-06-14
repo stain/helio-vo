@@ -1,4 +1,4 @@
-package eu.heliovo.cil.common;
+package eu.heliovo.cis.service.common;
 
 public class UniqueIdentifierUtilities 
 {
