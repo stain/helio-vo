@@ -1,10 +1,10 @@
-package eu.heliovo.hit.info;
+package eu.heliovo.cis.service.hit.info;
 
 import org.ietf.jgss.GSSCredential;
 import org.ietf.jgss.GSSException;
 
-import eu.heliovo.cil.myproxy.MyProxyManager;
-import eu.heliovo.cil.myproxy.MyProxyManagerException;
+import eu.heliovo.cis.service.myproxy.MyProxyManager;
+import eu.heliovo.cis.service.myproxy.MyProxyManagerException;
 
 public class HIT 
 {
@@ -25,7 +25,13 @@ public class HIT
 	 *  
 	 *  */
 	HITInfo				hitInfo		=	null;
-	
+
+	public HIT() 
+	{
+		super();
+		hitInfo		=	new HITInfo();
+	}
+
 
 	public HIT(boolean secure) 
 	{
@@ -107,5 +113,11 @@ public class HIT
 	public void setCertId(String user) 
 	{
 		hitInfo.setCertId(user);		
+	}
+
+
+	public String getInfo() 
+	{
+		return hitInfo.toString();
 	}	
 }
