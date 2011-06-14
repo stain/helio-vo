@@ -1,4 +1,4 @@
-package eu.heliovo.cil.myproxy;
+package eu.heliovo.cis.service.myproxy;
 
 public class MyProxyManagerException extends Exception 
 {

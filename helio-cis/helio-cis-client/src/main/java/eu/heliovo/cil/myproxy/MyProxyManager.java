@@ -1,4 +1,4 @@
-package eu.heliovo.cil.myproxy;
+package eu.heliovo.cis.service.myproxy;
 
 /*
  *
@@ -40,9 +40,9 @@ import org.gridforum.jgss.ExtendedGSSCredential;
 import org.gridforum.jgss.ExtendedGSSManager;
 import org.ietf.jgss.GSSCredential;
 
-import eu.heliovo.cil.common.LogUtilities;
-import eu.heliovo.cil.common.PasswordUtilities;
-import eu.heliovo.hit.info.HITInfo;
+import eu.heliovo.cis.service.common.LogUtilities;
+import eu.heliovo.cis.service.common.PasswordUtilities;
+import eu.heliovo.cis.service.hit.info.HITInfo;
 
 public class MyProxyManager {
 	/*
