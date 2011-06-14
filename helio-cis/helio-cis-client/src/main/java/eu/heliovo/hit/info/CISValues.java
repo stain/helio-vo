@@ -1,4 +1,4 @@
-package eu.heliovo.hit.info;
+package eu.heliovo.cis.service.hit.info;
 
 public class CISValues 
 {
