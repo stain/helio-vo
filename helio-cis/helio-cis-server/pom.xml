@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+						http://maven.apache.org/maven-v4_0_0.xsd">
+
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>helio-cis</artifactId>
@@ -12,7 +15,156 @@
 	<packaging>war</packaging>
 	<name>helio-cis-server</name>
 	<version>5.0-SNAPSHOT</version>
+
 	<description>
         Implementation of the community interaction service.
 	</description>
+
+
+	<!-- Dependency properties -->
+	<properties>
+		<junit-version>4.5</junit-version>
+		<cxf.version>2.2.6</cxf.version>
+		<spring-version>3.0.1.RELEASE</spring-version>
+		<!-- <spring-version>2.0.2.RELEASE</spring-version> -->
+		<commons-logging-version>1.1.1</commons-logging-version>
+	</properties>
+
+	<!-- Plugin configuration -->
+	<build>
+		<finalName>helio-cis-server</finalName>
+		<!-- Feel free to change maven-compiler-plugin configuration -->
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-java2ws-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-jaxws</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.cxf</groupId>
+						<artifactId>cxf-rt-frontend-simple</artifactId>
+						<version>${cxf.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>process-classes</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<className>eu.heliovo.cis.service.CisService</className>
+							<genWsdl>true</genWsdl>
+							<verbose>true</verbose>
+						</configuration>
+						<goals>
+							<goal>java2ws</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<!-- Dependency definitions -->
+	<dependencies>
+
+		<!-- ClassAd -->
+		<dependency>
+			<groupId>condor</groupId>
+			<artifactId>classad</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- Apache CXF dependencies -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
+		<!-- Spring Dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring-version}</version>
+		</dependency>
+
+		<!-- Security Libraries -->
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>cog-jglobus</artifactId>
+			<version>1.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>jce-jdk</artifactId>
+			<version>146</version>
+		</dependency>
+		 -->
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>puretls</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>cryptix32</artifactId>
+			<version>1</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.heliovo.securitylibraries</groupId>
+			<artifactId>cryptix-asn1</artifactId>
+			<version>1</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>${commons-logging-version}</version>
+		</dependency>
+
+		<!-- Testing -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit-version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>eu.heliovo</groupId>
+			<artifactId>helio-shared</artifactId>
+			<version>5.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
 </project>
