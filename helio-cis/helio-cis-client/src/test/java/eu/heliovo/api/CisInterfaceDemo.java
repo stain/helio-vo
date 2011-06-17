@@ -14,7 +14,7 @@ import eu.heliovo.shared.common.cis.tags.HELIOTags;
 import eu.heliovo.shared.common.utilities.ClassAdUtilities;
 import eu.heliovo.shared.common.utilities.ClassAdUtilitiesException;
 
-public class CisInterfaceTest 
+public class CisInterfaceDemo 
 {
 	CisInterface			cisInterface	=	new CisInterface();
 	PreferencesUtilities	prUtilities		=	new PreferencesUtilities();
@@ -32,7 +32,7 @@ public class CisInterfaceTest
 	 * This simple example shows how to create and validate a user.
 	 * (It is supposed that the user already exists to validate it)
 	 */
-	@Test
+	@Ignore @Test
 	public void testCreateUser() throws ClassAdUtilitiesException 
 	{
 		/*
@@ -63,7 +63,7 @@ public class CisInterfaceTest
 		}		
 	}
 
-	@Test
+	@Ignore @Test
 	public void testUserPreferences() throws ClassAdUtilitiesException 
 	{
 		try 
