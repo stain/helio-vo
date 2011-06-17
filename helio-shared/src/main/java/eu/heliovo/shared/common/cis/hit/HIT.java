@@ -5,7 +5,8 @@ import org.ietf.jgss.GSSException;
 
 import eu.heliovo.shared.common.cis.hit.info.HITInfo;
 
-public class HIT {
+public class HIT 
+{
 	/**
 	 * The HSC - High Security Component
 	 * 
@@ -22,23 +23,28 @@ public class HIT {
 	 * */
 	HITInfo hitInfo = null;
 
-	public HIT() {
+	public HIT() 
+	{
 		super();
 	}
 
-	public GSSCredential getHSC() {
+	public GSSCredential getHSC() 
+	{
 		return HSC;
 	}
 
-	public void setHSC(GSSCredential hSC) {
+	public void setHSC(GSSCredential hSC) 
+	{
 		HSC = hSC;
 	}
 
-	public HITInfo getHitInfo() {
+	public HITInfo getHitInfo() 
+	{
 		return hitInfo;
 	}
 
-	public void setHitInfo(HITInfo hitInfo) {
+	public void setHitInfo(HITInfo hitInfo) 
+	{
 		this.hitInfo = hitInfo;
 	}
 
@@ -83,10 +89,12 @@ public class HIT {
 	// return HSC;
 	// }
 	//
-	public String toString() {
+	public String toString() 
+	{
 		String str = new String("=======================================")
 				+ "\n";
-		if (HSC != null) {
+		if (HSC != null) 
+		{
 			str += hitInfo.getUID() + " is a high security HIT" + "\n";
 			try {
 				str += "Distinguished Name : " + HSC.getName().toString()
@@ -100,7 +108,7 @@ public class HIT {
 		} else
 			str += hitInfo.getUID() + " is an low security HIT" + "\n";
 
-		str += hitInfo.toString() + "\n";
+		str += hitInfo.toReadeableString() + "\n";
 		str += "=======================================" + "\n";
 
 		return str;
