@@ -260,9 +260,21 @@ public class HITInfo
 		cadDescription.insertAttribute(HITInfoTags.identity, idInfo);
 	}
 	
-	public String toString() 
+	public String toReadeableString() 
 	{
 		return cadUtils.exprToReadeableString(cadDescription);
+	}
+
+	public String toString() 
+	{
+		try 
+		{
+			return cadUtils.expr2String(cadDescription);
+		} 
+		catch (ClassAdUtilitiesException e) 
+		{
+			return "Error";
+		}
 	}
 
 	public RecordExpr getProfile() throws HITInfoException, ClassAdUtilitiesException
