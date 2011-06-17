@@ -1,9 +1,5 @@
-/*
- * 
- */
 package eu.heliovo.cis.service.hit.repository;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,22 +9,16 @@ import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-
-import org.apache.cxf.transport.servlet.ServletController;
-
 import condor.classad.Constant;
 import condor.classad.RecordExpr;
-import eu.heliovo.cis.service.common.SystemUtilities;
-import eu.heliovo.cis.service.hit.info.CISValues;
-import eu.heliovo.cis.service.hit.info.UserTags;
-import eu.heliovo.cis.service.utilities.ClassAdUtilities;
-import eu.heliovo.cis.service.utilities.ClassAdUtilitiesException;
-import eu.heliovo.cis.service.utilities.SecurityUtilities;
-import eu.heliovo.cis.service.utilities.SecurityUtilitiesException;
+import eu.heliovo.shared.common.cis.hit.info.CISValues;
+import eu.heliovo.shared.common.cis.hit.info.UserTags;
 import eu.heliovo.shared.common.cis.tags.HELIOTags;
+import eu.heliovo.shared.common.utilities.ClassAdUtilities;
+import eu.heliovo.shared.common.utilities.ClassAdUtilitiesException;
+import eu.heliovo.shared.common.utilities.SecurityUtilities;
+import eu.heliovo.shared.common.utilities.SecurityUtilitiesException;
+import eu.heliovo.shared.common.utilities.SystemUtilities;
 
 /**
  * The Class FileBasedHITRepository.
