@@ -2,18 +2,22 @@ package eu.heliovo.cis.service;
 
 import javax.jws.WebService;
 
-import eu.heliovo.cis.service.hit.info.HIT;
-import eu.heliovo.cis.service.hit.info.HITException;
 import eu.heliovo.cis.service.hit.repository.FileBasedHITRepository;
 import eu.heliovo.cis.service.hit.repository.HITRepository;
 import eu.heliovo.cis.service.hit.repository.HITRepositoryException;
+import eu.heliovo.shared.common.cis.hit.HIT;
 import eu.heliovo.shared.common.cis.hit.HITPayload;
+import eu.heliovo.shared.common.cis.hit.HITUtilities;
+import eu.heliovo.shared.common.cis.hit.info.HITException;
+import eu.heliovo.shared.common.cis.hit.info.HITInfo;
+import eu.heliovo.shared.common.cis.hit.info.HITInfoException;
 
 @WebService(endpointInterface = "eu.heliovo.cis.service.CisService")
 public class CisServiceImpl implements CisService 
 {
-	HITRepository		repository	=	null;
-
+	HITRepository		repository		=	null;
+	HITUtilities		hitUtilities	=	new HITUtilities();
+	
 	public CisServiceImpl() 
 	{
 		super();
@@ -23,7 +27,6 @@ public class CisServiceImpl implements CisService
 	public CisServiceImpl(String repositoryLocation) 
 	{
 		super();
-//		System.out.println(repositoryLocation);
 		repository	=	new FileBasedHITRepository(repositoryLocation);
 	}
 	
@@ -49,7 +52,6 @@ public class CisServiceImpl implements CisService
 	@Override
 	public void addUser(String user, String pwdHash) throws CisServiceException 
 	{
-//		System.out.println(sysUtils.sysExec("dir"));
 		try 
 		{
 			repository.addUser(user, pwdHash);
@@ -82,28 +84,30 @@ public class CisServiceImpl implements CisService
 		 */
 		if(!isUserPresent(user))
 			throw new CisServiceException();
-		
 		if(!validateUser(user, pwdHash))
 			throw new CisServiceException();
 			
 		HIT		idToken		=	null;
+		idToken		=	new HIT();
+		HITInfo	hitInfo	=	new HITInfo(user);
 		try 
 		{
-			idToken		=	new HIT(false, user);
-			idToken.addProfile(repository.getUserProfileFor(user));
+			hitInfo.addProfile(repository.getUserProfileFor(user).toString());
+		} 
+		catch (HITInfoException e) 
+		{
+			e.printStackTrace();
 		} 
 		catch (HITRepositoryException e) 
 		{
 			e.printStackTrace();
-		} 
-		catch (HITException e) 
-		{
-			e.printStackTrace();
 		}
+		idToken.setHitInfo(hitInfo);
 		
 		HITPayload	hitPayload	=	new HITPayload();
 		
-		hitPayload.setInformation(idToken.getInfo());
+		
+		hitPayload.setInformation(idToken.getHitInfo().toString());
 		hitPayload.setCredential("credential");
 		
 		return hitPayload;
