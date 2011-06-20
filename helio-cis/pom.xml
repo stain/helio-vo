@@ -18,5 +18,6 @@
 	<modules>
 		<module>helio-cis-client</module>
 		<!--  >module>helio-cis-server</module-->
+		<module>helio-cis-server</module>
 	</modules>
 </project>
