@@ -8,7 +8,6 @@ import eu.heliovo.cis.service.hit.repository.HITRepositoryException;
 import eu.heliovo.shared.common.cis.hit.HIT;
 import eu.heliovo.shared.common.cis.hit.HITPayload;
 import eu.heliovo.shared.common.cis.hit.HITUtilities;
-import eu.heliovo.shared.common.cis.hit.info.HITException;
 import eu.heliovo.shared.common.cis.hit.info.HITInfo;
 import eu.heliovo.shared.common.cis.hit.info.HITInfoException;
 
