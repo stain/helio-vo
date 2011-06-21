@@ -122,7 +122,9 @@ html{
     background-color:#FFCC66;
 }
 
-
+.row_selected td{
+    background-color:#FAAC66;
+}
 #logo{
 
     background-image:url(../images/background/header_lines.png);
@@ -280,7 +282,7 @@ html{
     padding-bottom:10px;
     margin: 0px;
     width: 1000px;
-    height:60px;
+    height:40px;
 
 
     background-color:#DDDDE9;
@@ -302,8 +304,8 @@ html{
     padding: 0;
     list-style-type: none;
 }
-.draggable, #clearSystem { cursor:pointer; float: left; margin: 10px 10px 10px 15px }
-.draggable img{ width:50px;height:50px; }
+.draggable, #clearSystem { cursor:pointer; float: left; margin: 6px 10px 10px 15px }
+.draggable img{ width:40px;height:40px; }
 
 #content
 {
@@ -426,8 +428,13 @@ html{
     border:1px solid #5B5FA8;
 }
 .resultDroppable{
-    background-image:url(../images/helio/circle_time_grey.png);
+    background:url(../images/helio/circle_time_grey.png) no-repeat 12px 12px;
     
+    
+    
+}
+.resultDroppable3{
+    background-image:url(../images/helio/circle_event_grey.png);
     background-repeat: no-repeat;
     background-position: 12px 12px;
 }
