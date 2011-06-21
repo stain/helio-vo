@@ -7,13 +7,10 @@
         </td>
         <td>
           <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Instrument Location Service</h1>
-          Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
+          
         </td>
         <td>
-          <div style="float:right;" class="controls custom_button" id="delete">X</div>
-          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
-          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
-          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
+    
         </td>
       </tr>
     </table>
@@ -26,6 +23,9 @@
     </div>
     <div class="content">
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
+         
+         <input id="service_name" name="serviceName" type="hidden" value="ILS"/>
+                <input id="extra" name="extra" style="display:none" type="text" value="trajectories"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
           <col width="250"/> 
@@ -34,12 +34,14 @@
             <tr>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;"><b>Date Range</b><br/>
                 <g:render template="templates/dates" />
+                
+                <g:render template="templates/ils_trajectories" />
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
                 <div class="message"><b>Step 1</b><br/>Choose a date range or drop a result from a previous query into the 'hole'.</div>
               </td>
             <tr>
-            <%-- column selection area --%>
+            <%-- column selection area >
             <tr>
               <td valign="top">
                 <b>Data table</b>
@@ -47,7 +49,7 @@
                   <table>
                     <tr>
                       <td width="24" align="center" valign="top">
-                        <%-- create a new column in the selection table --%>
+                        <%-- create a new column in the selection table>
                         <input type="checkbox" name="extra" value="trajectories" title="Trajectories" checked="checked"/>
                       </td>
                       <td valign="top">
@@ -64,27 +66,26 @@
                 <div class="message"><b>Step 3</b> (optional)<br/>Now use the advanced parameters below to further qualify your query.</div>
               </td>
             </tr>
-            <%-- advanced query --%>
+            <%-- advanced query >
             <tr>
               <td colspan="2">
                 <div class="header queryHeader viewerHeader">
                   <h1>Advanced Parameters</h1>
                 </div>
                 <div id="advancedParams"></div>
-                <input name="serviceName" type="hidden" value="ILS"/>
-                <input id="whereField" name="where" style="display:none" type="text"/>
+               
               </td>
             </tr>
-            <%-- submit button --%>
+            <%-- submit button >
             <tr>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-                <input type="submit" value="Submit" class="custom_button submit_button" style="float:none;margin-right:50"/>
+                
                 <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
                 <div class="message"><b>Step 4</b><br/>Submit query to HELIO</div>
               </td>
-            </tr> 
+            </tr--%>
           </tbody>
         </table>
       </form>

@@ -1,44 +1,26 @@
-<h1><img src="${resource(dir:'images/helio',file:'helio_logo.jpg')}"/></h1>
-<ul style="list-style:none">
-
-  
-  
-  
-</ul>
-<h3 style="padding:15px;">Welcome to HELIO FrontEnd.</h3>
+<div style="margin:20px">
 
 
-<table>
+<h2 style="color:orange;padding-bottom:10px;border-bottom: 1px solid black">Welcome to HELIO FrontEnd.</h2>
+
+
+<table style="margin-top:20px;">
   <tr>
+ 
     <td>
-<img src="${resource(dir:'images/icons/toolbar',file:'action_empty.png')}"/>
-    </td>
-    <td>
-      <p>This shape represents a Task. Choose one by clicking it and
-      adjust the parameters until you are satisfied with the result.
-    </p>
+      <h3 style="padding-bottom: 10px">New Release Notes</h3>
+      <p>In an effort to address all comments madre during the last CDAW the interfaces to the services were redesigned. We hope the new design improves your experience with the HELIO services</p>
+      <br>
     <p>
-Your steps will be shown in the Memory bar to the left and
-you can go back to the corresponding step by clicking it.
+Some features of the HFE are currently disabled and will be re-enabled soon as we approach the release of the end of June.
 </p>
+<br>
+<p>Feedback as always is apreciated!</p>
     </td>
   </tr>
-  <tr>
-    <td>
-<img src="${resource(dir:'images/icons/toolbar',file:'circle_empty.png')}"/>
-    </td>
-    <td>
- <p>
-This shape represents a saved result. It is characterized by a
-type (time or/and instrument) and can be reused as such in a
-different task.
-</p>
-<p>
-Your saved results will also be shown in the Memory bar to
-the left and can be accessed with a click.</p>
-
-    </td>
-  </tr>
+ 
 </table>
 
 
+
+</div>

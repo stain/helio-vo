@@ -1,23 +1,20 @@
+
+
 <div id="actionViewer">
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
         <td width="60">
-          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" />
+           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" />
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Event Search</h1>
-          Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">HELIO Event Catalog Service</h1>
+
         </td>
-        <td>
-         <div style="float:right;" class="controls custom_button" id="delete">X</div>
-          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
-          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
-          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
-        </td>
+   
+        
       </tr>
     </table>
-
   </div>
 
   <div class="module ">
@@ -25,80 +22,62 @@
       <h1>Query Form</h1>
     </div>
     <div class="content">
-
-
-<g:form controller="prototype">
-
-<g:render template="templates/dates" />
-<table style="">
-<tr><td style="text-align:right"> Catalogue:</td><td> <g:select class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" value="goes_sxr_flare" from="${[
-'goes_sxr_flare',
-'ngdc_halpha_flare',
-'noaa_energetic_event',
-'stereo_euvi_event',
-'soho_lasco_cme',
-'stereo_hi_cme',
-'goes_proton_event',
-'cme_forbush_event',
-'aad_gle',
-'ngdc_aastar_storm',
-'ngdc_apstar_storm',
-'ngdc_ssc',
-'wind_mfi_mag_cloud',
-'wind_mfi_ip_shock',
-'soho_pm_ip_shock',
-'istp_sw_event',
-'stereo_hi_sw_transient',
-'ulysses_swoops_icme',
-'wind_stereo_ii_iv_radioburst',
-'wind_typeii_soho_cme',
-'yohkoh_hxr_flare',
-'rhessi_hxr_flare',
-'kso_halpha_flare',
-'tsrs_solar_radio_event',
-'soho_eit_wave_transient',
-'wind_mfi_bs_crossing_time',
-'wind_sw_crossing_time',
-'imp8_sw_crossing_time',
-'cactus_soho_cme',
-'cactus_stereoa_cme',
-'cactus_stereob_cme',
-'cactus_soho_flow',
-'cactus_stereoa_flow',
-'cactus_stereob_flow',
-'ulysses_grb_xray_flare',
-'halo_cme_flare_magnetic_storm',
-'noaa_active_region_summary',
-'noaa_daily_solar_data']}" />
-  </td><td><img class="tooltipme" title="Use Ctrl/Cmd-Click to select multiple entries" style ="position:relative;right:40px;" height="20px" src="${resource(dir:'images/icons',file:'info.png')}" /></td>
-
-</tr>
- <tr><td></td><td>
-<g:hiddenField name="serviceName" value="HEC" />
-<input id="whereField" name="where" style="display:none" type="text"/>
-
-    <g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/>
-    <g:submitToRemote class="custom_button" style="float:none;margin-right:50" action="asyncGetColumns"  onComplete="fnOnCompleteGetColumns();" update="hecResponse" value="Advanced Search" />
-
-     </td></tr>
-    </table>
-<div id="hecResponse" class="columnInputs" >
-  </div>
-</g:form>
-
-</div>
-</div>
-
- <div id="displayableResult" class="displayable" style="display:block">
-
+      <form id="actionViewerForm"  action="asyncQuery" method="POST">
+        <table width="100%" cellpadding="0" cellspacing="0">
+          <col width="*" />
+          <col width="250"/>
+          <tbody>
+            <%-- date selection area --%>
+            <tr>
+              <td style="border-top: solid 1px gray;"><b>Date Range</b><br/>
+                <g:render template="templates/dates" />
+              </td>
+              <td style="border-top: solid 1px gray; vertical-align: top;">
+                <div class="message"><b>Step 1</b><br/>Choose a date range or drop a result from a previous query into the 'hole'.</div>
+              </td>
+            <tr>
+            <%-- instrument selection area --%>
+            <tr>
+              <td colspan="2" style="border-top: solid 1px gray;">
+                <b>Event selection</b>
+                
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table>
+                  <tr>
+                    <td style="vertical-align:middle;" >
+                      <div  class="resultDroppable2" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+                          <img style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
+                      </div>
+                    </td>
+                    <td id="extra2">
+                      
+                    </td><td><div class="custom_button" id="event_button">Select</div></td>
+                   
+                  </tr>
+                </table>
+              </td>
+              <td valign="top">
+                <div class="message"><b>Step 2</b><br/>Manually choose a set of instruments or drop a result from a previous query into the 'hole'.</div>
+              </td>
+            </tr>
+            <%-- submit button --%>
+            <tr>
+              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
+                <input id="service_name" name="serviceName" type="hidden" value="HEC"/>
+                
+                <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
+              </td>
+              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
+                
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
     </div>
-
-
-
-
+  </div>
+  <div id="displayableResult" class="displayable" style="display:block"></div>
 </div>
-
-
-
-
-

@@ -7,14 +7,9 @@
         </td>
         <td>
           <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Data Provider Access Service</h1>
-          Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
+          
         </td>
-        <td>
-         <div style="float:right;" class="controls custom_button" id="delete">X</div>
-          <div style="float:right;display:none" class="controls custom_button" id="forward">Next</div>
-          <div style="float:right;display:none" class="controls custom_button" id="counter" ></div>
-          <div style="float:right;display:none" class="controls custom_button" id="backward" >Prev</div>
-        </td>
+    
       </tr>
     </table>
   </div>
@@ -42,6 +37,7 @@
             <tr>
               <td colspan="2" style="border-top: solid 1px gray;">
                 <b>Instrument selection</b>
+                
               </td>
             </tr>
             <tr>
@@ -54,8 +50,12 @@
                       </div>
                     </td>
                     <td>
-                      <g:select id="instArea" style="display:none" class="catalogueSelector" name="extra" size="10" MULTIPLE="yes" from="${dpasInstruments}" optionKey="value" optionValue="label" />
+                      
+                      
                     </td>
+                    <td id="extra">
+                    
+                    </td><td><div id="instrument_button" class="custom_button">Select</div></td>
                   </tr>
                 </table>
               </td>
@@ -67,11 +67,11 @@
             <tr>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
                 <g:hiddenField name="serviceName"  value="DPAS" />
-                <input type="submit" value="Submit" class="custom_button submit_button2" style="float:none;margin-right:50"/>
+                
                 <!--g:submitToRemote class="custom_button" before="fnBeforeQuery();" style="float:none;margin-right:50"  action="asyncQuery" onLoading="window.workspace.onLoading();" update="responseDivision" value="Search" onComplete="fnOnComplete();"/-->
               </td>
               <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
-                <div class="message"><b>Step 3</b><br/>Submit query to HELIO. Queries to the DPAS may take up to several seconds.</div>
+                
               </td>
             </tr> 
           </tbody>
