@@ -28,6 +28,7 @@
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
   <g:javascript src="/helio/ActionViewer.js"/>
+  <g:javascript src="/helio/HelioAjax.js"/>
   <g:javascript src="/helio/ActionViewerExtended.js"/>
   <g:javascript src="/helio/UploadViewer.js"/>
   <g:javascript src="/helio/ResultViewer.js"/>
@@ -85,18 +86,76 @@
     </div>
 
     <!-- Content container -->
+
+    <div id="tabs">
+      <ul>
+        <li><a href="#tabs-2">Services</a></li>
+        
+        
+        <!--li><a href="#tabs-3">Advanced</a></li>
+        <li><a href="#tabs-1">Internal</a></li-->
+
+      </ul>
+      <!--div id="tabs-1">
+        <table>
+          <tr>
+            <td>
+              <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
+            </td>
+          </tr>
+        </table>
+      </div!-->
+      <div id="tabs-2">
+        <table>
+          <tr>
+            <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_searchInstruments">Search Instruments</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!--div id="tabs-3">
+        <table>
+          <tr>
+            <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_findObsData">In-situ Data Mining</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_uploadVOTable">Propagation Model</div>
+            </td>
+          </tr>
+        </table>
+      </div-->
+
+    </div>
+
     <div id="content-container">
 
 
       <!-- ToolBar -->
 
-      <div style="display:block;clear:both" id="section-navigation">
-        <div class="draggable unselectable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar',file:'hec_extended.png')}" alt="HELIO Event Catalog" /></div>
-          <!--div class="draggable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" alt="HELIO Event Catalog" /></div-->
-        <div class="draggable unselectable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar',file:'ics.png')}" alt="Instrument Capabilties Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" alt="Instrument Location Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar',file:'dpas.png')}" alt="Data Provide Access Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" alt="Upload a VOTable" /></div>
+      <div style="display:none;clear:both" id="section-navigation">
+        <div class="draggable unselectable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar/square',file:'hec40.png')}" alt="hec" /></div>
+        <div class="draggable unselectable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar/square',file:'ics40.png')}" alt="Instrument Capabilties Service" /></div>
+        <div class="draggable unselectable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar/square',file:'ils40.png')}" alt="Instrument Location Service" /></div>
+        <div class="draggable unselectable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar/square',file:'dpas40.png')}" alt="Data Provide Access Service" /></div>
+        <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'vot40.png')}" alt="Upload a VOTable" /></div>
+        <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'image40.png')}" alt="Upload a VOTable" /></div>
 
         <div id="clearSystem" style="float:right"><img title="Reset System" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Reset System" /></div>
       </div>
@@ -124,7 +183,7 @@
         </div>
       </div>
 
-      <div id="responseDivision" style="width:858px;display:none"></div>
+      <div id="responseDivision" style="width:858px;display:block"></div>
 
 
     </div>
