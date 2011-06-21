@@ -30,3 +30,22 @@
 <div id="displayableSplash" class="displayable" style="display:none">
   <g:render template="displayables/splash" />
 </div>
+<div id="displayableInputTime" class="displayable" style="display:none">
+  <g:render template="displayables/input_time" />
+</div>
+<div id="displayableInputEvent" class="displayable" style="display:none">
+  <g:render template="displayables/input_event" />
+</div>
+<div id="displayableInputInstruments" class="displayable" style="display:none">
+  <g:render template="displayables/input_instruments" />
+</div>
+<div id="displayableTaskSearchEvents" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_searchevents" />
+</div>
+<div id="displayableTaskSearchInstruments" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_searchinstruments" />
+</div>
+<div id="displayableTaskSearchData" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_searchdata" />
+</div>
+

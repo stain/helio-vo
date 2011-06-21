@@ -12,7 +12,7 @@
             <tr>
               <td></td>
               <td>
-                <div class="message" style="float: right; margin: 0; clear: both; padding: 0px pt 20pt 5px;"><b>Select result</b><br/>Select the data rows of interest. These rows can be used as input parameters for other services. Click on "Save Selection" when done.</div>                
+                <!--div class="message" style="float: right; margin: 0; clear: both; padding: 0px pt 20pt 5px;"><b>Select result</b><br/>Select the data rows of interest. These rows can be used as input parameters for other services. Click on "Save Selection" when done.</div!-->
               </td>
             </tr> 
           </table>
@@ -23,10 +23,10 @@
 
               <input name="resultId" type="hidden" value="${responseObject?.resultId}"/>
 
-              <g:actionSubmit class="custom_button" style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/>
+              <!--g:actionSubmit class="custom_button" style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/-->
             </g:form>
-            <div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div>
-            <div id="resultSelectionSave" class="custom_button" style="margin-right:10px;float:right;">Save Selection</div>
+            <!--div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div>
+            <div id="resultSelectionSave" class="custom_button" style="margin-right:10px;float:right;">Save Selection</div!-->
 
 
             <div style="clear:both;width:100%"></div>
@@ -35,7 +35,7 @@
               "The server reported an unspecified error. Some context information may be found in the returned VOTable. We are sorry for the inconvenience."
             </g:if>
             <g:each in="${result?.getTables()}"  status="x" var="tables">
-              <span style="clear:both"> NAME: "${tables.getName()}"</span>
+              <!--span style="clear:both"> NAME: "${tables.getName()}"</span--!>
               <!--div reference="resultTable${x}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
               <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${x}">
 

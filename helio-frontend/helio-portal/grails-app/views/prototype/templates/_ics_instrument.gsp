@@ -1,5 +1,5 @@
-<div class="ics_instrument">
-  <h4>Instrument</h4>
+<div id="ics_instrument" style="display:none">
+
   <table>
     <tr>
       <td align="left" valign="top">  
@@ -22,17 +22,16 @@
             </g:if>
           </g:each>
         </table>
-        <g:if test="${!hasFields}">
-            <p>No field definition found for the instruments table.</p>
-        </g:if>
+
       </td>
     </tr>
   </table>
-  <%--hr/>
+  <hr/>
   <h4>
-    Instrument
+    Filters
   </h4>
-  <table width="100%" style="margin-left: 5px" cellspacing="4">
+  <table width="100%" style="margin-left: 5px;margin-top:10px" cellspacing="4">
+
     <tr>
       <td align="left" valign="top" colspan="2">
         <b>Observing Domain 1</b>
@@ -43,59 +42,59 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input class="columnInput" name="od1[]" value="Sun" type="checkbox"/></input>
+              <input name="Sun" column="7" type="checkbox">
               Sun
             </td>
             <td>
-              <input name="od1[]" value="Mercury" type="checkbox"></input>
+              <input name="Mercury" column="7" type="checkbox">
               Mercury
             </td>
             <td>
-              <input name="od1[]" value="Venus" type="checkbox"></input>
+              <input name="Venus" column="7" type="checkbox">
               Venus
             </td>
             <td>
-              <input name="od1[]" value="Earth" type="checkbox"></input>
+              <input name="Earth" column="7" type="checkbox">
               Earth
             </td>
             <td>
-              <input name="od1[]" value="Mars" type="checkbox"></input> 
+              <input name="Mars" column="7" type="checkbox">
               Mars
             </td>
             <td>
-              <input name="od1[]" value="Jupiter" type="checkbox"></input> 
+              <input name="Jupiter" column="7" type="checkbox">
               Jupiter
             </td>
             <td>
-              <input name="od1[]" value="Saturn" type="checkbox"></input> 
+              <input name="Saturn" column="7" type="checkbox">
               Saturn
             </td>
           </tr>
           <tr>
             <td>
-              <input name="od1[]" value="heliosphere" type="checkbox"></input> 
+              <input name="heliosphere" column="7" type="checkbox">
               Heliosphere
             </td>
             <td>
-              <input name="od1[]" value="planetary" type="checkbox"></input> 
+              <input name="planetary" column="7" type="checkbox">
               Planetary
             </td>
             <td>
-              <input name="od1[]" value="comet" type="checkbox"></input> 
+              <input name="comet" column="7" type="checkbox">
               Comet    
             </td>
             <td>
-              <input name="od1[]" value="heliopause" type="checkbox"></input> 
+              <input name="heliopause" column="7" type="checkbox">
               Heliopause
             </td>
             <td>
-              <input name="od1[]" value="galactic" type="checkbox"></input> 
+              <input name="galactic" column="7" type="checkbox">
               Galactic
             </td>
             <td colspan="2">
             </td>
         </table>
-     </td>
+      </td>
     </tr>
     <tr>
       <td align="left" valign="top" colspan="2">
@@ -110,24 +109,24 @@
               <i>Solar</i>:
             </td>
             <td>
-              <input name="od2[]" value="interior" type="checkbox"></input>
+              <input column="8" name="interior" type="checkbox">
               Interior
             </td>
             <td>
-      <!--      Disk <input name="od2[]" value="disk" type="checkbox"></input> &nbsp;&nbsp-->
-              <input name="od2[]" value="disk/inr. cor." type="checkbox"></input>
+
+              <input column="8" name="disk/inr. cor." type="checkbox">
               Disk/inr. cor.
             </td>
             <td>
-              <input name="od2[]" value="outer corona" type="checkbox"></input>
+              <input column="8" name="outer corona" type="checkbox">
               Outer corona
             </td>
             <td>
-              <input name="od2[]" value="disk/helios." type="checkbox"></input>
+              <input column="8" name="disk/helios." type="checkbox">
               Disk/helios.
             </td>
             <td>
-              <input name="od2[]" value="solar-wind" type="checkbox"></input>
+              <input column="8" name="solar-wind" type="checkbox">
               Solar-wind
             </td>
           </tr>
@@ -136,36 +135,36 @@
               <i>Planetary</i>:
             </td>
             <td>
-              <input name="od2[]" value="environment" type="checkbox"></input>
+              <input column="8" name="environment" type="checkbox">
               Environment
             </td>
             <td>
-              <input name="od2[]" value="magneto" type="checkbox"></input>
+              <input column="8" name="magneto" type="checkbox">
               Magnetosphere
             </td>
             <td>
               <!--
-              Magneto/ionosphere <input name="od2[]" value="magneto/ionosphere" type="checkbox"></input>
+              Magneto/ionosphere <input column="8" value="magneto/ionosphere" type="checkbox">
               -->
-              <input name="od2[]" value="ionosphere" type="checkbox"></input>
+              <input column="8" name="ionosphere" type="checkbox">
               Ionosphere
             </td>
             <td>
-              <input name="od2[]" value="aurora" type="checkbox"></input>
+              <input column="8" name="aurora" type="checkbox">
               Aurora
             </td>
           </tr>
           <tr>
             <td>
-              <input name="od2[]" value="interstellar" type="checkbox"></input>
+              <input column="8" name="interstellar" type="checkbox">
               Interstellar
             </td>
             <td>
-              <input name="od2[]" value="energy release" type="checkbox"></input>
+              <input column="8" name="energy release" type="checkbox">
               Energy release
             </td>
             <td>
-              <input name="od2[]" value="structure" type="checkbox"></input>
+              <input column="8" name="structure" type="checkbox">
               Structure
             </td>
           </tr>
@@ -182,11 +181,11 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input name="itype[]" value="remote" type="checkbox"></input>
+              <input column="6" name="remote" type="checkbox">
               Remote
             </td>    
             <td>
-              <input name="itype[]" value="in-situ" type="checkbox"></input>
+              <input column="6" name="in-situ" type="checkbox">
               In-situ
             </td>
           </tr>
@@ -203,99 +202,97 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td width="80" rowspan="2" valign="top">
-              <input name="oe1[]" value="photons" type="checkbox"></input>
+              <input column="9" name="photons" type="checkbox">
               <i>Photons</i>
             </td>
             <td>
-              <input name="oe2[]" value="gmr" type="checkbox"></input>
+              <input column="10" name="gmr" type="checkbox">
               GMR
             </td>
             <td>
-              <input name="oe2[]" value="hxr" type="checkbox"></input>
+              <input column="10" name="hxr" type="checkbox">
               HXR
             </td>
             <td>
-              <input name="oe2[]" value="sxr" type="checkbox"></input>
+              <input column="10" name="sxr" type="checkbox">
               SXR
             </td>
             <td>
-              <input name="oe2[]" value="euv" type="checkbox"></input>
+              <input column="10" name="euv" type="checkbox">
               EUV
             </td>
             <td>
-              <input name="oe2[]" value="uv" type="checkbox"></input>
+              <input column="10" name="uv" type="checkbox">
               UV
             </td>
             <td>
-              <input name="oe2[]" value="visible" type="checkbox"></input>
+              <input column="10" name="visible" type="checkbox">
               visible
             </td>
-            <td>
-              <input name="oe2[]" value="microwave" type="checkbox"></input>
-              &mu;-wave
-            </td>
-            <td>
-              <input name="oe2[]" value="radio" type="checkbox"></input>
-              radio
-            </td>
+            
           </tr>
           <tr>            
             <td>
-              <input name="oe2p[]" value="H-alpha" type="checkbox"></input>
+              <input column="18" name="H-alpha" type="checkbox">
               H-alpha
             </td>
             <td>
-              <input name="oe2p[]" value="He10830" type="checkbox"></input>
+              <input column="18" name="He10830" type="checkbox">
               He 10830
+            </td>
+            <td>
+              <input column="10" name="microwave" type="checkbox">
+              &mu;-wave
+            </td>
+            <td>
+              <input column="10" name="radio" type="checkbox">
+              radio
             </td>
           </tr>
           <tr>
             <td width="80">
-              <input name="oe1[]" value="particles" type="checkbox"></input>
-              <i>Particles</i>
+              <input column="9" name="particles" type="checkbox">
+              Particles
             </td>
             <td>   
-              <input name="oe2[]" value="charged" type="checkbox"></input>
+              <input column="10" name="charged" type="checkbox">
               Charged
             </td>
             <td>
-              <input name="oe2[]" value="energ" type="checkbox"></input>
+              <input column="10" name="energ" type="checkbox">
               Energetic
             </td>
             <td>
-              <!--
-              energ/neut <input name="oe2[]" value="energ/neut" type="checkbox"></input>
-              -->
-              <input name="oe2[]" value="neut" type="checkbox"></input>
+            <input column="10" name="neut" type="checkbox">
               Neutral
             </td>
             <td>
-              <input name="oe2[]" value="dust" type="checkbox"></input>
+              <input column="10" name="dust" type="checkbox">
               Dust
             </td>
             <td>        
-              <input name="oe2p[]" value="cosmic-ray" type="checkbox"></input>
+              <input column="18" name="cosmic-ray" type="checkbox">
               Cosmic-ray
             </td>
           </tr>
           <tr>
             <td width="80">
-              <input name="oe1[]" value="fields" type="checkbox"></input>
-              <i>Fields</i>
+              <input column="9" name="fields" type="checkbox">
+              Fields
             </td>
             <td>
-              <input name="oe2[]" value="elect" type="checkbox"></input>
+              <input column="10" name="elect" type="checkbox">
               Electric
             </td>
             <td>
-              <input name="oe2[]" value="magn" type="checkbox"></input>
+              <input column="10" name="magn" type="checkbox">
               Magnetic
             </td>
-              <!--
-              elect/magn. <input name="oe2[]" value="uv" type="checkbox"></input>
-              --> 
+            <!--
+            elect/magn. <input column="10" name="uv" type="checkbox">
+            -->
             <td>
-              <input name="oe2[]" value="gravity" type="checkbox"></input>
+              <input column="10" name="gravity" type="checkbox">
               Gravity
             </td>
           </tr>
@@ -312,57 +309,57 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input name="key[]" value="imager" type="checkbox"></input>
+              <input column="18" name="imager" type="checkbox">
               Imager
             </td>
             <td>
-              <input name="key[]" value="spectrometer" type="checkbox"></input>
+              <input column="18" name="spectrometer" type="checkbox">
               Spectrometer
             </td>
             <td>
-              <input name="key[]" value="polarimeter" type="checkbox"></input>
+              <input column="18" name="polarimeter" type="checkbox">
               Polarimeter
             </td>
             <td>
-              <input name="key[]" value="coronagraph" type="checkbox"></input>
+              <input column="18" name="coronagraph" type="checkbox">
               Coronagraph
             </td>
             <td>
-              <input name="key[]" value="magnetograph" type="checkbox"></input>
+              <input column="18" name="magnetograph" type="checkbox">
               Magnetograph
             </td>
             <td>             
-              <input name="key[]" value="magnetometer" type="checkbox"></input>
+              <input column="18" name="magnetometer" type="checkbox">
               Magnetometer
             </td>
           </tr>
           <tr>
             <td>
               <!--
-              Radioheliograph <input name="key[]" value="radioheliograph" type="checkbox"></input>
+              Radioheliograph <input column="18" name="radioheliograph" type="checkbox">
               -->
-              <input name="key[]" value="oscillations" type="checkbox"></input>
+              <input column="18" name="oscillations" type="checkbox">
               Oscillations
             </td>
             <td>
-              <input name="key[]" value="composition" type="checkbox"></input>
+              <input column="18" name="composition" type="checkbox">
               Composition
             </td>
             <td>              
-              <input name="key[]" value="irradiance" type="checkbox"></input>
+              <input column="18" name="irradiance" type="checkbox">
               Irradiance
             </td>
             <td>
-              <input name="key[]" value="photometer" type="checkbox"></input>
+              <input column="18" name="photometer" type="checkbox">
               Photometer
             </td>
             <td>
-              <input name="key[]" value="radiometer" type="checkbox"></input>
+              <input column="18" name="radiometer" type="checkbox">
               Radiometer
             </td>
           </tr>
         </table>
       </td>
     </tr>
-  </table --%>
+  </table >
 </div>
