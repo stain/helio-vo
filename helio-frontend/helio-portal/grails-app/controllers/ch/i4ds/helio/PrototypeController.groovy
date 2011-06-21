@@ -1,5 +1,6 @@
 package ch.i4ds.helio;
 
+import ch.i4ds.*;
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
@@ -18,7 +19,8 @@ import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.registryclient.HelioServiceName;
-import ch.i4ds.*;
+import org.springframework.web.context.request.RequestContextHolder
+
 
 class PrototypeController {
 
@@ -26,42 +28,29 @@ class PrototypeController {
     def TableInfoService;
     def ResultVTManagerService;
 
-    /** TODO: need to improve this method to get the hash from url or memory and saves it so every call is not opening a file on the system **/
-    def asyncGetColumns = {
-        log.info("asyncGetColumns =>" +params);
-        //render "Advanced search temporarily disabled";return;
 
-        if(params.extra == null || params.serviceName == null)
-        throw new java.lang.IllegalArgumentException("Parameter 'extra' AND 'serviceName' must be set.");
+    def getTaskContent = {
+        println params
+        println "got there";
+        /**println params
 
-        Hashtable hash;
-        if(params.serviceName == "HEC")
-        {
-            hash = TableInfoService.serviceMethod("files/tableshec.xml");
+        def helioTask = HelioTask.findByTaskName(params.taskName);
+
+        if(helioTask == null){
+            println "heliotask is null"
+            //need to create a new heliotask
+
+        }else{
+
         }
-        else if(params.serviceName == "ICS")
-        {
-            hash = TableInfoService.serviceMethod("files/tablesics.xml");
-        }
-        else if(params.serviceName == "ILS")
-        {
-            hash = TableInfoService.serviceMethod("files/tablesils.xml");
-        }
-        else if(params.serviceName == "DPAS")
-        {
-            hash = TableInfoService.getDpasHash();
-        }
-
-        def extraList = [params.extra].flatten();
-
-        def resultMap =[:];
-
-
-        for (String table : extraList){
-            resultMap[table] = hash.get(table);
-        }
-        render template:'templates/columns', bean:resultMap, var:'resultMap'
+**/
+        
+        
+        
     }
+
+
+   
 
     /**
      * Action to asynchronously get advanced columns of a service.
@@ -116,7 +105,8 @@ class PrototypeController {
      */
     def asyncHecQuery ={
         log.info("asyncHecQuery =>" +params);
-
+        
+        
         try {
             // prepare query
                     
@@ -143,7 +133,9 @@ class PrototypeController {
                 startTime.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
                 endTime.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             }
+            
             def extraList = [params.extra].flatten();
+            
             String where ="";
 		
             if(params.where != null) {
@@ -153,7 +145,17 @@ class PrototypeController {
             HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());			
             ResultVT result = DataQueryService.queryService(serviceName.getName(), startTime, endTime, extraList, where);
             int resultId= ResultVTManagerService.addResult(result,params.serviceName);
-        
+            
+
+            def helioQuery = new HelioQuery();
+            helioQuery.minDate = startTime;
+            helioQuery.maxDate = endTime;
+            helioQuery.service = serviceName;
+            helioQuery.catalogue = extraList;
+
+            
+            
+            helioQuery.save();
             def responseObject = [result:result,resultId:resultId ];
 
             render template:'templates/response', bean:responseObject, var:'responseObject'
@@ -166,11 +168,19 @@ class PrototypeController {
 
                         
         }
+
+        
+        def queries = HelioQuery.list()
+        for(HelioQuery q :queries){
+            println "queries euuu";
+            println q.id;
+        }
+        
     }
 
 
     def asyncUpload ={
-	log.info("asyncUpload =>" +params);
+        log.info("asyncUpload =>" +params);
 
         try{
     
@@ -197,18 +207,32 @@ class PrototypeController {
 
     }
     def asyncQuery ={
-	log.info("asyncQuery =>" +params);
+        log.info("asyncQuery =>" +params);
+        String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
 
-
-	if(params.maxDate != null){
+        if(params.maxDate != null){
             try{
-                //throw new RuntimeException("let me see this error.");
-                ResultVT  result = search(params);
+                
+                
+                HelioParameters helioparameters = new HelioParameters();
+                helioparameters.minDate = [params.minDate].flatten();
+                helioparameters.maxDate = [params.maxDate].flatten();
+                helioparameters.minTime = [params.minTime].flatten();
+                helioparameters.maxTime = [params.maxTime].flatten();
+                helioparameters.extra = [params.extra].flatten();
+                helioparameters.save();
+                HelioQuery helioquery = new HelioQuery(session:sessionId,helioparameters:helioparameters,service:params.serviceName);
+                helioquery.save();
 
+                
+                ResultVT  result = search(params);
                 String serviceName = params.serviceName;
+                
                 int resultId= ResultVTManagerService.addResult(result,serviceName);
 
                 def responseObject = [result:result,resultId:resultId ];
+                helioquery.result = result.getStringTable();
+                helioquery.save();
                 
 
                 render template:'templates/response', bean:responseObject, var:'responseObject'
@@ -220,30 +244,39 @@ class PrototypeController {
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }
 
-	}
-	else {
+        }
+        else {
             //TODO: need to send java stacktrace back
             
-	}
+        }
 
     }
 
     def index = {
-	redirect(action:"explorer");
+        redirect(action:"explorer");
     }
 
     def explorer={
         log.info("Explorer =>" +params)
-	
-    	// init calalog list for HEC GUI
+
+        println (HelioParameters.list());
+        println (HelioQuery.list());
+
+        for(HelioQuery temp :HelioQuery.list()){
+            println temp.service;
+        }
+        
+
+
+        // init calalog list for HEC GUI
         HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
         HelioField<String> catalogField = hecDao.getCatalogField();
-    	DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
+        DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
     	
         // init catalog list for DPAS GUI
         HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS.getName());
         if (dpasDao == null) {
-            throw new NullPointerException("Unable to find service DPAS");    
+            throw new NullPointerException("Unable to find service DPAS");
         }
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
@@ -255,40 +288,42 @@ class PrototypeController {
 
 
     def search = {
-	log.info("Search =>" +params);
-	ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
-	ArrayList<String> minDateList= new ArrayList<String>();
+        log.info("Search =>" +params);
+        ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
+        ArrayList<String> minDateList= new ArrayList<String>();
 
-	 if(params.maxDateList != null && params.minDateList != null) {
-                //startTime = [params.minDateList.split(",")].flatten();
-                minDateList = [params.minDateList].flatten();
-                maxDateList = [params.maxDateList].flatten();
-                //endTime = [params.maxDateList.split(",")].flatten();
+        if(params.maxDateList != null && params.minDateList != null) {
+            //startTime = [params.minDateList.split(",")].flatten();
+            minDateList = [params.minDateList].flatten();
+            maxDateList = [params.maxDateList].flatten();
+            //endTime = [params.maxDateList.split(",")].flatten();
 
-	}else
-	{
+        }else
+        {
 
             Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
             Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",params.maxDate+"/"+params.maxTime);
             maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
-	}
-	def extraList = [params.extra].flatten();
-	String where ="";
+        }
+        def extraList = [params.extra].flatten();
+        
+          
+        String where ="";
 
 	if(params.where != null)where = params.where;
 	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
 	ResultVT result = DataQueryService.queryService(serviceName.getName(), minDateList, maxDateList, extraList, where);
 
-	return result;
+        return result;
 
 
     }
 
     def downloadVOTable = {
-	log.info("downloadVOTable =>" + params);
+        log.info("downloadVOTable =>" + params);
         ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
-	if(result !=null){
+        if(result !=null){
             
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
@@ -297,15 +332,15 @@ class PrototypeController {
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << result.getStringTable()
-	}
+        }
 
     }
 
 
     def downloadPartialVOTable = {
-	log.info("downloadPartialVOTable =>" + params  + session)
+        log.info("downloadPartialVOTable =>" + params  + session)
         ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
-	if(result !=null){
+        if(result !=null){
 
             String indexes =params.indexes;
             String[] fields = indexes.split(",");
@@ -347,7 +382,7 @@ class PrototypeController {
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << result.getStringTable()
 
-	}
+        }
 
     }
 }
