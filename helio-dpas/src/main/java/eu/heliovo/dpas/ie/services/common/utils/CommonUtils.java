@@ -22,9 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
@@ -176,6 +174,8 @@ public class CommonUtils {
 		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 soteriaQueryDao.query(commonTO);
 		     }
+		 }else if(commonTO.getParaInstrument()!=null && !commonTO.getParaInstrument().trim().equals("")){
+			 	PatProviderUtils.query(commonTO);
 		 }
 		 else{
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));

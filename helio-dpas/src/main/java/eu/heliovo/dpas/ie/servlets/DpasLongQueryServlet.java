@@ -61,6 +61,11 @@ public class DpasLongQueryServlet extends HttpServlet {
 		     String sEndTime=request.getParameter("ENDTIME");			
 		     //Setting for Instrument parameter.
 		     String sInstrument=request.getParameter("INSTRUMENT");
+		     commonTO.setTableName(sInstrument);
+		    //FROM Clause
+		     String sFrom=request.getParameter("FROM");
+		     //setting where clause
+		     String whereClause=request.getParameter("WHERE");
 		     //Start time
 		     if(sStartTime!=null && !sStartTime.trim().equals(""))
 		    	 startTime=sStartTime.split(",");
@@ -81,8 +86,15 @@ public class DpasLongQueryServlet extends HttpServlet {
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
+		     if(sFrom!=null && !sFrom.trim().equals("")){
+		    	 commonTO.setInstruments(sFrom.split(","));
+		    	 commonTO.setTableName(sFrom);
+		     }
+		     commonTO.setWhereClause(whereClause);
 		     if(sSelect!=null && !sSelect.trim().equals(""))
 		    	 commonTO.setSelect(sSelect.toUpperCase());
+		     if(sFrom!=null && !sFrom.trim().equals(""))
+		    	 commonTO.setInstruments(sFrom.split(","));
 		     // Save To file.
 			if(saveTo==null || saveTo==""){
 				    saveTo= InstanceHolders.getInstance().getProperty("hsqldb.database.path")+"/files";

@@ -57,6 +57,16 @@ public class CommonTO {
 	private String longrunningRequestStatus;
 	private String detectiveField;
 	private String select;
+	private String httpDateFormat;
+	private String httpPattern;
+	private String httpHost;
+	private String httpUser;	
+	private String httpPwd;
+	private String httpFileName;
+	private String httpDateFileName;
+	private String whereClause;
+	private String join;
+	private String tableName;
 	
 	public String getFtpHost() {
 		return ftpHost;
@@ -433,8 +443,87 @@ public class CommonTO {
 
 	public void setSelect(String select) {
 		this.select = select;
+	}
+
+	public String getHttpDateFormat() {
+		return httpDateFormat;
+	}
+
+	public void setHttpDateFormat(String httpDateFormat) {
+		this.httpDateFormat = httpDateFormat;
+	}
+
+	public String getHttpPattern() {
+		return httpPattern;
+	}
+
+	public void setHttpPattern(String httpPattern) {
+		this.httpPattern = httpPattern;
+	}
+
+	public String getHttpHost() {
+		return httpHost;
+	}
+
+	public void setHttpHost(String httpHost) {
+		this.httpHost = httpHost;
+	}
+
+	public String getHttpUser() {
+		return httpUser;
+	}
+
+	public void setHttpUser(String httpUser) {
+		this.httpUser = httpUser;
+	}
+
+	public String getHttpPwd() {
+		return httpPwd;
+	}
+
+	public void setHttpPwd(String httpPwd) {
+		this.httpPwd = httpPwd;
+	}
+
+	public String getHttpFileName() {
+		return httpFileName;
+	}
+
+	public void setHttpFileName(String httpFileName) {
+		this.httpFileName = httpFileName;
+	}
+
+	public String getHttpDateFileName() {
+		return httpDateFileName;
+	}
+
+	public void setHttpDateFileName(String httpDateFileName) {
+		this.httpDateFileName = httpDateFileName;
+	}
+
+	public String getWhereClause() {
+		return whereClause;
+	}
+
+	public void setWhereClause(String whereClause) {
+		this.whereClause = whereClause;
+	}
+
+	public String getJoin() {
+		return join;
+	}
+
+	public void setJoin(String join) {
+		this.join = join;
+	}
+
+	public String getTableName() {
+		return tableName;
+	}
+
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
 	}	
-	
 	
 	
 }

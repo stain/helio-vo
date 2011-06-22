@@ -54,10 +54,10 @@ public class HsqlDbUtils {
 	 /*
 	  * 
 	  */
-	 public synchronized ResultTO[]  getAccessTableDetails() throws DetailsNotFoundException
+	 public synchronized ResultTO[]  getAccessTableDetails(String where) throws DetailsNotFoundException
 	 {
 		 ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
-		 return shortNameDao.getAccessTableDetails();
+		 return shortNameDao.getAccessTableDetails(where);
 	 }
 	 
 	 public synchronized void  insertStatusIntoHsqlDB(String randomUUIDString,String status) throws DetailsNotFoundException

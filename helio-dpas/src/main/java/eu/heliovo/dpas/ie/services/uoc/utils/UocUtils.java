@@ -19,7 +19,7 @@ public class UocUtils {
 	 private static final QName SERVICE_NAME = new QName("http://helio-vo.eu/xml/QueryService/v0.1", "HelioQueryServiceService");
 	 
 	 /**
-	  * Get Date format and pasre date to String.
+	  * Get Date format and parse date to String.
 	  * @param date
 	  * @return
 	  */

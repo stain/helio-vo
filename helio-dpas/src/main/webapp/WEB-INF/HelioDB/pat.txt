@@ -178,6 +178,7 @@ MGS__MAG,UOC,uoc,MGS__MAG,PLANETARY_CAT,PDS-PPI,ack_PDS-PPI,1,,,,,,,,,in-situ
 NEAR__MAG,UOC,uoc,NEAR__MAG,PLANETARY_CAT,PDS-PPI,ack_PDS-PPI,1,,,,,,,,,in-situ
 VEX__ELS,UOC,uoc,VEX__ELS,PLANETARY_CAT,PDS-PPI,ack_PDS-PPI,1,,,,,,,,,in-situ
 VEX__MAG,UOC,uoc,VEX__MAG,PLANETARY_CAT,PDS-PPI,ack_PDS-PPI,1,,,,,,,,,in-situ
+
 BLEN__PHOENIX_2,DIR,http,PHOENIX_2,,FHNW,ack_FHNW,1,,BLEIEN__PHOENIX_2,,,,,,,remote
 RHESSI__HESSI_GMR,DIR,http,HESSI_GMR,,FHNW,ack_FHNW,1,,,,,,,,,remote
 RHESSI__HESSI_HXR,DIR,http,HESSI_HXR,,FHNW,ack_FHNW,3,,,,,,,,,remote
@@ -191,6 +192,7 @@ HINODE__XRT,DIR,http,XRT,,HSDCE,ack_HSDCE,2,,,,,,,,,remote
 PROBA2__SWAP,DIR,http,SWAP,,PROBA2-SC,ack_PROBA2-SC,1,,,,,,,,,remote
 PROBA2__LYRA,DIR,http,LYRA,,PROBA2-SC,ack_PROBA2-SC,1,,,,,,,,,remote
 PHOENIX_2__CALLISTO,DIR,http,PHOENIX_2,,FHNW,ack_FHNW,3,,,,,,,,,remote
+
 NOBE__RHELIO,DIR,ftp,NORH,,NAOJ-NRO,ack_NAOJ,1,,,,,,,,,remote
 MEUD__SHELIO,DIR,ftp,MEUD__SHELIO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,,remote
 MEUD__HELIO,DIR,ftp,MEUD__HELIO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,,remote
@@ -200,3 +202,10 @@ NANC__RHELIO,DIR,ftp,NANC__NRH,MEUD,BASS2000,ack BASS2K,1,,NANC__NRH,,,,,,,remot
 NANC__TRFA,DIR,ftp,NANC__NTRFA,MEUD,BASS2000,ack BASS2K,1,,NANC__NTRFA,,,,,,,remote
 NANC__DAN,DIR,ftp,NANC__NDA,MEUD,BASS2000,ack BASS2K,1,,NANC__NDA,,,,,,,remote
 OAUC__SHELIO,DIR,ftp,OAUC__SHELIO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,,remote
+
+GONG-HALPH,DIR,ftp,H-alpha,GONG,haf,ack BASS2K,1,,,,,,,,,remote
+GOES,DIR,ftp,GOES,GONG,goes,ack BASS2K,1,,,,,,,,,remote
+HalphaKanz,DIR,http,Halpha,KANZ,haf,ack BASS2K,1,,,,,,,,,remote
+HalphaHASTA,DIR,http,HalphaHASTA,HASTA,haf,ack BASS2K,1,,,,,,,,,remote
+
+SODA,SODA,soda,OAUC__SHELIO,MEUD,BASS2000,ack BASS2K,1,,,,,,,,,remote

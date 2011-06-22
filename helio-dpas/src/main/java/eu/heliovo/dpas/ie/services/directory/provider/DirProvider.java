@@ -40,7 +40,6 @@ public class DirProvider
         	results=dpasDataProvider.query(dirTO.getInstrument(), dpasUtils.HELIOTimeToCalendar(dirTO.getDateFrom()), dpasUtils.HELIOTimeToCalendar(dirTO.getDateTo()), 2);
         	//
         	if(results!=null && results.size()>0){
-        		System.out.println("------------------> :   Date to or end date : ----------------------->"+dirTO.getDateTo());
         		tables=new StarTable[1];
         		tables[count]=new PointsStarTable(results,dirTO.getHelioInstrument(),dirTO.getDateTo(),dirTO.getProviderSource(),dirTO.getInstrument());
         		tables[count].setName(dirTO.getHelioInstrument());
@@ -50,7 +49,6 @@ public class DirProvider
         	dirTO.setQuerystatus("OK");
         	DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(dirTO.getWhichProvider());
         	dirQueryDao.generateVOTable(dirTO); 
-        	System.out.println(" Size of the result : "+results.size());
         }catch(Exception e){
         	e.printStackTrace();
         	throw new DataNotFoundException(" Could not retrieve data: ",e);

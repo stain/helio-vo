@@ -28,7 +28,7 @@ public class RegistryUtils {
 
 	      StringBuffer tables = new StringBuffer();
 	      String[] catalogNames=null;
-	      ResultTO[] resultTo=HsqlDbUtils.getInstance().getAccessTableDetails();
+	      ResultTO[] resultTo=null;  //HsqlDbUtils.getInstance().getAccessTableDetails();
 	      for (int t = 0; t < resultTo.length; t++) {
 	         tables.append(
 	           "  <table>\n" +

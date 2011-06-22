@@ -67,7 +67,8 @@ public class FtpUtils {
     			ftpTO.setFtpDateFileName(getFileNameBasedOnPattern(ftpTO));
     			//Setting time
     			currCalendar.setTime(convertDateFormatBasedOnProvider(ftpTO));
-    			System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
+    			//System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
+    			System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
     			if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
 	    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
 	    			currDpasResult.measurementStart	=	currCalendar;
@@ -103,7 +104,11 @@ public class FtpUtils {
 		try{
 			Matcher m = Pattern.compile(ftpTO.getFtpPattern()).matcher(ftpTO.getFtpFileName());
 			if(m.find()){
-				sDateValue=ftpTO.getFtpFileName().substring(m.start(), m.end());
+				if(ftpTO.getProviderSource()!=null && ftpTO.getProviderSource().trim().equalsIgnoreCase("goes")){
+					sDateValue=ftpTO.getFtpFileName().substring(m.start(), m.end());
+				}else{
+					sDateValue=ftpTO.getFtpFileName().substring(m.start(), m.end());
+				}
 			}
 		}catch(Exception e)
 		{
@@ -124,6 +129,7 @@ public class FtpUtils {
 			//Parse the orignal date
 			SimpleDateFormat sdfSource = new SimpleDateFormat(ftpTO.getFtpDateFormat());
 			//Parse string date to Date object
+			System.out.println(ftpTO.getFtpDateFileName());
 			return sdfSource.parse(ftpTO.getFtpDateFileName());
 		}catch (Exception e) {
 			// TODO: handle exception

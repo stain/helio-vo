@@ -42,7 +42,7 @@ public class VOTableCreator {
 		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
 		//Checking for multiple Resources
 		if((comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1) || (comCriteriaTO.getAllDateTo()!=null && comCriteriaTO.getAllDateTo().split(",").length>1) || (comCriteriaTO.getAllInstrument()!=null && comCriteriaTO.getAllInstrument().split(",").length>1))
-			out.write("<INFO name=\"QUERY_URL\" value="+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"/>");
+			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
     }
     
     /**
@@ -61,13 +61,13 @@ public class VOTableCreator {
  	         out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
  	         out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
  	         out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
- 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"\"/>");
+ 	         out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
  	         if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
 	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");
 	         if(comCriteriaTO.getMissionName()!=null && !comCriteriaTO.getMissionName().trim().equals(""))
 	        	out.write( "<INFO name=\"PROVIDER_MISSION_NAME\" value=\""+comCriteriaTO.getMissionName()+"\"/>");
  	         out.write( "<INFO name=\"TIME_RANGE\" value=\""+"FROM : "+comCriteriaTO.getDateFrom()+" TO: "+comCriteriaTO.getDateTo()+"\"/>");
- 	         out.write("<INFO  name=\"QUERY_URL\" value=\""+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"\"/>");
+ 	         out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
 	 	        	 if(tables[0]!=null){

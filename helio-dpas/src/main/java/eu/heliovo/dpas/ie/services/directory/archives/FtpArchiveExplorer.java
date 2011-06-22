@@ -40,19 +40,32 @@ public class FtpArchiveExplorer
 	public LinkedList<DPASResultItem> query(Date from, Date to) throws MalformedURLException,IOException,Exception
 	{
 		System.out.println("   TO    "+to+"   FROM   "+from);
-		SimpleDateFormat df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
+		SimpleDateFormat df=null;
+		FtpUtils  ftpUtils=null;
+		String pvdrSrc=ftpTO.getProviderSource();
 		ftpTO.setDateValueTo(to);
 		ftpTO.setDateValueFrom(from);
 		System.out.println(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
-		
-		FtpUtils  ftpUtils=new FtpUtils(ftpTO.getFtpHost(),ftpTO.getFtpUser(),ftpTO.getFtpPwd());
+		if(pvdrSrc!=null && !pvdrSrc.trim().equals("") && pvdrSrc.trim().equals("haf"))
+			df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern()+"/"+ftpTO.getYearPattern()+ftpTO.getMonthPattern()+"dd");
+		else if(pvdrSrc!=null && !pvdrSrc.trim().equals("") && pvdrSrc.trim().equals("haf"))
+			df=new SimpleDateFormat(ftpTO.getYearPattern());
+		else
+			df=new SimpleDateFormat(ftpTO.getYearPattern()+ftpTO.getMonthPattern());
 		try{
+			
+		ftpUtils=new FtpUtils(ftpTO.getFtpHost(),ftpTO.getFtpUser(),ftpTO.getFtpPwd());	
 		String workingDir=ftpTO.getWorkingDir();
     	if(workingDir!=null){
     		String[] dirArray=workingDir.split("::");
 	    	for(int count=0;count<dirArray.length;count++){
-	    		//System.out.println("----------> work"+dirArray[count]);
-	    		Iterator<Date> i = new DateIterator(from, to);
+	    		Iterator<Date> i =null;
+	    		if(pvdrSrc!=null && !pvdrSrc.trim().equals("") && pvdrSrc.trim().equals("haf"))
+	    			i = new DateIterator(from, to,"d");
+	    		else if(pvdrSrc!=null && !pvdrSrc.trim().equals("") && pvdrSrc.trim().equals("goes"))
+	    			i = new DateIterator(from, to,"y");
+	    		else
+	    			i = new DateIterator(from, to,"m");
 		    	while(i.hasNext())
 		    	{
 		    		Date date = i.next();

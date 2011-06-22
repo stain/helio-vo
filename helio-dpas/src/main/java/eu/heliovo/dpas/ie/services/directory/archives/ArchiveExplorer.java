@@ -14,8 +14,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
-
 import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathException;
 import eu.heliovo.dpas.ie.services.directory.dao.exception.NewPathFragmentException;
 import eu.heliovo.dpas.ie.services.directory.dao.exception.PathBuilderException;
@@ -418,6 +416,7 @@ public class ArchiveExplorer
 						currLatestDate = path.pathToLatestDate(url + "/" + tmp + "/",
 								currDepth);
 					}
+					debugUtils.printLog(this.getClass().getName(),"currEarliestDate "+currEarliestDate+"currLatestDate "+currLatestDate);
 
 //					debugUtils.printLog(this.getClass().getName(), "Checking if current Range (" + 
 //							currEarliestDate + " --> " + 

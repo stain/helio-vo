@@ -48,9 +48,14 @@ public class DpasQueryServlet extends HttpServlet {
 		try{
 		     //Setting start time & end time parameter
 		     String sStartTime=request.getParameter("STARTTIME");
-		     String sEndTime=request.getParameter("ENDTIME");			
+		     String sEndTime=request.getParameter("ENDTIME");		
+		     //FROM Clause
+		     String sFrom=request.getParameter("FROM");
+		   //setting where clause
+		     String whereClause=request.getParameter("WHERE");
 		     //Setting for Instrument parameter.
 		     String sInstrument=request.getParameter("INSTRUMENT");
+		     commonTO.setTableName(sInstrument);
 		     //Setting SELECT parameter
 		     String sSelect=request.getParameter("SELECT");
 		     //Start time
@@ -66,15 +71,22 @@ public class DpasQueryServlet extends HttpServlet {
 		     commonTO.setPrintWriter(pw);
 		     commonTO.setBufferOutput(new BufferedWriter(pw) );
 		     commonTO.setContextUrl(CommonUtils.getUrl(request));
+		     
 		     commonTO.setAllDateFrom(sStartTime);
 		     commonTO.setAllDateTo(sEndTime);
 		     commonTO.setAllInstrument(sInstrument);
 		     commonTO.setInstruments(instruments);
 		     commonTO.setStartTimes(startTime);
 		     commonTO.setStopTimes(stopTime);
+		     commonTO.setWhereClause(whereClause);
 		     if(sSelect!=null && !sSelect.trim().equals(""))
 		    	 commonTO.setSelect(sSelect.toUpperCase());
-		    
+		     if(sFrom!=null && !sFrom.trim().equals("")){
+		    	 commonTO.setInstruments(sFrom.split(","));
+		    	 commonTO.setTableName(sFrom);
+		    	 commonTO.setAllInstrument(sFrom);
+		     }
+		     	
 		     ShortNameQueryDao shortNameDao= CommonDaoFactory.getInstance().getShortNameQueryDao();
 		     shortNameDao.generateVOTable(commonTO);
 		}catch(Exception e){

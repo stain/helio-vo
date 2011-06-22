@@ -6,3 +6,15 @@ NANC__TRFA,DIR,FTP,pub/nancay/flux_radio/::data1/nancay/flux_radio/::data2/nanca
 NANC__DAN,DIR,FTP,pub/decam/::data2/decam/::data3/decam/::data4/decam/::data5/decam/::data6/decam/::data7/decam/::data8/decam/::data9/decam/::data10/decam/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6},yyMMdd,1,,
 OAUC__SHELIO,DIR,FTP,pub/coimbra/Halpha/::pub/coimbra/dopp/::pub/coimbra/K1v/::pub/coimbra/K3/::pub/coimbra/cont/::data0/coimbra/Halpha/::data0/coimbra/dopp/::data0/coimbra/K1v/::data0/coimbra/K3/::data0/coimbra/cont/::data8/coimbra/Halpha/::data8/coimbra/dopp/::data8/coimbra/K1v/::data8/coimbra/K3/::data8/coimbra/cont/::data9/coimbra/Halpha/::data9/coimbra/dopp/::data9/coimbra/K1v/::data9/coimbra/K3/::data9/coimbra/cont/::data10/coimbra/Halpha/::data10/coimbra/dopp/::data10/coimbra/K1v/::data10/coimbra/K3/::data10/coimbra/cont/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6},yyMMdd,1,,
 PDMO__COGHA,DIR,FTP,pub/coro/::data1/coro/::data2/coro/::data3/coro/::data4/coro/::data5/coro/::data6/coro/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,
+
+GONG-HALPH,DIR,FTP,HA/haf/,yyyy,MM,gong2.nso.edu,anonymous,,[0-9]{14},yyyyMMddHHmmss,1,,
+GOES,DIR,FTP,goes/,yyyy,MM,hesperia.gsfc.nasa.gov,anonymous,,[0-9]{10},yyyyMMdd,1,,
+
+
+HalphaKanz,DIR,HTTP,observations/halpha2/archive/,yyyy,MM,kanzelhohe.uni-graz.at,anonymous,,[0-9]{8}_[0-9]{6},yyyyMMdd'_'HHmmss,1,,
+HalphaHASTA,DIR,HTTP,Area_Solar/Hastaweb/Datagif,yyyy,MMMMM,www.oafa.fcefn.unsj-cuim.edu.ar,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,
+PROBA2__SWAP,DIR,HTTP,swap/data/bsd/,yyyy,MM/dd,proba2.oma.be,anonymous,,[0-9]{8}_[0-9]{6},yyyyMMdd'_'HHmmss,1,,
+PROBA2__LYRA,DIR,HTTP,lyra/data/bsd/,yyyy,MM/dd,proba2.oma.be,anonymous,,[0-9]{8}-[0-9]{6},yyyyMMdd'-'HHmmss,1,,
+BLEN__PHOENIX_2,DIR,HTTP,solarradio/data/1998-2009_Phoenix-2/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{14},yyyyMMddHHmmss,1,,,,
+RHESSI__HESSI_GMR,DIR,HTTP,hessidata/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{8}-[0-9]{6},yyyyMMdd'_'HHmmss,1,
+RHESSI__HESSI_HXR,DIR,HTTP,hessidata/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{8}-[0-9]{6},yyyyMMdd'_'HHmmss,1,
