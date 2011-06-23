@@ -237,7 +237,7 @@ function fnInitDroppable(){
 
             if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_inst.png" ){
                 if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_both.png")
-                $(this).droppable("disable") ;
+                    $(this).droppable("disable") ;
                 
             }
             if(!flag)$(this).droppable("disable");
@@ -328,7 +328,7 @@ function fnInitDroppable(){
             }
             if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_time.png" ){
                 if(ui.draggable.attr('src') != "../images/icons/toolbar/circle_both.png")
-                $(this).droppable("disable") ;
+                    $(this).droppable("disable") ;
 
             }
 
@@ -337,8 +337,8 @@ function fnInitDroppable(){
         },
 
         out: function(event,ui) {
-           // ui.draggable.data('returnMe',true);
-           // ui.draggable.data('dropBox',this);
+            // ui.draggable.data('returnMe',true);
+            // ui.draggable.data('dropBox',this);
             
 
             $(".tooltip").css("display","none");
@@ -414,87 +414,19 @@ function fnInitDroppable(){
 
             //$(".minDateList").val(minTemp);
             //$(".maxDateList").val(maxTemp);
+            $(".subbing").click(function(){
+                var time_start = $(this).parent().children("input").val();
+                var newTime = dateCalculator(time_start,"-");
+                $(this).parent().find("input").val(newTime);
+            });
             $(".adding").click(function(){
 
-                if (typeof console!="undefined")console.info("ResultViewer :: adding click");
-
                 var time_start = $(this).parent().children("input").val();
-
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
-
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
-                d.setMinutes(d.getMinutes()+30);
-
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-                var fields = $(this).parent().find("input").attr("index");
-                fields = fields.split(",");
-                var i =fields[0];
-                var j =fields[1];
-
-                //content[i][j]= $(this).parent().find("input").val();
-                //minTemp=[];
-                //maxTemp=[];
-                for ( i in content){
-                    //  var temp =content[i]["time_start "];
-                    //if(temp != null)minTemp.push(temp);
-                    //temp =content[i]["time_end "];
-                    // if(temp != null)maxTemp.push(temp);
-
-                    //      $(".minDateList").val(minTemp);
-                    //    $(".maxDateList").val(maxTemp);
-                    }
-
+                var newTime = dateCalculator(time_start,"+");
+                $(this).parent().find("input").val(newTime);
+            });
                 
-            });
-            $(".subbing").click(function(){
-
-                var time_start = $(this).parent().children("input").val();
-
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                d.setMinutes(d.getMinutes()-30);
-
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-
-                var fields = $(this).parent().find("input").attr("index");
-                fields = fields.split(",");
-                var i =fields[0];
-                var j =fields[1];
-
-                //content[i][j]= $(this).parent().find("input").val();
-                //minTemp=[];
-                //maxTemp=[];
-                for ( i in content){
-
-                    //var temp =content[i]["time_start "];
-                    //if(temp != null)minTemp.push(temp);
-                    //temp =content[i]["time_end "];
-                    //if(temp != null)maxTemp.push(temp);
-
-
-                    //$(".minDateList").val(minTemp);
-                    //$(".maxDateList").val(maxTemp);
-                    }
-
-
-            });
-
+          
             $(".tooltip").css("display","none");
         }//drop
     }).data('dropped_items',"");
@@ -652,7 +584,7 @@ function fnOnComplete(){
     window.historyBar.render();
     //window.workspace.setElement(element);
     
-     var rowpos = $('#displayableResult').position();
+    var rowpos = $('#displayableResult').position();
     $('html,body').scrollTop(rowpos.top);
     $('#responseDivision').html();
 //$("#responseDivision").html("");
@@ -705,6 +637,8 @@ function fnFormatTable(tableName){
         "bLengthChange": true,
         "sPaginationType": "full_numbers",
         "sScrollX": "100%",
+        "sScrollY": "500px",
+                "bPaginate": false,
         "iDisplayLength": 25,
         "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         //"sScrollXInner": "100%",
@@ -796,6 +730,12 @@ function fnInitSave(){
             $(this).removeClass("gradeB");
             if($(this).attr("class") ==""){
                 $(this).remove();
+            }
+        });
+        //removes empty tables from the result viewer
+        $(".resultTable tbody").each(function(){
+            if(!$(this).find("tr").length){
+                $(this).parent().remove();
             }
         });
         var tablesHtml =$("#voTables").html();
@@ -891,10 +831,44 @@ function fnBeforeQuery(){
 //javascript start
 $(document).ready(function()
 {
-    var history = new History();
     var workspace = new Workspace();
+    window.workspace = workspace;
+    window.workspace.init();
 
+    var history = new History();
     window.historyBar = history;
+    window.historyBar.init();
+    $( "#tabs" ).tabs();
+
+    $( ".custom_button").button();
+    $( ".menu_item" ).click(function() {
+
+        var task_name = $(this).attr("id");
+        window.workspace.createItem(task_name);
+        
+        
+
+
+    /**
+        jQuery.ajax(
+        {
+            type : 'GET',
+            data : {
+                "taskName":task_name
+            },
+            url : 'getTaskContent',
+            success: _whateverMethod
+            //error: __onErrorGetHecColumns,
+            //complete: _whateverMethod
+        }); **/
+    });
+    
+
+
+/*
+     *
+     *
+    
     window.historyBar.init();
     window.workspace = workspace;
     window.workspace.init();
@@ -910,53 +884,70 @@ $(document).ready(function()
     //window.maxDate="2003-01-03";
     //window.minDate="2003-01-01";
     $("#section-navigation img[title]").tooltip({
-                position: "bottom right",
-                delay: 0,
-                predelay:0
-            });
+        position: "bottom right",
+        delay: 0,
+        predelay:0
+    });
    
     window.onbeforeunload = function () {
         return "Leaving this site will clear all your browsing history";
     };
+    **/
 });
 
-function addingButton(){
-     $(".adding").click(function(){
+function _whateverMethod(data,textStatus,jqXHR){
 
-                var time_start = $(this).parent().children("input").val();
 
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
 
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
-                d.setMinutes(d.getMinutes()+30);
 
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
 
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-            });
+    
 }
-function subbingButton(){
+function dateCalculator(dateString,operation){
+    
+                
 
-                var time_start = $(this).parent().children("input").val();
+    var fields = dateString.split("T");
+    var first = fields[0].split("-");
+    var second = fields[1].split(":");
+    var d = new Date(first[0], first[1]-1, first[2], second[0], second[1], second[2], 0);
+    
+    operation == "+" ? d.setMinutes(d.getMinutes()+30):d.setMinutes(d.getMinutes()-30);
+    
 
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                d.setMinutes(d.getMinutes()-30);
 
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
+    var month = (d.getMonth()+1)<10? "0"+(d.getMonth()+1):(d.getMonth()+1);
+    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
+    var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
+    var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
+    var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
 
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+    var dateOutput = d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds;
+    
+    return dateOutput;
 
-            }
+}
+
+function fnInitializeDatePicker2(){
+  
+
+
+
+    $('#minDate, #maxDate').datepicker({
+        defaultDate: "+1w",
+
+        yearRange: '1970:2011',
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        showOn: "button",
+        buttonImageOnly: true,
+        buttonImage: "../images/icons/calendar.gif",
+        changeYear: true,
+        numberOfMonths: 1
+      
+
+        
+    });
+    
+  
+}
