@@ -55,9 +55,10 @@
                       </div>
                     </td>
                     <td><ul id="extra_list"></ul></td>
-                  <td><div class="custom_button" id="instruments_button">Select</div></td>
+                  
 
                   </tr>
+                  <tr><td><div class="custom_button" id="instruments_button">Select</div></td></tr>
                 </table>
               </td>
               <td valign="top">

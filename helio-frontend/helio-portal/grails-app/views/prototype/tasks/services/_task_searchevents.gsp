@@ -47,7 +47,7 @@
           </tr>
           <tr>
             <td>
-              <table>
+              <table style="margin-bottom: 10px;">
                 <tr>
                   <td style="vertical-align:middle;" >
                     <div  id="event_drop" class="resultDroppable3" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
@@ -56,9 +56,10 @@
                   </td>
                   
                   <td><ul id="extra_list"></ul></td>
-                  <td><div class="custom_button" id="event_button">Select</div></td>
+                  
 
                 </tr>
+                <tr align="center"><td><div class="custom_button" id="event_button">Select</div></td></tr>
               </table>
             </td>
             <td valign="top">

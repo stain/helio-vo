@@ -2,7 +2,7 @@
   <tr>
     <td colspan="2">
       <div class="resultDroppable"style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-        <img id="time_button" "style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
+        <img id="time_button" style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
       </div>
     </td>
     <td>
