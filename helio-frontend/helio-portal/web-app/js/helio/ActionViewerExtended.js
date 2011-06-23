@@ -277,7 +277,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
                 }//end input
             }//end if
         }//end fields
-if(maxDateList != null && maxDateList.length>0) for(var i = 0; i< maxDateList.length;i++){
+        if(maxDateList != null && maxDateList.length>0) for(var i = 0; i< maxDateList.length;i++){
 
             $(".hideDates").css("display","none");
             $(".dateTable").append(
@@ -287,8 +287,17 @@ if(maxDateList != null && maxDateList.length>0) for(var i = 0; i< maxDateList.le
                 '<td><input name="maxDateList" type="text" value="'+ maxDateList[i]+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
             $(".resultDroppable").css('background-image','url(../images/icons/toolbar/circle_time.png)');
         }//end for i
-        $(".subbing").click(subbingButton);
-        $(".adding").click(addingButton);
+        $(".subbing").click(function(){
+        var time_start = $(this).parent().children("input").val();
+                var newTime = dateCalculator(time_start,"-");
+                $(this).parent().find("input").val(newTime);
+        });
+        $(".adding").click(function(){
+
+            var time_start = $(this).parent().children("input").val();
+                var newTime = dateCalculator(time_start,"+");
+                $(this).parent().find("input").val(newTime);
+        });
 
         $(".cbutton").button();
     };//end unserialized
