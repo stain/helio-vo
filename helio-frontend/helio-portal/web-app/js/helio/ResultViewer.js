@@ -179,62 +179,30 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
             $(".adding").click(function(){
                 
                 if (typeof console!="undefined")console.info("ResultViewer :: adding click");
-                
                 var time_start = $(this).parent().children("input").val();
-                
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
-                    
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2]);
-
-
-                    
-                d.setMinutes(d.getMinutes()+30);
-                    
-
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
-                  
+                var newTime = dateCalculator(time_start,"+");
+                $(this).parent().find("input").val(newTime);
                 var fields = $(this).parent().find("input").attr("index");
                 fields = fields.split(",");
                 var i =fields[0];
                 var j =fields[1];
-                
-                content[i][j]= $(this).parent().find("input").val();
-                
-                
+                content[i][j]= newTime;
                 window.historyBar.getCurrent().setContent(content);
                 
             });
+
             $(".subbing").click(function(){
-                
+       
                 var time_start = $(this).parent().children("input").val();
-
-                var fields = time_start.split("T");
-                var first = fields[0].split("-");
-                var second = fields[1].split(":");
-                var d = new Date(first[0], first[1], first[2], second[0], second[1], second[2], 0);
-                d.setMinutes(d.getMinutes()-30);
-
-                var month = d.getMonth()<10? "0"+d.getMonth():d.getMonth();
-                var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-                var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-                var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-                var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-
-                $(this).parent().find("input").val(d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds);
+                var newTime = dateCalculator(time_start,"-");
+       
+                $(this).parent().find("input").val(newTime);
                 var fields = $(this).parent().find("input").attr("index");
                 fields = fields.split(",");
                 var i =fields[0];
                 var j =fields[1];
                 
-                content[i][j]= $(this).parent().find("input").val();
+                content[i][j]= newTime;
                 
 
                 window.historyBar.getCurrent().setContent(content);
@@ -316,10 +284,10 @@ function ResultViewer(imageParam,typeParam,resultHtmlParam,contentParam,indexesP
                 if($(this).hasClass('noclick'))return;
                 if (typeof console!="undefined")console.info("ResultViewer :: item clicked ->"+ key);
                 $('#currentDisplay').fadeOut(500, function(){
-                                window.historyBar.cleanGhost();
-                                window.historyBar.setFocus(key);
-                            //window.historyBar.render();
-                            });
+                    window.historyBar.cleanGhost();
+                    window.historyBar.setFocus(key);
+                //window.historyBar.render();
+                });
 
             });//end dbclick
             $( ".resultDraggable" ).draggable({
