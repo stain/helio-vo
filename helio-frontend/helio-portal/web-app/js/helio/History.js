@@ -17,7 +17,7 @@ function History() {
             if (typeof console!="undefined")console.info("History :: init");
 
             $( ".draggable" ).click(function() {
-                window.workspace.createItem($(this).find("img").attr("src"));
+                window.workspace.createItem($(this).find("img").attr("alt"));
             });
             $( "#clearSystem" ).click(function() {
                 var div =$('<div></div>');
