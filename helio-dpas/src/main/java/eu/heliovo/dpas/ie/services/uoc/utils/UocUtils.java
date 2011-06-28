@@ -6,9 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-
 import javax.xml.namespace.QName;
-
 import org.apache.log4j.Logger;
 import eu.heliovo.dpas.ie.services.common.utils.ConstantKeywords;
 import eu.heliovo.dpas.ie.services.uoc.service.eu.helio_vo.xml.queryservice.v0_1.HelioQueryServiceService;

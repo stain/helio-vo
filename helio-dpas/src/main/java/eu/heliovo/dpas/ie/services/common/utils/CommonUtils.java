@@ -108,6 +108,8 @@ public class CommonUtils {
 	  */
 	 public static String getFullRequestUrl(CommonTO commonTO){
 		 String sActualUrl=commonTO.getContextUrl()+commonTO.getAllDateFrom()+"&ENDTIME="+commonTO.getAllDateTo()+"&INSTRUMENT="+commonTO.getAllInstrument();
+		 if(commonTO.getWhereClause()!=null && !commonTO.getWhereClause().equals(""))
+			 sActualUrl=sActualUrl+" &WHERE="+commonTO.getWhereClause();
 		 return sActualUrl;
 	 }
 	 

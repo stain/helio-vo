@@ -37,7 +37,21 @@ public abstract class DirInsAnlyFactory {
 	      case XRT		:
 	    	  return new XRTProvider();   
 	      case LYRA		:
-	    	  return new ProbaLyraProvider();
+	    	  ResultTO[] resLyraTo=HsqlDbUtils.getInstance().getFtpAccessTableBasedOnInst(dirTO.getParaInstrument());
+				 //
+				 if(resLyraTo!=null && resLyraTo.length>0 && resLyraTo[0]!=null){
+					 httpTO.setYearPattern(resLyraTo[0].getYearPattern());
+					 httpTO.setMonthPattern(resLyraTo[0].getMonthPattern());
+					 httpTO.setHttpHost(resLyraTo[0].getFtpHost());
+					 httpTO.setWorkingDir(resLyraTo[0].getWorkingDir());
+					 httpTO.setHttpUser(resLyraTo[0].getFtpUser());
+					 httpTO.setHttpPwd(resLyraTo[0].getFtpPwd());
+					 httpTO.setHttpPattern(resLyraTo[0].getFtpPattern());
+					 httpTO.setHttpDateFormat(resLyraTo[0].getFtpDatePattern());
+					 httpTO.setProviderSource(dirTO.getProviderSource());
+					 httpTO.setEndUrl("");
+				 }
+				 return new HttpProvider(httpTO);
 	      case NORH		:
 	    	  return new NOBEProvider();
 	      case FTP	:
