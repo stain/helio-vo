@@ -70,7 +70,7 @@ public class VOTableCreator {
  	         out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
  	         if(tables!=null && tables.length>0){
 	 	         for(int count=0;count<tables.length;count++){
-	 	        	 if(tables[0]!=null){
+	 	        	 if(tables[count]!=null){
 			         //VoTable Creator
 		    		 VOSerializer vos = VOSerializer.makeSerializer( DataFormat.TABLEDATA, tables[count]);
 		    	     vos.writeInlineTableElement(out);
