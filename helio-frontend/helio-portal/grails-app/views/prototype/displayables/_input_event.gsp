@@ -4,8 +4,8 @@
       </tr>
       <tr>
         <td style="vertical-align:middle;" >
-          <div  class="resultDroppable3" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-            <img style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
+          <div  class="resultDroppableEvent" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+            <img style="margin:11px" src="${resource(dir:'images/helio',file:'circle_event.png')}" />
           </div>
         </td>
         <td>

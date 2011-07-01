@@ -12,6 +12,7 @@ import net.ivoa.xml.votable.v1.*
 import ch.i4ds.helio.frontend.parser.*
 import ch.i4ds.helio.frontend.query.*
 import eu.heliovo.clientapi.frontend.*
+import eu.heliovo.clientapi.frontend.ResultVT;
 import eu.heliovo.clientapi.model.catalog.HelioCatalogDao;
 import eu.heliovo.clientapi.model.catalog.impl.DpasDao;
 import eu.heliovo.clientapi.model.catalog.impl.HecDao
@@ -30,20 +31,8 @@ class PrototypeController {
 
 
     def getTaskContent = {
-        println params
-        println "got there";
-        /**println params
+        
 
-        def helioTask = HelioTask.findByTaskName(params.taskName);
-
-        if(helioTask == null){
-            println "heliotask is null"
-            //need to create a new heliotask
-
-        }else{
-
-        }
-**/
         
         
         
@@ -147,15 +136,10 @@ class PrototypeController {
             int resultId= ResultVTManagerService.addResult(result,params.serviceName);
             
 
-            def helioQuery = new HelioQuery();
-            helioQuery.minDate = startTime;
-            helioQuery.maxDate = endTime;
-            helioQuery.service = serviceName;
-            helioQuery.catalogue = extraList;
-
+       
             
             
-            helioQuery.save();
+            
             def responseObject = [result:result,resultId:resultId ];
 
             render template:'templates/response', bean:responseObject, var:'responseObject'
@@ -170,11 +154,7 @@ class PrototypeController {
         }
 
         
-        def queries = HelioQuery.list()
-        for(HelioQuery q :queries){
-            println "queries euuu";
-            println q.id;
-        }
+      
         
     }
 
@@ -206,12 +186,19 @@ class PrototypeController {
         }
 
     }
+    
+   
+
+
     def asyncQuery ={
         log.info("asyncQuery =>" +params);
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
 
         if(params.maxDate != null){
             try{
+                
+
+              
                 
                 
                 HelioParameters helioparameters = new HelioParameters();
@@ -229,19 +216,27 @@ class PrototypeController {
                 String serviceName = params.serviceName;
                 
                 int resultId= ResultVTManagerService.addResult(result,serviceName);
+                
+                
+                    
+                
 
                 def responseObject = [result:result,resultId:resultId ];
-                helioquery.result = result.getStringTable();
-                helioquery.save();
-                
+                //helioquery.result = result.getStringTable();
+                //helioquery.save();
+
+
+
 
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
-
+                
                 println e.printStackTrace();
                 
+                /**
                 def responseObject = [error:e.getMessage() ];
                 render template:'templates/response', bean:responseObject, var:'responseObject'
+                 **/
             }
 
         }
@@ -267,7 +262,7 @@ class PrototypeController {
         }
         
 
-
+        String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
         // init calalog list for HEC GUI
         HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
         HelioField<String> catalogField = hecDao.getCatalogField();
@@ -281,8 +276,7 @@ class PrototypeController {
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
-        def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments];
-        
+        def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];
         render view:'explorer', model:initParams
     }
 
@@ -292,22 +286,38 @@ class PrototypeController {
         ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
         ArrayList<String> minDateList= new ArrayList<String>();
 
-        if(params.maxDateList != null && params.minDateList != null) {
-            //startTime = [params.minDateList.split(",")].flatten();
-            minDateList = [params.minDateList].flatten();
-            maxDateList = [params.maxDateList].flatten();
-            //endTime = [params.maxDateList.split(",")].flatten();
+        if(params.maxDate.contains(",")) {
+            ArrayList<String> tempMinTimeList = params.minTime.split(",");
+            ArrayList<String> tempMaxTimeList = params.maxTime.split(",");
+            ArrayList<String> tempMaxDateList = params.maxDate.split(",");
+            ArrayList<String> tempMinDateList = params.minDate.split(",");
+            for(int i = 0; i<tempMinTimeList.size();i++){
+                Date minDate = Date.parse("yyyy-MM-dd/HH:mm",tempMinDateList.get(i)+"/"+tempMinTimeList.get(i));
+                Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",tempMaxDateList.get(i)+"/"+tempMaxTimeList.get(i));
+                maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
+                minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
+                
+            }
 
-        }else
-        {
 
-            Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
+            
+            
+
+        }else{
+                 Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
             Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",params.maxDate+"/"+params.maxTime);
             maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
-        }
-        def extraList = [params.extra].flatten();
         
+
+            
+        }
+        ArrayList<String> extraList = new ArrayList<String>();
+        if(params.extra.contains(",")){
+            extraList = params.extra.split(",")
+        }else{
+            extraList.push(params.extra);
+        }
           
         String where ="";
 

@@ -19,6 +19,8 @@
           <div id="voTables" style="clear: both; padding: 0px pt 20pt 5px;">
             <g:set var="result" value="${responseObject?.result}" />
             <g:set var="result" scope="session" value="${responseObject?.result}" />
+            
+            
             <g:form target="_blank" controller="prototype">
 
               <input name="resultId" type="hidden" value="${responseObject?.resultId}"/>

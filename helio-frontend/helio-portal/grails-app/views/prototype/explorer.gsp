@@ -50,6 +50,7 @@
 </head>
 
 <body>
+  <input type="hidden" value="${HUID}" id="HUID"/>
   <!-- Background Elements -->
   <div id="page-background">
     <!--img src="${resource(dir:'images/background',file:'bg_flat.jpg')}"   style="width:100%;height:150px"  alt="background"-->
@@ -92,28 +93,28 @@
         <li><a href="#tabs-2">Services</a></li>
         
         
-        <!--li><a href="#tabs-3">Advanced</a></li>
-        <li><a href="#tabs-1">Internal</a></li-->
+        <!--li><a href="#tabs-3">Advanced</a></li-->
+        <li><a href="#tabs-1">Internal(currently disabled)</a></li>
 
       </ul>
-      <!--div id="tabs-1">
+      <div id="tabs-1">
         <table>
           <tr>
             <td>
-              <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
+              <div style="display:block" class="menu_ite2m custom_button" id="task_hec" >HEC</div>
             </td>
             <td>
-              <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
+              <div style="display:block" class="menu_ite2m custom_button" id="task_ics" >ICS</div>
             </td>
             <td>
-              <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
+              <div style="display:block" class="menu_it2em custom_button" id="task_ils" >ILS</div>
             </td>
             <td>
-              <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
+              <div style="display:block" class="menu_i2tem custom_button" id="task_dpas" >DPAS</div>
             </td>
           </tr>
         </table>
-      </div!-->
+      </div>
       <div id="tabs-2">
         <table>
           <tr>

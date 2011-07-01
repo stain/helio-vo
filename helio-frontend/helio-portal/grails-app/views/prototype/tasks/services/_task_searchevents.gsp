@@ -1,5 +1,3 @@
-
-
 <div id="actionViewer">
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
@@ -16,12 +14,13 @@
       </tr>
     </table>
   </div>
-
+<%-- Query Form --%>
   <div class="module ">
     <div class="header queryHeader viewerHeader">
       <h1>Query Form</h1>
     </div>
     <div class="content">
+<%-- Form DATA --%>
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="HEC"/>
         <input id="service_name" name="taskName" type="hidden" value="searchEvents"/>
@@ -29,7 +28,7 @@
           <col width="*" />
           <col width="250"/>
           <tbody>
-<%-- date selection area --%>
+<%-- Time Selection Area --%>
             <tr>
               <td style="border-top: solid 1px gray;"><b>Date Selection</b><br/>
           <g:render template="templates/dates" />
@@ -38,7 +37,7 @@
             <div class="message"><b>Step 1</b><br/>Click on the 'Select' button to define the time range/s of interest.</div>
           </td>
           <tr>
-<%-- instrument selection area --%>
+<%-- Event Selection Area --%>
           <tr>
             <td colspan="2" style="border-top: solid 1px gray;">
               <b>Event Selection</b>
@@ -50,13 +49,13 @@
               <table style="margin-bottom: 10px;">
                 <tr>
                   <td style="vertical-align:middle;" >
-                    <div  id="event_drop" class="resultDroppable3" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-                      <img style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
+                    <div  class="resultDroppableEvent" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+                      <img id="event_drop" style="margin:11px" src="${resource(dir:'images/helio',file:'circle_event_grey.png')}" />
                     </div>
                   </td>
-                  
+
                   <td><ul id="extra_list"></ul></td>
-                  
+
 
                 </tr>
                 <tr align="center"><td><div class="custom_button" id="event_button">Select</div></td></tr>
@@ -66,17 +65,46 @@
               <div class="message"><b>Step 2</b><br/>Click on the 'Select' button to define the event catalogues of interest</div>
             </td>
           </tr>
-<%-- submit button --%>
-          <!--tr>
-            <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
+<%-- Result Area --%>
+          <tr >
+          <table id="result_overview" style="display:none" width="100%" cellpadding="0" cellspacing="0">
+            <col width="*" />
+          <col width="250"/>
+          <tbody>
+            <tr >
+              <td colspan="2" style="border-top: solid 1px gray;">
+                <b>Result Overview</b>
+
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <table style="margin-bottom: 10px;">
+                  <tr>
+                    <td style="vertical-align:middle;" >
+                      <div class="resultDroppable4" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+                        <img id="result_drop" class ="drop_able" style="margin:0px" src="${resource(dir:'images/helio',file:'result.png')}" />
+                      </div>
+                    </td>
+
+                    <td><ul id="result_area">
+                        <li>Number of tables: 2</li>
+                        <li>Number of entries: 4</li>
+                        <li>TimeStamp: 13/12/2005</li>
+                      </ul></td>
 
 
-
-            </td>
-            <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
-
-            </td>
-          </tr!-->
+                  </tr>
+                  <!--tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr-->
+                </table>
+              </td>
+              <td valign="top">
+                <div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div>
+              </td>
+            </tr>
+          </tbody>
+          </table>
+          </tr>
           </tbody>
         </table>
       </form>
