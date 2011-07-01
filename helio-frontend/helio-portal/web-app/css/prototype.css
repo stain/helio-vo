@@ -3,7 +3,12 @@
     float:left;
 
 }
+#time_area{
+     
 
+
+
+}
 
 .inputError{
     border:1px solid red;
@@ -15,6 +20,7 @@
     margin: 10px 0 5px 0;
     padding: 5px 5px 5px 30px;
     text-align: left;
+    
 }
 
 .pqlmessage table tbody tr td {
@@ -428,15 +434,23 @@ html{
     border:1px solid #5B5FA8;
 }
 .resultDroppable{
-    background:url(../images/helio/circle_time_grey.png) no-repeat 12px 12px;
+    background:url(../images/helio/circle_destination.png) no-repeat;
     
     
     
 }
-.resultDroppable3{
-    background-image:url(../images/helio/circle_event_grey.png);
-    background-repeat: no-repeat;
-    background-position: 12px 12px;
+.resultDroppable4{
+    
+    
+    
+}
+.resultDroppableEvent{
+    background-image:url(../images/helio/circle_destination.png);
+    
+    
+}
+.resultDroppableInst{
+     background-image:url(../images/helio/circle_destination.png);
 }
 .resultDroppable2{
     background-image:url(../images/helio/circle_inst_grey.png);

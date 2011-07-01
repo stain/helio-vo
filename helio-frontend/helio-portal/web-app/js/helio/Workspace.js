@@ -93,7 +93,9 @@ function Workspace() {
                     Ok: function() {
                         $("#extra_list").html(($("#extra_list_form").html()));
 
-                        $("#instruments_drop").css('background','url(../images/helio/circle_inst.png) no-repeat 12px 12px');
+                        
+                        $("#instruments_drop").attr('src','/helio-portal/images/helio/circle_inst.png');
+                        $("#instruments_drop").addClass('drop_able');
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
@@ -158,7 +160,9 @@ function Workspace() {
                     Ok: function() {
                         $("#extra_list").html(($("#extra_list_form").html()));
                         
-                        $("#event_drop").css('background','url(../images/helio/circle_event.png) no-repeat 12px 12px');
+                        
+                        $("#event_drop").attr('src','/helio-portal/images/helio/circle_event.png');
+                        $("#event_drop").addClass('drop_able');
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
@@ -169,24 +173,101 @@ function Workspace() {
         },
         time_input_form: function(){
 
+            $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
             div.attr('title','Date Selection');
-
             var html = divisions["input_time"];
             div.append(html);
-
             $("#testdiv").append(div);
-            fnInitializeDatePicker2();
-            $("#input_time_range_button").click(function(){
+            var date_range_list = $("#input_time_range_list");
 
-                //    var range_html = $("<tr></tr>");
-                //    range_html.append($("#input_time_range_1").html());
-                //
-                //   $("#input_time_range_list").append(range_html);
-                // fnInitializeDatePicker2();
+            date_range_list.html("");
+            //var num =date_range_list.data("ranges");
+            var _formatDateRange =function(id){
+                $('#minDate'+id).datepicker("destroy");
+                $('#minDate'+id).datepicker({
+                    defaultDate: "+1w",
+                    yearRange: '1970:2011',
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    showOn: "button",
+                    buttonImageOnly: true,
+                    buttonImage: "../images/icons/calendar.gif",
+                    changeYear: true,
+                    numberOfMonths: 1
                 });
+                $('#maxDate'+id).datepicker("destroy");
+                $('#maxDate'+id).datepicker({
+                    defaultDate: "+1w",
+                    yearRange: '1970:2011',
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    showOn: "button",
+                    buttonImageOnly: true,
+                    buttonImage: "../images/icons/calendar.gif",
+                    changeYear: true,
+                    numberOfMonths: 1
+                });
+
+
+            }
+            var _createDateRange =function(num){
+                var tr = $('<tr id="input_time_range_'+num+'"></tr>');
+                var td = $('<td align="center" valign="center">Range '+num+'</td>');
+                tr.append(td);
+                td = $('<td align="center" valign="center"> <input size="12" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01"/><input size="6" type="text" name="minTime" id="minTime'+num+'" value="00:00" /></td>');
+                tr.append(td);
+                td = $('<td align="center" valign="center"> <input size="12" type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03"/><input size="6" type="text" name="maxTime" id="maxTime'+num+'" value="00:00" /></td>');
+                tr.append(td);
+                td = $(""+
+                    ' <div style="width:16px;height:16px;" class="ui-state-default ui-corner-all" title=".ui-icon-circle-close">'
+                    +'<div class="input_time_range_remove ui-icon ui-icon-circle-close"></div></div>');
+                tr.append(td);
+                date_range_list.append(tr);
+                _formatDateRange(num);
+            }
+            $(".input_time_range_remove").click(function(){
+                alert("clicked");
+                $(this).find('tr').remove();
+            });
+            
+            var iterator =0;
+
+            $("#time_area").find('tr').each(function(){
+                iterator++;
+                date_range_list.data("ranges",iterator);
+                _createDateRange(iterator);
+                $(this).find("input").each(function(){
+                    if($(this).attr("name")=="maxDate")$("#maxDate"+iterator).val($(this).val());
+                    if($(this).attr("name")=="minDate")$("#minDate"+iterator).val($(this).val());
+                    if($(this).attr("name")=="minTime")$("#minTime"+iterator).val($(this).val());
+                    if($(this).attr("name")=="maxTime")$("#maxTime"+iterator).val($(this).val());
+                });
+                
+                
+                
+                
+            });
+            if(iterator == 0){
+                date_range_list.data("ranges",1);
+                _createDateRange(1);
+            }
+
+
+            
+            $("#input_time_range_button").click(function(){
+                var num =date_range_list.data("ranges");
+                date_range_list.data("ranges",num+1);
+                _createDateRange(num+1);
+            //    var range_html = $("<tr></tr>");
+            //    range_html.append($("#input_time_range_1").html());
+            //
+            //   $("#input_time_range_list").append(range_html);
+            // fnInitializeDatePicker2();
+            });
             $(".custom_button").button();
+            //$("#input_time_range_button").button({ disabled: true });
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
@@ -194,18 +275,30 @@ function Workspace() {
                 buttons: {
                     Ok: function() {
                         var table =$("<table>");
-                        
-                        table.append("<tr><td><b>Range 1:</b></td>"+
-                            "<td>"+$("#minDate").val()+"</td>"+
-                            "<td>"+$("#minTime").val()+"</td>"+
-                            "<td>--</td><td>"+$("#maxDate").val()+"</td>"+
-                            "<td>"+$("#maxTime").val()+"</td></tr>");
+                        var itr = 1;
+
+                        date_range_list.find("tr").each(function(){
+                            var tr = $('<tr></tr>');
+
+                            tr.append("<td><b>Range "+itr+":</b></td>"+
+                                "<td>"+$("#minDate"+itr).val()+"</td>"+
+                                "<td>"+$("#minTime"+itr).val()+"</td>"+
+                                "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
+                                "<td>"+$("#maxTime"+itr).val()+"</td>");
+                            tr.append("<input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'>")
+                            tr.append("<input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'>")
+                            tr.append("<input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'>")
+                            tr.append("<input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'>")
+                            table.append(tr);
+                            
+                            itr++;
+                        });
                         $("#time_area").html(table);
-                        $("#time_area").append("<input type='hidden' name='maxDate' value='"+$("#maxDate").val()+"'>")
-                        $("#time_area").append("<input type='hidden' name='minDate' value='"+$("#minDate").val()+"'>")
-                        $("#time_area").append("<input type='hidden' name='maxTime' value='"+$("#maxTime").val()+"'>")
-                        $("#time_area").append("<input type='hidden' name='minTime' value='"+$("#minTime").val()+"'>")
-                        $("#time_drop").css('background','url(../images/helio/circle_time.png) no-repeat 12px 12px')
+
+                      
+                        $("#time_drop").attr('src','/helio-portal/images/helio/circle_time.png');
+                        $("#time_drop").addClass('drop_able');
+
                         $(".custom_button").button();
                         
                         $("#dialog-message").dialog( "close" );
@@ -272,7 +365,7 @@ function Workspace() {
                     }
                     break;
                 case "DPAS":
-                     if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0&& extra.length >0){
+                    if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0&& extra.length >0){
 
                         sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
                     }
@@ -321,6 +414,7 @@ function Workspace() {
             
         },
         createItem: function(imagePath){
+            
             if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
             var element;
                         
@@ -336,9 +430,10 @@ function Workspace() {
                     element = new ActionViewer();
                     element.init();
                    
-                    
-                        
+                    $("#event_button").click(window.workspace.event_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                        
+                    
                     
                     break;
                 case 'task_ics':
@@ -358,7 +453,8 @@ function Workspace() {
                 case 'task_dpas':
                     element = new ActionViewer();
                     element.init();
-                   
+                    $("#instruments_button").click(window.workspace.instrument_input_form);
+                    $("#time_button").click(window.workspace.time_input_form);
 
                    
                     

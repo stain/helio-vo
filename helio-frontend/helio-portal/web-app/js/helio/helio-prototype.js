@@ -831,6 +831,11 @@ function fnBeforeQuery(){
 //javascript start
 $(document).ready(function()
 {
+    if($.cookie("helioSession")==null)$.cookie("helioSession",$("#HUID").val());
+
+
+
+
     var workspace = new Workspace();
     window.workspace = workspace;
     window.workspace.init();
@@ -847,20 +852,10 @@ $(document).ready(function()
         window.workspace.createItem(task_name);
         
         
+        
 
 
-    /**
-        jQuery.ajax(
-        {
-            type : 'GET',
-            data : {
-                "taskName":task_name
-            },
-            url : 'getTaskContent',
-            success: _whateverMethod
-            //error: __onErrorGetHecColumns,
-            //complete: _whateverMethod
-        }); **/
+  
     });
     
 
@@ -928,26 +923,3 @@ function dateCalculator(dateString,operation){
 
 }
 
-function fnInitializeDatePicker2(){
-  
-
-
-
-    $('#minDate, #maxDate').datepicker({
-        defaultDate: "+1w",
-
-        yearRange: '1970:2011',
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        showOn: "button",
-        buttonImageOnly: true,
-        buttonImage: "../images/icons/calendar.gif",
-        changeYear: true,
-        numberOfMonths: 1
-      
-
-        
-    });
-    
-  
-}

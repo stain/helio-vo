@@ -43,6 +43,57 @@ function ActionViewer() {
             $("#minTime").val($.cookie("minTime"));
             $("#maxTime").val($.cookie("maxTime"));
 
+            $("#time_drop").draggable({
+                helper:'clone'
+            });
+            $("#event_drop").draggable({
+                helper:'clone'
+            });
+            $("#instruments_drop").draggable({
+                helper:'clone'
+            });
+            $("#result_drop").draggable({
+                helper:'clone'
+            });
+            
+            $( ".resultDroppable" ).droppable({
+                accept: ".history_draggable",
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+                drop: function( event, ui ) {
+                    if( ui.draggable.data('time_data') != null){
+                        $("#time_drop").attr('src','/helio-portal/images/helio/circle_time.png');
+                        $('#time_area').html(ui.draggable.data('time_data'));
+                        window.workspace.evaluator();
+                    }
+                            
+                }
+            });
+            $( ".resultDroppableEvent" ).droppable({
+                accept: ".history_draggable",
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+                drop: function( event, ui ) {
+                    if( ui.draggable.data('event_data') != null){
+                        $("#event_drop").attr('src','/helio-portal/images/helio/circle_event.png');
+                        $('#extra_list').html(ui.draggable.data('event_data'));
+                        window.workspace.evaluator();
+                    }
+                }
+            });
+            $( ".resultDroppableInst" ).droppable({
+                accept: ".history_draggable",
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+                drop: function( event, ui ) {
+                    if( ui.draggable.data('inst_data') != null){
+                        $("#instruments_drop").attr('src','/helio-portal/images/helio/circle_inst.png');
+                        $('#extra_list').html(ui.draggable.data('inst_data'));
+                        window.workspace.evaluator();
+                    }
+                }
+            });
+
             //$('.submit_button').button({disabled: !$(".catalogueSelector input:checked").val()});
             $.collapsible(".queryHeader","group1");
             $.collapsible(".advancedParameters","group2");

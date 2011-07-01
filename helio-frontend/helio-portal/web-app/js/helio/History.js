@@ -16,62 +16,46 @@ function History() {
         init: function(){
             if (typeof console!="undefined")console.info("History :: init");
 
-            $( ".draggable" ).click(function() {
-                window.workspace.createItem($(this).find("img").attr("alt"));
+            $( "#history" ).droppable({
+                accept: ".drop_able",
+                activeClass: "ui-state-hover",
+                hoverClass: "ui-state-active",
+                drop: function( event, ui ) {
+
+                       var testver =ui.draggable.attr('src');
+                    var title ="";
+                    var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                    var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+                    var tr =$("<tr></tr>");
+                    var td =$("<td></td>");
+                    var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",ui.draggable.attr('src') );
+                    if(testver.indexOf('time') != -1)img.data('time_data',$("#time_area").html());
+                    if(testver.indexOf('event')!= -1)img.data('event_data',$("#extra_list").html());
+                    if(testver.indexOf('inst')!= -1)img.data('inst_data',$("#extra_list").html());
+                    td.append(img);
+                    img.draggable({
+                        revert: "invalid",
+                        helper:"clone",
+                        zIndex: 1700
+                    });
+                    
+                    
+                    
+                    tr.append(td);
+
+                    table.append(tr);
+                    div.append(table);
+
+                  
+
+
+
+                    $("#historyContent").append(div);
+
+
+                }
             });
-            $( "#clearSystem" ).click(function() {
-                var div =$('<div></div>');
-                div.attr('id','dialog-message');
-                div.attr('title','Reset System');
-                var message = "You are about to clear the system to a fresh state, are you sure?";
-
-                div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span></p>'+message+'');
-                $("#testdiv").append(div);
-                $('#dialog-message').dialog({
-                    modal: true,
-                    buttons: {
-                        "Delete all items": function() {
-                            $( this ).dialog( "close" );
-                            window.historyBar.clear();
-                        },
-                        Cancel: function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-
-                });
-                
-            });
-        /*
-            
-            $( ".draggable" ).draggable({
-                opacity:0.7,
-                zIndex: 5700,
-                helper:"clone"
-            });
-
-  */
-        },
-        
-        getCurrentKey:  function() {
-            if (typeof console!="undefined")console.info("History :: getCurrentKey " +current);
-            return current;
-        },
-        getCurrent:  function() {
-            if (typeof console!="undefined")console.info("History :: getCurrent");
-            return array[current];
-        },
-        removeCurrent:  function() {
-            if (typeof console!="undefined")console.info("History :: removeCurrent" + current);
-            
-            this.removeItem(current);
-            
-            window.workspace.clear();
-        },
-
-        lastItem:  function() {
-            if (typeof console!="undefined")console.info("History :: lastItem");
-            return array[array.length-1]
+ 
         },
         addItem: function(item) {
             if (typeof console!="undefined")console.info("History :: addItem ->"+ item.getClassName());

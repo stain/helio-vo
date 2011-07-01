@@ -5,6 +5,18 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
        * Initialize the tooltips and reset button of columns
      * Called after onSucess, onError
      */
+
+    $("#result_overview").css("display","table");
+    
+    $("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    var rowpos = $('#result_area').position();
+    if(rowpos!=null){
+    
+
+    
+    $('html,body').scrollTop(rowpos.top);
+    }
+
     var __onComplete = function(){
         
     };
@@ -19,6 +31,9 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
     var __onSuccess = function(data,textStatus) {
 
         $("#responseDivision").html(data);
+        
+        $("#result_area").html("Query Success");
+        $("#result_button").remove();
         $("#displayableResult").html("");
           $("#ics_instrument").css("display","block");
         $("#ils_trajectories").css("display","block");
@@ -27,6 +42,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
         
         $("#ics_instrument").css("display","none");
         $("#ils_trajectories").css("display","none");
+        $("#result_overview").css("display","table");
 
         $(":checkbox").unbind();
         $(":checkbox").removeAttr("checked");
@@ -69,6 +85,12 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
      * @param errorThrown error object
      */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        $("#result_overview").css("display","table");
+        $("#result_area").html("An error occured with the service selected, we cannont complete your query");
+        $("#result_button").remove();
+        
+        
+        
         
     };
 
@@ -85,6 +107,48 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
         },
         url : 'asyncQuery',
+        success: __onSuccess,
+        error: __onError,
+        complete: __onComplete
+    });
+
+    return;
+}
+
+
+
+function getHUID(){
+
+    var __onComplete = function(){
+
+    };
+
+    var __onSuccess = function(data,textStatus) {
+        alert(data);
+        alert(textStatus);
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+    alert(xmlHttpRequest);
+    alert(textStatus);
+    alert(errorThrown);
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'GET',
+         data : {
+            "minDate":"hola"
+        },
+        url : 'asyncGetHUID',
         success: __onSuccess,
         error: __onError,
         complete: __onComplete
