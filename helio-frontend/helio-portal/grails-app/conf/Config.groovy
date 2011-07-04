@@ -38,7 +38,7 @@ grails.views.gsp.sitemesh.preprocess = true
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "http://www.changeme.com"
+        grails.serverURL = "https://helio-dev.i4ds.ch"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -53,13 +53,11 @@ environments {
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
-    //log4j.appender.logfile.File=${com.sun.aas.instanceRoot}/logs/MyApplication.log
+    
     //
     appenders {
-        //console name:'logfile', layout:pattern(conversionPattern: '[%-7p][%d{dd/MM/yyyy HH:mm:ss,SSS}] %C %m%n')
-        //console name:'logfile', layout:pattern(conversionPattern: '[%d{yyyy-MM-dd hh:mm:ss.SSS}] %p %c{5} %m%n')
-        // file name:'file', file:'helio.log', append: false
-	 console name:'stdout'
+        
+	 
 
     }
 
@@ -86,8 +84,8 @@ log4j = {
     warn   'org.mortbay.log'
 
     root {
-        //error 'file'
-        error 'stdout'
+        
+        
 
 
 
