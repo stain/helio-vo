@@ -1,0 +1,217 @@
+<xs:schema version="0.1" xmlns:ns1="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:import namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="http://www.helio-vo.eu/services/xml/instruments.xsd"/>
+	<xs:annotation>
+		<xs:documentation>General Helio Types - used in other parts of the data model</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="TimePeriod">
+		<xs:sequence>
+			<xs:element name="time_start" type="TimeStart"/>
+			<xs:element name="time_end" type="TimeEnd"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TimeStart">
+		<xs:choice>
+			<xs:element name="remote_time_start" type="xs:dateTime"/>
+			<xs:element name="insitu_time_start" type="xs:dateTime"/>
+			<xs:element name="first_observation_time" type="xs:dateTime"/>
+			<xs:element name="predicted_time_start" type="xs:dateTime"/>
+			<xs:element name="image_time_start" type="xs:dateTime"/>
+			<xs:element name="julian_time_start" type="JulianDate"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="TimeEnd">
+		<xs:choice>
+			<xs:element name="remote_time_end" type="xs:dateTime"/>
+			<xs:element name="insitu_time_end" type="xs:dateTime"/>
+			<xs:element name="last_observation_time" type="xs:dateTime"/>
+			<xs:element name="predicted_time_end" type="xs:dateTime"/>
+			<xs:element name="image_time_end" type="xs:dateTime"/>
+			<xs:element name="julian_time_end" type="JulianDate"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="ID">
+		<xs:restriction base="xs:ID"/>
+	</xs:simpleType>
+	<xs:complexType name="Location">
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="long_hg">
+						<xs:annotation>
+							<xs:documentation>Heliographic longitude / Stonyhurst longitude</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="lat_hg">
+						<xs:annotation>
+							<xs:documentation>Heliographic latitude of event</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="long_err"/>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="x_cart">
+						<xs:annotation>
+							<xs:documentation>Position in arcsecs from centre of the sun.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="y_cart">
+						<xs:annotation>
+							<xs:documentation>Position in arcsecs from centre of the sun.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="radial_arcsec">
+						<xs:annotation>
+							<xs:documentation>Radial distance in arcsecs from the centre of the Sun.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="long_carr"/>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="pa">
+						<xs:annotation>
+							<xs:documentation>Central position angle for the CME</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="pa_measure">
+						<xs:annotation>
+							<xs:documentation>The position angle at which the height-time measurements are made (MPA for measurement position angle).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="pa_width">
+						<xs:annotation>
+							<xs:documentation>Position angle width of the CME</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="long_hee">
+						<xs:annotation>
+							<xs:documentation>Heliocentric Earth Ecliptic Longitude</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="lat_hee">
+						<xs:annotation>
+							<xs:documentation>Heliocentric Earth Ecliptic Latitude</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="long_hci">
+						<xs:annotation>
+							<xs:documentation>http://www.helio-vo.eu/internal/Documents/General/HELIO_DoW_Final_090904.pdf</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="lat_hci">
+						<xs:annotation>
+							<xs:documentation>Heliocentric Inertial Latitude</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="r_hci" type="xs:double"/>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="x_pix">
+						<xs:annotation>
+							<xs:documentation>pixel coordinates</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="y_pix">
+						<xs:annotation>
+							<xs:documentation>pixel coordinates</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute ref="coordinate_system" use="required"/>
+	</xs:complexType>
+	<xs:simpleType name="Count">
+		<xs:restriction base="xs:double">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:attribute default="HCI" name="coordinate_system">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="HGI">
+					<xs:annotation>
+						<xs:documentation>Heliographic Inertial</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value="HCI">
+					<xs:annotation>
+						<xs:documentation>Heliocentric Inertial</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value="Carrington">
+					<xs:annotation>
+						<xs:documentation>Carrington</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value="HEE">
+					<xs:annotation>
+						<xs:documentation>Heliocentric Earth Ecliptic</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+				<xs:enumeration value="HG">
+					<xs:annotation>
+						<xs:documentation>Heliographic</xs:documentation>
+					</xs:annotation>
+				</xs:enumeration>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	<xs:simpleType name="DeltaTime">
+		<xs:restriction base="xs:double"/>
+	</xs:simpleType>
+	<xs:element name="observatory_name" type="xs:string"/>
+	<xs:complexType name="JulianDate">
+		<xs:choice>
+			<xs:element name="julian_date_int" type="xs:integer"/>
+			<xs:element name="julian_date_double" type="xs:double"/>
+			<xs:sequence>
+				<xs:element name="julian_date_whole" type="xs:integer"/>
+				<xs:element name="julian_date_fraction" type="xs:double"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="SatId">
+		<xs:restriction base="xs:ID">
+			<xs:pattern value="[1-2][0-9][0-9][0-9]-[0-9][0-9][0-9][A-Z]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="time_period" type="TimePeriod"/>
+<!--	<xs:element name="time_start" type="TimeStart"/>
+	<xs:element name="time_end" type="TimeEnd"/>
+-->
+	<xs:element name="location" type="Location"/>
+	<xs:complexType name="Time">
+		<xs:choice>
+			<xs:element name="time_start" type="TimeStart"/>
+			<xs:element name="time_end" type="TimeEnd"/>
+			<xs:element name="time_period" type="TimePeriod"/>
+			<xs:element name="time_peak" type="xs:dateTime"/>
+			<xs:element name="time_1au" type="xs:dateTime"/>
+			<xs:element name="time" type="xs:dateTime"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="time" type="Time"/>
+	<xs:complexType name="MagneticFieldType">
+		<xs:choice>
+			<xs:element name="magnetic_field_nT" type="xs:float"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="NAR">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="URL">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>Improve!</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="instrument" type="ns1:instrument"/>
+	<xs:element name="comment" type="xs:string"/>
+</xs:schema>

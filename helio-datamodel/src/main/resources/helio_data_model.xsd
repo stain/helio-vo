@@ -2,11 +2,11 @@
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<xs:include schemaLocation="http://dl.dropbox.com/u/25360926/Helio_data_model/helio_data_model_ics.xsd"></xs:include>
+<xs:include schemaLocation="helio_data_model_ics.xsd"></xs:include>
 
-<xs:include schemaLocation="http://dl.dropbox.com/u/25360926/Helio_data_model/helio_data_model_ils.xsd"></xs:include>
+<xs:include schemaLocation="helio_data_model_ils.xsd"></xs:include>
 
-<xs:include schemaLocation="http://dl.dropbox.com/u/25360926/Helio_data_model/helio_data_model_hec.xsd"></xs:include>
+<xs:include schemaLocation="helio_data_model_hec.xsd"></xs:include>
 
-<xs:include schemaLocation="http://dl.dropbox.com/u/25360926/Helio_data_model/helio_data_model_hfc.xsd"></xs:include>
+<xs:include schemaLocation="helio_data_model_hfc.xsd"></xs:include>
 </xs:schema>
