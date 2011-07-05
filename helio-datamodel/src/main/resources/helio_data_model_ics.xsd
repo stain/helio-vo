@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns1="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:import namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="http://www.helio-vo.eu/services/xml/instruments.xsd"/>
+<!--<xs:import namespace="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" schemaLocation="http://www.ivoa.net/xml/STC/stc-v1.31.xsd"/>-->
+	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
+	<xs:complexType name="Instrument">
+		<xs:annotation>
+			<xs:documentation>defined type of instrument class</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="observatory_instrument_id" type="ns1:instrument"/>
+			<xs:element maxOccurs="1" name="instrument_name"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="observatory_name"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="observable_entity" type="ObservationEntity"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="observable_entity_specification" type="ObservableEntity2"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="full_disk">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minExclusive value="0"/>
+						<xs:maxInclusive value="6"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="number_dimensions">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:minInclusive value="0"/>
+						<xs:maxInclusive value="4"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="instrument_type" type="instrument_classification"/>
+			<xs:element name="comment" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_coverage" type="TimePeriod"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="group_name" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="sensing_type" type="SensingType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="observing_domain" type="ObservingDomain1"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="observing_domain_detail" type="ObservingDomain2"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="observatory_instrument_id"/>
+	<xs:simpleType name="ObservationEntity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="photons"/>
+			<xs:enumeration value="particles"/>
+			<xs:enumeration value="fields"/>
+			<xs:enumeration value="dust"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="instr" type="Instrument">
+		<xs:annotation>
+			<xs:documentation>attributes connected with instruments</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="SensingType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="remote">
+				<xs:annotation>
+					<xs:documentation>instrument location is remote</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="in-situ">
+				<xs:annotation>
+					<xs:documentation>instrument location is in-situ</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObservingDomain1">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sun"/>
+			<xs:enumeration value="Earth"/>
+			<xs:enumeration value="heliosphere"/>
+			<xs:enumeration value="galactic"/>
+			<xs:enumeration value="Earth/L1"/>
+			<xs:enumeration value="Saturn"/>
+			<xs:enumeration value="Jupiter"/>
+			<xs:enumeration value="Mars"/>
+			<xs:enumeration value="Venus"/>
+			<xs:enumeration value="comet"/>
+			<xs:enumeration value="Mercury"/>
+			<xs:enumeration value="planetary"/>
+			<xs:enumeration value="Uranus"/>
+			<xs:enumeration value="Neptune"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObservingDomain2">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="disk/inr. cor."/>
+			<xs:enumeration value="outer corona"/>
+			<xs:enumeration value="disk"/>
+			<xs:enumeration value="magnetosphere"/>
+			<xs:enumeration value="structure"/>
+			<xs:enumeration value="interior"/>
+			<xs:enumeration value="solar-wind"/>
+			<xs:enumeration value="disk/helios."/>
+			<xs:enumeration value="energy release"/>
+			<xs:enumeration value="aurora"/>
+			<xs:enumeration value="interstellar"/>
+			<xs:enumeration value="magneto/ionosphere"/>
+			<xs:enumeration value="environment"/>
+			<xs:enumeration value="ionosphere"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ObservableEntity2">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="GMR"/>
+			<xs:enumeration value="HXR">
+				<xs:annotation>
+					<xs:documentation>Hard X-Ray</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SXR">
+				<xs:annotation>
+					<xs:documentation>Soft X-Ray</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="UV">
+				<xs:annotation>
+					<xs:documentation>Ultraviolet</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="visible"/>
+			<xs:enumeration value="EUV">
+				<xs:annotation>
+					<xs:documentation>Extreme Ultraviolet</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="radio"/>
+			<xs:enumeration value="microwave"/>
+			<xs:enumeration value="charged"/>
+			<xs:enumeration value="energetic"/>
+			<xs:enumeration value="energ/neut"/>
+			<xs:enumeration value="neutral"/>
+			<xs:enumeration value="magnetic"/>
+			<xs:enumeration value="elect/magn."/>
+			<xs:enumeration value="electric"/>
+			<xs:enumeration value="gravity"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="instrument_classification">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="imager"/>
+			<xs:enumeration value="radiometer"/>
+			<xs:enumeration value="photometer"/>
+			<xs:enumeration value="cosmic-ray"/>
+			<xs:enumeration value="shocks"/>
+			<xs:enumeration value="electron-drift"/>
+			<xs:enumeration value="high-energy"/>
+			<xs:enumeration value="plasma"/>
+			<xs:enumeration value="spectrometer"/>
+			<xs:enumeration value="heliograph"/>
+			<xs:enumeration value="coronagraph"/>
+			<xs:enumeration value="SEP">
+				<xs:annotation>
+					<xs:documentation>Solar Energetic Particle</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="waves"/>
+			<xs:enumeration value="K-line"/>
+			<xs:enumeration value="radioheliograph"/>
+			<xs:enumeration value="magnetograph"/>
+			<xs:enumeration value="oscillations"/>
+			<xs:enumeration value="composition"/>
+			<xs:enumeration value="polarimeter"/>
+			<xs:enumeration value="magnetometer"/>
+			<xs:enumeration value="WhiteL"/>
+			<xs:enumeration value="H-alpha"/>
+			<xs:enumeration value="He10830"/>
+			<xs:enumeration value="LOS-velocity"/>
+			<xs:enumeration value="dust"/>
+			<xs:enumeration value="irradiance"/>
+		</xs:restriction>
+	</xs:simpleType>
+<!--Everything about observatories-->
+	<xs:element name="observatory" type="Observatory">
+		<xs:annotation>
+			<xs:documentation>attributes connected with observatories</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Observatory">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="observatory_name"/>
+			<xs:element maxOccurs="1" name="observatory_type" type="ObsType"/>
+			<xs:element name="observatory_complete_name"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="status" type="observatory_status"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="location" type="ObsLocation"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_coverage" type="TimePeriod"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_insertion" type="xs:dateTime"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ObsType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>GBO type</xs:documentation>
+				</xs:annotation>
+				<xs:element name="location" type="Location"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>HBO type</xs:documentation>
+				</xs:annotation>
+				<xs:element name="sat_type" type="xs:string"/>
+				<xs:element name="research_object" type="xs:string"/>
+				<xs:element name="sat_id" type="SatId"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>SBO type</xs:documentation>
+				</xs:annotation>
+				<xs:element name="orbit_height" type="xs:string"/>
+				<xs:element name="orbit_orientation" type="xs:string"/>
+				<xs:element name="sat_id" type="SatId"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:simpleType name="ObsLocation">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ERO">
+				<xs:annotation>
+					<xs:documentation>Earth-related orbit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="SRO">
+				<xs:annotation>
+					<xs:documentation>Satrun-related orbit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MRO">
+				<xs:annotation>
+					<xs:documentation>Mars-related orbit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="VRO">
+				<xs:annotation>
+					<xs:documentation>Venus-related orbit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP1">
+				<xs:annotation>
+					<xs:documentation>Heliospheric trajectory orbiting the Sun</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP2">
+				<xs:annotation>
+					<xs:documentation>Heliospheric trajectory passing one or more objects</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP2f">
+				<xs:annotation>
+					<xs:documentation>Heliospheric trajectory passing one or more objects -- info in flyby table</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP3">
+				<xs:annotation>
+					<xs:documentation>Cruise phase before eventually orbiting the Sun</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP3f">
+				<xs:annotation>
+					<xs:documentation>Cruise phase before eventually orbiting the Sun -- info in flyby table</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP4">
+				<xs:annotation>
+					<xs:documentation>Cruise phase before eventually orbiting a planet</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="HP4f">
+				<xs:annotation>
+					<xs:documentation>Cruise phase before eventually orbiting a planet -- info in flyby table</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LRO">
+				<xs:annotation>
+					<xs:documentation>Lunar Related Orbit</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LPO">
+				<xs:annotation>
+					<xs:documentation>Lunar ??? Orbiter</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="GBO">
+				<xs:annotation>
+					<xs:documentation>Ground Based Observatory -- Earth-based observatory</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="LBO">
+				<xs:annotation>
+					<xs:documentation>Lunar-based observatory</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="MBO">
+				<xs:annotation>
+					<xs:documentation>Mars-based observatory</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="observatory_status">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="P">
+				<xs:annotation>
+					<xs:documentation>planned</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="O">
+				<xs:annotation>
+					<xs:documentation>operational</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="D">
+				<xs:annotation>
+					<xs:documentation>defunct</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="observatory_location">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="P2" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>??? ToDo better description or/and rename element</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="P3" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>??? ToDo better description or/and rename element</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="ILS-T" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>??? ToDo better description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ILS-O" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>??? ToDo better description</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

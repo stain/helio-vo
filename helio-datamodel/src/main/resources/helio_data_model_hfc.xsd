@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:ns1="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:import namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="http://www.helio-vo.eu/services/xml/instruments.xsd"/>
+	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
+	<xs:complexType name="SpatialScale">
+		<xs:sequence maxOccurs="1" minOccurs="1">
+			<xs:element maxOccurs="1" minOccurs="1" name="sptial_scale_x_arcsec" type="xs:double"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="sptial_scale_y_arcsec" type="xs:double"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IntensityType">
+		<xs:choice>
+			<xs:element name="bz_magnetic_field_gauss" type="xs:double"/>
+			<xs:element name="bz_flux_unit" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>change unit to unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="ChainCodeType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="start_pos" type="Location"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="cc" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="length" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SkeletonType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="centre" type="Location"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="length_deg" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="curvation" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="chain_code" type="ChainCodeType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="EMType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="raster"/>
+			<xs:enumeration value="chain code"/>
+			<xs:enumeration value="none"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Area">
+		<xs:choice>
+			<xs:element maxOccurs="1" name="area_deg_sq" type="xs:double"/>
+			<xs:element maxOccurs="1" name="area_Mm_sq" type="xs:double"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BoundingRectangle">
+		<xs:choice>
+			<xs:element maxOccurs="2" minOccurs="2" name="coord_image" type="Location">
+				<xs:annotation>
+					<xs:documentation>2 coordinates (2 opposite corners) for a bounding rectangle on a 2D image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="4" minOccurs="4" name="coord_sphere" type="Location">
+				<xs:annotation>
+					<xs:documentation>4 coordinates (4 corners) for bounding rectangle on a sphere</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FeatureType">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="br" type="BoundingRectangle">
+				<xs:annotation>
+					<xs:documentation>any number of bounding rectangles</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="br_centre" type="Location">
+				<xs:annotation>
+					<xs:documentation>centre coordinate of bounding box</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="no_pixels" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Number of pixels included in the feature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="area" type="Area">
+				<xs:annotation>
+					<xs:documentation>Area of the feature in square degrees</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="max_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature max. intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="min_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature min. intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="mean_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature mean intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="skew_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature mean intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="mean_intensitiy_2quiet_sun" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Mean of the feature to QS instensity ratio</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="chain_code" type="ChainCodeType">
+				<xs:annotation>
+					<xs:documentation>code chain</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="snapshot" type="URL"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ImageType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_obs" type="Time">
+				<xs:annotation>
+					<xs:documentation>Date of observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="rot_carr" type="Location"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="spacial_scale" type="SpatialScale"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="bitpix" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Number of bit per pixel</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="naxis_x" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>number of pixels in image on x axis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="naxis_y" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>number of pixels in image on y axis</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="centre_sun" type="Location">
+				<xs:annotation>
+					<xs:documentation>coordinate of Sun centre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="radius_sun_pix" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Radius of the Sun in pixels</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="org_image" type="URL">
+				<xs:annotation>
+					<xs:documentation>link to image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="julian_date_obs" type="JulianDate">
+				<xs:annotation>
+					<xs:documentation>Julian date of the observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="exposure_time_s" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Exposure time (if available), in seconds and fraction of s</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="bscale" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>TODO: what is that?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="bzero" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>TODO: what is that?</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="quality" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Quality of the original image (in terms of processing)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="filename" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the orignal file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="comment" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SSType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FilamentType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="skeleton" type="SkeletonType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="elongation" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Elongation factor</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="orientation" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Orientation of the filament</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CHType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="image_id" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Number on the daily image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="image_group_id" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Group number on the daily image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="threshold" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Threshold value used on the image TODO unit</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="centre" type="Location">
+				<xs:annotation>
+					<xs:documentation>CH centre - gravity centre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="lat_width_deg" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Latitude width of the CH in HG deg</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="long_width_deg" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Longitude width of the CH in HG deg</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="lat_width_arcsec" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Latitude width of the CH in HG arcseconds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="long_width_arcsec" type="xs:double">
+				<xs:annotation>
+					<xs:documentation>Longitude width of the CH in HG arcseconds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ch_group_id" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Pointing to group number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="observation_eit_id" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Pointing to observation in EIT</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="observation_mdi_id" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Pointing to observation in MDI</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ARType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="skeleton_centre" type="Location">
+				<xs:annotation>
+					<xs:documentation>coordinate of the skeleton centre</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="neutral_line_length_Mm" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Feature length of the neutral line in Mm</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="strong_gradient_length" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Feature length of the strong gradient of neutral line above 50G/Mm.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="max_gradient" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum of the horizontal gradient (G/Mm)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="mean_gradient" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Mean of the horizontal gradient (G/Mm).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="median_gradient" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Median of the horizontal gradient (G/Mm).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="r_schrijver" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>R schrijver value (Mx): Flux near polarity separation line</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="wlsg" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>WLSG value (G/Mm): Gradient along the polarity separation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="noaa_number" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>NOAA Active Region number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HFCListType">
+		<xs:choice maxOccurs="1" minOccurs="1">
+			<xs:element maxOccurs="unbounded" name="active_region" type="ARType"/>
+			<xs:element maxOccurs="unbounded" name="coronal_hole" type="CHType"/>
+			<xs:element maxOccurs="unbounded" name="filament" type="FilamentType"/>
+			<xs:element maxOccurs="unbounded" name="sun_spot" type="SSType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="FeatureList">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_name" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_description" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="caviats" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_type" type="HFCListType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="instsrument" type="ns1:instrument"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="encoding_method" type="EMType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="hfc" type="FeatureType"/>
+</xs:schema>
