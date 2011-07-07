@@ -24,27 +24,25 @@
                 	ref="userDetailsService" />
 	</bean>
 	
-	  <bean id="filterChainProxy" class="org.springframework.security.util.FilterChainProxy">
+	  <bean id="springSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <security:filter-chain-map path-type="ant">
             <security:filter-chain pattern="/**" filters="sif"/>
         </security:filter-chain-map>
     </bean>
 	
 	  <bean id="sif"
-		class="org.springframework.security.context.HttpSessionContextIntegrationFilter" />
+		class="org.springframework.security.web.context.HttpSessionContextIntegrationFilter" />
 		
 		
-	<!--  	
-	<security:user-service id="userDetailsService" properties="users.properties"/>
+	<!--  <security:user-service id="userDetailsService" properties="users.properties"/> -->
  	
 	<security:user-service id="userDetailsService">
 		<security:user password="test" name="test" authorities="ROLE_ADMIN"/>
 	</security:user-service>
- 	-->
-  
+ 	
   	<security:authentication-manager>
   	</security:authentication-manager>
-  	
+    
   	<!-- 
       <security:authentication-provider>
         <password-encoder hash="md5"/>
