@@ -17,6 +17,7 @@ function Workspace() {
         init: function() {
             if (typeof console!="undefined")console.info("Workspace :: init");
             ingestDivision("hec_extended","#displayableHEC_extended");
+            ingestDivision("task_chart","#displayableTaskChart");
             ingestDivision("task_hec","#displayableHEC");
             ingestDivision("task_ics","#displayableICS");
             ingestDivision("input_time","#displayableInputTime");
@@ -226,13 +227,13 @@ function Workspace() {
                 tr.append(td);
                 date_range_list.append(tr);
                 _formatDateRange(num);
-                 $(".input_time_range_remove").unbind();
-                 $(".input_time_range_remove").button();
-                  $(".input_time_range_remove").click(function(){
+                $(".input_time_range_remove").unbind();
+                $(".input_time_range_remove").button();
+                $(".input_time_range_remove").click(function(){
                 
-                $(this).parent('tr').remove();
+                    $(this).parent('tr').remove();
                 
-            });
+                });
             }
           
             
@@ -470,6 +471,14 @@ function Workspace() {
                 case 'task_searchEvents':
                     element = new ActionViewer();
                     element.init();
+                    $("#event_button").click(window.workspace.event_input_form);
+                    $("#time_button").click(window.workspace.time_input_form);
+                    break;
+                case 'task_chart':
+                    
+                    element = new ActionViewer();
+                    element.init();
+                    createchart();
                     $("#event_button").click(window.workspace.event_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
                     break;

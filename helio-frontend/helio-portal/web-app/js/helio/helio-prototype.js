@@ -832,7 +832,7 @@ function fnBeforeQuery(){
 $(document).ready(function()
 {
     if($.cookie("helioSession")==null){
-        alert("cookie nullzor");
+        
         $.cookie("helioSession",$("#HUID").val(),{ expires: 30});
     }
 

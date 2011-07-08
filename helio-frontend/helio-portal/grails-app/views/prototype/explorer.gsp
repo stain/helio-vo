@@ -37,6 +37,8 @@
   <g:javascript src="/helio/HelioElement.js"/>
   <g:javascript src="/helio/cookies.js"/>
   <g:javascript src="jquery.form.js"/>
+  <g:javascript src="highcharts.js"/>
+  <g:javascript src="themes/grid.js"/>
 
   <g:javascript src="jquery.dataTables.js" />
   <g:javascript src="/plugins/jquery.collapsible.js" />
@@ -93,24 +95,24 @@
         <li><a href="#tabs-2">Services</a></li>
         
         
-        <!--li><a href="#tabs-3">Advanced</a></li-->
-        <li><a href="#tabs-1">Internal(currently disabled)</a></li>
+        <li><a href="#tabs-3">Advanced</a></li>
+        <li><a href="#tabs-1">Internal</a></li>
 
       </ul>
       <div id="tabs-1">
         <table>
           <tr>
             <td>
-              <div style="display:block" class="menu_ite2m custom_button" id="task_hec" >HEC</div>
+              <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
             </td>
             <td>
-              <div style="display:block" class="menu_ite2m custom_button" id="task_ics" >ICS</div>
+              <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
             </td>
             <td>
-              <div style="display:block" class="menu_it2em custom_button" id="task_ils" >ILS</div>
+              <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
             </td>
             <td>
-              <div style="display:block" class="menu_i2tem custom_button" id="task_dpas" >DPAS</div>
+              <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
             </td>
           </tr>
         </table>
@@ -130,18 +132,24 @@
           </tr>
         </table>
       </div>
-      <!--div id="tabs-3">
+      <div id="tabs-3">
         <table>
           <tr>
             <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_findObsData">In-situ Data Mining</div>
+              <div style="display:block" class="menu_it2em custom_button"  id="task_findObsData">In-situ Data Mining(disabled)</div>
             </td>
             <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_uploadVOTable">Propagation Model</div>
+              <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div>
+            </td>
+             <td>
+              <div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div>
+            </td>
+            <td>
+              <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">VOtable Upload(disabled)</div>
             </td>
           </tr>
         </table>
-      </div-->
+      </div>
 
     </div>
 

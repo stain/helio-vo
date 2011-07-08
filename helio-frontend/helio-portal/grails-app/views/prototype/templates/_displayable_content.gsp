@@ -13,19 +13,24 @@
   <g:render template="displayables/hec_extended" />
 </div>
 <div id="displayableICS" class="displayable" style="display:none">
-  <g:render template="displayables/ics" />
+  <g:render template="tasks/services/task_searchinstruments" />
 </div>
 <div id="displayableILS" class="displayable" style="display:none">
   <g:render template="displayables/ils" />
 </div>
 <div id="displayableDPAS" class="displayable" style="display:none">
-  <g:render template="displayables/dpas" />
+  <g:render template="tasks/services/task_searchdata" />
 </div>
+
+<div id="displayableTaskChart" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_chart" />
+</div>
+
 <div id="displayableUpload" class="displayable" style="display:none">
   <g:render template="displayables/upload" />
 </div>
 <div id="displayableHEC" class="displayable" style="display:none">
-  <g:render template="displayables/hec" />
+  <g:render template="tasks/services/task_searchevents" />
 </div>
 <div id="displayableSplash" class="displayable" style="display:none">
   <g:render template="displayables/splash" />

@@ -43,11 +43,15 @@ function History() {
                         img.attr('inst_data',$("#extra_list").html());
                     }
                     td.append(img);
+                    td.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='closeme ui-icon ui-icon-close'></span></div>"));
+                    
                     img.draggable({
                         revert: "invalid",
                         helper:"clone",
                         zIndex: 1700
                     });
+
+                  
                     
                     
                     
