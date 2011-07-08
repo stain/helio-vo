@@ -283,7 +283,10 @@ function Workspace() {
 
                         date_range_list.find("tr").each(function(){
                             var tr = $('<tr></tr>');
-
+                            while(!$("#minDate"+itr).length){
+                                itr++;
+                                if(itr==100)continue;
+                            }
                             tr.append("<td><b>Range "+itr+":</b></td>"+
                                 "<td>"+$("#minDate"+itr).val()+"</td>"+
                                 "<td>"+$("#minTime"+itr).val()+"</td>"+
