@@ -6,8 +6,8 @@
         
       </div>
     </td>
-    <td id="time_area" >
-      
+    <td id="time_area" class="candybox" >
+        
     </td> 
     
   </tr>

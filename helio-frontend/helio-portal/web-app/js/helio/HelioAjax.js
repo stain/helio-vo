@@ -1,21 +1,22 @@
 
 
+
 function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
     /*
        * Initialize the tooltips and reset button of columns
      * Called after onSucess, onError
      */
 
-    $("#result_overview").css("display","table");
+    //$("#result_overview").css("display","table");
     
-    $("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
     var rowpos = $('#result_area').position();
     if(rowpos!=null){
     
 
     
-    $('html,body').scrollTop(rowpos.top);
-    }
+   $('html,body').scrollTop(rowpos.top);
+   }
 
     var __onComplete = function(){
         
@@ -29,13 +30,15 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
+        
 
+        
         $("#responseDivision").html(data);
         
         $("#result_area").html("Query Success");
         $("#result_button").remove();
         $("#displayableResult").html("");
-          $("#ics_instrument").css("display","block");
+        $("#ics_instrument").css("display","block");
         $("#ils_trajectories").css("display","block");
         $("#voTables").prepend($("#ics_instrument").clone());
         $("#voTables").prepend($("#ils_trajectories").clone());
@@ -117,15 +120,15 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
 
 
-function getHUID(){
-
+function saveHistoryBar(){
+//alert("save hist");
     var __onComplete = function(){
 
     };
 
     var __onSuccess = function(data,textStatus) {
-        alert(data);
-        alert(textStatus);
+  //      alert(data);
+    //    alert(textStatus);
     };
 
     /**
@@ -135,9 +138,9 @@ function getHUID(){
      * @param errorThrown error object
      */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
-    alert(xmlHttpRequest);
-    alert(textStatus);
-    alert(errorThrown);
+    //alert(xmlHttpRequest);
+    //alert(textStatus);
+    //alert(errorThrown);
 
 
     };
@@ -146,9 +149,11 @@ function getHUID(){
     {
         type : 'GET',
          data : {
-            "minDate":"hola"
+            "HUID":$.cookie("helioSession"),
+            "html":$("#history").html()
+
         },
-        url : 'asyncGetHUID',
+        url : 'asyncSaveHistoryBar',
         success: __onSuccess,
         error: __onError,
         complete: __onComplete
@@ -157,3 +162,47 @@ function getHUID(){
     return;
 }
 
+
+
+function getHistoryBar(){
+
+    var __onComplete = function(){
+
+    };
+
+    var __onSuccess = function(data,textStatus) {
+        
+        $("#history").html(data);
+        window.historyBar.initSaved();
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+    //alert(xmlHttpRequest);
+    //alert(textStatus);
+    //alert(errorThrown);
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'GET',
+         data : {
+            "HUID":$.cookie("helioSession")
+            
+
+        },
+        url : 'asyncGetHistoryBar',
+        success: __onSuccess,
+        error: __onError,
+        complete: __onComplete
+    });
+
+    return;
+}

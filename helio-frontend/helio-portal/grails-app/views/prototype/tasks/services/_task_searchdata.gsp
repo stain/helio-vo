@@ -54,7 +54,7 @@
                           <img id="instruments_drop" style="margin:11px" src="${resource(dir:'images/helio',file:'circle_inst_grey.png')}" />
                       </div>
                     </td>
-                    <td><ul id="extra_list"></ul></td>
+                    <td class="candybox"><ul id="extra_list" ></ul></td>
                   
 
                   </tr>

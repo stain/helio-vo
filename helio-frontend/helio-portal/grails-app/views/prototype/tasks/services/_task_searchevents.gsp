@@ -54,7 +54,7 @@
                     </div>
                   </td>
 
-                  <td><ul id="extra_list"></ul></td>
+                  <td class="candybox"><ul id="extra_list"></ul></td>
 
 
                 </tr>

@@ -105,12 +105,14 @@ function Workspace() {
             });
         },
         event_input_form: function(){
+            
 
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
             div.attr('title','Event Parameter');
             var html = divisions["input_event"];
+
             div.append(html);
             $("#testdiv").append(div);
             $("#input_table").dataTable( {
@@ -220,17 +222,19 @@ function Workspace() {
                 tr.append(td);
                 td = $('<td align="center" valign="center"> <input size="12" type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03"/><input size="6" type="text" name="maxTime" id="maxTime'+num+'" value="00:00" /></td>');
                 tr.append(td);
-                td = $(""+
-                    ' <div style="width:16px;height:16px;" class="ui-state-default ui-corner-all" title=".ui-icon-circle-close">'
-                    +'<div class="input_time_range_remove ui-icon ui-icon-circle-close"></div></div>');
+                td = $('<div class="input_time_range_remove">Delete</div>');
                 tr.append(td);
                 date_range_list.append(tr);
                 _formatDateRange(num);
-            }
-            $(".input_time_range_remove").click(function(){
-                alert("clicked");
-                $(this).find('tr').remove();
+                 $(".input_time_range_remove").unbind();
+                 $(".input_time_range_remove").button();
+                  $(".input_time_range_remove").click(function(){
+                
+                $(this).parent('tr').remove();
+                
             });
+            }
+          
             
             var iterator =0;
 

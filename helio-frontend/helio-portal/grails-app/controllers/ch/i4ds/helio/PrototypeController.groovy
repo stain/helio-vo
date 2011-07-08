@@ -197,10 +197,6 @@ class PrototypeController {
         if(params.maxDate != null){
             try{
                 
-
-              
-                
-                
                 HelioParameters helioparameters = new HelioParameters();
                 helioparameters.minDate = [params.minDate].flatten();
                 helioparameters.maxDate = [params.maxDate].flatten();
@@ -393,6 +389,42 @@ class PrototypeController {
             response.outputStream << result.getStringTable()
 
         }
+
+    }
+    def asyncSaveHistoryBar = {
+        log.info("asyncSaveHistoryBar =>" + params);
+
+        
+        HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
+        
+        if(item == null)item = new HelioMemoryBar(hUID:params.HUID,html:params.html);
+
+        item.html = params.html;
+        item.save();
+        
+        for(HelioMemoryBar temp :HelioMemoryBar.list()){
+            println temp.hUID;
+        }
+
+        render "listo"
+        
+    }
+     def asyncGetHistoryBar = {
+        log.info("downloadVOTable =>" + params);
+
+
+        HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
+
+        if(item == null)return "no encontrado"
+
+        
+        
+
+        
+            
+        
+
+        render item.html;
 
     }
 }

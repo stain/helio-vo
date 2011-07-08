@@ -37,7 +37,7 @@
               "The server reported an unspecified error. Some context information may be found in the returned VOTable. We are sorry for the inconvenience."
             </g:if>
             <g:each in="${result?.getTables()}"  status="x" var="tables">
-              <!--span style="clear:both"> NAME: "${tables.getName()}"</span--!>
+              <div style="margin-top:20px;margin-bottom:5px;border-bottom:3px solid black"> <h3>${tables.getName()}</h3></div>
               <!--div reference="resultTable${x}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
               <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${x}">
 

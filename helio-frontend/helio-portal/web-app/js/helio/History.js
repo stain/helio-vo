@@ -21,17 +21,27 @@ function History() {
                 activeClass: "ui-state-hover",
                 hoverClass: "ui-state-active",
                 drop: function( event, ui ) {
+                    
 
-                       var testver =ui.draggable.attr('src');
+                    var testver =ui.draggable.attr('src');
                     var title ="";
                     var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
                     var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                     var tr =$("<tr></tr>");
                     var td =$("<td></td>");
                     var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",ui.draggable.attr('src') );
-                    if(testver.indexOf('time') != -1)img.data('time_data',$("#time_area").html());
-                    if(testver.indexOf('event')!= -1)img.data('event_data',$("#extra_list").html());
-                    if(testver.indexOf('inst')!= -1)img.data('inst_data',$("#extra_list").html());
+                    if(testver.indexOf('time') != -1){
+                        img.data('time_data',$("#time_area").html());
+                        img.attr('time_data',$("#time_area").html());
+                    }
+                    if(testver.indexOf('event')!= -1){
+                        img.data('event_data',$("#extra_list").html());
+                        img.attr('event_data',$("#extra_list").html());
+                    }
+                    if(testver.indexOf('inst')!= -1){
+                        img.data('inst_data',$("#extra_list").html());
+                        img.attr('inst_data',$("#extra_list").html());
+                    }
                     td.append(img);
                     img.draggable({
                         revert: "invalid",
@@ -51,11 +61,38 @@ function History() {
 
 
                     $("#historyContent").append(div);
+                    saveHistoryBar();
 
 
                 }
             });
  
+        },
+        initSaved: function() {
+
+            
+            
+            $(".history_draggable").each(function(){
+               // alert("called inside");
+                var img = $(this);
+                img.draggable({
+                        revert: "invalid",
+                        helper:"clone",
+                        zIndex: 1700
+                    });
+                    if(img.attr('time_data') != -1){
+                        img.data('time_data',img.attr('time_data'));
+                        
+                    }
+                    if(img.attr('event_data') != -1){
+                        img.data('event_data',img.attr('event_data'));
+                        
+                    }
+                    if(img.attr('inst_data') != -1){
+                        img.data('inst_data',img.attr('inst_data'));
+
+                    }
+            });
         },
         addItem: function(item) {
             if (typeof console!="undefined")console.info("History :: addItem ->"+ item.getClassName());
