@@ -94,7 +94,7 @@ function Workspace() {
                         $("#extra_list").html(($("#extra_list_form").html()));
 
                         
-                        $("#instruments_drop").attr('src','/helio-portal/images/helio/circle_inst.png');
+                        $("#instruments_drop").attr('src','../images/helio/circle_inst.png');
                         $("#instruments_drop").addClass('drop_able');
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
@@ -163,7 +163,7 @@ function Workspace() {
                         $("#extra_list").html(($("#extra_list_form").html()));
                         
                         
-                        $("#event_drop").attr('src','/helio-portal/images/helio/circle_event.png');
+                        $("#event_drop").attr('src','../images/helio/circle_event.png');
                         $("#event_drop").addClass('drop_able');
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
@@ -300,7 +300,7 @@ function Workspace() {
                         $("#time_area").html(table);
 
                       
-                        $("#time_drop").attr('src','/helio-portal/images/helio/circle_time.png');
+                        $("#time_drop").attr('src','../images/helio/circle_time.png');
                         $("#time_drop").addClass('drop_able');
 
                         $(".custom_button").button();
