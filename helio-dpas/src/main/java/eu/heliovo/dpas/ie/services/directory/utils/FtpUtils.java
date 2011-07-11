@@ -55,29 +55,34 @@ public class FtpUtils {
 		System.out.println("-------->  Working Folder ------->"+ftpTO.getWorkingDir());
 		fromDate.setTime(ftpTO.getDateValueFrom());
 		toDate.setTime(ftpTO.getDateValueTo());
-		client.changeWorkingDirectory(ftpTO.getWorkingDir()); 
+		boolean status=client.changeWorkingDirectory(ftpTO.getWorkingDir()); 
 		client.enterLocalPassiveMode();
-        FTPFile[] ftpFiles = client.listFiles();
-        for (FTPFile ftpFile : ftpFiles) {
-        	if (ftpFile.getType() == FTPFile.FILE_TYPE && !ftpFile.getName().contains("robots.txt")) {
-                currDpasResult	=	new DPASResultItem();
-    			currCalendar	=	new GregorianCalendar();
-    			ftpTO.setFtpFileName(ftpFile.getName());
-    			//Getting actual date value
-    			ftpTO.setFtpDateFileName(getFileNameBasedOnPattern(ftpTO));
-    			//Setting time
-    			currCalendar.setTime(convertDateFormatBasedOnProvider(ftpTO));
-    			//System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
-    			System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
-    			if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
-	    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
-	    			currDpasResult.measurementStart	=	currCalendar;
-	    			currDpasResult.fileSize =	 FileUtils.byteCountToDisplaySize(ftpFile.getSize());
-	    			
-	    			results.add(currDpasResult);
-    			}
-            }
-        }
+		if(status){
+	        FTPFile[] ftpFiles = client.listFiles();
+	        for (FTPFile ftpFile : ftpFiles) {
+	        	if (ftpFile.getType() == FTPFile.FILE_TYPE && !ftpFile.getName().contains("robots.txt")) {
+	                currDpasResult	=	new DPASResultItem();
+	    			currCalendar	=	new GregorianCalendar();
+	    			ftpTO.setFtpFileName(ftpFile.getName());
+	    			//Getting actual date value
+	    			ftpTO.setFtpDateFileName(getFileNameBasedOnPattern(ftpTO));
+	    			//Setting time
+	    			currCalendar.setTime(convertDateFormatBasedOnProvider(ftpTO));
+	    			System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
+	    			//System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
+	    			if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
+		    			currDpasResult.urlFITS	=	"ftp://"+ftpTO.getFtpHost()+"/"+ftpTO.getWorkingDir()+"/"+ftpFile.getName();
+		    			currDpasResult.measurementStart	=	currCalendar;
+		    			currDpasResult.fileSize =	 FileUtils.byteCountToDisplaySize(ftpFile.getSize());
+		    			
+		    			results.add(currDpasResult);
+	    			}
+	            }
+	        }
+	        client.changeWorkingDirectory("/");
+	}else{
+		System.out.println("  Error occured while changing directory : "+client.getReplyString());
+	}
 		
 		return null;
 	}
