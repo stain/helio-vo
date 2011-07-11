@@ -176,7 +176,7 @@ public class CommonUtils {
 		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 soteriaQueryDao.query(commonTO);
 		     }
-		 }else if(commonTO.getParaInstrument()!=null && !commonTO.getParaInstrument().trim().equals("")){
+		 }else if(commonTO.getParaInstrument()!=null && !commonTO.getParaInstrument().trim().equals("") && commonTO.getParaInstrument().trim().equalsIgnoreCase("pat")){
 			 	PatProviderUtils.query(commonTO);
 		 }
 		 else{
