@@ -15,7 +15,7 @@ import eu.heliovo.dpas.ie.services.directory.transfer.FtpDataTO;
 
 public class FtpUtils {
 	FTPClient client=null;
-	LinkedList<DPASResultItem> 	results = null;
+	static LinkedList<DPASResultItem> 	results = null;
 	/**
 	 * 
 	 * @param host

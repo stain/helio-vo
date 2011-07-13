@@ -25,13 +25,17 @@ public class DirProvider
 		int count=0;
 		//Provider type
 		String providerType=dirTO.getProviderType();
+		String pvdrSrc=dirTO.getProviderSource();
 		//Instrument name
 		String instName=dirTO.getInstrument();
         try{
         	//Checking whether ftp directory archive.
         	if(providerType!=null && !providerType.trim().equals("") && providerType.trim().equalsIgnoreCase("ftp")){
         		dirTO.setInstrument(providerType.toUpperCase());
-        		dirTO.setVotableDescription("BASS2000 Archive query response");
+        		if(pvdrSrc!=null && !pvdrSrc.trim().equals("") && pvdrSrc.trim().equalsIgnoreCase("haf"))
+        			dirTO.setVotableDescription(pvdrSrc.toUpperCase()+" archive query response");
+        		else
+        			dirTO.setVotableDescription("BASS2000 Archive query response");
         	}
         	DirQueryDao dpasDataProvider=(DirQueryDao) DirInsAnlyFactory.getDirProvider(dirTO);
         	//Setting Instrument
@@ -44,14 +48,13 @@ public class DirProvider
         		tables[count]=new PointsStarTable(results,dirTO.getHelioInstrument(),dirTO.getDateTo(),dirTO.getProviderSource(),dirTO.getInstrument());
         		tables[count].setName(dirTO.getHelioInstrument());
         	}
-        	
         	dirTO.setStarTableArray(tables);
         	dirTO.setQuerystatus("OK");
         	DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(dirTO.getWhichProvider());
         	dirQueryDao.generateVOTable(dirTO); 
         }catch(Exception e){
         	e.printStackTrace();
-        	throw new DataNotFoundException(" Could not retrieve data: ",e);
+        	throw new DataNotFoundException(e.getMessage());
         }
 
 	}

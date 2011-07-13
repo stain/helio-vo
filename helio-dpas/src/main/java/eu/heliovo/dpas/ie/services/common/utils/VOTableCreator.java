@@ -42,7 +42,7 @@ public class VOTableCreator {
 		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
 		//Checking for multiple Resources
 		if((comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1) || (comCriteriaTO.getAllDateTo()!=null && comCriteriaTO.getAllDateTo().split(",").length>1) || (comCriteriaTO.getAllInstrument()!=null && comCriteriaTO.getAllInstrument().split(",").length>1))
-			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
+			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
     }
     
     /**

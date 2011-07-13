@@ -15,6 +15,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import eu.heliovo.dpas.ie.services.directory.dao.exception.UrlNotFoundException;
 import eu.heliovo.dpas.ie.services.directory.transfer.HttpDataTO;
 
 public class HttpUtils {
@@ -36,6 +37,10 @@ public class HttpUtils {
 		return results;
 	}
 	
+	public static void setClearResults(){
+		results.clear();
+	}
+	
 	
 	
 	/**
@@ -46,9 +51,9 @@ public class HttpUtils {
 	public static  DPASResultItem getHttpFileDetails(HttpDataTO httpTO) throws Exception
 	{
 		DPASResultItem	currDpasResult	=	new DPASResultItem();
-		Calendar		currCalendar	=	null;
-		Calendar    	fromDate=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		Calendar		toDate=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar currCalendar	=	null;
+		Calendar fromDate=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		Calendar toDate=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
 		fromDate.setTime(httpTO.getDateValueFrom());
 		toDate.setTime(httpTO.getDateValueTo());
 		Elements links=getHrefValueElementList(httpTO.getWorkingDir());
@@ -58,22 +63,22 @@ public class HttpUtils {
 		        currDpasResult	=	new DPASResultItem();
 				currCalendar	=	new GregorianCalendar();
 				System.out.println(link.attr("href"));
-					httpTO.setHttpFileName(link.attr("href"));
-					//Getting actual date value
-					httpTO.setHttpDateFileName(getFileNameBasedOnPattern(httpTO));
-					//Setting time
-					Date date=convertDateFormatBasedOnProvider(httpTO);
-					if(date!=null)
-						currCalendar.setTime(date);
-					//System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
-					System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
-					if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
-						currDpasResult.urlFITS	= httpTO.getWorkingDir()+"/"+httpTO.getHttpFileName();
-						currDpasResult.measurementStart	=currCalendar;
-						currDpasResult.fileSize =	"";
-						results.add(currDpasResult);
-					}
+				httpTO.setHttpFileName(link.attr("href"));
+				//Getting actual date value
+				httpTO.setHttpDateFileName(getFileNameBasedOnPattern(httpTO));
+				//Setting time
+				Date date=convertDateFormatBasedOnProvider(httpTO);
+				if(date!=null)
+					currCalendar.setTime(date);
+				//System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
+				System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
+				if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
+					currDpasResult.urlFITS	= httpTO.getWorkingDir()+"/"+httpTO.getHttpFileName();
+					currDpasResult.measurementStart	=currCalendar;
+					currDpasResult.fileSize =	"";
+					results.add(currDpasResult);
 				}
+			  }
 			}
 		return null;
 	}
@@ -137,18 +142,31 @@ public class HttpUtils {
 	/**
 	 * @param url
 	 * @return
+	 * @throws Exception 
 	 * @throws IOException
 	 */
-	private static Elements getHrefValueElementList(String url)
+	private static Elements getHrefValueElementList(String url) throws UrlNotFoundException
 	{
 		try{
 			Document doc = Jsoup.connect(url).get();
 			return doc.select("a");
 		}catch(Exception e)
 		{
-			
+			System.out.println("There is no data found after querying "+url);
 		}
 		return null;
+	}
+	
+	public static boolean checkHttpUrlStatus(String url) throws UrlNotFoundException{
+		boolean status=false;
+		try{
+			Document doc = Jsoup.connect(url).get();
+			status=true;
+		}catch(Exception e)
+		{
+			throw new UrlNotFoundException(e.getMessage());
+		}
+		return status;
 	}
 	 
 }

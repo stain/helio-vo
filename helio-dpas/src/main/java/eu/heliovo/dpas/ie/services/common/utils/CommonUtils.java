@@ -32,6 +32,7 @@ import eu.heliovo.dpas.ie.services.common.transfer.FileResultTO;
 import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 import eu.heliovo.dpas.ie.services.soda.dao.interfaces.SoteriaQueryDao;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
+import eu.heliovo.dpas.ie.services.directory.utils.HttpUtils;
 import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
@@ -170,6 +171,8 @@ public class CommonUtils {
 		    	 System.out.println("--->  Directory Provider intiated--->");
 		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 dirQueryDao.query(commonTO);
+		    	 //Http Utils
+		    	 HttpUtils.setClearResults();
 		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof SoteriaQueryDao ){
 		    	 commonTO.setVotableDescription("Soteria query response "+resultTo[0].getProviderSource());
 		    	 System.out.println("--->  Soteria Provider intiated--->");
@@ -177,7 +180,8 @@ public class CommonUtils {
 		    	 soteriaQueryDao.query(commonTO);
 		     }
 		 }else if(commonTO.getParaInstrument()!=null && !commonTO.getParaInstrument().trim().equals("") && commonTO.getParaInstrument().trim().equalsIgnoreCase("pat")){
-			 	PatProviderUtils.query(commonTO);
+			 commonTO.setVotableDescription("PAT table instruments details ");	
+			 PatProviderUtils.query(commonTO);
 		 }
 		 else{
 			 //commonTO.setBufferOutput(new BufferedWriter(pw));

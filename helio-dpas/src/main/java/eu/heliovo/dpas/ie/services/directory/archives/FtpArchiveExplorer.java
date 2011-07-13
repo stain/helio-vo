@@ -80,7 +80,7 @@ public class FtpArchiveExplorer
 		}
 		catch(IOException e)
 		{
-			throw new Exception("Exception occurred while conneting ftp server ");
+			throw new Exception("Exception occurred while conneting ftp server host : "+ftpTO.getFtpHost());
 		}
 		catch(Exception e)
 		{
