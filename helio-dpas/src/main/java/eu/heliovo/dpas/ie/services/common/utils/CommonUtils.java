@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
+
 import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
@@ -33,7 +35,7 @@ import eu.heliovo.dpas.ie.services.common.transfer.ResultTO;
 import eu.heliovo.dpas.ie.services.soda.dao.interfaces.SoteriaQueryDao;
 import eu.heliovo.dpas.ie.services.directory.dao.interfaces.DirQueryDao;
 import eu.heliovo.dpas.ie.services.directory.utils.HttpUtils;
-import eu.heliovo.dpas.ie.services.uoc.dao.interfaces.UocQueryDao;
+import eu.heliovo.dpas.ie.services.hqi.dao.interfaces.HqiQueryDao;
 import eu.heliovo.dpas.ie.services.vso.dao.interfaces.VsoQueryDao;
 import eu.heliovo.dpas.ie.services.vso.utils.VsoUtils;
 
@@ -153,13 +155,13 @@ public class CommonUtils {
 		    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 System.out.println("2-ok commonto after copy from resultto = " + commonTO.getDetectiveField());
 	         	 vsoQueryDao.query(commonTO);
-		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof UocQueryDao ){
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof HqiQueryDao ){
 		    	 commonTO.setVotableDescription("UOC query response");
 		    	 System.out.println("--->  UOC Provider intiated--->");
 		    	 System.out.println(" : Table name for UOC  : "+resultTo[0].getObsId());
 		    	 commonTO.setInstrument(resultTo[0].getObsId());
-		    	 UocQueryDao uocQueryDao=(UocQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
-		    	 uocQueryDao.query(commonTO);
+		    	 HqiQueryDao hqiQueryDao=(HqiQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 hqiQueryDao.query(commonTO);
 		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
 		    	 System.out.println("--->  CDAWEB Provider intiated--->");
 		    	 System.out.println(" : Mission name for CDAWEB  : "+resultTo[0].getObsId());
@@ -496,4 +498,21 @@ public class CommonUtils {
 		return cal.getTimeInMillis() + cal.getTimeZone().getOffset(cal.getTimeInMillis());
 	    }
 		
+	    public static Calendar convertStringToCalendar(String endDate) 
+	    {
+	    	SimpleDateFormat inputFormat = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
+	    	 Date date=null;
+	    	 Calendar cal=Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+			try {
+				date = inputFormat.parse(endDate);
+				cal.setTime(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    	
+	    	 
+	    	 return cal;
+	    }
+	    
 }
