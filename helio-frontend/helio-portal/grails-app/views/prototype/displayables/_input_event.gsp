@@ -25,7 +25,7 @@
           </table>
         </td>
 
-    <td><ul id="extra_list_form"></ul></td>
+    <td class="candybox"><ul id="extra_list_form"></ul></td>
 
         
       </tr>

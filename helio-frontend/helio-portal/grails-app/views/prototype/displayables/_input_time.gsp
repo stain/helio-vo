@@ -17,27 +17,29 @@
             <th  align="center" >
               End Date
             </th>
+
+
           </tr>
         </thead>
-      
+
         <tbody id="input_time_range_list">
 
-        <tr id="input_time_range">
-          <td align="center" valign="center">
-            Range 1
-          </td>
-          <td align="center" valign="center">
-            <input size="12" type="text" class="minDate" name="minDate" value="2003-01-01"/>
-            <input size="6" type="text" name="minTime" class="minTime" value="00:00" />
-          </td>
-          <td align="center" valign="center">
-            <input size="12" type="text" class="maxDate" name="maxDate" value="2003-01-03"/>
+          <tr id="input_time_range">
+            <td align="center" valign="center">
+              Range 1
+            </td>
+            <td align="center" valign="center">
+              <input size="12" type="text" class="minDate" name="minDate" value="2003-01-01"/>
+              <input size="6" type="text" name="minTime" class="minTime" value="00:00" />
+            </td>
+            <td align="center" valign="center">
+              <input size="12" type="text" class="maxDate" name="maxDate" value="2003-01-03"/>
 
 
-            <input size="6" type="text" name="maxTime" class="maxTime" value="00:00" />
-          </td>
-        </tr>
-      
+              <input size="6" type="text" name="maxTime" class="maxTime" value="00:00" />
+            </td>
+          </tr>
+
         </tbody>
 
 

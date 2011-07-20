@@ -1,9 +1,127 @@
 
 
+function getSavedResult(resultId){
+    /*
+     * Initialize the tooltips and reset button of columns
+     * Called after onSucess, onError
+     */
+
+    //$("#result_overview").css("display","table");
+
+    //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    var rowpos = $('#result_area').position();
+    if(rowpos!=null){
+
+
+
+        $('html,body').scrollTop(rowpos.top);
+    }
+
+    var __beforeSend= function(){
+        $("#result_overview").css("display","table");
+        $("#result_area").html("your result is being processed");
+    };
+
+    var __onComplete = function(){
+
+    };
+
+
+
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccess = function(data,textStatus) {
+
+
+
+        $("#responseDivision").html(data);
+
+        $("#result_area").html("Query Success");
+        $("#result_button").remove();
+        $("#displayableResult").html("");
+        $("#ics_instrument").css("display","block");
+        $("#ils_trajectories").css("display","block");
+        $("#voTables").prepend($("#ics_instrument").clone());
+        $("#voTables").prepend($("#ils_trajectories").clone());
+
+        $("#ics_instrument").css("display","none");
+        $("#ils_trajectories").css("display","none");
+        $("#result_overview").css("display","table");
+
+        $(":checkbox").unbind();
+        $(":checkbox").removeAttr("checked");
+
+        $(":checkbox").change(function(){
+
+            var checkboxName = $(this).attr("name");
+            var checkboxColumn = $(this).attr("column");
+
+
+
+            if($(this).is(':checked')){
+
+                $("#resultTable0").dataTable().fnFilter(checkboxName,checkboxColumn);
+            }else{
+                //console.debug("not checked");
+                $("#resultTable0").dataTable().fnFilter("",checkboxColumn);
+            }
+
+
+
+        });
+
+        $('#displayableResult').append($('#tables'));
+        $('#displayableResult').css("display","block");
+
+        $('.resultTable').each(function(){
+            fnFormatTable(this.id);
+        });
+        
+        $("#dialog-message").dialog( "close" );
+        $("#dialog-message").remove();
+
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        $("#result_overview").css("display","table");
+        $("#result_area").html("An error occured with the service selected, we cannont complete your query");
+        $("#result_button").remove();
+
+
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'POST',
+        data : {
+            "resultId":resultId
+
+        },
+        url : 'asyncGetSavedResult',
+        success: __onSuccess,
+        error: __onError,
+        beforeSend: __beforeSend,
+        complete: __onComplete
+    });
+
+    return;
+}
+
 
 function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
     /*
-       * Initialize the tooltips and reset button of columns
+     * Initialize the tooltips and reset button of columns
      * Called after onSucess, onError
      */
 
@@ -15,8 +133,13 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
     
 
     
-   $('html,body').scrollTop(rowpos.top);
-   }
+        $('html,body').scrollTop(rowpos.top);
+    }
+
+    var __beforeSend= function(){
+        $("#result_overview").css("display","table");
+        $("#result_area").html("your result is being processed");
+    };
 
     var __onComplete = function(){
         
@@ -75,18 +198,339 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
         $('.resultTable').each(function(){
             fnFormatTable(this.id);
         });
+        $(".custom_button").button();
+        $("#response_save_selection").click(function(){
+            
+            
+            
+            var serviceName = $("#service_name").val();
 
+            if(serviceName == 'HEC'){
+
+                var itr= 0;
+                $(".resultTable").each(function(){
+                    //console.debug($(this));
+                    itr++;
+                });
+                itr = itr/2;
+                var table =$("<table></table>");
+                var time_start_array = new Array();
+                var time_end_array = new Array();
+                for(var i = 0;i<itr;i++){
+                    var dataTable =$("#resultTable"+i).dataTable();
+                    var settings = dataTable.fnSettings();
+                    var time_start = -1;
+                    var time_end = -1;
+                    for(var j = 0;j< settings.aoColumns.length;j++){
+                        if(settings.aoColumns[j].sTitle.trim() == 'time_start'){
+                            time_start=j;
+                        }
+                        if(settings.aoColumns[j].sTitle.trim() == 'time_end'){
+                            time_end=j;
+                        }
+
+                    }//end j
+
+
+                
+                
+                    $("#resultTable"+i+" .even_selected").each(function(){
+                    
+                        time_start_array.push($(this).children().eq(time_start).text());
+                        time_end_array.push($(this).children().eq(time_end).text());
+                    
+                    });
+                    $("#resultTable"+i+" .odd_selected").each(function(){
+                    
+                        time_start_array.push($(this).children().eq(time_start).text());
+                        time_end_array.push($(this).children().eq(time_end).text());
+                    });
+           
+                }//end i
+            
+
+                for(itr= 0;itr < time_start_array.length;itr++){
+
+                
+                    var time_start_string =time_start_array[itr];
+                    var fields = time_start_string.split('T');
+                    var minDate =fields[0];
+                    fields =fields[1].split(':');
+                    var minTime = fields[0] +":"+fields[1];
+                    var time_end_string =time_end_array[itr];
+                    fields = time_end_string.split('T');
+                    var maxDate =fields[0];
+                    fields =fields[1].split(':');
+                    var maxTime = fields[0] +":"+fields[1];
+                    var tr = $('<tr></tr>');
+                    tr.append("<td><b>Range "+itr+":</b></td>"+
+                        "<td>"+minDate+"</td>"+
+                        "<td>"+minTime+"</td>"+
+                        "<td>--</td><td>"+maxDate+"</td>"+
+                        "<td>"+maxTime+"</td>");
+
+                    tr.append("<td><input type='hidden' name='maxDate' value='"+maxDate+"'/></td>")
+                    tr.append("<td><input type='hidden' name='minDate' value='"+minDate+"'/></td>")
+                    tr.append("<td><input type='hidden' name='maxTime' value='"+maxTime+"'/></td>")
+                    tr.append("<td><input type='hidden' name='minTime' value='"+minTime+"'/></td>")
+                    table.append(tr);
+
+                
+                
+                }//end itr
+                var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_time.png' );
+                var superdiv = $('<div></div>')
+                superdiv.append(table);
+            
+
+
+                
+            
+
+
+
+                img.data('time_data',superdiv.html());
+                img.attr('time_data',superdiv.html());
+                img.attr('helio_type','time');
+
+                
+
+                img.draggable({
+                    revert: "invalid",
+                    helper:"clone",
+                    zIndex: 1700
+                });
+
+                img.click(function(){
+                    if($(this).attr('helio_type')== 'time'){
+                    
+                        window.historyBar.time_input_form(img,true);
+                    }
+                    if($(this).attr('helio_type')== 'event'){
+                        window.historyBar.event_input_form(img);
+                    }
+                    if($(this).attr('helio_type')== 'inst'){
+                        window.historyBar.instrument_input_form(img);
+                    }
+                    if($(this).attr('helio_type')== 'result'){
+                        window.historyBar.result_input_form(img);
+                    }
+                });
+
+       
+                window.historyBar.time_input_form(img,false);
+            }else if(serviceName == 'ICS'){
+                var itr= 0;
+                $(".resultTable").each(function(){
+                    //console.debug($(this));
+                    itr++;
+                });
+                itr = itr/2;
+                var table =$("<table></table>");
+                var instrument_array = new Array();
+                
+                for(var i = 0;i<itr;i++){
+                    var dataTable =$("#resultTable"+i).dataTable();
+                    var settings = dataTable.fnSettings();
+                    var instrument = -1;
+                    
+                    for(var j = 0;j< settings.aoColumns.length;j++){
+                        if(settings.aoColumns[j].sTitle.trim() == 'obsinst_key'){
+                            instrument=j;
+                        }                           
+                    }//end j
+
+
+
+
+                    $("#resultTable"+i+" .even_selected").each(function(){
+
+                        instrument_array.push($(this).children().eq(instrument).text());
+                        
+
+                    });
+                    $("#resultTable"+i+" .odd_selected").each(function(){
+
+                        instrument_array.push($(this).children().eq(instrument).text());
+                        
+                    });
+
+                }//end i
+
+                var holder= $('<ul class="candybox"></ul>');
+                for(itr= 0;itr < instrument_array.length;itr++){
+
+
+                    var instrument_string =instrument_array[itr];
+                    
+                    holder.append("<li>'"+instrument_string+"'<input id="+instrument_string+" type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
+
+
+                }
+                    
+                
+                
+                $("#dialog-message").remove();
+                var div =$('<div></div>');
+                div.attr('id','dialog-message');
+                div.attr('title','Instrument Edition');
+
+                var html = window.workspace.getDivisions()["input_instruments"];
+                div.append(html);
+                $("#testdiv").append(div);
+                $("#input_table").dataTable( {
+                    "bSort": false,
+                    "bInfo": true,
+                    "sScrollY": "300px",
+                    "bPaginate": false,
+                    "bJQueryUI": true,
+                    "sScrollX": "300px",
+                    "sScrollXInner": "100%",
+                    "sDom": '<"H">t<"F">'
+                });
+
+
+
+                $("#extra_list_form").html(holder.html());
+
+                $("#extra_list_form input").each(function(){
+                    $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
+                });
+
+                $("#input_filter").keyup(function(){
+                    $("#input_table").dataTable().fnFilter($(this).val());
+                });
+
+                $('#input_table tr').click( function() {
+                    var row =$(this).find('td').attr("internal").trim();
+                    if ( $(this).hasClass('row_selected') ){
+                        $(this).removeClass('row_selected');
+
+                        
+                        $("#"+row).parent().remove();
+                    }
+                    else{
+                        $(this).addClass('row_selected');
+                        $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
+                    }
+                } );
+                $(".custom_button").button();
+                $('#dialog-message').dialog({
+                    modal: true,
+                    height:530,
+                    width:700,
+                    close: function(){
+
+                        $("#dialog-message").remove();
+                    },
+                    buttons: {
+                        Ok: function() {
+                            
+                            
+                            var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_inst.png' );
+
+
+
+
+
+                            var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                            var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+                            var tr2 =$("<tr></tr>");
+                            var td2 =$("<td></td>");
+
+
+
+
+                            img.data('inst_data',$("#extra_list_form").html());
+                            img.attr('inst_data',$("#extra_list_form").html());
+                            img.attr('helio_type','inst');
+
+                            td2.append(img);
+                            td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
+
+                            img.draggable({
+                                revert: "invalid",
+                                helper:"clone",
+                                zIndex: 1700
+                            });
+
+                            img.click(function(){
+                                if($(this).attr('helio_type')== 'time'){
+
+                                    window.historyBar.time_input_form(img,true);
+                                }
+                                if($(this).attr('helio_type')== 'event'){
+                                    window.historyBar.event_input_form(img);
+                                }
+                                if($(this).attr('helio_type')== 'inst'){
+                                    window.historyBar.instrument_input_form(img);
+                                }
+                                if($(this).attr('helio_type')== 'result'){
+                                    window.historyBar.result_input_form(img);
+                                }
+                            });
+
+
+
+                            tr2.append(td2);
+
+
+                            table2.append(tr2);
+                            //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
+                            //table.append(tr);
+
+                            div.append(table2);
+
+
+                            $("#historyContent").append(div);
+
+
+                            $(".closeme").unbind();
+                            $(".closeme").click(function(){
+
+
+
+                                $(this).parent().parent().parent().parent().parent().remove();
+                                saveHistoryBar();
+
+                            });
+
+                            $("#dialog-message").dialog( "close" );
+                            $("#dialog-message").remove();
+
+                        }
+                    }
+                });
+                    
+                    
+                    
+                    
+                    
+                    
+                  
+              
+
+
+
+                
+                
+            }else if(serviceName == 'DPAS'){
+                alert("No Extractable Parameters");
+            }
+
+
+        });
         $("#dialog-message").dialog( "close" );
-                                    $("#dialog-message").remove();
+        $("#dialog-message").remove();
         
     };
 
     /**
-     * Method called in case an error occurs when loading the HEC table.
-     * @param XMLHttpREquest the underlying request
-     * @param textStatus status message
-     * @param errorThrown error object
-     */
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
         $("#result_overview").css("display","table");
         $("#result_area").html("An error occured with the service selected, we cannont complete your query");
@@ -112,6 +556,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
         url : 'asyncQuery',
         success: __onSuccess,
         error: __onError,
+        beforeSend: __beforeSend,
         complete: __onComplete
     });
 
@@ -121,22 +566,22 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
 
 function saveHistoryBar(){
-//alert("save hist");
+    //alert("save hist");
     var __onComplete = function(){
 
     };
 
     var __onSuccess = function(data,textStatus) {
-  //      alert(data);
+    //      alert(data);
     //    alert(textStatus);
     };
 
     /**
-     * Method called in case an error occurs when loading the HEC table.
-     * @param XMLHttpREquest the underlying request
-     * @param textStatus status message
-     * @param errorThrown error object
-     */
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
     //alert(xmlHttpRequest);
     //alert(textStatus);
@@ -148,7 +593,7 @@ function saveHistoryBar(){
     jQuery.ajax(
     {
         type : 'POST',
-         data : {
+        data : {
             "HUID":$.cookie("helioSession"),
             "html":$("#history").html()
 
@@ -177,11 +622,11 @@ function getHistoryBar(){
     };
 
     /**
-     * Method called in case an error occurs when loading the HEC table.
-     * @param XMLHttpREquest the underlying request
-     * @param textStatus status message
-     * @param errorThrown error object
-     */
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
     //alert(xmlHttpRequest);
     //alert(textStatus);
@@ -193,7 +638,7 @@ function getHistoryBar(){
     jQuery.ajax(
     {
         type : 'GET',
-         data : {
+        data : {
             "HUID":$.cookie("helioSession")
             
 
@@ -208,75 +653,75 @@ function getHistoryBar(){
 }
 
 function createchart(){
-   var chart = new Highcharts.Chart({
-      chart: {
-         renderTo: 'cocontainer',
-         zoomType: 'x',
-         spacingRight: 20
-      },
-       title: {
-         text: 'HELIO Events'
-      },
-       subtitle: {
-         text: document.ontouchstart === undefined ?
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'cocontainer',
+            zoomType: 'x',
+            spacingRight: 20
+        },
+        title: {
+            text: 'HELIO Events'
+        },
+        subtitle: {
+            text: document.ontouchstart === undefined ?
             'Click and drag in the plot area to zoom in' :
             'Drag your finger over the plot to zoom in'
-      },
-      xAxis: {
-         type: 'datetime',
-         maxZoom: 14 * 24 * 3600000, // fourteen days
-         title: {
-            text: null
-         }
-      },
-      yAxis: {
-         title: {
-            text: 'Flare Size'
-         },
-         min: 0.6,
-         startOnTick: false,
-         showFirstLabel: false
-      },
-      tooltip: {
-         shared: true
-      },
-      legend: {
-         enabled: false
-      },
-      plotOptions: {
-         area: {
-            fillColor: {
-               linearGradient: [0, 0, 0, 300],
-               stops: [
-                  [0, Highcharts.theme.colors[0]],
-                  [1, 'rgba(2,0,0,0)']
-               ]
-            },
-            lineWidth: 1,
-            marker: {
-               enabled: false,
-               states: {
-                  hover: {
-                     enabled: true,
-                     radius: 5
-                  }
-               }
-            },
-            shadow: false,
-            states: {
-               hover: {
-                  lineWidth: 1
-               }
+        },
+        xAxis: {
+            type: 'datetime',
+            maxZoom: 14 * 24 * 3600000, // fourteen days
+            title: {
+                text: null
             }
-         }
-      },
+        },
+        yAxis: {
+            title: {
+                text: 'Flare Size'
+            },
+            min: 0.6,
+            startOnTick: false,
+            showFirstLabel: false
+        },
+        tooltip: {
+            shared: true
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: [0, 0, 0, 300],
+                    stops: [
+                    [0, Highcharts.theme.colors[0]],
+                    [1, 'rgba(2,0,0,0)']
+                    ]
+                },
+                lineWidth: 1,
+                marker: {
+                    enabled: false,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            radius: 5
+                        }
+                    }
+                },
+                shadow: false,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                }
+            }
+        },
 
-      series: [{
-         type: 'area',
-         name: 'Flare Size',
-         pointInterval: 24 * 3600 * 1000,
-         pointStart: Date.UTC(2006, 0, 01),
-         data: [
+        series: [{
+            type: 'area',
+            name: 'Flare Size',
+            pointInterval: 24 * 3600 * 1000,
+            pointStart: Date.UTC(2006, 0, 01),
+            data: [
             0.8446, 0.8445, 0.8444, 0.8451,   0.8418, 0.8264,   0.8258, 0.8232,   0.8233, 0.8258,
             0.8283, 0.8278, 0.8256, 0.8292,   0.8239, 0.8239,   0.8245, 0.8265,   0.8261, 0.8269,
             0.8273, 0.8244, 0.8244, 0.8172,   0.8139, 0.8146,   0.8164, 0.82,   0.8269, 0.8269,
@@ -387,7 +832,7 @@ function createchart(){
             0.7855, 0.7866, 0.7865, 0.7795, 0.7758, 0.7717, 0.761, 0.7497, 0.7471, 0.7473,
             0.7407, 0.7288, 0.7074, 0.6927, 0.7083, 0.7191, 0.719, 0.7153, 0.7156, 0.7158,
             0.714, 0.7119, 0.7129, 0.7129, 0.7049, 0.7095
-         ]
-      }]
-   });
+            ]
+        }]
+    });
 }

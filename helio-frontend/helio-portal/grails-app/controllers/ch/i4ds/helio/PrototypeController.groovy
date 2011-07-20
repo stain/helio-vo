@@ -216,7 +216,7 @@ class PrototypeController {
                 
                     
                 
-
+                println resultId;
                 def responseObject = [result:result,resultId:resultId ];
                 //helioquery.result = result.getStringTable();
                 //helioquery.save();
@@ -250,12 +250,12 @@ class PrototypeController {
     def explorer={
         log.info("Explorer =>" +params)
 
-        println (HelioParameters.list());
-        println (HelioQuery.list());
-
-        for(HelioQuery temp :HelioQuery.list()){
-            println temp.service;
-        }
+        //println (HelioParameters.list());
+//        println (HelioQuery.list());
+//
+//        for(HelioQuery temp :HelioQuery.list()){
+//            println temp.service;
+//        }
         
 
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
@@ -300,7 +300,7 @@ class PrototypeController {
             
 
         }else{
-                 Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
+            Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
             Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",params.maxDate+"/"+params.maxTime);
             maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
@@ -391,6 +391,21 @@ class PrototypeController {
         }
 
     }
+
+    def asyncGetSavedResult = {
+        log.info("asyncGetSavedResult =>" + params);
+        
+        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+         def responseObject = [result:result,resultId:params.resultId ];
+                //helioquery.result = result.getStringTable();
+                //helioquery.save();
+
+
+
+
+                render template:'templates/response', bean:responseObject, var:'responseObject'
+        
+    }
     def asyncSaveHistoryBar = {
         log.info("asyncSaveHistoryBar =>" + params);
 
@@ -406,22 +421,16 @@ class PrototypeController {
             println temp.hUID;
         }
 
-        render "listo"
+        render ""
         
     }
-     def asyncGetHistoryBar = {
+    def asyncGetHistoryBar = {
         log.info("downloadVOTable =>" + params);
 
 
         HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
 
-        if(item == null)return "no encontrado"
-
-        
-        
-
-        
-            
+        if(item == null)return "Error: Item Not Found"
         
 
         render item.html;

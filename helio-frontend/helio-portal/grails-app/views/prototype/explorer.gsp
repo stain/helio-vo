@@ -10,7 +10,9 @@
     <title>HELIO FrontEnd</title>
 
     <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" />
+    <!--link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.11.custom.css')}" /-->
+    <link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.14.custom.css')}" />
+
     <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
 
     <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
@@ -28,6 +30,7 @@
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
   <g:javascript src="/helio/ActionViewer.js"/>
+  <g:javascript src="/helio/TimeForm.js"/>
   <g:javascript src="/helio/HelioAjax.js"/>
   <g:javascript src="/helio/ActionViewerExtended.js"/>
   <g:javascript src="/helio/UploadViewer.js"/>

@@ -24,7 +24,7 @@
     <div class="content">
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
              <input id="service_name" name="serviceName" type="hidden" value="ICS"/>
-        <input id="service_name" name="taskName" type="hidden" value="searchInstruments"/>
+        <input id="task_name" name="taskName" type="hidden" value="searchInstruments"/>
         <input id="extra" name="extra" style="display:none" type="text" value="instrument"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />

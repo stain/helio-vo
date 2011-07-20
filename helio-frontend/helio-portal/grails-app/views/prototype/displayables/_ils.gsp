@@ -25,6 +25,7 @@
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
          
          <input id="service_name" name="serviceName" type="hidden" value="ILS"/>
+         <input id="task_name" name="taskName" type="hidden" value="ils"/>
                 <input id="extra" name="extra" style="display:none" type="text" value="trajectories"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />

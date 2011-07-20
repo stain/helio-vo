@@ -44,6 +44,9 @@
 <div id="displayableInputInstruments" class="displayable" style="display:none">
   <g:render template="displayables/input_instruments" />
 </div>
+<div id="displayableInputResult" class="displayable" style="display:none">
+  <g:render template="displayables/input_result" />
+</div>
 <div id="displayableTaskSearchEvents" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchevents" />
 </div>

@@ -23,7 +23,7 @@
 <%-- Form DATA --%>
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="HEC"/>
-        <input id="service_name" name="taskName" type="hidden" value="searchEvents"/>
+        <input id="task_name" name="taskName" type="hidden" value="searchEvents"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
           <col width="250"/>

@@ -24,7 +24,7 @@
     <div class="content">
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="DPAS"/>
-        <input id="service_name" name="taskName" type="hidden" value="searchData"/>
+        <input id="task_name" name="taskName" type="hidden" value="task_searchData"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
           <col width="250"/>

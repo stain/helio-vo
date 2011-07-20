@@ -13,7 +13,7 @@ function fnclearDateTexts2(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
 
     $("#instArea").html($("#droppable-inner").data("content"));
-    //$(".tooltip").css("display","none");
+//$(".tooltip").css("display","none");
 }
 
 
@@ -54,7 +54,7 @@ function mysubmit(){
     // loop over all extra parameters
     $(".columnSelection").each(function(i){
         if($(this).val() == ""){
-            // nothing to do
+        // nothing to do
         } else {
             var value = $(this).val();
             var id = $(this).attr('name');
@@ -136,7 +136,7 @@ function fnInitializeDatePicker(){
                 $("#maxDate").addClass("inputError");
             }else{
                 $("#maxDate").removeClass("inputError");
-                //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
+            //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
             
             }
             matches = IsoDate.exec(minDate);
@@ -161,7 +161,7 @@ function fnInitializeDatePicker(){
             }
 
 
-            /*
+        /*
             if(matches[1]!=null&&matches[2]&&matches[3]){
 
             }
@@ -253,7 +253,7 @@ function fnInitDroppable(){
                         "left": $(already_dragged).data("Left"),
                         "top": $( already_dragged).data("Top")
                     }, "slow",function(){
-                });
+                        });
                 $(this).data('dropped_items',ui.draggable);
 
             }
@@ -382,7 +382,7 @@ function fnInitDroppable(){
                     
 
                     $(".dateTable").append(
-                    '<tr class="biggerInput dropInput">'+
+                        '<tr class="biggerInput dropInput">'+
                         '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
                         '<td><input name="maxDateList" type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
@@ -391,7 +391,7 @@ function fnInitDroppable(){
                 }else if(time_start != null) {
                 
                     $(".dateTable").append(
-                    '<tr class="biggerInput dropInput">'+
+                        '<tr class="biggerInput dropInput">'+
                         '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
                         '<td><input name="maxDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
@@ -499,7 +499,7 @@ function fnAddSelectedRow(pos,aData,oTable){
         div.attr("title",aData);
         div.attr("title2",totalResult);
         $('#testdiv').append(div);
-        //$("#testdiv div[title]").tooltip();
+    //$("#testdiv div[title]").tooltip();
     }
     if($('.resCont').length !=0){
         $('#testdiv').css('display','none');
@@ -587,8 +587,8 @@ function fnOnComplete(){
     var rowpos = $('#displayableResult').position();
     $('html,body').scrollTop(rowpos.top);
     $('#responseDivision').html();
-    //$("#responseDivision").html("");
-    //var totalSize = $("#totalSize").val();
+//$("#responseDivision").html("");
+//var totalSize = $("#totalSize").val();
     
     
 
@@ -644,6 +644,7 @@ function fnFormatTable(tableName){
         //"sScrollXInner": "100%",
         "bScrollCollapse": true,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+            
             var dataIndex =aData.length-1;
             $(nRow).unbind();
             if($(nRow).hasClass("odd") && $(nRow).hasClass("even_selected")||$(nRow).hasClass("odd") && $(nRow).hasClass("odd_selected")){
@@ -654,7 +655,8 @@ function fnFormatTable(tableName){
             }
             /* Deal with a click on each row */
             $(nRow).click( function() {
-                
+
+
                 var oTable =$(this).closest("table").dataTable();
                 var pos =oTable.fnGetPosition(this);
                 
@@ -672,8 +674,8 @@ function fnFormatTable(tableName){
 
 
                 this.className = (aData[dataIndex] == 1) ?
-                    this.className+'_selected' :
-                    this.className.replace( /_selected/, "" );
+                this.className+'_selected' :
+                this.className.replace( /_selected/, "" );
             } );
 
 
@@ -831,13 +833,53 @@ function fnBeforeQuery(){
 //javascript start
 $(document).ready(function()
 {
-    if($.cookie("helioSession")==null){
+
+    
+    if(false){
+        if($.cookie("helioSession")==null){
         
-        $.cookie("helioSession",$("#HUID").val(),{ expires: 30});
+            $.cookie("helioSession",$("#HUID").val(),{
+                expires: 30
+            });
+        }else{
+            $("#dialog-message").remove();
+            var div =$('<div></div>');
+            div.attr('id','dialog-message');
+            div.attr('title','Session Change');
+            var html = $("<div>Do you want to start a new session?</div>")
+            div.append(html);
+            $("#testdiv").append(div);
+            $('#dialog-message').dialog({
+                modal: true,
+                height:200,
+                width:200,
+                buttons: {
+
+
+                    Yes: function() {
+                        $.cookie("helioSession",$("#HUID").val(),{
+                            expires: 30
+                        });
+                        $("#historyContent").html("");
+                        $("#dialog-message").dialog( "close" );
+                        $("#dialog-message").remove();
+
+                    },
+                    No: function(){
+
+                        
+
+                     
+                        $("#dialog-message").dialog( "close" );
+                        $("#dialog-message").remove();
+
+                    }
+                }
+            })
+        }
+
+
     }
-
-
-
 
     var workspace = new Workspace();
     window.workspace = workspace;
@@ -848,7 +890,7 @@ $(document).ready(function()
     window.historyBar.init();
     $( "#tabs" ).tabs();
     getHistoryBar();
-    
+    //new TimeForm().display();
     $( ".custom_button").button();
     $( ".menu_item" ).click(function() {
 
@@ -864,7 +906,7 @@ $(document).ready(function()
     
 
 
-    /*
+/*
      *
      *
     
@@ -894,14 +936,7 @@ $(document).ready(function()
      **/
 });
 
-function _whateverMethod(data,textStatus,jqXHR){
 
-
-
-
-
-    
-}
 function dateCalculator(dateString,operation){
     
                 
@@ -926,4 +961,55 @@ function dateCalculator(dateString,operation){
     return dateOutput;
 
 }
+
+function validatemydate(itr){
+    try{
+        var maxTime = $("#maxTime"+itr).val();
+        var minTime = $("#minTime"+itr).val();
+        var maxDate = $("#maxDate"+itr).val();
+        var minDate = $("#minDate"+itr).val();
+        var IsoDate = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
+        var IsoTime = new RegExp("^([0-9]{2}):([0-9]{2})$");
+        var matches = IsoDate.exec(maxDate);
+
+        if(matches ==null){
+            $("#maxDate"+itr).addClass("inputError");
+        }else{
+            $("#maxDate"+itr).removeClass("inputError");
+        //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
+
+        }
+        matches = IsoDate.exec(minDate);
+        if(matches ==null){
+            $("#minDate"+itr).addClass("inputError");
+        }
+        else{
+            $("#minDate"+itr).removeClass("inputError");
+        }
+        matches = IsoTime.exec(maxTime);
+        if(matches ==null){
+            $("#maxTime"+itr).addClass("inputError");
+        }else{
+            $("#maxTime"+itr).removeClass("inputError");
+        }
+        matches = IsoTime.exec(minTime);
+        if(matches ==null){
+            $("#minTime"+itr).addClass("inputError");
+        }
+        else{
+            $("#minTime"+itr).removeClass("inputError");
+        }
+
+
+    /*
+            if(matches[1]!=null&&matches[2]&&matches[3]){
+
+            }
+            $("#dateError").remove();
+             */
+    }
+    catch(err){
+            
+    }
+};
 

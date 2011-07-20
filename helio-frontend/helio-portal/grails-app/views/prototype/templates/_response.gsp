@@ -23,12 +23,12 @@
             
             <g:form target="_blank" controller="prototype">
 
-              <input name="resultId" type="hidden" value="${responseObject?.resultId}"/>
+              <input id="resultId" name="resultId" type="hidden" value="${responseObject?.resultId}"/>
 
               <!--g:actionSubmit class="custom_button" style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/-->
             </g:form>
-            <!--div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div>
-            <div id="resultSelectionSave" class="custom_button" style="margin-right:10px;float:right;">Save Selection</div!-->
+            <!--div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div-->
+            <div id="response_save_selection" class="custom_button" style="margin-right:10px;float:right;">Save Selection</div>
 
 
             <div style="clear:both;width:100%"></div>

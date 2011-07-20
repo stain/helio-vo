@@ -23,6 +23,7 @@ function Workspace() {
             ingestDivision("input_time","#displayableInputTime");
             ingestDivision("input_instruments","#displayableInputInstruments");
             ingestDivision("input_event","#displayableInputEvent");
+            ingestDivision("input_result","#displayableInputResult");
             ingestDivision("task_ils","#displayableILS");
             ingestDivision("task_dpas","#displayableDPAS");
             ingestDivision("task_uploadVOTable","#displayableUpload");
@@ -223,7 +224,9 @@ function Workspace() {
                 tr.append(td);
                 td = $('<td align="center" valign="center"> <input size="12" type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03"/><input size="6" type="text" name="maxTime" id="maxTime'+num+'" value="00:00" /></td>');
                 tr.append(td);
-                td = $('<div class="input_time_range_remove">Delete</div>');
+                td = $('<td><div></div></td>');
+                tr.append(td);
+                td = $('<td><div class="input_time_range_remove">Delete</div></td>');
                 tr.append(td);
                 date_range_list.append(tr);
                 _formatDateRange(num);
@@ -234,6 +237,11 @@ function Workspace() {
                     $(this).parent('tr').remove();
                 
                 });
+            //                $("#maxTime"+num).keydown(validatemydate(num));
+            //                $("#minTime"+num).keydown(validatemydate(num));
+            //                $("#maxDate"+num).keydown(validatemydate(num));
+            //                $("#minDate"+num).keydown(validatemydate(num));
+                
             }
           
             
@@ -385,11 +393,9 @@ function Workspace() {
         
         
         },
-        setElement: function(element){
+        getDivisions: function(){
             if (typeof console!="undefined")console.info("Workspace :: setElement");
-            //if(element ==null)return;
-            this.element = element;
-            element.renderContent();
+            return divisions;
         },
         onLoading: function(){
             if (typeof console!="undefined")console.info("Workspace :: onLoading");
@@ -440,6 +446,7 @@ function Workspace() {
                    
                     $("#event_button").click(window.workspace.event_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                         
                     
                     
@@ -449,6 +456,7 @@ function Workspace() {
                     element.init();
                    
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                     
                     break;
                 case 'task_ils':
@@ -456,6 +464,7 @@ function Workspace() {
                     element.init();
                     
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                                    
                     break;
                 case 'task_dpas':
@@ -463,6 +472,7 @@ function Workspace() {
                     element.init();
                     $("#instruments_button").click(window.workspace.instrument_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
 
                    
                     
@@ -472,7 +482,9 @@ function Workspace() {
                     element = new ActionViewer();
                     element.init();
                     $("#event_button").click(window.workspace.event_input_form);
+                    $("#event_drop").click(window.workspace.event_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                     break;
                 case 'task_chart':
                     
@@ -480,19 +492,24 @@ function Workspace() {
                     element.init();
                     createchart();
                     $("#event_button").click(window.workspace.event_input_form);
+                    $("#event_drop").click(window.workspace.event_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                     break;
                 case 'task_searchInstruments':
                     element = new ActionViewer();
 
                     element.init();
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                     break;
                 case 'task_searchData':
                     element = new ActionViewer();
                     element.init();
                     $("#instruments_button").click(window.workspace.instrument_input_form);
+                    $("#instruments_drop").click(window.workspace.instrument_input_form);
                     $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
                     break;
                 case 'upload_vot':
                     element = new UploadViewer(imagePath,"ghost",text);

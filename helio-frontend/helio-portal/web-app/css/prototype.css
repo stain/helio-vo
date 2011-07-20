@@ -179,6 +179,11 @@ html{
 
 
 }
+.inner_label{
+    font-size: .8em;
+    max-width: 70px;
+    overflow: none;
+}
 
 .candybox {
     background: url("https://www.dropbox.com//static/images/shadow_gradient.gif") repeat-x scroll center bottom #FEFEFF;
@@ -187,6 +192,20 @@ html{
     padding: 10px 20px 20px;
      border-radius: 5px 5px 5px 5px;
     box-shadow: 0 1px 1px #DFDFDF;
+    width: 300px;
+}
+
+.candybox li {
+    font-size: 0.9em;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #333;
+	color: black;
+        list-style-type:none;
+	
+        
+	
+	line-height: 1.6em;
 }
 
 #history {
