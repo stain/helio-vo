@@ -13,7 +13,7 @@ function fnclearDateTexts2(){
     $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
 
     $("#instArea").html($("#droppable-inner").data("content"));
-//$(".tooltip").css("display","none");
+    //$(".tooltip").css("display","none");
 }
 
 
@@ -54,7 +54,7 @@ function mysubmit(){
     // loop over all extra parameters
     $(".columnSelection").each(function(i){
         if($(this).val() == ""){
-        // nothing to do
+            // nothing to do
         } else {
             var value = $(this).val();
             var id = $(this).attr('name');
@@ -136,7 +136,7 @@ function fnInitializeDatePicker(){
                 $("#maxDate").addClass("inputError");
             }else{
                 $("#maxDate").removeClass("inputError");
-            //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
+                //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
             
             }
             matches = IsoDate.exec(minDate);
@@ -161,7 +161,7 @@ function fnInitializeDatePicker(){
             }
 
 
-        /*
+            /*
             if(matches[1]!=null&&matches[2]&&matches[3]){
 
             }
@@ -253,7 +253,7 @@ function fnInitDroppable(){
                         "left": $(already_dragged).data("Left"),
                         "top": $( already_dragged).data("Top")
                     }, "slow",function(){
-                        });
+                });
                 $(this).data('dropped_items',ui.draggable);
 
             }
@@ -382,7 +382,7 @@ function fnInitDroppable(){
                     
 
                     $(".dateTable").append(
-                        '<tr class="biggerInput dropInput">'+
+                    '<tr class="biggerInput dropInput">'+
                         '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td>'+
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
                         '<td><input name="maxDateList" type="text" index="'+carry.data("time_end")+'" value="'+ time_end+'"/><div class="adding cbutton">+</div><div class="subbing cbutton">-</div></td></tr>');
@@ -391,7 +391,7 @@ function fnInitDroppable(){
                 }else if(time_start != null) {
                 
                     $(".dateTable").append(
-                        '<tr class="biggerInput dropInput">'+
+                    '<tr class="biggerInput dropInput">'+
                         '<td><input name="minDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td>'+
                         '<td><!--input type="checkbox" checked="checked"/--></td>'+
                         '<td><input name="maxDateList" type="text" index="'+carry.data("time_start")+'" value="'+ time_start+'"/><div class="subbing cbutton">-</div><div class="adding cbutton">+</div></td></tr>');
@@ -499,7 +499,7 @@ function fnAddSelectedRow(pos,aData,oTable){
         div.attr("title",aData);
         div.attr("title2",totalResult);
         $('#testdiv').append(div);
-    //$("#testdiv div[title]").tooltip();
+        //$("#testdiv div[title]").tooltip();
     }
     if($('.resCont').length !=0){
         $('#testdiv').css('display','none');
@@ -587,8 +587,8 @@ function fnOnComplete(){
     var rowpos = $('#displayableResult').position();
     $('html,body').scrollTop(rowpos.top);
     $('#responseDivision').html();
-//$("#responseDivision").html("");
-//var totalSize = $("#totalSize").val();
+    //$("#responseDivision").html("");
+    //var totalSize = $("#totalSize").val();
     
     
 
@@ -674,8 +674,8 @@ function fnFormatTable(tableName){
 
 
                 this.className = (aData[dataIndex] == 1) ?
-                this.className+'_selected' :
-                this.className.replace( /_selected/, "" );
+                    this.className+'_selected' :
+                    this.className.replace( /_selected/, "" );
             } );
 
 
@@ -796,7 +796,7 @@ function fnInitSave(){
  */
 function myPopup(url,windowname,w,h,x,y){
     if (typeof console!="undefined")console.info("myPopup");
-    mywin = window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
+    var mywin = window.open(url,windowname,"resizable=no,toolbar=no,scrollbars=yes,menubar=no,status=no,directories=no,width="+w+",height="+h+",left="+x+",top="+y+"");
     mywin.focus();
 }
 /*
@@ -906,7 +906,7 @@ $(document).ready(function()
     
 
 
-/*
+    /*
      *
      *
     
@@ -976,7 +976,7 @@ function validatemydate(itr){
             $("#maxDate"+itr).addClass("inputError");
         }else{
             $("#maxDate"+itr).removeClass("inputError");
-        //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
+            //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
 
         }
         matches = IsoDate.exec(minDate);
@@ -1001,12 +1001,12 @@ function validatemydate(itr){
         }
 
 
-    /*
+        /*
             if(matches[1]!=null&&matches[2]&&matches[3]){
 
             }
             $("#dateError").remove();
-             */
+         */
     }
     catch(err){
             
