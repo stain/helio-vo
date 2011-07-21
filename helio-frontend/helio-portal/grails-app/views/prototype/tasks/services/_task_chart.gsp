@@ -22,6 +22,7 @@
       <h1>Query Form</h1>
     </div>
     <div class="content">
+      <h2 style="margin:15px">The data in this chart is just sample data to test the functionality, not actual Helio Data</h2>
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="chart"/>
         <input id="task_name" name="taskName" type="hidden" value="chart"/>

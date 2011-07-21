@@ -175,20 +175,21 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
         $(":checkbox").change(function(){
 
-            var checkboxName = $(this).attr("name");
-            var checkboxColumn = $(this).attr("column");
 
+            var filter_array = {};
+            $(":checked").each(function(){
+                var checkboxName = $(this).attr("name");
+                var checkboxColumn = $(this).attr("column");
+                var filter_column_value = filter_array[checkboxColumn] ==null ? "":filter_array[checkboxColumn];
+                filter_array[checkboxColumn] = filter_column_value ==""?checkboxName: filter_column_value+"#"+checkboxName;
+                
+                
+            });
+            console.debug(filter_array);
+            
+//$("#resultTable0").dataTable().fnFilter(checkboxName,checkboxColumn);
 
-
-            if($(this).is(':checked')){
-
-                $("#resultTable0").dataTable().fnFilter(checkboxName,checkboxColumn);
-            }else{
-                //console.debug("not checked");
-                $("#resultTable0").dataTable().fnFilter("",checkboxColumn);
-            }
-
-
+          
 
         });
 
@@ -392,6 +393,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
 
                 $("#extra_list_form").html(holder.html());
+                $("#extra_list_form").addClass('candybox');
 
                 $("#extra_list_form input").each(function(){
                     $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
@@ -428,19 +430,10 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
                             
                             
                             var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_inst.png' );
-
-
-
-
-
                             var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
                             var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                             var tr2 =$("<tr></tr>");
                             var td2 =$("<td></td>");
-
-
-
-
                             img.data('inst_data',$("#extra_list_form").html());
                             img.attr('inst_data',$("#extra_list_form").html());
                             img.attr('helio_type','inst');
@@ -495,9 +488,22 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
                             });
 
+                            var rowpos = $('#historyContent').position();
+                            if(rowpos!=null){
+
+
+
+                                $('html,body').scrollTop(rowpos.top);
+                            }
+                            saveHistoryBar();
                             $("#dialog-message").dialog( "close" );
                             $("#dialog-message").remove();
 
+                        }
+                        ,
+                        Cancel: function() {
+                            $("#dialog-message").dialog( "close" );
+                            $("#dialog-message").remove();
                         }
                     }
                 });

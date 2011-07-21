@@ -68,7 +68,7 @@ function TimeForm(){
                 $(".input_time_range_remove").button();
                 $(".input_time_range_remove").click(function(){
 
-                    $(this).parent('tr').remove();
+                    $(this).closest('tr').remove();
 
                 });
                 //                $("#maxTime"+num).keydown(validatemydate(num));

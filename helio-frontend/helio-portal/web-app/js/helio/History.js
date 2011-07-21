@@ -211,8 +211,13 @@ function History() {
                 $(".input_time_range_remove").unbind();
                 $(".input_time_range_remove").button();
                 $(".input_time_range_remove").click(function(){
-                    
-                    $(this).closest('tr').remove();
+
+                   if($("#input_time_range_list tr").length ==2){
+                        $(this).closest('tr').remove();
+                        $(".input_time_range_remove").button({'disabled':true});
+                    }else if($("#input_time_range_list tr").length >2){
+                        $(this).closest('tr').remove();
+                    }
 
                 });
             }
@@ -240,7 +245,12 @@ function History() {
             if(iterator == 0){
                 holder.data("ranges",1);
                 _createDateRange(1);
+                 $(".input_time_range_remove").button({'disabled':true});
             }
+            if(iterator == 1){
+                $(".input_time_range_remove").button({'disabled':true});
+            }
+            
 
 
 
@@ -248,6 +258,7 @@ function History() {
                 var num =holder.data("ranges");
                 holder.data("ranges",num+1);
                 _createDateRange(num+1);
+                $(".input_time_range_remove").button({'disabled':false});
             //    var range_html = $("<tr></tr>");
             //    range_html.append($("#input_time_range_1").html());
             //
@@ -312,6 +323,13 @@ function History() {
                                 $(this).parent().parent().parent().parent().parent().remove();
                                 saveHistoryBar();
                             });
+                            var rowpos = $('#historyContent').position();
+                            if(rowpos!=null){
+
+
+
+                                $('html,body').scrollTop(rowpos.top);
+                            }
                         }
                         saveHistoryBar();
 

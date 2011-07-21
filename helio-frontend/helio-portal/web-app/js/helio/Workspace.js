@@ -233,8 +233,16 @@ function Workspace() {
                 $(".input_time_range_remove").unbind();
                 $(".input_time_range_remove").button();
                 $(".input_time_range_remove").click(function(){
-                
-                    $(this).parent('tr').remove();
+                    
+                    if($("#input_time_range_list tr").length ==2){
+                        $(this).closest('tr').remove();
+                        $(".input_time_range_remove").button({'disabled':true});
+                    }else if($("#input_time_range_list tr").length >2){
+                        $(this).closest('tr').remove();
+                    }
+
+
+
                 
                 });
             //                $("#maxTime"+num).keydown(validatemydate(num));
@@ -265,6 +273,10 @@ function Workspace() {
             if(iterator == 0){
                 date_range_list.data("ranges",1);
                 _createDateRange(1);
+                $(".input_time_range_remove").button({'disabled':true});
+            }
+            if(iterator == 1){
+                $(".input_time_range_remove").button({'disabled':true});
             }
 
 
@@ -273,6 +285,7 @@ function Workspace() {
                 var num =date_range_list.data("ranges");
                 date_range_list.data("ranges",num+1);
                 _createDateRange(num+1);
+                $(".input_time_range_remove").button({'disabled':false});
             //    var range_html = $("<tr></tr>");
             //    range_html.append($("#input_time_range_1").html());
             //
@@ -369,8 +382,27 @@ function Workspace() {
                     
                     if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0){
 
-                        //extra.push('instrument');
-                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                        if(minDate.length > 1){
+                            var div =$('<div></div>');
+                            div.attr('id','dialog-message');
+                            div.attr('title','Warning');
+                            var message = "Please use a single time range on this service.";
+                            div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
+                            $("#testdiv").append(div);
+
+
+                            $('#dialog-message').dialog({
+
+                                modal: true,
+                                buttons: {
+                                    Ok: function() {
+                                        $( this ).dialog( "close" );
+                                    }
+                                }
+                            });
+
+                        }else{
+                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);}
                     }
                     break;
                 case "ILS":

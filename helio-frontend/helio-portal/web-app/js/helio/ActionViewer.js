@@ -65,6 +65,9 @@ function ActionViewer() {
                         $("#time_drop").attr('src','../images/helio/circle_time.png');
                         $('#time_area').html(ui.draggable.data('time_data'));
                         window.workspace.evaluator();
+                        $("#time_drop").addClass('drop_able');
+                            
+                        
                     }
                             
                 }
@@ -78,6 +81,7 @@ function ActionViewer() {
                         $("#event_drop").attr('src','../images/helio/circle_event.png');
                         $('#extra_list').html(ui.draggable.data('event_data'));
                         window.workspace.evaluator();
+                        $("#event_drop").addClass('drop_able');
                     }
                 }
             });
@@ -90,6 +94,7 @@ function ActionViewer() {
                         $("#instruments_drop").attr('src','../images/helio/circle_inst.png');
                         $('#extra_list').html(ui.draggable.data('inst_data'));
                         window.workspace.evaluator();
+                        $("#instruments_drop").addClass('drop_able');
                     }
                 }
             });
