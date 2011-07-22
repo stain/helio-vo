@@ -8,7 +8,7 @@ import org.junit.Test;
 public class BuildInfoTest {
 	
     @Ignore @Test public void getProperties() {
-		BuildInfo instance = BuildInfo.getInstance();
+		/*BuildInfo instance = BuildInfo.getInstance();
 		assertNotNull(instance.getBuildID());
 		assertNotNull(instance.getBuildNumber());
 		assertNotNull(instance.getBuildTag());
@@ -17,7 +17,7 @@ public class BuildInfoTest {
 		assertNotNull(instance.getJenkinsUrl());
 		assertNotNull(instance.getJobName());
 		assertNotNull(instance.getSvnRevision());
-		assertNotNull(instance.getWorkspacePath());
+		assertNotNull(instance.getWorkspacePath());*/
 	}
 
 }
