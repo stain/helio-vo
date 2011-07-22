@@ -4,13 +4,8 @@ function ActionViewer() {
     return {
         // Public methods
         resultContainerInit: function(data){
-            alert("im being called");
-
-
-
-
+            
             $("#responseDivision").html(data);
-
             $("#result_area").html("Query Success");
             $("#result_button").remove();
             $("#displayableResult").html("");
@@ -18,14 +13,11 @@ function ActionViewer() {
             $("#ils_trajectories").css("display","block");
             $("#voTables").prepend($("#ics_instrument").clone());
             $("#voTables").prepend($("#ils_trajectories").clone());
-
             $("#ics_instrument").css("display","none");
             $("#ils_trajectories").css("display","none");
             $("#result_overview").css("display","table");
-
             $(":checkbox").unbind();
             $(":checkbox").removeAttr("checked");
-
             $(":checkbox").change(function(){
                 var checkboxColumn = $(this).attr("column");
                 $("#resultTable0").dataTable().fnFilter("",checkboxColumn);
@@ -127,25 +119,14 @@ function ActionViewer() {
                         tr.append("<td><input type='hidden' name='minTime' value='"+minTime+"'/></td>")
                         table.append(tr);
 
-
-
                     }//end itr
                     var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_time.png' );
                     var superdiv = $('<div></div>')
                     superdiv.append(table);
 
-
-
-
-
-
-
-
                     img.data('time_data',superdiv.html());
                     img.attr('time_data',superdiv.html());
                     img.attr('helio_type','time');
-
-
 
                     img.draggable({
                         revert: "invalid",
@@ -192,13 +173,9 @@ function ActionViewer() {
                             }
                         }//end j
 
-
-
-
                         $("#resultTable"+i+" .even_selected").each(function(){
 
                             instrument_array.push($(this).children().eq(instrument).text());
-
 
                         });
                         $("#resultTable"+i+" .odd_selected").each(function(){
@@ -217,10 +194,7 @@ function ActionViewer() {
 
                         holder.append("<li>'"+instrument_string+"'<input id="+instrument_string+" type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
 
-
                     }
-
-
 
                     $("#dialog-message").remove();
                     var div =$('<div></div>');
@@ -240,7 +214,6 @@ function ActionViewer() {
                         "sScrollXInner": "100%",
                         "sDom": '<"H">t<"F">'
                     });
-
 
 
                     $("#extra_list_form").html(holder.html());
@@ -314,26 +287,14 @@ function ActionViewer() {
                                     }
                                 });
 
-
-
                                 tr2.append(td2);
-
-
                                 table2.append(tr2);
                                 //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
                                 //table.append(tr);
-
                                 div.append(table2);
-
-
                                 $("#historyContent").append(div);
-
-
                                 $(".closeme").unbind();
                                 $(".closeme").click(function(){
-
-
-
                                     $(this).parent().parent().parent().parent().parent().remove();
                                     saveHistoryBar();
 
@@ -341,8 +302,6 @@ function ActionViewer() {
 
                                 var rowpos = $('#historyContent').position();
                                 if(rowpos!=null){
-
-
 
                                     $('html,body').scrollTop(rowpos.top);
                                 }
@@ -358,37 +317,20 @@ function ActionViewer() {
                             }
                         }
                     });
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }else if(serviceName == 'DPAS'){
                     alert("No Extractable Parameters");
                 }
-
-
             });
             var rowpos = $('#displayableResult').position();
             if(rowpos!=null){
-
-
-
                 $('html,body').scrollTop(rowpos.top);
             }
             $("#dialog-message").dialog( "close" );
             $("#dialog-message").remove();
         },
+        
         init: function(){
-            fnInitializeDatePicker();
+            
             if($.cookie("minDate")==null)$.cookie("minDate","2003-01-01");
             if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
             if($.cookie("minTime")==null)$.cookie("minTime","00:00");
@@ -458,29 +400,8 @@ function ActionViewer() {
             $.collapsible(".queryHeader","group1");
             $.collapsible(".advancedParameters","group2");
             $( ".custom_button").button();
-            $( ".submit").button();
-            
-           
-
-        // bind form using 'ajaxForm'
-
-            
-
-            
-
-            
-
-        
-         
-       
-      
-
-
-          
+            $( ".submit").button();          
         },
-       
-    
-      
         renderContent: function() {
             
             
