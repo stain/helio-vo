@@ -20,6 +20,7 @@ function getSavedResult(resultId){
     var __beforeSend= function(){
         $("#result_overview").css("display","table");
         $("#result_area").html("your result is being processed");
+        $("#displayableResult").html("");
     };
 
     var __onComplete = function(){
@@ -93,7 +94,7 @@ function getSavedResult(resultId){
      */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannont complete your query");
+        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
         $("#result_button").remove();
 
 
@@ -139,6 +140,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
     var __beforeSend= function(){
         $("#result_overview").css("display","table");
         $("#result_area").html("your result is being processed");
+        $("#displayableResult").html("");
     };
 
     var __onComplete = function(){
@@ -187,10 +189,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
             for (var key in filter_array) {
                 
-                
-                
-                $("#resultTable0").dataTable().fnFilter(filter_array[key],key);
-
+                $("#resultTable0").dataTable().fnFilter(filter_array[key],key,true);
             }
             
             
@@ -533,6 +532,13 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
 
 
         });
+        var rowpos = $('#displayableResult').position();
+        if(rowpos!=null){
+
+
+
+            $('html,body').scrollTop(rowpos.top);
+        }
         $("#dialog-message").dialog( "close" );
         $("#dialog-message").remove();
         
@@ -546,7 +552,7 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
  */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannont complete your query");
+        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
         $("#result_button").remove();
         
         

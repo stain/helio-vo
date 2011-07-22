@@ -3,7 +3,7 @@
     <table  style="height:30px;width: 100%;">
       <tr >
         <td width="60">
-          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'ils.png')}" />
+          
         </td>
         <td>
           <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Instrument Location Service</h1>

@@ -3,11 +3,11 @@
     <table  style="height:30px;width: 100%;">
       <tr >
         <td width="60">
-          <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'upload_vot.png')}" />
+          
         </td>
         <td>
           <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Upload VOTable</h1>
-          Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
+          
         </td>
         <td>
           <div style="float:right;" class="controls custom_button" id="delete">X</div>
@@ -22,6 +22,8 @@
     <div class="content">
 
       <form id="uploadForm" action="asyncUpload" method="post">
+          <input id="service_name" name="serviceName" type="hidden" value="upload"/>
+          <input id="task_name" name="taskName" type="hidden" value="task_upload"/>
 
         File to upload: <input type="file" name="fileInput"/>
 

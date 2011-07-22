@@ -1,4 +1,4 @@
-<table>
+<table style="height:50%;">
   <tr>
     <td>
       <div class="resultDroppable"style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
@@ -51,41 +51,21 @@
     <td></td>
     <td> <div  id="input_time_range_button" class="custom_button">+ Range</div></td>
   </tr>
+
+ </table>
+
+<table style="width:100%;margin: 30px 0px">
+  <tbody>
+    <tr >
+        <td>
+          <h4 style="border-bottom:2px solid grey">Label Management</h4>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding:20px">Label: <input type="text" id="input_form_label"/>
+        Group:<input type="text" disabled="true" id="input_form_group"/> </td>
+      </tr>
+
+
+  </tbody>
 </table>
-
-<!--tr>
-  <td colspan="2">
-    <div class="resultDroppable"style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-      <img id="time_button" "style="margin:0px" src="${resource(dir:'images/helio',file:'circle_destination.png')}" />
-    </div>
-  </td>
-  <td>
-    <table class="dateTable" style="display:block">
-
-      <tr class="hideDates">
-        <td>
-          <label style="text-align:right" for="minDate">From</label>
-        </td>
-        <td>
-          <input type="text" id="minDate" name="minDate" value="2003-01-01"/>
-        </td>
-        <td>
-          <input type="text" name="minTime" id="minTime" value="00:00" />
-        </td>
-      </tr>
-      <tr class="hideDates">
-        <td>
-          <label style="margin-right:20px" for="maxDate">To</label>
-        </td>
-        <td>
-          <input type="text" id="maxDate" name="maxDate" value="2003-01-03"/>
-        </td>
-        <td>
-          <input type="text" name="maxTime" id="maxTime" value="00:00" />
-        </td>
-      </tr>
-
-    </table>
-  </td>
-</tr>
-</table--!>

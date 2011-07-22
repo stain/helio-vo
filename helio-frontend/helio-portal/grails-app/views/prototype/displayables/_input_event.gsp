@@ -10,8 +10,8 @@
         </td>
         <td>
           <table id="input_table" class="resultTable">
-            <thead>
-            <th>Event Catalogues</th>
+            <thead><tr>
+            <th>Event Catalogues</th></tr>
             </thead>
             <tbody>
             <g:each in="${hecCatalogs}" status="i" var="rows">
@@ -29,4 +29,5 @@
 
         
       </tr>
+     
     </table>

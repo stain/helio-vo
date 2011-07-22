@@ -212,9 +212,11 @@ function History() {
                 $(".input_time_range_remove").button();
                 $(".input_time_range_remove").click(function(){
 
-                   if($("#input_time_range_list tr").length ==2){
+                    if($("#input_time_range_list tr").length ==2){
                         $(this).closest('tr').remove();
-                        $(".input_time_range_remove").button({'disabled':true});
+                        $(".input_time_range_remove").button({
+                            'disabled':true
+                        });
                     }else if($("#input_time_range_list tr").length >2){
                         $(this).closest('tr').remove();
                     }
@@ -227,12 +229,16 @@ function History() {
 
             holder.find('tr').each(function(){
                 
+                
                 iterator++;
                 holder.data("ranges",iterator);
                 _createDateRange(iterator);
                 $(this).find("input").each(function(){
                     
-                    if($(this).attr("name")=="maxDate")$("#maxDate"+iterator).val($(this).val());
+                    if($(this).attr("name")=="maxDate"){
+                        
+                        $("#maxDate"+iterator).val($(this).val())
+                        };
                     if($(this).attr("name")=="minDate")$("#minDate"+iterator).val($(this).val());
                     if($(this).attr("name")=="minTime")$("#minTime"+iterator).val($(this).val());
                     if($(this).attr("name")=="maxTime")$("#maxTime"+iterator).val($(this).val());
@@ -243,12 +249,17 @@ function History() {
 
             });
             if(iterator == 0){
+                
                 holder.data("ranges",1);
                 _createDateRange(1);
-                 $(".input_time_range_remove").button({'disabled':true});
+                $(".input_time_range_remove").button({
+                    'disabled':true
+                });
             }
             if(iterator == 1){
-                $(".input_time_range_remove").button({'disabled':true});
+                $(".input_time_range_remove").button({
+                    'disabled':true
+                });
             }
             
 
@@ -258,7 +269,9 @@ function History() {
                 var num =holder.data("ranges");
                 holder.data("ranges",num+1);
                 _createDateRange(num+1);
-                $(".input_time_range_remove").button({'disabled':false});
+                $(".input_time_range_remove").button({
+                    'disabled':false
+                });
             //    var range_html = $("<tr></tr>");
             //    range_html.append($("#input_time_range_1").html());
             //
@@ -293,10 +306,10 @@ function History() {
                                 "<td>"+$("#minTime"+itr).val()+"</td>"+
                                 "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
                                 "<td>"+$("#maxTime"+itr).val()+"</td>");
-                            tr.append("<input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'>")
+                            tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'></td>")
                             table.append(tr);
 
                             itr++;
@@ -309,7 +322,7 @@ function History() {
                             var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                             var tr2 =$("<tr></tr>");
                             var td2 =$("<td></td>");
-                            console.debug(selector);
+                            
                             td2.append(selector);
                             td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
                             tr2.append(td2);
@@ -362,7 +375,7 @@ function History() {
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
-            div.attr('title','Result Edition');
+            div.attr('title','Result Summary');
             var html = window.workspace.getDivisions()["input_result"];
             div.append(html);
             $("#testdiv").append(div);
@@ -510,34 +523,38 @@ function History() {
                     var html = $("<div style='padding:15px'><b>Please give your saved element a label:</b> <input id='label_input' type='text'/></div>")
                     div.append(html);
                     $("#testdiv").append(div);
-                    $('#dialog-message').dialog({
-                        modal: true,
-                        height:200,
-                        width:400,
-                        buttons: {
-
-
-                            Ok: function() {
-
-                                tr =$('<tr class="inner_label"><td>'+$("#label_input").val()+'</td><tr>')
+                     tr =$('<tr class="inner_label"><td>'+$("#service_name").val()+'</td><tr>')
                                 table.append(tr);
 
                                 saveHistoryBar();
-                                $("#dialog-message").dialog( "close" );
-                                $("#dialog-message").remove();
-
-                            },
-                            Cancel: function(){
-                                $(".floaters").last().remove();
-                                saveHistoryBar();
-                                $("#dialog-message").dialog( "close" );
-                                $("#dialog-message").remove();
-
-
-
-                            }
-                        }
-                    });
+//                    $('#dialog-message').dialog({
+//                        modal: true,
+//                        height:200,
+//                        width:400,
+//                        buttons: {
+//
+//
+//                            Ok: function() {
+//
+//                                tr =$('<tr class="inner_label"><td>'+$("#label_input").val()+'</td><tr>')
+//                                table.append(tr);
+//
+//                                saveHistoryBar();
+//                                $("#dialog-message").dialog( "close" );
+//                                $("#dialog-message").remove();
+//
+//                            },
+//                            Cancel: function(){
+//                                $(".floaters").last().remove();
+//                                saveHistoryBar();
+//                                $("#dialog-message").dialog( "close" );
+//                                $("#dialog-message").remove();
+//
+//
+//
+//                            }
+//                        }
+//                    });
                 }
             });
 

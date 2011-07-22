@@ -67,12 +67,18 @@
 
   <!-- Logo Elements -->
   <div id="logo">
-    <!--img src="${resource(dir:'images/background',file:'header_lines.png')}"  width="350px" height="120px" />
-    <img id="line" src="${resource(dir:'images/background',file:'line_transp.png')}" height="120px"  /-->
-    <!--img src="${resource(dir:'images/helio',file:'helio_logo.jpg')}" width="200px" height="100px"  /-->
-    <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   />
-    <img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   />
-    <img style="position:relative;top:-10px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  />
+
+    <table style="width: 100%;position:relative;top:-18px;">
+      <tr>
+        <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
+        <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
+        <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
+      </tr>
+    </table>
+   
+    
+    
+    
   </div>
 
   <!-- Navigation Bar -->
@@ -148,7 +154,7 @@
               <div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div>
             </td>
             <td>
-              <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">VOtable Upload(disabled)</div>
+              <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
             </td>
           </tr>
         </table>

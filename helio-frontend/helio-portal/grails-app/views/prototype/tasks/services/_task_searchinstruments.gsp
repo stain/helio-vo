@@ -40,18 +40,45 @@
             <div class="message"><b>Step 1</b><br/>Click on the 'Select' button to define the time range/s of interest.</div>
           </td>
           <tr>
-
-<%-- submit button --%>
-            <!--tr>
-              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;">
-                <input id="service_name" name="serviceName" type="hidden" value="HEC"/>
-
+<tr >
+          <table id="result_overview" style="display:none" width="100%" cellpadding="0" cellspacing="0">
+            <col width="*" />
+          <col width="250"/>
+          <tbody>
+            <tr >
+              <td colspan="2" style="border-top: solid 1px gray;">
+                <b>Result Overview</b>
 
               </td>
-              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
+            </tr>
+            <tr>
+              <td>
+                <table style="margin-bottom: 10px;">
+                  <tr>
+                    <td style="vertical-align:middle;" >
+                      <div class="resultDroppable4" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+                        <img id="result_drop" class ="drop_able" style="margin:0px" src="${resource(dir:'images/helio',file:'result.png')}" />
+                      </div>
+                    </td>
 
+                    <td><ul id="result_area">
+                        <li>Number of tables: 2</li>
+                        <li>Number of entries: 4</li>
+                        <li>TimeStamp: 13/12/2005</li>
+                      </ul></td>
+
+
+                  </tr>
+                  <!--tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr-->
+                </table>
               </td>
-            </tr!-->
+              <td valign="top">
+                <!--div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div-->
+              </td>
+            </tr>
+          </tbody>
+          </table>
+          </tr>
             </tbody>
         </table>
       </form>

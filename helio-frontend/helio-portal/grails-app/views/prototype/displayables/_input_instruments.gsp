@@ -10,8 +10,8 @@
         </td>
         <td>
           <table id="input_table" class="resultTable">
-            <thead>
-            <th>Instruments</th>
+            <thead><tr>
+            <th>Instruments</th></tr>
             </thead>
             <tbody>
             <g:each in="${dpasInstruments}" status="i" var="rows">

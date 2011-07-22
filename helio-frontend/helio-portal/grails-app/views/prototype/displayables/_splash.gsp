@@ -12,22 +12,18 @@
         <p>In an effort to address all comments made during the last CDAW the interfaces to the services were redesigned. We hope the new design improves your experience with the HELIO services</p>
         <br>
         <p>
-          We are curretnly deploying a pre-5.0 release, looking for bugs and polishing details.
+          We are curretnly deploying 5.0.1 build, looking for bugs and polishing details.
         </p>
         The new changes for this build are:
         <ul>
-          <li>At landing a request for session management, if you click on yes it will remove all your saved elements</li>
-          <li>Parameters are now clickable and editable</li>
-          <li>Parameter delete is enabled, just click on the X next to the icon and it should delete it</li>
-          <li>Saving full results is now enabled, when clicked it will take you to the result summary page, THIS CONTAINS DUMMY DATA. However if you click display it will take you to the saved result</li>
-          <li>Improved some font sizes, borders etc</li>
-
-          <li>Parameter Extraction -> added time parameter extraction, select something from a table and click save selection (IT HAS SOME BUGS)</li>
-          <li>Parameter Extraction -> added instrument paramenter extraction, you can now extract instruments from the search instrument form</li>
-          <li>Made the circles clickable again in the forms.</li>
-
-
-          Buxfixing/texting of the parameter extraction will be done this afternoon, tomorrow they will be less frustrating to use.
+          <li>Parameter Extraction from all services as instruments or time</li>
+          <li>VOTable Upload</li>
+          <li>VOTable Download</li>
+          <li>Suppport for safari and firefox 3.6 (all reported problems fixed)</li>
+          <li>ILS and ICS checkbox selection should provide the correct rows now</li>
+          <li>disabled request for session change and for label for the moment</li>
+          <li>Improved screen scrolling when doing queries</li>
+          <li>Delete button in time ranges should disable when only one range is avaliable</li>
 
 
         </ul>

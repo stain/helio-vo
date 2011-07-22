@@ -6,7 +6,7 @@
 </div>
 <div id="displayableOnLoading" class="displayable" style="display:none">
   <div style="padding-top:100px;background: url(../images/spinner.gif) no-repeat center;width:100%;height:300px;background-color:white;z-index:2700;">
-   <center><h1>Your query is being processed.</h1></center>
+    <center><h1>Your query is being processed.</h1></center>
   </div>
 </div>
 <div id="displayableHEC_extended" class="displayable" style="display:block">
@@ -26,8 +26,8 @@
   <g:render template="tasks/services/task_chart" />
 </div>
 
-<div id="displayableUpload" class="displayable" style="display:none">
-  <g:render template="displayables/upload" />
+<div id="displayableTaskUpload" class="displayable" style="display:none">
+  <g:render template="tasks/advanced/task_upload" />
 </div>
 <div id="displayableHEC" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchevents" />

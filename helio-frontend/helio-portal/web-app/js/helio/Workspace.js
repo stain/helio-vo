@@ -26,7 +26,7 @@ function Workspace() {
             ingestDivision("input_result","#displayableInputResult");
             ingestDivision("task_ils","#displayableILS");
             ingestDivision("task_dpas","#displayableDPAS");
-            ingestDivision("task_uploadVOTable","#displayableUpload");
+            ingestDivision("task_upload","#displayableTaskUpload");
             ingestDivision("loading","#displayableOnLoading");
             ingestDivision("error","#displayableError");
             ingestDivision("splash","#displayableSplash");
@@ -236,7 +236,9 @@ function Workspace() {
                     
                     if($("#input_time_range_list tr").length ==2){
                         $(this).closest('tr').remove();
-                        $(".input_time_range_remove").button({'disabled':true});
+                        $(".input_time_range_remove").button({
+                            'disabled':true
+                        });
                     }else if($("#input_time_range_list tr").length >2){
                         $(this).closest('tr').remove();
                     }
@@ -273,10 +275,14 @@ function Workspace() {
             if(iterator == 0){
                 date_range_list.data("ranges",1);
                 _createDateRange(1);
-                $(".input_time_range_remove").button({'disabled':true});
+                $(".input_time_range_remove").button({
+                    'disabled':true
+                });
             }
             if(iterator == 1){
-                $(".input_time_range_remove").button({'disabled':true});
+                $(".input_time_range_remove").button({
+                    'disabled':true
+                });
             }
 
 
@@ -285,7 +291,9 @@ function Workspace() {
                 var num =date_range_list.data("ranges");
                 date_range_list.data("ranges",num+1);
                 _createDateRange(num+1);
-                $(".input_time_range_remove").button({'disabled':false});
+                $(".input_time_range_remove").button({
+                    'disabled':false
+                });
             //    var range_html = $("<tr></tr>");
             //    range_html.append($("#input_time_range_1").html());
             //
@@ -314,10 +322,10 @@ function Workspace() {
                                 "<td>"+$("#minTime"+itr).val()+"</td>"+
                                 "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
                                 "<td>"+$("#maxTime"+itr).val()+"</td>");
-                            tr.append("<input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'>")
-                            tr.append("<input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'>")
+                            tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'></td>")
+                            tr.append("<td style='display:none'><input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'></td>")
                             table.append(tr);
                             
                             itr++;
@@ -402,7 +410,8 @@ function Workspace() {
                             });
 
                         }else{
-                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);}
+                            sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                        }
                     }
                     break;
                 case "ILS":
@@ -543,10 +552,15 @@ function Workspace() {
                     $("#time_button").click(window.workspace.time_input_form);
                     $("#time_drop").click(window.workspace.time_input_form);
                     break;
-                case 'upload_vot':
-                    element = new UploadViewer(imagePath,"ghost",text);
-                    window.historyBar.addItem(element);
-                    window.historyBar.render();
+                case 'task_upload':
+                    
+                    
+                    
+                    var options = {
+                        target: '#responseDivision',   // target element(s) to be updated with server response
+                        success: fnOnComplete  // post-submit callback
+                    };
+                    $('#uploadForm').ajaxForm(options);
                   
                     break;
                 default:
