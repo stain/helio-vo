@@ -558,7 +558,7 @@ function Workspace() {
                     
                     var options = {
                         target: '#responseDivision',   // target element(s) to be updated with server response
-                        success: fnOnComplete  // post-submit callback
+                        success: new ActionViewer().resultContainerInit // post-submit callback
                     };
                     $('#uploadForm').ajaxForm(options);
                   

@@ -1,37 +1,392 @@
 function ActionViewer() {
- 
-    /**
-     * Called after successful loading of columns
-     * @param data HTML stub containing the loaded columns
-     * @param textStatus a status message.
-     */
-    var _onSuccessQuery = function(data,textStatus) {
-       
-        
-    };
-
-    /**
-     * Method called in case an error occurs when loading the advanced param table.
-     * @param XMLHttpREquest the underlying request
-     * @param textStatus status message
-     * @param errorThrown error object
-     */
-    var _onErrorQuery = function(xmlHttpRequest,textStatus,errorThrown) {
-        
-        
-    };
-    var _onBeforeQuery = function(){
-        
-    };
-
- 
-
-    
-    
-    
+   
 
     return {
         // Public methods
+        resultContainerInit: function(data){
+            alert("im being called");
+
+
+
+
+            $("#responseDivision").html(data);
+
+            $("#result_area").html("Query Success");
+            $("#result_button").remove();
+            $("#displayableResult").html("");
+            $("#ics_instrument").css("display","block");
+            $("#ils_trajectories").css("display","block");
+            $("#voTables").prepend($("#ics_instrument").clone());
+            $("#voTables").prepend($("#ils_trajectories").clone());
+
+            $("#ics_instrument").css("display","none");
+            $("#ils_trajectories").css("display","none");
+            $("#result_overview").css("display","table");
+
+            $(":checkbox").unbind();
+            $(":checkbox").removeAttr("checked");
+
+            $(":checkbox").change(function(){
+                var checkboxColumn = $(this).attr("column");
+                $("#resultTable0").dataTable().fnFilter("",checkboxColumn);
+                var filter_array = {};
+                $(":checked").each(function(){
+                    var checkboxName = $(this).attr("name");
+                    checkboxColumn = $(this).attr("column");
+                    var filter_column_value = filter_array[checkboxColumn] ==null ? "":filter_array[checkboxColumn];
+                    filter_array[checkboxColumn] = filter_column_value ==""?checkboxName: filter_column_value+"|"+checkboxName;
+
+                });
+
+                for (var key in filter_array) {
+
+                    $("#resultTable0").dataTable().fnFilter(filter_array[key],key,true);
+                }
+            });
+
+            $('#displayableResult').append($('#tables'));
+            $('#displayableResult').css("display","block");
+
+            $('.resultTable').each(function(){
+                fnFormatTable(this.id);
+            });
+            $(".custom_button").button();
+            $("#response_save_selection").click(function(){
+
+
+
+                var serviceName = $("#service_name").val();
+
+                if(serviceName == 'HEC'){
+
+                    var itr= 0;
+                    $(".resultTable").each(function(){
+                        //console.debug($(this));
+                        itr++;
+                    });
+                    itr = itr/2;
+                    var table =$("<table></table>");
+                    var time_start_array = new Array();
+                    var time_end_array = new Array();
+                    for(var i = 0;i<itr;i++){
+                        var dataTable =$("#resultTable"+i).dataTable();
+                        var settings = dataTable.fnSettings();
+                        var time_start = -1;
+                        var time_end = -1;
+                        for(var j = 0;j< settings.aoColumns.length;j++){
+                            if(settings.aoColumns[j].sTitle.trim() == 'time_start'){
+                                time_start=j;
+                            }
+                            if(settings.aoColumns[j].sTitle.trim() == 'time_end'){
+                                time_end=j;
+                            }
+
+                        }//end j
+
+
+
+
+                        $("#resultTable"+i+" .even_selected").each(function(){
+
+                            time_start_array.push($(this).children().eq(time_start).text());
+                            time_end_array.push($(this).children().eq(time_end).text());
+
+                        });
+                        $("#resultTable"+i+" .odd_selected").each(function(){
+
+                            time_start_array.push($(this).children().eq(time_start).text());
+                            time_end_array.push($(this).children().eq(time_end).text());
+                        });
+
+                    }//end i
+
+
+                    for(itr= 0;itr < time_start_array.length;itr++){
+
+
+                        var time_start_string =time_start_array[itr];
+                        var fields = time_start_string.split('T');
+                        var minDate =fields[0];
+                        fields =fields[1].split(':');
+                        var minTime = fields[0] +":"+fields[1];
+                        var time_end_string =time_end_array[itr];
+                        fields = time_end_string.split('T');
+                        var maxDate =fields[0];
+                        fields =fields[1].split(':');
+                        var maxTime = fields[0] +":"+fields[1];
+                        var tr = $('<tr></tr>');
+                        tr.append("<td><b>Range "+itr+":</b></td>"+
+                            "<td>"+minDate+"</td>"+
+                            "<td>"+minTime+"</td>"+
+                            "<td>--</td><td>"+maxDate+"</td>"+
+                            "<td>"+maxTime+"</td>");
+
+                        tr.append("<td><input type='hidden' name='maxDate' value='"+maxDate+"'/></td>")
+                        tr.append("<td><input type='hidden' name='minDate' value='"+minDate+"'/></td>")
+                        tr.append("<td><input type='hidden' name='maxTime' value='"+maxTime+"'/></td>")
+                        tr.append("<td><input type='hidden' name='minTime' value='"+minTime+"'/></td>")
+                        table.append(tr);
+
+
+
+                    }//end itr
+                    var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_time.png' );
+                    var superdiv = $('<div></div>')
+                    superdiv.append(table);
+
+
+
+
+
+
+
+
+                    img.data('time_data',superdiv.html());
+                    img.attr('time_data',superdiv.html());
+                    img.attr('helio_type','time');
+
+
+
+                    img.draggable({
+                        revert: "invalid",
+                        helper:"clone",
+                        zIndex: 1700
+                    });
+
+                    img.click(function(){
+                        if($(this).attr('helio_type')== 'time'){
+
+                            window.historyBar.time_input_form(img,true);
+                        }
+                        if($(this).attr('helio_type')== 'event'){
+                            window.historyBar.event_input_form(img);
+                        }
+                        if($(this).attr('helio_type')== 'inst'){
+                            window.historyBar.instrument_input_form(img);
+                        }
+                        if($(this).attr('helio_type')== 'result'){
+                            window.historyBar.result_input_form(img);
+                        }
+                    });
+
+
+                    window.historyBar.time_input_form(img,false);
+                }else if(serviceName == 'ICS'){
+                    var itr= 0;
+                    $(".resultTable").each(function(){
+                        //console.debug($(this));
+                        itr++;
+                    });
+                    itr = itr/2;
+                    var table =$("<table></table>");
+                    var instrument_array = new Array();
+
+                    for(var i = 0;i<itr;i++){
+                        var dataTable =$("#resultTable"+i).dataTable();
+                        var settings = dataTable.fnSettings();
+                        var instrument = -1;
+
+                        for(var j = 0;j< settings.aoColumns.length;j++){
+                            if(settings.aoColumns[j].sTitle.trim() == 'obsinst_key'){
+                                instrument=j;
+                            }
+                        }//end j
+
+
+
+
+                        $("#resultTable"+i+" .even_selected").each(function(){
+
+                            instrument_array.push($(this).children().eq(instrument).text());
+
+
+                        });
+                        $("#resultTable"+i+" .odd_selected").each(function(){
+
+                            instrument_array.push($(this).children().eq(instrument).text());
+
+                        });
+
+                    }//end i
+
+                    var holder= $('<ul class="candybox"></ul>');
+                    for(itr= 0;itr < instrument_array.length;itr++){
+
+
+                        var instrument_string =instrument_array[itr];
+
+                        holder.append("<li>'"+instrument_string+"'<input id="+instrument_string+" type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
+
+
+                    }
+
+
+
+                    $("#dialog-message").remove();
+                    var div =$('<div></div>');
+                    div.attr('id','dialog-message');
+                    div.attr('title','Instrument Edition');
+
+                    var html = window.workspace.getDivisions()["input_instruments"];
+                    div.append(html);
+                    $("#testdiv").append(div);
+                    $("#input_table").dataTable( {
+                        "bSort": false,
+                        "bInfo": true,
+                        "sScrollY": "300px",
+                        "bPaginate": false,
+                        "bJQueryUI": true,
+                        "sScrollX": "300px",
+                        "sScrollXInner": "100%",
+                        "sDom": '<"H">t<"F">'
+                    });
+
+
+
+                    $("#extra_list_form").html(holder.html());
+                    $("#extra_list_form").addClass('candybox');
+
+                    $("#extra_list_form input").each(function(){
+                        $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
+                    });
+
+                    $("#input_filter").keyup(function(){
+                        $("#input_table").dataTable().fnFilter($(this).val());
+                    });
+
+                    $('#input_table tr').click( function() {
+                        var row =$(this).find('td').attr("internal").trim();
+                        if ( $(this).hasClass('row_selected') ){
+                            $(this).removeClass('row_selected');
+
+
+                            $("#"+row).parent().remove();
+                        }
+                        else{
+                            $(this).addClass('row_selected');
+                            $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
+                        }
+                    } );
+                    $(".custom_button").button();
+                    $('#dialog-message').dialog({
+                        modal: true,
+                        height:530,
+                        width:700,
+                        close: function(){
+
+                            $("#dialog-message").remove();
+                        },
+                        buttons: {
+                            Ok: function() {
+
+
+                                var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_inst.png' );
+                                var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                                var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
+                                var tr2 =$("<tr></tr>");
+                                var td2 =$("<td></td>");
+                                img.data('inst_data',$("#extra_list_form").html());
+                                img.attr('inst_data',$("#extra_list_form").html());
+                                img.attr('helio_type','inst');
+
+                                td2.append(img);
+                                td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
+
+                                img.draggable({
+                                    revert: "invalid",
+                                    helper:"clone",
+                                    zIndex: 1700
+                                });
+
+                                img.click(function(){
+                                    if($(this).attr('helio_type')== 'time'){
+
+                                        window.historyBar.time_input_form(img,true);
+                                    }
+                                    if($(this).attr('helio_type')== 'event'){
+                                        window.historyBar.event_input_form(img);
+                                    }
+                                    if($(this).attr('helio_type')== 'inst'){
+                                        window.historyBar.instrument_input_form(img);
+                                    }
+                                    if($(this).attr('helio_type')== 'result'){
+                                        window.historyBar.result_input_form(img);
+                                    }
+                                });
+
+
+
+                                tr2.append(td2);
+
+
+                                table2.append(tr2);
+                                //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
+                                //table.append(tr);
+
+                                div.append(table2);
+
+
+                                $("#historyContent").append(div);
+
+
+                                $(".closeme").unbind();
+                                $(".closeme").click(function(){
+
+
+
+                                    $(this).parent().parent().parent().parent().parent().remove();
+                                    saveHistoryBar();
+
+                                });
+
+                                var rowpos = $('#historyContent').position();
+                                if(rowpos!=null){
+
+
+
+                                    $('html,body').scrollTop(rowpos.top);
+                                }
+                                saveHistoryBar();
+                                $("#dialog-message").dialog( "close" );
+                                $("#dialog-message").remove();
+
+                            }
+                            ,
+                            Cancel: function() {
+                                $("#dialog-message").dialog( "close" );
+                                $("#dialog-message").remove();
+                            }
+                        }
+                    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }else if(serviceName == 'DPAS'){
+                    alert("No Extractable Parameters");
+                }
+
+
+            });
+            var rowpos = $('#displayableResult').position();
+            if(rowpos!=null){
+
+
+
+                $('html,body').scrollTop(rowpos.top);
+            }
+            $("#dialog-message").dialog( "close" );
+            $("#dialog-message").remove();
+        },
         init: function(){
             fnInitializeDatePicker();
             if($.cookie("minDate")==null)$.cookie("minDate","2003-01-01");
@@ -105,26 +460,11 @@ function ActionViewer() {
             $( ".custom_button").button();
             $( ".submit").button();
             
-            var options = {
-                target:        '#responseDivision',   // target element(s) to be updated with server response
-                //beforeSerialize: _onBeforeSerQuery,
-                beforeSubmit:  _onBeforeQuery,  // pre-submit callback
-                success:       _onSuccessQuery,  // post-submit callback
-                error:         _onErrorQuery,
-                // other available options:
-                //url:       "asyncQuery",        // override for form's 'action' attribute
-                //type:      'POST'        // 'get' or 'post', override for form's 'method' attribute
-                //dataType:  null        // 'xml', 'script', or 'json' (expected server response type)
-                //clearForm: true        // clear all form fields after successful submit
-                //resetForm: true        // reset the form after successful submit
+           
 
-                // $.ajax options can be used here too, for example:
-                timeout:   50000
-            };
+        // bind form using 'ajaxForm'
 
-            // bind form using 'ajaxForm'
-
-            $('#actionViewerForm').ajaxForm(options);
+            
 
             
 
