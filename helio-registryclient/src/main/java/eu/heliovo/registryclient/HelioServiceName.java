@@ -6,15 +6,16 @@ package eu.heliovo.registryclient;
  *
  */
 public enum HelioServiceName {
-    HEC  ("ivo://helio-vo.eu/hec"),
+    CXS  ("ivo://helio-vo.eu/cxs"),
     DPAS ("ivo://helio-vo.eu/dpas"),
-    ILS  ("ivo://helio-vo.eu/ils"),
-    ICS  ("ivo://helio-vo.eu/ics"),
-    HFC  ("ivo://helio-vo.eu/hfc"),
     DES  ("ivo://helio-vo.eu/des"),
+    HEC  ("ivo://helio-vo.eu/hec"),
+    HFC  ("ivo://helio-vo.eu/hfc"),
+    ICS  ("ivo://helio-vo.eu/ics"),
+    ILS  ("ivo://helio-vo.eu/ils"),
     MDES ("ivo://helio-vo.eu/mdes"),
     UOC  ("ivo://helio-vo.eu/uoc"),
-    SMS  ("ivo://helio-vo.eu/sms")
+    SMS  ("ivo://helio-vo.eu/sms"),
     
     ;
     

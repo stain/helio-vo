@@ -291,16 +291,17 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
             BasicCapability cap = new BasicCapability();            
             String wsdlUrl = cStore.removeScalar( WSDLURL_PATH ) ;
             String accessUrl = cStore.removeScalar( ACCESSURL_PATH );
-            cap.setAccessUrl( wsdlUrl != null ? wsdlUrl : accessUrl + "?wsdl" );
+            String xsiType = cStore.removeScalar( XSITYPE_PATH );
+            String intXsiType = cStore.removeScalar( INTERFACE_XSITYPE_PATH );
+            // interface_xsitype_path wins over xsitype_path
+            cap.setXsiType(intXsiType == null ? xsiType : intXsiType);
+
+            cap.setAccessUrl( wsdlUrl != null ? wsdlUrl : (accessUrl + ("vr:WebService".equals(cap.getXsiType()) ? "?wsdl": "")));
             
             cap.setDescription( cStore.removeScalar( DESCRIPTION_PATH ) );
             cap.setStandardId( cStore.removeScalar( STDID_PATH ) );
             cap.setVersion( cStore.removeScalar( VERSION_PATH ) );
-            // interface_xsitype_path wins over xsitype_path
-            String xsiType = cStore.removeScalar( XSITYPE_PATH );
-            String intXsiType = cStore.removeScalar( INTERFACE_XSITYPE_PATH );
-            cap.setXsiType(intXsiType == null ? xsiType : intXsiType);
-
+            
             assert cStore.keySet().isEmpty();
             return cap;
         }
