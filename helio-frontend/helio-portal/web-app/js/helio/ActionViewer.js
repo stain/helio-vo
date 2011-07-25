@@ -1,5 +1,5 @@
 function ActionViewer() {
-   
+	var resultFilterTimeout;
 
     return {
         // Public methods
@@ -18,22 +18,24 @@ function ActionViewer() {
             $("#result_overview").css("display","table");
             $(":checkbox").unbind();
             $(":checkbox").removeAttr("checked");
-            $(":checkbox").change(function(){
-                var checkboxColumn = $(this).attr("column");
-                $("#resultTable0").dataTable().fnFilter("",checkboxColumn);
-                var filter_array = {};
-                $(":checked").each(function(){
-                    var checkboxName = $(this).attr("name");
-                    checkboxColumn = $(this).attr("column");
-                    var filter_column_value = filter_array[checkboxColumn] ==null ? "":filter_array[checkboxColumn];
-                    filter_array[checkboxColumn] = filter_column_value ==""?checkboxName: filter_column_value+"|"+checkboxName;
-
+            $("input:checkbox").change(function(){
+                var checkboxColumn=$(this).attr("column");
+                var filter_expression = "\0";
+                
+                $("input:checked").each(function(){
+                    if($(this).attr("column")==checkboxColumn)
+                        filter_expression=filter_expression+"|("+$(this).attr("name")+")";
                 });
-
-                for (var key in filter_array) {
-
-                    $("#resultTable0").dataTable().fnFilter(filter_array[key],key,true);
-                }
+                
+                if(filter_expression=="\0")
+                	filter_expression="";
+                
+                if(resultFilterTimeout!=null)
+                	clearTimeout(resultFilterTimeout);
+                
+                resultFilterTimeout=setTimeout(function(){
+                    $("table#resultTable0").dataTable().fnFilter(filter_expression,checkboxColumn,true);
+                },200);
             });
 
             $('#displayableResult').append($('#tables'));
