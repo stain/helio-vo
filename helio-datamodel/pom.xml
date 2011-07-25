@@ -31,6 +31,9 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <typesafeEnumMaxMembers>400</typesafeEnumMaxMembers>
+        </configuration>
       </plugin>
     </plugins>
   </build>
