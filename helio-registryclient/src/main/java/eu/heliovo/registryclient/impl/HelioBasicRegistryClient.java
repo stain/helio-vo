@@ -218,7 +218,7 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
                  * produce a new BasicCapability and associate it with
                  * the current resource. */
                 else if ( CAPINTERFACE_PATH.equals( path ) ) {
-                    capabilityList_.add( createBasicCapability(
+                    capabilityList_.addAll( createBasicCapabilities(
                             capabilityStore_ ) );
                     for ( Iterator<String> it =
                         capabilityStore_.keySet().iterator();
@@ -286,23 +286,46 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
          *
          * @param  cMap  map of capability values with XPath-like paths as keys
          */
-        private static BasicCapability
-        createBasicCapability( final Store cStore ) {
-            BasicCapability cap = new BasicCapability();            
-            String wsdlUrl = cStore.removeScalar( WSDLURL_PATH ) ;
-            String accessUrl = cStore.removeScalar( ACCESSURL_PATH );
-            String xsiType = cStore.removeScalar( XSITYPE_PATH );
-            String intXsiType = cStore.removeScalar( INTERFACE_XSITYPE_PATH );
-            // interface_xsitype_path wins over xsitype_path
-            cap.setXsiType(intXsiType == null ? xsiType : intXsiType);
+        private static Collection<BasicCapability> 
+        createBasicCapabilities( final Store cStore ) {
+            String xsiType = cStore.getScalar( XSITYPE_PATH );
+            String intXsiType = cStore.getScalar( INTERFACE_XSITYPE_PATH );
+            String description = cStore.getScalar( DESCRIPTION_PATH );
+            String standardId = cStore.getScalar( STDID_PATH );
+            String version = cStore.getScalar( VERSION_PATH );
+            String[] wsdlUrl = cStore.removeArray( WSDLURL_PATH ) ;
+            String[] accessUrl = cStore.removeArray( ACCESSURL_PATH );
 
-            cap.setAccessUrl( wsdlUrl != null ? wsdlUrl : (accessUrl + ("vr:WebService".equals(cap.getXsiType()) ? "?wsdl": "")));
+            // interface_xsitype_path wins over xsitype_path
+            xsiType = intXsiType == null ? xsiType : intXsiType;
             
-            cap.setDescription( cStore.removeScalar( DESCRIPTION_PATH ) );
-            cap.setStandardId( cStore.removeScalar( STDID_PATH ) );
-            cap.setVersion( cStore.removeScalar( VERSION_PATH ) );
+            Collection<BasicCapability> capabilites = new ArrayList<BasicCapability>();
             
-            assert cStore.keySet().isEmpty();
+            for (int i = 0; i < wsdlUrl.length; i++) {
+                BasicCapability cap = createBasicCapability(standardId, version, xsiType, wsdlUrl[i], description);            
+                capabilites.add(cap);
+            }
+
+            for (int i = 0; i < accessUrl.length; i++) {
+                String url = (accessUrl[i] + ("vr:WebService".equals(xsiType) ? "?wsdl": ""));
+                BasicCapability cap = createBasicCapability(standardId, version, xsiType, url, description);            
+                capabilites.add(cap);
+            }
+            
+            return capabilites;
+        }
+
+        /**
+         * Create a new instance of a basic capability object
+         */
+        private static BasicCapability createBasicCapability(String standardId, String version, String xsiType, String accessUrl, String description) {
+            BasicCapability cap = new BasicCapability();
+            cap.setXsiType(xsiType);
+            cap.setAccessUrl(accessUrl);
+            cap.setDescription( description );
+            cap.setStandardId( standardId );
+            cap.setVersion( version );
+        
             return cap;
         }
 
@@ -359,6 +382,19 @@ class HelioBasicRegistryClient extends AbstractRegistryClient<BasicResource> {
                 }
             }
 
+            /**
+             * Retrieves a single value from the store.
+             * If multiple values have been stored under that key, the
+             * first one is returned.
+             *
+             * @param   key  key
+             * @return  single entry, or null
+             */
+            public String getScalar(String key) {
+                Collection<String> list = map_.get( key );
+                return list == null ? null : list.iterator().next();
+            }
+            
             /**
              * Retrieves a single value from the store, and removes its entry.
              * If multiple values have been stored under that key, the
