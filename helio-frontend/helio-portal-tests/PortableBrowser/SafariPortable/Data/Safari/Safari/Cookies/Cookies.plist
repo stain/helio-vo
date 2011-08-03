@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Created</key>
+		<real>334047639.06804657</real>
+		<key>Domain</key>
+		<string>.google.com</string>
+		<key>Expires</key>
+		<date>2013-08-02T07:00:28Z</date>
+		<key>Name</key>
+		<string>PREF</string>
+		<key>Path</key>
+		<string>/</string>
+		<key>Value</key>
+		<string>ID=ea1449e9a4dd8dc4:TM=1312354828:LM=1312354828:S=I_I4O9K06ceFF3WI</string>
+	</dict>
+	<dict>
+		<key>Created</key>
+		<real>334057419.58646202</real>
+		<key>Domain</key>
+		<string>.google.ch</string>
+		<key>Expires</key>
+		<date>2012-02-02T09:43:28Z</date>
+		<key>HttpOnly</key>
+		<string>TRUE</string>
+		<key>Name</key>
+		<string>NID</string>
+		<key>Path</key>
+		<string>/</string>
+		<key>Value</key>
+		<string>49=vqwf8gUMID4GloE0PZMw4CBHNVrA0XVRPEe156XJCj0ncxO6CGykSYp9_6hbnCmgrWlmq7x_MrKpLswLM4_mPwuBP-EseOPQbyv8B29XfV9GC6-aTfR6V3ShOQ2mnTRA</string>
+	</dict>
+	<dict>
+		<key>Created</key>
+		<real>334057419.58646202</real>
+		<key>Domain</key>
+		<string>.google.ch</string>
+		<key>Expires</key>
+		<date>2013-08-02T09:43:28Z</date>
+		<key>Name</key>
+		<string>PREF</string>
+		<key>Path</key>
+		<string>/</string>
+		<key>Value</key>
+		<string>ID=611e92b87ea22d18:FF=0:TM=1312364608:LM=1312364608:S=2EaDMnamhClTV7DH</string>
+	</dict>
+</array>
+</plist>

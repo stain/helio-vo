@@ -1,0 +1,293 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+            "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<script type="text/javascript" src="DialogController.js"></script>
+
+<link rel="stylesheet" href="Safari.css">
+<style type="text/css">
+html
+{
+    height: 28px;
+    background-color: black;
+}
+
+body
+{
+    font-size: 11px;
+    color: rgb(191, 191, 191);
+    margin: 3px 8px 2px 12px;
+}
+
+span.RightSide
+{
+    float: right;
+    padding-right: 0px;
+}
+
+span.LeftSide
+{
+    display: none;
+    font-weight: bold;
+}
+
+button
+{
+   -webkit-appearance: none;
+    outline: none;
+    margin-top: 3px;
+    padding: 0 9px 10px 9px;
+    min-width: 0;
+    border: 0;
+    background-color: transparent;
+    color: rgb(191, 191, 191);
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+button:hover, button.scopeButtonSelected
+{
+    border-width: 0 7px 10px 7px;
+    padding: 0 2px 1px 2px;
+    -webkit-border-image: url("ScopeSelectCombined.png") 0 7 0 7;
+    color: white;
+}
+
+button:active
+{
+    border-width: 0 7px 10px 7px;
+    padding: 0 2px 1px 2px;
+    -webkit-border-image: url("ScopeSelectCombinedPressed.png") 0 7 0 7;
+    color: white;
+}
+
+#splitter
+{
+    visibility: hidden;
+    position: absolute;
+    left: 50%;
+    top: 18px;
+    margin-left: -7px;
+    cursor: n-resize;
+}
+
+.matchesText
+{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: bold;
+}
+
+#search {
+    -webkit-appearance: none;
+    /* Added margin to allow for possible focus ring */
+    margin-left: 7px;
+    margin-top: 2px;
+    width: 193px;
+    border-width: 0px 10px 0px 16px;
+    -webkit-border-image: url("BlackSearchFieldCell.png") 0 10 0 16;
+    -webkit-box-sizing: border-box;
+    outline: none;
+    color: white;
+    height: 18px;
+    /* Keep this font in sync with BlackButtonLayer */
+    font: small-caption;
+    font-size: 11px;
+    padding-top: 2px;
+    padding-left: 3px;
+    background-color: transparent;
+}
+
+#alternateCancelButton {
+    background: transparent url("BlackSearchFieldCancel.png") no-repeat;
+    width: 10px;
+    height: 11px;
+    border: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 9px;
+    right: 12px;
+    display: none;
+}
+
+#alternateCancelButton:active {
+    background-image: url("BlackSearchFieldCancelPressed.png");
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+input[type="search"]::-webkit-search-decoration {
+    display: none;
+}
+
+input[type="search"]::-webkit-input-placeholder {
+    color: rgb(159, 159, 159);
+}
+
+</style>
+
+<script type="text/javascript">
+var FlowViewFindBanner = {
+    pageLoaded: function()
+    {
+        DialogController.pageLoaded();
+        FlowViewFindBannerController.loaded();
+
+        var searchField = document.getElementById("search");
+        searchField.addEventListener("search", function() { showCancelButton(); showScopeButtons(); FlowViewFindBannerController.onSearch(searchField.value); }, false);
+        searchField.addEventListener("keydown", handleSpecialKeys, false);
+        searchField.addEventListener("blur", function() { FlowViewFindBanner.focusSearchField(); return false; }, false);
+        searchField.setAttribute("placeholder", FlowViewFindBannerController.placeholderText());
+        searchField.focus();
+       
+        var cancelButton = document.getElementById("alternateCancelButton");
+        cancelButton.addEventListener("mousedown", function() { return selectAll(); }, false);
+        cancelButton.addEventListener("mouseup", function() { FlowViewFindBanner.clearSearch(); document.getElementById("search").focus();}, false);
+
+        var scopeButtonAll = document.getElementById("AllScopeButtonElement");
+        var scopeButtonCollection = document.getElementById("SelectedFolderScopeButtonElement");
+        scopeButtonAll.addEventListener("click", function() { FlowViewFindBannerController.onScopeButtonPressed("AllScopeButtonElement"); }, false);
+        scopeButtonCollection.addEventListener("click", function() { FlowViewFindBannerController.onScopeButtonPressed("SelectedFolderScopeButtonElement"); }, false);
+
+        scopeButtonAll.innerText = DialogController.UIString("All");
+        var scopeText = document.getElementById("scopeText");
+        scopeText.innerText = DialogController.UIString("Search:");
+
+        window.addEventListener("blur", function() { searchField.blur(); }, false);
+    },
+
+    setMatches: function(numMatches)
+    {
+        var elements = document.getElementsByClassName("matchesText");
+    
+        if (numMatches == 0)
+            elements[0].innerText = DialogController.UIString("No matches");
+        else if (numMatches == 1)
+            elements[0].innerText = DialogController.UIString("1 match");
+        else
+            elements[0].innerText = DialogController.UIString("%@ matches").format(numMatches);
+    },
+    
+    clearMatches: function()
+    {
+        var elements = document.getElementsByClassName("matchesText");
+        elements[0].innerText = "";
+    },
+
+    clearSearch: function()
+    {
+        clearField(); 
+        FlowViewFindBannerController.onSearch(); 
+        FlowViewFindBanner.clearMatches();
+    },
+
+    focusSearchField: function()
+    {
+        document.getElementById("search").focus();
+    },
+
+    setSelectedScopeButton: function(buttonID)
+    {
+        if (buttonID == "AllScopeButtonElement") {
+            document.getElementById(buttonID).setAttribute("class", "scopeButtonSelected");
+            document.getElementById("SelectedFolderScopeButtonElement").setAttribute("class", "scopeButton");
+        } else if (buttonID == "SelectedFolderScopeButtonElement") {
+            document.getElementById(buttonID).setAttribute("class", "scopeButtonSelected");
+            document.getElementById("AllScopeButtonElement").setAttribute("class", "scopeButton");
+        }
+    },
+
+    showSplitter: function(show)
+    {
+        // This function is called via the JavaScriptCore API, which does not
+        // normally cause the Document to check to see if it needs to
+        // relayout/paint. We can cause the Document to check this by executing
+        // the code within a setTimeout handler. See <rdar://6552686>.
+
+        setTimeout(function() {
+            var splitter = document.getElementById("splitter");
+            if (show)
+                splitter.style.visibility = "visible";
+            else
+                splitter.style.visibility = "hidden";
+        }, 0);
+    }
+
+};
+
+function showCancelButton()
+{
+    var cancelButton = document.getElementById("alternateCancelButton");
+    cancelButton.style.display = "inline-block";
+}
+
+function hideCancelButton()
+{
+    var cancelButton = document.getElementById("alternateCancelButton");
+    cancelButton.style.display = "none";
+}
+
+function selectAll()
+{
+    var field = document.getElementById("search");
+    if (field.value.length > 0) {
+        field.focus();
+        field.select();
+    }
+    return false;
+}
+
+function clearField()
+{
+    var field = document.getElementById("search");
+    field.value = "";
+    field.blur();
+    hideCancelButton();
+    hideScopeButtons();
+}
+
+function showScopeButtons()
+{
+    // fill in the second scope button for the current collection
+    document.getElementById("SelectedFolderScopeButtonElement").innerText = FlowViewFindBannerController.scopeButtonText();
+
+    var scopeChunk = document.getElementsByClassName("LeftSide");
+    scopeChunk[0].style.display = "inline-block";
+}
+
+function hideScopeButtons()
+{
+    var scopeChunk = document.getElementsByClassName("LeftSide");
+    scopeChunk[0].style.display = "none";
+}
+
+function handleSpecialKeys(event)
+{
+    if (event.keyCode == 9) // only tab makes the search field relinquish focus
+        FlowViewFindBannerController.advanceFocus(!event.shiftKey);
+}
+
+DialogController.loadLocalizedStrings(FlowViewFindBannerController);
+
+</script>
+
+</head>
+
+<body onload="FlowViewFindBanner.pageLoaded();">
+    <span class="LeftSide"><span id="scopeText"></span>
+        <button class="scopeButtonSelected" id="AllScopeButtonElement"></button>
+        <button class="scopeButton" id="SelectedFolderScopeButtonElement"></button>
+    </span>
+
+    <img id="splitter" src="FlowViewSplitter.png" onmousedown="FlowViewFindBannerController.splitterClicked()">
+
+    <span class="RightSide">
+        <span class="matchesText"></span>
+        <input id="search" type="search" incremental><input type="button" id="alternateCancelButton" tabIndex="-1">
+    </span>
+</body>
+</html>
