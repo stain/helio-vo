@@ -1,0 +1,219 @@
+{"new_experiments": [
+  {"default":
+    {"name": "Dependencies",
+     "jarfile": "base_classes.jar",
+     "hash": "3a538f98708e657943d13b86ae93930eb32616f261298b2503d65d7d6250718d"
+    }
+  },
+
+  {"default":
+    {"name": "Pilot Background Survey",
+     "jarfile": "basic-survey.jar",
+     "studyfile": "pilot-background-survey.js",
+     "hash": "bdc8842255f723a5d0ca64bf14417a741df2f91981f521c9abfd2ba49082aefa"
+    }
+  },
+
+  {"default":
+    {"name": "Firefox 4 Beta Interface 2",
+     "jarfile": "beta/combined.jar",
+     "studyfile": "combined.js",
+     "hash": "90de1c64d6668e5eabafc656915c1417ad08dd2f1053695e1ef8912e74cf5aad"
+    }
+  },
+
+  {"default":
+    {"name": "A Week in the Life of a Browser",
+     "jarfile": "a-week-life/week_life.jar",
+     "studyfile": "a_week_life.js",
+     "hash": "637b620e6ea2a28700b9c42689c269e2e2ac355fc51c996351436826c861df7a"
+    }
+  }
+],
+
+"maintain_experiments": [],
+
+"legacy": [
+{"name": "Search",
+ "id": "8",
+ "url": "https://testpilot.mozillalabs.com/testcases/searchui",
+ "summary": "What are the most used interfaces to access search engines through Firefox?",
+ "thumbnail": "https://testpilot.mozillalabs.com/testcases/search/searchbar-thumbnail.png"
+},
+
+{"name": "Firefox 4 Beta Interface",
+ "id": "100",
+ "url": "https://testpilot.mozillalabs.com/testcases/betaui.html",
+ "summary": "We are studying how the changes to the toolbar and menu bar in the Firefox 4 beta affect usage of the interface.",
+ "thumbnail":"http://hg.mozilla.org/labs/testpilot/raw-file/269edaf8034d/extension/skin/all/badge-default.png"
+},
+
+{"name": "Beta UI Survey 2",
+"id": "101",
+"url": "https://testpilot.mozillalabs.com/testcases/betaui2",
+"summary": "We are studying how the changes to the toolbar and menu bar in the Firefox 4 beta affect usage of the interface.",
+"thumbnail": "http://hg.mozilla.org/labs/testpilot/raw-file/269edaf8034d/extension/skin/all/badge-default.png"
+},
+
+{"name": "Toolbar Study",
+ "id": "6",
+ "url": "https://testpilot.mozillalabs.com/testcases/toolbar",
+ "summary": "We would like to have a better understanding of how Firefox's current toolbar is commonly used. How often do people click on the Back  button, how often do people switch search engines? The study data will be directly used to improve the toolbar design for Firefox 4.",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/toolbars/toolbar-study-thumbnail.png"
+},
+
+{ "name": "Tab Open/Close Study",
+  "id": "1",
+  "url": "https://testpilot.mozillalabs.com/testcases/tab-open-close.html",
+  "summary": "Tabbed browsing is offered by all major web browsers. The first question we want to explore: what would be the best default browser behavior after users close or open a tab when many tabs are open?",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/tab-open-close/tab-study-thumbnail.png"
+},
+
+{ "name": "Tab Switch Study",
+  "id": "5",
+  "url": "https://testpilot.mozillalabs.com/testcases/tab-switch-study",
+  "summary": "This 5-day study aims to understand how people switch between tabs. The result of this study will help Firefox team design better ways for people to manage their tabs. ",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/tab-open-close/tab-switch-thumbnail.png"
+},
+
+{ "name": "Menu Item Usage Study",
+  "id": "4",
+  "url": "https://testpilot.mozillalabs.com/testcases/menuitemusage",
+  "summary": "Remembering which username/password combination to use on a given site can be very frustrating. Firefox tries to help solve a part of this  problem with the Password Manager feature. Can it be more helpful? ",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/menu-item-usage/menu-study-thumbnail.png"
+},
+
+{
+  "name": "Accounts and Passwords Study",
+  "id": "3",
+  "url": "https://testpilot.mozillalabs.com/testcases/account-password.html",
+  "summary": "Remembering which username/password combination to use on a given site can be very frustrating. Firefox tries to help solve a part of this  problem with the Password Manager feature. Can it be more helpful? ",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/password-distribution/account-password-study-thumbnail.png"
+},
+
+{
+  "name": "Accounts and Passwords Survey",
+  "id": "account_password_survey",
+  "url": "https://testpilot.mozillalabs.com/testcases/account-password.html",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/pilot-survey-thumbnail.png",
+  "summary": ""
+},
+
+{
+  "name": "How Do You Feel About Your Firefox Browser",
+  "id": "beta_perception_survey_1",
+  "url": "https://testpilot.mozillalabs.com/testcases/perception",
+  "thumbnail": "https://testpilot.mozillalabs.com/testcases/pilot-survey-thumbnail.png",
+  "summary": "The aim of this survey is to understand users' perception on their Firefox browser in general over time. We will follow up a similar survey in a month to understand the change of user perception."
+}
+
+],
+
+"results": [{"title": "Min and Max Tabs",
+"summary": "How many tabs do users have open at a time?",
+"id": "1_results_min_max",
+"url": "https://testpilot.mozillalabs.com/testcases/tab-open-close/results.html#minmax",
+"studyId": "1",
+"thumbnail": "https://testpilot.mozillalabs.com/testcases/tab-open-close/graphs/min-max-avg-tabs-open-thumb.png",
+"date": "Thu Oct 15 2009"},
+
+{"title": "Tab Lifespans",
+"summary": "How long does an individual tab stay open on average?",
+"id": "1_results_lifespans",
+"url": "https://testpilot.mozillalabs.com/testcases/tab-open-close/results.html#lifespans",
+"studyId": "1",
+"thumbnail": "https://testpilot.mozillalabs.com/testcases/tab-open-close/graphs/tab-lifespans-thumb.png",
+"date": "Thu Oct 15 2009"},
+
+{"title": "Switching on Tab Closure",
+"summary": "When a user closes a tab, Firefox automatically switches to another tab (call it the 'default' tab). Is this default tab usually the one that the user wants or not?",
+"id": "1_results_switch_on_close",
+"url": "https://testpilot.mozillalabs.com/testcases/tab-open-close/results.html#close-switch",
+"studyId": "1",
+"thumbnail":
+"https://testpilot.mozillalabs.com/testcases/tab-open-close/graphs/close-switch-stats-thumb.png",
+"date": "Thu Oct 15 2009"},
+
+{"title": "Bookmarks",
+"summary": "How many bookmarks do people use?",
+"id": "2_results_num_bookmarks",
+"url": "https://testpilot.mozillalabs.com/testcases/a-week-life/results.html#bookmark",
+"studyId": "2",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/a-week-life/graphs/bookmark-density.png",
+"date": "Thu Jan 14 2010"},
+
+{"title": "Bookmark  Folders",
+"summary": "How many folders do people use to manage their bookmarks?",
+"id": "2_results_bookmark_folders",
+"url": "https://testpilot.mozillalabs.com/testcases/a-week-life/results.html#folder",
+"studyId": "2",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/a-week-life/graphs/folder-count.png",
+"date": "Thu Jan 14 2010"},
+
+{"title": "Bookmark Levels",
+"summary": "How deep are those folders that people use to manage their bookmarks?",
+"id": "2_results_folder_levels",
+"url": "https://testpilot.mozillalabs.com/testcases/a-week-life/results.html#depth",
+"studyId": "2",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/a-week-life/graphs/folder-depth.png",
+"date": "Thu Jan 14 2010"},
+
+{"title": "Computer Sharing",
+"summary": "Do people share their computer?",
+"id": "3_results_computer_share",
+"url":
+"https://testpilot.mozillalabs.com/testcases/password-distribution/results.html#sharecomputer",
+"studyId": "3",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/password-distribution/graphs/sharecomputer.jpg",
+"date": "Thu Jan 28 2010"},
+
+{"title": "Password Amount",
+"summary": "How many passwords do people use?",
+"id": "3_results_num_passwords",
+"url":
+"https://testpilot.mozillalabs.com/testcases/password-distribution/results.html#passwordcount",
+"studyId": "3",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/password-distribution/graphs/passwordcount.png",
+"date": "Thu Jan 28 2010"},
+
+{"title": "Satisfaction: Accounts and Passwords Management",
+"summary": "How happy do people feel with current ways of managing accounts and passwords?",
+"id": "3_results_satisfaction",
+"url":"https://testpilot.mozillalabs.com/testcases/password-distribution/results.html#feelhappy",
+"studyId": "3",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/password-distribution/graphs/feelhappy.png",
+"date": "Thu Jan 28 2010"},
+
+{"title": "Password Reuse",
+"summary": "Do people repeat the same password on different sites?",
+"id": "3_results_password_reuse",
+"url": "https://testpilot.mozillalabs.com/testcases/password-distribution/results.html#repeat",
+"studyId": "3",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/password-distribution/graphs/repeat_pw.png",
+"date": "Thu Jan 28 2010"},
+
+{"title": "Most Used Menu Items",
+"summary": " Which menu items are the most or the least commonly used?",
+"id": "4_results_most_used_items",
+"url": "https://testpilot.mozillalabs.com/testcases/menu-item-usage/results.html#Q1",
+"studyId": "4",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/menu-item-usage/graphs/itemid_all.png",
+"date": "Thu Mar 11 2010"},
+
+{"title": "Most Used Menu Items by Mouse Interaction",
+"summary": " What are most and least used Firefox menu items by only mouse interactions?",
+"id": "4_results_most_used_mouse",
+"url": "https://testpilot.mozillalabs.com/testcases/menu-item-usage/results.html#Q2",
+"studyId": "4",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/menu-item-usage/graphs/menu_graphic.png",
+"date": "Thu Mar 11 2010"},
+
+{"title": "Most Used Menu Items by Mouse or Keyboard Shortcut",
+"summary": " Which menu items are the most or the least commonly used, by mouse click or keyboard shortcut?",
+"id": "4_results_most_used_keyboard",
+"url": "https://testpilot.mozillalabs.com/testcases/menu-item-usage/results.html#Q3",
+"studyId": "4",
+"thumbnail":"https://testpilot.mozillalabs.com/testcases/menu-item-usage/graphs/itemid_all_mouse_ordered.png",
+"date": "Thu Mar 11 2010"}
+]
+}

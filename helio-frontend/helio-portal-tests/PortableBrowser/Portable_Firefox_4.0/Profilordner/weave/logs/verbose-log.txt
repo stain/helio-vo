@@ -1,0 +1,30 @@
+2010-09-07 18:18:46	Service.Main         INFO	Logs reinitialized for service reset
+2010-09-07 18:18:46	Engine.Clients       DEBUG	Resetting clients last sync time
+2010-09-07 18:18:46	Engine.Bookmarks     DEBUG	Resetting bookmarks last sync time
+2010-09-07 18:18:46	Engine.Forms         DEBUG	Resetting forms last sync time
+2010-09-07 18:18:46	Engine.History       DEBUG	Resetting history last sync time
+2010-09-07 18:18:46	Engine.Passwords     DEBUG	Resetting passwords last sync time
+2010-09-07 18:18:46	Engine.Prefs         DEBUG	Resetting prefs last sync time
+2010-09-07 18:18:46	Engine.Tabs          DEBUG	Resetting tabs last sync time
+2010-09-15 08:50:54	Service.Main         INFO	Loading Weave @weave_version@
+2010-09-15 08:50:54	Engine.Bookmarks     DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.Forms         DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.History       DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.Passwords     DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.Prefs         DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.Tabs          DEBUG	Engine initialized
+2010-09-15 08:50:54	Engine.Tabs          DEBUG	Resetting tabs last sync time
+2010-09-15 08:50:54	Service.Main         INFO	Mozilla/5.0 (Windows NT 6.1; rv:2.0b6) Gecko/20100101 Firefox/4.0b6
+2010-09-15 08:50:54	Service.Main         DEBUG	checkSetup: no username set
+2010-09-15 08:50:55	Service.Main         DEBUG	checkSetup: no username set
+2010-11-10 17:05:39	Service.Main         INFO	Loading Weave @weave_version@
+2010-11-10 17:05:39	Engine.Bookmarks     DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.Forms         DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.History       DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.Passwords     DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.Prefs         DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.Tabs          DEBUG	Engine initialized
+2010-11-10 17:05:39	Engine.Tabs          DEBUG	Resetting tabs last sync time
+2010-11-10 17:05:39	Service.Main         INFO	Mozilla/5.0 (Windows NT 6.1; rv:2.0b6) Gecko/20100101 Firefox/4.0b6
+2010-11-10 17:05:39	Service.Main         DEBUG	checkSetup: no username set
+2010-11-10 17:05:39	Service.Main         DEBUG	checkSetup: no username set
