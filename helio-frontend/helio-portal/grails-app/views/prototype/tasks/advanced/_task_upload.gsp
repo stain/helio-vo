@@ -2,11 +2,11 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td width="60">
+        <td>
           
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Upload VOTable</h1>
+          <h1 >Upload VOTable</h1>
           
         </td>
         <td>

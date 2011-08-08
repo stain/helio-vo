@@ -2,11 +2,11 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td width="60">
+        <td>
            <!--img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" /!-->
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Search Events</h1>
+          <h1 >Search Events</h1>
 
         </td>
 
@@ -24,6 +24,7 @@
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="HEC"/>
         <input id="task_name" name="taskName" type="hidden" value="task_searchEvents"/>
+        <input id="task_label" type="hidden" value="Events"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
           <col width="250"/>

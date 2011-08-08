@@ -13,10 +13,10 @@
   <g:render template="displayables/hec_extended" />
 </div>
 <div id="displayableICS" class="displayable" style="display:none">
-  <g:render template="tasks/services/task_searchinstruments" />
+  <g:render template="tasks/services/task_searchinstloc" />
 </div>
 <div id="displayableILS" class="displayable" style="display:none">
-  <g:render template="displayables/ils" />
+  <g:render template="tasks/services/task_searchinstcap" />
 </div>
 <div id="displayableDPAS" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchdata" />
@@ -50,8 +50,11 @@
 <div id="displayableTaskSearchEvents" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchevents" />
 </div>
-<div id="displayableTaskSearchInstruments" class="displayable" style="display:none">
-  <g:render template="tasks/services/task_searchinstruments" />
+<div id="displayableTaskSearchInstCap" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_searchinstcap" />
+</div>
+<div id="displayableTaskSearchInstLoc" class="displayable" style="display:none">
+  <g:render template="tasks/services/task_searchinstloc" />
 </div>
 <div id="displayableTaskSearchData" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchdata" />

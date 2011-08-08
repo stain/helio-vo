@@ -29,24 +29,16 @@ class PrototypeController {
     def TableInfoService;
     def ResultVTManagerService;
 
-
-    def getTaskContent = {
-        
-
-        
-        
-        
-    }
-
-
-   
-
+ 
+def getTest = {
+    render "hola puto";
+}
     /**
      * Action to asynchronously get advanced columns of a service.
      * Expects parameter: serviceName=SERVICE_NAME, catalog=CATALOG_NAME.
      */
     def getAdvancedParams = {
-        //log.info("getAdvancedParams =>" +params);
+        log.info("getAdvancedParams =>" +params);
 
         if(params.serviceName == null)
         throw new java.lang.IllegalArgumentException("Parameter 'service' must be set.");
@@ -64,7 +56,18 @@ class PrototypeController {
             def catalog = hash.get(params.catalog);
             template = "ils_" + params.catalog;
             render template:'templates/' + template, bean:catalog, var:'catalog';
-        } else {
+        } else if (params.serviceName == "HEC")	{
+            
+            HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
+                def catalog = hecDao.getCatalogById(params.catalog);
+
+            if (catalog != null) {
+                render template:'templates/columns_extended', bean:catalog, var:'catalog';
+            } else {
+                render "<p>Unable to load catalog defintion with id '" + params.catalog + "'</p>";
+            }
+        }else{
+
             throw new java.lang.IllegalArgumentException("Service " + params.serviceName + " is not supported through this method.");
         }
     }
@@ -196,17 +199,8 @@ class PrototypeController {
 
         if(params.maxDate != null){
             try{
-                
-                HelioParameters helioparameters = new HelioParameters();
-                helioparameters.minDate = [params.minDate].flatten();
-                helioparameters.maxDate = [params.maxDate].flatten();
-                helioparameters.minTime = [params.minTime].flatten();
-                helioparameters.maxTime = [params.maxTime].flatten();
-                helioparameters.extra = [params.extra].flatten();
-                helioparameters.save();
-                HelioQuery helioquery = new HelioQuery(session:sessionId,helioparameters:helioparameters,service:params.serviceName);
-                helioquery.save();
-
+               
+                //params.maxDate = 'nothing';
                 
                 ResultVT  result = search(params);
                 String serviceName = params.serviceName;
@@ -216,7 +210,7 @@ class PrototypeController {
                 
                     
                 
-                println resultId;
+                
                 def responseObject = [result:result,resultId:resultId ];
                 //helioquery.result = result.getStringTable();
                 //helioquery.save();
@@ -229,10 +223,10 @@ class PrototypeController {
                 
                 println e.printStackTrace();
                 
-                /**
+                
                 def responseObject = [error:e.getMessage() ];
-                render template:'templates/response', bean:responseObject, var:'responseObject'
-                 **/
+                return e.getMessage();
+                 
             }
 
         }
@@ -250,13 +244,19 @@ class PrototypeController {
     def explorer={
         log.info("Explorer =>" +params)
 
-        //println (HelioParameters.list());
-//        println (HelioQuery.list());
-//
-//        for(HelioQuery temp :HelioQuery.list()){
-//            println temp.service;
-//        }
-        
+
+
+
+
+        //prinltn "starting";
+
+        //Date iteratorDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss","2000-01-01T00:00:00");
+
+
+
+
+
+
 
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
         // init calalog list for HEC GUI
@@ -283,13 +283,13 @@ class PrototypeController {
         ArrayList<String> minDateList= new ArrayList<String>();
 
         if(params.maxDate.contains(",")) {
-            ArrayList<String> tempMinTimeList = params.minTime.split(",");
-            ArrayList<String> tempMaxTimeList = params.maxTime.split(",");
+            
+            
             ArrayList<String> tempMaxDateList = params.maxDate.split(",");
             ArrayList<String> tempMinDateList = params.minDate.split(",");
-            for(int i = 0; i<tempMinTimeList.size();i++){
-                Date minDate = Date.parse("yyyy-MM-dd/HH:mm",tempMinDateList.get(i)+"/"+tempMinTimeList.get(i));
-                Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",tempMaxDateList.get(i)+"/"+tempMaxTimeList.get(i));
+            for(int i = 0; i<tempMaxDateList.size();i++){
+                Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",tempMinDateList.get(i));
+                Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",tempMaxDateList.get(i));
                 maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
                 minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
                 
@@ -300,8 +300,8 @@ class PrototypeController {
             
 
         }else{
-            Date minDate = Date.parse("yyyy-MM-dd/HH:mm",params.minDate+"/"+params.minTime);
-            Date maxDate = Date.parse("yyyy-MM-dd/HH:mm",params.maxDate+"/"+params.maxTime);
+            Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
+            Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
             maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
         
@@ -396,14 +396,14 @@ class PrototypeController {
         log.info("asyncGetSavedResult =>" + params);
         
         ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
-         def responseObject = [result:result,resultId:params.resultId ];
-                //helioquery.result = result.getStringTable();
-                //helioquery.save();
+        def responseObject = [result:result,resultId:params.resultId ];
+        //helioquery.result = result.getStringTable();
+        //helioquery.save();
 
 
 
 
-                render template:'templates/response', bean:responseObject, var:'responseObject'
+        render template:'templates/response', bean:responseObject, var:'responseObject'
         
     }
     def asyncSaveHistoryBar = {
@@ -425,7 +425,7 @@ class PrototypeController {
         
     }
     def asyncGetHistoryBar = {
-        log.info("downloadVOTable =>" + params);
+        log.info("asyncGetHistoryBar =>" + params);
 
 
         HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);

@@ -1,7 +1,20 @@
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+
 .controls{
     margin-top: 10px;
     float:left;
 
+}
+
+.candybox .item_found{
+  color:green;
+}
+.candybox .item_missing{
+    color:red;
 }
 #time_area{
      
@@ -210,14 +223,12 @@ html{
 
 #history {
     float: left;
-
-
     width: 86px;
     min-height:425px;
     height: 100%;
-    background-color:#F5F6F9;
+    
     margin: 0px 23px 0px 0px;
-    border:1px solid #5B5FA8;
+    
 }
 #history #historyContent1{
     float:left;
@@ -350,7 +361,7 @@ html{
 #content
 {
     background-color:white;
-    border:1px solid #464693;
+    
     float: left;
     
     min-width: 887px;
@@ -522,6 +533,10 @@ input{
     height: 30px;
 
 }
+.viewerHeader h1{
+font-size:1.5em;
+font-weight: normal;
+}
 .viewerHeader{
 
 
@@ -533,7 +548,8 @@ input{
     background: -webkit-gradient(linear, center top, center bottom, from(#bac7e9), to(#8591b4));
     background: -o-linear-gradient(top, #bac7e9, #8591b4);
     background: linear-gradient(top, #bac7e9, #8591b4);
-    margin-bottom: 10px;
+    color:#444466;
+    margin-bottom: 5px;
     /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
 
 }

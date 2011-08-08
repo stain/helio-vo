@@ -8,7 +8,7 @@ function Workspace() {
         $(divisionName).remove();
     };
 
-   
+  
     
 
     return {
@@ -32,7 +32,8 @@ function Workspace() {
             ingestDivision("splash","#displayableSplash");
             ingestDivision("selected_result","#displayableSeletedResult");
             ingestDivision("task_searchEvents","#displayableTaskSearchEvents");
-            ingestDivision("task_searchInstruments","#displayableTaskSearchInstruments");
+            ingestDivision("task_searchInstLoc","#displayableTaskSearchInstLoc");
+            ingestDivision("task_searchInstCap","#displayableTaskSearchInstCap");
             ingestDivision("task_searchData","#displayableTaskSearchData");
 
             window.workspace.setDisplay("splash");
@@ -148,7 +149,15 @@ function Workspace() {
                 }
                 else{
                     $(this).addClass('row_selected');
-                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
+                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/><div class='custom_button input_time_advanced'>Advanced</div></li>");
+                    $(".input_time_advanced").unbind();
+                    $(".custom_button").button();
+                    $(".input_time_advanced").click(function(){
+                        
+                        
+                        getAdvancedFields($("#service_name").val(),$(this).parent().find('input').val());
+                    });
+
                 }
             } );
             $(".custom_button").button();
@@ -162,6 +171,7 @@ function Workspace() {
                 },
                 buttons: {
                     Ok: function() {
+                        $(".input_time_advanced").remove();
                         $("#extra_list").html(($("#extra_list_form").html()));
                         
                         
@@ -189,40 +199,42 @@ function Workspace() {
             date_range_list.html("");
             //var num =date_range_list.data("ranges");
             var _formatDateRange =function(id){
-                $('#minDate'+id).datepicker("destroy");
-                $('#minDate'+id).datepicker({
-                    defaultDate: "+1w",
-                    yearRange: '1970:2011',
-                    dateFormat: 'yy-mm-dd',
-                    changeMonth: true,
-                    showOn: "button",
-                    buttonImageOnly: true,
-                    buttonImage: "../images/icons/calendar.gif",
-                    changeYear: true,
-                    numberOfMonths: 1
-                });
-                $('#maxDate'+id).datepicker("destroy");
-                $('#maxDate'+id).datepicker({
-                    defaultDate: "+1w",
-                    yearRange: '1970:2011',
-                    dateFormat: 'yy-mm-dd',
-                    changeMonth: true,
-                    showOn: "button",
-                    buttonImageOnly: true,
-                    buttonImage: "../images/icons/calendar.gif",
-                    changeYear: true,
-                    numberOfMonths: 1
-                });
 
+                $('#minDate'+id).datetimepicker("destroy");
+                $('#maxDate'+id).datetimepicker("destroy");
+                var dates = $( "#minDate"+id+", #maxDate"+id ).datetimepicker({
+                    
+                    yearRange: '1970:2011',
+                    dateFormat: 'yy-mm-dd',
+                    changeMonth: true,
+                    showOn: "both",
+                    showSecond: true,
+                    timeFormat: 'hh:mm:ss',
+                    separator: 'T',
+                    showButtonPanel: true,
+                    buttonImageOnly: true,
+                    buttonImage: "../images/icons/calendar.gif",
+                    changeYear: true,
+                    numberOfMonths: 1,
+                    onClose: function( selectedDate ) {
+                        var option = this.id == "minDate"+id ? "minDate" : "maxDate",
+                        instance = $( this ).data( "datepicker" ),
+                        date = $.datepicker.parseDate(
+                            instance.settings.dateFormat ||
+                            $.datepicker._defaults.dateFormat,
+                            selectedDate, instance.settings );
+                        dates.not( this ).datepicker( "option", option, date );
+                    }
+                });
 
             }
             var _createDateRange =function(num){
                 var tr = $('<tr id="input_time_range_'+num+'"></tr>');
                 var td = $('<td align="center" valign="center">Range '+num+'</td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="12" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01"/><input size="6" type="text" name="minTime" id="minTime'+num+'" value="00:00" /></td>');
+                td = $('<td align="center" valign="center"> <input size="25" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01T00:00:00"/></td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="12" type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03"/><input size="6" type="text" name="maxTime" id="maxTime'+num+'" value="00:00" /></td>');
+                td = $('<td align="center" valign="center"> <input size="25 type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03T00:00:00"/></td>');
                 tr.append(td);
                 td = $('<td><div></div></td>');
                 tr.append(td);
@@ -243,14 +255,20 @@ function Workspace() {
                         $(this).closest('tr').remove();
                     }
 
-
-
-                
                 });
-            //                $("#maxTime"+num).keydown(validatemydate(num));
-            //                $("#minTime"+num).keydown(validatemydate(num));
-            //                $("#maxDate"+num).keydown(validatemydate(num));
-            //                $("#minDate"+num).keydown(validatemydate(num));
+                
+                $("#maxTime"+num).change(function(){
+             //       validatemydate(num);
+                });
+                $("#minTime"+num).change(function(){
+               //     validatemydate(num);
+                });
+                $("#maxDate"+num).change(function(){
+                   // validatemydate(num);
+                });
+                $("#minDate"+num).change(function(){
+                 //   validatemydate(num);
+                });
                 
             }
           
@@ -264,13 +282,10 @@ function Workspace() {
                 $(this).find("input").each(function(){
                     if($(this).attr("name")=="maxDate")$("#maxDate"+iterator).val($(this).val());
                     if($(this).attr("name")=="minDate")$("#minDate"+iterator).val($(this).val());
-                    if($(this).attr("name")=="minTime")$("#minTime"+iterator).val($(this).val());
-                    if($(this).attr("name")=="maxTime")$("#maxTime"+iterator).val($(this).val());
+                    
+                    
                 });
-                
-                
-                
-                
+                                                                
             });
             if(iterator == 0){
                 date_range_list.data("ranges",1);
@@ -284,8 +299,6 @@ function Workspace() {
                     'disabled':true
                 });
             }
-
-
             
             $("#input_time_range_button").click(function(){
                 var num =date_range_list.data("ranges");
@@ -294,11 +307,7 @@ function Workspace() {
                 $(".input_time_range_remove").button({
                     'disabled':false
                 });
-            //    var range_html = $("<tr></tr>");
-            //    range_html.append($("#input_time_range_1").html());
-            //
-            //   $("#input_time_range_list").append(range_html);
-            // fnInitializeDatePicker2();
+        
             });
             $(".custom_button").button();
             //$("#input_time_range_button").button({ disabled: true });
@@ -317,15 +326,15 @@ function Workspace() {
                                 itr++;
                                 if(itr==100)continue;
                             }
-                            tr.append("<td><b>Range "+itr+":</b></td>"+
+                            tr.append("<td><b>Range:</b></td>"+
                                 "<td>"+$("#minDate"+itr).val()+"</td>"+
-                                "<td>"+$("#minTime"+itr).val()+"</td>"+
-                                "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
-                                "<td>"+$("#maxTime"+itr).val()+"</td>");
+                                
+                                "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>");
+                                
                             tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>")
                             tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>")
-                            tr.append("<td style='display:none'><input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'></td>")
-                            tr.append("<td style='display:none'><input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'></td>")
+                            
+                            
                             table.append(tr);
                             
                             itr++;
@@ -360,16 +369,7 @@ function Workspace() {
 
                 maxDate.push($(this).val());
             });
-            var minTime=  [];
-            $("[name='minTime']").each(function() {
-
-                minTime.push($(this).val());
-            });
-            var maxTime=  [];
-            $("[name='maxTime']").each(function() {
-
-                maxTime.push($(this).val());
-            });
+            
             var extra= [];
             $("[name='extra']").each(function() {
                 
@@ -381,14 +381,14 @@ function Workspace() {
             
             switch (serviceName) {
                 case "HEC":
-                    if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0&& extra.length >0){
+                    if(minDate.length >0&& maxDate.length >0&& extra.length >0){
                         
-                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                        sendQuery(minDate, maxDate,serviceName, extra);
                     }
                     break;
                 case "ICS":
                     
-                    if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0){
+                    if(minDate.length >0&& maxDate.length >0){
 
                         if(minDate.length > 1){
                             var div =$('<div></div>');
@@ -410,29 +410,25 @@ function Workspace() {
                             });
 
                         }else{
-                            sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                            sendQuery(minDate, maxDate ,serviceName, extra);
                         }
                     }
                     break;
                 case "ILS":
-                    if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0){
-                        
-                        
-                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                    if(minDate.length >0&& maxDate.length >0){
+                                                
+                        sendQuery(minDate, maxDate,serviceName, extra);
                     }
                     break;
                 case "DPAS":
-                    if(minDate.length >0&& maxDate.length >0&& minTime.length >0&& maxTime.length >0&& extra.length >0){
+                    if(minDate.length >0&& maxDate.length >0&& extra.length >0){
 
-                        sendQuery(minDate, maxDate,minTime , maxTime ,serviceName, extra);
+                        sendQuery(minDate, maxDate,serviceName, extra);
                     }
                     break;
                 default:
-                    break;
-                           
+                    break;                           
             }
-        
-        
         },
         getDivisions: function(){
             if (typeof console!="undefined")console.info("Workspace :: setElement");
@@ -476,6 +472,8 @@ function Workspace() {
             this.setDisplay(imagePath);
             
             switch (imagePath) {
+                case 'splash':
+                    break;
                 case 'hec_extended':
                     element = new ActionViewerExtended(imagePath,"ghost",text,"label","hec");
                     window.historyBar.addItem(element);
@@ -537,7 +535,14 @@ function Workspace() {
                     $("#time_button").click(window.workspace.time_input_form);
                     $("#time_drop").click(window.workspace.time_input_form);
                     break;
-                case 'task_searchInstruments':
+                case 'task_searchInstCap':
+                    element = new ActionViewer();
+
+                    element.init();
+                    $("#time_button").click(window.workspace.time_input_form);
+                    $("#time_drop").click(window.workspace.time_input_form);
+                    break;
+                     case 'task_searchInstLoc':
                     element = new ActionViewer();
 
                     element.init();

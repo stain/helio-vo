@@ -1,5 +1,5 @@
 function ActionViewer() {
-	var resultFilterTimeout;
+    var resultFilterTimeout;
 
     return {
         // Public methods
@@ -28,10 +28,10 @@ function ActionViewer() {
                 });
                 
                 if(filter_expression=="\0")
-                	filter_expression="";
+                    filter_expression="";
                 
                 if(resultFilterTimeout!=null)
-                	clearTimeout(resultFilterTimeout);
+                    clearTimeout(resultFilterTimeout);
                 
                 resultFilterTimeout=setTimeout(function(){
                     $("table#resultTable0").dataTable().fnFilter(filter_expression,checkboxColumn,true);
@@ -47,7 +47,10 @@ function ActionViewer() {
             $(".custom_button").button();
             $("#response_save_selection").click(function(){
 
-
+                if($(".odd_selected").length <1 && $(".even_selected").length<1){
+                    alert("Please select something first");
+                    return;
+                }
 
                 var serviceName = $("#service_name").val();
 
@@ -77,9 +80,6 @@ function ActionViewer() {
 
                         }//end j
 
-
-
-
                         $("#resultTable"+i+" .even_selected").each(function(){
 
                             time_start_array.push($(this).children().eq(time_start).text());
@@ -98,27 +98,17 @@ function ActionViewer() {
                     for(itr= 0;itr < time_start_array.length;itr++){
 
 
-                        var time_start_string =time_start_array[itr];
-                        var fields = time_start_string.split('T');
-                        var minDate =fields[0];
-                        fields =fields[1].split(':');
-                        var minTime = fields[0] +":"+fields[1];
-                        var time_end_string =time_end_array[itr];
-                        fields = time_end_string.split('T');
-                        var maxDate =fields[0];
-                        fields =fields[1].split(':');
-                        var maxTime = fields[0] +":"+fields[1];
+                      
                         var tr = $('<tr></tr>');
                         tr.append("<td><b>Range "+itr+":</b></td>"+
-                            "<td>"+minDate+"</td>"+
-                            "<td>"+minTime+"</td>"+
-                            "<td>--</td><td>"+maxDate+"</td>"+
-                            "<td>"+maxTime+"</td>");
+                            "<td>"+time_start_array[itr]+"</td>"+
+                            
+                            "<td>--</td><td>"+time_end_array[itr]+"</td>");
 
-                        tr.append("<td><input type='hidden' name='maxDate' value='"+maxDate+"'/></td>")
-                        tr.append("<td><input type='hidden' name='minDate' value='"+minDate+"'/></td>")
-                        tr.append("<td><input type='hidden' name='maxTime' value='"+maxTime+"'/></td>")
-                        tr.append("<td><input type='hidden' name='minTime' value='"+minTime+"'/></td>")
+                        tr.append("<td><input type='hidden' name='maxDate' value='"+time_end_array[itr]+"'/></td>")
+                        tr.append("<td><input type='hidden' name='minDate' value='"+time_start_array[itr]+"'/></td>")
+                        
+                        
                         table.append(tr);
 
                     }//end itr
@@ -201,47 +191,30 @@ function ActionViewer() {
                     $("#dialog-message").remove();
                     var div =$('<div></div>');
                     div.attr('id','dialog-message');
-                    div.attr('title','Instrument Edition');
+                    div.attr('title','Instrument Selection');
 
                     var html = window.workspace.getDivisions()["input_instruments"];
                     div.append(html);
+
+                    div.append("*Items in red are not supported by our Data Search service therefore will not be saved.")
                     $("#testdiv").append(div);
-                    $("#input_table").dataTable( {
-                        "bSort": false,
-                        "bInfo": true,
-                        "sScrollY": "300px",
-                        "bPaginate": false,
-                        "bJQueryUI": true,
-                        "sScrollX": "300px",
-                        "sScrollXInner": "100%",
-                        "sDom": '<"H">t<"F">'
-                    });
-
-
+                    
+                    $("#input_filter").parent().remove();
                     $("#extra_list_form").html(holder.html());
                     $("#extra_list_form").addClass('candybox');
 
                     $("#extra_list_form input").each(function(){
-                        $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
-                    });
-
-                    $("#input_filter").keyup(function(){
-                        $("#input_table").dataTable().fnFilter($(this).val());
-                    });
-
-                    $('#input_table tr').click( function() {
-                        var row =$(this).find('td').attr("internal").trim();
-                        if ( $(this).hasClass('row_selected') ){
-                            $(this).removeClass('row_selected');
-
-
-                            $("#"+row).parent().remove();
+                        
+                        if($("#input_table td[internal='"+$(this).attr("id")+"']").length ==1){
+                            $(this).parent().addClass("item_found");
+                            
+                        }else{
+                            $(this).parent().addClass("item_missing");
                         }
-                        else{
-                            $(this).addClass('row_selected');
-                            $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
-                        }
-                    } );
+                    });
+                    $("#input_table").remove();
+                    
+                   
                     $(".custom_button").button();
                     $('#dialog-message').dialog({
                         modal: true,
@@ -254,9 +227,9 @@ function ActionViewer() {
                         buttons: {
                             Ok: function() {
 
-
+                                $(".item_missing").remove();
                                 var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_inst.png' );
-                                var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                                var div = $("<div  title='"+$("#task_label").val()+"' class='floaters'></div>");
                                 var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                                 var tr2 =$("<tr></tr>");
                                 var td2 =$("<td></td>");
@@ -290,6 +263,8 @@ function ActionViewer() {
                                 });
 
                                 tr2.append(td2);
+                                table2.append(tr2);
+                                tr2 =$('<tr class="inner_label"><td>'+$("#task_label").val()+'</td><tr>')
                                 table2.append(tr2);
                                 //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
                                 //table.append(tr);

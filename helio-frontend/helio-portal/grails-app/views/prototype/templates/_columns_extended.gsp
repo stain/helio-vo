@@ -39,10 +39,12 @@
         <td width="*" align="left" valign="top">
           <input style="padding: 0 0.2em 0.2em 0.2em" class="column-reset" type="button" value="Reset Fields" title="Reset this form" onclick="resetHecForm('${catalog.catalogName}')">
         </td>
+      </tr>
+      <tr>
         <td align="right">
           <div style="" class="message pqlmessage">
             <b>Usage:</b>
-            <p>The current version of HELIO supports 
+            <p>The current version of HELIO supports
               <a href="http://www.ivoa.net/internal/IVOA/TableAccess/PQL-0.2-20090520.pdf" target="blank" title="Parameterized Query Language">PQL</a> only.
             </p>
             <table border="0" cellpadding="0" cellspacing="0">
@@ -55,7 +57,7 @@
               	<tr><td><code>'text'</code></td><td> for </td><td><code>='text'</code></td><td>(string equals)</td></tr>
               	<tr><td><code>'/2,7/'</code></td><td> for </td><td><code>x&lt;=2 OR x&gt;=7</code></td><td>(or constraint)</td></tr>
               	<tr><td><code>'2/;/7'</code></td><td> for </td><td><code>x&gt;=2 AND x&lt;=7</code></td><td>(and constraint)</td></tr>
-                
+
               </tbody>
             </table>
           </div>

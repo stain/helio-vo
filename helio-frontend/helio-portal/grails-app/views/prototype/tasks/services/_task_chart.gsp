@@ -4,11 +4,11 @@
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td width="60">
+        <td>
            <!--img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" /!-->
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Chart Browsing</h1>
+          <h1 >Chart Browsing</h1>
 
         </td>
 

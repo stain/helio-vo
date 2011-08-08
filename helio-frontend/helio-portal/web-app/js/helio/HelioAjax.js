@@ -1,5 +1,84 @@
 
 
+function getAdvancedFields(serviceName,catalog){
+     
+
+
+    var __beforeSend= function(){         };
+    var __onComplete = function(){
+
+    };
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccess = function(data,textStatus) {
+
+
+
+        var div =$('<div></div>');
+        div.attr('id','dialog-message1');
+        div.attr('title','Advanced Parameters');
+        
+        div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span></p>');
+        div.append(data);
+
+        $("#testdiv").append(div);
+
+
+        $('#dialog-message1').dialog({
+
+            modal: true,
+            height:700,
+                width:700,
+            buttons: {
+                Ok: function() {
+                    $( this ).dialog( "close" );
+                    $('#dialog-message1').remove();
+                }
+            }
+        });
+
+
+    };
+
+    /**
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+
+        
+        
+        
+
+
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'POST',
+        data : {
+            "serviceName":serviceName,
+            "catalog":catalog
+
+        },
+        url : 'getAdvancedParams',
+        success: __onSuccess,
+        error: __onError,
+        beforeSend: __beforeSend,
+        complete: __onComplete
+    });
+
+    return;
+}
+
+
 function getSavedResult(resultId){
     /*
      * Initialize the tooltips and reset button of columns
@@ -38,7 +117,7 @@ function getSavedResult(resultId){
 
 
 
-       new ActionViewer().resultContainerInit(data);
+        new ActionViewer().resultContainerInit(data);
 
     };
 
@@ -49,6 +128,7 @@ function getSavedResult(resultId){
      * @param errorThrown error object
      */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        
         $("#result_overview").css("display","table");
         $("#result_area").html("An error occured with the service selected, we cannot complete your query");
         $("#result_button").remove();
@@ -76,7 +156,7 @@ function getSavedResult(resultId){
 }
 
 
-function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
+function sendQuery(minDate,maxDate,serviceName,extra){
     /*
      * Initialize the tooltips and reset button of columns
      * Called after onSucess, onError
@@ -125,6 +205,9 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
  * @param errorThrown error object
  */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        //alert(xmlHttpRequest.responseText);
+        //alert(textStatus);
+        //alert(errorThrown);
         $("#result_overview").css("display","table");
         $("#result_area").html("An error occured with the service selected, we cannot complete your query");
         $("#result_button").remove();
@@ -140,8 +223,8 @@ function sendQuery(minDate,maxDate,minTime,maxTime,serviceName,extra){
         data : {
             "minDate":minDate.join(","),
             "maxDate":maxDate.join(","),
-            "minTime":minTime.join(","),
-            "maxTime":maxTime.join(","),
+            
+            
             "serviceName":serviceName,
             "extra":extra.join(",")
 

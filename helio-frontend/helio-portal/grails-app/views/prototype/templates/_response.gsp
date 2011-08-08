@@ -28,7 +28,7 @@
               <g:actionSubmit class="custom_button" style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/>
             </g:form>
             <!--div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div-->
-            <div id="response_save_selection" class="custom_button" style="margin-right:10px;float:right;">Re-use Selected Data</div>
+            <div id="response_save_selection" class="custom_button" style="margin-right:10px;float:right;">Save selection to cart</div>
 
 
             <div style="clear:both;width:100%"></div>
@@ -45,7 +45,7 @@
                   <tr>
                 <g:each in="${tables?.getHeaders()}" status="i" var="testInstance">
 
-                  <g:if test="${testInstance == 'url'}"><g:set var="urls" value="${i}" /></g:if>
+                  <g:if test="${testInstance == 'url' || testInstance == 'event_detail'}"><g:set var="urls" value="${i}" /></g:if>
                   <th>${testInstance} </th>
 
                 </g:each>
@@ -57,6 +57,7 @@
                   <tr class="${(i % 2) == 0 ? 'gradeB' : 'gradeB'}">
                   <g:each in="${testInstance}" status="j" var="row">
                     <g:if test="${urls == j}"><td><a href="${row}">${row.substring(row.lastIndexOf('/')+1,row.length())}</a></td></g:if>
+                    <g:elseif test="${row == '-2147483648'}"><td></td></g:elseif>
                     <g:else><td>${row}</td></g:else>
                   </g:each>
                   </tr>

@@ -15,7 +15,7 @@ function History() {
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
-            div.attr('title','Instrument Edition');
+            div.attr('title','Instrument Selection');
 
             var html = window.workspace.getDivisions()["input_instruments"];
             div.append(html);
@@ -167,29 +167,31 @@ function History() {
             date_range_list.html("");
             //var num =date_range_list.data("ranges");
             var _formatDateRange =function(id){
-                $('#minDate'+id).datepicker("destroy");
-                $('#minDate'+id).datepicker({
-                    defaultDate: "+1w",
+                $('#minDate'+id).datetimepicker("destroy");
+                $('#maxDate'+id).datetimepicker("destroy");
+                var dates = $( "#minDate"+id+", #maxDate"+id ).datetimepicker({
+
                     yearRange: '1970:2011',
                     dateFormat: 'yy-mm-dd',
                     changeMonth: true,
-                    showOn: "button",
+                    showOn: "both",
+                    showSecond: true,
+                    timeFormat: 'hh:mm:ss',
+                    separator: 'T',
+                    showButtonPanel: true,
                     buttonImageOnly: true,
                     buttonImage: "../images/icons/calendar.gif",
                     changeYear: true,
-                    numberOfMonths: 1
-                });
-                $('#maxDate'+id).datepicker("destroy");
-                $('#maxDate'+id).datepicker({
-                    defaultDate: "+1w",
-                    yearRange: '1970:2011',
-                    dateFormat: 'yy-mm-dd',
-                    changeMonth: true,
-                    showOn: "button",
-                    buttonImageOnly: true,
-                    buttonImage: "../images/icons/calendar.gif",
-                    changeYear: true,
-                    numberOfMonths: 1
+                    numberOfMonths: 1,
+                    onClose: function( selectedDate ) {
+                        var option = this.id == "minDate"+id ? "minDate" : "maxDate",
+                        instance = $( this ).data( "datepicker" ),
+                        date = $.datepicker.parseDate(
+                            instance.settings.dateFormat ||
+                            $.datepicker._defaults.dateFormat,
+                            selectedDate, instance.settings );
+                        dates.not( this ).datepicker( "option", option, date );
+                    }
                 });
 
 
@@ -198,9 +200,9 @@ function History() {
                 var tr = $('<tr id="input_time_range_'+num+'"></tr>');
                 var td = $('<td align="center" valign="center">Range '+num+'</td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="12" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01"/><input size="6" type="text" name="minTime" id="minTime'+num+'" value="00:00" /></td>');
+                td = $('<td align="center" valign="center"> <input size="25" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01T00:00:00"/></td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="12" type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03"/><input size="6" type="text" name="maxTime" id="maxTime'+num+'" value="00:00" /></td>');
+                td = $('<td align="center" valign="center"> <input size="25 type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03T00:00:00"/></td>');
                 tr.append(td);
                 
                 
@@ -238,10 +240,10 @@ function History() {
                     if($(this).attr("name")=="maxDate"){
                         
                         $("#maxDate"+iterator).val($(this).val())
-                        };
+                    };
                     if($(this).attr("name")=="minDate")$("#minDate"+iterator).val($(this).val());
-                    if($(this).attr("name")=="minTime")$("#minTime"+iterator).val($(this).val());
-                    if($(this).attr("name")=="maxTime")$("#maxTime"+iterator).val($(this).val());
+                    
+                    
                 });
 
 
@@ -303,13 +305,12 @@ function History() {
                             }
                             tr.append("<td><b>Range "+itr+":</b></td>"+
                                 "<td>"+$("#minDate"+itr).val()+"</td>"+
-                                "<td>"+$("#minTime"+itr).val()+"</td>"+
-                                "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
-                                "<td>"+$("#maxTime"+itr).val()+"</td>");
+                                
+                                "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>");
                             tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>")
                             tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>")
-                            tr.append("<td style='display:none'><input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'></td>")
-                            tr.append("<td style='display:none'><input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'></td>")
+                            
+                            
                             table.append(tr);
 
                             itr++;
@@ -318,7 +319,7 @@ function History() {
                         selector.attr('time_data',div.html());
                         selector.data('time_data',div.html());
                         if(edit == false){
-                            var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                            var div = $("<div  title='"+$("#task_label").val()+"' class='floaters'></div>");
                             var table2 =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                             var tr2 =$("<tr></tr>");
                             var td2 =$("<td></td>");
@@ -327,6 +328,9 @@ function History() {
                             td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
                             tr2.append(td2);
                             table2.append(tr2);
+                              
+                                tr2 =$('<tr class="inner_label"><td>'+$("#task_label").val()+'</td><tr>')
+                                table2.append(tr2);
                             //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
                             //table.append(tr);
                             div.append(table2);
@@ -439,7 +443,7 @@ function History() {
 
                     var testver =ui.draggable.attr('src');
                     var title ="";
-                    var div = $("<div  title='"+"noTitle"+"' class='floaters'></div>");
+                    var div = $("<div  title='"+$("#task_label").val()+"' class='floaters'></div>");
                     var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
                     var tr =$("<tr></tr>");
                     var td =$("<td></td>");
@@ -523,38 +527,38 @@ function History() {
                     var html = $("<div style='padding:15px'><b>Please give your saved element a label:</b> <input id='label_input' type='text'/></div>")
                     div.append(html);
                     $("#testdiv").append(div);
-                     tr =$('<tr class="inner_label"><td>'+$("#service_name").val()+'</td><tr>')
-                                table.append(tr);
+                    tr =$('<tr class="inner_label"><td>'+$("#task_label").val()+'</td><tr>')
+                    table.append(tr);
 
-                                saveHistoryBar();
-//                    $('#dialog-message').dialog({
-//                        modal: true,
-//                        height:200,
-//                        width:400,
-//                        buttons: {
-//
-//
-//                            Ok: function() {
-//
-//                                tr =$('<tr class="inner_label"><td>'+$("#label_input").val()+'</td><tr>')
-//                                table.append(tr);
-//
-//                                saveHistoryBar();
-//                                $("#dialog-message").dialog( "close" );
-//                                $("#dialog-message").remove();
-//
-//                            },
-//                            Cancel: function(){
-//                                $(".floaters").last().remove();
-//                                saveHistoryBar();
-//                                $("#dialog-message").dialog( "close" );
-//                                $("#dialog-message").remove();
-//
-//
-//
-//                            }
-//                        }
-//                    });
+                    saveHistoryBar();
+                //                    $('#dialog-message').dialog({
+                //                        modal: true,
+                //                        height:200,
+                //                        width:400,
+                //                        buttons: {
+                //
+                //
+                //                            Ok: function() {
+                //
+                //                                tr =$('<tr class="inner_label"><td>'+$("#label_input").val()+'</td><tr>')
+                //                                table.append(tr);
+                //
+                //                                saveHistoryBar();
+                //                                $("#dialog-message").dialog( "close" );
+                //                                $("#dialog-message").remove();
+                //
+                //                            },
+                //                            Cancel: function(){
+                //                                $(".floaters").last().remove();
+                //                                saveHistoryBar();
+                //                                $("#dialog-message").dialog( "close" );
+                //                                $("#dialog-message").remove();
+                //
+                //
+                //
+                //                            }
+                //                        }
+                //                    });
                 }
             });
 

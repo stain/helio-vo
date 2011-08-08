@@ -26,6 +26,7 @@
 
   <g:javascript library="jquery" plugin="jquery"/>
   <g:javascript src="jquery-ui-1.8.11.custom.min.js"/>
+  <g:javascript src="jquery-ui-timepicker-addon.js"/>
 
   <g:javascript src="jquery.tools.min.js"/>
   <g:javascript src="/helio/helio-prototype.js"/>
@@ -55,158 +56,175 @@
 </head>
 
 <body>
-  <input type="hidden" value="${HUID}" id="HUID"/>
-  <!-- Background Elements -->
-  <div id="page-background">
-    <!--img src="${resource(dir:'images/background',file:'bg_flat.jpg')}"   style="width:100%;height:150px"  alt="background"-->
-    <!--img src="${resource(dir:'images/background',file:'iconbg.png')}"   style="width:100%;height:125px"  alt="background"-->
+<input type="hidden" value="${HUID}" id="HUID"/>
+<!-- Background Elements -->
+<div id="page-background">
+  <!--img src="${resource(dir:'images/background',file:'bg_flat.jpg')}"   style="width:100%;height:150px"  alt="background"-->
+  <!--img src="${resource(dir:'images/background',file:'iconbg.png')}"   style="width:100%;height:125px"  alt="background"-->
 
 
-    <!--div style="width:100%;height:150px;background-color:orange"></div-->
+  <!--div style="width:100%;height:150px;background-color:orange"></div-->
+</div>
+
+<!-- Logo Elements -->
+<div id="logo">
+
+  <table style="width: 100%;position:relative;top:-18px;">
+    <tr>
+      <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
+      <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
+    <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
+    </tr>
+  </table>
+
+
+
+
+</div>
+
+<!-- Navigation Bar -->
+<div >
+  <!-- elements with tooltips -->
+  <g:render template="navbar" />
+
+</div>
+
+<!-- Body Container -->
+<div id="container" >
+
+  <!-- Hidden division holding selection results :: need to rework -->
+  <div id="testdiv" class="displayable" style="display:none">
+    Selection
+    <div style="margin-top:4px;margin-bottom:4px;cursor:pointer;padding:4px;background-color:black;color:white;border:1px solid #464693;" id="saveButton">Save Results</div>
   </div>
 
-  <!-- Logo Elements -->
-  <div id="logo">
+  <!-- Content container -->
 
-    <table style="width: 100%;position:relative;top:-18px;">
-      <tr>
-        <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
-        <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
-        <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
-      </tr>
-    </table>
-   
-    
-    
-    
-  </div>
+  <div id="tabs">
+    <ul>
+      <li><a href="#tabs-2">Services</a></li>
+      <li><a href="#tabs-3">Advanced</a></li>
+      <li><a href="#tabs-1">Internal</a></li>
+      <li><a href="#tabs-4">User</a></li>
 
-  <!-- Navigation Bar -->
-  <div >
-    <!-- elements with tooltips -->
-    <g:render template="navbar" />
-
-  </div>
-
-  <!-- Body Container -->
-  <div id="container" >
-
-    <!-- Hidden division holding selection results :: need to rework -->
-    <div id="testdiv" class="displayable" style="display:none">
-      Selection
-      <div style="margin-top:4px;margin-bottom:4px;cursor:pointer;padding:4px;background-color:black;color:white;border:1px solid #464693;" id="saveButton">Save Results</div>
+    </ul>
+    <div id="tabs-1">
+      <table>
+        <tr>
+          <td>
+            <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
+          </td>
+        </tr>
+      </table>
     </div>
-
-    <!-- Content container -->
-
-    <div id="tabs">
-      <ul>
-        <li><a href="#tabs-2">Services</a></li>
-        
-        
-        <li><a href="#tabs-3">Advanced</a></li>
-        <li><a href="#tabs-1">Internal</a></li>
-
-      </ul>
-      <div id="tabs-1">
-        <table>
-          <tr>
-            <td>
-              <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div id="tabs-2">
-        <table>
-          <tr>
-            <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_searchInstruments">Search Instruments</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div id="tabs-3">
-        <table>
-          <tr>
-            <td>
-              <div style="display:block" class="menu_it2em custom_button"  id="task_findObsData">In-situ Data Mining(disabled)</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div>
-            </td>
-             <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div>
-            </td>
-            <td>
-              <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
-            </td>
-          </tr>
-        </table>
-      </div>
-
+    <div id="tabs-2">
+      <table>
+        <tr>
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
+          </td>
+          
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Search Instruments by Capability</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Search Instruments by Location</div>
+          </td>
+        </tr>
+      </table>
     </div>
+    <div id="tabs-3">
+      <table>
+        <tr>
+          <td>
+            <div style="display:block" class="menu_it2em custom_button"  id="task_findObsData">In-situ Data Mining(disabled)</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div>
+          </td>
+          <td>
+            <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="tabs-4">
+      <table>
+        <tr>
+          <td>
+            <div style="display:block" class="menu3_item custom_button reset_session" >Reset Session</div>
+          </td>
+          
+            
+          
 
-    <div id="content-container">
-
-
-      <!-- ToolBar -->
-
-      <div style="display:none;clear:both" id="section-navigation">
-        <div class="draggable unselectable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar/square',file:'hec40.png')}" alt="hec" /></div>
-        <div class="draggable unselectable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar/square',file:'ics40.png')}" alt="Instrument Capabilties Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar/square',file:'ils40.png')}" alt="Instrument Location Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar/square',file:'dpas40.png')}" alt="Data Provide Access Service" /></div>
-        <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'vot40.png')}" alt="Upload a VOTable" /></div>
-        <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'image40.png')}" alt="Upload a VOTable" /></div>
-
-        <div id="clearSystem" style="float:right"><img title="Reset System" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Reset System" /></div>
-      </div>
-
-      <div class="unselectable"style="color:white">Helio</div>
-
-      <!-- History  -->
-      <!--div><img id="scroller_left" style="float:left;display:inline;" height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div-->
-       <!--select onchange="fnOnChangeHistoryFilterSelect(this);" style="margin-top:15px;float:right"><option selected="yes" >all</option><option>results</option><option>selections</option><option>actions</option></select-->
-        <!--div><img id="scroller_right" style="float:right;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_r.png')}" alt="Angry face" /></div-->
-        <!--div><img style="float:right;display:inline;margin-top:15px"height="30px" id="clearButton" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Angry face" /></div-->
-      <div style="display:block;" id="history">
-        
-        <div id="historyContent"></div>
-
-       
-
-
-      </div> <!-- History -->
-
-
-      <!-- Content -->
-      <div style="display:block;" id="content">
-        <!-- 1st level droppable -->
-        <div style="border:none" id="droppable-inner" >
-          <g:render template="templates/displayable_content" />
-        </div>
-      </div>
-
-      <div id="responseDivision" style="width:858px;display:block"></div>
-
+        </tr>
+      </table>
 
     </div>
   </div>
+
+  <div id="content-container" >
+
+
+    <!-- ToolBar -->
+
+    <div style="display:none;clear:both" id="section-navigation">
+      <div class="draggable unselectable"><img title="<b>HELIO Event Catalog</b><br/>Search for events in several lists." src="${resource(dir:'images/icons/toolbar/square',file:'hec40.png')}" alt="hec" /></div>
+      <div class="draggable unselectable"><img title="<b>Instrument Capability Serivce</b><br/>Search for instruments with certain capabilities." src="${resource(dir:'images/icons/toolbar/square',file:'ics40.png')}" alt="Instrument Capabilties Service" /></div>
+      <div class="draggable unselectable"><img title="<b>Instrument Location Service</b><br/>Search if an instrument has been in the<br/> right place for a certain observation." src="${resource(dir:'images/icons/toolbar/square',file:'ils40.png')}" alt="Instrument Location Service" /></div>
+      <div class="draggable unselectable"><img title="<b>Data Provider Access Service</b><br/>Get access to the actual observations" src="${resource(dir:'images/icons/toolbar/square',file:'dpas40.png')}" alt="Data Provide Access Service" /></div>
+      <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'vot40.png')}" alt="Upload a VOTable" /></div>
+      <div class="draggable unselectable"><img title="<b>Upload external data as VOTable</b>" src="${resource(dir:'images/icons/toolbar/square',file:'image40.png')}" alt="Upload a VOTable" /></div>
+
+      <div id="clearSystem" style="float:right"><img title="Reset System" src="${resource(dir:'images/icons/toolbar',file:'delet40.png')}" alt="Reset System" /></div>
+    </div>
+
+    <div class="unselectable"style="color:white">Helio</div>
+
+    <!-- History  -->
+    <!--div><img id="scroller_left" style="float:left;display:inline;" height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_l.png')}" alt="Angry face" /></div-->
+    <!--select onchange="fnOnChangeHistoryFilterSelect(this);" style="margin-top:15px;float:right"><option selected="yes" >all</option><option>results</option><option>selections</option><option>actions</option></select-->
+     <!--div><img id="scroller_right" style="float:right;display:inline;"height="60px" src="${resource(dir:'images/icons/toolbar',file:'scroller_r.png')}" alt="Angry face" /></div-->
+
+    <div style="display:block;" class="candybox" id="history">
+      <div>Data Cart</div>
+      <div id="historyContent"></div>
+
+
+
+
+    </div> <!-- History -->
+
+
+    <!-- Content -->
+    <div style="display:block;" id="content" class="candybox">
+      <!-- 1st level droppable -->
+      <div style="border:none" id="droppable-inner" >
+        <g:render template="templates/displayable_content" />
+      </div>
+    </div>
+
+    <div id="responseDivision" style="width:858px;display:block"></div>
+
+
+  </div>
+  </div>
+
 </body>
 </html>

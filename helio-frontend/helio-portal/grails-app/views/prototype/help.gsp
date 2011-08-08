@@ -6,338 +6,357 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>HELIO front end - Help page</title>
-<STYLE TYPE='text/css'>
-BODY { 
-  font-family:sans-serif; 
-}
-P{ 
-  font-family:sans-serif; margin: 0.25em 0px; 
-}
-H1 {
-  font-size:large; 
-  font-family:sans-serif; 
-  font-weight:bold; 
-}
-H2 {
-  font-size:medium; 
-  font-family:sans-serif;
-}
-H3 {
-  font-size:small;
-  font-family:sans-serif; 
-  font-weight:bold; 
-}
-.figure {
-  width:100%; 
-  max-width:1024px; 
-  font-size:80%; 
-  text-align: center; 
-  margin-bottom: 1em;
-}
-</STYLE>
-</head>
-<body>
-  <h1><a name="introduction">Introduction</a></h1>
-  <h2>Heliophysics Integrated Observatory (HELIO)</h2>
-  <p>
-    <cite>&quot;Heliophysics is a new research field that
-      explores the Sun-Solar System Connection; it requires the joint
-      exploitation of solar, heliospheric, magnetospheric and
-      ionospheric observations.</cite>
-  </p>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HELIO front end - Help page</title>
+    <STYLE TYPE='text/css'>
+      BODY {
+        font-family:sans-serif;
+      }
+      P{
+        font-family:sans-serif; margin: 0.25em 0px;
+      }
+      H1 {
+        font-size:large;
+        font-family:sans-serif;
+        font-weight:bold;
+      }
+      H2 {
+        font-size:medium;
+        font-family:sans-serif;
+      }
+      H3 {
+        font-size:small;
+        font-family:sans-serif;
+        font-weight:bold;
+      }
+      .figure {
+        width:100%;
+        max-width:1024px;
+        font-size:80%;
+        text-align: center;
+        margin-bottom: 1em;
+      }
+    </STYLE>
+  </head>
+  <body>
+    <h1><a name="introduction">Introduction</a></h1>
+    <h2>Heliophysics Integrated Observatory (HELIO)</h2>
+    <p>
+      <cite>&quot;Heliophysics is a new research field that
+        explores the Sun-Solar System Connection; it requires the joint
+        exploitation of solar, heliospheric, magnetospheric and
+        ionospheric observations.</cite>
+    </p>
 
-  <p>
-    <cite>The Heliophysics Integrated Observatory, HELIO, will
-      deploy a distributed network of services that will address the
-      needs of a broad community of researchers in heliophysics. HELIO
-      will provide the most comprehensive integrated information system
-      in this domain; it will coordinate access to the resources needed
-      by the community, and will provide access to services to mine and
-      analyze the data.&quot;</cite><br/>
+    <p>
+      <cite>The Heliophysics Integrated Observatory, HELIO, will
+        deploy a distributed network of services that will address the
+        needs of a broad community of researchers in heliophysics. HELIO
+        will provide the most comprehensive integrated information system
+        in this domain; it will coordinate access to the resources needed
+        by the community, and will provide access to services to mine and
+        analyze the data.&quot;</cite><br/>
       (Copied from <a href="http://helio-vo.eu/">http://helio-vo.eu/</a>)
-  </p>
+    </p>
 
-  <p>HELIO is built on a service oriented architecture (SOA). The
-    HELIO services are distributed in various places and provide access
-    to metadata, data and data processing facilities.</p>
+    <p>HELIO is built on a service oriented architecture (SOA). The
+      HELIO services are distributed in various places and provide access
+      to metadata, data and data processing facilities.</p>
 
-  <h2>HELIO front end</h2>
-  <p>The HELIO front end is one of the main interfaces to access the
-    HELIO infrastructure. Its primary goal is to integrate the
-    distributed HELIO services in one single place. To achieve this it
-    provides access to event, features, observations, and additional
-    meta data about instruments and their location.</p>
-    
-    
+    <h2>HELIO front end</h2>
+    <p>The HELIO front end is one of the main interfaces to access the
+      HELIO infrastructure. Its primary goal is to integrate the
+      distributed HELIO services in one single place. To achieve this it
+      provides access to event, features, observations, and additional
+      meta data about instruments and their location.</p>
+
+
     <p>Alternative
-    interfaces are the Taverna workbench to run advanced user workflows
-    and &ndash; once available &ndash; the HELIO IDL client to access HELIO from the
-    IDL data analysis environment.</p>
+      interfaces are the Taverna workbench to run advanced user workflows
+      and &ndash; once available &ndash; the HELIO IDL client to access HELIO from the
+      IDL data analysis environment.</p>
 
-  <h1>User interface</h1>
+    <h1>User interface</h1>
 
-  <p>In order to understand the user interface design two generic
-    terms need to be defined. <i>Data Product</i> and <i>Task</i> (Figure 1).</p>
+    <p>In order to understand the user interface design two generic
+      terms need to be defined. <i>Data Product</i> and <i>Task</i> (Figure 1).</p>
 
-  <div class="figure" style="width: 417px" >
-    <img src="${resource(dir:'images',file:'help/basic_terms.png')}" width="100%"/><br />
-    Figure 1: Relationship between data products and tasks. Data products
-    are divided into input and output data products. A Task transforms
-    some input data to some output data product.
-  </div>
+    <div class="figure" style="width: 417px" >
+      <img src="${resource(dir:'images',file:'help/basic_terms.png')}" width="100%"/><br />
+      Figure 1: Relationship between data products and tasks. Data products
+      are divided into input and output data products. A Task transforms
+      some input data to some output data product.
+    </div>
 
-  <h2>Data Product</h2>
+    <h2>Data Product</h2>
 
-  <p>Data products are the entities that hold data. They are split
-    in two categories:</p>
-  <ul>
-    <li>An <i>input data product</i> is submitted to a task. It may
-      consist of (1) manually specified data, (2) of data coming from a
-      HELIO service or (3) data coming from an external source such as a
-      VOTable created by some IDL scripts. Input data products are depicted
-      as circles in the HELIO front end.</li>
-    <li>An <i>output data product</i> is generated by a task. Currently
-      the only supported output data products are VOTables.</li>
-  </ul>
+    <p>Data products are the entities that hold data. They are split
+      in two categories:</p>
+    <ul>
+      <li>An <i>input data product</i> is submitted to a task. It may
+        consist of (1) manually specified data, (2) of data coming from a
+        HELIO service or (3) data coming from an external source such as a
+        VOTable created by some IDL scripts. Input data products are depicted
+        as circles in the HELIO front end.</li>
+      <li>An <i>output data product</i> is generated by a task. Currently
+        the only supported output data products are VOTables.</li>
+    </ul>
 
-  <p>Data products are the central entities of the GUI. Users select input
-    data products and choose a task to further process this input data product. 
-    Data products can be persisted
-    (i.e. downloaded) and exported to other applications.</p>
+    <p>Data products are the central entities of the GUI. Users select input
+      data products and choose a task to further process this input data product.
+      Data products can be persisted
+      (i.e. downloaded) and exported to other applications.</p>
 
-  <h2>Task</h2>
-  <p>A task encapsulates a set of functions applied to some input
-    data product in order to produce some output data product.</p>
+    <h2>Task</h2>
+    <p>A task encapsulates a set of functions applied to some input
+      data product in order to produce some output data product.</p>
 
-  <p>In its simplest form a task is mapped to a query or processing
-    service that runs in the HELIO infrastructure. More advanced tasks
-    may access workflows on a Taverna Server or perform local processing
-    of the data such as providing access to the coordinate
-    transformation library. Currently only simple tasks
-    are supported by the HELIO front end.</p>
+    <p>In its simplest form a task is mapped to a query or processing
+      service that runs in the HELIO infrastructure. More advanced tasks
+      may access workflows on a Taverna Server or perform local processing
+      of the data such as providing access to the coordinate
+      transformation library. Currently only simple tasks
+      are supported by the HELIO front end.</p>
 
-  <h1>Screen layout</h1>
-  <p>The screen is divided into three main areas (Figure 2): the
-    task bar, the memory bar, and the workspace.</p>
-  <div class="figure">
-    <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%" /><br />
-    Figure 2: Overview of the general screen layout
-  </div>
+    <h1>Screen layout</h1>
+    <p>The screen is divided into three main areas (Figure 2): the
+      task bar, the memory bar, and the workspace.</p>
+    <div class="figure">
+      <img src="${resource(dir:'images',file:'help/legende2.png')}" width="100%" /><br />
+      Figure 2: Overview of the general screen layout
+    </div>
 
-  <h2>Task bar</h2>
-  <p>The task bar provides access to the tasks. Figure 2 shows tasks
-    to access the HELIO Event Catalogs (HEC), the Instrument Location
-    Service (ILS), the Instrument Capabilities Service (ICS), the Data
-    Provider Access Service (DPAS) and a task to upload VOTables to the
-    system.</p>
+    <h2>Task bar</h2>
+    <p>The task bar provides access to the tasks. Figure 2 shows tasks
+      to access the HELIO Event Catalogs (HEC), the Instrument Location
+      Service (ILS), the Instrument Capabilities Service (ICS), the Data
+      Provider Access Service (DPAS) and a task to upload VOTables to the
+      system.</p>
 
-  <p>The task bar is the starting point for a session with the HELIO front end.
-    A user selects the task he or she wants to perform first.</p>
+    <p>The task bar is the starting point for a session with the HELIO front end.
+      A user selects the task he or she wants to perform first.</p>
 
-  <h2>Memory bar</h2>
-  <p>The memory bar serves two purposes. First, it provides access
-    to data products from previous tasks. Second, it stores a
-    chronological sequence of the executed tasks. Therefore it acts as a
-    sort of a log.</p>
+    <h2>Data Cart</h2>
+    <p>The Data Cart acts as a place to save all your important information, It can
+      provide easy access to previously searched results as well as parameters interest.
 
-  <h2>Workspace</h2>
-  <p>The workspace contains the actual working area. Its content
-    depends on the selected task or data product. The idea is to use the
-    workspace to reduce the amount of information to the required
-    minimum at a given time. Users can switch between workspaces through
-    the memory bar.</p>
+      It reduces the amount of work reusing inputs across services and managing your data.
 
-  <h1>HELIO use case</h1>
-  <p>The following HELIO use case outlines how the GUI can be used.</p>
+    </p>
 
-  <ol>
-    <li>Query the HELIO Event Catalog (HEC). In the following
-      example the GOES Soft X-ray Flare list is queried over the last 20 years for all X-flares. 
-      Note that the maximum number of results is limited to 1000 (Figure 3 and 4).
-          
+    <h2>Workspace</h2>
+    <p>The workspace contains the actual working area. Its content
+      depends on the selected task or data product. The idea is to use the
+      workspace to reduce the amount of information to the required
+      minimum at a given time. Users can switch between workspaces through
+      the task bar or by clicking on a saved result in your Data Cart.</p>
+
+    <h1>HELIO use case</h1>
+    <p>The following HELIO use case outlines how the GUI can be used.</p>
+
+    <ol>
+      <li>Query the HELIO Event Catalog (HEC). In the following
+        example the GOES Soft X-ray Flare list is queried for a generic time range (Figure 3,4,5 and 6).
+
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step1-2_hec.png')}" width="100%"/><br/>
+          Figure 3: Select on the Task Bar the "Select Events" option.
+        </div>
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step1-3_hec.PNG')}" width="100%"/><br/>
+          Figure 4: Fill out the required parameters by clicking on the respective button.
+        </div>
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step1-4_hec.PNG')}" width="100%"/><br/>
+          Figure 5: Once all parameters are filled the query will automatically begin.
+        </div>
+      </li>
+      <li>Execute query and view result (Figure 5)
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step1-5_hec.PNG')}" width="100%"/><br/>
+          Figure 6: View result.
+        </div>
+      </li>
+
+
+      <h2>Parameter Management</h2>
+      <p>At any point in time the user can take advantage of the Data Cart by simply dragging any of the yellow colored
+        icons next to the parameters or results.(Figure 7 and 8)</p>
+
       <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step2_hec_time.png')}" width="100%"/><br/> 
-        Figure 3: Enter the time interval (e.g. from 1990 to 2020) in the HEC query form.
+        <img src="${resource(dir:'images',file:'help/step1-2_hec.png')}" width="100%"/><br/>
+        Figure 3: Select on the Task Bar the "Select Events" option.
       </div>
       <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step3_hec_list.png')}" width="100%"/><br/> 
-        Figure 4: Select the event list and provide additional parameters (e.g. all X flares).
+        <img src="${resource(dir:'images',file:'help/step1-3_hec.PNG')}" width="100%"/><br/>
+        Figure 4: Fill out the required parameters by clicking on the respective button.
       </div>
-    </li>
-    <li>Execute query and view result (Figure 5)
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step3a_view_result.png')}" width="100%"/><br/> 
-        Figure 5: View result. 
-      </div>
-    </li>
-    <li>Analyze result and refine the query. This may be performed in several ways:
-      <ol>
-        <li>Scroll to top to view the input screen (Figure 3). Re-adjust the 
-          query parameters and re-submit the query. On every submission a  
-          new step will be added to your history. You can always go back to previous results (Figure 6).
-          <div class="figure">
-            <img src="${resource(dir:'images',file:'help/step4a_refine_query.png')}" width="100%"/><br/> 
-            Figure 6: The history is reflected in the top right box as well as in the memory bar on the left side. 
-          </div>
-        </li>
-        <li>Click on the result table column header to sort the table by this column (e.g. in sort by time_start (Figure 7)).</li>
-        <li>Use the filtering option to narrow the data in the
-          current row. The filter is the input field on top right of the 
-          result table (e.g. type <code>2b</code> to get all events with optical class <code>2b</code> (Figure 7)).
-        </li>
-      </ol>
-    </li>
-    <li>Once done you can manually select the rows of interest and store selected events by clicking on <code>Save Selection</code> (Figure 7).
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step4_select_result.png')}" width="100%"/><br/> 
-        Figure 7: Display result, filter and re-sort result and save selection. 
-      </div>
-    </li> 
-    <li>
-      This creates the input data product (here a collection of time intervals). Note the yellow time circle in the 
-      memory bar that stands for an input data product.
-      Also note that you can adjust the time intervals if required (Figure 8).
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step5_resultselection.png')}" width="100%"/><br/>   
-        Figure 8: Revise input data product
-      </div>
-    </li>
-    <li>Next let's query the Instrument Capability Service (ICS). The ICS is
-      used to find out which instruments have been doing observations within
-      a given time interval. To populate the time interval drop the output data product from the HEC query 
-      to the ICS (Figure 9).
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step6_ics_drop.png')}" width="100%"/><br/> 
-        Figure 9: Drop the result from the HEC to the ICS.
-      </div>
-    </li>
-    <li>
-      Again the query can be refined through the steps mentioned above.</li>
-      <li>Once done select the instruments of interest and click <code>Save Selection</code>. For the ICS this will create a selection 
-      of instruments (Figure 10). 
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step7_ics_resultselection.png')}" width="100%"/><br/> 
-        Figure 10: Use the result from the ICS as instrument selection.
-      </div>
-    </li>
-    <li>Now use the stored input data products from HEC and ICS as input for DPAS in order to see what observations are available (Figure 11).
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step8_dpas_query.png')}" width="100%"/><br/> 
-        Figure 11: Drop the results from the HEC and ICS to the DPAS.
-      </div>
-    </li>
-  </ol>
+      <!--li>Analyze result and refine the query. This may be performed in several ways:
+        <ol>
+          <li>Scroll to top to view the input screen (Figure 3). Re-adjust the
+            query parameters and re-submit the query. On every submission a
+            new step will be added to your history. You can always go back to previous results (Figure 6).
+            <div class="figure">
+              <img src="${resource(dir:'images',file:'help/step4a_refine_query.png')}" width="100%"/><br/>
+              Figure 6: The history is reflected in the top right box as well as in the memory bar on the left side.
+            </div>
+          </li>
+          <li>Click on the result table column header to sort the table by this column (e.g. in sort by time_start (Figure 7)).</li>
+          <li>Use the filtering option to narrow the data in the
+            current row. The filter is the input field on top right of the
+            result table (e.g. type <code>2b</code> to get all events with optical class <code>2b</code> (Figure 7)).
+          </li>
+        </ol>
+      </li>
+      <li>Once done you can manually select the rows of interest and store selected events by clicking on <code>Save Selection</code> (Figure 7).
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step4_select_result.png')}" width="100%"/><br/>
+          Figure 7: Display result, filter and re-sort result and save selection.
+        </div>
+      </li>
+      <li>
+        This creates the input data product (here a collection of time intervals). Note the yellow time circle in the
+        memory bar that stands for an input data product.
+        Also note that you can adjust the time intervals if required (Figure 8).
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step5_resultselection.png')}" width="100%"/><br/>
+          Figure 8: Revise input data product
+        </div>
+      </li>
+      <li>Next let's query the Instrument Capability Service (ICS). The ICS is
+        used to find out which instruments have been doing observations within
+        a given time interval. To populate the time interval drop the output data product from the HEC query
+        to the ICS (Figure 9).
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step6_ics_drop.png')}" width="100%"/><br/>
+          Figure 9: Drop the result from the HEC to the ICS.
+        </div>
+      </li>
+      <li>
+        Again the query can be refined through the steps mentioned above.</li>
+        <li>Once done select the instruments of interest and click <code>Save Selection</code>. For the ICS this will create a selection
+        of instruments (Figure 10).
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step7_ics_resultselection.png')}" width="100%"/><br/>
+          Figure 10: Use the result from the ICS as instrument selection.
+        </div>
+      </li>
+      <li>Now use the stored input data products from HEC and ICS as input for DPAS in order to see what observations are available (Figure 11).
+        <div class="figure">
+          <img src="${resource(dir:'images',file:'help/step8_dpas_query.png')}" width="100%"/><br/>
+          Figure 11: Drop the results from the HEC and ICS to the DPAS.
+        </div>
+      </li>
+    </ol>
 
-<h1>Feedback</h1>
-  <p>The HELIO front end is still under development. Any feedback is much appreciated. 
-  Please send your comments to marco dot soldati at fhnw ch and/or david dot guevara at fhnw ch.</p>
+  <h1>Feedback</h1>
+    <p>The HELIO front end is still under development. Any feedback is much appreciated.
+    Please send your comments to marco dot soldati at fhnw ch and/or david dot guevara at fhnw ch.</p>
 <%-- virtual garbage - may be useful for later. 
-  <h2>Select Action</h2>
+    <h2>Select Action</h2>
 
-  Start by clicking one of the yellow icons (Actions) on the toolbar. If
-  you are unsure of what they are, hover your mouse on top of them for
-  more information on what they are.
-
-
-
-  <h2>Workspace</h2>
-
-  Once an Action has been selected, the workspace will be filled with a
-  form that will ask for input to query the relevant databases i.e.
-  search for solar events of a certain type, look for instruments and
-  more.
+Start by clicking one of the yellow icons (Actions) on the toolbar. If
+you are unsure of what they are, hover your mouse on top of them for
+more information on what they are.
 
 
 
+    <h2>Workspace</h2>
 
-
-  <h2>Advanced Parameters</h2>
-
-  …
-
-
-
-  <p>Once you have entered the necessary inputs, click „search“ to
-    start querying the databases.</p>
+Once an Action has been selected, the workspace will be filled with a
+form that will ask for input to query the relevant databases i.e.
+    search for solar events of a certain type, look for instruments and
+more.
 
 
 
 
 
-  <h2>Memory Bar</h2>
+    <h2>Advanced Parameters</h2>
 
-  <p>To the left of the screen, a bar that will keep track of how
-    you interact with the system will allow you to navigate to previous
-    Actions or "result selections". Click them once or hover your mouse
-    on top of them to get more information. These are particularly
-    helpful to navigate back and forward when refining queries.</p>
-
-
-  <h2>Results and "Result Selection"</h2>
-
-  (explain multitable)
-
-  <p>Once your query has been processed, You will be able to see the
-    vo-table result presented on a easy to browse, sort and search table
-    right under the form that was previously submitted. At any time if
-    you are in doubt of how you came to a particular vo-table, scroll to
-    the top and you will see the parameters that led you to it.</p>
-
-
-  (explain empty votable, no data votable)
+…
 
 
 
-  <p>Once you have your results and you understand how to browse
-    them, you can also selected them by clicking the row that contains
-    them. The selection will cause the row to be highlighted and a
-    counter at the top of the table will keep track of how many elements
-    total you have selected.</p>
+<p>Once you have entered the necessary inputs, click „search“ to
+start querying the databases.</p>
 
 
-  <h2>Result Selection</h2>
 
-  … (explain Parameter Extraction)
-  <h2>Core concepts</h2>
-  <h3>Data-centric</h3>
-  <p>Traditional web applications are typically workflow oriented.
+
+
+<h2>Memory Bar</h2>
+
+<p>To the left of the screen, a bar that will keep track of how
+you interact with the system will allow you to navigate to previous
+Actions or "result selections". Click them once or hover your mouse
+on top of them to get more information. These are particularly
+helpful to navigate back and forward when refining queries.</p>
+
+
+<h2>Results and "Result Selection"</h2>
+
+(explain multitable)
+
+<p>Once your query has been processed, You will be able to see the
+vo-table result presented on a easy to browse, sort and search table
+right under the form that was previously submitted. At any time if
+you are in doubt of how you came to a particular vo-table, scroll to
+the top and you will see the parameters that led you to it.</p>
+
+
+(explain empty votable, no data votable)
+
+
+
+<p>Once you have your results and you understand how to browse
+them, you can also selected them by clicking the row that contains
+them. The selection will cause the row to be highlighted and a
+counter at the top of the table will keep track of how many elements
+total you have selected.</p>
+
+
+<h2>Result Selection</h2>
+
+… (explain Parameter Extraction)
+<h2>Core concepts</h2>
+<h3>Data-centric</h3>
+<p>Traditional web applications are typically workflow oriented.
     The user is guided through a set of predefined steps. This has
-    proved to be a very efficient way of user guidance in systems that
-    implement relatively simple processes. Good examples are flight
-    booking systems, online shops, or search engines.</p>
+proved to be a very efficient way of user guidance in systems that
+implement relatively simple processes. Good examples are flight
+booking systems, online shops, or search engines.</p>
 
-  <p>Our experience with EGSO and first development approaches in
-    HELIO have shown that the workflow oriented approach is not flexible
-    enough for the management of a large amount of scientific data.
+<p>Our experience with EGSO and first development approaches in
+HELIO have shown that the workflow oriented approach is not flexible
+enough for the management of a large amount of scientific data.
     Other traditional VSOs seem to face similar issues.</p>
 
-  Therefore we envisage a data centric approach. The idea is that data
-  products are the central entities of the system. The application
-  provides tasks to retrieve the data product and to combine collections
-  of data products into new data products. And most important it
-  provides means to store, manage and qualify data products.
+Therefore we envisage a data centric approach. The idea is that data
+products are the central entities of the system. The application
+provides tasks to retrieve the data product and to combine collections
+of data products into new data products. And most important it
+provides means to store, manage and qualify data products.
 
-  <h3>Task-oriented</h3>
-  <p> The difference between a task- and function-oriented
-  approach to retrieve data is subtle. In a function-oriented approach
-  input data is feed into a function, processed and new data is
-  generated. This can be compared to a scientific data analysis system.
-  The user needs to know the details of the data, applies a function to
-  it and exactly knows what he expects back. A task-oriented approach
-  abstracts the process of data processing from the user. For a given
-  data product the user is suggest a set of tasks he can apply to this
-  data. These tasks are presented in natural language like: “Get
-  observations for given time range”, “See what instruments covered this
-  period”. The HELIO frontend should support both approaches. The
-  function-oriented approach is more suited for expert users that want
-  to control the system. The task-oriented approach should support the
-  novice users to perform common tasks without having deep knowledge of
-  the system.
-</p>
+    <h3>Task-oriented</h3>
+<p> The difference between a task- and function-oriented
+approach to retrieve data is subtle. In a function-oriented approach
+input data is feed into a function, processed and new data is
+generated. This can be compared to a scientific data analysis system.
+    The user needs to know the details of the data, applies a function to
+it and exactly knows what he expects back. A task-oriented approach
+abstracts the process of data processing from the user. For a given
+data product the user is suggest a set of tasks he can apply to this
+data. These tasks are presented in natural language like: “Get
+observations for given time range”, “See what instruments covered this
+period”. The HELIO frontend should support both approaches. The
+function-oriented approach is more suited for expert users that want
+to control the system. The task-oriented approach should support the
+novice users to perform common tasks without having deep knowledge of
+the system.
+    </p>
 
- --%>
-</body>
-</html>
+--%>
+  </body>
+  </html>

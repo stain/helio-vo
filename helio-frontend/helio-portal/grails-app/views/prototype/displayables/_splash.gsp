@@ -16,19 +16,13 @@
         </p>
         The new changes for this build are:
         <ul>
-          <li>Parameter Extraction from all services as instruments or time</li>
-          <li>VOTable Upload</li>
-          <li>VOTable Download</li>
-          <li>Suppport for safari and firefox 3.6 (all reported problems fixed)</li>
-          <li>ILS and ICS checkbox selection should provide the correct rows now</li>
-          <li>disabled request for session change and for label for the moment</li>
-          <li>Improved screen scrolling when doing queries</li>
-          <li>Delete button in time ranges should disable when only one range is avaliable</li>
+         
 
 
         </ul>
         <br>
         <p>Feedback as always is apreciated!</p>
+        <div style="width: 150px" class="custom_button reset_session" >Reset Session</div>
       </td>
     </tr>
 
