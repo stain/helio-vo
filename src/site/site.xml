@@ -26,7 +26,7 @@
 
         <menu name="Heliophysics Integrated Observatory HELIO">
             <item name="About" href="index.html" />
-            <item name="subversion" href="develop/svn.html" />
+            <item name="API documentation" href="apidocs/index.html" />
         </menu>
 
         <menu ref="reports" inherit="top"/>
