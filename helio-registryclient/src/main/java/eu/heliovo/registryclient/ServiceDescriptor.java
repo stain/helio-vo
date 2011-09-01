@@ -15,7 +15,7 @@ public interface ServiceDescriptor {
 	 * Return the name of the service
 	 * @return the name
 	 */
-	public String getName();
+	public HelioServiceName getName();
 
 	/**
 	 * Get the label for the service.

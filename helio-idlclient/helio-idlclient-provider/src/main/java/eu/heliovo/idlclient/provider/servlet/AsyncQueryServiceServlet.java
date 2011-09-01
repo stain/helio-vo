@@ -81,7 +81,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			
 			
 			AsyncQueryServiceFactory queryServiceFactory = AsyncQueryServiceFactory.getInstance();
-			AsyncQueryService queryService = queryServiceFactory.getAsyncQueryService(HelioServiceName.valueOf(service.toUpperCase()).getName());
+			AsyncQueryService queryService = queryServiceFactory.getAsyncQueryService(HelioServiceName.valueOf(service.toUpperCase()));
 			if (queryService == null) {
 			    throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
 			}

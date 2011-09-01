@@ -16,6 +16,7 @@ import uk.ac.starlink.registry.BasicResource;
 import uk.ac.starlink.registry.SoapClient;
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
 import eu.heliovo.registryclient.ServiceResolutionException;
@@ -83,7 +84,8 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
                 _LOGGER.trace("found match: " + r.getIdentifier() + " (" + r.getTitle() + ")");
             }
             String description = getDescription(r);
-            ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(r.getIdentifier(), r.getTitle(), description, (ServiceCapability)null);
+            HelioServiceName serviceName = HelioServiceName.register(r.getTitle(), r.getIdentifier());
+            ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(serviceName, description, (ServiceCapability)null);
             serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
             
             // register capabilities

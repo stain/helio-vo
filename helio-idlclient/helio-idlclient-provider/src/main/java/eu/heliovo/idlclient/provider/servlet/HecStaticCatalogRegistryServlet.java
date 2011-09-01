@@ -52,7 +52,7 @@ public class HecStaticCatalogRegistryServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
-		HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
+		HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
 		
 		ArrayList<HelioCatalog> catList = new ArrayList<HelioCatalog>();
 		for (DomainValueDescriptor<String> c : hecDao.getCatalogField().getValueDomain()) {

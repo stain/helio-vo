@@ -45,6 +45,6 @@ class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	}
 
     private void register(HelioServiceName serviceName, ServiceCapability capability, String wsdlFile) {
-        registerServiceInstance(serviceName.getName(), serviceName.getName(), null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, HelioFileUtil.asURL(wsdlFile)));
+        registerServiceInstance(serviceName, null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, HelioFileUtil.asURL(wsdlFile)));
     }
 }

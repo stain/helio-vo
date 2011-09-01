@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
 import eu.heliovo.registryclient.ServiceRegistryClient;
@@ -69,22 +70,19 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     /**
      * Convenience constructor to register a capability for a given service.
      * @param serviceName name of the service.
-     * @param capability capabilities of the service to register.
-     * @param label the label for the service
      * @param description the description of the service.
      * @param accessInterface the access interface pointing to valid endpoints for this service.
      */
-    protected void registerServiceInstance(String serviceName, String label, String description, AccessInterface accessInterface) {
+    protected void registerServiceInstance(HelioServiceName serviceName, String description, AccessInterface accessInterface) {
     	// create the descriptor
     	ServiceDescriptor serviceDescriptor = 
-    		new GenericServiceDescriptor(serviceName, label, description, (ServiceCapability[])null);
+    		new GenericServiceDescriptor(serviceName, description, (ServiceCapability[])null);
     	registerServiceInstance(serviceDescriptor, accessInterface);
     }
 
     /**
      * Register a specific access interface of a given service capability.
-     * @param instanceDescriptor the instance descriptor
-     * @param capability the capability to register an access interface for.
+     * @param serviceDescriptor the instance descriptor
      * @param accessInterface the accessInterface associated with the capability.
      * @return true if the descriptor has not been registered before, false if a instance of this descriptor already exists.
      */
@@ -125,7 +123,7 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     }
     
     @Override
-    public ServiceDescriptor getServiceDescriptor(String name) {
+    public ServiceDescriptor getServiceDescriptor(HelioServiceName name) {
     	ServiceDescriptor ret = null;
     	for (ServiceDescriptor currentDescriptor : serviceDescriptors) {
     		if (currentDescriptor.getName().equals(name)) {
@@ -156,10 +154,10 @@ public class AbstractHelioServiceRegistryClient implements ServiceRegistryClient
     }
 
     @Override
-    public AccessInterface getBestEndpoint(String name, ServiceCapability capability, AccessInterfaceType type) {
-        ServiceDescriptor serviceDescsriptor = getServiceDescriptor(name);
+    public AccessInterface getBestEndpoint(HelioServiceName serviceName, ServiceCapability capability, AccessInterfaceType type) {
+        ServiceDescriptor serviceDescsriptor = getServiceDescriptor(serviceName);
         if (serviceDescsriptor == null) {
-            throw new ServiceResolutionException("No service found with name " + name + ".");
+            throw new ServiceResolutionException("No service found with name " + serviceName + ".");
         }
         AccessInterface bestEndpoint = getBestEndpoint(serviceDescsriptor, capability, type);
         if (bestEndpoint == null) {

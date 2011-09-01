@@ -15,6 +15,7 @@ import org.junit.Test;
 
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.registryclient.AccessInterfaceType;
+import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
 
@@ -49,14 +50,15 @@ public class LocalHelioRegistryImplTest {
 	 */
 	@Test public void testRegisterServiceDescriptor() {
 		// register new service
-		ServiceDescriptor descriptor = new GenericServiceDescriptor("test", "test service", "a test service", ServiceCapability.UNDEFINED);
+	    HelioServiceName testService = HelioServiceName.register("test", "ivo://test");
+		ServiceDescriptor descriptor = new GenericServiceDescriptor(testService, "a test service", ServiceCapability.UNDEFINED);
 		ServiceDescriptor descriptor2 = helioRegistry.registerServiceDescriptor(descriptor);
 		assertSame(descriptor, descriptor2);
 		
-		assertNotNull(helioRegistry.getServiceDescriptor("test"));
+		assertNotNull(helioRegistry.getServiceDescriptor(testService));
 		
 		// register a service with the same name and type
-		descriptor2 = new GenericServiceDescriptor("test", "test service", "a test service", ServiceCapability.UNDEFINED);
+		descriptor2 = new GenericServiceDescriptor(testService, "a test service", ServiceCapability.UNDEFINED);
 		ServiceDescriptor descriptor3 = helioRegistry.registerServiceDescriptor(descriptor2);
 		assertNotSame(descriptor2, descriptor3);		
 	}
@@ -68,12 +70,13 @@ public class LocalHelioRegistryImplTest {
 	@Test public void testRegisterServiceInstanceDescriptor() throws Exception {
 		
 		// create service descriptor
-		ServiceDescriptor descriptor = new GenericServiceDescriptor("test2", "test service", "a test service", ServiceCapability.UNDEFINED);
+	    HelioServiceName test2Service = HelioServiceName.register("test2", "ivo://test2");
+		ServiceDescriptor descriptor = new GenericServiceDescriptor(test2Service, "a test service", ServiceCapability.UNDEFINED);
 		
 		// create service instance descriptor
 		helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test.wsdl")));
 		
-		assertNotNull(helioRegistry.getServiceDescriptor("test2"));
+		assertNotNull(helioRegistry.getServiceDescriptor(test2Service));
 		
 		// register a service with the same name and type
 		assertFalse(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test.wsdl"))));
@@ -84,7 +87,8 @@ public class LocalHelioRegistryImplTest {
 	 * @throws Exception in case of an error
 	 */
 	@Test public void testGetBestEndpoint() throws Exception {
-		ServiceDescriptor descriptor = new GenericServiceDescriptor("test3", "test service", "a test service", ServiceCapability.UNDEFINED);
+	    HelioServiceName test3Service = HelioServiceName.register("test3", "ivo://test3");
+		ServiceDescriptor descriptor = new GenericServiceDescriptor(test3Service, "a test service", ServiceCapability.UNDEFINED);
 		assertNotNull(helioRegistry.registerServiceDescriptor(descriptor));
 		assertTrue(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test2.wsdl"))));
 		assertTrue(helioRegistry.registerServiceInstance(descriptor, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.UNDEFINED, new URL("http://www.example.com/test3.wsdl"))));
@@ -94,7 +98,7 @@ public class LocalHelioRegistryImplTest {
 		assertNotNull(bestEndPoint);
 		assertEquals(new URL("http://www.example.com/test2.wsdl"), bestEndPoint.getUrl());
 		
-		bestEndPoint = helioRegistry.getBestEndpoint("test3", ServiceCapability.UNDEFINED, AccessInterfaceType.SOAP_SERVICE);
+		bestEndPoint = helioRegistry.getBestEndpoint(test3Service, ServiceCapability.UNDEFINED, AccessInterfaceType.SOAP_SERVICE);
 		assertNotNull(bestEndPoint);
 		assertEquals(new URL("http://www.example.com/test2.wsdl"), bestEndPoint.getUrl());		
 		

@@ -15,10 +15,10 @@ public interface ServiceRegistryClient {
 	
 	/**
 	 * Get a service descriptor by name.
-	 * @param name the name of the descriptor to lookup. Must not be null.
+	 * @param serviceName the name of the descriptor to lookup. Must not be null.
 	 * @return the descriptor or null if none was found.
 	 */
-	public ServiceDescriptor getServiceDescriptor(String name) throws ServiceResolutionException;
+	public ServiceDescriptor getServiceDescriptor(HelioServiceName serviceName) throws ServiceResolutionException;
 	
 	/**
 	 * Get all endpoints for an instance of a service. 
@@ -37,7 +37,7 @@ public interface ServiceRegistryClient {
      * @return URL pointing to the WSDL file or null if no endpoint has been found.
      * @throws ServiceResolutionException in case the service cannot be found.
      */
-    public AccessInterface getBestEndpoint(String name, ServiceCapability capability, AccessInterfaceType type) throws ServiceResolutionException;
+    public AccessInterface getBestEndpoint(HelioServiceName name, ServiceCapability capability, AccessInterfaceType type) throws ServiceResolutionException;
     
     /**
 	 * Get the endpoint for the "best" endpoint by service descriptor and capability. 
