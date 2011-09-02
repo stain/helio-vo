@@ -105,7 +105,9 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
     public static HelioServiceName valueOf(String serviceName) {
         AssertUtil.assertArgumentHasText(serviceName, "serviceName");
         for (HelioServiceName helioServiceName : enumMap.values()) {
-            if (serviceName.equals(helioServiceName.serviceName));
+            if (serviceName.equals(helioServiceName.serviceName)) {
+                return helioServiceName;
+            };
         }
         return null;
     }
