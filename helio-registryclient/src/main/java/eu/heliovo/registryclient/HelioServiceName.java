@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import eu.heliovo.shared.util.AssertUtil;
+
 /**
  * Dynamic enumeration of well known HELIO service names.
  * The enum can be extended at runtime (e.g through the registry)
@@ -55,6 +57,8 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
      * @return the existing or new HelioServiceName object.
      */
     public static HelioServiceName register(String name, String serviceId) {
+        AssertUtil.assertArgumentHasText(name, "name");
+        AssertUtil.assertArgumentHasText(serviceId, "serviceId");
         HelioServiceName serviceName = enumMap.get(serviceId);
         if (serviceName == null) {
             serviceName = new HelioServiceName(name, serviceId);
@@ -99,7 +103,10 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
      * @return
      */
     public static HelioServiceName valueOf(String serviceName) {
-        
+        AssertUtil.assertArgumentHasText(serviceName, "serviceName");
+        for (HelioServiceName helioServiceName : enumMap.values()) {
+            if (serviceName.equals(helioServiceName.serviceName));
+        }
         return null;
     }
 }
