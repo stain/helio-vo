@@ -21,6 +21,7 @@ import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService;
 import eu.heliovo.clientapi.query.asyncquery.impl.AsyncQueryServiceFactory;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
+import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.shared.util.AssertUtil;
 
@@ -49,7 +50,8 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		IdlConverter idl = IdlConverter.getInstance();
+		//IdlConverter idl = IdlConverter.getInstance();
+		IdlObjConverter idl = IdlObjConverter.getInstance();
 		idl.registerSerialisationHandler(HelioQueryResult.class, IdlHelioQueryResult.class);
 		idl.registerSerialisationHandler(LogRecord.class, IdlLogRecord.class);
 		
@@ -88,7 +90,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 						
 			HelioQueryResult result;
 			
-			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, -1, 0, null);
+			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
 			if(result != null)
 			{
 				String out = idl.idlserialize(result);

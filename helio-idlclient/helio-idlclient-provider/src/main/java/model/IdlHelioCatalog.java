@@ -12,6 +12,12 @@ public class IdlHelioCatalog {
 		this.helioCatalog = helioCatalog;
 	}
 
+	@IdlName
+	public String name()
+	{
+		return "HelioCatalog";
+	}
+	
 	public String getCatalogName() {
 		return helioCatalog.getCatalogName();
 	}
@@ -24,7 +30,6 @@ public class IdlHelioCatalog {
 		return helioCatalog.getLabel();
 	}
 
-	@IdlName
 	public HelioField<?>[] getFields() {
 		return helioCatalog.getFields();
 	}

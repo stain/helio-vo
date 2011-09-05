@@ -20,6 +20,7 @@ import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
 import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
 import eu.heliovo.idlclient.provider.serialize.IdlConverter;
+import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
 import eu.heliovo.registryclient.HelioServiceName;
 
 /**
@@ -27,13 +28,13 @@ import eu.heliovo.registryclient.HelioServiceName;
  * Accept a query from IDL and pass it to the HELIO query.
  * Result is serialized for IDL and passed to IDL client.
  */
-public class HecStaticCatalogRegistryServlet extends HttpServlet {
+public class StaticCatalogRegistryServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public HecStaticCatalogRegistryServlet() {
+    public StaticCatalogRegistryServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,23 +44,53 @@ public class HecStaticCatalogRegistryServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		IdlConverter idl = IdlConverter.getInstance();
+		IdlObjConverter idl = IdlObjConverter.getInstance();
 		idl.registerSerialisationHandler(HelioCatalog.class, IdlHelioCatalog.class);
 		idl.registerSerialisationHandler(HelioField.class, IdlHelioField.class);
 		idl.registerSerialisationHandler(FieldType.class, IdlFieldType.class);
 		idl.registerSerialisationHandler(Class.class, IdlClass.class);
 		
-		response.setContentType("text/plain");
-		PrintWriter writer = response.getWriter();
-		
-		HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
-		
-		ArrayList<HelioCatalog> catList = new ArrayList<HelioCatalog>();
-		for (DomainValueDescriptor<String> c : hecDao.getCatalogField().getValueDomain()) {
-			HelioCatalog hc = hecDao.getCatalogById(c.getValue());
-			catList.add(hc);
-        }
-		writer.println((idl.idlserialize(catList)));
+		try	{
+			response.setContentType("text/plain");
+			PrintWriter writer = response.getWriter();
+
+			String catalog = request.getParameter("catalog");
+			String service = request.getParameter("service");
+			
+			if(service == null) throw new RuntimeException("service must not be empty");
+			
+			//HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC.getName());
+			HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.valueOf(service.toUpperCase()));
+			
+			if(hecDao == null)
+			{
+				//throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
+			}
+			
+			ArrayList<HelioCatalog> catList = new ArrayList<HelioCatalog>();
+			for (DomainValueDescriptor<String> c : hecDao.getCatalogField().getValueDomain()) {
+				HelioCatalog hc = hecDao.getCatalogById(c.getValue());
+				catList.add(hc);
+				if(catalog != null)
+				{
+					if(hc.getCatalogName().compareToIgnoreCase(catalog) == 0)
+					{
+						writer.println(idl.idlserialize(hc));
+						return;
+					}
+					
+				}
+	        }
+			writer.println((idl.idlserialize(catList)));
+		} catch(Exception e) {
+			String out = idl.idlserialize(e);
+            PrintWriter writer = response.getWriter();
+	        response.setContentType("text/plain");
+	        response.setContentLength(out.length());
+			writer.append(out);
+		}
+	
+			
 	}
 
 	/**

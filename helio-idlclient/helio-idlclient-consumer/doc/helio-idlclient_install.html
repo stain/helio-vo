@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>Helio IDL-Client Install</title>
+	</head>
+	<body>
+		<pre><div>
+<big><b>Helio IDL-Client Install:</b></big>
+
+If you have a working Java 1.6 installation, skip step 1.
+
+1. Download and install Java 1.6 from <a href="http://www.java.com">http://www.java.com</a>
+
+2. Download helio-idlclient-startup and helio-idlclient-consumer from <a href="">Hudson</a>
+
+3. Start the java idl-servlet with the command:
+   <i>java -jar helio-idlclient-startup.war</i>
+
+4. Test if the servlet is working correct with the url:
+   <a href="http://localhost:8085/AsyncQueryServiceServlet">http://localhost:8085/AsyncQueryServiceServlet</a>
+   It should show a idl command starting with "function StackTraceElement"
+
+5. Start idlssw
+
+6. create a heliovo-object and print help:
+   <i>o=heliovo()</i>
+   <i>o->help</i>
+		</div></pre>
+	</body>
+</html>

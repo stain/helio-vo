@@ -18,6 +18,12 @@ public class IdlHelioField {
 		return helioField.getLabel();
 	}*/
 	
+	@IdlName
+	public String Name()
+	{
+		return "HelioField";
+	}
+	
 	public String getId()
 	{
 		return helioField.getId();
