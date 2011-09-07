@@ -109,11 +109,11 @@ function heliovo_service::get_catalog, catalog=catalog
   
   if keyword_set(catalog) then begin
     if(size(catalog, /type) eq 2) then begin
-      if(catalog ge (size(*self.data,/d))[0]) then begin
+      if(catalog ge (size(*self.data,/d))[0] or catalog lt 1) then begin
         print, 'Error: index ' + STRING(catalog) + ' is out of range'
         return, -1
       endif
-      catalog = ((*self.data)[catalog])->get(/catalogname)
+      catalog = ((*self.data)[catalog-1])->get(/catalogname)
     endif else begin
       x=0
       for i=0,(size((*self.data), /d))[0]-1 do begin

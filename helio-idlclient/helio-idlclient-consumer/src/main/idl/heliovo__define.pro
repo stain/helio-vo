@@ -106,7 +106,7 @@ function heliovo::get_service, service=service
 
   if keyword_set(service) then begin
     if(size(service, /type) eq 2) then begin
-      if(service gt (size(*self.data,/d))[0] or lt 1) then begin
+      if(service gt (size(*self.data,/d))[0] or service lt 1) then begin
         print, 'Error: index ' + STRING(service) + ' is out of range'
         return, -1
       endif

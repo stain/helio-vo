@@ -98,6 +98,7 @@ function vo2str::attr2tag, element_name, $
 n = n_elements( attr_names )
 yes_type_list = exist( type_list )
 
+
 struct = {element_name: element_name }
 
 for i = 0, n-1 do begin
@@ -174,11 +175,15 @@ end
 
 pro vo2str::start_info, attr_names, attr_values
 
+;struct = self->attr2tag( 'info', $
+;                         ['id', 'name', 'value'], $
+;                         attr_names, attr_values )
+
 struct = self->attr2tag( 'info', $
-                         ['id', 'name', 'value'], $
+                         ['id', 'name'], $
                          attr_names, attr_values )
                          
-;self.list->add, struct
+self.list->add, struct
 
 end
 
@@ -199,9 +204,14 @@ pro vo2str::start_field, attr_names, attr_values
 ; in this proc we build the structure that will hold the array.
 item = self.list->get_item( self.list->get_count()-1 )
 
+;struct = self->attr2tag( 'field', $
+;                         ['id', 'unit', 'datatype', 'precisison', 'width', $
+;                          'ref', 'name', 'ucd', 'utype', 'arraysize', 'type'], $
+;                         attr_names, attr_values )
+
 struct = self->attr2tag( 'field', $
-                         ['id', 'unit', 'datatype', 'precisison', 'width', $
-                          'ref', 'name', 'ucd', 'utype', 'arraysize', 'type'], $
+                         ['id', 'datatype', 'width', $
+                          'name', 'type'], $
                          attr_names, attr_values )
 
 
@@ -232,7 +242,7 @@ table_struct = add_tag( table_struct, $
 
 *item = rep_tag_value( *item, table_struct, 'table_struct' )
 
-;self.list->add, struct
+self.list->add, struct
 
 end
 
@@ -361,11 +371,14 @@ if n_tags( *item ) eq 1 then begin
     return
 endif
 
-name = tag_exist( *item, 'name' ) ?  (*item).name : 'table'
+; tabledata with name of table
+;name = tag_exist( *item, 'name' ) ?  (*item).name : 'table'
 ; we cant deal with "-" in IDL structure names
-name = str_replace( name, '-', '_' )
+;name = str_replace( name, '-', '_' )
+name = 'data'
 *item = add_tag( *item, *self.arraycontent, name )
-; need to fix! if tag_exist( (*item), 'table_struct' ) then *item = rem_tag2( (*item), 'table_struct')
+;remove table_struct tag.
+if tag_exist( (*item), 'TABLE_STRUCT' ) then *item = rem_tag( (*item), 'TABLE_STRUCT')
  
 end
 
@@ -442,13 +455,16 @@ if ntags eq 1 and tagnames[0] eq 'ELEMENT_NAME' then return
 ; this level
 item = self.list->get_item( last_idx )
 
-for i=0, keep_ntags-1 do begin 
-    ;(*item) = add_tag( *item, struct.(ntags-1-i), tagnames[ntags-1-i] )
-    if tag_exist(*item, struct.element_name) then begin
-      index = tag_index( (*item), struct.element_name)
-      (*item) = rep_tag_value( (*item),  [(*item).(index), struct], struct.element_name )
+;extract the element name and remove it from struct
+element_name = struct.element_name
+struct = rem_tag(struct, 'ELEMENT_NAME')
+
+for i=0, keep_ntags-1 do begin
+    if tag_exist(*item, element_name) then begin
+      index = tag_index( (*item), element_name)
+      (*item) = rep_tag_value( (*item),  [(*item).(index), struct], element_name )
     endif else begin
-      (*item) = add_tag( *item, struct, struct.element_name )
+      (*item) = add_tag( *item, struct, element_name )
     endelse
 endfor
 
@@ -462,8 +478,8 @@ case qname of
     'DESCRIPTION': self->end_description
     'RESOURCE': self->end_resource
     'PARAM': self->end_param
-    ;'INFO': self->end_info
-    ;'FIELD': self->end_field
+    'INFO': self->end_info
+    'FIELD': self->end_field
     'TD' : self->end_td
     'TR': self->end_tr
     'TABLE': self->end_table
@@ -485,6 +501,19 @@ self->parsefile, self.xmlfile
 item = self.list->get_item()
 
 return, (*item).(0)
+
+end
+
+;-----------------------------------------------------------
+
+function vo2str::gettable, filename
+
+if is_string( filename )  then self.xmlfile = filename
+
+self->parsefile, self.xmlfile
+item = self.list->get_item()
+
+return, (*item).(0).resource.table.data
 
 end
 
