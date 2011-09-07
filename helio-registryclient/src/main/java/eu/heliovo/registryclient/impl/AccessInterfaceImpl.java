@@ -29,11 +29,16 @@ public class AccessInterfaceImpl implements AccessInterface {
      */
     private final ServiceCapability serviceCapability;
 
-    /**
-     * The type of the interface
-     * @param type the interface type
-     * @param url the URL of the endpoint
-     */
+	/**
+	 * The type of the interface
+	 * 
+	 * @param type
+	 *            the interface type
+	 * @param serviceCapability
+	 *            the capability of the interface
+	 * @param url
+	 *            the URL of the endpoint
+	 */
     public AccessInterfaceImpl(AccessInterfaceType type, ServiceCapability serviceCapability, URL url) {
         AssertUtil.assertArgumentNotNull(type, "type");
         AssertUtil.assertArgumentNotNull(serviceCapability, "serviceCapability");
