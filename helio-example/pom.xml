@@ -11,4 +11,8 @@
   <packaging>pom</packaging>
   <name>helio-example</name>
   <description>Example for the security integration between CIS and Taverna</description>
+  <modules>
+  	<module>helio-example-client</module>
+  	<module>helio-example-server</module>
+  </modules>
 </project>
