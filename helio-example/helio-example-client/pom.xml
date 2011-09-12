@@ -15,7 +15,7 @@
 	<description>Simple Client Example </description>
 
 	<properties>
-		<wsdl>${basedir}\src\main\resources\wsdl\ExampleService.wsdl</wsdl>
+		<wsdl>${basedir}\src\main\resources\wsdl\ExampleServiceImpl.wsdl</wsdl>
 		<cxf.version>2.2.1</cxf.version>
 	</properties>
 
