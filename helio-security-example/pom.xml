@@ -12,8 +12,6 @@
   <name>helio-security-example</name>
   <description>Example of a secured web service for HELIO</description>
   <modules>
-  	<module>helio-security-example-client</module>
-  	<module>helio-security-example-client</module>
   	<module>helio-security-example-server</module>
   </modules>
 </project>
