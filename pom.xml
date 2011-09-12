@@ -145,7 +145,8 @@
 		<module>helio-registryclient</module>
 		<module>helio-frontend</module>
 		<module>helio-idlclient</module>
-		<module>helio-example</module>
+        <module>helio-datamodel</module>
+        <module>helio-security-example</module>
 		<module>helio-example</module>
 	</modules>
 
