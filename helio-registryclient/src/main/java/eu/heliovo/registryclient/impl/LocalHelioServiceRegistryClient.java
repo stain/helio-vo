@@ -40,8 +40,8 @@ class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	    register(HelioServiceName.ILS, ServiceCapability.ASYNC_QUERY_SERVICE, "http://msslxw.mssl.ucl.ac.uk:8080/helio-ils/HelioLongQueryService?wsdl");
 	    register(HelioServiceName.ILS, ServiceCapability.SYNC_QUERY_SERVICE, "http://msslxw.mssl.ucl.ac.uk:8080/helio-ils/HelioService?wsdl");
 
-	    register(HelioServiceName.MDES, ServiceCapability.ASYNC_QUERY_SERVICE, "http://manunja.cesr.fr/Amda-Helio/WebServices/HelioLongQueryService.wsdl");      
-	    register(HelioServiceName.MDES, ServiceCapability.SYNC_QUERY_SERVICE, "http://manunja.cesr.fr/Amda-Helio/WebServices/HelioService.wsdl");       
+	    register(HelioServiceName.DES, ServiceCapability.ASYNC_QUERY_SERVICE, "http://manunja.cesr.fr/Amda-Helio/WebServices/HelioLongQueryService.wsdl");      
+	    register(HelioServiceName.DES, ServiceCapability.SYNC_QUERY_SERVICE, "http://manunja.cesr.fr/Amda-Helio/WebServices/HelioService.wsdl");       
 	}
 
     private void register(HelioServiceName serviceName, ServiceCapability capability, String wsdlFile) {

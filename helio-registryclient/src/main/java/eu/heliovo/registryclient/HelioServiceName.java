@@ -28,7 +28,6 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	public static final HelioServiceName HFC = register("HFC", "ivo://helio-vo.eu/hfc");
 	public static final HelioServiceName ICS = register("ICS", "ivo://helio-vo.eu/ics");
 	public static final HelioServiceName ILS = register("ILS", "ivo://helio-vo.eu/ils");
-	public static final HelioServiceName MDES = register("MDES", "ivo://helio-vo.eu/mdes");
 	public static final HelioServiceName UOC = register("UOC", "ivo://helio-vo.eu/uoc");
 	public static final HelioServiceName SMS = register("SMS", "ivo://helio-vo.eu/sms");
 

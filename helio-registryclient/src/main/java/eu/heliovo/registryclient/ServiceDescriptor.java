@@ -4,7 +4,8 @@ import java.util.Set;
 
 /**
  * Describe a service in general (i.e. not a particular instance of the
- * service). The description can be retrieved through the
+ * service). This object connects the service name with the service capability. 
+ * It can be retrieved through the
  * {@link ServiceRegistryClient}. The business key of this object is the
  * "name - type" tuple.
  * 
