@@ -8,9 +8,22 @@ import java.util.Collection;
  *
  */
 public class AssertUtil {
+    /**
+     * message for arguments that are null.
+     */
 	private static final String ASSERT_ARGUMENT_NOT_NULL = "Argument '%1$s' must not be null.";
+	/**
+	 * message for arguments that have no text.
+	 */
 	private static final String ASSERT_ARGUMENT_HAS_TEXT = "Argument '%1$s' must not be empty.";
-	private static final String ASSERT_ARGUMENT_NOT_EMPTY = "Argument '%1$s' must not be null or empty.";;
+	/**
+	 * message for arguments that are empty.
+	 */
+	private static final String ASSERT_ARGUMENT_NOT_EMPTY = "Argument '%1$s' must not be null or empty.";
+	/**
+	 * message for arguments that are not equal.
+	 */
+    private static final String ASSERT_ARGUMENT_NOT_EQUAL = "Argument '%1$s' must be equal to '%2$s', but is '%3$s'.";
 	
     /**
      * Throw an {@link IllegalArgumentException} if 'argument' is null.
@@ -47,7 +60,7 @@ public class AssertUtil {
 	}
 
 	/**
-	 * Assure that an array is neiter null nor empty.
+	 * Assure that an array is neither null nor empty.
 	 * @param array the array to check
 	 * @param argumentName the name of the arguemnt.
 	 */
@@ -56,5 +69,24 @@ public class AssertUtil {
 		if (array.length == 0) {
 			throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_EMPTY, argumentName));
 		}	
+		
 	}
+
+	/**
+	 * Assure that an argument equals a specific value
+	 * @param expected 
+	 * @param actual
+	 * @param argumentName
+	 */
+    public static void assertArgumentEquals(Object expected, Object actual, String argumentName) {
+        if (expected == null) {
+            if (actual == null) {
+                return;
+            } else {
+                throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_EQUAL, argumentName, expected, actual));
+            }
+        } else if (!expected.equals(actual)) {
+            throw new IllegalArgumentException(String.format(ASSERT_ARGUMENT_NOT_EQUAL, argumentName, expected, actual));            
+        }
+    }
 }
