@@ -30,6 +30,11 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
     public static final ServiceCapability SYNC_QUERY_SERVICE = register("SYNC_QUERY_SERVICE","ivo://helio-vo.eu/std/FullQuery/Soap/v1.0");
 
     /**
+     * Link provider service.
+     */
+    public static final ServiceCapability LINK_PROVIDER_SERVICE = register("LINK_PROVIDER_SERVICE","ivo://helio-vo.eu/lps/v1.0");
+
+    /**
      * provider of a VOSI cababilites table.
      */
     public static final ServiceCapability VOSI_CAPABILITIES = register("VOSI_CAPABILITIES", "ivo://ivoa.net/std/VOSI#capabilities");
@@ -68,7 +73,7 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
 
     /**
      * Create a service capability.
-     * @param capabilityShort the short form of the capability.
+     * @param name the short form of the capability.
      * @param standardId the identifier of the capability.
      */
     private ServiceCapability(String name, String standardId) {
@@ -126,6 +131,10 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
         return null;
     }
 
+    /**
+     * Collection of values in this enum.
+     * @return the values in this enum.
+     */
     public static Collection<ServiceCapability> values() {
         return enumMap.values();
     }

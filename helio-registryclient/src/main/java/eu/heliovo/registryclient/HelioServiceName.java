@@ -21,15 +21,54 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	 */
 	private static final Map<String, HelioServiceName> enumMap = new HashMap<String, HelioServiceName>();
 
+	/**
+	 * The context service.
+	 */
 	public static final HelioServiceName CXS = register("CXS", "ivo://helio-vo.eu/cxs");
+	
+	/**
+	 * The data provider service.
+	 */
 	public static final HelioServiceName DPAS = register("DPAS", "ivo://helio-vo.eu/dpas");
+	
+	/**
+	 * The Data evaluation service.
+	 */
 	public static final HelioServiceName DES = register("DES", "ivo://helio-vo.eu/des");
+	
+	/**
+	 * The HELIO event catalogue.
+	 */
 	public static final HelioServiceName HEC = register("HEC", "ivo://helio-vo.eu/hec");
+	
+	/**
+	 * The HELIO feature catalogue.
+	 */
 	public static final HelioServiceName HFC = register("HFC", "ivo://helio-vo.eu/hfc");
+	
+	/**
+	 * The instrument coverage service.
+	 */
 	public static final HelioServiceName ICS = register("ICS", "ivo://helio-vo.eu/ics");
+	
+	/**s
+	 * The instrument location service.
+	 */
 	public static final HelioServiceName ILS = register("ILS", "ivo://helio-vo.eu/ils");
+	
+	/**
+	 * The Unified Observation catalogue.
+	 */
 	public static final HelioServiceName UOC = register("UOC", "ivo://helio-vo.eu/uoc");
+	
+	/**
+	 * The semantic mapping services
+	 */
 	public static final HelioServiceName SMS = register("SMS", "ivo://helio-vo.eu/sms");
+	/**
+	 * The Link Provider Service
+	 */
+	public static final HelioServiceName LPS = register("LPS", "ivo://helio-vo.eu/lps");
 
 	/**
 	 * Name of the service
@@ -37,15 +76,16 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	private final String serviceName;
 
 	/**
-	 * Unique idenfier for the service.
+	 * Unique identifier for the service.
 	 */
 	private final String serviceId;
 
 	/**
 	 * Create the HelioServiceName constant
 	 * 
-	 * @param serviceName
-	 *            name of the service
+	 * @param serviceName name of the service
+	 * @param serviceId internal id of the service (usually starting with 'ivo://helio-vo.eu/'). 
+	 *         
 	 */
 	private HelioServiceName(String serviceName, String serviceId) {
 		this.serviceName = serviceName;
@@ -73,6 +113,10 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 		return serviceName;
 	}
 
+	/**
+	 * Get all registered values.
+	 * @return the values as collection.
+	 */
 	public static Collection<HelioServiceName> values() {
 		return enumMap.values();
 	}
