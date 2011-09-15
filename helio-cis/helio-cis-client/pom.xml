@@ -51,7 +51,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>bouncycastle</groupId>
-                    <artifactId>bcprov-jdk13:jar</artifactId>
+                    <artifactId>bcprov-jdk13</artifactId>
                 </exclusion>
             </exclusions>
   </dependency>
