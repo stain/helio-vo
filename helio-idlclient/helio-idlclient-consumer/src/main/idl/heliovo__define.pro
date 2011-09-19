@@ -13,7 +13,7 @@
 ;     o->help()
 ;
 ;Last Modified: 
-;      5 Sep 2011 - Matthias Meyer 
+;      19 Sep 2011 - Matthias Meyer 
 
 ;
 ;-
@@ -101,7 +101,7 @@ END
 ;------------------------------------------------------------------------------------------------------------------------
 ;-- Return helio_services object.
 
-function heliovo::get_service, service=service
+function heliovo::get_service, service
 
   if(ptr_valid(self.data) eq 0) then x = self->get_data()
   if(ptr_valid(self.data) eq 0) then return, -1
@@ -139,14 +139,15 @@ end
 ;------------------------------------------------------------------------------------------------------------------------
 ;-- Search for helio services.
 
-pro heliovo::find_service, service=service
-
-  if(ptr_valid(self.data) eq 0) then x = self->get_data()
-  if(ptr_valid(self.data) eq 0) then return
+pro heliovo::find_service, service
+  if keyword_set(service)  then begin
+    if(ptr_valid(self.data) eq 0) then x = self->get_data()
+    if(ptr_valid(self.data) eq 0) then return
   
-  for i=1,(size(*self.data, /d))[0] do begin
-    if stregex((*self.data)[i-1], service, /boolean, /FOLD_CASE) eq 1 then print, STRING(i) + ': ' + (*self.data)[i-1]
-  endfor
+    for i=1,(size(*self.data, /d))[0] do begin
+      if stregex((*self.data)[i-1], service, /boolean, /FOLD_CASE) eq 1 then print, STRING(i) + ': ' + (*self.data)[i-1]
+    endfor
+  endif
 end
 
 
@@ -196,15 +197,16 @@ pro heliovo::help
   print, 'IDL> catalog = service->get(catalog=catalog)                    ; gets catalog object of CATALOG (Name or ID)'
   print, 'IDL> '
   print, "IDL> catalog->set, time_interval=['1-may-2005','2-may-2005']    ; set time_interval OR"
-  print, "IDL> catalog->set, starttime='1-may-2005'                       ; set starttime of time_interval AND"
-  print, "IDL> catalog->set, endtime='2-may-2005'                         ; set endtime of time_interval"
+  print, "IDL> catalog->set, where='WHERE_STATEMENT'                      ; set where statement"
+  print, 'IDL>'
+  print, 'IDL> data = catalog->get(/struct)                               ; run the query and directly parse the data OR'
   print, 'IDL>'
   print, 'IDL> result = catalog->get(/query)                              ; run the query'
   print, 'IDL>'
   print, "IDL> x = wget(url=result->get(/url), file='my.xml')             ; download result and save it to my.xml"
   print, 'IDL> myxml = wget(url=result->get(/url))                        ; download result to variable myxml'
   print, 'IDL>'
-  print, "IDL> parser = obj_new('vo2str')                                 ; create votable parser object"
+  print, "IDL> parser = obj_new('votable2struct                           ; create votable parser object"
   print, "IDL> data = parser->getdata('my.xml')                           ; download result to variable myxml"
 end
 

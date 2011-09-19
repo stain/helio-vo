@@ -1,22 +1,14 @@
-; votable2struct parser.
-; Elements than can occure more than once are parsed to arrays of pointer with this version.
-; This is NOT working! The parser returns only empty pointers.
-; 
-; Attention: This version is not up to date, some newer changes or not included.
-; To use this version with pointer support, copy the block of line 465-476 of the function wrap_up_item 
-; and the block 110-125 of the function add_element. 
-
-pro vo2str_test
+pro votable2struct_test
 
 obj_destroy, o
-o = obj_new( 'vo2str', '~/idl/egso/gaga.xml' )
+o = obj_new( 'votable2struct', '~/idl/egso/gaga.xml' )
 data = o->getdata()
 
 end
 
 ;-----------------------------------------------------------
 
-function vo2str::init, filename
+function votable2struct::init, filename
 
 ;self.datatypes_votable = ptr_new(['boolean','unsignedbyte','char', $
 ;                                  'unicodeChar', 'short', 'int', $
@@ -48,7 +40,7 @@ end
 
 ;-----------------------------------------------------------
 
-function vo2str::map_datatype, value_in, datatype
+function votable2struct::map_datatype, value_in, datatype
 
 ; this maps the votable datatype into an IDL 
 ; value_in: the value to convert (string)
@@ -87,7 +79,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::characters, data
+pro votable2struct::characters, data
 
 self.charbuffer =  self.charbuffer + data
 
@@ -95,7 +87,7 @@ end
 
 ;-----------------------------------------------------------
 
-function vo2str::attr2tag, element_name, $
+function votable2struct::attr2tag, element_name, $
                        attr_list, attr_names, attr_values, type_list = type_list
 
 ; in this routine we build the higher-level structure that will contain, on
@@ -103,7 +95,8 @@ function vo2str::attr2tag, element_name, $
 ; "resource"), and on the other hand, its contents (e.g. the tag names that
 ; will eventually contain the values)
 
-n = n_elements( attr_names )
+;n = n_elements( attr_names )
+n = n_elements( attr_list )
 yes_type_list = exist( type_list )
 
 
@@ -111,18 +104,23 @@ struct = {element_name: element_name }
 
 for i = 0, n-1 do begin
 
-    attr_idx = where( attr_list eq strlowcase( attr_names[i] ), count )
+    ;attr_idx = where( attr_list eq strlowcase( attr_names[i] ), count )
+    if exist(attr_names) then attr_idx = where( strlowcase(attr_names) eq attr_list[i] , count ) else count = 0
+
+
+    if yes_type_list then begin 
+        this_type = type_list[i]
+    endif else this_type = 7    
 
     if count ne 0 then begin 
 
-        if yes_type_list then begin 
-            this_type = type_list[i]
-        endif else this_type = 7
-
-        value = self->map_datatype( attr_values[i], this_type )
-        struct =  add_tag( struct, value, attr_list[attr_idx] )  
+        value = self->map_datatype( attr_values[attr_idx], this_type )
+        struct =  add_tag( struct, value, attr_list[i] )  
         
-    endif
+    endif else begin
+        value = self->map_datatype( '',  this_type)
+        struct =  add_tag( struct, value, attr_list[i] )
+    endelse
 
 endfor
 
@@ -132,7 +130,7 @@ end
 
 ;------------------------------------------------------------
 
-pro vo2str::add_element, element_name, $
+pro votable2struct::add_element, element_name, $
     attr_list, attr_names, attr_values, type_list = type_list
 
 ;this proc adds the element created to the linked list for further use in
@@ -147,7 +145,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_votable,  attr_names, attr_values
+pro votable2struct::start_votable,  attr_names, attr_values
 
 if self.debug gt -1 then message, 'parsing votable', /cont, /info
 
@@ -161,7 +159,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_resource, attr_names, attr_values
+pro votable2struct::start_resource, attr_names, attr_values
 
 self->add_element, 'resource', $
                     ['name', 'id', 'type', 'utype'], $
@@ -171,7 +169,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_param, attr_names, attr_values
+pro votable2struct::start_param, attr_names, attr_values
 
 self->add_element, 'param', $
                     ['name', 'id', 'type', 'value'], $
@@ -181,23 +179,19 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_info, attr_names, attr_values
-
-;struct = self->attr2tag( 'info', $
-;                         ['id', 'name', 'value'], $
-;                         attr_names, attr_values )
+pro votable2struct::start_info, attr_names, attr_values
 
 struct = self->attr2tag( 'info', $
-                         ['id', 'name'], $
+                         ['id', 'name', 'value'], $
                          attr_names, attr_values )
-                         
+
 self.list->add, struct
 
 end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_table, attr_names, attr_values
+pro votable2struct::start_table, attr_names, attr_values
 
 self->add_element, 'table', $
                     ['name', 'id', 'ucd', 'utype', 'ref', 'nrows' ], $
@@ -207,21 +201,15 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_field, attr_names, attr_values
+pro votable2struct::start_field, attr_names, attr_values
 
 ; in this proc we build the structure that will hold the array.
 item = self.list->get_item( self.list->get_count()-1 )
 
-;struct = self->attr2tag( 'field', $
-;                         ['id', 'unit', 'datatype', 'precisison', 'width', $
-;                          'ref', 'name', 'ucd', 'utype', 'arraysize', 'type'], $
-;                         attr_names, attr_values )
-
 struct = self->attr2tag( 'field', $
-                         ['id', 'datatype', 'width', $
-                          'name', 'type'], $
+                         ['id', 'unit', 'datatype', 'precisison', 'width', $
+                          'ref', 'name', 'ucd', 'utype', 'arraysize', 'type'], $
                          attr_names, attr_values )
-
 
 if tag_exist( (*item), 'table_struct' ) then table_struct = (*item).table_struct
 
@@ -256,7 +244,7 @@ end
 
 ;-----------------------------------------------------------
 
-function vo2str::arraysize2dim, arraysize
+function votable2struct::arraysize2dim, arraysize
 
 arraysize  = long( strsplit( arraysize, 'x', /extract )) 
 
@@ -267,7 +255,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_tabledata
+pro votable2struct::start_tabledata
 
 ; now here we know all the fields so we can build the structure
 ; array that will contain the data so just load the struct into a 
@@ -286,7 +274,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_tr
+pro votable2struct::start_tr
 
 self.structindex = 0
 *self.arraycontent = append_arr( *self.arraycontent, *self.array_struct )
@@ -295,7 +283,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::start_td
+pro votable2struct::start_td
 
 self.charbuffer = ''
 
@@ -303,7 +291,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::startelement, a, name, qname, attr_names, attr_values
+pro votable2struct::startelement, a, name, qname, attr_names, attr_values
 
 if self.debug gt 0 then begin
 	print,' ------------------- startelement:', qname
@@ -333,7 +321,7 @@ end
 
 ;-----------------------------------------------------------
 
-function vo2str::get_last_item
+function votable2struct::get_last_item
 
 ; in fact should go into th elinked list be we'll care about this later
 
@@ -342,7 +330,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_td
+pro votable2struct::end_td
 
 ; here we have a data item in the buffer, so we stor it in the actual
 ; and increment the structure index tag
@@ -353,7 +341,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_tr
+pro votable2struct::end_tr
 
 self.arrayindex++
 
@@ -361,7 +349,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_description
+pro votable2struct::end_description
 
 item = self.list->get_item( self.list->get_count()-1 )
 *item = add_tag( *item, self.charbuffer, 'description' )
@@ -387,9 +375,10 @@ endif
 *item = add_tag( *item, *self.arraycontent, 'data' )
  
 end
+
 ;-----------------------------------------------------------
 
-pro vo2str::end_resource
+pro votable2struct::end_resource
 
 self->wrap_up_item
 
@@ -397,7 +386,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_param
+pro votable2struct::end_param
 
 self->wrap_up_item
 
@@ -405,7 +394,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_info
+pro votable2struct::end_info
 
 self->wrap_up_item
 
@@ -413,7 +402,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_field
+pro votable2struct::end_field
 
 self->wrap_up_item
 
@@ -421,7 +410,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_table
+pro votable2struct::end_table
 
 self->wrap_up_item
 
@@ -429,7 +418,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::end_votable
+pro votable2struct::end_votable
 
 keep_ntags = self.fulldesc ? 2 : 1
 self->wrap_up_item, keep_ntags
@@ -438,7 +427,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::wrap_up_item, keep_ntags
+pro votable2struct::wrap_up_item, keep_ntags
 
 ; this procedure is called by the end_xxx procedures, whenever an item in the
 ; linked list is ready to be attached to a higher-level structure, e.g. a
@@ -467,13 +456,9 @@ struct = rem_tag(struct, 'ELEMENT_NAME')
 for i=0, keep_ntags-1 do begin
     if tag_exist(*item, element_name) then begin
       index = tag_index( (*item), element_name)
-      if size((*item).(index), /type) eq 10 then begin
-        (*item) = rep_tag_value( (*item),  [(*item).(index), ptr_new(struct)], element_name )
-      endif else begin
-        (*item) = rep_tag_value( (*item),  [ptr_new((*item).(index)), ptr_new(struct)], element_name )
-      endelse
+      (*item) = rep_tag_value( (*item),  [(*item).(index), struct], element_name )
     endif else begin
-      (*item) = add_tag( *item, struct, element_name )
+      (*item) = add_tag( (*item), struct, element_name )
     endelse
 endfor
 
@@ -481,7 +466,7 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str::endelement, uri, local, qname
+pro votable2struct::endelement, uri, local, qname
 
 case qname of 
     'DESCRIPTION': self->end_description
@@ -502,11 +487,15 @@ END
 
 ;-----------------------------------------------------------
 
-function vo2str::getdata, filename
+function votable2struct::getdata, input, url=url, xml=xml
 
-if is_string( filename )  then self.xmlfile = filename
+if keyword_set(url) then self->ParseFile, input, /URL else $
+if keyword_set(xml) then self->ParseFile, input, /XML_STRING else $
+if is_string( input )  then begin 
+  self.xmlfile = input
+  self->parsefile, self.xmlfile
+endif
 
-self->parsefile, self.xmlfile
 item = self.list->get_item()
 
 return, (*item).(0)
@@ -515,11 +504,15 @@ end
 
 ;-----------------------------------------------------------
 
-function vo2str::gettable, filename
+function votable2struct::gettable, input, url=url, xml=xml
 
-if is_string( filename )  then self.xmlfile = filename
+if keyword_set(url) then self->ParseFile, input, /URL else $
+if keyword_set(xml) then self->ParseFile, input, /XML_STRING else $
+if is_string( input )  then begin 
+  self.xmlfile = input
+  self->parsefile, self.xmlfile
+endif
 
-self->parsefile, self.xmlfile
 item = self.list->get_item()
 
 return, (*item).(0).resource.table.data
@@ -528,9 +521,9 @@ end
 
 ;-----------------------------------------------------------
 
-pro vo2str__define
+pro votable2struct__define
 
-struct = {vo2str, $
+struct = {votable2struct, $
           xmlfile: '', $
           debug: 0b, $
           fulldesc: 0B, $

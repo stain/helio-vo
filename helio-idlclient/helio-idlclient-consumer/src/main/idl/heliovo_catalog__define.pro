@@ -9,7 +9,7 @@
 ;     Define a heliovo_catalog object.
 ;
 ;Last Modified: 
-;      5 Sep 2011 - Matthias Meyer 
+;      19 Sep 2011 - Matthias Meyer 
 
 ;
 ;-
@@ -221,8 +221,13 @@ function heliovo_catalog::get_query, $
     OBJ_DESTROY, oUrl  
     RETURN, ptr_new()
   ENDIF  
-   
+  
   self->set, time_interval=time_interval, where=where
+
+  if ptr_valid(self.time_int[0]) eq 0 then begin
+    print, 'Error: time_interval must be set first.'
+    return, -1
+  endif
 
   n_int = (size(*(self.time_int[0]),/d))[0] 
   n_int1 = (size(*(self.time_int[0]),/d))[0]
@@ -275,11 +280,25 @@ end
 
 
 ;------------------------------------------------------------------------------------------------------------------------
+; Get struct function. This function starts a query and directly parse the votable streamed from the url given by the result.
+
+function heliovo_catalog::get_struct
+  result = self->get_query()
+  if size(result, /type) eq 2 then return, -1
+  parser = obj_new('votable2struct')
+  data = parser->getdata(result->get(/url),/URL)
+  OBJ_DESTROY, parser
+  return, data
+end
+
+
+;------------------------------------------------------------------------------------------------------------------------
 ; Get function.
 
-function heliovo_catalog::get, data=data, query=query
+function heliovo_catalog::get, data=data, query=query, struct=struct
   if keyword_set(data) then return, self->get_data()
   if keyword_set(query) then return, self->get_query()
+  if keyword_set(struct) then return, self->get_struct()
 end
 
 
@@ -291,8 +310,7 @@ pro heliovo_catalog::help
   print, 'IDL> heliovo_catalog help'
   print, '-----------------------------------------------------------------------------------------------------------------------'
   print, "IDL> catalog->set, time_interval=['1-may-2005','2-may-2005']    ; set time_interval OR"
-  print, "IDL> catalog->set, starttime='1-may-2005'                       ; set starttime of time_interval AND"
-  print, "IDL> catalog->set, endtime='2-may-2005'                         ; set endtime of time_interval"
+  print, "IDL> catalog->set, where='WHERE_STATEMENT'                      ; set where statement"
   print, 'IDL>'
   print, 'IDL> result = catalog->get(/query)                              ; run the query'
 end

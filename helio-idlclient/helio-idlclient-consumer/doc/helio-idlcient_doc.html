@@ -7,6 +7,7 @@ div
 }
 div.com
 {
+	font-family:fixedsys;
 	background:#E0E0E0;
 }
 h1
@@ -52,13 +53,13 @@ All available helio services can be printed with this command.<br><br>
 This command proveds a search function to find a specific helio service. RegExp is used for the search string.<br><br>
 <div class="com">
 6) IDL> o->find, service='RegExp'<br>
-7) IDL> o->find_service='RegExp'
+7) IDL> o->find_service, 'RegExp'
 </div>
 <h3>Get methods</h3>
 Create and return a helio_service object for the specified helio service. Service can be specified by id or name. Service id is shown by the commands 4-7.<br><br>
 <div class="com">
 8) IDL> s = o->get(service='SERVICENAME')<br>
-9) IDL> s = o->get_service(service='SERVICENAME')
+9) IDL> s = o->get_service('SERVICENAME')
 </div><br>
 Return the internal datastructure of the heliovo object (heliovo_framework object)<br><br>
 <div class="com">
@@ -67,7 +68,7 @@ Return the internal datastructure of the heliovo object (heliovo_framework objec
 </div>
 <h2>heliovo_service object</h2>
 <h3>Help</h3>
-This command can be used to print a small help. This help contains only the help for this objects<br><br>
+This command can be used to print a small help. This help contains only the help for this object<br><br>
 <div class="com">
 12) IDL> s->help
 </div>
@@ -81,13 +82,13 @@ All available helio catalogs of this helio service can be printed with this comm
 This command proveds a search function to find a specific helio catalog of this helio service. RegExp is used for the search string.<br><br>
 <div class="com">
 15) IDL> s->find, catalog='RegExp'<br>
-16) IDL> s->find_catalog='RegExp'
+16) IDL> s->find_catalog, 'RegExp'
 </div>
 <h3>Get methods</h3>
 Create and return a helio_catalog object for the specified helio catalog. Catalog can be specified by id or name. Catalog id is shown by the commands 13-16.<br><br>
 <div class="com">
 17) IDL> s = o->get(service='SERVICENAME')<br>
-18) IDL> s = o->get_service(service='SERVICENAME')
+18) IDL> s = o->get_service('SERVICENAME')
 </div><br>
 Return the internal datastructure of the heliovo_service object (heliovo_framework object)<br><br>
 <div class="com">
@@ -96,27 +97,31 @@ Return the internal datastructure of the heliovo_service object (heliovo_framewo
 </div>
 <h2>heliovo_catalog object</h2>
 <h3>Help</h3>
-This command can be used to print a small help. This help contains only the help for this objects<br><br>
+This command can be used to print a small help. This help contains only the help for this object<br><br>
 <div class="com">
 21) IDL> c->help
 </div>
 <h3>Set method</h3>
-One ore more time_intervals must be set. With this command the time_interval can be set. All date formats accepted by <i>anytim()</i> can be used.<br><br>To set more than one time_interval a 1-dimensional array (command 23) with the syntax [start1,end2,start1,end2,...] or a 2-dimensional array (command 24) with the syntax [[start1,end1],[start2,end2],...] can be used.<br><br>
+One or more time_intervals must be set. With this command the time_interval can be set. All date formats accepted by <i>anytim()</i> can be used.<br><br>To set more than one time_interval a 1-dimensional array (command 23) with the syntax [start1,end2,start1,end2,...] or a 2-dimensional array (command 24) with the syntax [[start1,end1],[start2,end2],...] can be used.<br><br>
 <div class="com">
 22) IDL> c->set, time_interval=['1-may-2004','2-may-2004']<br>
 23) IDL> c->set, time_interval=['1-may-2004','2-may-2004', '1-may-2005','2-may-2005']<br>
 24) IDL> c->set, time_interval=[['1-may-2004','2-may-2004'],['1-may-2005','2-may-2005']]
 </div>
 <h3>Get methods</h3>
+Start a helio query and directly parse the data to a struct. This function streams the votable from the url given by the result of the query. To save the votable local and parse it step by step skip this command and follow the instruction below (26-35)<br><br>
+<div class="com">
+25) IDL> data = c->get(/struct)<br>
+</div><br>
 Start a helio query and return the result as a helio_framework object.<br><br>
 <div class="com">
-17) IDL> result = c->get(/query)<br>
-18) IDL> result = c->get_query()
+26) IDL> result = c->get(/query)<br>
+27) IDL> result = c->get_query()
 </div><br>
 Return the internal datastructure of the heliovo_catalog object (heliovo_framework object)<br><br>
 <div class="com">
-19) IDL> data = c->get(/data)<br>
-20) IDL> data = c->get_data()
+28) IDL> data = c->get(/data)<br>
+29) IDL> data = c->get_data()
 </div>
 <h2>helio_framework</h2>
 <h3></h3>
@@ -124,28 +129,28 @@ The heliovo_framework object is used for the communication between idl and the j
 <h3>Show method</h3>
 The show method is used to see all available attributes inside the object.<br><br>
 <div class="com">
-21) IDL> print, object->show()<br>
-22) IDL> object->show
+30) IDL> print, object->show()<br>
+31) IDL> object->show
 </div>
 <h3>Get method</h3>
-With this method all data inside the heliovo_framework object can be accessed.<br><br>
+With this method all data inside the heliovo_framework object can be accessed. Use /attr to get the attribute <i>attr</i> from the object<br><br>
 <div class="com">
-23) IDL> x = object->get(/attr)<br>
+32) IDL> x = object->get(/attr)<br>
 </div>
 <h2>votable parser</h2>
 <h3>Object instance creation</h3>
 An instance of the parser must be created first. Here is the idl command to do this.<br><br>
 <div class="com">
-24) IDL> parser = obj_new('votable2struct')<br>
+33) IDL> parser = obj_new('votable2struct')<br>
 </div>
 <h3>Parse votable</h3>
-To parse a votable file use this command. The return value is a struct with all the meta information from the votable.<br><br>
+With this command a votable file can be parsed. The return value is a struct with all the meta information from the votable.<br><br>
 <div class="com">
-25) IDL> data = parser->getdata('FILENAME')<br>
+34) IDL> data = parser->getdata('FILENAME')<br>
 </div><h3>Parse data only</h3>
 With this method only the data inside the votable is parsed. The Meta information ist ignored. The return value is simple data array.<br><br>
 <div class="com">
-26) IDL> data = parser->gettable('FILENAME')<br>
+35) IDL> data = parser->gettable('FILENAME')<br>
 </div>
 		</div>
 	</body>

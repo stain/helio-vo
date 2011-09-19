@@ -9,7 +9,7 @@
 ;     Define a heliovo_service object.
 ;
 ;Last Modified: 
-;      6 Sep 2011 - Matthias Meyer 
+;      19 Sep 2011 - Matthias Meyer 
 
 ;
 ;-
@@ -100,7 +100,7 @@ END
 ;------------------------------------------------------------------------------------------------------------------------
 ;-- Return helio_catalog object.
 
-function heliovo_service::get_catalog, catalog=catalog
+function heliovo_service::get_catalog, catalog
   if(ptr_valid(self.data) eq 0) then x = self->get_data()
   if(ptr_valid(self.data) eq 0) then return, -1
   
@@ -141,13 +141,15 @@ end
 ;------------------------------------------------------------------------------------------------------------------------
 ;-- Search for helio catalogs.
 
-pro heliovo_service::find_catalog, catalog=catalog
-  if(ptr_valid(self.data) eq 0) then x = self->get_data()
-  if(ptr_valid(self.data) eq 0) then return
+pro heliovo_service::find_catalog, catalog
+  if keyword_set(catalog) then begin
+    if(ptr_valid(self.data) eq 0) then x = self->get_data()
+    if(ptr_valid(self.data) eq 0) then return
   
-  for i=1,(size(*self.data, /d))[0] do begin
-    if stregex((*self.data)[i-1]->get(/catalogname), catalog, /boolean, /FOLD_CASE) eq 1 then print, STRING(i) + ': ' + (*self.data)[i-1]->get(/catalogname)
-  endfor
+    for i=1,(size(*self.data, /d))[0] do begin
+      if stregex((*self.data)[i-1]->get(/catalogname), catalog, /boolean, /FOLD_CASE) eq 1 then print, STRING(i) + ': ' + (*self.data)[i-1]->get(/catalogname)
+    endfor
+  endif
 end
 
 

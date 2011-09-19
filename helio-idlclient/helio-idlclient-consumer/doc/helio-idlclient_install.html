@@ -21,7 +21,12 @@ If you have a working Java 1.6 installation, skip step 1.
 
 5. Start idlssw
 
-6. create a heliovo-object and print help:
+6. edit the following lines in heliovo__define.pro to use the local webserver:
+   DEFSYSV, '!heliovo_host', 'localhost'
+   DEFSYSV, '!heliovo_port', '8085'
+   DEFSYSV, '!heliovo_context', ''
+
+7. create a heliovo-object and print help:
    <i>o=heliovo()</i>
    <i>o->help</i>
 		</div></pre>
