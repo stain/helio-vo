@@ -114,7 +114,7 @@ function heliovo_service::get_catalog, catalog
     endif else begin
       x=0
       for i=0,(size((*self.data), /d))[0]-1 do begin
-        if((*self.data)[i]->get(/catalogname) eq catalog) then x=1
+        if((*self.data)[i]->get(/catalogname) eq strlowcase(catalog)) then x=1
       endfor
       if x ne 1 then begin
         print, 'Error: no catalog found with name ' + catalog
@@ -134,7 +134,7 @@ end
 
 function heliovo_service::get, data=data, catalog=catalog
   if keyword_set(data) then return, self->get_data()
-  if keyword_set(catalog) then return, self->get_catalog(catalog=catalog)
+  if keyword_set(catalog) then return, self->get_catalog(catalog)
 end
 
 
@@ -157,7 +157,7 @@ end
 ;-- Search function.
 
 pro heliovo_service::find, catalog=catalog
-  if keyword_set(catalog) then self->find_catalog, catalog=catalog
+  if keyword_set(catalog) then self->find_catalog, catalog
 end
 
 

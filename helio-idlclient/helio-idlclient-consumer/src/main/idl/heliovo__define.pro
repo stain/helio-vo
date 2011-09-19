@@ -20,6 +20,9 @@
 ;-- HELIOVO init.
 
 function heliovo::init
+  ;DEFSYSV, '!heliovo_host', 'helio.i4ds.technik.fhnw.ch'
+  ;DEFSYSV, '!heliovo_port', '8080'
+  ;DEFSYSV, '!heliovo_context', 'helio-idl/'
   DEFSYSV, '!heliovo_host', 'localhost'
   DEFSYSV, '!heliovo_port', '8085'
   DEFSYSV, '!heliovo_context', ''
@@ -114,13 +117,13 @@ function heliovo::get_service, service
       endif
       service = (*self.data)[service-1]
     endif else begin
-      if(where_arr((*self.data),service) eq -1) then begin
-      print, 'Error: no service found with name ' + service
+      if(where_arr(STRUPCASE(*self.data),STRUPCASE(service)) eq -1) then begin
+      print, 'Error: no service found with name ' + (service)
       return, -1
       endif
     endelse
-    x = obj_new('heliovo_service', service=service)
-    print, 'Created new helio_service object for service ' + service
+    x = obj_new('heliovo_service', service=(service))
+    print, 'Created new helio_service object for service ' + (service)
     return, x
   endif
   print, 'error, no service specified!'
@@ -132,7 +135,7 @@ end
 
 function heliovo::get, data=data, service=service
   if keyword_set(data) then return, self->get_data()
-  if keyword_set(service) then return, self->get_service(service=service)
+  if keyword_set(service) then return, self->get_service(service)
 end
 
 
@@ -155,7 +158,7 @@ end
 ;-- Search function.
 
 pro heliovo::find, service=service
-  if keyword_set(service) then self->find_service, service=service
+  if keyword_set(service) then self->find_service, service
 end
 
 
