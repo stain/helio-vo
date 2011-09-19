@@ -19,17 +19,8 @@ function heliovo_catalog::init, service=service, catalog=catalog
   checkvar, service, ''
   checkvar, catalog, ''
   
-  self.host[0] = 'localhost'
-  ;self.url[0] = 'helio-idlclient-provider/StaticCatalogRegistryServlet'
   self.url[0] = 'StaticCatalogRegistryServlet'
-  ;self.port[0] = '8080'
-  self.port[0] = '8085'
-  
-  self.host[1] = 'localhost'
-  ;self.url[1] = 'helio-idlclient-provider/AsyncQueryServiceServlet'
   self.url[1] = 'AsyncQueryServiceServlet'
-  ;self.port[1] = '8080'
-  self.port[1] = '8085'
   
   self.service = service
   self.catalog = catalog
@@ -42,9 +33,10 @@ end
 ;-- set method for all helio_vo option.
 
 pro heliovo_catalog::set, time_interval = time_interval, $
-              starttime = starttime, $
-              endtime = endtime, $
-              where = where
+              where = where;, $
+              ;starttime = starttime, $
+              ;endtime = endtime
+              
   
   if keyword_set(time_interval) then begin
     ;interval size 1/2 of array size (1d array)
@@ -130,9 +122,11 @@ function heliovo_catalog::get_data
     CATCH, /CANCEL  
   
     ; Display the error msg in a dialog and in the IDL Output log  
-    r = DIALOG_MESSAGE(!ERROR_STATE.msg, TITLE='URL Error', $  
+    r = DIALOG_MESSAGE("Can't connect to server '"+!heliovo_host+"'. Please check with your system administrator." $
+        + "                                                                                                      " $
+        + "Detail: " + !ERROR_STATE.msg, TITLE='URL Error', $  
       /ERROR)  
-    PRINT, !ERROR_STATE.msg  
+    PRINT, !ERROR_STATE.msg    
   
     ; Get the properties that will tell about the error.  
     oUrl->GetProperty, RESPONSE_CODE=rspCode, $  
@@ -164,9 +158,9 @@ function heliovo_catalog::get_data
   oUrl = OBJ_NEW('IDLnetUrl')
 
   ; Make a get request to a HTTP server.
-  oUrl->SetProperty, URL_HOST = self.host[0]
-  oUrl->SetProperty, URL_PORT = self.port[0]
-  oUrl->SetProperty, URL_PATH = self.url[0]
+  oUrl->SetProperty, URL_HOST = !heliovo_host
+  oUrl->SetProperty, URL_PORT = !heliovo_port
+  oUrl->SetProperty, URL_PATH = !heliovo_context+self.url[0]
   oUrl->SetProperty, URL_QUERY = 'service='+self.service+'&catalog='+self.catalog
   result = oUrl->Get(FILENAME='helioidlapi.pro')
    
@@ -198,10 +192,11 @@ END
 ;------------------------------------------------------------------------------------------------------------------------
 ;-- helio query function.  Sends a query with all options to the helio backend and returns the result.
 
-function heliovo_catalog::get_query, starttime = starttime, $
-              endtime = endtime, $
+function heliovo_catalog::get_query, $
               where = where, $
-              time_interval = time_interval
+              time_interval = time_interval;, $
+              ;starttime = starttime, $
+              ;endtime = endtime
    
   ; If the IDLnetURL object throws an error it will be caught here  
   CATCH, errorStatus  
@@ -209,9 +204,11 @@ function heliovo_catalog::get_query, starttime = starttime, $
     CATCH, /CANCEL  
  
     ; Display the error msg in a dialog and in the IDL Output log  
-    r = DIALOG_MESSAGE(!ERROR_STATE.msg, TITLE='URL Error', $  
+    r = DIALOG_MESSAGE("Can't connect to server '"+!heliovo_host+"'. Please check with your system administrator." $
+        + "                                                                                                      " $
+        + "Detail: " + !ERROR_STATE.msg, TITLE='URL Error', $  
       /ERROR)  
-    PRINT, !ERROR_STATE.msg  
+    PRINT, !ERROR_STATE.msg    
   
     ; Get the properties that will tell about the error.  
     oUrl->GetProperty, RESPONSE_CODE=rspCode, $  
@@ -225,7 +222,7 @@ function heliovo_catalog::get_query, starttime = starttime, $
     RETURN, ptr_new()
   ENDIF  
    
-  self->set, starttime=starttime, endtime=endtime, where=where
+  self->set, time_interval=time_interval, where=where
 
   n_int = (size(*(self.time_int[0]),/d))[0] 
   n_int1 = (size(*(self.time_int[0]),/d))[0]
@@ -245,9 +242,9 @@ function heliovo_catalog::get_query, starttime = starttime, $
   oUrl = OBJ_NEW('IDLnetUrl') 
    
   ; Make a get request to a HTTP server.
-  oUrl->SetProperty, URL_HOST = self.host[1]
-  oUrl->SetProperty, URL_PORT = self.port[1]
-  oUrl->SetProperty, URL_PATH = self.url[1]
+  oUrl->SetProperty, URL_HOST = !heliovo_host
+  oUrl->SetProperty, URL_PORT = !heliovo_port
+  oUrl->SetProperty, URL_PATH = !heliovo_context+self.url[1]
   oUrl->SetProperty, URL_QUERY = 'service='+self.service+'&starttime='+starttime+'&endtime='+endtime+'&from='+self.catalog+'&where='+self.where
   ;result = oUrl->Get(/STRING_ARRAY)
   result = oUrl->Get(FILENAME='helioidlapi.pro')
@@ -304,5 +301,5 @@ end
 ;-- heliovo_catalog_SERVICE data structure
 
 pro heliovo_catalog__define
-  self = {heliovo_catalog, host:strarr(2) , url:strarr(2) ,port:strarr(2), data:ptr_new(), service:'', catalog:'', where:'', time_int:ptrarr(2)}
+  self = {heliovo_catalog, url:strarr(2), data:ptr_new(), service:'', catalog:'', where:'', time_int:ptrarr(2)}
 end

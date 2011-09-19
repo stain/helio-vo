@@ -19,8 +19,7 @@ import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
 import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
-import eu.heliovo.idlclient.provider.serialize.IdlConverter;
-import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
+import eu.heliovo.idlclient.provider.serialize.*;
 import eu.heliovo.registryclient.HelioServiceName;
 
 /**

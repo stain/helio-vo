@@ -20,11 +20,11 @@
 ;-- HELIOVO init.
 
 function heliovo::init
-  self.host = 'localhost'
-  ;self.url = 'helio-idlclient-provider/HelioServiceNameServlet'
+  DEFSYSV, '!heliovo_host', 'localhost'
+  DEFSYSV, '!heliovo_port', '8085'
+  DEFSYSV, '!heliovo_context', ''
+  ;DEFSYSV, '!heliovo_context', 'helio-idlclient-provider/'
   self.url = 'HelioServiceNameServlet'
-  ;self.port = '8080'
-  self.port = '8085'
   x = self->get_data()
   return, 1
 end
@@ -41,7 +41,9 @@ function heliovo::get_data
     CATCH, /CANCEL  
  
     ; Display the error msg in a dialog and in the IDL Output log  
-    r = DIALOG_MESSAGE(!ERROR_STATE.msg, TITLE='URL Error', $  
+    r = DIALOG_MESSAGE("Can't connect to server '"+!heliovo_host+"'. Please check with your system administrator." $
+        + "                                                                                                      " $
+        + "Detail: " + !ERROR_STATE.msg, TITLE='URL Error', $  
       /ERROR)  
     PRINT, !ERROR_STATE.msg  
   
@@ -65,9 +67,9 @@ function heliovo::get_data
   oUrl = OBJ_NEW('IDLnetUrl')
 
   ; Make a get request to a HTTP server.
-  oUrl->SetProperty, URL_HOST = self.host
-  oUrl->SetProperty, URL_PORT = self.port
-  oUrl->SetProperty, URL_PATH = self.url
+  oUrl->SetProperty, URL_HOST = !heliovo_host
+  oUrl->SetProperty, URL_PORT = !heliovo_port
+  oUrl->SetProperty, URL_PATH = !heliovo_context+self.url
   oUrl->SetProperty, URL_QUERY = ''
   result = oUrl->Get(FILENAME='helioidlapi.pro')
    
@@ -211,5 +213,5 @@ end
 ;-- HELIOVO data structure
 
 pro heliovo__define
-  self = {heliovo, host:'', url:'', port:'', data:ptr_new()}
+  self = {heliovo, url:'', data:ptr_new()}
 end

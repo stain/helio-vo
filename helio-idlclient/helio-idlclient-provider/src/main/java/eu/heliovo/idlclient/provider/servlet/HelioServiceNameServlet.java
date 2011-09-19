@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.heliovo.clientapi.HelioClient;
 import eu.heliovo.idlclient.provider.serialize.*;
 import eu.heliovo.registryclient.HelioServiceName;
+import eu.heliovo.registryclient.ServiceCapability;
 
 /**
  * Servlet implementation class HelioServiceNameServlet
@@ -35,8 +37,10 @@ public class HelioServiceNameServlet extends HttpServlet {
 		response.setContentType("text/plain");
 		PrintWriter writer = response.getWriter();
 		
+		HelioClient helioClient = new HelioClient();
+		
 		ArrayList<String> serviceNameList = new ArrayList<String>();
-		for (HelioServiceName c : HelioServiceName.values()) {
+		for (HelioServiceName c : helioClient.getServiceNamesByCapability(ServiceCapability.ASYNC_QUERY_SERVICE)) {
 			serviceNameList.add(c.toString());
         }
 		writer.println(idl.idlserialize(serviceNameList));

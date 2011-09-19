@@ -17,12 +17,13 @@ import model.IdlLogRecord;
 
 import org.apache.log4j.Logger;
 
+import eu.heliovo.clientapi.HelioClient;
+import eu.heliovo.clientapi.model.service.HelioService;
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService;
-import eu.heliovo.clientapi.query.asyncquery.impl.AsyncQueryServiceFactory;
-import eu.heliovo.idlclient.provider.serialize.IdlConverter;
-import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
+import eu.heliovo.idlclient.provider.serialize.*;
 import eu.heliovo.registryclient.HelioServiceName;
+import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.util.AssertUtil;
 
 /**
@@ -81,16 +82,16 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			    throw new RuntimeException("Wrong date format. Date must be in ISO-8601 standard", e);
 			}
 			
+			HelioClient helioClient = new HelioClient();
+			HelioService queryService = helioClient.getServiceInstance(HelioServiceName.valueOf(service.toUpperCase()), ServiceCapability.ASYNC_QUERY_SERVICE, null);
+			AsyncQueryService asyncQueryService = (AsyncQueryService)queryService;
 			
-			AsyncQueryServiceFactory queryServiceFactory = AsyncQueryServiceFactory.getInstance();
-			AsyncQueryService queryService = queryServiceFactory.getAsyncQueryService(HelioServiceName.valueOf(service.toUpperCase()));
 			if (queryService == null) {
 			    throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
 			}
-						
 			HelioQueryResult result;
 			
-			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
+			result = asyncQueryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
 			if(result != null)
 			{
 				String out = idl.idlserialize(result);

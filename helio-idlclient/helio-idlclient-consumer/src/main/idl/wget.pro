@@ -22,9 +22,11 @@ function wget, url = url, filename = filename
     CATCH, /CANCEL
     
     ; Display the error msg in a dialog and in the IDL Output log  
-    r = DIALOG_MESSAGE(!ERROR_STATE.msg, TITLE='URL Error', $  
+    r = DIALOG_MESSAGE("Can't connect to server '"+url+"'. Please check with your system administrator." $
+        + "                                                                                                      " $
+        + "Detail: " + !ERROR_STATE.msg, TITLE='URL Error', $  
       /ERROR)  
-    PRINT, !ERROR_STATE.msg  
+    PRINT, !ERROR_STATE.msg    
   
     ; Get the properties that will tell about the error.  
     oUrl->GetProperty, RESPONSE_CODE=rspCode, $  
