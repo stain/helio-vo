@@ -20,13 +20,12 @@
 ;-- HELIOVO init.
 
 function heliovo::init
-  ;DEFSYSV, '!heliovo_host', 'helio.i4ds.technik.fhnw.ch'
-  ;DEFSYSV, '!heliovo_port', '8080'
-  ;DEFSYSV, '!heliovo_context', 'helio-idl/'
-  DEFSYSV, '!heliovo_host', 'localhost'
-  DEFSYSV, '!heliovo_port', '8085'
-  DEFSYSV, '!heliovo_context', ''
-  ;DEFSYSV, '!heliovo_context', 'helio-idlclient-provider/'
+  DEFSYSV, '!heliovo_host', 'helio.i4ds.technik.fhnw.ch'
+  DEFSYSV, '!heliovo_port', '8080'
+  DEFSYSV, '!heliovo_context', 'helio-idl/'
+  ;DEFSYSV, '!heliovo_host', 'localhost'
+  ;DEFSYSV, '!heliovo_port', '8085'
+  ;DEFSYSV, '!heliovo_context', ''
   self.url = 'HelioServiceNameServlet'
   x = self->get_data()
   return, 1
