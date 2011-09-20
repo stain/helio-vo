@@ -94,11 +94,8 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
     var _initGhostElements = function(){
         if (typeof console!="undefined")console.info("ActionViewerExtended :: _initGhostElements");
         
-        fnInitializeDatePicker();
-        $("#minDate").val($.cookie("minDate"));
-        $("#maxDate").val($.cookie("maxDate"));
-        $("#minTime").val($.cookie("minTime"));
-        $("#maxTime").val($.cookie("maxTime"));
+        
+     
         
         var catalogCheckboxes = $("#hecExtendedCatalogSelector input:checkbox");
 
@@ -135,7 +132,7 @@ function ActionViewerExtended(imageParam,typeParam,actionNameParam,labelParam,se
             }
         });
         
-        $( ".custom_button").button();
+        formatButton($(".custom_button"))
 
         // setup tooltips
         $(".hecLabelTooltipMe").each(function() {

@@ -24,6 +24,7 @@ function Workspace() {
             ingestDivision("input_instruments","#displayableInputInstruments");
             ingestDivision("input_event","#displayableInputEvent");
             ingestDivision("input_result","#displayableInputResult");
+            ingestDivision("input_datamining","#displayableInputDataMining");
             ingestDivision("task_ils","#displayableILS");
             ingestDivision("task_dpas","#displayableDPAS");
             ingestDivision("task_upload","#displayableTaskUpload");
@@ -35,6 +36,10 @@ function Workspace() {
             ingestDivision("task_searchInstLoc","#displayableTaskSearchInstLoc");
             ingestDivision("task_searchInstCap","#displayableTaskSearchInstCap");
             ingestDivision("task_searchData","#displayableTaskSearchData");
+            ingestDivision("task_datamining","#displayableTaskDataMining");
+            ingestDivision("task_context","#displayableTaskContext");
+            ingestDivision("input_event_view","#displayableInputEventView");
+
 
             window.workspace.setDisplay("splash");
             
@@ -60,6 +65,7 @@ function Workspace() {
                 "sDom": '<"H">t<"F">'
             });
             $("#extra_list_form").html(($("#extra_list").html()));
+            var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
 
 
@@ -83,7 +89,7 @@ function Workspace() {
                     $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
                 }
             } );
-            $(".custom_button").button();
+            formatButton($(".custom_button"))
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
@@ -93,7 +99,24 @@ function Workspace() {
                     $("#dialog-message").remove();
                 },
                 buttons: {
+                    Help: function(){
+                        $('#help_overlay h3').text("Instrument Selection Form");
+                        $('#help_overlay p').text("Select the instruments you are interested in by clicking the names, once you are confortable with your selection, click Ok");
+                        $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
+                        $.blockUI({
+                            message: $('#help_overlay')
+                        });
+                        $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+                    },
+                    Cancel: function() {
+                        $("#extra_list").html(tempextralist);
+                        $("#dialog-message").dialog( "close" );
+                    },
                     Ok: function() {
+                        if($("#extra_list_form li").length <=0){
+                            alert("Please make a selection before pressing Ok");
+                            return false;
+                        }
                         $("#extra_list").html(($("#extra_list_form").html()));
 
                         
@@ -129,6 +152,7 @@ function Workspace() {
                 "sDom": '<"H">t<"F">'
             });
             $("#extra_list_form").html(($("#extra_list").html()));
+            var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
        
 
@@ -149,9 +173,9 @@ function Workspace() {
                 }
                 else{
                     $(this).addClass('row_selected');
-                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/><div class='custom_button input_time_advanced'>Advanced</div></li>");
+                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(".input_time_advanced").unbind();
-                    $(".custom_button").button();
+                    formatButton($(".custom_button"))
                     $(".input_time_advanced").click(function(){
                         
                         
@@ -160,7 +184,7 @@ function Workspace() {
 
                 }
             } );
-            $(".custom_button").button();
+            formatButton($(".custom_button"))
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
@@ -170,13 +194,45 @@ function Workspace() {
                     $("#dialog-message").remove();
                 },
                 buttons: {
+                    Help: function(){
+                        $('#help_overlay h3').text("Event List Selection Form");
+                        $('#help_overlay p').text("Select the catalogues you are interested in by clicking the names, once you are confortable with your selection, click Ok");
+                        $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
+                        $.blockUI({
+                            message: $('#help_overlay')
+                        });
+                        $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+                    },
+                    Cancel: function(){
+                        $("#extra_list").html(tempextralist);
+                        $("#dialog-message").dialog( "close" );
+
+                    },
                     Ok: function() {
+
+                         
+                        if($("#extra_list_form li").length <=0){
+                            alert("Please make a selection before pressing Ok");
+                            return false;
+                        }
+                            
+                     
+                        
+                        if($("#extra_list_form").html()!=""){
+                            $("#event_drop").attr('src','../images/helio/circle_event.png');
+                            $("#event_drop").addClass('drop_able');
+                        }
+                        else{
+                            $("#event_drop").attr('src','../images/helio/circle_event_grey.png');
+                            $("#event_drop").removeClass('drop_able');
+                        }
+                        
                         $(".input_time_advanced").remove();
                         $("#extra_list").html(($("#extra_list_form").html()));
                         
                         
-                        $("#event_drop").attr('src','../images/helio/circle_event.png');
-                        $("#event_drop").addClass('drop_able');
+                        
+                        
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
@@ -217,6 +273,7 @@ function Workspace() {
                     changeYear: true,
                     numberOfMonths: 1,
                     onClose: function( selectedDate ) {
+                        
                         var option = this.id == "minDate"+id ? "minDate" : "maxDate",
                         instance = $( this ).data( "datepicker" ),
                         date = $.datepicker.parseDate(
@@ -224,17 +281,24 @@ function Workspace() {
                             $.datepicker._defaults.dateFormat,
                             selectedDate, instance.settings );
                         dates.not( this ).datepicker( "option", option, date );
+                        $.cookie("minDate",$("#minDate"+id).val(),{
+                            expires: 30
+                        });
+                        $.cookie("maxDate",$("#maxDate"+id).val(),{
+                            expires: 30
+                        });
                     }
                 });
 
             }
+         
             var _createDateRange =function(num){
                 var tr = $('<tr id="input_time_range_'+num+'"></tr>');
-                var td = $('<td align="center" valign="center">Range '+num+'</td>');
+                var td = $('<td align="center" valign="center">Range:</td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="25" type="text" id="minDate'+num+'" name="minDate" value="2003-01-01T00:00:00"/></td>');
+                td = $('<td align="center" valign="center"> <input index="'+num+'" tabindex="-1" size="25" type="text" id="minDate'+num+'" name="minDate" value="'+$.cookie("minDate")+'"/></td>');
                 tr.append(td);
-                td = $('<td align="center" valign="center"> <input size="25 type="text" id="maxDate'+num+'" name="maxDate" value="2003-01-03T00:00:00"/></td>');
+                td = $('<td align="center" valign="center"> <input index="'+num+'" tabindex="-1" size="25 type="text" id="maxDate'+num+'" name="maxDate" value="'+$.cookie("maxDate")+'"/></td>');
                 tr.append(td);
                 td = $('<td><div></div></td>');
                 tr.append(td);
@@ -257,18 +321,7 @@ function Workspace() {
 
                 });
                 
-                $("#maxTime"+num).change(function(){
-             //       validatemydate(num);
-                });
-                $("#minTime"+num).change(function(){
-               //     validatemydate(num);
-                });
-                $("#maxDate"+num).change(function(){
-                   // validatemydate(num);
-                });
-                $("#minDate"+num).change(function(){
-                 //   validatemydate(num);
-                });
+            
                 
             }
           
@@ -309,14 +362,44 @@ function Workspace() {
                 });
         
             });
-            $(".custom_button").button();
+            formatButton($(".custom_button"))
             //$("#input_time_range_button").button({ disabled: true });
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
                 width:700,
+                open: function(event, ui) {
+                   
+                },
+
                 buttons: {
+                    Help: function(){
+                        $('#help_overlay h3').text("Time Range Selection");
+                        $('#help_overlay p').text("Fill out the time ranges you are interested in and click Ok");
+                        $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
+                        $.blockUI({
+                            message: $('#help_overlay')
+                        });
+                        $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
+                    },
+                    Cancel: function() {
+                        $("#dialog-message").dialog( "close" );
+                        $("#dialog-message").remove();
+                    },
+
                     Ok: function() {
+
+                        //Validate date ranges and if and error is found, notify the user and stop thread
+                        var flag =true;
+                        date_range_list.find("tr").each(function(index,value){
+                            if(!date_form_validate($(this).find('input').attr("index"))){
+                                alert("A date entered is invalid, please check your input");
+                                flag= false;
+                            }
+                        });
+                        if(!flag)return false;
+
+
                         var table =$("<table>");
                         var itr = 1;
 
@@ -345,7 +428,7 @@ function Workspace() {
                         $("#time_drop").attr('src','../images/helio/circle_time.png');
                         $("#time_drop").addClass('drop_able');
 
-                        $(".custom_button").button();
+                        formatButton($(".custom_button"))
                         
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
@@ -380,7 +463,14 @@ function Workspace() {
             
             
             switch (serviceName) {
+                case "context":
+                    if(minDate.length >0&& maxDate.length >0){
+
+                        sendQueryContext([minDate[0]], [maxDate[0]]);
+                    }
+                    break;
                 case "HEC":
+                    
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
                         
                         sendQuery(minDate, maxDate,serviceName, extra);
@@ -394,7 +484,7 @@ function Workspace() {
                             var div =$('<div></div>');
                             div.attr('id','dialog-message');
                             div.attr('title','Warning');
-                            var message = "Please use a single time range on this service.";
+                            var message = "You have entered multiple time ranges. The system will merge your search into a single range with your overall minimum and maximum time";
                             div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
                             $("#testdiv").append(div);
 
@@ -404,6 +494,11 @@ function Workspace() {
                                 modal: true,
                                 buttons: {
                                     Ok: function() {
+                                        
+                                        $( this ).dialog( "close" );
+                                        sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                    },
+                                    Cancel: function() {
                                         $( this ).dialog( "close" );
                                     }
                                 }
@@ -415,38 +510,53 @@ function Workspace() {
                     }
                     break;
                 case "ILS":
+                    
                     if(minDate.length >0&& maxDate.length >0){
-                                                
-                        sendQuery(minDate, maxDate,serviceName, extra);
+                        if(minDate.length > 1){
+                            var div =$('<div></div>');
+                            div.attr('id','dialog-message');
+                            div.attr('title','Warning');
+                            var message = "You have entered multiple time ranges. The system will merge your search into a single range with your overall minimum and maximum time";
+                            div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
+                            $("#testdiv").append(div);
+
+
+                            $('#dialog-message').dialog({
+
+                                modal: true,
+                                buttons: {
+                                    Ok: function() {
+
+                                        $( this ).dialog( "close" );
+                                        sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                    },
+                                    Cancel: function() {
+                                        $( this ).dialog( "close" );
+
+                                    }
+                                }
+                            });
+
+                        }else{
+                            sendQuery(minDate, maxDate ,serviceName, extra);
+                        }
                     }
                     break;
                 case "DPAS":
+                    
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
 
                         sendQuery(minDate, maxDate,serviceName, extra);
                     }
                     break;
                 default:
-                    break;                           
+                    break;
             }
         },
-        getDivisions: function(){
+       
+         getDivisions: function(){
             if (typeof console!="undefined")console.info("Workspace :: setElement");
             return divisions;
-        },
-        onLoading: function(){
-            if (typeof console!="undefined")console.info("Workspace :: onLoading");
-            var element = window.historyBar.getCurrent();
-            if(element.getClassName() == 'ActionViewer'){
-                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#advancedParams').html());
-            }else{
-                element.prepareStep($("#currentDisplay").find("form").serialize(),$('#currentDisplay').find('#hecExtendedQueryContent').html());
-            }
-            
-            
-
-
-            window.workspace.setDisplay("loading");
         },
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
@@ -462,115 +572,23 @@ function Workspace() {
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
             
+        getPreviousTaskState($("#task_name"),$("#HUID"),key);
+             
+        
+  
+            
             
         },
+         
         createItem: function(imagePath){
             
             if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
             var element;
-                        
+            formatButton($(".custom_button"))
+            if($("#task_name").length >0)setPreviousTaskState($("#task_name"),$("#HUID"),$("#query_form"));
             this.setDisplay(imagePath);
             
-            switch (imagePath) {
-                case 'splash':
-                    break;
-                case 'hec_extended':
-                    element = new ActionViewerExtended(imagePath,"ghost",text,"label","hec");
-                    window.historyBar.addItem(element);
-                    window.historyBar.render();
-                    break;
-                case 'task_hec':
-                    element = new ActionViewer();
-                    element.init();
-                   
-                    $("#event_button").click(window.workspace.event_input_form);
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                        
-                    
-                    
-                    break;
-                case 'task_ics':
-                    element = new ActionViewer();
-                    element.init();
-                   
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    
-                    break;
-                case 'task_ils':
-                    element = new ActionViewer();
-                    element.init();
-                    
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                                   
-                    break;
-                case 'task_dpas':
-                    element = new ActionViewer();
-                    element.init();
-                    $("#instruments_button").click(window.workspace.instrument_input_form);
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-
-                   
-                    
-                    //$("#droppable-inner").data("content",$("#instArea").html());
-                    break;
-                case 'task_searchEvents':
-                    element = new ActionViewer();
-                    element.init();
-                    $("#event_button").click(window.workspace.event_input_form);
-                    $("#event_drop").click(window.workspace.event_input_form);
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    break;
-                case 'task_chart':
-                    
-                    element = new ActionViewer();
-                    element.init();
-                    createchart();
-                    $("#event_button").click(window.workspace.event_input_form);
-                    $("#event_drop").click(window.workspace.event_input_form);
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    break;
-                case 'task_searchInstCap':
-                    element = new ActionViewer();
-
-                    element.init();
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    break;
-                     case 'task_searchInstLoc':
-                    element = new ActionViewer();
-
-                    element.init();
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    break;
-                case 'task_searchData':
-                    element = new ActionViewer();
-                    element.init();
-                    $("#instruments_button").click(window.workspace.instrument_input_form);
-                    $("#instruments_drop").click(window.workspace.instrument_input_form);
-                    $("#time_button").click(window.workspace.time_input_form);
-                    $("#time_drop").click(window.workspace.time_input_form);
-                    break;
-                case 'task_upload':
-                    
-                    
-                    
-                    var options = {
-                        target: '#responseDivision',   // target element(s) to be updated with server response
-                        success: new ActionViewer().resultContainerInit // post-submit callback
-                    };
-                    $('#uploadForm').ajaxForm(options);
-                  
-                    break;
-                default:
-                    break;
-            }//end case
+            
 
         },
         //@TODO: delete
@@ -590,7 +608,7 @@ function Workspace() {
                 }
             });
             fnInitDroppable();
-            fnInitializeDatePicker();
+            
         },
         clear: function() {
             if (typeof console!="undefined")console.info("Workspace :: clear");

@@ -1,3 +1,12 @@
+
+.input_form_table label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+
+
+
 .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
 .ui-timepicker-div dl{ text-align: left; }
 .ui-timepicker-div dl dt{ height: 25px; }
@@ -27,7 +36,8 @@
     border:1px solid red;
 }
 .message{
-    background: #f3f8fc url(../images/info.png) 8px 50% no-repeat;
+    background: #f3f8fc  3px 50% no-repeat;
+    background-size:22px;
     border: 1px solid #b2d1ff;
     color: #006dba;
     margin: 10px 0 5px 0;
@@ -78,10 +88,7 @@
     z-index: 999;
 }
 
-.content {
-    padding: 5px 10px;
-    background-color:#fafafa;
-}
+
 
 
 html{
@@ -222,26 +229,41 @@ html{
 }
 
 #history {
-    float: left;
+    min-height:90px;
+    width: auto;
+    /*
     width: 86px;
     min-height:425px;
     height: 100%;
     
-    margin: 0px 23px 0px 0px;
+    margin: 0px 23px 0px 0px;*/
     
 }
-#history #historyContent1{
+#history #historyScrollWidth{
+    overflow-x: hidden;
+    width: 100%;
     float:left;
+    
 
-    overflow:visible;
-    max-width: 782px;
-    height:60px;
+}
+
+#history #historyContent{
+    
+
+    width:2500px;
+    
+    overflow: hidden;
+    
+    height: 63px;
+    white-space: nowrap;
+
+    
 }
 #history #historyContent img{
     width:35px;
     height:35px;
         cursor: move;
-
+display:table-cell;
 
 
 
@@ -261,15 +283,14 @@ html{
     filter:alpha(opacity=40);
 }
 .floaters{
-    
+    white-space: normal;
     margin-left:5px;
     margin-top:2px;
     float:left;
-    cursor: pointer;
+    
     padding:2px 0 3px 4px;
     
     overflow: hidden;
-
 
 
     -moz-box-shadow:0px 0px 2px #000000;
@@ -285,6 +306,15 @@ html{
 
 
 }
+#content-slider {
+    float:left;
+  width: 100%;
+  height: 6px;
+  margin: 5px;
+  background: #BBBBBB;
+  position: relative;
+}
+
 .floaters table{
     color:white;
     font-weight: bold;
@@ -321,9 +351,12 @@ html{
 
 #content-container
 {
-
+    margin-top: 10px;
     min-width: 1000px;
     width:100%;
+      
+  
+  
 
 }
 
@@ -362,10 +395,10 @@ html{
 {
     background-color:white;
     
-    float: left;
+    
     
     min-width: 887px;
-    width:85%;
+    width:100%;
     min-height:425px;
 }
 

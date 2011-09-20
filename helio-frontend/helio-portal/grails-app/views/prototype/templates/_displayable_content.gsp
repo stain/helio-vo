@@ -36,16 +36,22 @@
   <g:render template="displayables/splash" />
 </div>
 <div id="displayableInputTime" class="displayable" style="display:none">
-  <g:render template="displayables/input_time" />
+  <g:render template="displayables/inputs/input_time" />
+</div>
+<div id="displayableInputDataMining" class="displayable" style="display:none">
+  <g:render template="displayables/inputs/input_datamining" />
 </div>
 <div id="displayableInputEvent" class="displayable" style="display:none">
-  <g:render template="displayables/input_event" />
+  <g:render template="displayables/inputs/input_event" />
+</div>
+<div id="displayableInputEventView" class="displayable" style="display:none">
+  <g:render template="displayables/inputs/input_event_view" />
 </div>
 <div id="displayableInputInstruments" class="displayable" style="display:none">
-  <g:render template="displayables/input_instruments" />
+  <g:render template="displayables/inputs/input_instruments" />
 </div>
 <div id="displayableInputResult" class="displayable" style="display:none">
-  <g:render template="displayables/input_result" />
+  <g:render template="displayables/inputs/input_result" />
 </div>
 <div id="displayableTaskSearchEvents" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchevents" />
@@ -59,4 +65,11 @@
 <div id="displayableTaskSearchData" class="displayable" style="display:none">
   <g:render template="tasks/services/task_searchdata" />
 </div>
+<div id="displayableTaskDataMining" class="displayable" style="display:none">
+  <g:render template="tasks/advanced/task_datamining" />
+</div>
+<div id="displayableTaskContext" class="displayable" style="display:none">
+  <g:render template="tasks/advanced/task_context" />
+</div>
+
 

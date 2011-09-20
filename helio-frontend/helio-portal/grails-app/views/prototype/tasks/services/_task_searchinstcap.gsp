@@ -1,13 +1,18 @@
+
+
 <div id="actionViewer">
   <div class="viewerHeader">
     <table  style="height:30px;width: 100%;">
       <tr >
-        <td width="60">
+        <td>
            <!--img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" /!-->
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Search Instruments</h1>
+          <h1 >Search Instruments by Capability</h1>
+
         </td>
+
+
       </tr>
     </table>
   </div>
@@ -20,7 +25,8 @@
     <div class="content">
       <form id="actionViewerForm"  action="asyncQuery" method="POST">
         <input id="service_name" name="serviceName" type="hidden" value="ICS"/>
-        <input id="task_name" name="taskName" type="hidden" value="task_searchInstruments"/>
+        <input id="task_name" name="taskName" type="hidden" value="task_searchInstCap"/>
+        <input id="task_label" type="hidden" value="Instrument"/>
         <input id="extra" name="extra" style="display:none" type="text" value="instrument"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />

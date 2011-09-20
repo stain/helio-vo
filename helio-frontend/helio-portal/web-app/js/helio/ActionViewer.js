@@ -4,7 +4,8 @@ function ActionViewer() {
     return {
         // Public methods
         resultContainerInit: function(data){
-            
+
+
             $("#responseDivision").html(data);
             $("#result_area").html("Query Success");
             $("#result_button").remove();
@@ -18,6 +19,7 @@ function ActionViewer() {
             $("#result_overview").css("display","table");
             $(":checkbox").unbind();
             $(":checkbox").removeAttr("checked");
+            $("#result_drop").attr('result_id',$("#resultId").val())
             $("input:checkbox").change(function(){
                 var checkboxColumn=$(this).attr("column");
                 var filter_expression = "\0";
@@ -41,10 +43,79 @@ function ActionViewer() {
             $('#displayableResult').append($('#tables'));
             $('#displayableResult').css("display","block");
 
+            if($("#task_name").val()=="task_searchEvents"){
+
+                $('.resultTable tr').prepend("<td class='magnify'>Get Details</td>");
+            }
+
             $('.resultTable').each(function(){
                 fnFormatTable(this.id);
             });
-            $(".custom_button").button();
+
+            $('.magnify').click(function(){
+                var dataTable =$("#"+$(this).parent().parent().parent().attr('id')).dataTable();
+                var settings = dataTable.fnSettings();
+                var time_start = -1;
+                var time_end = -1;
+                for(var j = 0;j< settings.aoColumns.length;j++){
+                    if(settings.aoColumns[j].sTitle.trim() == 'time_start'){
+                        time_start=j;
+                    }
+                    if(settings.aoColumns[j].sTitle.trim() == 'time_end'){
+                        time_end=j;
+                    }
+
+
+                }//end j
+                var times =$($(this).parent().children()[time_start]).text();
+                var timee =$($(this).parent().children()[time_end]).text();
+
+                //sendExamineEvent(times,timee);
+
+                $("#dialog-message").remove();
+                var div =$('<div></div>');
+                div.attr('id','dialog-message');
+                div.attr('title','Event Details');
+                              
+
+
+
+                var html = window.workspace.getDivisions()["input_event_view"];
+                div.append(html);
+
+                $("#testdiv").append(div);
+                $("#details_start_date").text(times);
+                $("#details_end_date").text(timee);
+                formatButton($('.custom_button'));
+                $("#fplot_button").click(function(){
+                    sendExamineEvent(times,timee,"fplot");
+                });
+                 $("#cplot_button").click(function(){
+                    sendExamineEvent(times,timee,"cplot");
+                });
+                 $("#pplot_button").click(function(){
+                    sendExamineEvent(times,timee,"pplot");
+                });
+                  sendExamineEvent(times,timee,"link");
+                $('#dialog-message').dialog({
+                    modal: true,
+                    height:600,
+                    width:800,
+                    buttons: {
+
+
+                        Ok: function() {
+
+                            $("#dialog-message").dialog( "close" );
+                            $("#dialog-message").remove();
+
+                        }
+                       
+                    }
+                });
+            });
+            formatButton($(".custom_button"))
+            
             $("#response_save_selection").click(function(){
 
                 if($(".odd_selected").length <1 && $(".even_selected").length<1){
@@ -78,7 +149,9 @@ function ActionViewer() {
                                 time_end=j;
                             }
 
+
                         }//end j
+                        if(time_end == -1) time_end = time_start;
 
                         $("#resultTable"+i+" .even_selected").each(function(){
 
@@ -100,7 +173,7 @@ function ActionViewer() {
 
                       
                         var tr = $('<tr></tr>');
-                        tr.append("<td><b>Range "+itr+":</b></td>"+
+                        tr.append("<td><b>Range :</b></td>"+
                             "<td>"+time_start_array[itr]+"</td>"+
                             
                             "<td>--</td><td>"+time_end_array[itr]+"</td>");
@@ -215,7 +288,7 @@ function ActionViewer() {
                     $("#input_table").remove();
                     
                    
-                    $(".custom_button").button();
+                    formatButton($(".custom_button"))
                     $('#dialog-message').dialog({
                         modal: true,
                         height:530,
@@ -271,11 +344,15 @@ function ActionViewer() {
                                 div.append(table2);
                                 $("#historyContent").append(div);
                                 $(".closeme").unbind();
+                                
                                 $(".closeme").click(function(){
                                     $(this).parent().parent().parent().parent().parent().remove();
                                     saveHistoryBar();
+                                    
+                                    
 
                                 });
+
 
                                 var rowpos = $('#historyContent').position();
                                 if(rowpos!=null){
@@ -304,18 +381,18 @@ function ActionViewer() {
             }
             $("#dialog-message").dialog( "close" );
             $("#dialog-message").remove();
+
+            if($("#service_name").val()=='ICS'){
+
+                $("#response_save_selection").parent().prepend("*Items in red are not supported by our Data Search service therefore will not be saved.")
+            }
         },
         
         init: function(){
             
-            if($.cookie("minDate")==null)$.cookie("minDate","2003-01-01");
-            if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
-            if($.cookie("minTime")==null)$.cookie("minTime","00:00");
-            if($.cookie("maxTime")==null)$.cookie("maxTime","00:00");
-            $("#minDate").val($.cookie("minDate"));
-            $("#maxDate").val($.cookie("maxDate"));
-            $("#minTime").val($.cookie("minTime"));
-            $("#maxTime").val($.cookie("maxTime"));
+        
+            
+            
 
             $("#time_drop").draggable({
                 helper:'clone'
@@ -373,11 +450,12 @@ function ActionViewer() {
                 }
             });
 
-            //$('.submit_button').button({disabled: !$(".catalogueSelector input:checked").val()});
+            
+            $(".placeholder").remove();
             $.collapsible(".queryHeader","group1");
             $.collapsible(".advancedParameters","group2");
-            $( ".custom_button").button();
-            $( ".submit").button();          
+            
+            
         },
         renderContent: function() {
             

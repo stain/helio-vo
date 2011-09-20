@@ -8,12 +8,16 @@
     </td>
     <td id="time_area" class="candybox" >
         
-    </td> 
+    </td>
+     <td  >
+       <div class="clear_input_summary custom_button">Clear</div>
+    </td>
     
   </tr>
   <tr align="center">
     <td>
       <div id="time_button" class="custom_button">Select</div>
+      
     </td>
   </tr>
 </table>

@@ -2,14 +2,16 @@ package ch.i4ds
 
 class HelioQuery {
 
-    String session;
-    String service;
-    HelioParameters helioparameters;
-    String result;
+    String hUID;
+    String taskName;
+    String html;
+    
+    
     
     
  
 
     static constraints = {
+        id column:'hUID'
     }
 }

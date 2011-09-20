@@ -15,7 +15,7 @@
     </table>
   </div>
 <%-- Query Form --%>
-  <div class="module ">
+  <div  id="query_form" class="module ">
     <div class="header queryHeader viewerHeader">
       <h1>Query Form</h1>
     </div>
@@ -55,7 +55,10 @@
                     </div>
                   </td>
 
-                  <td class="candybox"><ul id="extra_list"></ul></td>
+                  <td class="candybox input_area_2"><ul id="extra_list"></ul></td>
+                   <td  >
+       <div class="clear_input_summary custom_button">Clear</div>
+    </td>
 
 
                 </tr>
@@ -100,7 +103,7 @@
                 </table>
               </td>
               <td valign="top">
-                <div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div>
+                <div class="message"><b>Step 3</b><br/>To save your results you can click on Save as VoTable, alternatively you can transform them into parameters to use in another query by selecting the rows of interest and then clicking on "Save selection to Data-Cart" </div>
               </td>
             </tr>
           </tbody>
@@ -111,5 +114,5 @@
       </form>
     </div>
   </div>
-  <div id="displayableResult" class="displayable" style="display:block"></div>
+  <div id="displayableResult" class="displayable" style="display:table;width: 100%"></div>
 </div>

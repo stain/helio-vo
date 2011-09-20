@@ -138,7 +138,7 @@ function UploadViewer(imageParam,typeParam,actionNameParam,contentParam,labelPar
                 
             }
             $( "input:submit").button();
-            $( ".custom_button").button();
+            formatButton($(".custom_button"))
             
         },
         render: function(key,current) {

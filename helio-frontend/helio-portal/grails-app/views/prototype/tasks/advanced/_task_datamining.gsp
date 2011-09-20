@@ -8,7 +8,7 @@
            <!--img height="30px" src="${resource(dir:'images/icons/toolbar',file:'hec.png')}" /!-->
         </td>
         <td>
-          <h1 >Search Data</h1>
+          <h1>Data Mining</h1>
 
         </td>
 
@@ -23,10 +23,10 @@
       <h1>Query Form</h1>
     </div>
     <div class="content">
-      <form id="actionViewerForm"  action="asyncQuery" method="POST">
-        <input id="service_name" name="serviceName" type="hidden" value="DPAS"/>
-        <input id="task_name" name="taskName" type="hidden" value="task_searchData"/>
-        <input id="task_label" type="hidden" value="Data"/>
+          <form id="actionViewerForm"  action="asyncQuery" method="POST">
+        <input id="service_name" name="serviceName" type="hidden" value="DES"/>
+        <input id="task_name" name="taskName" type="hidden" value="task_datamining"/>
+        <input id="task_label" type="hidden" value="Events"/>
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
           <col width="250"/>
@@ -40,10 +40,10 @@
             <div class="message"><b>Step 1</b><br/>Click on the 'Select' button to define the time range/s of interest.</div>
           </td>
           <tr>
-<%-- instrument selection area --%>
+<%-- Block Construction Area --%>
           <tr>
             <td colspan="2" style="border-top: solid 1px gray;">
-              <b>Instrument Selection</b>
+              <b>Argument Selection</b>
 
             </td>
           </tr>
@@ -53,18 +53,18 @@
                 <tr>
                   <td style="vertical-align:middle;" >
                     <div   class="resultDroppableInst" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-                      <img id="instruments_drop" style="margin:11px" src="${resource(dir:'images/helio',file:'circle_inst_grey.png')}" />
+                      <img id="block_drop" style="margin:11px" src="${resource(dir:'images/helio',file:'circle_block_grey.png')}" />
                     </div>
                   </td>
-                  <td class="candybox"><ul id="extra_list" ></ul></td>
+                  <td id="block_area" class="candybox"></td>
 
 
                 </tr>
-                <tr align="center"><td><div class="custom_button" id="instruments_button">Select</div></td></tr>
+                <tr align="center"><td><div class="custom_button" id="block_button">Select</div></td></tr>
               </table>
             </td>
             <td valign="top">
-              <div class="message"><b>Step 2</b><br/>Click on the 'Select' button to define the instrument/s of interest</div>
+              <div class="message"><b>Step 2</b><br/>To be Defined</div>
             </td>
           </tr>
 <%-- result overview --%>

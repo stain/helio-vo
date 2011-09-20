@@ -1,20 +1,4 @@
-/*
- *clears the datefields back to the original state when a droppable circle is dragged out of target
- *clears the highlighting of the droparea as well
- *@TODO: needs to be reworked into a droppable item methods in their corresponding viewer
- **/
-function fnclearDateTexts2(){
-    $(".hideDates").css("display","block");
-    $(".biggerInput").remove();
-    $(".TextAreas").css("display","none");
-    $(".minDateList").val("");
-    $(".maxDateList").val("");
-    $(".resultDroppable" ).removeClass( "ui-state-highlight" );
-    $(".resultDroppable2" ).removeClass( "ui-state-highlight" );
 
-    $("#instArea").html($("#droppable-inner").data("content"));
-//$(".tooltip").css("display","none");
-}
 
 
 /*
@@ -70,111 +54,6 @@ function mysubmit(){
     });
 }
 
-/*
- *test method to check functionality of datepicker
- *@TODO: rework into the actionviewer class
- */
-function fnInitializeDatePicker(){
-    /**
-    var dates = $('#minDate, #maxDate').datepicker({
-        
-        showOn: "button",
-        buttonImageOnly: true,
-        buttonImage: "../images/icons/calendar.gif"
-        
-  
-    });
-     **/
-
-    var dates = $('#minDate, #maxDate').datepicker({
-        defaultDate: "+1w",
-        
-        yearRange: '1970:2011',
-        dateFormat: 'yy-mm-dd',
-        changeMonth: true,
-        showOn: "button",
-        buttonImageOnly: true,
-        buttonImage: "../images/icons/calendar.gif",
-        changeYear: true,
-        numberOfMonths: 1,
-        onSelect: function(selectedDate) {
-           
-            //this.id == "minDate" ? window.minDate = selectedDate : window.maxDate = selectedDate;
-            this.id == "minDate" ? $.cookie("minDate",selectedDate) : $.cookie("maxDate",selectedDate);
-
-            var option = this.id == "minDate" ? "minDate" : "maxDate";
-            var instance = $(this).data("datepicker");
-            var date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-            dates.not(this).datepicker("option", option, date);
-
-        }
-    });
-    $("#minDate").keyup(function(){
-        $.cookie("minDate",$(this).val());
-    });
-    $("#maxDate").keyup(function(){    
-        $.cookie("maxDate",$(this).val());
-    });
-    $("#minTime").keyup(function(){
-        $.cookie("minTime",$(this).val());
-    });
-    $("#maxTime").keyup(function(){
-        $.cookie("maxTime",$(this).val());
-    });
-
-    var validateDates = function(){
-        try{
-            var maxTime = $("#maxTime").val();
-            var minTime = $("#minTime").val();
-            var maxDate = $("#maxDate").val();
-            var minDate = $("#minDate").val();
-            var IsoDate = new RegExp("^([0-9]{4})-([0-9]{2})-([0-9]{2})$");
-            var IsoTime = new RegExp("^([0-9]{2}):([0-9]{2})$");
-            var matches = IsoDate.exec(maxDate);
-
-            if(matches ==null){
-                $("#maxDate").addClass("inputError");
-            }else{
-                $("#maxDate").removeClass("inputError");
-            //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
-            
-            }
-            matches = IsoDate.exec(minDate);
-            if(matches ==null){
-                $("#minDate").addClass("inputError");
-            }
-            else{
-                $("#minDate").removeClass("inputError");
-            }
-            matches = IsoTime.exec(maxTime);
-            if(matches ==null){
-                $("#maxTime").addClass("inputError");
-            }else{
-                $("#maxTime").removeClass("inputError");
-            }
-            matches = IsoTime.exec(minTime);
-            if(matches ==null){
-                $("#minTime").addClass("inputError");
-            }
-            else{
-                $("#minTime").removeClass("inputError");
-            }
-
-
-        /*
-            if(matches[1]!=null&&matches[2]&&matches[3]){
-
-            }
-            $("#dateError").remove();
-             */
-        }
-        catch(err){
-            $(".dateTable").append("<span style='color:red' id='dateError'>Error occurred. Please revise your input</span>");
-        }
-    };
-    $("#maxTime,#minTime,#minDate,#maxDate").keydown(validateDates);
-    $("#maxTime,#minTime,#minDate,#maxDate").keyup(validateDates);
-}
 
 
 /*
@@ -303,7 +182,7 @@ function fnInitDroppable(){
                 $(".resultDroppable2").css('background-image','url(../images/helio/circle_inst_grey.png)');
             });
             $("#instArea").parent().parent().append(revertButton);
-            $(".custom_button").button();
+            formatButton($(".custom_button"))
 
         }
     }).data('dropped_items',"");
@@ -408,7 +287,7 @@ function fnInitDroppable(){
                 $(".resultDroppable").css('background-image','url(../images/helio/circle_time_grey.png)');
             });
             $(".dateTable").append(revertButton);
-            $(".custom_button").button();
+            formatButton($(".custom_button"))
             $(".cbutton").button();
 
 
@@ -599,6 +478,8 @@ function fnFormatTable(tableName){
   
     //Run some code here
 
+
+
     $("#"+tableName).dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
@@ -614,6 +495,26 @@ function fnFormatTable(tableName){
         //"sScrollXInner": "100%",
         "bScrollCollapse": true,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
+
+            if($("#service_name").val()=='ICS'){
+
+                var div2 =$('<div></div>');
+                var html = window.workspace.getDivisions()["input_instruments"];
+                div2.append(html);
+                    
+                $("#testdiv").append(div2);
+                     
+                if($("#input_table td[internal='"+aData[2]+"']").length ==1){
+                    $(nRow).attr("class","item_found "+$(nRow).attr('class'));
+
+                            
+                }else{
+                    $(nRow).attr("class","item_missing "+$(nRow).attr('class'));
+                            
+                }
+                div2.remove();
+
+            }
             
             var dataIndex =aData.length-1;
             $(nRow).unbind();
@@ -773,28 +674,6 @@ function myPopup(url,windowname,w,h,x,y){
  * clears the current selection of the catalogue selectors in the actions
  * @TODO: if selectors are staying theway they are, move to ResultViewer
  */
-function fnOnChangeHistoryFilterSelect(event){
-    if (typeof console!="undefined")console.info("fnOnChangeHistoryFilterSelect");
-
-    window.historyBar.setFilter($(event).find("option:selected").val());
-    window.historyBar.render();
-}
-/**
- * method called before the asynchQuery is done to take all the parameters in advanced parameters and combine them into the box of the where field
- * @TODO: move to resultVierwer
- */
-function fnBeforeQuery(){
-    if (typeof console!="undefined")console.info("fnBeforeQuery");
-
-
-
-
-
-    //@TODO: validation
-    var mindate = $('#minDate').val();
-    var maxdate = $('#maxDate').val();
-    mysubmit();
-}
 
 
 
@@ -804,14 +683,23 @@ function fnBeforeQuery(){
 $(document).ready(function()
 {
 
+
+    //Person sss = new Person("dsa","dsa");
+
+    if($.cookie("minDate") == null)$.cookie("minDate","2003-01-01T00:00:00",{
+        expires: 30
+    });
+    if($.cookie("maxDate") == null)$.cookie("maxDate","2003-03-01T00:00:00",{
+        expires: 30
+    });
+    //$.cookie("maxDate",selectedDate);
     
-    
-        if($.cookie("helioSession")==null){
+    if($.cookie("helioSession")==null){
         
-            $.cookie("helioSession",$("#HUID").val(),{
-                expires: 30
-            });
-        }
+        $.cookie("helioSession",$("#HUID").val(),{
+            expires: 30
+        });
+    }
 
     
 
@@ -825,6 +713,9 @@ $(document).ready(function()
     $( "#tabs" ).tabs();
     $( ".reset_session" ).click(function(){
 
+
+        
+    
         $("#dialog-message").remove();
         var div =$('<div></div>');
         div.attr('id','dialog-message');
@@ -865,127 +756,155 @@ $(document).ready(function()
 
     getHistoryBar();
     //new TimeForm().display();
-    $( ".custom_button").button();
+    formatButton($(".custom_button"))
     $( ".menu_item" ).click(function() {
 
         var task_name = $(this).attr("id");
+        
         window.workspace.createItem(task_name);
         
-        
-        
-
-
   
     });
     
+$("#content-slider").slider({
+    animate: true,
+    change: handleSliderChange,
+    slide: handleSliderSlide
+  });
 
-
-/*
-     *
-     *
-    
-    window.historyBar.init();
-    window.workspace = workspace;
-    window.workspace.init();
-
-    //TODO:hack of dates
-    
-    //Test code area
-    if($.cookie("minDate")==null)$.cookie("minDate","2003-01-01");
-    if($.cookie("maxDate")==null)$.cookie("maxDate","2003-01-03");
-    if($.cookie("minTime")==null)$.cookie("minTime","00:00");
-    if($.cookie("maxTime")==null)$.cookie("maxTime","00:00");
-
-    //window.maxDate="2003-01-03";
-    //window.minDate="2003-01-01";
-    $("#section-navigation img[title]").tooltip({
-        position: "bottom right",
-        delay: 0,
-        predelay:0
-    });
-   
-    window.onbeforeunload = function () {
-        return "Leaving this site will clear all your browsing history";
-    };
-     **/
 });
-
-
-function dateCalculator(dateString,operation){
-    
-                
-
-    var fields = dateString.split("T");
-    var first = fields[0].split("-");
-    var second = fields[1].split(":");
-    var d = new Date(first[0], first[1]-1, first[2], second[0], second[1], second[2], 0);
-    
-    operation == "+" ? d.setMinutes(d.getMinutes()+30):d.setMinutes(d.getMinutes()-30);
-    
-
-
-    var month = (d.getMonth()+1)<10? "0"+(d.getMonth()+1):(d.getMonth()+1);
-    var day = d.getDate()<10?"0"+d.getDate():d.getDate();
-    var hour =  d.getHours()<10?"0"+d.getHours():d.getHours();
-    var minutes = d.getMinutes()<10?"0"+d.getMinutes():d.getMinutes();
-    var seconds= d.getSeconds()<10?"0"+d.getSeconds():d.getSeconds();
-
-    var dateOutput = d.getFullYear()+"-"+month+"-"+day+"T"+hour+":"+minutes+":"+seconds;
-    
-    return dateOutput;
-
+function handleSliderChange(e, ui)
+{
+  var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
+                  $("#historyScrollWidth").width();
+  $("##historyScrollWidth").animate({scrollLeft: ui.value *
+     (maxScroll / 100) }, 1000);
 }
 
-function validatemydate(itr){
-    
+function handleSliderSlide(e, ui)
+{
+  var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
+                  $("#historyScrollWidth").width();
+  $("#historyScrollWidth").attr({scrollLeft: ui.value * (maxScroll / 100) });
+}
+function date_form_validate(itr){
+
     try{
-        
-        var maxTime = $("#maxTime"+itr).val();
-        var minTime = $("#minTime"+itr).val();
         var maxDate = $("#maxDate"+itr).val();
+        if(maxDate.indexOf("T") == -1){
+            maxDate = maxDate + "T00:00:00"
+            $("#maxDate"+itr).val(maxDate);
+        }
         var minDate = $("#minDate"+itr).val();
-        var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])$");
-        var IsoTime = new RegExp("^([0-9]{2}):([0-9]{2})$");
-        var matches = IsoDate.exec(maxDate);
+        if(minDate.indexOf("T") == -1){
+            
+            minDate = minDate + "T00:00:00";
+            $("#minDate"+itr).val(minDate);
+            
+        }
+        var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])T([0-9]{2}):([0-9]{2}):([0-9]{2})$");
+        
+        
 
+       
+
+        
+        var matches = IsoDate.exec(minDate);
+        
         if(matches ==null){
-            $("#maxDate"+itr).addClass("inputError");
-        }else{
-            $("#maxDate"+itr).removeClass("inputError");
-        //var maxDateObject = new Date(matches[1], (matches[2] - 1), matches[3]);
-
+            
+            return false;
         }
-        matches = IsoDate.exec(minDate);
+        matches = IsoDate.exec(maxDate);
         if(matches ==null){
-            $("#minDate"+itr).addClass("inputError");
+            
+            return false;
         }
-        else{
-            $("#minDate"+itr).removeClass("inputError");
-        }
-        matches = IsoTime.exec(maxTime);
-        if(matches ==null){
-            $("#maxTime"+itr).addClass("inputError");
-        }else{
-            $("#maxTime"+itr).removeClass("inputError");
-        }
-        matches = IsoTime.exec(minTime);
-        if(matches ==null){
-            $("#minTime"+itr).addClass("inputError");
-        }
-        else{
-            $("#minTime"+itr).removeClass("inputError");
-        }
+       
+        return true;
 
-
-    /*
-            if(matches[1]!=null&&matches[2]&&matches[3]){
-
-            }
-            $("#dateError").remove();
-         */
     }
     catch(err){
-        alert("inside the error");
+        
+        return false;
     }
 };
 
+function createmission(selector){
+
+    var holder= $('<div></div>');
+            
+    $("#dialog-message").remove();
+    var div =$('<div></div>');
+    div.attr('id','dialog-message');
+    div.attr('title','Argument Selection');
+
+    var html = window.workspace.getDivisions()["input_datamining"];
+    div.append(html);
+
+    $("#testdiv").append(div);
+            
+
+    formatButton($(".custom_button"))
+    $('#dialog-message').dialog({
+        modal: true,
+        height:630,
+        width:800,
+        close: function(){
+
+            $("#dialog-message").remove();
+        },
+        buttons: {
+            AddBlock: function(){
+
+               div.append("<div style='width:100%;border-bottom:1px solid black'><center> <label>Logical Operator:</lablel><select><option>AND</option><option>OR</option></select></center>");
+               div.append(html);
+     
+            },
+            Help: function(){
+                       
+            },
+            Cancel: function() {
+                $("#dialog-message").dialog( "close" );
+            },
+            Ok: function() {
+                       $("#block_area").html('');
+            var img = $(".block_img").attr('src');
+
+            $(".input_form_table").each(function(){
+                $("#block_area").append("<img src='"+ img +"' />");
+                $("#block_area").append(" AND ");
+            });
+
+
+                //console.debug($("#block_area").lastChild());
+
+
+                $("#dialog-message").dialog( "close" );
+                $("#dialog-message").remove();
+
+            }
+        }
+    });
+}
+
+
+
+
+//Helper Functions
+function pr(name){
+    console.debug($("#"+name).val());
+    return $("#"+name)
+}
+
+function formatButton(selector){
+
+    selector.each(function(){
+        if(!$(this).hasClass('ui-button')){
+            $(this).button();
+        }
+    });
+
+
+   
+}

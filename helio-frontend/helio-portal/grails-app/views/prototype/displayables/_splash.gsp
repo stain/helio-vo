@@ -1,4 +1,7 @@
 <div style="margin:20px">
+   
+        <input id="task_name" name="taskName" type="hidden" value="splash"/>
+
 
 
   <h2 style="color:orange;padding-bottom:10px;border-bottom: 1px solid black">Welcome to HELIO FrontEnd.</h2>

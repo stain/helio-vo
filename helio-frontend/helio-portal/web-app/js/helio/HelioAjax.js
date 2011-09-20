@@ -1,9 +1,6 @@
 
-
 function getAdvancedFields(serviceName,catalog){
      
-
-
     var __beforeSend= function(){         };
     var __onComplete = function(){
 
@@ -14,8 +11,6 @@ function getAdvancedFields(serviceName,catalog){
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
-
-
 
         var div =$('<div></div>');
         div.attr('id','dialog-message1');
@@ -31,7 +26,7 @@ function getAdvancedFields(serviceName,catalog){
 
             modal: true,
             height:700,
-                width:700,
+            width:700,
             buttons: {
                 Ok: function() {
                     $( this ).dialog( "close" );
@@ -49,16 +44,7 @@ function getAdvancedFields(serviceName,catalog){
      * @param textStatus status message
      * @param errorThrown error object
      */
-    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
-
-        
-        
-        
-
-
-
-
-    };
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {    };
 
     jQuery.ajax(
     {
@@ -165,6 +151,11 @@ function sendQuery(minDate,maxDate,serviceName,extra){
     //$("#result_overview").css("display","table");
     
     //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    $.blockUI({
+        message: $("#loading_form"),
+        centerY: 0,
+        css: {  }
+    });
     var rowpos = $('#result_area').position();
     if(rowpos!=null){
     
@@ -192,7 +183,7 @@ function sendQuery(minDate,maxDate,serviceName,extra){
      */
     var __onSuccess = function(data,textStatus) {
         
-
+        $.unblockUI();
         var element = new ActionViewer();
         element.resultContainerInit(data);
         
@@ -239,6 +230,213 @@ function sendQuery(minDate,maxDate,serviceName,extra){
     return;
 }
 
+function sendExamineEvent(minDate,maxDate,type){
+    /*
+     * Initialize the tooltips and reset button of columns
+     * Called after onSucess, onError
+     */
+
+    //$("#result_overview").css("display","table");
+
+    //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    $.blockUI({
+        message: $("#loading_form"),
+        centerY: 0,
+        css: {  }
+    });
+    var rowpos = $('#result_area').position();
+    if(rowpos!=null){
+
+
+
+        $('html,body').scrollTop(rowpos.top);
+    }
+
+    var __beforeSend= function(){
+     
+    };
+
+    var __onComplete = function(){
+
+    };
+
+
+
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccess = function(data,textStatus) {
+
+        $.unblockUI();
+        
+
+        if(type == "fplot"){
+            $("#fplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+        }
+        else if(type == "cplot"){
+            $("#cplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+        }
+        if(type == "pplot"){
+            $("#pplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+        }
+        else if(type == "link"){
+            $("#details_links").html("<a target='_blank' href='"+data+"'>"+data+"</a>");
+        }
+        
+
+
+
+
+
+
+
+
+    };
+
+    /**
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        //alert(xmlHttpRequest.responseText);
+        //alert(textStatus);
+        //alert(errorThrown);
+        $("#result_overview").css("display","table");
+        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
+        $("#result_button").remove();
+
+
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'GET',
+        data : {
+            "minDate":minDate,
+            "maxDate":maxDate,
+            "type":type
+
+
+
+
+
+
+        },
+        url : 'asyncQueryLinkService',
+        success: __onSuccess,
+        error: __onError,
+        beforeSend: __beforeSend,
+        complete: __onComplete
+    });
+
+    return;
+}
+
+function sendQueryContext(minDate,maxDate){
+    /*
+     * Initialize the tooltips and reset button of columns
+     * Called after onSucess, onError
+     */
+
+    //$("#result_overview").css("display","table");
+
+    //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
+    $.blockUI({
+        message: $("#loading_form"),
+        centerY: 0,
+        css: {  }
+    });
+    var rowpos = $('#result_area').position();
+    if(rowpos!=null){
+
+
+
+        $('html,body').scrollTop(rowpos.top);
+    }
+
+    var __beforeSend= function(){
+        $("#result_overview").css("display","table");
+        $("#result_area").html("your result is being processed");
+        $("#displayableResult").html("");
+    };
+
+    var __onComplete = function(){
+
+    };
+
+
+
+    /**
+     * Called after successful loading of HEC columns
+     * @param data HTML stub containing the loaded columns
+     * @param textStatus a status message.
+     */
+    var __onSuccess = function(data,textStatus) {
+
+        $.unblockUI();
+        $("#responseDivision").css("display","block");
+        $("#result_area").html("");
+        $("#result_area").html('<img src="'+data+'" alt="plot missing" />');
+    
+        $("#result_button").remove();
+            
+          
+
+         
+        
+        
+
+
+    };
+
+    /**
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+        //alert(xmlHttpRequest.responseText);
+        //alert(textStatus);
+        //alert(errorThrown);
+        $("#result_overview").css("display","table");
+        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
+        $("#result_button").remove();
+
+
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'GET',
+        data : {
+            "minDate":minDate.join(","),
+            "maxDate":maxDate.join(","),
+            "type":$("#plot_select").val()
+
+
+
+            
+            
+
+        },
+        url : 'asyncQueryContextService',
+        success: __onSuccess,
+        error: __onError,
+        beforeSend: __beforeSend,
+        complete: __onComplete
+    });
+
+    return;
+}
 
 
 function saveHistoryBar(){
@@ -271,7 +469,7 @@ function saveHistoryBar(){
         type : 'POST',
         data : {
             "HUID":$.cookie("helioSession"),
-            "html":$("#history").html()
+            "html":$("#historyContent").html()
 
         },
         url : 'asyncSaveHistoryBar',
@@ -283,18 +481,110 @@ function saveHistoryBar(){
     return;
 }
 
-
-
-function getHistoryBar(){
+function getPreviousTaskState(taskName,HUID,imagePath){
+    
+     
 
     var __onComplete = function(){
 
     };
 
     var __onSuccess = function(data,textStatus) {
+    
+        if(data != "")$("#query_form").html(data);
+        var element;
+        switch (imagePath) {
+            case 'splash':
+                break;
+
+            case 'task_datamining':
+
+                $("#time_button").click(window.workspace.time_input_form);
+                $("#time_drop").click(window.workspace.time_input_form);
+                $("#block_button").click(createmission);
+                $("#block_drop").click(createmission);
+                break;
+            case 'task_context':
+                element = new ActionViewer();
+                element.init();
+
+
+                $("#time_button").click(window.workspace.time_input_form);
+
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+
+            case 'task_searchEvents':
+                element = new ActionViewer();
+                element.init();
+                $("#event_button").click(window.workspace.event_input_form);
+                $("#event_drop").click(window.workspace.event_input_form);
+                $("#time_button").click(window.workspace.time_input_form);
+
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+            case 'task_chart':
+
+                element = new ActionViewer();
+                element.init();
+                createchart();
+                $("#event_button").click(window.workspace.event_input_form);
+                $("#event_drop").click(window.workspace.event_input_form);
+                $("#time_button").click(window.workspace.time_input_form);
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+            case 'task_searchInstCap':
+                element = new ActionViewer();
+
+                element.init();
+                $("#time_button").click(window.workspace.time_input_form);
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+            case 'task_searchInstLoc':
+                element = new ActionViewer();
+
+                element.init();
+                $("#time_button").click(window.workspace.time_input_form);
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+            case 'task_searchData':
+                element = new ActionViewer();
+                element.init();
+                $("#instruments_button").click(window.workspace.instrument_input_form);
+                $("#instruments_drop").click(window.workspace.instrument_input_form);
+                $("#time_button").click(window.workspace.time_input_form);
+                $("#time_drop").click(window.workspace.time_input_form);
+                break;
+            case 'task_upload':
+
+
+
+                var options = {
+                    target: '#responseDivision',   // target element(s) to be updated with server response
+                    success: new ActionViewer().resultContainerInit // post-submit callback
+                };
+                $('#uploadForm').ajaxForm(options);
+
+                break;
+            default:
+                break;
+        }//end case
+
+        formatButton($(".custom_button"));
+          
+        $(".clear_input_summary").click(function(){
+            
+            //var summary = $(this).parent().parent().find(".candybox");
+            //summary.
+            //var image = $(this).parent().parent().find(".ui-draggable");
+            });
         
-        $("#history").html(data);
-        window.historyBar.initSaved();
+        if($("#result_drop").attr('result_id') != null){
+            getSavedResult($("#result_drop").attr('result_id'));
+        }
+      
+
+
     };
 
     /**
@@ -313,11 +603,98 @@ function getHistoryBar(){
 
     jQuery.ajax(
     {
-        type : 'GET',
+        type : 'POST',
         data : {
-            "HUID":$.cookie("helioSession")
+            "HUID":$.cookie("helioSession"),
+            "taskName":taskName.val()
             
 
+
+        },
+        url : 'asyncGetPreviousTaskState',
+        success: __onSuccess,
+        error: __onError,
+        complete: __onComplete
+    });
+
+    return;
+}
+function setPreviousTaskState(taskName,HUID,queryHtml){
+
+
+
+    var __onComplete = function(){
+
+    };
+
+    var __onSuccess = function(data,textStatus) {
+
+    
+    
+    };
+
+    /**
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+    //alert(xmlHttpRequest);
+    //alert(textStatus);
+    //alert(errorThrown);
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'POST',
+        data : {
+            "HUID":$.cookie("helioSession"),
+            "taskName":taskName.val(),
+            "html":queryHtml.html()
+
+
+        },
+        url : 'asyncSetPreviousTaskState',
+        success: __onSuccess,
+        error: __onError,
+        complete: __onComplete
+    });
+
+    return;
+}
+
+function getHistoryBar(){
+
+    var __onComplete = function(){
+
+    };
+
+    var __onSuccess = function(data,textStatus) {
+        
+        $("#historyContent").html(data);
+        window.historyBar.initSaved();
+    };
+
+    /**
+ * Method called in case an error occurs when loading the HEC table.
+ * @param XMLHttpREquest the underlying request
+ * @param textStatus status message
+ * @param errorThrown error object
+ */
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
+    
+
+
+    };
+
+    jQuery.ajax(
+    {
+        type : 'GET',
+        data : {
+            "HUID":$.cookie("helioSession")         
         },
         url : 'asyncGetHistoryBar',
         success: __onSuccess,
