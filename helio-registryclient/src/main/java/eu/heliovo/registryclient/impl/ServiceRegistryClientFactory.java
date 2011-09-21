@@ -8,6 +8,9 @@ import eu.heliovo.registryclient.ServiceRegistryClient;
  *
  */
 public class ServiceRegistryClientFactory {
+    /**
+     * The singleton instance
+     */
     private static final ServiceRegistryClientFactory instance = new ServiceRegistryClientFactory();
     
     /**
