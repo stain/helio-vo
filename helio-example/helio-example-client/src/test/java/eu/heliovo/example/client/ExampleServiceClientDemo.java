@@ -3,12 +3,12 @@ package eu.heliovo.example.client;
 import javax.xml.ws.BindingProvider;
 
 import eu.heliovo.example.server.ExampleService;
-import eu.heliovo.example.server.ExampleServiceService;
+import eu.heliovo.example.server.ExampleService_Service;
 import eu.heliovo.example.server.TestException_Exception;
 
 public class ExampleServiceClientDemo 
 {
-	ExampleServiceService	ess	=	new ExampleServiceService();
+	ExampleService_Service	ess	=	new ExampleService_Service();
 	
 	public static void main(String[] args) 
 	{
@@ -18,7 +18,7 @@ public class ExampleServiceClientDemo
 
 	private void perform() 
 	{		
-		ExampleService	exService	=	ess.getExampleServicePort();
+		ExampleService	exService	=	ess.getExampleServiceImplPort();
 		((BindingProvider)exService).getRequestContext().put(
 				BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
 				"http://localhost:8080/helio-example-server/exampleService");
