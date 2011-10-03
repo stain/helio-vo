@@ -1,6 +1,8 @@
 package ch.fhnw.i4ds.helio;
 
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +13,7 @@ import org.openqa.selenium.interactions.Actions;
  * @author Lavanchy
  * 
  */
-public class andreSel2 {
+public class andreSel2 extends TestCase {
 
 	private WebDriver driver;
 	private String baseUrl = "";
@@ -74,8 +76,8 @@ public class andreSel2 {
 		// Open event selection
 		driver.findElement(
 				By.cssSelector("#event_button > span.ui-button-text")).click();
-		driver.findElement(By.xpath(".//*[@id='input_table']/tbody/tr[15]/td"))
-				.click();
+		driver.findElement(By.xpath("//table[@id='input_table']/tbody/tr/td[@internal='RHESSI Hard X-ray Flare List']"))
+				.click();//TODO set the right path-  Rhessi .//*[@id='input_table']/tbody/tr[15]/td
 		driver.findElement(By.xpath(okButton)).click();
 		waitXpath(waitForResult); // Default wait result is displayed.
 

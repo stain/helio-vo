@@ -7,16 +7,11 @@ package ch.fhnw.i4ds.helio;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
-import org.openqa.selenium.WebDriverCommandProcessor;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.*;
 
 import com.thoughtworks.selenium.Selenium;
-
-import bsh.Capabilities;
 
 /**
  * @author Lavanchy
@@ -58,30 +53,29 @@ public class AndresTest1 {
 			driver = new InternetExplorerDriver();
 			selenium = new WebDriverBackedSelenium(driver, baseUrl);
 			// selenium.start();
-			// http://stackoverflow.com/questions/6385181/could-not-start-selenium-session-you-may-not-start-more-than-one-session-at-a-ti
 			testSeleAndre();
 		} catch (Exception e) {
 			System.out.println(tag + "Not abel to run the test:");
 			System.out.println(e.toString());
 		}
 	}
-	
+
 	/**
 	 * Run andres thest wit firefox
 	 */
-	public void runChrom(){
+	public void runChrom() {
 		try {
-		System.out.println(tag + "SeleAndre start with Chrome.");
-		System.setProperty("webdriver.chrome.driver", "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
-		driver = new ChromeDriver();
-		selenium = new WebDriverBackedSelenium(driver, baseUrl);
-		 selenium.start();
-		// http://stackoverflow.com/questions/6385181/could-not-start-selenium-session-you-may-not-start-more-than-one-session-at-a-ti
-		testSeleAndre();
-	} catch (Exception e) {
-		System.out.println(tag + "Not abel to run the test:");
-		System.out.println(e.toString());
-	}
+			System.out.println(tag + "SeleAndre start with Chrome.");
+			System.setProperty("webdriver.chrome.driver",
+					"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
+			driver = new ChromeDriver();
+			selenium = new WebDriverBackedSelenium(driver, baseUrl);
+			selenium.start();
+			testSeleAndre();
+		} catch (Exception e) {
+			System.out.println(tag + "Not abel to run the test:");
+			System.out.println(e.toString());
+		}
 	}
 
 	/**
@@ -99,7 +93,8 @@ public class AndresTest1 {
 			selenium.click("//button[@type='button']");
 			selenium.click("css=#event_button > span.ui-button-text");
 			selenium.click("xpath= .//*[@id='input_table']/tbody/tr[15]/td");
-			selenium.click("//button[@type='button']");
+			selenium.click("xpath= html/body/div[5]/div[11]/div/button");
+			System.out.println("show eventns");
 			for (int second = 0;; second++) {
 				if (second >= 60)
 					fail("timeout");
@@ -118,21 +113,22 @@ public class AndresTest1 {
 			selenium.click("//button[@type='button']");
 			selenium.click("css=img.history_draggable.ui-draggable");
 			selenium.type("id=minDate1", "2003-11-01");
-			// selenium.type("id=minDate1", "2003-11-02");
-			// selenium.type("id=minTime1", "16:09");
-			// selenium.type("id=maxTime1", "18:30");
-			// selenium.click("//button[@type='button']");
-			// selenium.click("css=#task_searchInstruments > span.ui-button-text");
-			// selenium.click("//div/div/table[2]/tbody/tr[2]/td/table/tbody/tr/td/input");
-			// selenium.click("//div/div/table[2]/tbody/tr[8]/td/table/tbody/tr/td[3]/input");
-			// selenium.click("//table[@id='resultTable0']/tbody/tr/td[3]");
-			// selenium.click("css=#response_save_selection > span.ui-button-text");
-			// selenium.click("//button[@type='button']");
-			// selenium.click("css=#task_searchData > span.ui-button-text");
+			selenium.type("id=minDate1", "2003-11-02");
+			selenium.type("id=minTime1", "16:09");
+			selenium.type("id=maxTime1", "18:30");
+			selenium.click("//button[@type='button']");
+			selenium.click("css=#task_searchInstruments > span.ui-button-text");
+			selenium.click("//div/div/table[2]/tbody/tr[2]/td/table/tbody/tr/td/input");
+			selenium.click("//div/div/table[2]/tbody/tr[8]/td/table/tbody/tr/td[3]/input");
+			selenium.click("//table[@id='resultTable0']/tbody/tr/td[3]");
+			selenium.click("css=#response_save_selection > span.ui-button-text");
+			selenium.click("//button[@type='button']");
+			selenium.click("html/body/div[5]/div[11]/div/button");
+			selenium.stop();
 		} catch (Exception e) {
 			fail("SeleAndre Game Over!");
 		} finally {
-			selenium.stop();
+
 			System.out.println(tag + "SeleAndre over, Selenium Stop!");
 		}
 	}
