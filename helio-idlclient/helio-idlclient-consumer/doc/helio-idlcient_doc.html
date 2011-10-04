@@ -1,157 +1,218 @@
 <html>
 <style>
-div
-{
-	font-family:Geneva;
-	font-size:11pt;
+div {
+  font-family: Geneva;
+  font-size: 11pt;
 }
-div.com
-{
-	font-family:fixedsys;
-	background:#E0E0E0;
+
+div.com {
+  font-family: monospace;
+  background: #E0E0E0;
+  white-space: pre;
 }
-h1
-{
-	color:#0000AA;
+
+h1 {
+  color: #0000AA;
 }
-h2
-{
-	color:#0000CC;
+
+h2 {
+  color: #0000CC;
 }
-h3
-{
-	color:#0000FF;
+
+h3 {
+  color: #0000FF;
 }
 </style>
-	<head>
-		<title>Helio IDL-Client doc</title>
-	</head>
-	<body>
-		<div>
-<h1>Helio IDL-Client Doc:</h1>
-If more than one command is provided for a method, they are equal.
-For all following commands <i>o</i> is the heliovo object created by command 1) or 2), <i>s</i> is the heliovo_service object created by command 8) or 9) and <i>c</i> is the heliovo_catalog object created by command x) y).
-<h2>Heliovo object</h2>
-<h3>Object instance creation</h3>
-An instance of an heliovo must be created first. Here is the idl command to do this.<br><br>
-<div class="com">
-1) IDL> o=obj_new('heliovo')<br>
-2) IDL> o->heliovo()
-</div>
-<h3>Help</h3>
-This command can be used to print a small help. This help contains the help for all heliovo objects<br><br>
-<div class="com">
-3) IDL> o->help
-</div>
-<h3>Print methods</h3>
-All available helio services can be printed with this command.<br><br>
-<div class="com">
-4) IDL> o->print, /service<br>
-5) IDL> o->print_service
-</div>
-<h3>Find methods</h3>
-This command proveds a search function to find a specific helio service. RegExp is used for the search string.<br><br>
-<div class="com">
-6) IDL> o->find, service='RegExp'<br>
-7) IDL> o->find_service, 'RegExp'
-</div>
-<h3>Get methods</h3>
-Create and return a helio_service object for the specified helio service. Service can be specified by id or name. Service id is shown by the commands 4-7.<br><br>
-<div class="com">
-8) IDL> s = o->get(service='SERVICENAME')<br>
-9) IDL> s = o->get_service('SERVICENAME')
-</div><br>
-Return the internal datastructure of the heliovo object (heliovo_framework object)<br><br>
-<div class="com">
-10) IDL> data = o->get(/data)<br>
-11) IDL> data = o->get_data()
-</div>
-<h2>heliovo_service object</h2>
-<h3>Help</h3>
-This command can be used to print a small help. This help contains only the help for this object<br><br>
-<div class="com">
-12) IDL> s->help
-</div>
-<h3>Print methods</h3>
-All available helio catalogs of this helio service can be printed with this command.<br><br>
-<div class="com">
-13) IDL> s->print, /service<br>
-14) IDL> s->print_catalog
-</div>
-<h3>Find methods</h3>
-This command proveds a search function to find a specific helio catalog of this helio service. RegExp is used for the search string.<br><br>
-<div class="com">
-15) IDL> s->find, catalog='RegExp'<br>
-16) IDL> s->find_catalog, 'RegExp'
-</div>
-<h3>Get methods</h3>
-Create and return a helio_catalog object for the specified helio catalog. Catalog can be specified by id or name. Catalog id is shown by the commands 13-16.<br><br>
-<div class="com">
-17) IDL> s = o->get(service='SERVICENAME')<br>
-18) IDL> s = o->get_service('SERVICENAME')
-</div><br>
-Return the internal datastructure of the heliovo_service object (heliovo_framework object)<br><br>
-<div class="com">
-19) IDL> data = o->get(/data)<br>
-20) IDL> data = o->get_data()
-</div>
-<h2>heliovo_catalog object</h2>
-<h3>Help</h3>
-This command can be used to print a small help. This help contains only the help for this object<br><br>
-<div class="com">
-21) IDL> c->help
-</div>
-<h3>Set method</h3>
-One or more time_intervals must be set. With this command the time_interval can be set. All date formats accepted by <i>anytim()</i> can be used.<br><br>To set more than one time_interval a 1-dimensional array (command 23) with the syntax [start1,end2,start1,end2,...] or a 2-dimensional array (command 24) with the syntax [[start1,end1],[start2,end2],...] can be used.<br><br>
-<div class="com">
-22) IDL> c->set, time_interval=['1-may-2004','2-may-2004']<br>
-23) IDL> c->set, time_interval=['1-may-2004','2-may-2004', '1-may-2005','2-may-2005']<br>
-24) IDL> c->set, time_interval=[['1-may-2004','2-may-2004'],['1-may-2005','2-may-2005']]
-</div>
-<h3>Get methods</h3>
-Start a helio query and directly parse the data to a struct. This function streams the votable from the url given by the result of the query. To save the votable local and parse it step by step skip this command and follow the instruction below (26-35)<br><br>
-<div class="com">
-25) IDL> data = c->get(/struct)<br>
-</div><br>
-Start a helio query and return the result as a helio_framework object.<br><br>
-<div class="com">
-26) IDL> result = c->get(/query)<br>
-27) IDL> result = c->get_query()
-</div><br>
-Return the internal datastructure of the heliovo_catalog object (heliovo_framework object)<br><br>
-<div class="com">
-28) IDL> data = c->get(/data)<br>
-29) IDL> data = c->get_data()
-</div>
-<h2>helio_framework</h2>
-<h3></h3>
-The heliovo_framework object is used for the communication between idl and the java service.
-<h3>Show method</h3>
-The show method is used to see all available attributes inside the object.<br><br>
-<div class="com">
-30) IDL> print, object->show()<br>
-31) IDL> object->show
-</div>
-<h3>Get method</h3>
-With this method all data inside the heliovo_framework object can be accessed. Use /attr to get the attribute <i>attr</i> from the object<br><br>
-<div class="com">
-32) IDL> x = object->get(/attr)<br>
-</div>
-<h2>votable parser</h2>
-<h3>Object instance creation</h3>
-An instance of the parser must be created first. Here is the idl command to do this.<br><br>
-<div class="com">
-33) IDL> parser = obj_new('votable2struct')<br>
-</div>
-<h3>Parse votable</h3>
-With this command a votable file can be parsed. The return value is a struct with all the meta information from the votable.<br><br>
-<div class="com">
-34) IDL> data = parser->getdata('FILENAME')<br>
-</div><h3>Parse data only</h3>
-With this method only the data inside the votable is parsed. The Meta information ist ignored. The return value is simple data array.<br><br>
-<div class="com">
-35) IDL> data = parser->gettable('FILENAME')<br>
-</div>
-		</div>
-	</body>
+<head>
+<title>Helio IDL-Client manual</title>
+</head>
+<body>
+  <div>
+    <h1>Helio IDL-Client manual</h1>
+    <p>This manual is intended for novice users of the HELIO IDL API. It provides a tutorial-like guide. Any issues or questions can be sent to marco.soldati@fhnw.ch.</p>
+    <p>
+      <b>NOTE: </b>
+      Some tasks can be performed through different compatible methods. Thus some of the examples below show multiple commands to achieve the same functionality.  
+      In all examples below the following variables stand for a particular object: 
+    </p>
+    <ul>
+      <li><code>o</code> is the object <code>heliovo</code> object (created
+          by command 1) or 2))</li>
+      <li><code>s</code> is the heliovo_service object (
+          created by command 8) or 9)) </li>
+      <li><code>c</code> is the heliovo_catalog
+          object created by command x) y).</li>
+    </ul>
+    <h2>Object <code>Heliovo</code></h2>
+    <h3>Object instance creation</h3>
+    An instance of an heliovo must be created first. Here is the IDL
+    command to do this.<br>
+    <div class="com">
+      1) IDL&gt; o=obj_new('heliovo') 
+      2) IDL&gt; o = heliovo()</div>
+    <h3>Help</h3>
+    <p>
+      The <code>help</code> command can be used to print a short help text. This text contains
+      the help for the heliovo objects and all sub-objects.
+    </p>
+    <div class="com">
+      3) IDL&gt; o-&gt;help</div>
+    <h3>Print methods</h3>
+    <p>All available helio services can be printed with the <code>print</code> command.</p>
+    <div class="com">
+      4) IDL&gt; o-&gt;print, /service 
+      5) IDL&gt; o-&gt;print_service</div>
+    <h3>Find methods</h3>
+    <p>This <code>find</code> command provides a search function to find a specific HELIO
+      service. As search string find uses a "regular expression".
+    </p>
+    <div class="com">
+      6) IDL&gt; o-&gt;find, service='RegExp' 
+      7) IDL&gt; o-&gt;find_service, 'RegExp'
+    </div>
+    <h3>Get methods</h3>
+    <p>
+      Create and return a helio_service object for the specified HELIO
+      service. Service can be specified by id or name. The Service id is shown
+      by the commands 4-7.
+    </p>
+    <div class="com">
+      8) IDL&gt; s = o-&gt;get(service='SERVICENAME')
+      9) IDL&gt; s = o-&gt;get_service('SERVICENAME')
+    </div>
+    <p> 
+      Return the internal data structure of the heliovo object
+      (heliovo_framework object)
+    </p>
+    <div class="com">
+      10) IDL&gt; data = o-&gt;get(/data)
+      11) IDL&gt; data = o-&gt;get_data()
+    </div>
+    <h2>Object <code>heliovo_service</code></h2>
+    <h3>Help</h3>
+    <p>
+      This command can be used to print a short help. This help contains
+      only the help for this object<br>
+    </p>
+    <div class="com">
+      12) IDL&gt; s-&gt;help
+    </div>
+    <h3>Print methods</h3>
+    <p>All available helio catalogs of this helio service can be printed
+    with the following commands.</p>
+    <div class="com">
+      13) IDL&gt; s-&gt;print, /service
+      14) IDL&gt; s-&gt;print_catalog
+    </div>
+    <h3>Find methods</h3>
+    <p>This command provides a search function to find a specific HELIO
+      catalog of this HELIO catalog service. A regular expression is used as search string.
+    </p>
+    <div class="com">
+      15) IDL&gt; s-&gt;find, catalog='RegExp'
+      16) IDL&gt; s-&gt;find_catalog, 'RegExp'
+    </div>
+    <h3>Get methods</h3>
+    <p>Create and return a <code>helio_catalog</code> object for the specified HELIO
+      catalog. Catalog can be specified by id or name. The catalog id is shown
+      by the commands 13-16.
+    </p>
+    <div class="com">
+      17) IDL&gt; s = o-&gt;get(service='SERVICENAME')
+      18) IDL&gt; s = o-&gt;get_service('SERVICENAME')
+    </div>
+    <p>Return the internal datastructure of the heliovo_service
+    object (heliovo_framework object)
+    </p>
+    <div class="com">
+      19) IDL&gt; data = o-&gt;get(/data)
+      20) IDL&gt; data = o-&gt;get_data()
+    </div>
+    <h2>heliovo_catalog object</h2>
+    <h3>Help</h3>
+    <p>This command can be used to print a small help. This help contains
+      only the help for this object
+    </p>
+    <div class="com">
+      21) IDL&gt; c-&gt;help
+    </div>
+    <h3>Set method</h3>
+    <p>One or more time_intervals must be set. With this command the
+      time_interval can be set. All date formats accepted by <i>anytim()</i>
+      can be used.
+    </p>
+    <p>To set more than one time_interval a 1-dimensional array
+      (command 23) with the syntax [start1,end2,start1,end2,...] or a
+      2-dimensional array (command 24) with the syntax
+      [[start1,end1],[start2,end2],...] can be used.<br>
+    </p>
+    <div class="com">
+      22) IDL&gt; c-&gt;set, time_interval=['1-may-2004','2-may-2004']
+      23) IDL&gt; c-&gt;set, time_interval=['1-may-2004','2-may-2004', '1-may-2005','2-may-2005']
+      24) IDL&gt; c-&gt;set, time_interval=[['1-may-2004','2-may-2004'],['1-may-2005','2-may-2005']]
+    </div>
+    <h3>Get methods</h3>
+    <p>Start a helio query and directly parse the data to a struct. This
+    function streams the votable from the url given by the result of the
+    query. To save the votable local and parse it step by step skip this
+    command and follow the instruction below (26-35)</p>
+    <div class="com">
+      25) IDL&gt; data = c-&gt;get(/struct)
+    </div>
+    <p> Start a helio query and return the result as a
+      helio_framework object.
+    </p>
+    <div class="com">
+      26) IDL&gt; result = c-&gt;get(/query)
+      27) IDL&gt; result = c-&gt;get_query()
+    </div>
+    <p> Return the internal datastructure of the heliovo_catalog
+    object (heliovo_framework object)
+    </p>
+    <div class="com">
+      28) IDL&gt; data = c-&gt;get(/data)
+      29) IDL&gt; data = c-&gt;get_data()
+    </div>
+    <h2>helio_framework</h2>
+    <p>The heliovo_framework object is used for the communication between
+      idl and the java service.</p>
+    <h3>Show method</h3>
+    <p>The show method is used to see all available attributes inside the
+      object.
+    </p>
+    <div class="com">
+      30) IDL&gt; print, object-&gt;show()
+      31) IDL&gt; object-&gt;show
+    </div>
+    <h3>Get method</h3>
+    <p>With this method all data inside the heliovo_framework object can be
+    accessed. Use /attr to get the attribute <i>attr</i> from the object
+    </p>
+    <div class="com">
+      32) IDL&gt; x = object-&gt;get(/attr)
+    </div>
+    <h2>votable parser</h2>
+    <h3>Object instance creation</h3>
+    <p>An instance of the parser must be created first. Here is the idl
+      command to do this.
+    </p>
+    <div class="com">
+      33) IDL&gt; parser = obj_new('votable2struct')
+    </div>
+    <h3>Parse votable</h3>
+    <p>With this command a votable file can be parsed. The return value is
+    a struct with all the meta information from the votable.
+    </p>
+    <div class="com">
+      34) IDL&gt; data = parser-&gt;getdata('FILENAME')
+    </div>
+    <h3>Parse data only</h3>
+    <p>With this method only the data inside the votable is parsed. The
+    Meta information ist ignored. The return value is simple data array.
+    </p>
+    <div class="com">
+      35) IDL&gt; data = parser-&gt;gettable('FILENAME')
+    </div>
+  </div>
+</body>
 </html>
