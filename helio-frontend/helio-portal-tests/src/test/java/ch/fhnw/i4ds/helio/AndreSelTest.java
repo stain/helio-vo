@@ -1,18 +1,21 @@
 package ch.fhnw.i4ds.helio;
 
+import junit.framework.Assert;
+
+import org.junit.Before;
+import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
-import com.thoughtworks.selenium.SeleneseTestCase;
 
 /**
  * 
  * @author Lavanchy
  * 
  */
-public class AndreSel3 extends SeleneseTestCase{
-
+public class AndreSelTest {
 	
 	private WebDriver driver;
 	private String baseUrl = "";
@@ -27,52 +30,19 @@ public class AndreSel3 extends SeleneseTestCase{
 	/* (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
+	@Before
 	public void setUp() throws Exception {
-
-		String[] ffPath = new String[4];
-		ffPath[0] = "PortableBrowser/FirefoxPortableLegancy36/FirefoxPortable.exe";
-		ffPath[1] = "Doc/PortableBrowser/Portable_Firefox_4.0/Firefox/firefox.exe";
-		ffPath[2] = "PortableBrowser/FirefoxPortable5.0.1/FirefoxPortable.exe";	//Drag & Drop Doesn't Work in the test!
-		int ffPathNr = 1;
-		System.setProperty("webdriver.firefox.bin", ffPath[ffPathNr ]);
 		baseUrl = "http://helio.i4ds.technik.fhnw.ch/Helio-dev/prototype/explorer";
-
-		//WebDriver driver = new FirefoxDriver();
-
-		setUp(baseUrl, ffPath[ffPathNr]);
-		//super.setUp();
+		driver = new FirefoxDriver();
 	}
 	
-
-	/**
-	 * 
-	 * @param baseUrl
-	 *            helio or helio-dev ( whole url)
-	 */
-	public AndreSel3() {
-		super("Andre's selection.");
-	}
-
-	/**
-	 * 
-	 * * @param driver Webdriver for example FF IE
-	 */
-	public void runTests(WebDriver driver) throws Exception {
-		this.driver = driver;
-		if (driver != null) {
-			testAndreSel3();
-		}
-		System.out.println(tag + "Test was successful");
-
-	}
 
 	// @Before
 	// public void setUp() throws Exception {
 	// driver = new FirefoxDriver();
 	// driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	// }
-	public void testAndreSel3() throws Exception {
+	@Test public void testAndreSel3() throws Exception {
 		System.out.println(tag + "Start test with: " + driver.toString());
 		driver.get(baseUrl);
 		waitXpath("//div[@id='task_searchEvents']");
@@ -242,7 +212,7 @@ public class AndreSel3 extends SeleneseTestCase{
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
-			fail(verificationErrorString);
+			Assert.fail(verificationErrorString);
 		}
 	}
 
