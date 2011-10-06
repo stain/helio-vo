@@ -23,7 +23,7 @@
 
 	<ciManagement>
 		<system>Hudson</system>
-		<url>http://helio-dev.i4ds.technik.fhnw.ch/hudson/</url>
+		<url>http://helio-dev.i4ds.ch/hudson/</url>
 		<notifiers>
 			<notifier>
 				<type>mail</type>
@@ -36,6 +36,7 @@
 		<site>
 			<id>helio-dev-site</id>
 			<name>Local deployed site</name>
+			<!--url>file:///D:/FHNW/heliovo/site/</url-->
 			<url>file:///var/www/heliovo/</url>
 		</site>
 		<!-- Following two entries are in preparation of an Archiva-based deployment 
