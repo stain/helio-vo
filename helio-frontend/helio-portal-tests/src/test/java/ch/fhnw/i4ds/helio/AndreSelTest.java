@@ -2,6 +2,7 @@ package ch.fhnw.i4ds.helio;
 
 import junit.framework.Assert;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -9,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.internal.selenesedriver.FindElement;
 
 /**
  * 
@@ -16,18 +18,21 @@ import org.openqa.selenium.interactions.Actions;
  * 
  */
 public class AndreSelTest {
-	
+
 	private WebDriver driver;
 	private String baseUrl = "";
 	private StringBuffer verificationErrors = new StringBuffer();
-	String tag = "AndreSel3 inf: ";
+	static String tag = "AndreSel3 inf: ";
 
 	// Ofen used Path for elements
 	private String waitForResult = "//div[@id='displayableResult']/div[@id='tables']";
-	private String okButton = "//div[@class='ui-dialog-buttonset']/button/span[text()='Ok']";// For
-																								// the
-																								// pupops
-	/* (non-Javadoc)
+	// For the pupops
+	private static String okButton = "//div[@class='ui-dialog-buttonset']/button/span[text()='Ok']";
+	private static String displayButton = "//div[@id='result_button']/span";
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
@@ -35,6 +40,7 @@ public class AndreSelTest {
 		baseUrl = "http://helio.i4ds.technik.fhnw.ch/Helio-dev/prototype/explorer";
 		driver = new FirefoxDriver();
 	}
+	
 	
 
 	// @Before
@@ -67,6 +73,8 @@ public class AndreSelTest {
 		driver.findElement(By.xpath("//table[@id='input_table']/tbody/tr/td[@internal='RHESSI Hard X-ray Flare List']"))
 				.click();//Rhessi .//*[@id='input_table']/tbody/tr[15]/td
 		driver.findElement(By.xpath(okButton)).click();
+		waitXpath(displayButton);
+		driver.findElement(By.xpath(displayButton)).click();
 		waitXpath(waitForResult); // Default wait result is displayed.
 
 		// Sort the element in the List!
@@ -99,6 +107,7 @@ public class AndreSelTest {
 		WebElement to = (WebElement) driver.findElement(By
 				.xpath("//div[@class='resultDroppable ui-droppable']/img"));
 		(new Actions(driver)).dragAndDrop(from, to).perform();
+		driver.findElement(By.xpath(displayButton)).click();
 		waitXpath(waitForResult);
 		// // HXR		//div[@id='ics_instrument']/table/tbody/tr/td/table/tbody/tr/td/input[@name='hxr']
 		//mabe select sxr to
@@ -125,7 +134,7 @@ public class AndreSelTest {
 				By.cssSelector("#task_searchData > span.ui-button-text"))
 				.click();
 
-		tearDown();
+		//tearDown();
 
 	}
 
@@ -156,6 +165,7 @@ public class AndreSelTest {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
+
 				System.out.println(tag + "WaitXpath error: thread.sleep");
 				e.printStackTrace();
 			}
@@ -207,8 +217,8 @@ public class AndreSelTest {
 		}
 	}
 
+	@After
 	public void tearDown() throws Exception {
-
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
