@@ -17,7 +17,7 @@
 	</description>
 	<modules>
 		<module>helio-cis-client</module>
-		<!--  >module>helio-cis-server</module-->
 		<module>helio-cis-server</module>
+		<module>helio-cis-example-server</module>
 	</modules>
 </project>
