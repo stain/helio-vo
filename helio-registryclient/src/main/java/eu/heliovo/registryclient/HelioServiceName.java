@@ -34,7 +34,7 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	/**
 	 * The Data evaluation service.
 	 */
-	public static final HelioServiceName DES = register("DES", "ivo://helio-vo.eu/des");
+	public static final HelioServiceName DES = register("DES", "ivo://helio-vo.eu/mdes");
 	
 	/**
 	 * The HELIO event catalogue.
