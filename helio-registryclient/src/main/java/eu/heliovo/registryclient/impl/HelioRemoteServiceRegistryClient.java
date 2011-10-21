@@ -29,6 +29,9 @@ import eu.heliovo.shared.props.HelioFileUtil;
  * @author marco soldati at fhnw ch
  */
 class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+    /**
+     * The logger.
+     */
 	private static final Logger _LOGGER = Logger.getLogger(HelioRemoteServiceRegistryClient.class);
 
 	/** The default address of the registry. */
@@ -47,8 +50,8 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 	}
 
 	/**
-	 * Set the url to use to access the registry.
-	 * @param url the url to use.
+	 * Set the URL to use to access the registry.
+	 * @param url the URL to use.
 	 */
 	public void setRegistryURL(URL url)  {
 		registry = new HelioBasicRegistryClient(new SoapClient(url));
@@ -63,7 +66,6 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 	    this.serviceDescriptors.clear();
 	    init();
     }
-	
 	
     /**
      * Update the service descriptors with all known services. 

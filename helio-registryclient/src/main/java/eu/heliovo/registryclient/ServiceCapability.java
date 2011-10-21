@@ -35,6 +35,11 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
     public static final ServiceCapability LINK_PROVIDER_SERVICE = register("LINK_PROVIDER_SERVICE","ivo://helio-vo.eu/lps/v1.0");
 
     /**
+     * A registry service
+     */
+    public static final ServiceCapability HELIO_PROCESSING_SERVICE = register("HELIO_PROCESSING_SERVICE", "ivo://helio-vo.eu/hps/1.0");
+    
+    /**
      * provider of a VOSI cababilites table.
      */
     public static final ServiceCapability VOSI_CAPABILITIES = register("VOSI_CAPABILITIES", "ivo://ivoa.net/std/VOSI#capabilities");
@@ -53,7 +58,7 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
      * A registry service
      */
     public static final ServiceCapability REGISTRY_SERVICE = register("REGISTRY_SERVICE", "ivo://ivoa.net/std/Registry");
-    
+
     /**
      * Unknown capability.
      */

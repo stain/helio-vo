@@ -69,6 +69,10 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	 * The Link Provider Service
 	 */
 	public static final HelioServiceName LPS = register("LPS", "ivo://helio-vo.eu/lps");
+	/**
+	 * The HELIO Processing Service
+	 */
+	public static final HelioServiceName HPS = register("HPS", "ivo://helio-vo.eu/hps");
 
 	/**
 	 * Name of the service
