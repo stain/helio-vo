@@ -298,6 +298,18 @@
 			<version>5.0-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                    <!-- Needed to prevent inlcusion of asm from helio-hps -->
+                    <artifactId>asm</artifactId>
+                    <groupId>asm</groupId>
+                </exclusion>
+                <exclusion>
+                    <!-- Needed to prevent inclusion of cglib from helio-hps - cglib-nodep should be enough -->
+                    <artifactId>cglib</artifactId>
+                    <groupId>cglib</groupId>
+                </exclusion>
+            </exclusions>
 		</dependency>
 		<dependency>
 			<!-- grails needs junit to be in compile scope -->
