@@ -1,5 +1,4 @@
 package ch.i4ds.helio;
-
 import ch.i4ds.*;
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -26,6 +25,7 @@ import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.registryclient.HelioServiceName;
+
 import org.springframework.web.context.request.RequestContextHolder
 
 import eu.heliovo.clientapi.processing.ProcessingResult;
@@ -36,10 +36,14 @@ import eu.heliovo.clientapi.processing.context.SimpleParkerModelService;
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.clientapi.linkprovider.impl.MimeTypeConstants;
 import eu.heliovo.registryclient.AccessInterface;
-import eu.heliovo.registryclient.HelioServiceName;
+
 import eu.heliovo.shared.props.HelioFileUtil;
 import javax.activation.MimeType;
 import eu.heliovo.clientapi.linkprovider.*;
+import eu.heliovo.clientapi.HelioClient;
+import eu.heliovo.clientapi.query.*;
+import eu.heliovo.clientapi.query.asyncquery.*;
+import eu.heliovo.registryclient.*;
 
 class PrototypeController {
 
@@ -48,11 +52,7 @@ class PrototypeController {
     def ResultVTManagerService;
 
  
-    def getTest = {
-
-
-        
-    }
+  
     /**
      * Action to asynchronously get advanced columns of a service.
      * Expects parameter: serviceName=SERVICE_NAME, catalog=CATALOG_NAME.
@@ -67,6 +67,8 @@ class PrototypeController {
 
         def template;  // name of the template to use
         if(params.serviceName == "ics")	{
+
+           
             def hash = TableInfoService.serviceMethod("files/tablesics.xml");
             def catalog = hash.get(params.catalog);
             template = "ics_" + params.catalog;
@@ -161,12 +163,13 @@ class PrototypeController {
                 
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
-                
-                println e.printStackTrace();
+               
+               println e.getMessage();
                 
                 
                 def responseObject = [error:e.getMessage() ];
-                return e.getMessage();
+                
+                 render template:'templates/response', bean:responseObject, var:'responseObject';
             }
         }
         else {
@@ -179,17 +182,47 @@ class PrototypeController {
         redirect(action:"explorer");
     }
 
+    def deleteSession = {
+        log.info("deleteSession =>" +params)
+        HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
+        if(item!=null)item.delete();
+        def queries = HelioQuery.findAllByHUID(params.HUID);
+        for(HelioQuery query : queries){
+            query.delete();
+        }
+        
+        render "success"
+    }
+
     def explorer={
         log.info("Explorer =>" +params)
+        def helioClient = new HelioClient();
+        //        AsyncQueryService serviceICS = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.ASYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
+        //                HelioQueryResult resultICS = serviceICS.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("2020-12-31T00:00:00"), Arrays.asList("instrument"), null, 0, 0, null);
+        //                System.out.println(resultICS.asURL());
+        //                System.out.println(serviceICS.getClass());
+        
 
+        //System.out.println(resultICS.asString());
 
+//       AsyncQueryService serviceICS= (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.DES, ServiceCapability.ASYNC_QUERY_SERVICE, null);
+//        HelioQueryResult resultICS = serviceICS.query(Arrays.asList("2007-07-10T12:00:00"), Arrays.asList("2007-07-11T12:00:00"), Arrays.asList("ACE"), "DERIV,ACE:V:32/:32", 0, 0, null);
+//System.out.println(resultICS.asString());
+
+        
+  
+        
+        
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
         // init calalog list for HEC GUI
+        
         HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
         HelioField<String> catalogField = hecDao.getCatalogField();
+        
         DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
     	
         // init catalog list for DPAS GUI
+        
         HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS);
         if (dpasDao == null) {
             throw new NullPointerException("Unable to find service DPAS");
@@ -197,7 +230,22 @@ class PrototypeController {
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
-        def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];
+
+       
+         
+        
+        AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );
+        
+        HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
+            Arrays.asList("hec_catalogue"), null, 0, 0, null);
+
+        
+        int timeout = 30;
+        VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
+        ResultVT   resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
+    
+        //def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];
+        def initParams = [hecCatalogs:resvt, dpasInstruments: dpasInstruments, HUID:sessionId];
         render view:'explorer', model:initParams
     }
 
@@ -238,11 +286,18 @@ class PrototypeController {
             extraList = params.extra.split(",")
         }else{
             extraList.push(params.extra);
+            
+            
         }
           
         String where ="";
 
 	if(params.where != null)where = params.where;
+        
+        
+        
+              
+
 	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
         
         
@@ -426,10 +481,8 @@ class PrototypeController {
             println url;
             render url;
         }else if(params.type =="pplot"){
-            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelServicesImpl((AccessInterface[])null);
-            Calendar cal = Calendar.getInstance();
-            cal.set(2003, Calendar.JANUARY, 1, 0, 0, 0);
-            Date startDate =  cal.getTime();
+            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
+            
             ProcessingResult result = parkerModelService.parkerModel(minDate);
 
             URL url = result.asURL(60, TimeUnit.SECONDS);
@@ -444,9 +497,13 @@ class PrototypeController {
         
         ContextServiceFactory factory = ContextServiceFactory.getInstance();
         Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
-        Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
-        
-       URL url = null;
+        Date maxDate =null;
+        if( params.maxDate != ""){
+            maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
+        }else{
+            maxDate = minDate;
+        }
+        URL url = null;
        
 
         
@@ -469,7 +526,7 @@ class PrototypeController {
             
             
         }else if(params.type =="pplot"){
-            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelServicesImpl((AccessInterface[])null);
+            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
           
             ProcessingResult result = parkerModelService.parkerModel(minDate);
 
@@ -478,30 +535,43 @@ class PrototypeController {
 
         }else if(params.type =="link"){
             LinkProviderFactory lfactory = LinkProviderFactory.getInstance();
+            LinkProviderService[] linkProviders = lfactory.getLinkProviders();
+
+            String result = "";
+
+            for (LinkProviderService provider : linkProviders) {
+                
+                URL link = provider.getLink(minDate, maxDate);
+                if(link == null)continue;
+                String title = provider.getTitle(minDate, maxDate);
 
 
-            // and get solar monitor link provider
-            LinkProviderService solarmonitor = lfactory.getHelioService(HelioServiceName.LPS, "ivo://helio-vo.eu/lps/solarmonitor", (AccessInterface[])null);
+                result = result +"<tr><td><a target='_blank' href='"+ link+"'>"+title+"</a></td></tr>";
+                
+            }
+
+            
+            
 
 
     
-        
+            render result;
 
-            // get the specific title for the given date range (only the start date will be taken into account)
+            
           
-            String title = solarmonitor.getTitle(minDate, maxDate);
+            
 
 
 
-            // get the mime type
-            MimeType mimeType = solarmonitor.getMimeType();
+            
+            
 
 
 
-            // get the actual link pointing to the page.
-            URL link = solarmonitor.getLink(minDate, maxDate);
+            
+            
 
-            render link;
+            
         }
         
         
