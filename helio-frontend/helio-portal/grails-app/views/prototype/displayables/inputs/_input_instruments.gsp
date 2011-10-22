@@ -30,17 +30,17 @@
 
       </tr>
     </table>
-    <table id="input_label_table"  style="display:none;width:100%;margin: 30px 0px">
+<table id="input_label_table"  style="display:none;width:100%;margin: 30px 0px">
   <tbody>
     <tr >
-        <td>
-          <h4 style="border-bottom:2px solid grey">Label Management</h4>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding:20px">Label: <input type="text" id="input_form_label" tabindex="1"/>
-        Group:<input type="text" disabled="true" id="input_form_group"/> </td>
-      </tr>
+      <td>
+        <h4 style="border-bottom:2px solid grey">Label Management</h4>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px">Label: <input type="text" id="input_form_label" tabindex="1"/>
+        <%--Group:<input type="text" disabled="true" id="input_form_group"/> --%></td>
+    </tr>
 
 
   </tbody>

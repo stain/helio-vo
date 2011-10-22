@@ -44,7 +44,7 @@
       </tr>
       <tr>
         <td style="padding:20px">Label: <input type="text" id="input_form_label" tabindex="1"/>
-        Group:<input type="text" disabled="true" id="input_form_group"/> </td>
+        <%--Group:<input type="text" disabled="true" id="input_form_group"/>--%> </td>
       </tr>
 
 

@@ -34,7 +34,7 @@
   </tr>
   <tr>
     <td id="links">
-      <h5>Additional Liks</h5>
+      <h5>Additional Links</h5>
       <span id="details_links"></span>
     </td>
   </tr>

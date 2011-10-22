@@ -12,52 +12,57 @@
         <tr>
           <td>
             <label>Mission:</label>
-            <select>
+            <select id="input_mission">
               <option> </option>
-              <option>ACE</option>
-              <option>WIND</option>
-              <option>Ulysses</option>
-              <option>STEREO-A</option>
-              <option>STEREO-B</option>
+              <option value="ACE">ACE</option>
+              <option value="WIND">WIND</option>
+              <option value="ULYSSES">Ulysses</option>
+              <option value="STA">STEREO-A</option>
+              <option value="STB">STEREO-B</option>
             </select>
           </td>
           </tr>
           <tr>
           <td>
             <label>Instrument</label>
-            <select>
+            <select id="input_instrument">
               <option> </option>
-              <option> SWEPAM</option>
-              <option> MAG</option>
-              <option> SWE</option>
-              <option> MFI</option>
-              <option> SWOOPS</option>
-              <option> FGM/VHM</option>
-              <option> PLASTIC</option>
+      
             </select>
           </td>
             </tr>
           <tr>
           <td>
             <label>Measurement Type:</label>
-            <select>
-              <option> </option>
-              <option> thermal plasma </option>
-              <option> magnetic field </option>
-
-            </select>
+            <input id="input_measurement" type="text"/>
+          
           </td>
             </tr>
           <tr>
            <td>
             <label>Function:</label>
-            <select>
-            <option>Deriv</option>
-            <option>Sign Change</option>
-            <option>Value</option>
+
+            <select id="input_function">
+           
             </select>
-            (<input type="text" value="delta F"/>,<input type="text" value="average time"/>)
+            
           </td>
+          
+        </tr>
+         <tr>
+           <td>
+             (Argument: 
+             <select id="input_argument">
+               <option> </option>
+             </select>
+             <select id="input_operator">
+             <option><</option>
+             <option>></option>
+             <option>=</option>
+             </select>
+             <input id="input_condition" size="5"  type="text" value=""/>
+             ,Average Time<input id="input_average_time" size="5" type="text" value=""/>,Time Window<input  id="input_time_window" size="5" type="text" value=""/>)
+           </td>
           
         </tr>
       </table>
@@ -66,7 +71,7 @@
   </tr><tr>
     <td></td>
     <td style="margin-top: 15px">
-      <label>Expression: </label> <b>ACE.DERIV,V: > 100:600;WIND.DERIV,V: < 150:600;</b>
+      <label>Expression: </label> <b><span id="input_expression"> 150:600;</span></b>
 
     </td>
     
