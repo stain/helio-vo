@@ -105,7 +105,7 @@
     <div id="tabs-3">
       <table>
         <tr>
-<td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining(disabled)</div></td>
+<td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div></td>
 <%--td><div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
 <%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
           <td>
