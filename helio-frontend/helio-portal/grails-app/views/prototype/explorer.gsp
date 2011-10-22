@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
 <%@ page import="ch.i4ds.helio.frontend.model.*" %>
 <%@ page import="ch.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
@@ -6,6 +7,9 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="EXPIRES" CONTENT="0">
     <title>HELIO FrontEnd</title>
 
   <g:render template="imports" />
@@ -57,7 +61,7 @@
     <ul>
       <li><a href="#tabs-2">Services</a></li>
       <li><a href="#tabs-3">Advanced</a></li>
-      
+
       <li><a href="#tabs-4">User</a></li>
 
     </ul>
@@ -101,15 +105,9 @@
     <div id="tabs-3">
       <table>
         <tr>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining(disabled)</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div>
-          </td>
+<td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining(disabled)</div></td>
+<%--td><div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
+<%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
           <td>
             <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
           </td>
@@ -134,37 +132,37 @@
 
   <div id="content-container"  >
 
-          <div class="candybox" id="history">
-            <div>Data Cart</div>
-            <div id="historyScrollWidth">
-            <div id="historyContent"></div>
-            </div>
-            <div id="content-slider"></div>
-          </div> <!-- History -->
-        
-        
-          <!-- Content -->
-          <div id="content" >
-            <!-- 1st level droppable -->
-            <div  id="droppable-inner" class="candybox">
-              <g:render template="templates/displayable_content" />
-            </div>
-          </div>
-          <div id="responseDivision" style="width:858px;display:block"></div>
-        
-          
+    <div class="candybox" id="history">
+      <div>Data Cart</div>
+      <div id="historyScrollWidth">
+        <div id="historyContent"></div>
+      </div>
+      <div id="content-slider"></div>
+    </div> <!-- History -->
+
+
+    <!-- Content -->
+    <div id="content" >
+      <!-- 1st level droppable -->
+      <div  id="droppable-inner" class="candybox">
+        <g:render template="templates/displayable_content" />
+      </div>
+    </div>
+    <div id="responseDivision" style="width:858px;display:block"></div>
+
+
   </div>
 </div>
 <div style="display:none">
-<div id="loading_form" style="display:none">
-  <div><h3 style="margin:30px;">Please wait </h3>
-  <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="couldnt find image" /></div>
-  <div style="margin:30px;" id="loading_form_cancel_button" class="custom_button">Cancel</div>
-</div>
-<div style="padding:30px;text-align: left" id="help_overlay" style="display:none">
-  <H3 style="text-align: left;margin:10px"></H3>
-  <p></p>
-</div>
+  <div id="loading_form" style="display:none">
+    <div><h3 style="margin:30px;">Please wait </h3>
+      <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="couldnt find image" /></div>
+    <div style="margin:30px;" id="loading_form_cancel_button" class="custom_button">Cancel</div>
+  </div>
+  <div style="padding:30px;text-align: left" id="help_overlay" style="display:none">
+    <H3 style="text-align: left;margin:10px"></H3>
+    <p></p>
+  </div>
 </div>
 </body>
 </html>
