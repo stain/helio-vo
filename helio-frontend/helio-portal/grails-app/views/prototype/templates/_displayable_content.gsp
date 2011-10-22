@@ -9,18 +9,7 @@
     <center><h1>Your query is being processed.</h1></center>
   </div>
 </div>
-<div id="displayableHEC_extended" class="displayable" style="display:block">
-  <g:render template="displayables/hec_extended" />
-</div>
-<div id="displayableICS" class="displayable" style="display:none">
-  <g:render template="tasks/services/task_searchinstloc" />
-</div>
-<div id="displayableILS" class="displayable" style="display:none">
-  <g:render template="tasks/services/task_searchinstcap" />
-</div>
-<div id="displayableDPAS" class="displayable" style="display:none">
-  <g:render template="tasks/services/task_searchdata" />
-</div>
+
 
 <div id="displayableTaskChart" class="displayable" style="display:none">
   <g:render template="tasks/services/task_chart" />
