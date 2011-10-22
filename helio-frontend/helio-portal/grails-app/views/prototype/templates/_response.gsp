@@ -33,12 +33,16 @@
 
             <div style="clear:both;width:100%"></div>
 
-            <g:if test="${result?.queryInfo.contains('QUERY_ERROR')}" >
+            <g:if test="${result?.queryInfo?.contains('QUERY_ERROR')}" >
               "The server reported an unspecified error. Some context information may be found in the returned VOTable. We are sorry for the inconvenience."
             </g:if>
             <g:each in="${result?.getTables()}"  status="x" var="tables">
               <div style="margin-top:20px;margin-bottom:5px;border-bottom:3px solid black"> <h3>${tables.getName()}</h3></div>
               <!--div reference="resultTable${x}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
+              <g:if test="${tables?.getData().size() == 0}" >
+              "The selected catalogue returned no data."
+            </g:if>
+              <g:else>
               <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${x}">
 
                 <thead>
@@ -56,7 +60,7 @@
                 <g:each in="${tables?.getData()}" status="i" var="testInstance">
                   <tr class="${(i % 2) == 0 ? 'gradeB' : 'gradeB'}">
                   <g:each in="${testInstance}" status="j" var="row">
-                    <g:if test="${urls == j}"><td><a href="${row}">${row.substring(row.lastIndexOf('/')+1,row.length())}</a></td></g:if>
+                    <g:if test="${urls == j}"><td><a target="_blank" href="${row}">${row.substring(row.lastIndexOf('/')+1,row.length())}</a></td></g:if>
                     <g:elseif test="${row == '-2147483648'}"><td></td></g:elseif>
                     <g:else><td>${row}</td></g:else>
                   </g:each>
@@ -66,6 +70,7 @@
 
                 </tbody>
               </table>
+                </g:else>
             </g:each>
 
           </div>
@@ -79,7 +84,7 @@
           <h1>Log</h1>
         </div>
         <div class="content">
-          <table cellpadding="0" cellspacing="0" border="1" align="left">
+          <table cellpadding="0" cellspacing="0" border="1" >
             <g:each in="${responseObject?.result.logRecords}" var="record">
               <tr>
                 <td valign="top" align="left"><%=record.level %></td>
