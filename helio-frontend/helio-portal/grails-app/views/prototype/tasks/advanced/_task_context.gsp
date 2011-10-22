@@ -39,24 +39,25 @@
             <div class="message"><b>Step 1</b><br/>Click on the 'Select' button to define the time range/s of interest.</div>
           </td>
 <%-- type selection area --%>
-          <tr>
-              <tr>
-              <td style="border-top: solid 1px gray;"><b>Type Selection</b><br/>
-                <select id="plot_select">
+
+          <tr style="height: 150px">
+            <td style="border-top: solid 1px gray;text-align:left"><b>Type Selection</b><br/>
+              <div style="width: 100%;height: 100px;padding-left: 50px;padding-top:15px"><select id="plot_select">
                   <option value="fplot">Flare Plotter</option>
                   <option value="gplot">GOES Plotter</option>
                   <option value="pplot">Simple Parker Model</option>
                 </select>
-          </td>
-          <td style="border-top: solid 1px gray; vertical-align: top;">
-            <div class="message"><b>Step 2</b><br/>Select the type of plot you are interested in</div>
-          </td>
-          <tr>
+              </div>
+            </td>
+            <td style="border-top: solid 1px gray; vertical-align: top;">
+              <div class="message"><b>Step 2</b><br/>Select the type of plot you are interested in</div>
+            </td>
 
-      
-          
+
+
+          </tr>
 <%-- result overview --%>
-          <tr >
+
           <table id="result_overview" style="display:none" width="100%" cellpadding="0" cellspacing="0">
             <col width="*" />
             <col width="250"/>
@@ -82,11 +83,11 @@
 
 
                     </tr>
-
+                    <tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr>
                   </table>
                 </td>
                 <td valign="top">
-                  <!--div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div-->
+                  <div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div>
                 </td>
               </tr>
             </tbody>

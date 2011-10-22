@@ -10,7 +10,7 @@
           
         </td>
         <td>
-          <div style="float:right;" class="controls custom_button" id="delete">X</div>
+          
         </td>
       </tr>
     </table>
@@ -24,6 +24,7 @@
       <form id="uploadForm" action="asyncUpload" method="post">
           <input id="service_name" name="serviceName" type="hidden" value="upload"/>
           <input id="task_name" name="taskName" type="hidden" value="task_upload"/>
+          <input id="task_label" type="hidden" value="Upload"/>
 
         File to upload: <input type="file" name="fileInput"/>
 

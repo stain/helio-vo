@@ -58,7 +58,9 @@
                   </td>
                   <td id="block_area" class="candybox"></td>
 
-
+              <td  >
+       <div class="clear_input_summary custom_button">Clear</div>
+    </td>
                 </tr>
                 <tr align="center"><td><div class="custom_button" id="block_button">Select</div></td></tr>
               </table>
@@ -89,16 +91,16 @@
                         </div>
                       </td>
 
-                      <td id="result_area">
+                      <td id="result_area"></td>
 
 
 
                     </tr>
-
+<tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr>
                   </table>
                 </td>
                 <td valign="top">
-                  <!--div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div-->
+                  <div class="message"><b>Step 3</b><br/>Click on the 'Display' button when your result finish loading</div>
                 </td>
               </tr>
             </tbody>

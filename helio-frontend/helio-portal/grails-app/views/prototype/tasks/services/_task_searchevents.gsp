@@ -99,7 +99,7 @@
 
 
                   </tr>
-                  <!--tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr-->
+                  <tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr>
                 </table>
               </td>
               <td valign="top">
