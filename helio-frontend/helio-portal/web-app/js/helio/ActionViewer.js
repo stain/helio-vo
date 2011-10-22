@@ -8,7 +8,7 @@ function ActionViewer() {
 
             $("#responseDivision").html(data);
             $("#result_area").html("Query Success");
-            $("#result_button").remove();
+            $("#result_button").hide();
             $("#displayableResult").html("");
             $("#ics_instrument").css("display","block");
             $("#ils_trajectories").css("display","block");
@@ -19,7 +19,8 @@ function ActionViewer() {
             $("#result_overview").css("display","table");
             $(":checkbox").unbind();
             $(":checkbox").removeAttr("checked");
-            $("#result_drop").attr('result_id',$("#resultId").val())
+            $("#result_drop").attr('result_id',$("#resultId").val());
+
             $("input:checkbox").change(function(){
                 var checkboxColumn=$(this).attr("column");
                 var filter_expression = "\0";
@@ -45,23 +46,26 @@ function ActionViewer() {
 
             if($("#task_name").val()=="task_searchEvents"){
 
-                $('.resultTable tr').prepend("<td class='magnify'>Get Details</td>");
+                $('.resultTable tr').prepend("<td class='magnify'><img style='width:15px;heigth:15px' src='../images/search.png'></td>");
             }
 
             $('.resultTable').each(function(){
-                fnFormatTable(this.id);
+                var dataTable = fnFormatTable(this.id);
+                if($("#service_name").val()=='ICS'){
+                    dataTable.fnSetColumnVis( 19, false );
+                }
             });
-
+          
             $('.magnify').click(function(){
                 var dataTable =$("#"+$(this).parent().parent().parent().attr('id')).dataTable();
                 var settings = dataTable.fnSettings();
                 var time_start = -1;
                 var time_end = -1;
                 for(var j = 0;j< settings.aoColumns.length;j++){
-                    if(settings.aoColumns[j].sTitle.trim() == 'time_start'){
+                    if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
                         time_start=j;
                     }
-                    if(settings.aoColumns[j].sTitle.trim() == 'time_end'){
+                    if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
                         time_end=j;
                     }
 
@@ -90,13 +94,13 @@ function ActionViewer() {
                 $("#fplot_button").click(function(){
                     sendExamineEvent(times,timee,"fplot");
                 });
-                 $("#cplot_button").click(function(){
+                $("#cplot_button").click(function(){
                     sendExamineEvent(times,timee,"cplot");
                 });
-                 $("#pplot_button").click(function(){
+                $("#pplot_button").click(function(){
                     sendExamineEvent(times,timee,"pplot");
                 });
-                  sendExamineEvent(times,timee,"link");
+                sendExamineEvent(times,timee,"link");
                 $('#dialog-message').dialog({
                     modal: true,
                     height:600,
@@ -125,7 +129,7 @@ function ActionViewer() {
 
                 var serviceName = $("#service_name").val();
 
-                if(serviceName == 'HEC'){
+                if(serviceName == 'HEC' ||serviceName == 'upload'||serviceName == 'DES'){
 
                     var itr= 0;
                     $(".resultTable").each(function(){
@@ -142,10 +146,10 @@ function ActionViewer() {
                         var time_start = -1;
                         var time_end = -1;
                         for(var j = 0;j< settings.aoColumns.length;j++){
-                            if(settings.aoColumns[j].sTitle.trim() == 'time_start'){
+                            if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
                                 time_start=j;
                             }
-                            if(settings.aoColumns[j].sTitle.trim() == 'time_end'){
+                            if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
                                 time_end=j;
                             }
 
@@ -233,7 +237,7 @@ function ActionViewer() {
                         var instrument = -1;
 
                         for(var j = 0;j< settings.aoColumns.length;j++){
-                            if(settings.aoColumns[j].sTitle.trim() == 'obsinst_key'){
+                            if($.trim(settings.aoColumns[j].sTitle) == 'obsinst_key'){
                                 instrument=j;
                             }
                         }//end j
@@ -257,7 +261,7 @@ function ActionViewer() {
 
                         var instrument_string =instrument_array[itr];
 
-                        holder.append("<li>'"+instrument_string+"'<input id="+instrument_string+" type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
+                        holder.append("<li internal='"+instrument_string+"'>'"+instrument_string+"'<input id='"+instrument_string+"' type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
 
                     }
 
@@ -281,8 +285,10 @@ function ActionViewer() {
                         if($("#input_table td[internal='"+$(this).attr("id")+"']").length ==1){
                             $(this).parent().addClass("item_found");
                             
+                            
                         }else{
                             $(this).parent().addClass("item_missing");
+                            
                         }
                     });
                     $("#input_table").remove();
@@ -386,13 +392,22 @@ function ActionViewer() {
 
                 $("#response_save_selection").parent().prepend("*Items in red are not supported by our Data Search service therefore will not be saved.")
             }
+            if($("#service_name").val()=='ILS'){
+                $("#response_save_selection").remove();
+            }
+            if($("#service_name").val()=='DPAS'){
+                $("#response_save_selection").remove();
+            }
+             
         },
         
         init: function(){
             
         
             
-            
+             $("#block_drop").draggable({
+                helper:'clone'
+            });
 
             $("#time_drop").draggable({
                 helper:'clone'

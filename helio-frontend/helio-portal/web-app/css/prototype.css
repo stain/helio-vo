@@ -4,7 +4,10 @@
     padding-left: 15px;
     text-indent: -15px;
 }
-
+.link_table td{
+    
+    padding: 5px;
+}
 
 
 .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }

@@ -70,7 +70,7 @@ function Workspace() {
 
 
             $("#extra_list_form li").each(function(){
-                $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
+                $("#input_table td[internal='"+$(this).attr("internal")+"']").parent().addClass('row_selected');
 
             });
             $("#input_filter").keyup(function(){
@@ -78,15 +78,15 @@ function Workspace() {
             });
 
             $('#input_table tr').click( function() {
-                var row =$(this).find('td').attr("internal").trim();
+                var row =$.trim($(this).find('td').attr("internal"));
                 if ( $(this).hasClass('row_selected') ){
                     $(this).removeClass('row_selected');
-
-                    $("#"+row).remove();
+                     
+                    $("#extra_list_form li[internal='"+row+"']").remove();
                 }
                 else{
                     $(this).addClass('row_selected');
-                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");
+                    $("#extra_list_form").append("<li internal='"+row+"'>'"+row+"'<input id='"+row+"' type='hidden'  name='extra' value='"+row+"'/></li>");
                 }
             } );
             formatButton($(".custom_button"))
@@ -136,7 +136,7 @@ function Workspace() {
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
-            div.attr('title','Event Parameter');
+            div.attr('title','Event Parameters');
             var html = divisions["input_event"];
 
             div.append(html);
@@ -147,17 +147,44 @@ function Workspace() {
                 "sScrollY": "300px",
                 "bPaginate": false,
                 "bJQueryUI": true,
-                "sScrollX": "300px",
+                "sScrollX": "500px",
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
+            $("#input_table").dataTable().fnSetColumnVis( 0, false );         
+            $("#input_table").dataTable().fnSetColumnVis( 6, false );
+            $("#input_table").dataTable().fnSetColumnVis( 7, false );
+            $("#input_table").dataTable().fnSetColumnVis( 8, false );
+            $("#input_table").dataTable().fnSetColumnVis( 9, false );
+            $("#input_table").dataTable().fnSetColumnVis( 10, false );
+            $("#input_table").dataTable().fnSetColumnVis( 11, false );
+            $("#input_table").dataTable().fnSetColumnVis( 12, false );
+            $("#input_table").dataTable().fnSetColumnVis( 13, false );
+            $("#input_table").dataTable().fnSetColumnVis( 14, false );
+            $("input:checkbox").change(function(){
+                var checkboxColumn=$(this).attr("column");
+                var filter_expression = "\0";
+
+                $("input:checked").each(function(){
+                    if($(this).attr("column")==checkboxColumn)
+                        filter_expression=filter_expression+"|("+$(this).attr("name")+")";
+                });
+
+                if(filter_expression=="\0")
+                    filter_expression="";
+
+
+                $("#input_table").dataTable().fnFilter(filter_expression,checkboxColumn,true);
+                
+            });
+
             $("#extra_list_form").html(($("#extra_list").html()));
             var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
        
 
             $("#extra_list_form li").each(function(){
-                $("#input_table td[internal='"+$(this).attr("id")+"']").parent().addClass('row_selected');
+                $("#input_table td[internal='"+$(this).attr("internal")+"']").parent().addClass('row_selected');
                
             });
             $("#input_filter").keyup(function(){
@@ -165,19 +192,22 @@ function Workspace() {
             });
 
             $('#input_table tr').click( function() {
-                var row =$(this).find('td').attr("internal").trim();
+                
+                var row =$.trim($(this).find('td').attr("internal"));
+                
                 if ( $(this).hasClass('row_selected') ){
-                    $(this).removeClass('row_selected');
                     
-                    $("#"+row).remove();
+                    $(this).removeClass('row_selected');
+                    $("#extra_list_form li[internal='"+row+"']").remove();
                 }
                 else{
+                    
                     $(this).addClass('row_selected');
-                    $("#extra_list_form").append("<li id='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+row+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
+                    var aData = $("#input_table").dataTable().fnGetData( this );
+                    $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(".input_time_advanced").unbind();
                     formatButton($(".custom_button"))
                     $(".input_time_advanced").click(function(){
-                        
                         
                         getAdvancedFields($("#service_name").val(),$(this).parent().find('input').val());
                     });
@@ -188,7 +218,7 @@ function Workspace() {
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
-                width:700,
+                width:900,
                 close: function(){
 
                     $("#dialog-message").remove();
@@ -240,6 +270,7 @@ function Workspace() {
                     }
                 }
             });
+            $("#input_table").dataTable().fnDraw();
         },
         time_input_form: function(){
 
@@ -441,7 +472,11 @@ function Workspace() {
             })
         },
         evaluator: function(){
-        
+            $("#displayableResult").html("");
+            $("#result_button").show();
+            $("#result_button").unbind();
+            $("#result_area").html("Execute Query?");
+
             var minDate= [];
             $("[name='minDate']").each(function() {
 
@@ -463,17 +498,38 @@ function Workspace() {
             
             
             switch (serviceName) {
+                case "DES":
+                    if(minDate.length >0&& maxDate.length >0&& extra.length >0){
+                        $("#result_overview").css("display","table");
+
+                        $("#result_button").click(function(){
+                            sendQuery(minDate, maxDate,serviceName, extra,$("[name='where']").val());
+                        });
+                    }
+                         
+                    
+                    break;
                 case "context":
                     if(minDate.length >0&& maxDate.length >0){
-
-                        sendQueryContext([minDate[0]], [maxDate[0]]);
+                        $("#result_overview").css("display","table");
+                        $("#result_button").click(function(){
+                            sendQueryContext([minDate[0]], [maxDate[0]]);
+                        });
+                        
                     }
                     break;
                 case "HEC":
                     
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
                         
-                        sendQuery(minDate, maxDate,serviceName, extra);
+                        $("#result_overview").css("display","table");
+                        $("#result_button").click(function(){
+                            sendQuery(minDate, maxDate,serviceName, extra);
+                           
+
+                           
+                        });
+                       
                     }
                     break;
                 case "ICS":
@@ -496,7 +552,10 @@ function Workspace() {
                                     Ok: function() {
                                         
                                         $( this ).dialog( "close" );
-                                        sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                        $("#result_overview").css("display","table");
+                                        $("#result_button").click(function(){
+                                            sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                        });
                                     },
                                     Cancel: function() {
                                         $( this ).dialog( "close" );
@@ -505,7 +564,10 @@ function Workspace() {
                             });
 
                         }else{
-                            sendQuery(minDate, maxDate ,serviceName, extra);
+                            $("#result_overview").css("display","table");
+                            $("#result_button").click(function(){
+                                sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                            });
                         }
                     }
                     break;
@@ -528,7 +590,10 @@ function Workspace() {
                                     Ok: function() {
 
                                         $( this ).dialog( "close" );
-                                        sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                        $("#result_overview").css("display","table");
+                                        $("#result_button").click(function(){
+                                            sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                                        });
                                     },
                                     Cancel: function() {
                                         $( this ).dialog( "close" );
@@ -538,7 +603,10 @@ function Workspace() {
                             });
 
                         }else{
-                            sendQuery(minDate, maxDate ,serviceName, extra);
+                            $("#result_overview").css("display","table");
+                            $("#result_button").click(function(){
+                                sendQuery([minDate[0]], [maxDate[0]] ,serviceName, extra);
+                            });
                         }
                     }
                     break;
@@ -546,7 +614,11 @@ function Workspace() {
                     
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
 
-                        sendQuery(minDate, maxDate,serviceName, extra);
+                        $("#result_overview").css("display","table");
+                        $("#result_button").click(function(){
+                            sendQuery(minDate, maxDate,serviceName, extra);
+                        });
+
                     }
                     break;
                 default:
@@ -554,7 +626,7 @@ function Workspace() {
             }
         },
        
-         getDivisions: function(){
+        getDivisions: function(){
             if (typeof console!="undefined")console.info("Workspace :: setElement");
             return divisions;
         },
@@ -572,7 +644,7 @@ function Workspace() {
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
             
-        getPreviousTaskState($("#task_name"),$("#HUID"),key);
+            getPreviousTaskState($("#task_name"),$("#HUID"),key);
              
         
   

@@ -1,4 +1,33 @@
 
+function deleteSession(){
+
+    var __beforeSend= function(){         };
+    var __onComplete = function(){};
+    var __onSuccess = function(data,textStatus) {
+        window.workspace.setDisplay("splash");
+    };
+
+
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {    };
+
+    jQuery.ajax(
+    {
+        type : 'POST',
+        data : {
+            "HUID":$.cookie("helioSession")
+            
+
+        },
+        url : 'deleteSession',
+        success: __onSuccess,
+        error: __onError,
+        beforeSend: __beforeSend,
+        complete: __onComplete
+    });
+
+    return;
+}
+
 function getAdvancedFields(serviceName,catalog){
      
     var __beforeSend= function(){         };
@@ -84,7 +113,7 @@ function getSavedResult(resultId){
 
     var __beforeSend= function(){
         $("#result_overview").css("display","table");
-        $("#result_area").html("your result is being processed");
+        $("#result_area").html("Your result is being processed");
         $("#displayableResult").html("");
     };
 
@@ -116,9 +145,10 @@ function getSavedResult(resultId){
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
         
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
-        $("#result_button").remove();
-
+        $("#result_area").html("An error occured with the service selected, please revise your input parameters or try again later.");
+        
+        $.unblockUI();
+        
 
 
 
@@ -142,7 +172,7 @@ function getSavedResult(resultId){
 }
 
 
-function sendQuery(minDate,maxDate,serviceName,extra){
+function sendQuery(minDate,maxDate,serviceName,extra,where){
     /*
      * Initialize the tooltips and reset button of columns
      * Called after onSucess, onError
@@ -156,7 +186,14 @@ function sendQuery(minDate,maxDate,serviceName,extra){
         centerY: 0,
         css: {  }
     });
+   
+    
     var rowpos = $('#result_area').position();
+    var flag = true;
+    $("#loading_form_cancel_button").click(function(){
+        $.unblockUI();
+        flag =false;
+    });
     if(rowpos!=null){
     
 
@@ -166,7 +203,7 @@ function sendQuery(minDate,maxDate,serviceName,extra){
 
     var __beforeSend= function(){
         $("#result_overview").css("display","table");
-        $("#result_area").html("your result is being processed");
+        $("#result_area").html("Your result is being processed");
         $("#displayableResult").html("");
     };
 
@@ -182,8 +219,19 @@ function sendQuery(minDate,maxDate,serviceName,extra){
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
+        var div = $(data);
+        if(div.attr("id")== "errorResponse"){
+            $("#result_overview").css("display","table");
+            $("#result_area").html("<b>Error:</b>" + div.text());
+
+            $.unblockUI();
+            return;
+        }
         
+
+        if(!flag)return;
         $.unblockUI();
+
         var element = new ActionViewer();
         element.resultContainerInit(data);
         
@@ -196,12 +244,13 @@ function sendQuery(minDate,maxDate,serviceName,extra){
  * @param errorThrown error object
  */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
-        //alert(xmlHttpRequest.responseText);
-        //alert(textStatus);
-        //alert(errorThrown);
+        //        alert(xmlHttpRequest.responseText);
+        //        alert(textStatus);
+        //        alert(errorThrown);
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
-        $("#result_button").remove();
+        $("#result_area").html("An error occured with the service selected, please revise your input parameters or try again later.");
+        
+        $.unblockUI();
         
         
         
@@ -217,7 +266,8 @@ function sendQuery(minDate,maxDate,serviceName,extra){
             
             
             "serviceName":serviceName,
-            "extra":extra.join(",")
+            "extra":extra.join(","),
+            "where":where
 
         },
         url : 'asyncQuery',
@@ -244,6 +294,11 @@ function sendExamineEvent(minDate,maxDate,type){
         centerY: 0,
         css: {  }
     });
+    var flag = true;
+    $("#loading_form_cancel_button").click(function(){
+        $.unblockUI();
+        flag =false;
+    });
     var rowpos = $('#result_area').position();
     if(rowpos!=null){
 
@@ -268,21 +323,21 @@ function sendExamineEvent(minDate,maxDate,type){
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
-
+        if(!flag)return;
         $.unblockUI();
         
 
         if(type == "fplot"){
-            $("#fplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+            $("#fplot").html("<a target='_blank' href='"+data+"'><img width='400' heigth='500' src='"+data+"' alt='plot missing'/></a>");
         }
         else if(type == "cplot"){
-            $("#cplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+            $("#cplot").html("<a target='_blank' href='"+data+"'><img width='400' heigth='500' src='"+data+"' alt='plot missing'/></a>");
         }
         if(type == "pplot"){
-            $("#pplot").html("<img width='400' heigth='500' src='"+data+"' alt='plot missing'/>");
+            $("#pplot").html("<a target='_blank' href='"+data+"'><img width='400' heigth='500' src='"+data+"' alt='plot missing'/></a>");
         }
         else if(type == "link"){
-            $("#details_links").html("<a target='_blank' href='"+data+"'>"+data+"</a>");
+            $("#details_links").html("<table class='link_table'>"+data+"</table>");
         }
         
 
@@ -306,8 +361,9 @@ function sendExamineEvent(minDate,maxDate,type){
         //alert(textStatus);
         //alert(errorThrown);
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
-        $("#result_button").remove();
+        $("#result_area").html("An error occured with the service selected, please revise your input parameters or try again later");
+        
+        $.unblockUI();
 
 
 
@@ -352,6 +408,11 @@ function sendQueryContext(minDate,maxDate){
         centerY: 0,
         css: {  }
     });
+    var flag = true;
+    $("#loading_form_cancel_button").click(function(){
+        $.unblockUI();
+        flag =false;
+    });
     var rowpos = $('#result_area').position();
     if(rowpos!=null){
 
@@ -362,7 +423,7 @@ function sendQueryContext(minDate,maxDate){
 
     var __beforeSend= function(){
         $("#result_overview").css("display","table");
-        $("#result_area").html("your result is being processed");
+        $("#result_area").html("Your result is being processed");
         $("#displayableResult").html("");
     };
 
@@ -378,13 +439,13 @@ function sendQueryContext(minDate,maxDate){
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
-
+        if(!flag)return;
         $.unblockUI();
         $("#responseDivision").css("display","block");
         $("#result_area").html("");
         $("#result_area").html('<img src="'+data+'" alt="plot missing" />');
     
-        $("#result_button").remove();
+        $("#result_button").hide();
             
           
 
@@ -406,8 +467,9 @@ function sendQueryContext(minDate,maxDate){
         //alert(textStatus);
         //alert(errorThrown);
         $("#result_overview").css("display","table");
-        $("#result_area").html("An error occured with the service selected, we cannot complete your query");
-        $("#result_button").remove();
+        $("#result_area").html("An error occured with the service selected, please revise your input parameters or try again later");
+        
+        $.unblockUI();
 
 
 
@@ -498,6 +560,8 @@ function getPreviousTaskState(taskName,HUID,imagePath){
                 break;
 
             case 'task_datamining':
+                element = new ActionViewer();
+                element.init();
 
                 $("#time_button").click(window.workspace.time_input_form);
                 $("#time_drop").click(window.workspace.time_input_form);
@@ -512,6 +576,7 @@ function getPreviousTaskState(taskName,HUID,imagePath){
                 $("#time_button").click(window.workspace.time_input_form);
 
                 $("#time_drop").click(window.workspace.time_input_form);
+                $("#plot_select").change(window.workspace.evaluator);
                 break;
 
             case 'task_searchEvents':
@@ -574,17 +639,28 @@ function getPreviousTaskState(taskName,HUID,imagePath){
           
         $(".clear_input_summary").click(function(){
             
-            //var summary = $(this).parent().parent().find(".candybox");
-            //summary.
-            //var image = $(this).parent().parent().find(".ui-draggable");
-            });
+            var summary = $(this).parent().parent().find(".candybox");
+            $("#result_overview").hide();
+            $("#displayableResult").html("");
+            if (summary.html().indexOf("extra_list")!= -1){
+                $("#extra_list").html("");
+            }else{
+                summary.html("");
+            }
+            
+            var image = $(this).parent().parent().find(".ui-draggable");
+            if( image.attr("src").indexOf("grey") == -1) image.attr("src",image.attr("src").replace(".png","_grey.png"));
+            
+
+            
+        });
         
         if($("#result_drop").attr('result_id') != null){
             getSavedResult($("#result_drop").attr('result_id'));
         }
       
 
-
+        window.workspace.evaluator();
     };
 
     /**

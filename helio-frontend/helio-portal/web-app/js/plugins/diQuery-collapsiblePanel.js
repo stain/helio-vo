@@ -1,4 +1,4 @@
-﻿(function($) {
+(function($) {
     $.fn.extend({
         collapsiblePanel: function() {
             // Call the ConfigureCollapsiblePanel function for the selected element

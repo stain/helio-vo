@@ -480,7 +480,7 @@ function fnFormatTable(tableName){
 
 
 
-    $("#"+tableName).dataTable({
+    var dataTable =$("#"+tableName).dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
         "bRetrieve":true,
@@ -497,14 +497,8 @@ function fnFormatTable(tableName){
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
 
             if($("#service_name").val()=='ICS'){
-
-                var div2 =$('<div></div>');
-                var html = window.workspace.getDivisions()["input_instruments"];
-                div2.append(html);
-                    
-                $("#testdiv").append(div2);
-                     
-                if($("#input_table td[internal='"+aData[2]+"']").length ==1){
+                
+                if(aData[aData.length-1] =="T"){
                     $(nRow).attr("class","item_found "+$(nRow).attr('class'));
 
                             
@@ -512,7 +506,7 @@ function fnFormatTable(tableName){
                     $(nRow).attr("class","item_missing "+$(nRow).attr('class'));
                             
                 }
-                div2.remove();
+                
 
             }
             
@@ -556,6 +550,7 @@ function fnFormatTable(tableName){
 
 
     });
+    return dataTable;
 
 }
 
@@ -734,7 +729,7 @@ $(document).ready(function()
                     $.cookie("helioSession",$("#HUID").val(),{
                         expires: 30
                     });
-                    
+                    deleteSession();
                     $("#historyContent").html("");
                     saveHistoryBar();
                     $("#dialog-message").dialog( "close" );
@@ -766,26 +761,30 @@ $(document).ready(function()
   
     });
     
-$("#content-slider").slider({
-    animate: true,
-    change: handleSliderChange,
-    slide: handleSliderSlide
-  });
+    $("#content-slider").slider({
+        animate: true,
+        change: handleSliderChange,
+        slide: handleSliderSlide
+    });
 
 });
 function handleSliderChange(e, ui)
 {
-  var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
-                  $("#historyScrollWidth").width();
-  $("##historyScrollWidth").animate({scrollLeft: ui.value *
-     (maxScroll / 100) }, 1000);
+    var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
+    $("#historyScrollWidth").width();
+    $("##historyScrollWidth").animate({
+        scrollLeft: ui.value *
+        (maxScroll / 100)
+    }, 1000);
 }
 
 function handleSliderSlide(e, ui)
 {
-  var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
-                  $("#historyScrollWidth").width();
-  $("#historyScrollWidth").attr({scrollLeft: ui.value * (maxScroll / 100) });
+    var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
+    $("#historyScrollWidth").width();
+    $("#historyScrollWidth").attr({
+        scrollLeft: ui.value * (maxScroll / 100)
+    });
 }
 function date_form_validate(itr){
 
@@ -843,8 +842,354 @@ function createmission(selector){
     div.append(html);
 
     $("#testdiv").append(div);
-            
+    
+    var _input_disable = function(depth){
+        switch(depth){
+            case 0:
+                $("#input_instrument").attr('disabled', true);
+                $("#input_instrument").html("");
+                $("#input_measurement").attr('disabled', true);
+                $("#input_measurement").val("");
+            case 1:
+                $("#input_function").attr('disabled', true);
+                $("#input_function").html("");
+                $("#input_operator").attr('disabled', true);
+            case 2:
+               
+                $("#input_argument").attr('disabled', true);
+                $("#input_argument").html("");
+                $("#input_condition").attr('disabled', true);
+                $("#input_condition").val("");
+                $("#input_average_time").attr('disabled', true);
+                $("#input_average_time").val("");
+                $("#input_time_window").attr('disabled', true);
+                $("#input_time_window").val("");
+                $("#input_expression").attr('disabled', true);
+                $("#input_expression").html("");
+        }
+        
+    };
+    
+    
+    
 
+
+    
+
+
+    $("#input_mission").change(function(){
+        _input_disable(0);
+        switch($(this).val()){
+
+            case "ACE":
+                $("<option></option>").appendTo("#input_instrument");
+                $("<option value='ace:swe:all'>SWEPAM</option>").appendTo("#input_instrument");
+                $("<option value='ace:imf:all'>MAG</option>").appendTo("#input_instrument");
+                $("#input_instrument").removeAttr('disabled');
+                break;
+            case "WIND":
+                $("<option></option>").appendTo("#input_instrument");
+                $("<option value='wnd:swe:kp'>SWE</option>").appendTo("#input_instrument");
+                $("<option value='wnd:mfi:kp'>MFI</option>").appendTo("#input_instrument");
+                $("#input_instrument").removeAttr('disabled');
+                break;
+            case "ULYSSES":
+                $("<option></option>").appendTo("#input_instrument");
+                $("<option value='ulys:bai:mom'>SWOOPS</option>").appendTo("#input_instrument");
+                $("<option value='b:ulys:mag'>FGM/VHM</option>").appendTo("#input_instrument");
+                
+                $("#input_instrument").removeAttr('disabled');
+                break;
+            case "STA":
+                $("<option></option>").appendTo("#input_instrument");
+                $("<option value='sta:l2:pla'>PLASTIC</option>").appendTo("#input_instrument");
+                $("<option value='sta:mag:mag'>MAG</option>").appendTo("#input_instrument");
+                $("#input_instrument").removeAttr('disabled');
+                break;
+            case "STB":
+                $("<option></option>").appendTo("#input_instrument");
+                $("<option value='stb:l2:pla'>SWEPAM</option>").appendTo("#input_instrument");
+                $("<option value='stb:mag:mag'>MAG</option>").appendTo("#input_instrument");
+                $("#input_instrument").removeAttr('disabled');
+                break;
+            default:
+
+
+        }
+    });
+    $("#input_instrument").change(function(){
+        _input_disable(1);
+        $("#input_measurement").removeAttr("disabled");
+        switch($(this).val()){
+            case "ace:swe:all":
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("thermal plasma");
+                break;
+            case "ace:imf:all":
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                $("<option value='SIGN'>Parameter Sign Change</option>").appendTo("#input_function");
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("magnetic field");
+
+                break;
+                
+                
+            case "wnd:swe:kp":
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("thermal plasma");
+                break;
+            case "wnd:mfi:kp":
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                $("<option value='SIGN'>Parameter Sign Change</option>").appendTo("#input_function");
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("magnetic field");
+                break;
+                
+            case 'ulys:bai:mom':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("thermal plasma");
+                break;
+            case'b:ulys:mag':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                $("<option value='SIGN'>Parameter Sign Change</option>").appendTo("#input_function");
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("magnetic field");
+                break;
+            case'sta:l2:pla':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("thermal plasma");
+                break;
+            case'sta:mag:mag':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                $("<option value='SIGN'>Parameter Sign Change</option>").appendTo("#input_function");
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("magnetic field");
+                break;
+            case'stb:l2:pla':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("thermal plasma");
+                break;
+            case'stb:mag:mag':
+                $("<option></option>").appendTo("#input_function");
+                $("<option value='DERIV'>Parameter Derivative</option>").appendTo("#input_function");
+                $("<option value='SIGN'>Parameter Sign Change</option>").appendTo("#input_function");
+                $("<option value='VAR'>Parameter Variance in Sliding Window</option>").appendTo("#input_function");
+                $("<option value='VALUE'>Parameter Value</option>").appendTo("#input_function");
+                $("#input_function").removeAttr('disabled');
+                $("#input_measurement").val("magnetic field");
+                break;
+                
+            default:
+                break;
+
+        }
+       
+
+    });
+    $("#input_function").change(function(){
+        
+        
+        _input_disable(2);
+        $("#input_operator").removeAttr("disabled");
+        switch($(this).val()){
+            
+            case "DERIV":
+                $("<option></option>").appendTo("#input_argument");
+                $("<option value='V'>velocity_magnitude</option>").appendTo("#input_argument");
+                $("<option value='N'>ion_density</option>").appendTo("#input_argument");
+                $("<option value='B'>magnetic_field_magnitude</option>").appendTo("#input_argument");
+                $("<option value='BX'>magnetic_field_x_component</option>").appendTo("#input_argument");
+                $("<option value='BY'>magnetic_field_y_component</option>").appendTo("#input_argument");
+                $("<option value='BZ'>magnetic_field_z_component</option>").appendTo("#input_argument");
+                $("#input_argument").removeAttr('disabled');
+                $("#input_condition").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+
+                
+                break;
+            case "SIGN":
+                $("<option></option>").appendTo("#input_argument");
+   
+                $("<option value='BX'>magnetic_field_x_component</option>").appendTo("#input_argument");
+                $("<option value='BY'>magnetic_field_y_component</option>").appendTo("#input_argument");
+                $("<option value='BZ'>magnetic_field_z_component</option>").appendTo("#input_argument");
+                $("#input_argument").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+                break;
+            case "VAR":
+                $("<option></option>").appendTo("#input_argument");
+                $("<option value='V'>velocity_magnitude</option>").appendTo("#input_argument");
+                $("<option value='N'>ion_density</option>").appendTo("#input_argument");
+                
+                $("<option value='BX'>magnetic_field_x_component</option>").appendTo("#input_argument");
+                $("<option value='BY'>magnetic_field_y_component</option>").appendTo("#input_argument");
+                $("<option value='BZ'>magnetic_field_z_component</option>").appendTo("#input_argument");
+                $("#input_argument").removeAttr('disabled');
+                $("#input_condition").removeAttr('disabled');
+                $("#input_time_window").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+
+                break;
+            case "VALUE":
+                $("<option></option>").appendTo("#input_argument");
+                $("<option value='V'>velocity_magnitude</option>").appendTo("#input_argument");
+                $("<option value='N'>ion_density</option>").appendTo("#input_argument");
+                $("<option value='B'>magnetic_field_magnitude</option>").appendTo("#input_argument");
+                $("<option value='BX'>magnetic_field_x_component</option>").appendTo("#input_argument");
+                $("<option value='BY'>magnetic_field_y_component</option>").appendTo("#input_argument");
+                $("<option value='BZ'>magnetic_field_z_component</option>").appendTo("#input_argument");
+                $("#input_argument").removeAttr('disabled');
+                $("#input_condition").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+                
+                break;
+                
+            default:
+                break;
+        }
+    });
+
+    $(":input").change(function(){
+
+       
+        var des_function = $("#input_function").val();
+        var mission = $("#input_mission").val();
+        var argument = $("#input_argument").val();
+        var condition = $("#input_condition").val();
+        var operator = $("#input_operator").val();
+
+        if(operator == ">"){
+            condition = "/"+condition;
+            
+            
+        }else if(operator == "<"){
+            condition = condition+"/";
+        }
+        switch(des_function){
+
+            case "DERIV":
+                $("#input_expression").html( des_function+","+mission+":"+argument+":"+condition+":"+$("#input_average_time").val());
+                break;
+            case "SIGN":
+                $("#input_expression").html( des_function+","+mission+":"+argument+":"+$("#input_average_time").val());
+                break;
+            case "VAR":
+                $("#input_expression").html( des_function+","+mission+":"+argument+":"+condition+":"+$("#input_average_time").val()+":"+$("#input_time_window").val());
+
+                break;
+            case "VALUE":
+                $("#input_expression").html( des_function+","+mission+":"+argument+":"+condition+":"+$("#input_average_time").val());
+
+                break;
+
+            default:
+                $("#input_expression").html("");
+                break;
+        }
+
+       
+       
+
+    });
+
+
+_input_disable(0);
+    
+    if($("#block_area input[name='function']").val() != null){
+
+        var funct =$("#block_area input[name='function']").val();
+        $("#input_mission").removeAttr('disabled');
+        $("#input_instrument").removeAttr('disabled');
+        $("#input_function").removeAttr('disabled');
+        $("#input_operator").removeAttr('disabled');
+        $("#input_measurement").removeAttr('disabled');
+        $("#input_argument").removeAttr('disabled');
+
+        switch (funct){
+            case "SIGN":
+
+                $("#input_argument").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+                break;
+
+            case "VAR":
+
+                $("#input_argument").removeAttr('disabled');
+                $("#input_condition").removeAttr('disabled');
+                $("#input_time_window").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+                break;
+            default:
+                $("#input_argument").removeAttr('disabled');
+                $("#input_condition").removeAttr('disabled');
+                $("#input_average_time").removeAttr('disabled');
+
+        }
+
+        $("#input_mission").html($("#block_area input[name='mission']").val());
+        $("#input_mission").val($("#block_area input[name='mission']").attr('selection'));
+
+        $("#input_instrument").html($("#block_area input[name='instrument']").val());
+        $("#input_instrument").val($("#block_area input[name='instrument']").attr('selection'));
+
+        $("#input_measurement").html($("#block_area input[name='measurement']").val());
+        $("#input_measurement").val($("#block_area input[name='measurement']").attr('selection'));
+        $("#input_function").html($("#block_area input[name='function']").val());
+        $("#input_function").val($("#block_area input[name='function']").attr('selection'));
+        $("#input_argument").html($("#block_area input[name='argument']").val());
+        $("#input_argument").val($("#block_area input[name='argument']").attr('selection'));
+
+        $("#input_condition").html($("#block_area input[name='condition']").val());
+        $("#input_condition").val($("#block_area input[name='condition']").attr('selection'));
+        $("#input_operator").html($("#block_area input[name='operator']").val());
+        $("#input_operator").val($("#block_area input[name='operator']").attr('selection'));
+
+        $("#input_average_time").html($("#block_area input[name='averagetime']").val());
+        $("#input_average_time").val($("#block_area input[name='averagetime']").attr('selection'));
+        $("#input_time_window").html($("#block_area input[name='timewindow']").val());
+        $("#input_time_window").val($("#block_area input[name='timewindow']").attr('selection'));
+        $("#input_expression").html($("#block_area input[name='expression']").val());
+        $("#input_expression").val($("#block_area input[name='expression']").attr('selection'));
+
+    }
+    
     formatButton($(".custom_button"))
     $('#dialog-message').dialog({
         modal: true,
@@ -855,12 +1200,12 @@ function createmission(selector){
             $("#dialog-message").remove();
         },
         buttons: {
-            AddBlock: function(){
+            // AddBlock: function(){
 
-               div.append("<div style='width:100%;border-bottom:1px solid black'><center> <label>Logical Operator:</lablel><select><option>AND</option><option>OR</option></select></center>");
-               div.append(html);
+            //div.append("<div style='width:100%;border-bottom:1px solid black'><center> <label>Logical Operator:</lablel><select><option>AND</option><option>OR</option></select></center>");
+            //div.append(html);
      
-            },
+            //},
             Help: function(){
                        
             },
@@ -868,21 +1213,44 @@ function createmission(selector){
                 $("#dialog-message").dialog( "close" );
             },
             Ok: function() {
-                       $("#block_area").html('');
-            var img = $(".block_img").attr('src');
+                $("#block_area").html('');
+                
+                var des_function = $("#input_function");
+                var mission = $("#input_mission");
+                var argument = $("#input_argument");
+                var instrument = $("#input_instrument");
+                var condition = $("#input_condition");
+                var operator = $("#input_operator");
+                var expression = $("#input_expression");
+                var averagetime = $("#input_average_time");
+                var timewindow = $("#input_time_window");
+                var measurement = $("#input_measurement");
+                
+                $("#block_area").append($("#input_expression").html());
+                $("#block_area").append("<input type='hidden' name='extra' value='"+$("#input_mission").val()+"'>");
+                $("#block_area").append("<input type='hidden' name='where' value='"+$("#input_expression").html()+"'>");
+                $("#block_area").append("<input type='hidden' name='function' selection='"+des_function.val()+"'' value='"+des_function.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='mission' selection='"+mission.val()+"'' value='"+mission.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='instrument' selection='"+instrument.val()+"'' value='"+instrument.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='argument' selection='"+argument.val()+"'' value='"+argument.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='condition' selection='"+condition.val()+"'' value='"+condition.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='operator' selection='"+operator.val()+"'' value='"+operator.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='averagetime' selection='"+averagetime.val()+"'' value='"+averagetime.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='timewindow' selection='"+timewindow.val()+"'' value='"+timewindow.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='measurement' selection='"+measurement.val()+"'' value='"+measurement.html()+"'>");
+                $("#block_area").append("<input type='hidden' name='expression' selection='"+expression.val()+"'' value='"+expression.html()+"'>");
+               
 
-            $(".input_form_table").each(function(){
-                $("#block_area").append("<img src='"+ img +"' />");
-                $("#block_area").append(" AND ");
-            });
+                $("#block_drop").attr('src','../images/helio/circle_block.png');
+                $("#block_drop").addClass('drop_able');
 
 
-                //console.debug($("#block_area").lastChild());
+                
 
-
+                     
                 $("#dialog-message").dialog( "close" );
                 $("#dialog-message").remove();
-
+                window.workspace.evaluator();
             }
         }
     });
@@ -893,7 +1261,7 @@ function createmission(selector){
 
 //Helper Functions
 function pr(name){
-    console.debug($("#"+name).val());
+    //console.debug($("#"+name).val());
     return $("#"+name)
 }
 
