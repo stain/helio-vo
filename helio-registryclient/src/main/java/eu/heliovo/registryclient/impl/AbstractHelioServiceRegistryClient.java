@@ -19,7 +19,13 @@ import eu.heliovo.registryclient.ServiceRegistryClient;
 import eu.heliovo.registryclient.ServiceResolutionException;
 import eu.heliovo.shared.util.AssertUtil;
 
-public class AbstractHelioServiceRegistryClient implements
+/**
+ * Abstract base class for Registry clients.
+ * This implementation uses an internal set to store the registered service instances.
+ * @author MarcoSoldati
+ *
+ */
+public abstract class AbstractHelioServiceRegistryClient implements
 		ServiceRegistryClient {
 
 	/**
@@ -37,16 +43,8 @@ public class AbstractHelioServiceRegistryClient implements
 	 */
 	protected final Map<ServiceDescriptor, Set<HelioServiceInstanceDescriptor>> instanceDescriptors = new HashMap<ServiceDescriptor, Set<HelioServiceInstanceDescriptor>>();
 
-	/**
-	 * Register a service descriptor. If the service descriptor already exists
-	 * it is ignored.
-	 * 
-	 * @param helioServiceDescriptor
-	 *            the service descriptor.
-	 * @return true if the descriptor has not been registered before. false if a
-	 *         previous instance of the service already existed.
-	 */
-	public ServiceDescriptor registerServiceDescriptor(
+	@Override
+    public ServiceDescriptor registerServiceDescriptor(
 			ServiceDescriptor helioServiceDescriptor) {
 		ServiceDescriptor ret;
 		boolean exists = serviceDescriptors.add(helioServiceDescriptor);
@@ -79,7 +77,7 @@ public class AbstractHelioServiceRegistryClient implements
 	}
 
 	/**
-	 * Convenience constructor to register a capability for a given service.
+	 * Convenience method to register a capability for a given service.
 	 * 
 	 * @param serviceName
 	 *            name of the service.
@@ -97,17 +95,9 @@ public class AbstractHelioServiceRegistryClient implements
 		registerServiceInstance(serviceDescriptor, accessInterface);
 	}
 
-	/**
-	 * Register a specific access interface of a given service capability.
-	 * 
-	 * @param serviceDescriptor
-	 *            the instance descriptor
-	 * @param accessInterface
-	 *            the accessInterface associated with the capability.
-	 * @return true if the descriptor has not been registered before, false if a
-	 *         instance of this descriptor already exists.
-	 */
-	public boolean registerServiceInstance(ServiceDescriptor serviceDescriptor,
+
+	@Override
+    public boolean registerServiceInstance(ServiceDescriptor serviceDescriptor,
 			AccessInterface accessInterface) {
 		// check if service descriptor is already registered, if not do so.
 		serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
@@ -233,6 +223,9 @@ public class AbstractHelioServiceRegistryClient implements
 		return null;
 	}
 
+	/**
+	 * The default constructor
+	 */
 	public AbstractHelioServiceRegistryClient() {
 		super();
 	}

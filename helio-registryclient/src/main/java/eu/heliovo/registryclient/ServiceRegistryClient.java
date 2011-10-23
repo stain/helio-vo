@@ -81,4 +81,27 @@ public interface ServiceRegistryClient {
 	public AccessInterface getBestEndpoint(ServiceDescriptor descriptor,
 			ServiceCapability capability, AccessInterfaceType type)
 			throws ServiceResolutionException;
+
+	/**
+     * Register a specific access interface of a given service capability.
+     * 
+     * @param serviceDescriptor
+     *            the instance descriptor
+     * @param accessInterface
+     *            the accessInterface associated with the capability.
+     * @return true if the descriptor has not been registered before, false if a
+     *         instance of this descriptor already exists.
+     */
+    public abstract boolean registerServiceInstance(ServiceDescriptor serviceDescriptor, AccessInterface accessInterface);
+
+    /**
+     * Register a service descriptor. If the service descriptor already exists
+     * it is ignored.
+     * 
+     * @param helioServiceDescriptor
+     *            the service descriptor.
+     * @return true if the descriptor has not been registered before. false if a
+     *         previous instance of the service already existed.
+     */
+    public abstract ServiceDescriptor registerServiceDescriptor(ServiceDescriptor helioServiceDescriptor);
 }

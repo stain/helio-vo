@@ -1,6 +1,13 @@
 package eu.heliovo.registryclient.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 import eu.heliovo.registryclient.ServiceRegistryClient;
+import eu.heliovo.shared.props.HelioFileUtil;
 
 /**
  * Factory to get the registry DAO
@@ -9,6 +16,16 @@ import eu.heliovo.registryclient.ServiceRegistryClient;
  */
 public class ServiceRegistryClientFactory {
     /**
+     * the properties file of the registry.
+     */
+    private static final String REGISTRY_FILE_NAME = "registry.properties";
+    
+    /**
+     * Key of the registry class.
+     */
+    private static final String REGISTRY_CLASS_KEY = "eu.heliovo.registryclient.default_class";
+    
+    /**
      * The singleton instance
      */
     private static final ServiceRegistryClientFactory instance = new ServiceRegistryClientFactory();
@@ -16,7 +33,7 @@ public class ServiceRegistryClientFactory {
     /**
      * The default DAO to use if none has been set.
      */
-    private final static Class<? extends ServiceRegistryClient> DEFAULT_REGISTRY_DAO = HelioRemoteServiceRegistryClient.class;
+    private final static Class<? extends ServiceRegistryClient> DEFAULT_REGISTRY_DAO = getServiceRegistryClientClass();
     //private final static Class<? extends ServiceRegistryClient> DEFAULT_REGISTRY_DAO = LocalServiceRegistryClient.class;
     
     /**
@@ -27,6 +44,40 @@ public class ServiceRegistryClientFactory {
         return instance;
     }
     
+    /**
+     * Check if a service registry client class has been defined in the properties file.
+     * @return the registered or the default service registry client class.
+     */
+    private static Class<? extends ServiceRegistryClient> getServiceRegistryClientClass() {
+        File propertiesDir = HelioFileUtil.getHelioHomeDir("registry");
+        File propertiesFile = new File(propertiesDir, REGISTRY_FILE_NAME);
+        Class<? extends ServiceRegistryClient> registryClientClass = HelioRemoteServiceRegistryClient.class;
+        
+        if (propertiesFile.exists()) {
+            Properties props = new Properties();
+            try {
+                props.load(new FileReader(propertiesFile));
+            } catch (FileNotFoundException e) {
+                // ignore
+            } catch (IOException e) {
+                // ignore
+            }
+            if (props.containsKey(REGISTRY_CLASS_KEY)) {
+                String className = props.getProperty(REGISTRY_CLASS_KEY);
+                try {
+                    @SuppressWarnings("unchecked")
+                    Class<? extends ServiceRegistryClient> classInstance = (Class<? extends ServiceRegistryClient>) Class.forName(className);
+                    registryClientClass = classInstance;
+                } catch (ClassNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        
+        
+        return registryClientClass;
+    }
+
     /**
      * The registry client to use
      */

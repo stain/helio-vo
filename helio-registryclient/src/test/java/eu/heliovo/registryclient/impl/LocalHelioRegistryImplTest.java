@@ -18,13 +18,14 @@ import eu.heliovo.registryclient.AccessInterfaceType;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
+import eu.heliovo.registryclient.ServiceRegistryClient;
 
 /**
  * Unit test for the {@link LocalHelioServiceRegistryClient}.
  */
 public class LocalHelioRegistryImplTest {
 
-    private AbstractHelioServiceRegistryClient helioRegistry;
+    private ServiceRegistryClient helioRegistry;
     
     
     @Before public void setUp() {

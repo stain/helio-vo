@@ -143,6 +143,22 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
     public static Collection<ServiceCapability> values() {
         return enumMap.values();
     }
+    
+    /**
+     * Find a service by its name (e.g. HEC, HFC, ...)
+     * 
+     * @param serviceCapabilty capability name to look for
+     * @return Enum value.
+     */
+    public static ServiceCapability valueOf(String serviceCapabilty) {
+        AssertUtil.assertArgumentHasText(serviceCapabilty, "serviceCapability");
+        for (ServiceCapability capability : enumMap.values()) {
+            if (serviceCapabilty.equals(capability.name)) {
+                return capability;
+            }
+        }
+        return null;
+    }
 
     @Override
     public Iterator<ServiceCapability> iterator() {

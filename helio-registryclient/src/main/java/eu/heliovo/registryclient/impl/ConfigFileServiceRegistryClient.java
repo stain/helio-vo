@@ -1,21 +1,30 @@
 package eu.heliovo.registryclient.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 import eu.heliovo.registryclient.AccessInterfaceType;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.props.HelioFileUtil;
+import eu.heliovo.shared.util.DataReaderUtil;
 
 /**
- * Data access object to get access a local search registry implementation.
- * The local implementation is configured through a properties file.
+ * Registry client that reads the registry values from a delimited file.
  * @author MarcoSoldati
  *
  */
-class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+class ConfigFileServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+    /**
+     * name of the file that defines the registry content.
+     */
+    private static final String REGISTRY_TXT = "registry.txt";
+
     /**
 	 * Public constructor is package local for testing
 	 */
-	LocalHelioServiceRegistryClient() {
+	ConfigFileServiceRegistryClient() {
 	    init();
 	}
 
@@ -24,6 +33,23 @@ class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	 * with default values and then load it. 
 	 */
 	private void init() {
+	    File registryDir = HelioFileUtil.getHelioHomeDir("registry");
+	    File registryFile = new File(registryDir, REGISTRY_TXT);
+	    if (!registryFile.exists()) {
+	        throw new RuntimeException("Unable to locate registry file " + registryFile);
+	    }
+	    FileInputStream fileInputStream;
+        try {
+            fileInputStream = new FileInputStream(registryFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Unable to locate registry file " + registryFile + ". Cause: " + e.getMessage(), e);
+        }
+        
+	    DataReaderUtil util = new DataReaderUtil(fileInputStream);
+	    for (Object[] config : util.getDataCollection()) {
+	        register(config);
+        };
+	    
 	    // populate registry
 	    register(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE, "http://festung1.oats.inaf.it:8080/helio-hec/HelioLongQueryService?wsdl");
 	    register(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE, "http://festung1.oats.inaf.it:8080/helio-hec/HelioService?wsdl");
@@ -44,6 +70,14 @@ class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	    register(HelioServiceName.DES, ServiceCapability.SYNC_QUERY_SERVICE, "http://manunja.cesr.fr/Amda-Helio/WebServices/HelioService.wsdl");       
 	}
 
+	/**
+	 * Delegates registration to {@link #register(HelioServiceName, ServiceCapability, String)}.
+	 * @param config the config to register.
+	 */
+	private void register(Object[] config) {
+	    register(HelioServiceName.valueOf((String)config[0]), ServiceCapability.valueOf((String)config[1]), (String)config[2]);
+	}
+	
 	/**
 	 * Register a standalone service.
 	 * @param serviceName the name of the service
