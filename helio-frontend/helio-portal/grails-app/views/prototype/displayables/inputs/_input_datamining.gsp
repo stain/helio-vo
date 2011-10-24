@@ -9,8 +9,10 @@
     </td>
     <td>
       <table>
+
         <tr>
           <td>
+            <div class="message"><b>Step 1</b><br/>Select a mission of interest.</div>
             <label>Mission:</label>
             <select id="input_mission">
               <option> </option>
@@ -20,34 +22,48 @@
               <option value="STA">STEREO-A</option>
               <option value="STB">STEREO-B</option>
             </select>
+              
           </td>
+
+          
+            
+          
+          
           </tr>
           <tr>
           <td>
+            <div class="message"><b>Step 2</b><br/>Select an instrument.</div>
             <label>Instrument</label>
-            <select id="input_instrument">
+            <select style="min-width: 15px" id="input_instrument">
               <option> </option>
       
             </select>
+          
+            
+
           </td>
             </tr>
           <tr>
-          <td>
+          <td >
             <label>Measurement Type:</label>
-            <input id="input_measurement" type="text"/>
+            <input disabled="disabled" id="input_measurement" type="text"/>
           
           </td>
+          
             </tr>
           <tr>
            <td>
+             <div class="message"><b>Step 3</b><br/>Select the function to evaluate and the fill in the relevant parameters.</div>
             <label>Function:</label>
 
             <select id="input_function">
            
             </select>
             
-          </td>
           
+            
+
+          </td>
         </tr>
          <tr>
            <td>
@@ -61,9 +77,9 @@
              <option>=</option>
              </select>
              <input id="input_condition" size="5"  type="text" value=""/>
-             ,Average Time<input id="input_average_time" size="5" type="text" value=""/>,Time Window<input  id="input_time_window" size="5" type="text" value=""/>)
+             , Average Time: <input id="input_average_time" size="5" type="text" value=""/>sec, Time Window: <input  id="input_time_window" size="5" type="text" value=""/>sec )
            </td>
-          
+        
         </tr>
       </table>
     </td>
@@ -71,10 +87,12 @@
   </tr><tr>
     <td></td>
     <td style="margin-top: 15px">
-      <label>Expression: </label> <b><span id="input_expression"> 150:600;</span></b>
+      <div class="message"><b>Step 4</b><br/>Revise the equation before accepting.(currently only displayed as pql)</div>
+      <label>Expression(beta): </label> <b><span id="input_expression"> </span></b>
 
     </td>
-    
+   
   </tr>
+
   </table>
  

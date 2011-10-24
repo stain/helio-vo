@@ -240,8 +240,9 @@ class PrototypeController {
             Arrays.asList("hec_catalogue"), null, 0, 0, null);
 
         
-        int timeout = 30;
+        int timeout = 300;
         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
+        
         ResultVT   resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
     
         //def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];

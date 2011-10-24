@@ -119,6 +119,75 @@ function ActionViewer() {
                 });
             });
             formatButton($(".custom_button"))
+            var serviceNameTemp = $("#service_name").val();
+            
+            if(serviceNameTemp == 'DPAS'){
+                
+             
+                $("#response_download_selection").css('display','inherit');
+
+                $("#response_download_selection").click(function(){
+                    var itr= 0;
+                    $(".resultTable").each(function(){
+                        //console.debug($(this));
+                        itr++;
+                    });
+                    itr = itr/2;
+                    var table =$("<table></table>");
+                 var download_array = $("<ul></ul>");
+
+                    for(var i = 0;i<itr;i++){
+                        var dataTable =$("#resultTable"+i).dataTable();
+                        var settings = dataTable.fnSettings();
+                        var download_url = -1;
+
+                        for(var j = 0;j< settings.aoColumns.length;j++){
+                            if($.trim(settings.aoColumns[j].sTitle) == 'url'){
+                                download_url=j;
+                            }
+
+
+                        }//end j
+
+
+                        $("#resultTable"+i+" .even_selected").each(function(){
+
+                            download_array.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
+
+
+                        });
+                        $("#resultTable"+i+" .odd_selected").each(function(){
+
+                            download_array.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
+
+                        });
+                        if(download_array.html().indexOf('li') < 0){
+                            
+                            var nNodes = dataTable.fnGetNodes();
+                            
+                            for(var node in nNodes){
+                                
+                                download_array.append("<li>"+$(nNodes[node]).children().eq(download_url).html()+"</li>");
+                            }
+                        }
+                        
+                    }//end i
+                    
+                    
+                    var recipe =  window.open('','_blank','width=600,height=600');
+                    var html = '<html><head><title>Helio Downloads</title></head><body><div id="links">'+$("#time_area").html()+$("#extra_list").html() + download_array.html() + '</div></body></html>';
+                    recipe.document.open();
+                    recipe.document.write(html);
+                    recipe.document.close();
+
+                        
+
+                    
+
+                });
+            }
+            
+
             
             $("#response_save_selection").click(function(){
 
@@ -405,7 +474,7 @@ function ActionViewer() {
             
         
             
-             $("#block_drop").draggable({
+            $("#block_drop").draggable({
                 helper:'clone'
             });
 

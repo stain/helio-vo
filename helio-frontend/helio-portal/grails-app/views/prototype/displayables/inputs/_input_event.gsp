@@ -53,13 +53,16 @@
         <table  id="input_table" class="resultTable">
           <thead>
             <tr>
-          <g:each in="${hecCatalogs.getTables().get(0).getHeaders()}" status="i" var="header">
+          <g:if test="${hecCatalogs?.getTables() != null && hecCatalogs?.getTables().size() > 0} ">
+          <g:each in="${hecCatalogs?.getTables()?.get(0)?.getHeaders()}" status="i" var="header">
             <th>${header}</th>
           </g:each>
+          </g:if>
     </tr>
     </thead>
     <tbody>
-    <g:each in="${hecCatalogs.getTables().get(0).getData()}" status="i" var="rows">
+    <g:if test="${hecCatalogs?.getTables() != null && hecCatalogs?.getTables().size() > 0} ">
+    <g:each in="${hecCatalogs?.getTables()?.get(0)?.getData()}" status="i" var="rows">
 
       <tr >
       <g:each in="${rows}" status="j" var="tdelement">
@@ -67,6 +70,7 @@
       </g:each>
       </tr>
     </g:each>
+      </g:if>
     </tbody>
   </table>
 </td>

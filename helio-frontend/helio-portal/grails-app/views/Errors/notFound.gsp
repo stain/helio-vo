@@ -1,33 +1,21 @@
 <html>
   <head>
-	  <title>Grails Runtime Exception</title>
-	  <style type="text/css">
-	  		.message {
-	  			border: 1px solid black;
-	  			padding: 5px;
-	  			background-color:#E9E9E9;
-	  		}
-	  		.stack {
-	  			border: 1px solid black;
-	  			padding: 5px;
-	  			overflow:auto;
-	  			height: 300px;
-	  		}
-	  		.snippet {
-	  			padding: 5px;
-	  			background-color:white;
-	  			border:1px solid black;
-	  			margin:3px;
-	  			font-family:courier;
-	  		}
-	  </style>
+	  <title>Oops</title>
+<link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
+
+<link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
+
   </head>
 
-  <body>
-    <h1>Grails Runtime Exception</h1>
-    <h2>Error Details</h2>
-
+  <body style="margin:10px">
+    <h1 >Oops, You just broke the server</h1>
+    
+    <h4 style="margin-top:15px;margin-bottom: 30px"> We are sorry, perhaps you are just experiencing a hiccup in the network, try refreshing the page in a few sec. If the problem persists try to find Marco Soldati.</h4>
   	<div class="message">
+          Error Trace:<br/>
 		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'.encodeAsHTML()}<br/>
 		<strong>Servlet:</strong> ${request.'javax.servlet.error.servlet_name'}<br/>
 		<strong>URI:</strong> ${request.'javax.servlet.error.request_uri'}<br/>
@@ -44,11 +32,6 @@
 	  		</div>
 		</g:if>
   	</div>
-	<g:if test="${exception}">
-	    <h2>Stack Trace</h2>
-	    <div class="stack">
-	      <pre><g:each in="${exception.stackTraceLines}">${it.encodeAsHTML()}<br/></g:each></pre>
-	    </div>
-	</g:if>
+	
   </body>
 </html>

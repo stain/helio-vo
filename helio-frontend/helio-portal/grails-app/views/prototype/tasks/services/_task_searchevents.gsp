@@ -103,7 +103,9 @@
                 </table>
               </td>
               <td valign="top">
-                <div class="message"><b>Step 3</b><br/>To save your results you can click on Save as VoTable, alternatively you can transform them into parameters to use in another query by selecting the rows of interest and then clicking on "Save selection to Data-Cart" </div>
+                
+                <div class="message"><b>Step 3</b><br/>Click on the 'Display' button once you are ready to proceed </div>
+
               </td>
             </tr>
           </tbody>

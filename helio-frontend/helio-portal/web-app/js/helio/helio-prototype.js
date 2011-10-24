@@ -848,7 +848,7 @@ function createmission(selector){
             case 0:
                 $("#input_instrument").attr('disabled', true);
                 $("#input_instrument").html("");
-                $("#input_measurement").attr('disabled', true);
+                
                 $("#input_measurement").val("");
             case 1:
                 $("#input_function").attr('disabled', true);
@@ -919,7 +919,7 @@ function createmission(selector){
     });
     $("#input_instrument").change(function(){
         _input_disable(1);
-        $("#input_measurement").removeAttr("disabled");
+        
         switch($(this).val()){
             case "ace:swe:all":
                 $("<option></option>").appendTo("#input_function");
@@ -1055,7 +1055,7 @@ function createmission(selector){
                 break;
             case "VAR":
                 $("<option></option>").appendTo("#input_argument");
-                $("<option value='V'>velocity_magnitude</option>").appendTo("#input_argument");
+                $("<option value='V'>velocity_magnitude(km/s)</option>").appendTo("#input_argument");
                 $("<option value='N'>ion_density</option>").appendTo("#input_argument");
                 
                 $("<option value='BX'>magnetic_field_x_component</option>").appendTo("#input_argument");
@@ -1130,7 +1130,7 @@ function createmission(selector){
     });
 
 
-_input_disable(0);
+    _input_disable(0);
     
     if($("#block_area input[name='function']").val() != null){
 
@@ -1139,7 +1139,7 @@ _input_disable(0);
         $("#input_instrument").removeAttr('disabled');
         $("#input_function").removeAttr('disabled');
         $("#input_operator").removeAttr('disabled');
-        $("#input_measurement").removeAttr('disabled');
+        
         $("#input_argument").removeAttr('disabled');
 
         switch (funct){
@@ -1194,7 +1194,7 @@ _input_disable(0);
     $('#dialog-message').dialog({
         modal: true,
         height:630,
-        width:800,
+        width:810,
         close: function(){
 
             $("#dialog-message").remove();
@@ -1207,8 +1207,15 @@ _input_disable(0);
      
             //},
             Help: function(){
-                       
+                $('#help_overlay h3').text("Argument Selection Form");
+                $('#help_overlay p').text("Follow the simple steps described in the form, Some boxes might be unselectable if you attempt to skips steps. Don't be afraid to experiment, you can always come back if the query fails to return data.");
+                $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+                $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
             },
+            
             Cancel: function() {
                 $("#dialog-message").dialog( "close" );
             },
@@ -1225,7 +1232,11 @@ _input_disable(0);
                 var averagetime = $("#input_average_time");
                 var timewindow = $("#input_time_window");
                 var measurement = $("#input_measurement");
-                
+
+                if(expression.html() == ""){
+                    alert("Form cannot be empty.");
+                    return;
+                }
                 $("#block_area").append($("#input_expression").html());
                 $("#block_area").append("<input type='hidden' name='extra' value='"+$("#input_mission").val()+"'>");
                 $("#block_area").append("<input type='hidden' name='where' value='"+$("#input_expression").html()+"'>");

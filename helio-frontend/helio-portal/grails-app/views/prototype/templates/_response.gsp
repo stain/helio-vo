@@ -7,12 +7,12 @@
       <div class="content">
         <div>
           <table width="100%">
-            <col width="*" />
-            <col width="250"/>
+            
+            
             <tr>
-              <td></td>
               <td>
-                <!--div class="message" style="float: right; margin: 0; clear: both; padding: 0px pt 20pt 5px;"><b>Select result</b><br/>Select the data rows of interest. These rows can be used as input parameters for other services. Click on "Save Selection" when done.</div!-->
+              
+                <div class="message" style=" margin: 0; clear: both; padding: 0px pt 20pt 5px;"><b>Select result</b><br/>To save your results you can click on 'Save as VoTable', you can also transform them into parameters to use in another query by selecting the rows of interest and then clicking on "Save selection to Data-Cart" or download the data by clicking on "Download Selected files/all". These options will only be avaliable where applicable.</div>
               </td>
             </tr> 
           </table>
@@ -28,7 +28,9 @@
               <g:actionSubmit class="custom_button" style="padding:3px;float:left" action="downloadVOTable" value="Save as VOTable" name="download"/>
             </g:form>
             <!--div id="resultSelectionCounter" class="custom_button" style="margin-right:10px;float:right;">0</div-->
+            
             <div id="response_save_selection" class="custom_button" style="margin-right:10px;float:right;">Save selection to Data Cart</div>
+            <div id="response_download_selection" class="custom_button" style="display: none;margin-right:10px;float:right;">Download selected files/all</div>
 
 
             <div style="clear:both;width:100%"></div>
