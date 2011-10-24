@@ -30,6 +30,9 @@
   <h4>
     Filters
   </h4>
+   <input column="19" name="T" type="checkbox">
+              Show only accessible instruments
+            
   <table width="100%" style="margin-left: 5px;margin-top:10px" cellspacing="4">
 
     <tr>
@@ -139,7 +142,7 @@
               Environment
             </td>
             <td>
-              <input column="8" name="magneto" type="checkbox">
+              <input column="8" name="magnetosphere" type="checkbox">
               Magnetosphere
             </td>
             <td>

@@ -11,8 +11,8 @@
     <tr>
 
       <td>
-        <h3 style="padding-bottom: 10px">New Release Notes</h3>
-        <p>In an effort to address all comments made during the last CDAW the interfaces to the services were redesigned. We hope the new design improves your experience with the HELIO services</p>
+        <h3 style="padding-bottom: 10px">CDAW Release</h3>
+        <p>In an effort to address all comments made during the last CDAW the interfaces to the services were redesigned. We hope the new design improves your experience with the HELIO services.</p>
         <br>
         <p>
           

@@ -33,16 +33,16 @@
           <tbody>
 <%-- date selection area --%>
             <tr>
-              <td style="border-top: solid 1px gray; border-bottom: solid 1px gray;"><b>Date Range</b><br/>
+              <td style="border-top: solid 1px gray; "><b>Date Range</b><br/>
           <g:render template="templates/dates" />
 
           <g:render template="templates/ils_trajectories" />
           </td>
-          <td style="border-top: solid 1px gray; border-bottom: solid 1px gray; vertical-align: top;">
+          <td style="border-top: solid 1px gray; vertical-align: top;">
             <div class="message"><b>Step 1</b><br/>Click on the 'Select' button to define the time range/s of interest.</div>
           </td>
           <tr>
- <tr >
+          <tr >
           <table id="result_overview" style="display:none" width="100%" cellpadding="0" cellspacing="0">
             <col width="*" />
             <col width="250"/>
@@ -64,9 +64,9 @@
                       </td>
 
                       <td><ul id="result_area">
-                          <li>Number of tables: 2</li>
-                          <li>Number of entries: 4</li>
-                          <li>TimeStamp: 13/12/2005</li>
+                          <li>Number of tables: </li>
+                          <li>Number of entries: </li>
+                          <li>TimeStamp: </li>
                         </ul></td>
 
 
@@ -78,8 +78,8 @@
                   <div class="message"><b>Step 2</b><br/>Click on the 'Display' button once you are ready to proceed</div>
                 </td>
               </tr>
-
-            </tbody>
+          </table>
+          </tbody>
         </table>
       </form>
     </div>

@@ -58,9 +58,9 @@
                       </td>
 
                       <td><ul id="result_area">
-                          <li>Number of tables: 2</li>
-                          <li>Number of entries: 4</li>
-                          <li>TimeStamp: 13/12/2005</li>
+                          <li>Number of tables: </li>
+                          <li>Number of entries: </li>
+                          <li>TimeStamp: </li>
                         </ul></td>
 
 
