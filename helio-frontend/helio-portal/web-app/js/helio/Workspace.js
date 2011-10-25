@@ -472,6 +472,7 @@ function Workspace() {
             })
         },
         evaluator: function(){
+
             $("#displayableResult").html("");
             $("#result_button").show();
             $("#result_button").unbind();
@@ -496,7 +497,7 @@ function Workspace() {
                 
             var serviceName =$("#service_name").val();
             
-            
+            if($("#task_name").length >0)setPreviousTaskState($("#task_name"),$("#HUID"),$("#query_form"));
             switch (serviceName) {
                 case "DES":
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
@@ -624,6 +625,7 @@ function Workspace() {
                 default:
                     break;
             }
+
         },
        
         getDivisions: function(){
