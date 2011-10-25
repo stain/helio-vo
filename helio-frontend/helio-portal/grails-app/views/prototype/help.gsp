@@ -169,7 +169,7 @@
         </div>
         <div class="figure">
           <img src="${resource(dir:'images',file:'help/step1-4_hec.PNG')}" width="100%"/><br/>
-          Figure 5: Once all parameters are filled the query will automatically begin.
+          Figure 5: Once all parameters are filled the option to execute the query will begin.
         </div>
       </li>
       <li>Execute query and view result (Figure 5)
@@ -185,14 +185,14 @@
         icons next to the parameters or results.(Figure 7 and 8)</p>
 
       <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step1-2_hec.png')}" width="100%"/><br/>
-        Figure 3: Select on the Task Bar the "Select Events" option.
+        <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%"/><br/>
+        Figure 7: Icons can be dragged from and to the data cart to save your data for later use.
       </div>
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/step1-3_hec.PNG')}" width="100%"/><br/>
+      <!--div class="figure">
+        <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%"/><br/>
         Figure 4: Fill out the required parameters by clicking on the respective button.
       </div>
-      <!--li>Analyze result and refine the query. This may be performed in several ways:
+      <li>Analyze result and refine the query. This may be performed in several ways:
         <ol>
           <li>Scroll to top to view the input screen (Figure 3). Re-adjust the
             query parameters and re-submit the query. On every submission a
