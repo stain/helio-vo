@@ -86,6 +86,7 @@
     <div id="tabs-2">
       <table>
         <tr>
+      
           <td>
             <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
           </td>

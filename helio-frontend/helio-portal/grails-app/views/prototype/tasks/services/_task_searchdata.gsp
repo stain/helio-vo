@@ -57,9 +57,9 @@
                     </div>
                   </td>
                   <td class="candybox"><ul id="extra_list" ></ul></td>
- <td >
-       <div class="clear_input_summary custom_button">Clear</div>
-    </td>
+                  <td >
+                    <div class="clear_input_summary custom_button">Clear</div>
+                  </td>
 
                 </tr>
                 <tr align="center"><td><div class="custom_button" id="instruments_button">Select</div></td></tr>
