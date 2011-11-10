@@ -22,8 +22,7 @@
               <option value="STA">STEREO-A</option>
               <option value="STB">STEREO-B</option>
             </select>
-              
-          </td>
+            </td>
 
           
             
@@ -59,11 +58,7 @@
             <select id="input_function">
            
             </select>
-            
-          
-            
-
-          </td>
+           </td>
         </tr>
          <tr>
            <td>
