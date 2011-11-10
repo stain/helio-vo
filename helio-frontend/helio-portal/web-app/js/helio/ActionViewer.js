@@ -2,25 +2,31 @@ function ActionViewer() {
     var resultFilterTimeout;
 
     return {
-        // Public methods
+
+        /**
+         * Loads after the ajax call is complete and successful
+         * @data:  html for result section
+         */
         resultContainerInit: function(data){
 
-
+            //loads the html into the response division
             $("#responseDivision").html(data);
-            $("#result_area").html("Query Success");
+            
+            $("#result_area").html("Query Success");//modify message on result overview
             $("#result_button").hide();
             $("#displayableResult").html("");
-            $("#ics_instrument").css("display","block");
-            $("#ils_trajectories").css("display","block");
-            $("#voTables").prepend($("#ics_instrument").clone());
+            $("#ics_instrument").css("display","block"); //if instruments controls are present in gsp, show them
+            $("#ils_trajectories").css("display","block"); // if trajectory controls are present in gsp, show them
+            $("#voTables").prepend($("#ics_instrument").clone()); //add them before votables
             $("#voTables").prepend($("#ils_trajectories").clone());
-            $("#ics_instrument").css("display","none");
+            $("#ics_instrument").css("display","none");//hide the originals again in the query part, they need to stay intact otherwise when a reloaded result needs it, they wont have them
             $("#ils_trajectories").css("display","none");
-            $("#result_overview").css("display","table");
-            $(":checkbox").unbind();
+            $("#result_overview").css("display","table");//make sure the ovrview is visible,redundant
+            $(":checkbox").unbind();//clear all possible listener on checkboxes
             $(":checkbox").removeAttr("checked");
             $("#result_drop").attr('result_id',$("#resultId").val());
 
+            //function to filter out the datatable based on whats being check in the checkboxes
             $("input:checkbox").change(function(){
                 var checkboxColumn=$(this).attr("column");
                 var filter_expression = "\0";
@@ -421,7 +427,7 @@ function ActionViewer() {
                                 $(".closeme").unbind();
                                 
                                 $(".closeme").click(function(){
-                                    $(this).parent().parent().parent().parent().parent().remove();
+                                    $(this).parent().parent().parent().parent().parent().remove();//@todo find the apropriate selector
                                     saveHistoryBar();
                                     
                                     
@@ -447,7 +453,7 @@ function ActionViewer() {
                         }
                     });
                 }else if(serviceName == 'DPAS'){
-                    alert("No Extractable Parameters");
+                    alert("No Extractable Parameters");//@todo why is this here
                 }
             });
             var rowpos = $('#displayableResult').position();
@@ -540,123 +546,6 @@ function ActionViewer() {
             $.collapsible(".advancedParameters","group2");
             
             
-        },
-        renderContent: function() {
-            
-            
-            if(history.length > 0){
-
-                var result = history[step].result;
-                var formData = history[step].formData;
-                var advancedSearch= history[step].advancedSearch;
-                _unserialize(formData,advancedSearch);
-                $("#responseDivision").html(result);
-                $('#displayableResult').append($('#tables'));
-                $('#displayableResult').css("display","block");
-                fnInitSave();
-                $("#responseDivision").html("");
-               
-                $('.resultTable').each(function(){
-                    fnFormatTable(this.id);
-                });
-                _initSolidElements();
-            }
-            _initGhostElements();           
-            $(".tooltipme").tooltip({
-                position: "top center",
-                delay: 0,
-                predelay:0
-            });
-        },//end renderContent
-        render: function(key,current) {
-            if (typeof console!="undefined")console.info("ActionViewer :: render ->"+ key +" current "+current);
-
-            if(history.length <= 0){
-
-                //var title ="Element contains no data";
-                var title ="";
-                var div = $("<div  title='"+title+"' class='floaters'></div>");
-                var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
-                var tr =$("<tr></tr>");
-                var td =$("<td></td>");
-                var img =   $( "<img alt='" +"image missing"+"' class='ghost'  />" ).attr( "src",imagePath );
-                td.append(img);
-                tr.append(td);
-                if(label != null){
-                    td =$("<td></td>");
-                    td.css("padding-left","3px");
-                    td.append(label);
-                    tr.append(td);
-                }
-                if(key==current){
-                    div.addClass('current');
-                }
-                table.append(tr);
-                div.append(table);
-                $("#historyContent").append(div);
-                type="ghost";
-            }else{
-                //var title ="<div>Number of elements: "+history.length+"<br>Label: "+label+"<br>Service name: "+serviceName+"</div>";
-                var title ="";
-                var div = $("<div  title='"+title+"' class='floaters'></div>");
-                var table =$('<table border="0" cellpadding="0" cellspacing="0"></table>');
-                var tr =$("<tr></tr>");
-                var td =$("<td></td>");
-                var img =   $( "<img alt='"+"image missing"+"'/>" ).attr( "src",imagePath );
-                td.append(img);
-                tr.append(td);
-                if(label != null){
-                    td =$("<td></td>");
-                    td.css("padding-left","3px");
-                    td.append(label);
-                    tr.append(td);
-                }
-                table.append(tr);
-                div.append(table);
-                if(key==current){
-                    div.addClass('current');
-                    
-                    for(var i=0;i < history.length;i++){
-                        var pageDiv =$("<div style='cursor:pointer' id='"+i+"' class='ui-state-default new1'>"+"Page "+(i+1)+"</div>");
-                        pageDiv.click(function(){
-
-                            step = parseInt($(this).attr('id'),10);
-                            $('#currentDisplay').fadeOut(300, function(){
-                                window.historyBar.cleanGhost();
-                                window.historyBar.setFocus(key);
-                            //window.historyBar.render();
-                            });
-                        
-
-                        });
-                        div.append(pageDiv);
-                    }
-                    
-
-                }else{
-                    div.css("cursor","pointer");
-                    div.click(function() {
-                        if (typeof console!="undefined")console.info("ActionViewer :: item clicked ->"+ key);
-
-                        $('#currentDisplay').fadeOut(300, function(){
-                            window.historyBar.cleanGhost();
-                            window.historyBar.setFocus(key);
-                        //window.historyBar.render();
-                        });
-
-
-                    //var item = window.historyBar.getItem(key);
-
-
-                    });//end dbclick
-                }
-                
-                $("#historyContent").append(div);
-                
-                type="solid";
-
-               
-            }//end else
-        }//end render
+        }
     };//end public methods
 }//end class

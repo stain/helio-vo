@@ -1,74 +1,36 @@
 
-/*****
- *
- *    Person constructor
- *
- *****/
 function Person(first, last) {
     if ( arguments.length > 0 )
         this.init(first, last);
 }
 
 function DialogForm(){
+
+    this.init();
            
 }
 
-DialogForm.prototype.init = function(){
+DialogForm.prototype.init = function(title){
+    //init form html
     $("#dialog-message").remove();
     var div =$('<div></div>');
     div.attr('id','dialog-message');
-    div.attr('title','Date Selection');
-    var html = window.workspace.getDivisions()["input_time"];
-    div.append(html);
+    div.attr('title',title);
+    
+    
     $("#testdiv").append(div);
-    var date_range_list = $("#input_time_range_list");
-    date_range_list.html("");
+   
 
-    formatButton($(".custom_button"))
-    //$("#input_time_range_button").button({ disabled: true });
     $('#dialog-message').dialog({
         modal: true,
         height:530,
         width:700,
-        buttons: {
-            Ok: function() {
-                var table =$("<table>");
-                var itr = 1;
+        open: function(event, ui) {
 
-                date_range_list.find("tr").each(function(){
-                    var tr = $('<tr></tr>');
-                    while(!$("#minDate"+itr).length){
-                        itr++;
-                        if(itr==100)continue;
-                    }
-                    tr.append("<td><b>Range "+itr+":</b></td>"+
-                        "<td>"+$("#minDate"+itr).val()+"</td>"+
-                        "<td>"+$("#minTime"+itr).val()+"</td>"+
-                        "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>"+
-                        "<td>"+$("#maxTime"+itr).val()+"</td>");
-                    tr.append("<input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'>")
-                    tr.append("<input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'>")
-                    tr.append("<input type='hidden' name='maxTime' value='"+$("#maxTime"+itr).val()+"'>")
-                    tr.append("<input type='hidden' name='minTime' value='"+$("#minTime"+itr).val()+"'>")
-                    table.append(tr);
+        },
 
-                    itr++;
-                });
-                $("#time_area").html(table);
-
-
-                $("#time_drop").attr('src','../images/helio/circle_time.png');
-                $("#time_drop").addClass('drop_able');
-
-                formatButton($(".custom_button"))
-
-                $("#dialog-message").dialog( "close" );
-                $("#dialog-message").remove();
-                
-
-
-            }
-        }
+        buttons: {}
+        
     });
         
 

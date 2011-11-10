@@ -542,7 +542,7 @@ function saveHistoryBar(){
 
     return;
 }
-
+// there is a possilibity when doing changes to the html that the previous version its saved in the database and changes wont be visible until cleared with a reset session
 function getPreviousTaskState(taskName,HUID,imagePath){
     
      

@@ -74,7 +74,7 @@ function History() {
                         $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
                         $.blockUI({
                             message: $('#help_overlay')
-                            });
+                        });
                         $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
                     },
                     Cancel: function() {
@@ -170,7 +170,7 @@ function History() {
                     $("#extra_list_form li[internal='"+row+"']").remove();
                 }
                 else{
-                      var aData = $("#input_table").dataTable().fnGetData( this );
+                    var aData = $("#input_table").dataTable().fnGetData( this );
                     $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(this).addClass('row_selected');
                 }
@@ -191,7 +191,7 @@ function History() {
                         $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
                         $.blockUI({
                             message: $('#help_overlay')
-                            });
+                        });
                         $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
                     },
                     Cancel: function() {
@@ -371,7 +371,7 @@ function History() {
                         $('#help_overlay').attr('title','Click to unblock').click($.unblockUI);
                         $.blockUI({
                             message: $('#help_overlay')
-                            });
+                        });
                         $('.blockOverlay').attr('title','Click to unblock').click($.unblockUI);
                     },
                     Cancel: function() {
@@ -645,34 +645,7 @@ function History() {
                     table.append(tr);
 
                     saveHistoryBar();
-                //                    $('#dialog-message').dialog({
-                //                        modal: true,
-                //                        height:200,
-                //                        width:400,
-                //                        buttons: {
-                //
-                //
-                //                            Ok: function() {
-                //
-                //                                tr =$('<tr class="inner_label"><td>'+$("#label_input").val()+'</td><tr>')
-                //                                table.append(tr);
-                //
-                //                                saveHistoryBar();
-                //                                $("#dialog-message").dialog( "close" );
-                //                                $("#dialog-message").remove();
-                //
-                //                            },
-                //                            Cancel: function(){
-                //                                $(".floaters").last().remove();
-                //                                saveHistoryBar();
-                //                                $("#dialog-message").dialog( "close" );
-                //                                $("#dialog-message").remove();
-                //
-                //
-                //
-                //                            }
-                //                        }
-                //                    });
+          
                 }
             });
 
@@ -726,168 +699,9 @@ function History() {
                 });
             });
      
-        },
-        addItem: function(item) {
-            if (typeof console!="undefined")console.info("History :: addItem ->"+ item.getClassName());
-            var prevItem =array.pop();
-            if(prevItem != null &&prevItem.getType()!="ghost"){
-                array.push(prevItem);
-
-            }
-            array.push(item);
-            current=array.length-1;
-            array.length >=limit ? offset = array.length-limit: offset =0;
-
-        },
-        setFilter: function(filterParam) {
-            if (typeof console!="undefined")console.info("History :: setFilter ->"+ filterParam);
-            filter = filterParam;
-        },
-        getItem: function(index) {
-            if (typeof console!="undefined")console.info("History :: getItem ->"+ index);
-            return array[index];
-
-        },
-        removeItem : function(index) {
-            if (typeof console!="undefined")console.info("History :: removeItem ->"+ index);
-
-
-            array.splice(index, 1);
-            //if(array.length >0)current--;
-            current =-1;
-
-
-            this.render();
-
-        },
-        cleanGhost: function(){
-            if (typeof console!="undefined")console.info("History :: cleanGhost ->");
-            var element = array.pop();
-            if(element.getType()=="ghost"){
-
-                return;
-            };
-            array.push(element);
-
-        },
-        solidify: function(html){
-            if (typeof console!="undefined")console.info("History :: solidify ->"+ html);
-
-            //get current
-            var element = array.pop();
-
-            if(element.getType()=="ghost"){
-                element.setType("query");
-                element.setHtml(html);
-            //$(element).data("query",$("#currentDisplay").html());
-
-
-            //var serialized = $("#currentDisplay").find("form").serialize();
-
-            //$(element).data("serialized",serialized);
-            //$("#currentDisplay").remove();
-
-            }
-            array.push(element);
-
-            this.render();
-
-
-        },
-        render: function(param){
-            if (typeof console!="undefined")console.info("History :: render ->" + current +" param "+ param);
-
-            if(param !=1){
-                if(array.length >0 && current >=0){
-
-                    window.workspace.setElement(array[current]);
-                }else{
-                    window.workspace.setDisplay("splash");
-                }
-            }
-            $('#historyContent').html('');
-            var key = 0;
-
-            var arrayToRender = [];
-            var arrayToIndex = [];
-            if(filter=='all'){
-                arrayToRender=array;
-                for(var i = 0;i < array.length;i++) {
-                    arrayToIndex.push(i);
-                }
-            }
-            else if(filter=='results'){
-                for(i = 0;i < array.length;i++) {
-
-
-                    if(array[i].getType() == 'nativeResult'){
-                        arrayToRender.push(array[i]);
-                        arrayToIndex.push(i);
-                    }
-
-                }
-
-            }
-            else if(filter=='actions'){
-                for(i = 0;i < array.length;i++) {
-
-
-                    if(array[i].getType() == 'query'){
-                        arrayToRender.push(array[i]);
-                        arrayToIndex.push(i);
-                    }
-
-                }
-
-            }
-            else if(filter=='selections'){
-                for(i = 0;i < array.length;i++) {
-
-
-                    if(array[i].getType() == 'resultSelection'){
-                        arrayToRender.push(array[i]);
-                        arrayToIndex.push(i);
-                    }
-
-                }
-
-            }
-
-
-
-            for(key = offset;key < arrayToRender.length;key++) {
-
-
-                if(key <limit+offset)arrayToRender[key].render(arrayToIndex[key],current);
-
-            }
-
-            fnInitDroppable();
-            $(".floadters[title]").tooltip({
-                position: "center right",
-                delay: 0,
-                predelay:500
-            });
-
-        },
-
-        shiftRight: function() {
-            if (typeof console!="undefined")console.info("History :: shiftRight");
-            offset--;
-            if(offset < 0)offset =0;
-            this.render();
-        },
-        shiftLeft: function() {
-            if (typeof console!="undefined")console.info("History :: shiftLeft");
-            offset++;
-            if(offset > array.length-1)offset =array.length-1;
-            if(offset < 0)offset =0;
-            this.render();
-        },
-        setFocus: function(key){
-            current = key;
-            this.render();
         }
+
+      
 
     };
 }
