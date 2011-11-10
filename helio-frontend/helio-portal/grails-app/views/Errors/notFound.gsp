@@ -11,9 +11,9 @@
   </head>
 
   <body style="margin:10px">
-    <h1 >Oops, You just broke the server</h1>
+    <h1 >Oops, Marco just broke the server</h1>
     
-    <h4 style="margin-top:15px;margin-bottom: 30px"> We are sorry, perhaps you are just experiencing a hiccup in the network, try refreshing the page in a few sec. If the problem persists try to find Marco Soldati.</h4>
+    <h4 style="margin-top:15px;margin-bottom: 30px"> We are sorry, perhaps you are just experiencing a hiccup in the network, try refreshing the page in a few sec.</h4>
   	<div class="message">
           Error Trace:<br/>
 		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'.encodeAsHTML()}<br/>
