@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-//something
+
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.Unmarshaller
 import javax.xml.transform.stream.StreamSource
@@ -114,7 +114,7 @@ class PrototypeController {
             }
         }
         else {
-            //TODO: need to send java stacktrace back
+            
         }
 
     }
