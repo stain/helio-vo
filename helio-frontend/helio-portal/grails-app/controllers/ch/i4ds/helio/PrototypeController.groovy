@@ -48,71 +48,12 @@ import eu.heliovo.registryclient.*;
 class PrototypeController {
 
     def DataQueryService;
-    def TableInfoService;
+    
     def ResultVTManagerService;
 
  
   
-    /**
-     * Action to asynchronously get advanced columns of a service.
-     * Expects parameter: serviceName=SERVICE_NAME, catalog=CATALOG_NAME.
-     */
-    def getAdvancedParams = {
-        log.info("getAdvancedParams =>" +params);
-
-        if(params.serviceName == null)
-        throw new java.lang.IllegalArgumentException("Parameter 'service' must be set.");
-        if(params.catalog == null)
-        throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
-
-        def template;  // name of the template to use
-        if(params.serviceName == "ics")	{
-
-           
-            def hash = TableInfoService.serviceMethod("files/tablesics.xml");
-            def catalog = hash.get(params.catalog);
-            template = "ics_" + params.catalog;
-            render template:'templates/' + template, bean:catalog, var:'catalog';
-        } else if(params.serviceName == "ils")	{
-            def hash = TableInfoService.serviceMethod("files/tablesils.xml");
-            def catalog = hash.get(params.catalog);
-            template = "ils_" + params.catalog;
-            render template:'templates/' + template, bean:catalog, var:'catalog';
-        } else if (params.serviceName == "HEC")	{
-            
-            HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
-            def catalog = hecDao.getCatalogById(params.catalog);
-
-            if (catalog != null) {
-                render template:'templates/columns_extended', bean:catalog, var:'catalog';
-            } else {
-                render "<p>Unable to load catalog defintion with id '" + params.catalog + "'</p>";
-            }
-        }else{
-
-            throw new java.lang.IllegalArgumentException("Service " + params.serviceName + " is not supported through this method.");
-        }
-    }
-	
-    /**
-     * Action to asynchronously get the HEC columns.
-     * Expects parameter: catalog=CATALOG_NAME.
-     */
-    def getHecColumns = {
-        log.info("getHecColumns =>" +params);
-			
-        if(params.catalog == null)
-        throw new java.lang.IllegalArgumentException("Parameter 'catalog' must be set.");
-
-        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
-        def catalog = hecDao.getCatalogById(params.catalog);
-                
-        if (catalog != null) {
-            render template:'templates/columns_extended', bean:catalog, var:'catalog';
-        } else {
-            render "<p>Unable to load catalog defintion with id '" + params.catalog + "'</p>";
-        }
-    }
+   
 
     
 
@@ -164,12 +105,12 @@ class PrototypeController {
                 render template:'templates/response', bean:responseObject, var:'responseObject'
             }catch(Exception e){
                
-               println e.getMessage();
+                println e.getMessage();
                 
                 
                 def responseObject = [error:e.getMessage() ];
                 
-                 render template:'templates/response', bean:responseObject, var:'responseObject';
+                render template:'templates/response', bean:responseObject, var:'responseObject';
             }
         }
         else {
@@ -197,22 +138,9 @@ class PrototypeController {
     def explorer={
         log.info("Explorer =>" +params)
         def helioClient = new HelioClient();
-        //        AsyncQueryService serviceICS = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.ASYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
-        //                HelioQueryResult resultICS = serviceICS.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("2020-12-31T00:00:00"), Arrays.asList("instrument"), null, 0, 0, null);
-        //                System.out.println(resultICS.asURL());
-        //                System.out.println(serviceICS.getClass());
+     
         
-
-        //System.out.println(resultICS.asString());
-
-//       AsyncQueryService serviceICS= (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.DES, ServiceCapability.ASYNC_QUERY_SERVICE, null);
-//        HelioQueryResult resultICS = serviceICS.query(Arrays.asList("2007-07-10T12:00:00"), Arrays.asList("2007-07-11T12:00:00"), Arrays.asList("ACE"), "DERIV,ACE:V:32/:32", 0, 0, null);
-//System.out.println(resultICS.asString());
-
-        
-  
-        
-        
+        //Get sessionId to persist client history
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
         // init calalog list for HEC GUI
         
@@ -269,10 +197,6 @@ class PrototypeController {
                 
             }
 
-
-            
-            
-
         }else{
             Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
             Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
@@ -288,25 +212,13 @@ class PrototypeController {
         }else{
             extraList.push(params.extra);
             
-            
         }
-          
+         
         String where ="";
-
 	if(params.where != null)where = params.where;
-        
-        
-        
-              
-
 	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
-        
-        
-
 	ResultVT result = DataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
-
         return result;
-
 
     }
 
@@ -548,36 +460,9 @@ class PrototypeController {
 
 
                 result = result +"<tr><td><a target='_blank' href='"+ link+"'>"+title+"</a></td></tr>";
-                
+             
             }
-
-            
-            
-
-
-    
             render result;
-
-            
-          
-            
-
-
-
-            
-            
-
-
-
-            
-            
-
-            
         }
-        
-        
-        
-        
-     
     }
 }
