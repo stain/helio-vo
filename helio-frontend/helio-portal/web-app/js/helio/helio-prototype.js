@@ -31,7 +31,7 @@ $(document).ready(function()
     var history = new History();
     window.historyBar = history;
     window.historyBar.init();
-<<<<<<< .mine
+
     
     
     $( "#tabs" ).tabs();//inits the main task selector
@@ -40,16 +40,7 @@ $(document).ready(function()
     var sss = new DialogForm();// test delete soon
 
     //Creates dialog for session reset.
-=======
-    
-    
-    $( "#tabs" ).tabs();//inits the main task selector
-    
-    
-    //var sss = new DialogForm();// test delete soon
 
-    //Creates dialog for session reset.
->>>>>>> .r2420
     $( ".reset_session" ).click(function(){
         $("#dialog-message").remove();
         var div =$('<div></div>');
