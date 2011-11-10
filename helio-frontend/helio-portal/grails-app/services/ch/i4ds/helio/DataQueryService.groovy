@@ -9,7 +9,7 @@ import eu.heliovo.clientapi.query.*;
 import eu.heliovo.clientapi.query.asyncquery.*;
 import eu.heliovo.registryclient.*;
 import eu.heliovo.registryclient.HelioServiceName;
- import eu.heliovo.shared.util.*;
+import eu.heliovo.shared.util.*;
 
 
 
@@ -21,7 +21,11 @@ class DataQueryService {
 
     }
 
-  
+    /**
+     *Main query method for dpas,hec,ics,ils, this connects to the HelioAPI.
+     *@params are pretty self explanatory.
+     *
+     */
     def queryService(String serviceName, List<String> minDate, List<String> maxDate, List<String> from, String where) {
     	log.info("queryService  ::" + serviceName + ", " + minDate+", "+maxDate+", "+from+", " + where);
     	
@@ -50,27 +54,20 @@ class DataQueryService {
             break;
 
         }
+        //lists need to come in as a 1 to 1 relation between date and from, permuteLists makes sure this relation is kept by padding lists with the required elements.
         List<String>[] permuted = DateUtil.permuteLists(minDate,from)
         minDate = permuted[0];
         permuted = DateUtil.permuteLists(maxDate,from)
         maxDate = permuted[0];
         from  = permuted[1];
 
-         result = service.query(minDate, maxDate, from, where, 0, 0, null);
+        result = service.query(minDate, maxDate, from, where, 0, 0, null);
          
         
         ResultVT resvt = new ResultVT(result.asVOTable(),result.getUserLogs());
-        //System.out.println(resultICS.asString());
-
-        //AsyncQueryService serviceICS= (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.DES, ServiceCapability.ASYNC_QUERY_SERVICE, null);
-        //HelioQueryResult resultICS = serviceICS.query(Arrays.asList("2007-07-10T12:00:00"), Arrays.asList("2007-07-11T12:00:00"), Arrays.asList("ACE"), "ACE.DERIV,V:/100.0:600.0", 0, 0, null);
-
-
-    	//ResultVT resvt = SimpleInterface.queryService(serviceName, minDate, maxDate, from, where);
-    	
-    	
+            	
     	log.info("queryService :Result:"+ resvt.getStringTable());
     	
     	return resvt;
     }
-    }
+}

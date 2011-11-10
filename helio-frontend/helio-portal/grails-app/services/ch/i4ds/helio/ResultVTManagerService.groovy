@@ -3,6 +3,9 @@ import ch.i4ds.helio.frontend.parser.*
 import ch.i4ds.helio.frontend.query.*
 import eu.heliovo.clientapi.frontend.*
 
+/**
+* Class that manages result storage, currently they are all kept in memory using a linkedList.
+*/
 class ResultVTManagerService {
 
     static transactional = true
