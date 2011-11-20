@@ -1,22 +1,22 @@
-
+/**
+ * Send a delete session request to the backend and show the splash screen on success.
+ * TODO: Properly handle error on failure.
+ */
 function deleteSession(){
 
-    var __beforeSend= function(){         };
+    var __beforeSend= function(){};
     var __onComplete = function(){};
     var __onSuccess = function(data,textStatus) {
         window.workspace.setDisplay("splash");
     };
 
-
-    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {    };
+    var __onError = function(xmlHttpRequest,textStatus,errorThrown) {};
 
     jQuery.ajax(
     {
         type : 'POST',
         data : {
             "HUID":$.cookie("helioSession")
-            
-
         },
         url : 'deleteSession',
         success: __onSuccess,
@@ -105,9 +105,6 @@ function getSavedResult(resultId){
     //$("#result_area").append('<img width="300px" heigth="100px" style="margin:0px" src="/helio-portal/images/helio/DLL.gif" />');
     var rowpos = $('#result_area').position();
     if(rowpos!=null){
-
-
-
         $('html,body').scrollTop(rowpos.top);
     }
 
@@ -122,18 +119,13 @@ function getSavedResult(resultId){
     };
 
 
-
     /**
      * Called after successful loading of HEC columns
      * @param data HTML stub containing the loaded columns
      * @param textStatus a status message.
      */
     var __onSuccess = function(data,textStatus) {
-
-
-
         new ActionViewer().resultContainerInit(data);
-
     };
 
     /**
@@ -339,23 +331,14 @@ function sendExamineEvent(minDate,maxDate,type){
         else if(type == "link"){
             $("#details_links").html("<table class='link_table'>"+data+"</table>");
         }
-        
-
-
-
-
-
-
-
-
     };
 
     /**
- * Method called in case an error occurs when loading the HEC table.
- * @param XMLHttpREquest the underlying request
- * @param textStatus status message
- * @param errorThrown error object
- */
+     * Method called in case an error occurs when loading the HEC table.
+     * @param XMLHttpREquest the underlying request
+     * @param textStatus status message
+     * @param errorThrown error object
+     */
     var __onError = function(xmlHttpRequest,textStatus,errorThrown) {
         //alert(xmlHttpRequest.responseText);
         //alert(textStatus);
@@ -364,10 +347,6 @@ function sendExamineEvent(minDate,maxDate,type){
         $("#result_area").html("An error occured with the service selected, please revise your input parameters or try again later");
         
         $.unblockUI();
-
-
-
-
     };
 
     jQuery.ajax(
@@ -377,12 +356,6 @@ function sendExamineEvent(minDate,maxDate,type){
             "minDate":minDate,
             "maxDate":maxDate,
             "type":type
-
-
-
-
-
-
         },
         url : 'asyncQueryLinkService',
         success: __onSuccess,

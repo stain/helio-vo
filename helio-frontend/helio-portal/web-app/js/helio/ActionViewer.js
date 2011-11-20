@@ -1,17 +1,16 @@
 function ActionViewer() {
+    // attach a timeout handler to this object.
     var resultFilterTimeout;
 
     return {
-
         /**
          * Loads after the ajax call is complete and successful
          * @data:  html for result section
          */
         resultContainerInit: function(data){
-
             //loads the html into the response division
             $("#responseDivision").html(data);
-            
+
             $("#result_area").html("Query Success");//modify message on result overview
             $("#result_button").hide();
             $("#displayableResult").html("");
@@ -124,7 +123,7 @@ function ActionViewer() {
                     }
                 });
             });
-            formatButton($(".custom_button"))
+            formatButton($(".custom_button"));
             var serviceNameTemp = $("#service_name").val();
             
             if(serviceNameTemp == 'DPAS'){
@@ -185,18 +184,12 @@ function ActionViewer() {
                     recipe.document.open();
                     recipe.document.write(html);
                     recipe.document.close();
-
-                        
-
-                    
-
                 });
             }
             
 
             
             $("#response_save_selection").click(function(){
-
                 if($(".odd_selected").length <1 && $(".even_selected").length<1){
                     alert("Please select something first");
                     return;
@@ -227,45 +220,33 @@ function ActionViewer() {
                             if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
                                 time_end=j;
                             }
-
-
                         }//end j
                         if(time_end == -1) time_end = time_start;
 
                         $("#resultTable"+i+" .even_selected").each(function(){
-
                             time_start_array.push($(this).children().eq(time_start).text());
                             time_end_array.push($(this).children().eq(time_end).text());
-
                         });
                         $("#resultTable"+i+" .odd_selected").each(function(){
-
                             time_start_array.push($(this).children().eq(time_start).text());
                             time_end_array.push($(this).children().eq(time_end).text());
                         });
-
                     }//end i
 
-
                     for(itr= 0;itr < time_start_array.length;itr++){
-
-
-                      
                         var tr = $('<tr></tr>');
                         tr.append("<td><b>Range :</b></td>"+
                             "<td>"+time_start_array[itr]+"</td>"+
-                            
                             "<td>--</td><td>"+time_end_array[itr]+"</td>");
 
-                        tr.append("<td><input type='hidden' name='maxDate' value='"+time_end_array[itr]+"'/></td>")
-                        tr.append("<td><input type='hidden' name='minDate' value='"+time_start_array[itr]+"'/></td>")
-                        
+                        tr.append("<td><input type='hidden' name='maxDate' value='"+time_end_array[itr]+"'/></td>");
+                        tr.append("<td><input type='hidden' name='minDate' value='"+time_start_array[itr]+"'/></td>");
                         
                         table.append(tr);
 
                     }//end itr
                     var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_time.png' );
-                    var superdiv = $('<div></div>')
+                    var superdiv = $('<div></div>');
                     superdiv.append(table);
 
                     img.data('time_data',superdiv.html());
@@ -348,7 +329,7 @@ function ActionViewer() {
                     var html = window.workspace.getDivisions()["input_instruments"];
                     div.append(html);
 
-                    div.append("*Items in red are not supported by our Data Search service therefore will not be saved.")
+                    div.append("*Items in red are not supported by our Data Search service therefore will not be saved.");
                     $("#testdiv").append(div);
                     
                     $("#input_filter").parent().remove();
@@ -369,7 +350,7 @@ function ActionViewer() {
                     $("#input_table").remove();
                     
                    
-                    formatButton($(".custom_button"))
+                    formatButton($(".custom_button"));
                     $('#dialog-message').dialog({
                         modal: true,
                         height:530,
@@ -418,7 +399,7 @@ function ActionViewer() {
 
                                 tr2.append(td2);
                                 table2.append(tr2);
-                                tr2 =$('<tr class="inner_label"><td>'+$("#task_label").val()+'</td><tr>')
+                                tr2 =$('<tr class="inner_label"><td>'+$("#task_label").val()+'</td><tr>');
                                 table2.append(tr2);
                                 //tr =$('<tr class="inner_label"><td>'+label+'</td><tr>')
                                 //table.append(tr);
@@ -465,7 +446,7 @@ function ActionViewer() {
 
             if($("#service_name").val()=='ICS'){
 
-                $("#response_save_selection").parent().prepend("*Items in red are not supported by our Data Search service therefore will not be saved.")
+                $("#response_save_selection").parent().prepend("*Items in red are not supported by our Data Search service therefore will not be saved.");
             }
             if($("#service_name").val()=='ILS'){
                 $("#response_save_selection").remove();

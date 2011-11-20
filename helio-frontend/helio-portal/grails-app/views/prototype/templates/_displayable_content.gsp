@@ -10,7 +10,6 @@
   </div>
 </div>
 
-
 <div id="displayableTaskChart" class="displayable" style="display:none">
   <g:render template="tasks/services/task_chart" />
 </div>
@@ -60,6 +59,3 @@
 <div id="displayableTaskContext" class="displayable" style="display:none">
   <g:render template="tasks/advanced/task_context" />
 </div>
-
-
-

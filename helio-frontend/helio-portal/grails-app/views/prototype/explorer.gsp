@@ -11,159 +11,120 @@
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
     <META HTTP-EQUIV="EXPIRES" CONTENT="0">
     <title>HELIO FrontEnd</title>
+    <g:render template="imports" />
+    <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
+  </head>
 
-  <g:render template="imports" />
-  <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
+  <body>
+    <input type="hidden" value="${HUID}" id="HUID"/>
+    <!-- Background Elements -->
+    <div id="page-background"></div>
 
-
-</head>
-
-<body>
-<input type="hidden" value="${HUID}" id="HUID"/>
-<!-- Background Elements -->
-<div id="page-background"></div>
-
-<!-- Logo Elements -->
-<div id="logo">
-
-  <table style="width: 100%;position:relative;top:-18px;">
-    <tr>
-      <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
-      <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
-    <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
-    </tr>
-  </table>
-
-
-
-
-</div>
-
-<!-- Navigation Bar -->
-<div >
-  <!-- elements with tooltips -->
-  <g:render template="navbar" />
-
-</div>
-
-<!-- Body Container -->
-<div id="container" >
-
-  <!-- Hidden division holding selection results :: need to rework -->
-  <div id="testdiv" class="displayable" style="display:none">
-    Selection
-    <div style="margin-top:4px;margin-bottom:4px;cursor:pointer;padding:4px;background-color:black;color:white;border:1px solid #464693;" id="saveButton">Save Results</div>
-  </div>
-
-  <!-- Content container -->
-
-  <div id="tabs">
-    <ul>
-      <li><a href="#tabs-2">Services</a></li>
-      <li><a href="#tabs-3">Advanced</a></li>
-
-      <li><a href="#tabs-4">User</a></li>
-
-    </ul>
-    <!--div id="tabs-1" >
-      <table>
+    <!-- Logo Elements -->
+    <div id="logo">
+      <table style="width: 100%;position:relative;top:-18px;">
         <tr>
-          <td>
-            <div style="display:block" class="menu_item custom_button" id="task_hec" >HEC</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button" id="task_ics" >ICS</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button" id="task_ils" >ILS</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button" id="task_dpas" >DPAS</div>
-          </td>
-        </tr>
-      </table>
-    </div-->
-    <div id="tabs-2">
-      <table>
-        <tr>
-      
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
-          </td>
-
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Search Instruments by Capability</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Search Instruments by Location</div>
-          </td>
+          <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
+          <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
+        <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
         </tr>
       </table>
     </div>
-    <div id="tabs-3">
-      <table>
-        <tr>
-<td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div></td>
-<%--td><div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
-<%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
-          </td>
-          <td>
-            <div style="display:block" class="menu_item custom_button"  id="task_context">Context Service</div>
-          </td>
-        </tr>
-      </table>
+
+    <!-- Navigation Bar -->
+    <div >
+      <!-- elements with tooltips -->
+      <g:render template="navbar" />
     </div>
-    <div id="tabs-4">
-      <table  >
-        <tr>
-          <td>
-            <div style="display:block" class="menu3_item custom_button reset_session" >Reset Session</div>
-          </td>
 
-        </tr>
-      </table>
-
-    </div>
-  </div>
-
-  <div id="content-container"  >
-
-    <div class="candybox" id="history">
-      <div>Data Cart</div>
-      <div id="historyScrollWidth">
-        <div id="historyContent"></div>
+    <!-- Body Container -->
+    <div id="container" >
+      <!-- Hidden division holding selection results :: need to rework -->
+      <div id="testdiv" class="displayable" style="display:none">
+        Selection
+        <div style="margin-top:4px;margin-bottom:4px;cursor:pointer;padding:4px;background-color:black;color:white;border:1px solid #464693;" id="saveButton">Save Results</div>
       </div>
-      <div id="content-slider"></div>
-    </div> <!-- History -->
-
-
-    <!-- Content -->
-    <div id="content" >
-      <!-- 1st level droppable -->
-      <div  id="droppable-inner" class="candybox">
-        <g:render template="templates/displayable_content" />
+  
+      <!-- Content container -->
+      <div id="tabs">
+        <ul>
+          <li><a href="#tabs-2">Services</a></li>
+          <li><a href="#tabs-3">Advanced</a></li>
+          <li><a href="#tabs-4">User</a></li>
+        </ul>
+        <div id="tabs-2">
+          <table>
+            <tr>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
+              </td>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
+              </td>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Search Instruments by Capability</div>
+              </td>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Search Instruments by Location</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="tabs-3">
+          <table>
+            <tr>
+              <td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div></td>
+    <%--td><div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
+    <%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
+              </td>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_context">Context Service</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div id="tabs-4">
+          <table>
+            <tr>
+              <td>
+                <div style="display:block" class="menu3_item custom_button reset_session" >Reset Session</div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    
+      <div id="content-container">
+        <div class="candybox" id="history">
+          <div>Data Cart</div>
+          <div id="historyScrollWidth">
+            <div id="historyContent"></div>
+          </div>
+          <div id="content-slider"></div>
+        </div> <!-- History -->
+    
+        <!-- Content -->
+        <div id="content" >
+          <!-- 1st level droppable -->
+          <div  id="droppable-inner" class="candybox">
+            <g:render template="templates/displayable_content" />
+          </div>
+        </div>
+        <div id="responseDivision" style="width:858px;display:block"></div>
       </div>
     </div>
-    <div id="responseDivision" style="width:858px;display:block"></div>
-
-
-  </div>
-</div>
-<div style="display:none">
-  <div id="loading_form" style="display:none">
-    <div><h3 style="margin:30px;">Please wait </h3>
-      <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="couldnt find image" /></div>
-    <div style="margin:30px;" id="loading_form_cancel_button" class="custom_button">Cancel</div>
-  </div>
-  <div style="padding:30px;text-align: left" id="help_overlay" style="display:none">
-    <H3 style="text-align: left;margin:10px"></H3>
-    <p></p>
-  </div>
-</div>
-</body>
+    <div style="display:none">
+      <div id="loading_form" style="display:none">
+        <div><h3 style="margin:30px;">Please wait </h3>
+          <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="couldnt find image" /></div>
+        <div style="margin:30px;" id="loading_form_cancel_button" class="custom_button">Cancel</div>
+      </div>
+      <div style="padding:30px;text-align: left" id="help_overlay" style="display:none">
+        <H3 style="text-align: left;margin:10px"></H3>
+        <p></p>
+      </div>
+    </div>
+  </body>
 </html>

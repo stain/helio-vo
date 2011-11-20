@@ -11,9 +11,10 @@
   </head>
 
   <body style="margin:10px">
-    <h1 >Oops, Marco just broke the server</h1>
+    <h1>Internal Error</h1>
     
-    <h4 style="margin-top:15px;margin-bottom: 30px"> We are sorry, perhaps you are just experiencing a hiccup in the network, try refreshing the page in a few sec.</h4>
+    <h4 style="margin-top:15px;margin-bottom: 30px">An Internal Error occurred in the HELIO Front End or in the HELIO system.</h4>
+    <p>Try to reload in few seconds. If this problem does not go away, please send a message to support@helio-vo.org (not yet active!). Thanks.</p>
   	<div class="message">
           Error Trace:<br/>
 		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'.encodeAsHTML()}<br/>

@@ -45,29 +45,41 @@ import eu.heliovo.clientapi.query.*;
 import eu.heliovo.clientapi.query.asyncquery.*;
 import eu.heliovo.registryclient.*;
 
+/**
+ * Main controller for the HFE.
+ * TOOD: rename to ExplorerController
+ */
 class PrototypeController {
 
+    /**
+     * Ref to the Data query Service
+     */
     def DataQueryService;
     
+    /**
+     * Ref to the ResultVTManagerService
+     */
     def ResultVTManagerService;
 
- 
-  
-   
-
-    
-
+    /**
+     * Upload a file
+     */
     def asyncUpload ={
         log.info("asyncUpload =>" +params);
 
         try{
     
-            if(request.getFile("fileInput").getOriginalFilename()=="")throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
-            if(!request.getFile("fileInput").getOriginalFilename().endsWith(".xml"))throw new RuntimeException("Not a valid xml file.");
+            if (request.getFile("fileInput").getOriginalFilename()=="") {
+                throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
+            }    
+            if (!request.getFile("fileInput").getOriginalFilename().endsWith(".xml")) {
+                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
+            }
             JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
-            VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource( new StringReader( request.getFile("fileInput").inputStream.text ) ));
+            VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource(new StringReader( request.getFile("fileInput").inputStream.text)));
+            
             def serviceName = 'upload';
             ResultVT result = new ResultVT(votable);
             int resultId= ResultVTManagerService.addResult(result,serviceName);
@@ -76,13 +88,11 @@ class PrototypeController {
             def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
             render template:'templates/response', bean:responseObject, var:'responseObject'
 
-        }catch(Exception e){
-
+        } catch(Exception e) {
             println e.printStackTrace();
             def responseObject = [error:e.getMessage() ];
             render template:'templates/response', bean:responseObject, var:'responseObject'
         }
-
     }
     
    
@@ -135,22 +145,20 @@ class PrototypeController {
         render "success"
     }
 
+    /**
+     * Initialize the client session and show the main page. 
+     */
     def explorer={
         log.info("Explorer =>" +params)
         def helioClient = new HelioClient();
      
+        // TODO: read cookie value and load persisted session
         
         //Get sessionId to persist client history
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
-        // init calalog list for HEC GUI
         
-        HelioCatalogDao hecDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.HEC);
-        HelioField<String> catalogField = hecDao.getCatalogField();
-        
-        DomainValueDescriptor<String>[] valueDomain = catalogField.getValueDomain();
-    	
+        // TODO: move to central place (e.g. Bootstrap or helio-clientapi)
         // init catalog list for DPAS GUI
-        
         HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS);
         if (dpasDao == null) {
             throw new NullPointerException("Unable to find service DPAS");
@@ -158,20 +166,14 @@ class PrototypeController {
         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
         
-
-       
-         
-        
         AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );
         
         HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
             Arrays.asList("hec_catalogue"), null, 0, 0, null);
-
         
         int timeout = 300;
         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
-        
-        ResultVT   resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
+        ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
     
         //def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];
         def initParams = [hecCatalogs:resvt, dpasInstruments: dpasInstruments, HUID:sessionId];
@@ -185,8 +187,6 @@ class PrototypeController {
         ArrayList<String> minDateList= new ArrayList<String>();
 
         if(params.maxDate.contains(",")) {
-            
-            
             ArrayList<String> tempMaxDateList = params.maxDate.split(",");
             ArrayList<String> tempMinDateList = params.minDate.split(",");
             for(int i = 0; i<tempMaxDateList.size();i++){
@@ -194,30 +194,24 @@ class PrototypeController {
                 Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",tempMaxDateList.get(i));
                 maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
                 minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
-                
             }
-
         }else{
             Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
             Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
             maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
             minDateList.add(minDate.format("yyyy-MM-dd'T'HH:mm:ss"));
-        
-
-            
         }
         ArrayList<String> extraList = new ArrayList<String>();
         if(params.extra.contains(",")){
             extraList = params.extra.split(",")
         }else{
             extraList.push(params.extra);
-            
         }
          
         String where ="";
-	if(params.where != null)where = params.where;
-	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
-	ResultVT result = DataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
+    	if(params.where != null)where = params.where;
+    	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
+    	ResultVT result = DataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
         return result;
 
     }

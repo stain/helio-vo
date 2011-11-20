@@ -38,7 +38,7 @@ grails.views.gsp.sitemesh.preprocess = true
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "https://helio-dev.i4ds.ch"
+        grails.serverURL = "https://helio.i4ds.technik.fhnw.ch"
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -46,7 +46,6 @@ environments {
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
     }
-
 }
 
 // log4j configuration
@@ -54,11 +53,8 @@ log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     
-    //
+    // TODO: setup logs.
     appenders {
-        
-	 
-
     }
 
     debug 'grails.app.tagLib',
@@ -84,14 +80,6 @@ log4j = {
     warn   'org.mortbay.log'
 
     root {
-        
-        
-
-
-
         additivity = true;
     }
-}
-
-
-     
+}     

@@ -1,15 +1,11 @@
 package ch.i4ds.helio;
-import java.util.logging.Logger;
-
-import eu.heliovo.clientapi.frontend.ResultVT;
-import eu.heliovo.clientapi.frontend.SimpleInterface;
-import eu.heliovo.clientapi.linkprovider.*;
-import eu.heliovo.clientapi.HelioClient;
-import eu.heliovo.clientapi.query.*;
-import eu.heliovo.clientapi.query.asyncquery.*;
-import eu.heliovo.registryclient.*;
-import eu.heliovo.registryclient.HelioServiceName;
-import eu.heliovo.shared.util.*;
+import eu.heliovo.clientapi.HelioClient
+import eu.heliovo.clientapi.frontend.ResultVT
+import eu.heliovo.clientapi.linkprovider.*
+import eu.heliovo.clientapi.query.*
+import eu.heliovo.clientapi.query.asyncquery.*
+import eu.heliovo.registryclient.*
+import eu.heliovo.shared.util.*
 
 
 
@@ -62,7 +58,6 @@ class DataQueryService {
         from  = permuted[1];
 
         result = service.query(minDate, maxDate, from, where, 0, 0, null);
-         
         
         ResultVT resvt = new ResultVT(result.asVOTable(),result.getUserLogs());
             	

@@ -1,5 +1,4 @@
 <div id="ils_trajectories" style="display:none">
-
   <table>
     <tr>
       <td align="left" valign="top">
@@ -22,7 +21,6 @@
             </g:if>
           </g:each>
         </table>
-
       </td>
     </tr>
   </table>
@@ -58,7 +56,6 @@
             </td>
             <td>
               <input column="0" name="Jupiter" type="checkbox">
-
               Jupiter
             </td>
             <td>
@@ -74,7 +71,6 @@
               Neptune
             </td>
           </tr>
-
         </table>
       </td>
     </tr>
@@ -109,9 +105,7 @@
             </td>
             <td>
               <input column="0" name="Voyager2" type="checkbox">
-
               Voyager 2
-
             </td>
           </tr>
            <tr>
@@ -135,12 +129,9 @@
               <input column="0" name="Dawn" type="checkbox">
               Dawn
             </td>
-
           </tr>
-
         </table>
       </td>
     </tr>
-
   </table >
 </div>

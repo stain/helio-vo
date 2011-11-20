@@ -1,23 +1,20 @@
 <table style="margin-bottom: 10px;">
   <tr>
-    <td colspan="2">
+    <td>
       <div  class="resultDroppable" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
         <img id="time_drop"  style="margin:11px" src="${resource(dir:'images/helio',file:'circle_time_grey.png')}" />
-        
       </div>
     </td>
     <td id="time_area" class="candybox" >
-        
     </td>
-     <td  >
+    <td>
        <div class="clear_input_summary custom_button">Clear</div>
     </td>
-    
   </tr>
   <tr align="center">
     <td>
-      <div id="time_button" class="custom_button">Select</div>
-      
+      <div id="time_button"  class="custom_button">Select</div>
     </td>
+    <td colspan="2"></td>
   </tr>
 </table>

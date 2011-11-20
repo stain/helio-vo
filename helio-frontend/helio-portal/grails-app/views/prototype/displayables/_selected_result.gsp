@@ -1,12 +1,12 @@
 <div id="actionViewer">
   <div class="viewerHeader">
-    <table  style="height:30px;width: 100%;">
-      <tr >
+    <table style="height:30px;width: 100%;">
+      <tr>
         <td width="60">
           <img height="30px" src="${resource(dir:'images/icons/toolbar',file:'circle_obs.png')}" alt="image missing"/>
         </td>
         <td>
-          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px"> Result Viewer </h1>
+          <h1 style="font-size:2em;font-weight: normal;margin-top: 10px">Result Viewer</h1>
           Label: <input style="margin-top:5px;" id="label" type="text" MAXLENGTH="5" size="6"/>
         </td>
         <td>
@@ -14,10 +14,9 @@
         </td>
       </tr>
     </table>
-
   </div>
 
-  <div class="module ">
+  <div class="module">
     <div class="header queryHeader viewerHeader">
       <h1>Parameter Extraction</h1>
     </div>
@@ -28,38 +27,34 @@
         <tbody>
           <tr>
             <td>
-
-      <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:70px">
-        <tr id="noParams">
-          <td class="row-borders" id="time-row" style="display:block">
-
-            <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
-            <center> <h2 style="border-bottom:1px solid black">Time Selection</h2></center>
-            <table id="times-table" style="margin-top:20px;width:100%;text-align:left;">
-              <tr >
-                <td>
-                  Time Start:
-                </td>
-                <td></td>
-                <td id="singleTimeRemove">
-                  Time End:
-                </td>
-              </tr>
-              
-            </table>
-
-          </td>
-        </tr>
-        <tr style="border-top:1px solid black">
-          <td class="row-borders" id="instrument-row" style="display:none">
-            <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="inst-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
-            <center><h2 style="border-bottom:1px solid black">Instrument Selection</h2></center>
-            <table id="instrument-table" style="margin-top:20px;width:100%;text-align:center;">
-              <tr id="noParamsInst"><td>No parameters of this type could be extracted</td></tr>
-            </table>
-          </td>
-        </tr>
-      </table>
+              <table style="clear:both;margin-top:30px;margin-bottom: 30px;width:500px;margin-left:70px">
+                <tr id="noParams">
+                  <td class="row-borders" id="time-row" style="display:block">
+                    <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="time-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_time.png')}"/></div>
+                    <center> <h2 style="border-bottom:1px solid black">Time Selection</h2></center>
+                    <table id="times-table" style="margin-top:20px;width:100%;text-align:left;">
+                      <tr>
+                        <td>
+                          Time Start:
+                        </td>
+                        <td></td>
+                        <td id="singleTimeRemove">
+                          Time End:
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr style="border-top:1px solid black">
+                  <td class="row-borders" id="instrument-row" style="display:none">
+                    <div style="margin-left:220px;height:40px;padding-bottom:20px "><!--input id="inst-row-check" type="checkbox"/--><img  src="${resource(dir:'images/icons/toolbar',file:'circle_inst.png')}"/></div>
+                    <center><h2 style="border-bottom:1px solid black">Instrument Selection</h2></center>
+                    <table id="instrument-table" style="margin-top:20px;width:100%;text-align:center;">
+                      <tr id="noParamsInst"><td>No parameters of this type could be extracted</td></tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
             </td>
             <td valign="top">
               <div class="message"><b>Step 1</b><br/>
@@ -75,7 +70,7 @@
       </table>
     </div>
   </div>
-  <div class="module ">
+  <div class="module">
     <div class="header queryHeader viewerHeader">
       <h1>Result Selection</h1>
     </div>
@@ -87,15 +82,8 @@
         </g:form>
       </div>
 
-
       <div id="displayableResult" class="displayable" style="display:block">
-
       </div>
-
-
-
-
     </div>
   </div>
 </div>
-

@@ -5,17 +5,14 @@
       <span id="details_start_date"></span>
       <h5>End Date</h5>
       <span id="details_end_date"></span>
-
-      
     </td>
-
   </tr>
   <tr style="margin-top:30px">
     <td>-------------------------------------------------------------------------------------
     </td>
   </tr>
-    <tr style="margin-top:30px">
-      <td><h5>Plots</h5></td>
+  <tr style="margin-top:30px">
+    <td><h5>Plots</h5></td>
   </tr>
   <tr>
     <td id="fplot">
@@ -39,5 +36,3 @@
     </td>
   </tr>
 </table>
-
-

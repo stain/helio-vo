@@ -23,9 +23,6 @@
 <g:javascript src="/helio/ActionViewer.js"/>
 <g:javascript src="/helio/TimeForm.js"/>
 <g:javascript src="/helio/HelioAjax.js"/>
-<g:javascript src="/helio/ActionViewerExtended.js"/>
-<g:javascript src="/helio/UploadViewer.js"/>
-<g:javascript src="/helio/ResultViewer.js"/>
 <g:javascript src="/helio/History.js"/>
 <g:javascript src="/helio/Workspace.js"/>
 <g:javascript src="/helio/StaticUtilities.js"/>

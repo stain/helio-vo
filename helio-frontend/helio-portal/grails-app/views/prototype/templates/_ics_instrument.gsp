@@ -1,5 +1,4 @@
 <div id="ics_instrument" style="display:none">
-
   <table>
     <tr>
       <td align="left" valign="top">  
@@ -22,7 +21,6 @@
             </g:if>
           </g:each>
         </table>
-
       </td>
     </tr>
   </table>
@@ -30,11 +28,10 @@
   <h4>
     Filters
   </h4>
-   <input column="19" name="T" type="checkbox">
-              Show only accessible instruments
+  <input column="19" name="T" type="checkbox" checked="checked"/>
+  Show only accessible instruments
             
   <table width="100%" style="margin-left: 5px;margin-top:10px" cellspacing="4">
-
     <tr>
       <td align="left" valign="top" colspan="2">
         <b>Observing Domain 1</b>

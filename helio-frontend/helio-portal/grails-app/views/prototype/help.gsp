@@ -140,9 +140,7 @@
     <h2>Data Cart</h2>
     <p>The Data Cart acts as a place to save all your important information, It can
       provide easy access to previously searched results as well as parameters interest.
-
       It reduces the amount of work reusing inputs across services and managing your data.
-
     </p>
 
     <h2>Workspace</h2>
@@ -178,185 +176,15 @@
           Figure 6: View result.
         </div>
       </li>
-
-
-      <h2>Parameter Management</h2>
-      <p>At any point in time the user can take advantage of the Data Cart by simply dragging any of the yellow colored
-        icons next to the parameters or results.(Figure 7 and 8)</p>
-
-      <div class="figure">
-        <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%"/><br/>
-        Figure 7: Icons can be dragged from and to the data cart to save your data for later use.
-      </div>
-      <!--div class="figure">
-        <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%"/><br/>
-        Figure 4: Fill out the required parameters by clicking on the respective button.
-      </div>
-      <li>Analyze result and refine the query. This may be performed in several ways:
-        <ol>
-          <li>Scroll to top to view the input screen (Figure 3). Re-adjust the
-            query parameters and re-submit the query. On every submission a
-            new step will be added to your history. You can always go back to previous results (Figure 6).
-            <div class="figure">
-              <img src="${resource(dir:'images',file:'help/step4a_refine_query.png')}" width="100%"/><br/>
-              Figure 6: The history is reflected in the top right box as well as in the memory bar on the left side.
-            </div>
-          </li>
-          <li>Click on the result table column header to sort the table by this column (e.g. in sort by time_start (Figure 7)).</li>
-          <li>Use the filtering option to narrow the data in the
-            current row. The filter is the input field on top right of the
-            result table (e.g. type <code>2b</code> to get all events with optical class <code>2b</code> (Figure 7)).
-          </li>
-        </ol>
-      </li>
-      <li>Once done you can manually select the rows of interest and store selected events by clicking on <code>Save Selection</code> (Figure 7).
-        <div class="figure">
-          <img src="${resource(dir:'images',file:'help/step4_select_result.png')}" width="100%"/><br/>
-          Figure 7: Display result, filter and re-sort result and save selection.
-        </div>
-      </li>
-      <li>
-        This creates the input data product (here a collection of time intervals). Note the yellow time circle in the
-        memory bar that stands for an input data product.
-        Also note that you can adjust the time intervals if required (Figure 8).
-        <div class="figure">
-          <img src="${resource(dir:'images',file:'help/step5_resultselection.png')}" width="100%"/><br/>
-          Figure 8: Revise input data product
-        </div>
-      </li>
-      <li>Next let's query the Instrument Capability Service (ICS). The ICS is
-        used to find out which instruments have been doing observations within
-        a given time interval. To populate the time interval drop the output data product from the HEC query
-        to the ICS (Figure 9).
-        <div class="figure">
-          <img src="${resource(dir:'images',file:'help/step6_ics_drop.png')}" width="100%"/><br/>
-          Figure 9: Drop the result from the HEC to the ICS.
-        </div>
-      </li>
-      <li>
-        Again the query can be refined through the steps mentioned above.</li>
-        <li>Once done select the instruments of interest and click <code>Save Selection</code>. For the ICS this will create a selection
-        of instruments (Figure 10).
-        <div class="figure">
-          <img src="${resource(dir:'images',file:'help/step7_ics_resultselection.png')}" width="100%"/><br/>
-          Figure 10: Use the result from the ICS as instrument selection.
-        </div>
-      </li>
-      <li>Now use the stored input data products from HEC and ICS as input for DPAS in order to see what observations are available (Figure 11).
-        <div class="figure">
-          <img src="${resource(dir:'images',file:'help/step8_dpas_query.png')}" width="100%"/><br/>
-          Figure 11: Drop the results from the HEC and ICS to the DPAS.
-        </div>
-      </li>
     </ol>
 
-  <h1>Feedback</h1>
-    <p>The HELIO front end is still under development. Any feedback is much appreciated.
-    Please send your comments to marco dot soldati at fhnw ch and/or david dot guevara at fhnw ch.</p>
-<%-- virtual garbage - may be useful for later. 
-    <h2>Select Action</h2>
+    <h2>Parameter Management</h2>
+    <p>At any point in time the user can take advantage of the Data Cart by simply dragging any of the yellow colored
+      icons next to the parameters or results.(Figure 7 and 8)</p>
 
-Start by clicking one of the yellow icons (Actions) on the toolbar. If
-you are unsure of what they are, hover your mouse on top of them for
-more information on what they are.
-
-
-
-    <h2>Workspace</h2>
-
-Once an Action has been selected, the workspace will be filled with a
-form that will ask for input to query the relevant databases i.e.
-    search for solar events of a certain type, look for instruments and
-more.
-
-
-
-
-
-    <h2>Advanced Parameters</h2>
-
-…
-
-
-
-<p>Once you have entered the necessary inputs, click „search“ to
-start querying the databases.</p>
-
-
-
-
-
-<h2>Memory Bar</h2>
-
-<p>To the left of the screen, a bar that will keep track of how
-you interact with the system will allow you to navigate to previous
-Actions or "result selections". Click them once or hover your mouse
-on top of them to get more information. These are particularly
-helpful to navigate back and forward when refining queries.</p>
-
-
-<h2>Results and "Result Selection"</h2>
-
-(explain multitable)
-
-<p>Once your query has been processed, You will be able to see the
-vo-table result presented on a easy to browse, sort and search table
-right under the form that was previously submitted. At any time if
-you are in doubt of how you came to a particular vo-table, scroll to
-the top and you will see the parameters that led you to it.</p>
-
-
-(explain empty votable, no data votable)
-
-
-
-<p>Once you have your results and you understand how to browse
-them, you can also selected them by clicking the row that contains
-them. The selection will cause the row to be highlighted and a
-counter at the top of the table will keep track of how many elements
-total you have selected.</p>
-
-
-<h2>Result Selection</h2>
-
-… (explain Parameter Extraction)
-<h2>Core concepts</h2>
-<h3>Data-centric</h3>
-<p>Traditional web applications are typically workflow oriented.
-    The user is guided through a set of predefined steps. This has
-proved to be a very efficient way of user guidance in systems that
-implement relatively simple processes. Good examples are flight
-booking systems, online shops, or search engines.</p>
-
-<p>Our experience with EGSO and first development approaches in
-HELIO have shown that the workflow oriented approach is not flexible
-enough for the management of a large amount of scientific data.
-    Other traditional VSOs seem to face similar issues.</p>
-
-Therefore we envisage a data centric approach. The idea is that data
-products are the central entities of the system. The application
-provides tasks to retrieve the data product and to combine collections
-of data products into new data products. And most important it
-provides means to store, manage and qualify data products.
-
-    <h3>Task-oriented</h3>
-<p> The difference between a task- and function-oriented
-approach to retrieve data is subtle. In a function-oriented approach
-input data is feed into a function, processed and new data is
-generated. This can be compared to a scientific data analysis system.
-    The user needs to know the details of the data, applies a function to
-it and exactly knows what he expects back. A task-oriented approach
-abstracts the process of data processing from the user. For a given
-data product the user is suggest a set of tasks he can apply to this
-data. These tasks are presented in natural language like: “Get
-observations for given time range”, “See what instruments covered this
-period”. The HELIO frontend should support both approaches. The
-function-oriented approach is more suited for expert users that want
-to control the system. The task-oriented approach should support the
-novice users to perform common tasks without having deep knowledge of
-the system.
-    </p>
-
---%>
+    <div class="figure">
+      <img src="${resource(dir:'images',file:'help/legende.png')}" width="100%"/><br/>
+      Figure 7: Icons can be dragged from and to the data cart to save your data for later use.
+    </div>
   </body>
-  </html>
+</html>

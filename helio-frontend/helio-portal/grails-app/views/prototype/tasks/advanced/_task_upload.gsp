@@ -3,14 +3,11 @@
     <table  style="height:30px;width: 100%;">
       <tr >
         <td>
-          
         </td>
         <td>
           <h1 >Upload VOTable</h1>
-          
         </td>
         <td>
-          
         </td>
       </tr>
     </table>
@@ -20,20 +17,17 @@
       <h1>Query Form</h1>
     </div>
     <div class="content">
-
       <form id="uploadForm" action="asyncUpload" method="post">
           <input id="service_name" name="serviceName" type="hidden" value="upload"/>
           <input id="task_name" name="taskName" type="hidden" value="task_upload"/>
           <input id="task_label" type="hidden" value="Upload"/>
 
-        File to upload: <input type="file" name="fileInput"/>
+          File to upload: <input type="file" name="fileInput"/>
 
-        <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" />
       </form>
-
     </div>
   </div>
-
   <div id="displayableResult" class="displayable" style="display:block">
   </div>
 </div>
