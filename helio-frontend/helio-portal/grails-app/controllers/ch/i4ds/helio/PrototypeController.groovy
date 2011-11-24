@@ -63,6 +63,7 @@ class PrototypeController {
 
     /**
      * Upload a file
+     * TODO: Move to VoTableController
      */
     def asyncUpload ={
         log.info("asyncUpload =>" +params);
@@ -75,6 +76,7 @@ class PrototypeController {
             if (!request.getFile("fileInput").getOriginalFilename().endsWith(".xml")) {
                 throw new RuntimeException("Not a valid xml file. The name should end with .xml");
             }
+            // TODO: Use StilUtils
             JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
 
@@ -87,17 +89,16 @@ class PrototypeController {
             
             def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
             render template:'templates/response', bean:responseObject, var:'responseObject'
-
         } catch(Exception e) {
-            println e.printStackTrace();
+            //e.printStackTrace();
             def responseObject = [error:e.getMessage() ];
             render template:'templates/response', bean:responseObject, var:'responseObject'
         }
     }
-    
    
-
-
+    /**
+     * Execute an asynchronous query
+     */
     def asyncQuery ={
         log.info("asyncQuery =>" +params);
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
@@ -113,10 +114,8 @@ class PrototypeController {
                 //helioquery.result = result.getStringTable();
                 
                 render template:'templates/response', bean:responseObject, var:'responseObject'
-            }catch(Exception e){
-               
-                println e.getMessage();
-                
+            } catch(Exception e){
+                println e.getMessage();                
                 
                 def responseObject = [error:e.getMessage() ];
                 
@@ -124,24 +123,31 @@ class PrototypeController {
             }
         }
         else {
-            
+            // TODO: what todo?
         }
-
     }
 
+    /**
+     * Use explorer as default action.
+     */
     def index = {
         redirect(action:"explorer");
     }
 
+    /**
+     * Remove the current session and load entry page.
+     * TODO: move to SessionController
+     */
     def deleteSession = {
         log.info("deleteSession =>" +params)
         HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
-        if(item!=null)item.delete();
+        if(item!=null) {
+             item.delete();
+        }
         def queries = HelioQuery.findAllByHUID(params.HUID);
         for(HelioQuery query : queries){
             query.delete();
         }
-        
         render "success"
     }
 
@@ -172,6 +178,7 @@ class PrototypeController {
             Arrays.asList("hec_catalogue"), null, 0, 0, null);
         
         int timeout = 300;
+        // TODO: Use StilUtils
         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
         ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
     
@@ -180,7 +187,9 @@ class PrototypeController {
         render view:'explorer', model:initParams
     }
 
-
+    /**
+     * Generic method to handle searches to catalog services 
+     */
     def search = {
         log.info("Search =>" +params);
         ArrayList<String> maxDateList= new ArrayList<String>(); // initialize lists for webservice request
@@ -190,6 +199,7 @@ class PrototypeController {
             ArrayList<String> tempMaxDateList = params.maxDate.split(",");
             ArrayList<String> tempMinDateList = params.minDate.split(",");
             for(int i = 0; i<tempMaxDateList.size();i++){
+                // TODO: rather use DateUtils.fromIsoDate / toIsoDate
                 Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",tempMinDateList.get(i));
                 Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",tempMaxDateList.get(i));
                 maxDateList.add(maxDate.format("yyyy-MM-dd'T'HH:mm:ss"));
@@ -209,18 +219,24 @@ class PrototypeController {
         }
          
         String where ="";
-    	if(params.where != null)where = params.where;
+    	if(params.where != null) {
+            where = params.where;
+    	}
     	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
+        
+        // call the helio-clientapi
     	ResultVT result = DataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
         return result;
-
     }
 
+    /**
+     * Download results as a VOTable
+     * TODO: move to VoTableController
+     */
     def downloadVOTable = {
         log.info("downloadVOTable =>" + params);
         ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
         if(result !=null){
-            
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
@@ -229,13 +245,16 @@ class PrototypeController {
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << result.getStringTable()
         }
-
     }
 
-
+    /**
+     * Download selected rows as VOTable
+     * TODO: move to VoTableController
+     */
     def downloadPartialVOTable = {
         log.info("downloadPartialVOTable =>" + params  + session)
         ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+        // TODO: move functionality to ResultVTManagerService.
         if(result !=null){
 
             String indexes =params.indexes;
@@ -282,6 +301,10 @@ class PrototypeController {
 
     }
 
+    /**
+     * Get a previously stored result
+     * TODO: Move to VoTableController 
+     */
     def asyncGetSavedResult = {
         log.info("asyncGetSavedResult =>" + params);
         
@@ -289,13 +312,14 @@ class PrototypeController {
         def responseObject = [result:result,resultId:params.resultId ];
         //helioquery.result = result.getStringTable();
         //helioquery.save();
-
-
-
-
         render template:'templates/response', bean:responseObject, var:'responseObject'
         
     }
+    
+    /**
+     * Persist the History Bar
+     * TODO: Move to HistoryController
+     */
     def asyncSaveHistoryBar = {
         log.info("asyncSaveHistoryBar =>" + params);
 
@@ -314,6 +338,12 @@ class PrototypeController {
         render ""
         
     }
+    
+    
+    /**
+     * Load the content of the history bar
+     * TODO: Move to HistoryController
+     */
     def asyncGetHistoryBar = {
         log.info("asyncGetHistoryBar =>" + params);
         try{
@@ -328,6 +358,10 @@ class PrototypeController {
         }
     }
 
+    /**
+     * Used for Error handling after loading an invalid HEC table.
+     * TODO: revise
+     */
     def asyncGetPreviousTaskState ={
         log.info("asyncGetPreviousTaskState =>" + params);
         
@@ -342,8 +376,13 @@ class PrototypeController {
         }
    
     }
+    
+    /**
+     * Set the task state. 
+     * TODO: find out how this is used. Can probably be moved to the server side.
+     */
     def asyncSetPreviousTaskState ={
-        log.info("asyncGetPreviousTaskState =>" + params);
+        log.trace("asyncGetPreviousTaskState =>" + params);
         
         HelioQuery query = HelioQuery.findByHUIDAndTaskName(params.HUID,params.taskName);
 
@@ -356,13 +395,16 @@ class PrototypeController {
         }
         
         render ""
-
     }
 
+    /**
+     * Query the context service
+     */
     def asyncQueryContextService = {
         log.info("asyncQueryContextService =>" + params);
 
         ContextServiceFactory factory = ContextServiceFactory.getInstance();
+        // TODO: Use DateUtils
         Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
         Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
         if(params.type =="fplot"){
@@ -375,7 +417,7 @@ class PrototypeController {
 
             println url;
             render url;
-        }else if(params.type =="gplot"){
+        } else if(params.type =="gplot") {
             GoesPlotterService goesPlotterService = factory.getGoesPlotterService((AccessInterface[])null);
             Calendar cal = Calendar.getInstance();
             cal.set(2003, Calendar.JANUARY, 1, 0, 0, 0);
@@ -387,22 +429,23 @@ class PrototypeController {
             URL url = result.asURL(60, TimeUnit.SECONDS);
             println url;
             render url;
-        }else if(params.type =="pplot"){
+        } else if(params.type =="pplot") {
             SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
             
             ProcessingResult result = parkerModelService.parkerModel(minDate);
 
             URL url = result.asURL(60, TimeUnit.SECONDS);
             render url;
-            
         }
     }
+    
+    /**
+     * Call a HELIO LinkProviderService
+     */
     def asyncQueryLinkService = {
         log.info("asyncQueryLinkService =>" + params);
-
-        
-        
         ContextServiceFactory factory = ContextServiceFactory.getInstance();
+        // TODO: Use DateUtil
         Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
         Date maxDate =null;
         if( params.maxDate != ""){
@@ -411,50 +454,30 @@ class PrototypeController {
             maxDate = minDate;
         }
         URL url = null;
-       
-
         
         if(params.type =="fplot"){
-
             FlarePlotterService flarePlotterService = factory.getFlarePlotterService((AccessInterface[])null);
-
             ProcessingResult result = flarePlotterService.flarePlot(minDate);
-
             render url = result.asURL(60, TimeUnit.SECONDS);
-
-            
-            
         }else if(params.type =="cplot"){
             GoesPlotterService goesPlotterService = factory.getGoesPlotterService((AccessInterface[])null);
-           
             ProcessingResult result = goesPlotterService.goesPlot(minDate, maxDate);
-
             render url = result.asURL(60, TimeUnit.SECONDS);
-            
-            
         }else if(params.type =="pplot"){
             SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
-          
             ProcessingResult result = parkerModelService.parkerModel(minDate);
-
             render url = result.asURL(60, TimeUnit.SECONDS);
-            
-
         }else if(params.type =="link"){
             LinkProviderFactory lfactory = LinkProviderFactory.getInstance();
             LinkProviderService[] linkProviders = lfactory.getLinkProviders();
-
             String result = "";
 
             for (LinkProviderService provider : linkProviders) {
-                
                 URL link = provider.getLink(minDate, maxDate);
                 if(link == null)continue;
                 String title = provider.getTitle(minDate, maxDate);
 
-
                 result = result +"<tr><td><a target='_blank' href='"+ link+"'>"+title+"</a></td></tr>";
-             
             }
             render result;
         }

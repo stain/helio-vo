@@ -215,14 +215,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.5.8</version>
+			<version>1.6.1</version>
 			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.5.8</version>
+			<version>1.6.1</version>
 			<scope>runtime</scope>
 		</dependency>
 
@@ -338,7 +338,7 @@
 	</dependencies>
 
 	<build>
-		<testSourceDirectory>test/unit/</testSourceDirectory>
+		<testSourceDirectory>test/unit</testSourceDirectory>
 		<resources>
 			<resource>
 				<directory>src/resources</directory>
@@ -347,31 +347,6 @@
 		</resources>
 
 		<plugins>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.5</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<!-- the grails-tomcat plugin seems to delete the resources.
-						 Therefore we need to copy the buildinfo resource after compile -->
-						<phase>process-classes</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${basedir}/target/resources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/resources</directory>
-									<filtering>true</filtering>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
 			<plugin>
 				<groupId>org.grails</groupId>
 				<artifactId>grails-maven-plugin</artifactId>

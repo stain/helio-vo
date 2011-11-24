@@ -656,9 +656,6 @@ function getPreviousTaskState(taskName,HUID,imagePath){
         data : {
             "HUID":$.cookie("helioSession"),
             "taskName":taskName.val()
-            
-
-
         },
         url : 'asyncGetPreviousTaskState',
         success: __onSuccess,

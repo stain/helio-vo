@@ -7,8 +7,12 @@ import eu.heliovo.clientapi.query.asyncquery.*
 import eu.heliovo.registryclient.*
 import eu.heliovo.shared.util.*
 
-
-
+/**
+ * Service methods to access a catalog query.
+ * TODO: rename to CatalogQueryService
+ * @author MarcoSoldati
+ *
+ */
 class DataQueryService {
 
     boolean transactional = true
@@ -18,8 +22,9 @@ class DataQueryService {
     }
 
     /**
-     *Main query method for dpas,hec,ics,ils, this connects to the HelioAPI.
-     *@params are pretty self explanatory.
+     * Main query method for dpas,hec,ics,ils, this connects to the HelioAPI.
+     * TODO: Rename to catalogQuery, use Stil rather than ResultVT.
+     * @params are pretty self explanatory.
      *
      */
     def queryService(String serviceName, List<String> minDate, List<String> maxDate, List<String> from, String where) {

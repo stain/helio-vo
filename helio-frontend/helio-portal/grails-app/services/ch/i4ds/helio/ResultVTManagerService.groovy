@@ -5,19 +5,15 @@ import eu.heliovo.clientapi.frontend.*
 
 /**
 * Class that manages result storage, currently they are all kept in memory using a linkedList.
+* TODO: consider moving to StilUtils and using a database. 
 */
 class ResultVTManagerService {
 
     static transactional = true
-    private List<ResultVT>  resultList =new LinkedList<ResultVT>();
-    private List<String>  resultListServiceRefence =new LinkedList<String>();
+    private List<ResultVT>  resultList = new LinkedList<ResultVT>();
+    private List<String>  resultListServiceRefence = new LinkedList<String>();
     
-    
-    
-    
-
     public int addResult(ResultVT r,String service){
-        
         this.resultList.add(r);
         this.resultListServiceRefence.add(service);
         return this.resultList.size() -1;
@@ -36,6 +32,4 @@ class ResultVTManagerService {
             return null;
         }
     }
-    
-
 }
