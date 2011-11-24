@@ -41,7 +41,7 @@ grails.project.dependency.resolution = {
     
 	}
 	
-	pom true
+	pom false
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
