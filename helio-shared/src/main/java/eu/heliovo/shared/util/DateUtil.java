@@ -1,6 +1,7 @@
 package eu.heliovo.shared.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,10 +18,17 @@ public class DateUtil {
 	/**
 	 * Formatter for the ISO format.
 	 */
-	private static DateFormat ISO8601_FORMAT = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss");
+    private static DateFormat ISO8601_FORMAT = new SimpleDateFormat(
+    "yyyy-MM-dd'T'HH:mm:ss");
+    
+    /**
+     * Formatter for the ISO format with Milliseconds
+     */
+    private static DateFormat ISO8601_MS_FORMAT = new SimpleDateFormat(
+    "yyyy-MM-dd'T'HH:mm:ss.SSS");
 	static {
 		ISO8601_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
+		ISO8601_MS_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
 	}
 
 	/**
@@ -42,6 +50,25 @@ public class DateUtil {
 		// return dateStr.substring (0, 22) + ":" + dateStr.substring (22);
 		return dateStr;
 	};
+	
+	/**
+	 * Parse the ISO date string into a date object in time zone UTC.
+	 * @param isoDate the date as ISO String
+	 * @return the ISO date.
+	 * @throws ParseException if anything goes wrong
+	 */
+	public static Date fromIsoDate(String isoDate) throws ParseException {
+	    if (isoDate == null) {
+	        return null;
+	    }
+	    Date date;
+	    if (isoDate.contains(".")) {
+	        date = ISO8601_MS_FORMAT.parse(isoDate);
+	    } else {
+	        date = ISO8601_FORMAT.parse(isoDate);
+	    }
+	    return date;
+	}
 	
    /**
      * Build all permutations of two lists. If list1 contain {A,B,C} and list2 contains {1,2}, the resulting lists will contain

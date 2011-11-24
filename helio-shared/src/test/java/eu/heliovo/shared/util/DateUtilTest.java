@@ -31,8 +31,25 @@ public class DateUtilTest {
 	@Test
 	public void testToIsoDateString2() {
 		Date date = new Date(0);
-		// TODO: This should be 1970-01-01T00:00:00
 		assertEquals("1970-01-01T00:00:00", DateUtil.toIsoDateString(date));
+	}
+
+	/**
+	 * Test fromIsoDate
+	 * @throws Exception
+	 */
+	@Test public void testFromIsoDate1() throws Exception {
+	    Date date = DateUtil.fromIsoDate("2005-01-01T00:00:00");
+	    assertEquals(1104537600000L, date.getTime());
+	}
+
+	/**
+	 * Test fromIsoDate with milliseconds
+	 * @throws Exception
+	 */
+	@Test public void testFromIsoDate2() throws Exception {
+	    Date date = DateUtil.fromIsoDate("2005-01-01T00:00:00.123");
+	    assertEquals(1104537600123L, date.getTime());
 	}
 	
 	/**
