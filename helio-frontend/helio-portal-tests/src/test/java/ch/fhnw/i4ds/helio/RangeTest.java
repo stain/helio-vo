@@ -13,33 +13,38 @@ public class RangeTest extends SeleniumTests {
 	private String startDate = "2003-10-27T00:00:00";
 	private String endDate = "2003-11-03T00:00:00";
 
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		logger.info("RankeTest in ff");
+	}
+
 	/**
 	 * Add and delete a Tim range.
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testAdRange() throws Exception {
+	public void testAdDeleatRange() throws Exception {
 
 		driver.get(BASE_URL);
-		driver = waitXpath("//div[@id='task_searchEvents']", driver);
-		driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();// ("#task_searchEvents > span.ui-button-text"))
+		assertTrue(waitXpath("//div[@id='task_searchEvents']", driver));
+
+		clickElementXpath(driver, "//div[@id='task_searchEvents']"); // ("#task_searchEvents > span.ui-button-text"))
 
 		driver = navigateTO("//div[@id='task_searchEvents']",
 				"//h1[text()='Search Events']", driver);
 
 		// Open time selection
-		driver.findElement(By.id("time_button")).click();
+		ClickElenemtId(driver, "time_button");
 		driver.findElement(By.id("minDate1")).clear();
 		driver.findElement(By.id("minDate1")).sendKeys("2004-11-01T17:00:00");
 		driver.findElement(By.id("maxDate1")).clear();
 		driver.findElement(By.id("maxDate1")).sendKeys("2004-11-01T18:30:00");
-		driver.findElement(
-				By.xpath("//div[@id='dialog-message']/table/tbody/tr[2]/td[2]"))
-				.click();
-		driver.findElement(
-				By.cssSelector("#input_time_range_button > span.ui-button-text"))
-				.click();
+		clickElementXpath(driver,
+				"//div[@id='dialog-message']/table/tbody/tr[2]/td[2]");
+		ClickElenemtCss(driver,
+				"#input_time_range_button > span.ui-button-text");
 		driver.findElement(By.id("minDate2")).clear();
 		driver.findElement(By.id("minDate2")).sendKeys("2002-11-01T17:00:00");
 		driver.findElement(By.id("maxDate2")).clear();
@@ -47,7 +52,7 @@ public class RangeTest extends SeleniumTests {
 		driver.findElement(
 				By.xpath("//tr[@id='input_time_range_2']/td[5]/div/span"))
 				.click();
-		driver.findElement(By.xpath(OK_BUTTON)).click();
+		clickElementXpath(driver, OK_BUTTON);
 		try {
 			assertFalse(
 					"testAdRange",
@@ -55,6 +60,7 @@ public class RangeTest extends SeleniumTests {
 							.xpath("//td[@id='time_area']/table/tbody/tr[2]/td[2]")));
 
 		} catch (Error e) {
+			logger.error(e.toString());
 			verificationErrors.append(e.toString());
 		}
 	}
@@ -68,14 +74,13 @@ public class RangeTest extends SeleniumTests {
 	public void testAd3Range() throws Exception {
 
 		driver.get(BASE_URL);
-		driver = waitXpath("//div[@id='task_searchEvents']", driver);
-		driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();// ("#task_searchEvents > span.ui-button-text"))
-
+		assertTrue(waitXpath("//div[@id='task_searchEvents']", driver));
+		clickElementXpath(driver, "//div[@id='task_searchEvents']");
 		driver = navigateTO("//div[@id='task_searchEvents']",
 				"//h1[text()='Search Events']", driver);
 
 		// Open time selection
-		driver.findElement(By.id("time_button")).click();
+		ClickElenemtId(driver, "time_button");
 		driver.findElement(By.id("minDate1")).clear();
 		driver.findElement(By.id("minDate1")).sendKeys("2004-11-01T17:00:00");
 		driver.findElement(By.id("maxDate1")).clear();
@@ -99,48 +104,46 @@ public class RangeTest extends SeleniumTests {
 		driver.findElement(By.id("maxDate3")).clear();
 		driver.findElement(By.id("maxDate3")).sendKeys("2002-11-01T18:30:00");
 
-		driver.findElement(By.xpath(OK_BUTTON)).click();
+		clickElementXpath(driver, OK_BUTTON);
 		try {
-
 			assertTrue(
 					"testAd3Range",
 					isElementPresent(By
 							.xpath("//td[@id='time_area']/table/tbody/tr[3]/td[text()='2002-11-01T17:13:21']")));
-
 		} catch (Error e) {
+			logger.error(e.toString());
 			verificationErrors.append(e.toString());
 		}
 	}
 
 	/**
-	 * Catch wrong entrees.
+	 * Catch wrong entrees. Do not allow text as Tim range
 	 * 
 	 * @throws Exception
 	 */
 	@Test
-	public void testTxtRange() throws Exception {
+	public void testTxtAsRange() throws Exception {
 
 		driver.get(BASE_URL);
-		driver = waitXpath("//div[@id='task_searchEvents']", driver);
-		driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();// ("#task_searchEvents > span.ui-button-text"))
+		assertTrue(waitXpath("//div[@id='task_searchEvents']", driver));
 
+		clickElementXpath(driver, "//div[@id='task_searchEvents']");
 		driver = navigateTO("//div[@id='task_searchEvents']",
 				"//h1[text()='Search Events']", driver);
 
 		// Open time selection
-		driver.findElement(By.id("time_button")).click();
+		ClickElenemtId(driver, "time_button");
 		driver.findElement(By.id("minDate1")).clear();
 		driver.findElement(By.id("minDate1")).sendKeys("lol");
 		driver.findElement(By.id("maxDate1")).clear();
 		driver.findElement(By.id("maxDate1")).sendKeys("2004-11-01T18:30:00");
 
-		driver.findElement(By.xpath(OK_BUTTON)).click();
+		clickElementXpath(driver, OK_BUTTON);
 		try {
 			assertFalse(
 					"testTxtRange",
 					isElementPresent(By
 							.xpath("//td[@id='time_area']/table/tbody/tr[1]/td[2]")));
-
 		} catch (Error e) {
 			verificationErrors.append(e.toString());
 		}
@@ -155,20 +158,20 @@ public class RangeTest extends SeleniumTests {
 	public void testReversDate() throws Exception {
 
 		driver.get(BASE_URL);
-		driver = waitXpath("//div[@id='task_searchEvents']", driver);
-		driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();// ("#task_searchEvents > span.ui-button-text"))
+		assertTrue(waitXpath("//div[@id='task_searchEvents']", driver));
 
+		clickElementXpath(driver, "//div[@id='task_searchEvents']");
 		driver = navigateTO("//div[@id='task_searchEvents']",
 				"//h1[text()='Search Events']", driver);
 
 		// Open time selection
-		driver.findElement(By.id("time_button")).click();
+		ClickElenemtId(driver, "time_button");
 		driver.findElement(By.id("minDate1")).clear();
 		driver.findElement(By.id("minDate1")).sendKeys("2005-11-01T17:00:00");
 		driver.findElement(By.id("maxDate1")).clear();
 		driver.findElement(By.id("maxDate1")).sendKeys("2004-11-01T18:30:00");
 
-		driver.findElement(By.xpath(OK_BUTTON)).click();
+		clickElementXpath(driver, OK_BUTTON);
 		try {
 			assertFalse(
 					"testReversDate",
@@ -176,6 +179,7 @@ public class RangeTest extends SeleniumTests {
 							.xpath("//td[@id='time_area']/table/tbody/tr[1]/td[2]")));
 
 		} catch (Error e) {
+			System.out.println(tag + "testReversDate");
 			verificationErrors.append(e.toString());
 		}
 	}
@@ -187,9 +191,9 @@ public class RangeTest extends SeleniumTests {
 	 */
 	public void testTeimRangeCorect() throws Exception {
 		driver.get(BASE_URL);
-		driver = waitXpath("//div[@id='task_searchEvents']", driver);
-		driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();// ("#task_searchEvents > span.ui-button-text"))
+		assertTrue(waitXpath("//div[@id='task_searchEvents']", driver));
 
+		clickElementXpath(driver, "//div[@id='task_searchEvents']");
 		// driver.findElement(By.xpath("//div[@id='task_searchEvents']")).click();////span[text()='Search
 		// Events']
 		// waitXpath("//h1[text()='Search Events']");
@@ -197,32 +201,31 @@ public class RangeTest extends SeleniumTests {
 				"//h1[text()='Search Events']", driver);
 
 		// Open time selection
-		driver.findElement(By.id("time_button")).click();
+		ClickElenemtId(driver, "time_button");
 		driver.findElement(By.id("minDate1")).clear();
 		driver.findElement(By.id("minDate1")).sendKeys(startDate);
 		driver.findElement(By.id("maxDate1")).clear();
 		driver.findElement(By.id("maxDate1")).sendKeys(endDate);
-		driver.findElement(By.xpath(OK_BUTTON)).click();
+		clickElementXpath(driver, OK_BUTTON);
 		// Open event selection
-		driver.findElement(
-				By.cssSelector("#event_button > span.ui-button-text")).click();
-		driver.findElement(
-				By.xpath("//table[@id='input_table']/tbody/tr/td[@internal='RHESSI Hard X-ray Flare List']"))
-				.click();// Rhessi .//*[@id='input_table']/tbody/tr[15]/td
-		driver.findElement(By.xpath(OK_BUTTON)).click();
-		driver = waitXpath(DISPLAY_BUTTON, driver);
-		driver.findElement(By.xpath(DISPLAY_BUTTON)).click();
+		ClickElenemtCss(driver, "#event_button > span.ui-button-text");
+
+		clickElementXpath(
+				driver,
+				"//table[@id='input_table']/tbody/tr/td[@internal='RHESSI Hard X-ray Flare List']"); // Rhessi
+
+		clickElementXpath(driver, OK_BUTTON);
+		assertTrue(waitXpath(DISPLAY_BUTTON, driver));
+		clickElementXpath(driver, DISPLAY_BUTTON);
 		// Default wait result is displayed.
-		driver = waitXpath(WAIT_FOR_RESULT, driver);
+		assertTrue(waitXpath(WAIT_FOR_RESULT, driver));
 		// komper the values
 		// TODO how many lies compare?
 		for (int i = 0; i < 6; i++) {
 			String selectate[] = driver
 					.findElement(
 							By.xpath("//table[@id='resultTable0']/tbody/tr["
-									+ i + "]/td[3]"))
-					// --> original selections tr[2]/td[3]"
-					.getText().split("T");
+									+ i + "]/td[3]")).getText().split("T");
 			compareTime(selectate, 0);
 		}
 	}
@@ -284,7 +287,7 @@ public class RangeTest extends SeleniumTests {
 				}
 
 			} else {
-				return; // Komplet and rankg corekt
+				return;
 			}
 		}
 	}
