@@ -1,10 +1,6 @@
 package ch.fhnw.i4ds.helio;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.Calendar;
-
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

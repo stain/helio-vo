@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
+	<appender name="CA" class="org.apache.log4j.ConsoleAppender">
+		<!-- The active file to log to | write in file -->
+		<param name="file" value="ch.fhnw.i4ds.helio.logs.log" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-4r [%t] %-5p %c %x - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- Console -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<!-- <param name="Target" value="System.out" /> -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p %c{1} - %m%n" />
+		</layout>
+	</appender>
+
+	<!-- File Apander -->
+
+	<!-- log all logs to a separate log file every day -->
+	<appender name="orgDevelopersLogFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="org-file.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %C{6} (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+	
+	
+	<!-- Log errors in a separate file. -->
+	<appender name="ErrorLogFileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="file" value="error-file.log" />
+		<param name="datePattern" value="'.'yyyy-MM-dd" />
+		<param name="append" value="true" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p %C{6} (%F:%L) - %m%n" />
+		</layout>
+	</appender>
+	
+
+
+
+	<!-- send all error logs to my email address -->
+	<appender name="mailAppender" class="org.apache.log4j.net.SMTPAppender">
+		<param name="SMTPHost" value="localhost" />
+		<param name="From" value="info_seltests@fhnw.ch" />
+		<param name="To" value="loic.lavanchy@fhnw.ch" />
+		<param name="Subject" value="[BLOG ERROR LOG] ErrorList" />
+		<!-- if your buffer contains 50 mails, an email should be sent -->
+		<param name="BufferSize" value="50" />
+		<!-- send only errors per email -->
+		<param name="threshold" value="error" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1}:%L - %m%n" />
+		</layout>
+	</appender>
+
+
+	<!-- Logger -->
+
+	<logger name="ch.fhnw.i4ds.*" additivity="false">
+		<level value="info" />
+		<appender-ref ref="CA" />
+	</logger>
+		<logger name="ch.fhnw.i4ds.*" additivity="false">
+		<level value="error" />
+		<appender-ref ref="ErrorLogFileAppender" />
+	</logger>
+	<!-- <logger name="ch.fhnw.i4ds" additivity="false"> <level value="trace" 
+		/> <appender-ref ref="CA" /> </logger> -->
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="CA" />
+		<appender-ref ref="orgDevelopersLogFileAppender" />
+	</root>
+</log4j:configuration>
