@@ -7,11 +7,9 @@
 		<version>5.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
-	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-cis</artifactId>
 	<packaging>pom</packaging>
 	<name>helio-cis</name>
-	<version>5.0-SNAPSHOT</version>
 	<description>
         This is the parent project of the components related to the community interaction service.
 	</description>
