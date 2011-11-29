@@ -1,5 +1,7 @@
 package eu.heliovo.cis.service.hit.repository;
 
+import java.util.Set;
+
 public interface HITRepository {
 
 	/**
@@ -83,6 +85,18 @@ public interface HITRepository {
 	 * @throws HITRepositoryException 
 	 */
 	public abstract void addUser(String user, String pwd) throws HITRepositoryException;
-
+	/**
+	 * Removes the user.
+	 *
+	 * @param user the user
+	 * @param pwd the pwd
+	 * @throws HITRepositoryException 
+	 */
 	public abstract void removeUser(String user) throws HITRepositoryException;
+	/**
+	 * Returns a set with all the users.
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	public Set getAllUserNames();
 }

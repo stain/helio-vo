@@ -4,6 +4,7 @@
 package eu.heliovo.cis.service.hit.repository;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import eu.heliovo.cis.service.utilities.SecurityUtilities;
 import eu.heliovo.cis.service.utilities.SecurityUtilitiesException;
@@ -149,8 +150,14 @@ public class SimpleHITRepository implements HITRepository
 	}
 
 	@Override
-	public void removeUser(String user) {
-		// TODO Auto-generated method stub
+	public void removeUser(String user) 
+	{
 		
+	}
+
+	@Override
+	public Set getAllUserNames() 
+	{
+		return null;
 	}
 }

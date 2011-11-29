@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
 import condor.classad.Constant;
 import condor.classad.RecordExpr;
@@ -34,7 +35,7 @@ import eu.heliovo.shared.common.utilities.SystemUtilities;
  */
 public class FileBasedHITRepository implements HITRepository 
 {
-	String							statusFile			=	"c:\\tmp\\HITRepository.data";
+	String							statusFile			=	"/tmp/HITRepository.data";
 	/*
 	 * ClassAd utilities
 	 */
@@ -170,6 +171,9 @@ public class FileBasedHITRepository implements HITRepository
 		cInfo.insertAttribute(UserTags.userProfile, Constant.getInstance(profile));
 		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(pwdHash));
 		users.put(user, cInfo.toString());		
+		System.out.println(user + " ==> " + pwdHash);
+
+		
 		/*
 		 * Save the status to the file
 		 */
@@ -303,28 +307,21 @@ public class FileBasedHITRepository implements HITRepository
 	}
 
 	@Override
-	public boolean validateUser(String user, String pwd)
+	public boolean validateUser(String user, String pwdHash)
 			throws HITRepositoryException 
 	{
-		if(user == null || pwd == null)
+		if(user == null || pwdHash == null)
 			throw new HITRepositoryException();
 		
-		if((user.length() == 0) || (pwd.length() == 0))
+		if((user.length() == 0) || (pwdHash.length() == 0))
 			throw new HITRepositoryException();
 		
 		if(!isUserPresent(user))
 			return false;
 		else
 		{
-			try 
-			{
-				return (secUtils.computeHashOf(pwd).equals(getHashFor(user)));
-			} 
-			catch (SecurityUtilitiesException e) 
-			{
-				e.printStackTrace();
-				throw new HITRepositoryException();
-			}
+			return (pwdHash.equals(getHashFor(user)));
+//				return (secUtils.computeHashOf(pwd).equals(getHashFor(user)));
 		}
 
 	}
@@ -519,15 +516,8 @@ public class FileBasedHITRepository implements HITRepository
 		cInfo.insertAttribute(UserTags.userName, Constant.getInstance(user));
 		cInfo.insertAttribute(UserTags.createdOn, Constant.getInstance(new Date()));
 		cInfo.insertAttribute(UserTags.userProfile, defaultUserProfile);
-		try 
-		{
-			cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(secUtils.computeHashOf(pwd)));
-		} 
-		catch (SecurityUtilitiesException e) 
-		{
-			e.printStackTrace();
-			throw new HITRepositoryException();
-		}
+		//			cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(secUtils.computeHashOf(pwd)));
+		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(pwd));
 		users.put(user, cInfo.toString());
 		
 //		System.out.println(users.toString());
@@ -543,5 +533,12 @@ public class FileBasedHITRepository implements HITRepository
 	{
 		users.remove(user);
 		saveStatus();
+	}
+
+
+	@Override
+	public Set<String> getAllUserNames() 
+	{
+		return users.keySet();
 	}
 }
