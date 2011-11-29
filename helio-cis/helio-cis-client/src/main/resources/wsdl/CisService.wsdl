@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="CisServiceService" targetNamespace="http://service.cis.heliovo.eu/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://service.cis.heliovo.eu/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.cis.heliovo.eu/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.cis.heliovo.eu/">
+  <xs:element name="addUser" type="tns:addUser"/>
+  <xs:element name="addUserResponse" type="tns:addUserResponse"/>
+  <xs:element name="isUserPresent" type="tns:isUserPresent"/>
+  <xs:element name="isUserPresentResponse" type="tns:isUserPresentResponse"/>
+  <xs:element name="removeUser" type="tns:removeUser"/>
+  <xs:element name="removeUserResponse" type="tns:removeUserResponse"/>
+  <xs:element name="test" type="tns:test"/>
+  <xs:element name="testResponse" type="tns:testResponse"/>
+  <xs:element name="validateUser" type="tns:validateUser"/>
+  <xs:element name="validateUserResponse" type="tns:validateUserResponse"/>
+  <xs:complexType name="addUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="addUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="validateUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="validateUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="removeUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="test">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parameter" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="testResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="testResult" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isUserPresent">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="isUserPresentResponse">
+    <xs:sequence>
+      <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CisServiceException">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:element name="CisServiceException" type="tns:CisServiceException"/>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="test">
+    <wsdl:part name="parameters" element="tns:test">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUserResponse">
+    <wsdl:part name="parameters" element="tns:addUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserPresent">
+    <wsdl:part name="parameters" element="tns:isUserPresent">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateUser">
+    <wsdl:part name="parameters" element="tns:validateUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUserResponse">
+    <wsdl:part name="parameters" element="tns:removeUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserPresentResponse">
+    <wsdl:part name="parameters" element="tns:isUserPresentResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUser">
+    <wsdl:part name="parameters" element="tns:removeUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addUser">
+    <wsdl:part name="parameters" element="tns:addUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateUserResponse">
+    <wsdl:part name="parameters" element="tns:validateUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="testResponse">
+    <wsdl:part name="parameters" element="tns:testResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CisServiceException">
+    <wsdl:part name="CisServiceException" element="tns:CisServiceException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CisService">
+    <wsdl:operation name="addUser">
+      <wsdl:input name="addUser" message="tns:addUser">
+    </wsdl:input>
+      <wsdl:output name="addUserResponse" message="tns:addUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateUser">
+      <wsdl:input name="validateUser" message="tns:validateUser">
+    </wsdl:input>
+      <wsdl:output name="validateUserResponse" message="tns:validateUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <wsdl:input name="removeUser" message="tns:removeUser">
+    </wsdl:input>
+      <wsdl:output name="removeUserResponse" message="tns:removeUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="test">
+      <wsdl:input name="test" message="tns:test">
+    </wsdl:input>
+      <wsdl:output name="testResponse" message="tns:testResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserPresent">
+      <wsdl:input name="isUserPresent" message="tns:isUserPresent">
+    </wsdl:input>
+      <wsdl:output name="isUserPresentResponse" message="tns:isUserPresentResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CisServiceServiceSoapBinding" type="tns:CisService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="addUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="removeUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="removeUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="test">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="test">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="testResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserPresent">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="isUserPresent">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="isUserPresentResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CisServiceService">
+    <wsdl:port name="CisServicePort" binding="tns:CisServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/CisServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
