@@ -69,7 +69,7 @@ function date_form_validate(itr){
 
 /*
  *Function that creates the dialog for DES
- *@TODO: needs to be moved to its own form object
+ * TODO: needs to be modeled in a data structure (e.g. JSON)
  */
 function createmission(selector){
 
@@ -249,13 +249,10 @@ function createmission(selector){
 
             default:
                 break;
-
         }
-
     });
+    
     $("#input_function").change(function(){
-
-
         _input_disable(2);
         $("#input_operator").removeAttr("disabled");
         switch($(this).val()){
@@ -317,8 +314,6 @@ function createmission(selector){
     });
 
     $(":input").change(function(){
-
-
         var des_function = $("#input_function").val();
         var mission = $("#input_mission").val();
         var argument = $("#input_argument").val();
@@ -327,13 +322,10 @@ function createmission(selector){
 
         if(operator == ">"){
             condition = "/"+condition;
-
-
         }else if(operator == "<"){
             condition = condition+"/";
         }
         switch(des_function){
-
             case "DERIV":
                 $("#input_expression").html( des_function+","+mission+":"+argument+":"+condition+":"+$("#input_average_time").val());
                 break;
@@ -476,10 +468,6 @@ function createmission(selector){
                 $("#block_drop").attr('src','../images/helio/circle_block.png');
                 $("#block_drop").addClass('drop_able');
 
-
-
-
-
                 $("#dialog-message").dialog( "close" );
                 $("#dialog-message").remove();
                 window.workspace.evaluator();
@@ -488,10 +476,8 @@ function createmission(selector){
     });
 }
 
-
-
-/*
- *Helper function to debug objects easier, needs firebug enabled, returns the object in its jquery wrapper
+/**
+ * Helper function to debug objects easier, needs firebug enabled, returns the object in its jquery wrapper
  * @name id of object
  */
 function pr(name){
@@ -499,8 +485,8 @@ function pr(name){
     return $("#"+name);
 }
 
-/*
- *Helper function to make sure buttons are enabled only once.
+/**
+ * Helper function to make sure buttons are enabled only once.
  * @selector jquery object to be transformed to button
  */
 function formatButton(selector){
@@ -511,24 +497,21 @@ function formatButton(selector){
     });
 }
 
-/*
- *callback method that is used to keep track of whats been selected in a dataTable
- *contents are kept in an invisible division called #testdiv and the elements added are .resCont
- *they have attributes that keept track of the row selected and header corresponding to that row
+/**
+ * callback method that is used to keep track of whats been selected in a dataTable
+ * contents are kept in an invisible division called #testdiv and the elements added are .resCont
+ * they have attributes that keept track of the row selected and header corresponding to that row
  */
 function fnAddSelectedRow(pos,aData,oTable){
     if (typeof console!="undefined")console.info("fnAddSelectedRow");
-
 
     var totalResult =[];
     var headers =oTable.fnSettings().aoColumns;
     for (i in headers){
         totalResult.push( headers[i].sTitle);
-
-
     }
 
-    var flag =true;
+    var flag = true;
     var tableId = oTable.attr("id");
     pos= pos+tableId;
 
@@ -536,21 +519,20 @@ function fnAddSelectedRow(pos,aData,oTable){
         var currentPos =  $(this).text();
 
         if(currentPos==pos){
-
             $(this).remove();
             flag =false;
             return;
         }
     });
     if(flag){
-//@TODO remove this, its obsoletee
+        // TODO: remove this, its obsolete, is it?
         var div = $('<div></div>');
         div.addClass('resCont');
         div.text(pos);
         div.attr("title",aData);
         div.attr("title2",totalResult);
         $('#testdiv').append(div);
-    //$("#testdiv div[title]").tooltip();
+        //$("#testdiv div[title]").tooltip();
     }
     if($('.resCont').length !=0){
         $('#testdiv').css('display','none');
@@ -560,17 +542,10 @@ function fnAddSelectedRow(pos,aData,oTable){
     $("#resultSelectionCounter").find('span').text($('.resCont').length);
 }
 
-
-
-
-
-/*
- *Formats every datatable in the system and adds listeners to the rows to be clicked
- *
- *@tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
- *
+/**
+ * Formats every datatable in the system and adds listeners to the rows to be clicked
+ * @tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
  */
-
 function fnFormatTable(tableName){
     if (typeof console!="undefined")console.info("fnFormatTable");
 
@@ -589,19 +564,12 @@ function fnFormatTable(tableName){
         //"sScrollXInner": "100%",
         "bScrollCollapse": true,
         "fnRowCallback": function( nRow, aData, iDisplayIndex ) {
-
             if($("#service_name").val()=='ICS'){
-
                 if(aData[aData.length-1] =="T"){
                     $(nRow).attr("class","item_found "+$(nRow).attr('class'));
-
-
                 }else{
                     $(nRow).attr("class","item_missing "+$(nRow).attr('class'));
-
                 }
-
-
             }
 
             var dataIndex =aData.length-1;
@@ -614,44 +582,31 @@ function fnFormatTable(tableName){
             }
             /* Deal with a click on each row */
             $(nRow).click( function() {
-
-
                 var oTable =$(this).closest("table").dataTable();
                 var pos =oTable.fnGetPosition(this);
 
-
                 fnAddSelectedRow(pos,aData,oTable);
-
-                if ( aData[dataIndex] == 1 )
-                {
+                if ( aData[dataIndex] == 1 ) {
                     aData[dataIndex] = 0;
                 }
-                else
-                {
+                else {
                     aData[dataIndex] = 1;
                 }
-
 
                 this.className = (aData[dataIndex] == 1) ?
                 this.className+'_selected' :
                 this.className.replace( /_selected/, "" );
             } );
 
-
-
             return nRow;
         }
-
-
     });
     return dataTable;
-
 }
 
-
-/* Creates a popup for the help section
+/**
+ * Creates a popup for the help section
  * @params url,windowname,w,h,x,y pretty self explanatory just set the initial size and position of the new window
- *
  */
 function showHelp(url,windowname,w,h,x,y){
     if (typeof console!="undefined")console.info("showHelp");

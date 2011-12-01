@@ -13,10 +13,10 @@
           <tr>
             <th>
             </th>
-            <th align="center" valign="bottom">
+            <th align="center">
               Start Date
             </th>
-            <th align="center" >
+            <th align="center">
               End Date
             </th>
           </tr>
@@ -43,7 +43,7 @@
     <td></td>
     <td> <div  id="input_time_range_button" class="custom_button">+ Range</div></td>
   </tr>
- </table>
+</table>
 
 <table id="input_label_table"  style="display:none;width:100%;margin: 30px 0px">
   <tbody>

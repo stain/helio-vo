@@ -527,6 +527,8 @@ function History() {
                 }
             })
         },
+        
+        // TODO: delete?
         clear: function(){
             if (typeof console!="undefined")console.info("History :: clear");
             array = [];

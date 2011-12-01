@@ -1,5 +1,8 @@
 
-//javascript start
+/**
+ * Main startup method to load and initialize the frontend.
+ * 
+ */
 $(document).ready(function()
 {
     //Init time cookies to persist last selection.
@@ -12,7 +15,6 @@ $(document).ready(function()
     
     //Init helio id cookie to persist user interaction, HUID value comes from prototype controller.
     if($.cookie("helioSession")==null){
-        
         $.cookie("helioSession",$("#HUID").val(),{
             expires: 30
         });

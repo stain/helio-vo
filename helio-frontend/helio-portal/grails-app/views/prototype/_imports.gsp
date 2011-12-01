@@ -1,16 +1,12 @@
 
+<link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.14.custom.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.selectBox.css')}" />
 
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
-
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery-ui-1.8.14.custom.css')}" />
-<link rel="stylesheet" href="${resource(dir:'css',file:'jquery.selectBox.css')}" />
-
-
-
 
 <g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some functions--%>
 <g:javascript src="jquery-ui-1.8.11.custom.min.js"/>
@@ -21,7 +17,6 @@
 <g:javascript src="/helio/helio-prototype.js"/><%--Onload initilization--%>
 
 <g:javascript src="/helio/ActionViewer.js"/>
-<g:javascript src="/helio/TimeForm.js"/>
 <g:javascript src="/helio/HelioAjax.js"/>
 <g:javascript src="/helio/History.js"/>
 <g:javascript src="/helio/Workspace.js"/>

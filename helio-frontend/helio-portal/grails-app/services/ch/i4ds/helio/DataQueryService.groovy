@@ -66,7 +66,7 @@ class DataQueryService {
         
         ResultVT resvt = new ResultVT(result.asVOTable(),result.getUserLogs());
             	
-    	log.info("queryService :Result:"+ resvt.getStringTable());
+    	log.info("queryService :Got Result.");
     	
     	return resvt;
     }

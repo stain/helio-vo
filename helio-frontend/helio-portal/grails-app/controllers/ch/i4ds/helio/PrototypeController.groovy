@@ -155,35 +155,12 @@ class PrototypeController {
      * Initialize the client session and show the main page. 
      */
     def explorer={
-        log.info("Explorer =>" +params)
-        def helioClient = new HelioClient();
-     
+        log.info("Explorer =>" +params)     
         // TODO: read cookie value and load persisted session
-        
         //Get sessionId to persist client history
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
         
-        // TODO: move to central place (e.g. Bootstrap or helio-clientapi)
-        // init catalog list for DPAS GUI
-        HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS);
-        if (dpasDao == null) {
-            throw new NullPointerException("Unable to find service DPAS");
-        }
-        HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
-        DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
-        
-        AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );
-        
-        HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
-            Arrays.asList("hec_catalogue"), null, 0, 0, null);
-        
-        int timeout = 300;
-        // TODO: Use StilUtils
-        VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
-        ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
-    
-        //def initParams = [hecCatalogs:valueDomain, dpasInstruments: dpasInstruments, HUID:sessionId];
-        def initParams = [hecCatalogs:resvt, dpasInstruments: dpasInstruments, HUID:sessionId];
+        def initParams = [hecCatalogs:servletContext.eventListDescriptors, dpasInstruments: servletContext.dpasInstruments, HUID:sessionId];
         render view:'explorer', model:initParams
     }
 

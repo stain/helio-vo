@@ -30,18 +30,9 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		//provided 'javax.servlet:servlet-api:2.5'
-	
-	/**	compile ('commons-httpclient:commons-httpclient:3.1',
-			'commons-digester:commons-digester:1.6',
-			)  {
-			excludes "xml-apis", "commons-logging"
-		}
-	
-    }**/
-    
 	}
 	
-	pom false
+	pom true
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar

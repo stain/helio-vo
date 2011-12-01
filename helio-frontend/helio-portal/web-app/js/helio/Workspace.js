@@ -1,19 +1,27 @@
+/**
+ * Main data structure that handles the input and output forms 
+ * @returns a collection of methods holding the different input forms.
+ */
 function Workspace() {
-
+    /**
+     * Sections used in the UI
+     */
     var divisions = new Object();
-    var element;
-
+    
+    /**
+     * private helper function to ingest the divisions.
+     */
     var ingestDivision = function(keyName,divisionName){
         divisions[keyName] = $(divisionName).html();
         $(divisionName).remove();
     };
 
-  
-    
-
+    /**
+     * Data object holding the input forms.
+     * TODO: move to GSP.
+     */
     return {
-        
-        //Iinitializes by filling the @divisions map with the html contained in the sections, also removes the html to not overlap ids
+        //Initializes by filling the @divisions map with the html contained in the sections, also removes the html to not overlap ids
         init: function() {
             if (typeof console!="undefined")console.info("Workspace :: init");
             ingestDivision("hec_extended","#displayableHEC_extended");
@@ -40,13 +48,15 @@ function Workspace() {
             ingestDivision("task_context","#displayableTaskContext");
             ingestDivision("input_event_view","#displayableInputEventView");
 
-
             window.workspace.setDisplay("splash");
             
         },
-
+        
+        /**
+         * form actions to select instruments
+         * @returns instrument selection form.
+         */
         instrument_input_form: function(){
-
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
@@ -68,7 +78,6 @@ function Workspace() {
             var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
 
-
             $("#extra_list_form li").each(function(){
                 $("#input_table td[internal='"+$(this).attr("internal")+"']").parent().addClass('row_selected');
 
@@ -88,8 +97,9 @@ function Workspace() {
                     $(this).addClass('row_selected');
                     $("#extra_list_form").append("<li internal='"+row+"'>'"+row+"'<input id='"+row+"' type='hidden'  name='extra' value='"+row+"'/></li>");
                 }
-            } );
-            formatButton($(".custom_button"))
+            });
+            
+            formatButton($(".custom_button"));
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
@@ -130,8 +140,12 @@ function Workspace() {
                 }
             });
         },
+        
+        /**
+         * Form actions to select event list
+         * @returns
+         */
         event_input_form: function(){
-            
 
             $("#dialog-message").remove();
             var div =$('<div></div>');
@@ -151,7 +165,7 @@ function Workspace() {
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
-            $("#input_table").dataTable().fnSetColumnVis( 0, false );         
+            $("#input_table").dataTable().fnSetColumnVis( 0, false );
             $("#input_table").dataTable().fnSetColumnVis( 6, false );
             $("#input_table").dataTable().fnSetColumnVis( 7, false );
             $("#input_table").dataTable().fnSetColumnVis( 8, false );
@@ -164,7 +178,6 @@ function Workspace() {
             $("input:checkbox").change(function(){
                 var checkboxColumn=$(this).attr("column");
                 var filter_expression = "\0";
-
                 $("input:checked").each(function(){
                     if($(this).attr("column")==checkboxColumn)
                         filter_expression=filter_expression+"|("+$(this).attr("name")+")";
@@ -172,8 +185,6 @@ function Workspace() {
 
                 if(filter_expression=="\0")
                     filter_expression="";
-
-
                 $("#input_table").dataTable().fnFilter(filter_expression,checkboxColumn,true);
                 
             });
@@ -182,45 +193,37 @@ function Workspace() {
             var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
        
-
             $("#extra_list_form li").each(function(){
                 $("#input_table td[internal='"+$(this).attr("internal")+"']").parent().addClass('row_selected');
-               
             });
             $("#input_filter").keyup(function(){
                 $("#input_table").dataTable().fnFilter($(this).val());
             });
 
             $('#input_table tr').click( function() {
-                
                 var row =$.trim($(this).find('td').attr("internal"));
                 
                 if ( $(this).hasClass('row_selected') ){
-                    
                     $(this).removeClass('row_selected');
                     $("#extra_list_form li[internal='"+row+"']").remove();
                 }
                 else{
-                    
                     $(this).addClass('row_selected');
                     var aData = $("#input_table").dataTable().fnGetData( this );
                     $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(".input_time_advanced").unbind();
-                    formatButton($(".custom_button"))
+                    formatButton($(".custom_button"));
                     $(".input_time_advanced").click(function(){
-                        
                         getAdvancedFields($("#service_name").val(),$(this).parent().find('input').val());
                     });
-
                 }
-            } );
-            formatButton($(".custom_button"))
+            });
+            formatButton($(".custom_button"));
             $('#dialog-message').dialog({
                 modal: true,
                 height:530,
                 width:900,
                 close: function(){
-
                     $("#dialog-message").remove();
                 },
                 buttons: {
@@ -239,15 +242,10 @@ function Workspace() {
 
                     },
                     Ok: function() {
-
-                         
                         if($("#extra_list_form li").length <=0){
                             alert("Please make a selection before pressing Ok");
                             return false;
                         }
-                            
-                     
-                        
                         if($("#extra_list_form").html()!=""){
                             $("#event_drop").attr('src','../images/helio/circle_event.png');
                             $("#event_drop").addClass('drop_able');
@@ -260,9 +258,6 @@ function Workspace() {
                         $(".input_time_advanced").remove();
                         $("#extra_list").html(($("#extra_list_form").html()));
                         
-                        
-                        
-                        
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
@@ -272,6 +267,11 @@ function Workspace() {
             });
             $("#input_table").dataTable().fnDraw();
         },
+        
+        /**
+         * Form actions for time input
+         * @returns
+         */
         time_input_form: function(){
 
             $("#dialog-message").remove();
@@ -285,8 +285,10 @@ function Workspace() {
 
             date_range_list.html("");
             //var num =date_range_list.data("ranges");
+            /**
+             * private function to format the date range.
+             */
             var _formatDateRange =function(id){
-
                 $('#minDate'+id).datetimepicker("destroy");
                 $('#maxDate'+id).datetimepicker("destroy");
                 var dates = $( "#minDate"+id+", #maxDate"+id ).datetimepicker({
@@ -304,7 +306,6 @@ function Workspace() {
                     changeYear: true,
                     numberOfMonths: 1,
                     onClose: function( selectedDate ) {
-                        
                         var option = this.id == "minDate"+id ? "minDate" : "maxDate",
                         instance = $( this ).data( "datepicker" ),
                         date = $.datepicker.parseDate(
@@ -320,10 +321,14 @@ function Workspace() {
                         });
                     }
                 });
-
-            }
+            };
          
-            var _createDateRange =function(num){
+            /**
+             * function to create date range.
+             * @param num ???
+             * @returns ???
+             */
+            var _createDateRange = function(num){
                 var tr = $('<tr id="input_time_range_'+num+'"></tr>');
                 var td = $('<td align="center" valign="center">Range:</td>');
                 tr.append(td);
@@ -340,7 +345,6 @@ function Workspace() {
                 $(".input_time_range_remove").unbind();
                 $(".input_time_range_remove").button();
                 $(".input_time_range_remove").click(function(){
-                    
                     if($("#input_time_range_list tr").length ==2){
                         $(this).closest('tr').remove();
                         $(".input_time_range_remove").button({
@@ -349,14 +353,9 @@ function Workspace() {
                     }else if($("#input_time_range_list tr").length >2){
                         $(this).closest('tr').remove();
                     }
-
                 });
-                
-            
-                
-            }
+            };
           
-            
             var iterator =0;
 
             $("#time_area").find('tr').each(function(){
@@ -366,10 +365,7 @@ function Workspace() {
                 $(this).find("input").each(function(){
                     if($(this).attr("name")=="maxDate")$("#maxDate"+iterator).val($(this).val());
                     if($(this).attr("name")=="minDate")$("#minDate"+iterator).val($(this).val());
-                    
-                    
                 });
-                                                                
             });
             if(iterator == 0){
                 date_range_list.data("ranges",1);
@@ -393,7 +389,7 @@ function Workspace() {
                 });
         
             });
-            formatButton($(".custom_button"))
+            formatButton($(".custom_button"));
             //$("#input_time_range_button").button({ disabled: true });
             $('#dialog-message').dialog({
                 modal: true,
@@ -419,7 +415,6 @@ function Workspace() {
                     },
 
                     Ok: function() {
-
                         //Validate date ranges and if and error is found, notify the user and stop thread
                         var flag =true;
                         date_range_list.find("tr").each(function(index,value){
@@ -445,12 +440,10 @@ function Workspace() {
                                 
                                 "<td>--</td><td>"+$("#maxDate"+itr).val()+"</td>");
                                 
-                            tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>")
-                            tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>")
-                            
+                            tr.append("<td style='display:none'><input type='hidden' name='maxDate' value='"+$("#maxDate"+itr).val()+"'></td>");
+                            tr.append("<td style='display:none'><input type='hidden' name='minDate' value='"+$("#minDate"+itr).val()+"'></td>");
                             
                             table.append(tr);
-                            
                             itr++;
                         });
                         $("#time_area").html(table);
@@ -459,18 +452,21 @@ function Workspace() {
                         $("#time_drop").attr('src','../images/helio/circle_time.png');
                         $("#time_drop").addClass('drop_able');
 
-                        formatButton($(".custom_button"))
+                        formatButton($(".custom_button"));
                         
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
-
-
-
                     }
                 }
-            })
-        },
+            });
+        },  // end time-input-form
+        
+        /**
+         * TODO: document
+         * 
+         * @returns
+         */
         evaluator: function(){
 
             $("#displayableResult").html("");
@@ -478,20 +474,18 @@ function Workspace() {
             $("#result_button").unbind();
             $("#result_area").html("Execute Query?");
 
+            // cleanup data before sending it to the backend.
             var minDate= [];
             $("[name='minDate']").each(function() {
-
                 minDate.push($(this).val());
             });
             var maxDate=  [];
             $("[name='maxDate']").each(function() {
-
                 maxDate.push($(this).val());
             });
             
             var extra= [];
             $("[name='extra']").each(function() {
-                
                 extra.push($(this).val());
             });
                 
@@ -507,7 +501,6 @@ function Workspace() {
                             sendQuery(minDate, maxDate,serviceName, extra,$("[name='where']").val());
                         });
                     }
-                         
                     
                     break;
                 case "context":
@@ -516,27 +509,18 @@ function Workspace() {
                         $("#result_button").click(function(){
                             sendQueryContext([minDate[0]], [maxDate[0]]);
                         });
-                        
                     }
                     break;
                 case "HEC":
-                    
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
-                        
                         $("#result_overview").css("display","table");
                         $("#result_button").click(function(){
                             sendQuery(minDate, maxDate,serviceName, extra);
-                           
-
-                           
                         });
-                       
                     }
                     break;
                 case "ICS":
-                    
                     if(minDate.length >0&& maxDate.length >0){
-
                         if(minDate.length > 1){
                             var div =$('<div></div>');
                             div.attr('id','dialog-message');
@@ -545,9 +529,7 @@ function Workspace() {
                             div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
                             $("#testdiv").append(div);
 
-
                             $('#dialog-message').dialog({
-
                                 modal: true,
                                 buttons: {
                                     Ok: function() {
@@ -573,7 +555,6 @@ function Workspace() {
                     }
                     break;
                 case "ILS":
-                    
                     if(minDate.length >0&& maxDate.length >0){
                         if(minDate.length > 1){
                             var div =$('<div></div>');
@@ -583,13 +564,10 @@ function Workspace() {
                             div.append('<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>'+message+'</p>');
                             $("#testdiv").append(div);
 
-
                             $('#dialog-message').dialog({
-
                                 modal: true,
                                 buttons: {
                                     Ok: function() {
-
                                         $( this ).dialog( "close" );
                                         $("#result_overview").css("display","table");
                                         $("#result_button").click(function(){
@@ -598,11 +576,9 @@ function Workspace() {
                                     },
                                     Cancel: function() {
                                         $( this ).dialog( "close" );
-
                                     }
                                 }
                             });
-
                         }else{
                             $("#result_overview").css("display","table");
                             $("#result_button").click(function(){
@@ -614,24 +590,30 @@ function Workspace() {
                 case "DPAS":
                     
                     if(minDate.length >0&& maxDate.length >0&& extra.length >0){
-
                         $("#result_overview").css("display","table");
                         $("#result_button").click(function(){
                             sendQuery(minDate, maxDate,serviceName, extra);
                         });
-
                     }
                     break;
                 default:
                     break;
             }
+        },  // end evaluator
 
-        },
-       
+        /**
+         * get all registered divisions
+         * @returns the registered divisions as list.
+         */
         getDivisions: function(){
-            if (typeof console!="undefined")console.info("Workspace :: setElement");
             return divisions;
         },
+        
+        /**
+         * Mark division with given key as active.
+         * @param key the key of the division to activate.
+         * @returns nothing
+         */
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
             this.clear();
@@ -647,43 +629,25 @@ function Workspace() {
             $("#droppable-inner").append(newDiv);
             
             getPreviousTaskState($("#task_name"),$("#HUID"),key);
-             
-        
-  
-            
-            
         },
          
-        createItem: function(imagePath){
-            
-            if (typeof console!="undefined")console.info("Workspace :: createItem -> " +imagePath);
-            var element;
-            formatButton($(".custom_button"))
-            if($("#task_name").length >0)setPreviousTaskState($("#task_name"),$("#HUID"),$("#query_form"));
-            this.setDisplay(imagePath);
-            
-            
-
+        /**
+         * ???
+         * @param taskName
+         * @returns
+         */
+        createItem: function(taskName){
+            if (typeof console!="undefined")console.info("Workspace :: createItem -> " +taskName);
+            formatButton($(".custom_button"));
+            if($("#task_name").length >0) 
+                setPreviousTaskState($("#task_name"),$("#HUID"),$("#query_form"));
+            this.setDisplay(taskName);
         },
-        //@TODO: delete
-        render: function() {
-            if (typeof console!="undefined")console.error("Workspace :: render");
-            return;
-            $( "#droppable-inner" ).droppable({
-                accept: ".draggable",
-
-                activeClass: "ui-state-hover",
-                hoverClass: "ui-state-active",
-
-                drop: function( event, ui ) {
-                    var text =  ui.draggable.find("img").attr("alt");
-
-                    window.workspace.createItem(text);
-                }
-            });
-            fnInitDroppable();
-            
-        },
+        
+        /**
+         * Clear the workspace, i.e. remove any dialog.
+         * @returns nothing
+         */
         clear: function() {
             if (typeof console!="undefined")console.info("Workspace :: clear");
             //$('#currentDisplay').fadeOut(1000,0);
@@ -691,7 +655,6 @@ function Workspace() {
             $(".displayable").css("display","none");
             $(".resCont").remove();
             $(".tooltip").css("display","none");
-            
         }
     };
 }

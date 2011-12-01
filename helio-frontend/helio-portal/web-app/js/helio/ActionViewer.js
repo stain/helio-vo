@@ -1,9 +1,14 @@
+/**
+ * Provide the actions to handle results coming back from catalog services (i.e. as VOTable)
+ * @returns a collection of functions to be called on the action viewer instance.
+ */
 function ActionViewer() {
     // attach a timeout handler to this object.
     var resultFilterTimeout;
 
     return {
         /**
+         * Load and render the result table.
          * Loads after the ajax call is complete and successful
          * @data:  html for result section
          */
@@ -73,8 +78,6 @@ function ActionViewer() {
                     if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
                         time_end=j;
                     }
-
-
                 }//end j
                 var times =$($(this).parent().children()[time_start]).text();
                 var timee =$($(this).parent().children()[time_end]).text();
@@ -86,9 +89,6 @@ function ActionViewer() {
                 div.attr('id','dialog-message');
                 div.attr('title','Event Details');
                               
-
-
-
                 var html = window.workspace.getDivisions()["input_event_view"];
                 div.append(html);
 
@@ -111,15 +111,10 @@ function ActionViewer() {
                     height:600,
                     width:800,
                     buttons: {
-
-
                         Ok: function() {
-
                             $("#dialog-message").dialog( "close" );
                             $("#dialog-message").remove();
-
                         }
-                       
                     }
                 });
             });
@@ -127,10 +122,7 @@ function ActionViewer() {
             var serviceNameTemp = $("#service_name").val();
             
             if(serviceNameTemp == 'DPAS'){
-                
-             
                 $("#response_download_selection").css('display','inherit');
-
                 $("#response_download_selection").click(function(){
                     var itr= 0;
                     $(".resultTable").each(function(){
@@ -150,34 +142,22 @@ function ActionViewer() {
                             if($.trim(settings.aoColumns[j].sTitle) == 'url'){
                                 download_url=j;
                             }
-
-
                         }//end j
 
-
                         $("#resultTable"+i+" .even_selected").each(function(){
-
                             download_array.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
-
-
                         });
                         $("#resultTable"+i+" .odd_selected").each(function(){
-
                             download_array.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
-
                         });
                         if(download_array.html().indexOf('li') < 0){
                             
                             var nNodes = dataTable.fnGetNodes();
-                            
                             for(var node in nNodes){
-                                
                                 download_array.append("<li>"+$(nNodes[node]).children().eq(download_url).html()+"</li>");
                             }
                         }
-                        
                     }//end i
-                    
                     
                     var recipe =  window.open('','_blank','width=600,height=600');
                     var html = '<html><head><title>Helio Downloads</title></head><body><div id="links">'+$("#time_area").html()+$("#extra_list").html() + download_array.html() + '</div></body></html>';
@@ -187,8 +167,6 @@ function ActionViewer() {
                 });
             }
             
-
-            
             $("#response_save_selection").click(function(){
                 if($(".odd_selected").length <1 && $(".even_selected").length<1){
                     alert("Please select something first");
@@ -196,9 +174,7 @@ function ActionViewer() {
                 }
 
                 var serviceName = $("#service_name").val();
-
                 if(serviceName == 'HEC' ||serviceName == 'upload'||serviceName == 'DES'){
-
                     var itr= 0;
                     $(".resultTable").each(function(){
                         //console.debug($(this));
@@ -238,10 +214,8 @@ function ActionViewer() {
                         tr.append("<td><b>Range :</b></td>"+
                             "<td>"+time_start_array[itr]+"</td>"+
                             "<td>--</td><td>"+time_end_array[itr]+"</td>");
-
                         tr.append("<td><input type='hidden' name='maxDate' value='"+time_end_array[itr]+"'/></td>");
                         tr.append("<td><input type='hidden' name='minDate' value='"+time_start_array[itr]+"'/></td>");
-                        
                         table.append(tr);
 
                     }//end itr
@@ -261,7 +235,6 @@ function ActionViewer() {
 
                     img.click(function(){
                         if($(this).attr('helio_type')== 'time'){
-
                             window.historyBar.time_input_form(img,true);
                         }
                         if($(this).attr('helio_type')== 'event'){
@@ -275,9 +248,8 @@ function ActionViewer() {
                         }
                     });
 
-
                     window.historyBar.time_input_form(img,false);
-                }else if(serviceName == 'ICS'){
+                } else if(serviceName == 'ICS'){
                     var itr= 0;
                     $(".resultTable").each(function(){
                         //console.debug($(this));
@@ -299,26 +271,18 @@ function ActionViewer() {
                         }//end j
 
                         $("#resultTable"+i+" .even_selected").each(function(){
-
                             instrument_array.push($(this).children().eq(instrument).text());
-
                         });
                         $("#resultTable"+i+" .odd_selected").each(function(){
-
                             instrument_array.push($(this).children().eq(instrument).text());
-
                         });
 
                     }//end i
 
                     var holder= $('<ul class="candybox"></ul>');
                     for(itr= 0;itr < instrument_array.length;itr++){
-
-
                         var instrument_string =instrument_array[itr];
-
                         holder.append("<li internal='"+instrument_string+"'>'"+instrument_string+"'<input id='"+instrument_string+"' type='hidden'  name='extra' value='"+instrument_string+"'/></li>");
-
                     }
 
                     $("#dialog-message").remove();
@@ -340,15 +304,11 @@ function ActionViewer() {
                         
                         if($("#input_table td[internal='"+$(this).attr("id")+"']").length ==1){
                             $(this).parent().addClass("item_found");
-                            
-                            
                         }else{
                             $(this).parent().addClass("item_missing");
-                            
                         }
                     });
                     $("#input_table").remove();
-                    
                    
                     formatButton($(".custom_button"));
                     $('#dialog-message').dialog({
@@ -361,7 +321,6 @@ function ActionViewer() {
                         },
                         buttons: {
                             Ok: function() {
-
                                 $(".item_missing").remove();
                                 var img =   $( "<img class='history_draggable' alt='"+"image missing"+"'/>" ).attr( "src",'../images/helio/circle_inst.png' );
                                 var div = $("<div  title='"+$("#task_label").val()+"' class='floaters'></div>");
@@ -410,21 +369,15 @@ function ActionViewer() {
                                 $(".closeme").click(function(){
                                     $(this).parent().parent().parent().parent().parent().remove();//@todo find the apropriate selector
                                     saveHistoryBar();
-                                    
-                                    
-
                                 });
-
 
                                 var rowpos = $('#historyContent').position();
                                 if(rowpos!=null){
-
                                     $('html,body').scrollTop(rowpos.top);
                                 }
                                 saveHistoryBar();
                                 $("#dialog-message").dialog( "close" );
                                 $("#dialog-message").remove();
-
                             }
                             ,
                             Cancel: function() {
@@ -457,10 +410,11 @@ function ActionViewer() {
              
         },
         
+        /**
+         * Init the action viewer, i.e enable drag & and dropping on it.
+         * @returns nothing
+         */
         init: function(){
-            
-        
-            
             $("#block_drop").draggable({
                 helper:'clone'
             });
@@ -488,10 +442,7 @@ function ActionViewer() {
                         $('#time_area').html(ui.draggable.data('time_data'));
                         window.workspace.evaluator();
                         $("#time_drop").addClass('drop_able');
-                            
-                        
                     }
-                            
                 }
             });
             $( ".resultDroppableEvent" ).droppable({
@@ -521,12 +472,9 @@ function ActionViewer() {
                 }
             });
 
-            
             $(".placeholder").remove();
             $.collapsible(".queryHeader","group1");
             $.collapsible(".advancedParameters","group2");
-            
-            
         }
     };//end public methods
 }//end class
