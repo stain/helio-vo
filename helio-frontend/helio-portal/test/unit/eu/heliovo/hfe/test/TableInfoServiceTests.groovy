@@ -1,8 +1,8 @@
-package ch.i4ds.helio
+package eu.heliovo.hfe.test
 
 import grails.test.*
 
-class PrototypeControllerTests extends ControllerUnitTestCase {
+class TableInfoServiceTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

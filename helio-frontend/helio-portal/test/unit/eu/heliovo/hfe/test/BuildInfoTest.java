@@ -1,4 +1,4 @@
-package ch.i4ds.helio.frontend;
+package eu.heliovo.hfe.test;
 
 import static org.junit.Assert.assertNotNull;
 

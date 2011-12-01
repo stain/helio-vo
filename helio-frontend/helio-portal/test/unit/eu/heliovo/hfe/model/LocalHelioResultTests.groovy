@@ -1,8 +1,8 @@
-package ch.i4ds.helio
+package eu.heliovo.hfe.model
 
 import grails.test.*
 
-class DataQueryServiceTests extends GrailsUnitTestCase {
+class LocalHelioResultTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

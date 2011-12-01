@@ -1,4 +1,4 @@
-package ch.i4ds
+package eu.heliovo.hfe.model
 
 /**
  * Store the content of an HTML query 

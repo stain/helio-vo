@@ -304,8 +304,24 @@
                     <artifactId>cglib</artifactId>
                     <groupId>cglib</groupId>
                 </exclusion>
+                <exclusion>
+                    <!-- handle proper version of slf4j in portal -->
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+                <exclusion>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
             </exclusions>
 		</dependency>
+        <dependency>
+            <groupId>starlink</groupId>
+            <artifactId>stil</artifactId>
+            <version>3.0</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
 		<dependency>
 			<!-- grails needs junit to be in compile scope -->
 			<groupId>junit</groupId>

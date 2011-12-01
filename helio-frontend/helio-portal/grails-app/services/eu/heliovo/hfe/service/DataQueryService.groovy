@@ -1,11 +1,15 @@
-package ch.i4ds.helio;
+package eu.heliovo.hfe.service;
 import eu.heliovo.clientapi.HelioClient
 import eu.heliovo.clientapi.frontend.ResultVT
 import eu.heliovo.clientapi.linkprovider.*
 import eu.heliovo.clientapi.query.*
 import eu.heliovo.clientapi.query.asyncquery.*
+import eu.heliovo.clientapi.utils.STILUtils
 import eu.heliovo.registryclient.*
 import eu.heliovo.shared.util.*
+
+import uk.ac.starlink.table.StarTable;
+
 
 /**
  * Service methods to access a catalog query.
@@ -63,7 +67,7 @@ class DataQueryService {
         from  = permuted[1];
 
         result = service.query(minDate, maxDate, from, where, 0, 0, null);
-        
+        //StarTable starTable = STILUtils.read(result.asURL());
         ResultVT resvt = new ResultVT(result.asVOTable(),result.getUserLogs());
             	
     	log.info("queryService :Got Result.");

@@ -1,4 +1,4 @@
-package ch.i4ds.helio;
+package eu.heliovo.hfe.controller;
 
 /**
  * Controller to handle error messages

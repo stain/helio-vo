@@ -1,4 +1,4 @@
-package ch.i4ds.helio
+package eu.heliovo.hfe.service
 import ch.i4ds.helio.frontend.parser.*
 import ch.i4ds.helio.frontend.query.*
 import eu.heliovo.clientapi.frontend.*

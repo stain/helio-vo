@@ -1,49 +1,37 @@
-package ch.i4ds.helio;
-import ch.i4ds.*;
+package eu.heliovo.hfe.controller;
+import java.net.URL
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-
-import java.net.URL;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
+import java.util.Calendar
+import java.util.Date
+import java.util.concurrent.TimeUnit
 
 import javax.xml.bind.JAXBContext
 import javax.xml.bind.Unmarshaller
 import javax.xml.transform.stream.StreamSource
 
 import net.ivoa.xml.votable.v1.*
-import ch.i4ds.helio.frontend.parser.*
-import ch.i4ds.helio.frontend.query.*
-import eu.heliovo.clientapi.frontend.*
-import eu.heliovo.clientapi.frontend.ResultVT;
-import eu.heliovo.clientapi.model.catalog.HelioCatalogDao;
-import eu.heliovo.clientapi.model.catalog.impl.DpasDao;
-import eu.heliovo.clientapi.model.catalog.impl.HecDao
-import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory;
-import eu.heliovo.clientapi.model.field.DomainValueDescriptor
-import eu.heliovo.clientapi.model.field.HelioField
-import eu.heliovo.registryclient.HelioServiceName;
 
 import org.springframework.web.context.request.RequestContextHolder
 
-import eu.heliovo.clientapi.processing.ProcessingResult;
-import eu.heliovo.clientapi.processing.context.ContextServiceFactory;
-import eu.heliovo.clientapi.processing.context.FlarePlotterService;
-import eu.heliovo.clientapi.processing.context.GoesPlotterService;
-import eu.heliovo.clientapi.processing.context.SimpleParkerModelService;
-import eu.heliovo.registryclient.AccessInterface;
-import eu.heliovo.clientapi.linkprovider.impl.MimeTypeConstants;
-import eu.heliovo.registryclient.AccessInterface;
+import ch.i4ds.helio.frontend.parser.*
+import ch.i4ds.helio.frontend.query.*
+import eu.heliovo.clientapi.frontend.*
+import eu.heliovo.clientapi.linkprovider.*
+import eu.heliovo.clientapi.processing.ProcessingResult
+import eu.heliovo.clientapi.processing.context.ContextServiceFactory
+import eu.heliovo.clientapi.processing.context.FlarePlotterService
+import eu.heliovo.clientapi.processing.context.GoesPlotterService
+import eu.heliovo.clientapi.processing.context.SimpleParkerModelService
+import eu.heliovo.clientapi.query.*
+import eu.heliovo.clientapi.query.asyncquery.*
+import eu.heliovo.clientapi.utils.STILUtils
 
-import eu.heliovo.shared.props.HelioFileUtil;
-import javax.activation.MimeType;
-import eu.heliovo.clientapi.linkprovider.*;
-import eu.heliovo.clientapi.HelioClient;
-import eu.heliovo.clientapi.query.*;
-import eu.heliovo.clientapi.query.asyncquery.*;
-import eu.heliovo.registryclient.*;
+import eu.heliovo.hfe.model.HelioMemoryBar
+import eu.heliovo.hfe.model.HelioQuery
+import eu.heliovo.hfe.service.*
+import eu.heliovo.hfe.service.VoTableService;
+import eu.heliovo.registryclient.*
 
 /**
  * Main controller for the HFE.
@@ -54,13 +42,14 @@ class PrototypeController {
     /**
      * Ref to the Data query Service
      */
-    def DataQueryService;
+    def DataQueryService dataQueryService;
     
     /**
      * Ref to the ResultVTManagerService
      */
-    def ResultVTManagerService;
-
+    def ResultVTManagerService resultVTManagerService;
+    
+    
     /**
      * Upload a file
      * TODO: Move to VoTableController
@@ -72,10 +61,16 @@ class PrototypeController {
     
             if (request.getFile("fileInput").getOriginalFilename()=="") {
                 throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
-            }    
+            }
             if (!request.getFile("fileInput").getOriginalFilename().endsWith(".xml")) {
                 throw new RuntimeException("Not a valid xml file. The name should end with .xml");
             }
+            
+            
+            
+            starTable = STILUtils.load(request.getFile("fileInput").inputStream);
+            StilUtils.persist(starTable)
+            
             // TODO: Use StilUtils
             JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
@@ -84,7 +79,7 @@ class PrototypeController {
             
             def serviceName = 'upload';
             ResultVT result = new ResultVT(votable);
-            int resultId= ResultVTManagerService.addResult(result,serviceName);
+            int resultId= resultVTManagerService.addResult(result,serviceName);
             def uploadId =request.getFile("fileInput").getOriginalFilename();
             
             def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
@@ -109,7 +104,7 @@ class PrototypeController {
                 ResultVT  result = search(params);
                 String serviceName = params.serviceName;
                 
-                int resultId= ResultVTManagerService.addResult(result,serviceName);
+                int resultId= resultVTManagerService.addResult(result,serviceName);
                 def responseObject = [result:result,resultId:resultId ];
                 //helioquery.result = result.getStringTable();
                 
@@ -202,7 +197,7 @@ class PrototypeController {
     	HelioServiceName serviceName = HelioServiceName.valueOf(params.serviceName.toUpperCase());
         
         // call the helio-clientapi
-    	ResultVT result = DataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
+    	ResultVT result = dataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
         return result;
     }
 
@@ -212,7 +207,7 @@ class PrototypeController {
      */
     def downloadVOTable = {
         log.info("downloadVOTable =>" + params);
-        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+        ResultVT result = resultVTManagerService.getResult(Integer.parseInt(params.resultId));
         if(result !=null){
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
@@ -230,7 +225,7 @@ class PrototypeController {
      */
     def downloadPartialVOTable = {
         log.info("downloadPartialVOTable =>" + params  + session)
-        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+        ResultVT result = resultVTManagerService.getResult(Integer.parseInt(params.resultId));
         // TODO: move functionality to ResultVTManagerService.
         if(result !=null){
 
@@ -268,7 +263,7 @@ class PrototypeController {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
-            name = ResultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-reduced-"+name;
+            name = resultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-reduced-"+name;
             
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
@@ -285,7 +280,7 @@ class PrototypeController {
     def asyncGetSavedResult = {
         log.info("asyncGetSavedResult =>" + params);
         
-        ResultVT result = ResultVTManagerService.getResult(Integer.parseInt(params.resultId));
+        ResultVT result = resultVTManagerService.getResult(Integer.parseInt(params.resultId));
         def responseObject = [result:result,resultId:params.resultId ];
         //helioquery.result = result.getStringTable();
         //helioquery.save();
