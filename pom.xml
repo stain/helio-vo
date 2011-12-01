@@ -139,9 +139,7 @@
 		<module>helio-shared</module>		
 		<module>helio-queryservice</module>
 		<!--  >module>helio-monitoring</module-->
-		<module>helio-client</module>
 		<module>helio-registryclient</module>
-		<module>helio-idlclient</module>
         <!-- module>helio-security-example</module -->
 		<!-- module>helio-example</module-->
 	</modules>
