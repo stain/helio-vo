@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
+	<xs:complexType name="Planetary">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="instrument"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="provider" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="url" type="URL"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="ancillary_filename" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="ancillary_info" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="file_type" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="file_size" type="FileSize"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="planetary_observation" type="Planetary"/>
+	<xs:complexType name="UOCInstrument">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="instrument"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="observatory_name"/>
+			<xs:element name="orbit"/>
+			<xs:element name="instrument_type"/>
+			<xs:element name="sampling_method"/>
+			<xs:element name="output_type"/>
+			<xs:element name="observation_mode"/>
+			<xs:element name="energy_regime"/>
+			<xs:element name="physical_param"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="uoc_instrument" type="UOCInstrument"/>
+	<xs:complexType name="Pointing">
+		<xs:sequence>
+			<xs:element name="rot_carr" type="xs:integer"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="fov_centre" type="Location"/>
+			<xs:element name="fov_size" type="FOVSize"/>
+			<xs:element name="size_pixel" type="SizePixel"/>
+			<xs:element name="r_sun" type="xs:double"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="fov_br" type="BoundingRectangle"/>
+			<xs:element name="filter_name" type="xs:string"/>
+			<xs:element name="spectral_table_id" type="SpectralId"/>
+			<xs:element name="instrument_table_id"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FOVSize">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="long_width_arcsec" type="xs:double"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="lat_width_arcsec" type="xs:double"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SizePixel">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="cdelt1">
+				<xs:annotation>
+					<xs:documentation>size per pixel first dimention or x</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="cdelt2">
+				<xs:annotation>
+					<xs:documentation>size per pixel second dimension or y</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="pointing" type="Pointing"/>
+	<xs:complexType name="Spectral">
+		<xs:sequence>
+			<xs:element name="spectral_id" type="SpectralId"/>
+			<xs:element name="unit_wavelength"/>
+			<xs:element name="cdelt_wavelength"/>
+			<xs:element name="cdelt_time"/>
+			<xs:element name="window_count"/>
+			<xs:element name="slit_size"/>
+			<xs:sequence maxOccurs="unbounded" minOccurs="1">
+				<xs:element maxOccurs="1" minOccurs="1" name="wavelength_min"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="wavelength_max"/>
+				<xs:element maxOccurs="1" minOccurs="1" name="wavelength"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="SpectralId">
+		<xs:restriction base="xs:string">
+			<xs:annotation>
+				<xs:documentation>CHECK when available</xs:documentation>
+			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
