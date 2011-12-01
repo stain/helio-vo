@@ -11,12 +11,36 @@
 	</xs:complexType>
 	<xs:complexType name="TimeStart">
 		<xs:choice>
-			<xs:element name="remote_time_start" type="xs:dateTime"/>
-			<xs:element name="insitu_time_start" type="xs:dateTime"/>
-			<xs:element name="first_observation_time" type="xs:dateTime"/>
-			<xs:element name="predicted_time_start" type="xs:dateTime"/>
-			<xs:element name="image_time_start" type="xs:dateTime"/>
-			<xs:element name="julian_time_start" type="JulianDate"/>
+			<xs:element name="remote_time_start" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>to be used for times where remote measurments where used to determine time interval</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="insitu_time_start" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>to be used for times where insitu measurments where used to determine time interval</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="first_observation_time" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>to be used for times independent of the times of events (i.e. file of continues observation)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="predicted_time_start" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>to be used for times where adjustments where made for location of instrument or perspective of instrument</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="image_time_start" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>to be used for times of images independent of events</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="julian_time_start" type="JulianDate">
+				<xs:annotation>
+					<xs:documentation>any kind of start time represented as Julian time</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="TimeEnd">
@@ -67,6 +91,7 @@
 				</xs:sequence>
 				<xs:sequence maxOccurs="1" minOccurs="0">
 					<xs:element maxOccurs="1" minOccurs="1" name="long_carr"/>
+					<xs:element maxOccurs="1" minOccurs="0" name="lat_carr"/>
 				</xs:sequence>
 				<xs:sequence maxOccurs="1" minOccurs="0">
 					<xs:element maxOccurs="1" minOccurs="1" name="pa">
@@ -83,6 +108,14 @@
 						<xs:annotation>
 							<xs:documentation>Position angle width of the CME</xs:documentation>
 						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="pa_width_lower_limit">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="&gt;"/>
+								<xs:enumeration value=""/>
+							</xs:restriction>
+						</xs:simpleType>
 					</xs:element>
 				</xs:sequence>
 				<xs:sequence maxOccurs="1" minOccurs="0">
@@ -109,6 +142,19 @@
 						</xs:annotation>
 					</xs:element>
 					<xs:element maxOccurs="1" minOccurs="0" name="r_hci" type="xs:double"/>
+				</xs:sequence>
+				<xs:sequence maxOccurs="1" minOccurs="0">
+					<xs:element maxOccurs="1" minOccurs="1" name="long_hgi">
+						<xs:annotation>
+							<xs:documentation>http://www.helio-vo.eu/internal/Documents/General/HELIO_DoW_Final_090904.pdf</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="1" name="lat_hgi">
+						<xs:annotation>
+							<xs:documentation>Heliocentric Inertial Latitude</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element maxOccurs="1" minOccurs="0" name="r_hgi" type="xs:double"/>
 				</xs:sequence>
 				<xs:sequence maxOccurs="1" minOccurs="0">
 					<xs:element maxOccurs="1" minOccurs="1" name="x_pix">
@@ -193,7 +239,10 @@
 			<xs:element name="time_period" type="TimePeriod"/>
 			<xs:element name="time_peak" type="xs:dateTime"/>
 			<xs:element name="time_1au" type="xs:dateTime"/>
+			<xs:element name="time_observation" type="xs:dateTime"/>
+			<xs:element name="time_creation" type="xs:dateTime"/>
 			<xs:element name="time" type="xs:dateTime"/>
+			<xs:element name="julian_time" type="JulianDate"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:element name="time" type="Time"/>
@@ -214,4 +263,27 @@
 	</xs:simpleType>
 	<xs:element name="instrument" type="ns1:instrument"/>
 	<xs:element name="comment" type="xs:string"/>
+	<xs:complexType name="FileSize">
+		<xs:choice>
+			<xs:element name="file_size_byte" type="xs:integer"/>
+			<xs:element name="file_size_kbyte" type="xs:integer"/>
+			<xs:element name="file_size_Mbyte" type="xs:integer"/>
+			<xs:element name="file_size_Gbyte" type="xs:integer"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="BoundingRectangle">
+		<xs:choice>
+			<xs:element maxOccurs="2" minOccurs="2" name="coord_image" type="Location">
+				<xs:annotation>
+					<xs:documentation>2 coordinates (2 opposite corners) for a bounding rectangle on a 2D image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="4" minOccurs="4" name="coord_sphere" type="Location">
+				<xs:annotation>
+					<xs:documentation>4 coordinates (4 corners) for bounding rectangle on a sphere</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:element name="externale_reference_id" type="ID"/>
 </xs:schema>

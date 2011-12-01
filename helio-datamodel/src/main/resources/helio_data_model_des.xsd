@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
+	<xs:complexType name="DESResult">
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element ref="location" minOccurs="0" maxOccurs="1"></xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DESRequest">
+		<xs:sequence maxOccurs="1" minOccurs="1">
+			<xs:element maxOccurs="unbounded" minOccurs="1" ref="observatory_name"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="function" type="DESFunction"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="parameter" type="DESParameter"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="DESFunction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DERIV">
+				<xs:annotation>
+					<xs:documentation>derivative</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="DESParameter">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="V">
+				<xs:annotation>
+					<xs:documentation>thermal plasma velocity magnetude</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="B">
+				<xs:annotation>
+					<xs:documentation>magnetic field magnitude</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="N">
+				<xs:annotation>
+					<xs:documentation>thermal plasma ion density</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:element name="des_result" type="DESResult"/>
+	<xs:element name="des_request" type="DESRequest"/>
+</xs:schema>

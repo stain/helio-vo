@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
+
+
+<xs:complexType name="DPASResult">
+<xs:sequence>
+<xs:element  ref="instrument" maxOccurs="1" minOccurs="1"></xs:element>
+<xs:element name="provider_instr_key" type="xs:string" maxOccurs="1" minOccurs="1"></xs:element>
+<xs:element name="url" type="URL" maxOccurs="1" minOccurs="1"></xs:element>
+<xs:element name="provider" type="Provider" maxOccurs="1" minOccurs="1"></xs:element>
+<xs:element ref="time_period"></xs:element>
+</xs:sequence>
+
+</xs:complexType>
+
+<xs:simpleType name="Provider">
+<xs:restriction base="xs:string">
+<xs:enumeration value="VSO"></xs:enumeration>
+<xs:enumeration value="CDAWEB"></xs:enumeration>
+<xs:enumeration value="UOC"></xs:enumeration>
+<xs:enumeration value="DIR"></xs:enumeration>
+<xs:enumeration value="SODA"></xs:enumeration>
+</xs:restriction>
+
+</xs:simpleType>
+
+
+<xs:element name="data_link" type="DPASResult"></xs:element>
+</xs:schema>

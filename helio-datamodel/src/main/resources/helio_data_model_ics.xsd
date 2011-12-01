@@ -2,7 +2,6 @@
 
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:ns1="http://helio-vo.eu/xml/Instruments/v0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	<xs:import namespace="http://helio-vo.eu/xml/Instruments/v0.1" schemaLocation="http://www.helio-vo.eu/services/xml/instruments.xsd"/>
-<!--<xs:import namespace="http://www.ivoa.net/xml/STC/stc-v1.30.xsd" schemaLocation="http://www.ivoa.net/xml/STC/stc-v1.31.xsd"/>-->
 	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
 	<xs:complexType name="Instrument">
 		<xs:annotation>
@@ -31,13 +30,14 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="instrument_type" type="instrument_classification"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="instrument_type" type="InstrumentClassification"/>
 			<xs:element name="comment" type="xs:string"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="time_coverage" type="TimePeriod"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="group_name" type="xs:string"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="sensing_type" type="SensingType"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="observing_domain" type="ObservingDomain1"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="observing_domain_detail" type="ObservingDomain2"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="cadence_s" type="xs:integer"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:element name="observatory_instrument_id"/>
@@ -140,7 +140,7 @@
 			<xs:enumeration value="gravity"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="instrument_classification">
+	<xs:simpleType name="InstrumentClassification">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="imager"/>
 			<xs:enumeration value="radiometer"/>
@@ -189,7 +189,8 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="location" type="ObsLocation"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="time_coverage" type="TimePeriod"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="time_insertion" type="xs:dateTime"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_insertion" type="Time"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="sat_id" type="SatId"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ObsType">

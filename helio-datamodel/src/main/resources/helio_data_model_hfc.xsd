@@ -45,20 +45,7 @@
 		<xs:choice>
 			<xs:element maxOccurs="1" name="area_deg_sq" type="xs:double"/>
 			<xs:element maxOccurs="1" name="area_Mm_sq" type="xs:double"/>
-		</xs:choice>
-	</xs:complexType>
-	<xs:complexType name="BoundingRectangle">
-		<xs:choice>
-			<xs:element maxOccurs="2" minOccurs="2" name="coord_image" type="Location">
-				<xs:annotation>
-					<xs:documentation>2 coordinates (2 opposite corners) for a bounding rectangle on a 2D image</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="4" minOccurs="4" name="coord_sphere" type="Location">
-				<xs:annotation>
-					<xs:documentation>4 coordinates (4 corners) for bounding rectangle on a sphere</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="area_number_pixel"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="FeatureType">
@@ -68,14 +55,9 @@
 					<xs:documentation>any number of bounding rectangles</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="br_centre" type="Location">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="centre" type="Location">
 				<xs:annotation>
 					<xs:documentation>centre coordinate of bounding box</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="no_pixels" type="xs:integer">
-				<xs:annotation>
-					<xs:documentation>Number of pixels included in the feature</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="1" name="area" type="Area">
@@ -192,6 +174,13 @@
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="diameter"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_area"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_total_flux"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_abs_total_flux"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_max_flux"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_min_flux"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="FilamentType">
@@ -204,11 +193,7 @@
 					<xs:documentation>Elongation factor</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="orientation" type="xs:float">
-				<xs:annotation>
-					<xs:documentation>Orientation of the filament</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="orientation"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CHType">
@@ -230,29 +215,9 @@
 					<xs:documentation>Threshold value used on the image TODO unit</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="centre" type="Location">
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="size" type="Location">
 				<xs:annotation>
-					<xs:documentation>CH centre - gravity centre</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="lat_width_deg" type="xs:double">
-				<xs:annotation>
-					<xs:documentation>Latitude width of the CH in HG deg</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="long_width_deg" type="xs:double">
-				<xs:annotation>
-					<xs:documentation>Longitude width of the CH in HG deg</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="lat_width_arcsec" type="xs:double">
-				<xs:annotation>
-					<xs:documentation>Latitude width of the CH in HG arcseconds</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="long_width_arcsec" type="xs:double">
-				<xs:annotation>
-					<xs:documentation>Longitude width of the CH in HG arcseconds</xs:documentation>
+					<xs:documentation>size of CH</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="0" name="ch_group_id" type="xs:integer">
@@ -343,5 +308,12 @@
 			<xs:element maxOccurs="1" minOccurs="1" name="encoding_method" type="EMType"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:element name="hfc" type="FeatureType"/>
+	<xs:element name="image" type="ImageType"/>
+	<xs:element name="feature" type="FeatureType"/>
+	<xs:element name="ar" type="ARType"/>
+	<xs:element name="hfc" type="FeatureList"/>
+	<xs:element name="ch" type="CHType"/>
+	<xs:element name="ch_group" type="CHType"/>
+	<xs:element name="filament" type="FilamentType"/>
+	<xs:element name="sun_spot" type="SSType"/>
 </xs:schema>

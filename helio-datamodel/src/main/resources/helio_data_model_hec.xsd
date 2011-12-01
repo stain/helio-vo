@@ -23,6 +23,7 @@
 			<xs:element name="interplanetary_shock" type="InterplanetaryShockType"/>
 			<xs:element name="radio" type="RadioType"/>
 			<xs:element name="eit" type="EITWaveType"/>
+			<xs:element name="sir" type="StreamInteractionRegion"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="FlareType">
@@ -37,14 +38,48 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="time_end_modifier" type="TimeModifier"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_peak_modifier" type="TimeModifier"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="rhessi_flare_number" type="ID"/>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="specific_content" type="SpecificData"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="noaa_flare_number" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="phase_angle" type="xs:float"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="flag" type="FlareFlagType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="event_detail_url" type="URL"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="observation_time_offset_s" type="xs:long">
+				<xs:annotation>
+					<xs:documentation>Center of the TIMED-SEE observation time relative to the flare peak expressed in seconds. SEE observations are approximately 180 seconds. Positive numbers indicate seconds after the peak, negative numbers indicate seconds prior to the peak.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlareFlagType">
+		<xs:choice maxOccurs="1" minOccurs="1">
+			<xs:element name="countrate_increase" type="xs:string"/>
+			<xs:element name="location_source" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>G indicates the location inferred from the Halpha observations as given in the GOES X-ray list. S indicates it is from the Solar Geophysical Data (SGD) Comprehensive Reports.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="proton_upper_limit" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Y if the peak integral proton intensity is an upper limit - N if not</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Magnitude">
 		<xs:choice>
 			<xs:element name="xray_class" type="XrayType"/>
 			<xs:element name="optical_class" type="OpticalType"/>
 			<xs:element name="hard_xray_quantifier" type="HXrayType"/>
+			<xs:element name="xray_class_error" type="XrayType"/>
+			<xs:element name="see_xps_index" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>SEE-XPS Index - TIMED-SEE XPS (0.1-7 nm) Flare Index (1=no flare, &gt;1=flare, 0=no data).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="see_egs_index" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>TIMED-SEE EGS Flare Index (1=no flare, &gt;1=flare, 0=no data).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:simpleType name="XrayType">
@@ -98,7 +133,13 @@
 	<xs:complexType name="HXrayType">
 		<xs:choice>
 			<xs:element name="energy_keV" type="xs:double"/>
-			<xs:element name="hard_xray_count" type="Count"/>
+			<xs:sequence>
+				<xs:annotation>
+					<xs:documentation>the two values belong together - if only the hard_xray_count is pesent the energy_range_keV is presumed to be 12-25kev</xs:documentation>
+				</xs:annotation>
+				<xs:element maxOccurs="1" minOccurs="1" name="hard_xray_count" type="Count"/>
+				<xs:element maxOccurs="1" minOccurs="0" name="energy_range_keV"/>
+			</xs:sequence>
 		</xs:choice>
 	</xs:complexType>
 	<xs:simpleType name="TimeModifier">
@@ -106,13 +147,6 @@
 			<xs:pattern value="[DEU]"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:complexType name="SpecificData">
-		<xs:sequence maxOccurs="1" minOccurs="1">
-			<xs:element maxOccurs="1" minOccurs="1" name="name" type="xs:string"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="content" type="xs:anyType"/>
-		</xs:sequence>
-	</xs:complexType>
 	<xs:complexType name="CMEType">
 		<xs:sequence>
 			<xs:element ref="location"/>
@@ -121,7 +155,7 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="time_onset" type="Time"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_onset_not_valid" type="xs:boolean"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_1au" type="Time"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="duration_lift_off" type="DeltaTime"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="duration_lift_off_h" type="DeltaTime"/>
 			<xs:element maxOccurs="unbounded" minOccurs="1" name="velocity" type="Velocity"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="acceleration" type="AccelerationType"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="data_gap" type="xs:boolean"/>
@@ -140,20 +174,120 @@
 				</xs:simpleType>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="halo">
+				<xs:annotation>
+					<xs:documentation>H2 if da greater than 90, H3 if da greater than 180, H4 if da greater than 270, indicating potential halo/partial halo/CME</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="H2"/>
+						<xs:enumeration value="H3"/>
+						<xs:enumeration value="H4"/>
+						<xs:enumeration value=""/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="cme_number">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="soho_cme_number" type="xs:string"/>
+						<xs:element name="stereoa_cme_number" type="xs:string"/>
+						<xs:element name="stereob_cme_number" type="xs:string"/>
+						<xs:element name="seeds_cme_number"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="event_detail_url" type="URL"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="position_description">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="B?"/>
+						<xs:enumeration value="BLimb-E"/>
+						<xs:enumeration value="BLimb-N"/>
+						<xs:enumeration value="BLimb-NE"/>
+						<xs:enumeration value="BLimb-NW"/>
+						<xs:enumeration value="BLimb-S"/>
+						<xs:enumeration value="BLimb-SE"/>
+						<xs:enumeration value="BLimb-SW"/>
+						<xs:enumeration value="BLimb-W"/>
+						<xs:enumeration value="Backside"/>
+						<xs:enumeration value=""/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="filar">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="DSF">
+							<xs:annotation>
+								<xs:documentation>disappearing solar filament</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="FILA">
+							<xs:annotation>
+								<xs:documentation>filament region</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MagneticField">
+		<xs:choice>
+			<xs:element name="b_max" type="MagneticFieldType">
+				<xs:annotation>
+					<xs:documentation>Maximum of the magnitude of the Interplanetary Magnetic Field</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="b_max_sheath" type="MagneticFieldType">
+				<xs:annotation>
+					<xs:documentation>Maximum magnetic field including the sheath region.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="TotalPressure">
+		<xs:choice>
+			<xs:element maxOccurs="1" minOccurs="0" name="pt" type="PressureType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="pt_max" type="PressureType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="pt_max_sheath" type="PressureType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PressureType">
+		<xs:choice>
+			<xs:element name="p_pPa"/>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="Velocity">
 		<xs:choice maxOccurs="1">
 			<xs:element maxOccurs="1" name="v" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_min" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_max" type="VelocityType"/>
+			<xs:element maxOccurs="1" name="v_max_sheath" type="VelocityType"/>
+			<xs:element maxOccurs="1" name="v_max_earth" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_init" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_20r" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_final" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_proton" type="VelocityType"/>
 			<xs:element maxOccurs="1" name="v_projected" type="VelocityType"/>
-			<xs:element name="v_uncertainty_factor" type="xs:float"/>
-			<xs:element name="v_plane_of_sky" type="VelocityType"/>
+			<xs:element maxOccurs="1" name="v_uncertainty_factor" type="xs:float"/>
+			<xs:element maxOccurs="1" name="v_plane_of_sky" type="VelocityType"/>
+			<xs:element maxOccurs="1" name="dv" type="VelocityType">
+				<xs:annotation>
+					<xs:documentation>Variation (1 sigma) of velocity over the width of the CME</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" name="dv_time" type="VelocityType">
+				<xs:annotation>
+					<xs:documentation>Temporal variation of solar wind speed over one event, negative value indicating solar wind is expanding. No value means the solar wind speed remains almost constant over the event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="magnetosonic_mach_number">
+				<xs:annotation>
+					<xs:documentation>The ratio of the velocity of fast mode waves to the Alfven velocity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:element name="velocity" type="Velocity"/>
@@ -175,7 +309,33 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="time_start" type="Time"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_end" type="Time"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="velocity" type="Velocity"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="velocity" type="Velocity"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="magnetic_field" type="MagneticField"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="flag" type="IcmeFlagType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="pressure">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element maxOccurs="unbounded" minOccurs="0" name="total_pressure" type="TotalPressure"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="p_dyn_mars" type="xs:float"/>
+						<xs:element maxOccurs="1" minOccurs="0" name="p_dyn_earth" type="xs:float"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="denisty">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="density_max_earth" type="xs:float"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="background_count_rate">
+				<xs:complexType>
+					<xs:choice>
+						<xs:element name="counts_max_goes"/>
+						<xs:element name="counts_max_mars"/>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="MagneticStormType">
@@ -222,20 +382,20 @@
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="category" type="SolarWindCategory"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="magnetic_cloud_id" type="xs:float"/>
 			<xs:element name="magnetic_cloud_quality">
-			<xs:simpleType>
-			<xs:restriction base="xs:integer">
-			<xs:maxInclusive value="3"></xs:maxInclusive>
-			<xs:minExclusive value="1"></xs:minExclusive>
-			</xs:restriction>
-			</xs:simpleType>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:maxInclusive value="3"/>
+						<xs:minExclusive value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:element>
-			<xs:element name="ip_shock_zone" maxOccurs="1" minOccurs="0">
-			<xs:simpleType>
-			<xs:restriction base="xs:integer">
-			<xs:maxInclusive value="4"></xs:maxInclusive>
-			<xs:minExclusive value="0"></xs:minExclusive>
-			</xs:restriction>
-			</xs:simpleType>
+			<xs:element maxOccurs="1" minOccurs="0" name="ip_shock_zone">
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:maxInclusive value="4"/>
+						<xs:minExclusive value="0"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -298,10 +458,24 @@
 			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="InterplanetaryShockFlag">
+		<xs:choice>
+			<xs:element name="data_available">
+				<xs:annotation>
+					<xs:documentation>Y or N indicates the availability of 32-Hz MAG data for this shock.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shock_type">
+				<xs:annotation>
+					<xs:documentation>Forward(F)/Reverse(R) Shock.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
 	<xs:complexType name="InterplanetaryShockType">
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="1" name="time_start" type="Time"/>
-			<xs:element name="zone">
+			<xs:element maxOccurs="1" minOccurs="0" name="zone">
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">
 						<xs:enumeration value="0"/>
@@ -314,16 +488,85 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="description" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="description" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="flag" type="InterplanetaryShockFlag"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="magnetic_ratio" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Ratio of downstream magnetic field intensity to upstream magnetic field intensity.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="normal_angle" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Shock normal angle.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="pressure_ratio" type="pressure_ratio_type">
+				<xs:annotation>
+					<xs:documentation>The ratio of plasma thermal pressure to magnetic pressure upstream of the shock, assumed as 1 when there is data gap (DG).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="velocity" type="Velocity"/>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="pressure_ratio_type">
+		<xs:choice>
+			<xs:element name="data_gap">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="dg"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="ratio" type="xs:float"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="IcmeFlagType">
+		<xs:choice>
+			<xs:element name="icme_type" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>? indicates an ambiguous event
+* indicates a hybrid event (i.e. Combined with another solar wind structure)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="icme_group">
+				<xs:annotation>
+					<xs:documentation>In the hypothesis that all ICMEs have a central flux rope, these three groups of Pt profiles are due to different approach distances to the central flux rope.
+Group 1 includes events that appear to be traversed near the ICME center, showing an apparent enhanced central Pt
+Group 3 represents ICMEs passed far away from the center, displaying a rapid rise and then gradual decay in Pt;
+Group 2 includes events with intermediate signatures.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="RadioType">
 		<xs:sequence>
-			<xs:element name="radio_245mhz"/>
-			<xs:element name="radio_10cm"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="radio_245mhz" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="radio_10cm" type="xs:integer"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="radio_seep_ii" type="xs:boolean"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="radio_seep_iv" type="xs:boolean"/>
-			<xs:element name="shortwave_fade"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="shortwave_fade"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="frequency" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="frequency_start" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="frequency_end" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="circular_polarization_percent" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="polarization_direction">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[LR]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="sfu_max" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="radio_class" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="data_url" type="URL"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="dyn_spectra" type="URL"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="EITWaveType">
@@ -341,12 +584,206 @@
 			<xs:pattern value="Q[0-5][ S]?"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:complexType name="ActiveRegion">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="nar" type="NAR"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="area" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="zurich_class" type="ZurichClass">
+				<xs:annotation>
+					<xs:documentation>McIntosh classification - first letter Modified Zurich Class</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="p_value">
+				<xs:annotation>
+					<xs:documentation>McIntosh classification - second letter p-value (assessment of the Largest Spot of the group)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[AHKRSXahkrsx]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="c_value">
+				<xs:annotation>
+					<xs:documentation>McIntosh classification - third letter p-value (assessment of the Spot Distribution)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:pattern value="[CIOXciox]"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="dlong_hg" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Longitudinal extent of the group in heliographic degrees</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="number_sunspots" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="magnetic_class" type="MagneticClass"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="region_type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="H-ALPHA PLAGES WITHOUT SPOTS"/>
+						<xs:enumeration value="REGIONS DUE TO RETURN"/>
+						<xs:enumeration value="REGIONS WITH SUNSPOTS"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ZurichClass">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-FH]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MagneticClass">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALPHA"/>
+			<xs:enumeration value="BETA"/>
+			<xs:enumeration value="BETA-DELTA"/>
+			<xs:enumeration value="BETA-GAMMA"/>
+			<xs:enumeration value="BETA-GAMMA-DELTA"/>
+			<xs:enumeration value="GAMMA"/>
+			<xs:enumeration value="GAMMA-DELTA"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="SolarStatistics">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_start" type="Time"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="radio_flux_10cm" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_sunspots" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="sunspot_area" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_new_regions" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="stanford_solar_mean_field" type="xs:integer"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="xray_bkg_flux" type="Magnitude"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_c_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_m_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_x_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_opts_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_opt1_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_opt2_flares" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_opt3_flares" type="Count"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ForbushDecrease">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_start" type="Time"/>
+			<xs:element name="flag_ssc">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="sc">
+							<xs:annotation>
+								<xs:documentation>Storm Sudden Commencement</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value=""/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="fe_magnitude" type="xs:float"/>
+			<xs:element name="kp_max" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum of the Kp-index in the associated geomagnetic deisturbance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="b_max" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum of the magnitude of the Interplanetary Magnetic Field in the associated solar wind disturbance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="v_solar_wind" type="Velocity">
+				<xs:annotation>
+					<xs:documentation>Maximum of the solar wind speed in the associated solar wind disturbance</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="axy_min" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum of the equatorial component of anisotropy during the Forbush Decrease. CHECK!!</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="az_r" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Range of change for the north-south component of anisotropy during the Forbush Decrease</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="duration_to_min" type="DeltaTime">
+				<xs:annotation>
+					<xs:documentation>Time from onset to the Forbush Decrease minimum</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="duration_to_max_decrement" type="DeltaTime">
+				<xs:annotation>
+					<xs:documentation>Time from the onset to the maximum decrement in the 10 GV Cosmic Rays</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dc_min" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum decrement between hourly counts of 10 GV Cosmic Rays</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="fe_to_b" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Ratio of the variation in the 10 GV cosmic rays to the maximum of the IMF intensity in the associated solar wind disturbance (fe_magnitude/b_max)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tilt" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Heliospheric current sheet tilt for day of the event</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StreamInteractionRegion">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="velocity" type="Velocity"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="total_pressure" type="TotalPressure"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="magnetic_field" type="MagneticField"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="flag" type="SirFlagType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="np_max" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Maximum proton number density in the event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SirFlagType">
+		<xs:choice>
+			<xs:element name="sir_type">
+				<xs:annotation>
+					<xs:documentation>* indicates a hybrid event combined by a SIR and another solar wind structure (e.g. an ICME).
+? Indicates an ambiguous event.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="shock_type">
+				<xs:annotation>
+					<xs:documentation>&quot;If there is a dicontinuity, this has one of the following values:
+               F it is a forward shock,
+               R it is a reverse shock,
+               / it is neither a forward or a reverse shock,
+               SR it is a slow reverse shock, from Justin Kasper&apos;s shock list of Wind.&quot;</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="Distance">
+		<xs:choice>
+			<xs:element name="distance_earth_mars_long" type="xs:float"/>
+		</xs:choice>
+	</xs:complexType>
 	<xs:element name="event_list" type="EventList"/>
 	<xs:element name="flare" type="FlareType"/>
 	<xs:element name="radio" type="RadioType"/>
 	<xs:element name="cme" type="CMEType"/>
+	<xs:element name="icme" type="InsituCMEType"/>
 	<xs:element name="proton_event" type="SolarEnergeticProtonType"/>
 	<xs:element name="magnetic_storm" type="MagneticStormType"/>
 	<xs:element name="eit" type="EITWaveType"/>
 	<xs:element name="solar_wind" type="SolarWindTransientEvent"/>
+	<xs:element name="active_region" type="ActiveRegion"/>
+	<xs:element name="solar_statistics" type="SolarStatistics"/>
+	<xs:element name="fobush_decrease" type="ForbushDecrease"/>
+	<xs:element name="sir" type="StreamInteractionRegion"/>
+	<xs:element name="interplanetary_shock" type="InterplanetaryShockType"/>
+	<xs:element name="distance" type="Distance"/>
 </xs:schema>
