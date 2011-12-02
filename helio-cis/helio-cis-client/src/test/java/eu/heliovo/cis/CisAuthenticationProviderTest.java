@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import eu.heliovo.shared.common.utilities.LogUtilities;
@@ -35,7 +36,7 @@ public class CisAuthenticationProviderTest
 	
 	}
 
-	@Test
+	@Ignore @Test
 	public void testAuthenticate() 
 	{
 		OldCisAuthenticationToken	authToken	=	new OldCisAuthenticationToken();
@@ -43,7 +44,7 @@ public class CisAuthenticationProviderTest
 		assertTrue(authToken.isAuthenticated());
 	}
 
-	@Test
+	@Ignore @Test
 	public void testSupports() 
 	{
 		fail("Not yet implemented");
