@@ -93,6 +93,13 @@
                         <artifactId>cxf-rt-transports-http</artifactId>
                         <version>${cxf.version}</version>
                     </dependency>
+                    <dependency>
+                        <groupId>org.apache.cxf</groupId>
+                        <artifactId>cxf-common-utilities</artifactId>
+                        <version>${cxf.version}</version>
+                        <type>jar</type>
+                        <scope>compile</scope>
+                    </dependency>
                 </dependencies>
 			</plugin>
 
