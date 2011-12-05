@@ -16,6 +16,10 @@ import eu.heliovo.dpas.ie.services.hqi.service.eu.helio_vo.xml.queryservice.v0_1
 import eu.heliovo.dpas.ie.services.hqi.transfer.HqiDataTO;
 import eu.heliovo.dpas.ie.services.hqi.utils.HqiUtils;
 
+import javax.xml.ws.BindingProvider;
+import javax.xml.ws.WebServiceRef;
+import java.util.Map;
+
 
 public class HQIProvider
 {
@@ -24,8 +28,17 @@ public class HQIProvider
 	public	void query(HqiDataTO uocTO) throws DataNotFoundException {
 		
 		try{
-	 		HelioQueryServiceService ss = new HelioQueryServiceService(new URL(HqiUtils.getWorkingHQIURLBasedType(uocTO.getWhichProvider())), SERVICE_NAME);
-	        HelioQueryService port = ss.getHelioQueryServicePort(); 
+	 		//KMB: HelioQueryServiceService ss = new HelioQueryServiceService(new URL(HqiUtils.getWorkingHQIURLBasedType(uocTO.getWhichProvider())), SERVICE_NAME);
+			HelioQueryServiceService ss = new HelioQueryServiceService();
+	        HelioQueryService port = ss.getHelioQueryServicePort();
+	    	BindingProvider bp = (BindingProvider)port;
+	        Map<String, Object> context = bp.getRequestContext();
+
+	        String newAddress = HqiUtils.getWorkingHQIURLBasedType(uocTO.getWhichProvider());
+	        //String newAddress = HqiUtils.getWorkingHQIURLBasedType(uocTO.getProviderType());
+	        //System.out.println("should be using " + newAddress);
+	        context.put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY,newAddress);
+	        System.out.println("newaddress url = " + newAddress);
 	        Query queryParameter=new Query();
 	        //queryParameter.setINSTRUMENT(Instrument.valueOf("RHESSI_HESSI_GMR"));
 	        //From Clause
@@ -40,6 +53,17 @@ public class HQIProvider
 	        //Instrument 
 	        String inst=uocTO.getHelioInstrument();
 	        queryParameter.setINSTRUMENT(Instrument.fromValue(inst));
+	       
+	        //KMB-CHECK 
+	        String whereClause = HqiUtils.getInstrumentWhereClause(uocTO.getWhichProvider(),inst);
+	        //String whereClause = HqiUtils.getInstrumentWhereClause(uocTO.getProviderType(),inst);
+	        System.out.println("whichprovider = " +uocTO.getWhichProvider() + " inst = " + inst + " prov type: " + uocTO.getProviderType() + " whereclause = " + whereClause);
+	        if(whereClause == null) {
+	        	queryParameter.setINSTRUMENT(Instrument.fromValue(inst));
+	        }else {
+	        	queryParameter.setWHERE(whereClause);
+	        }
+	        
 	        //End Time Clause
 	        List<String> endTime=new ArrayList<String>(1);
 	        endTime.add(uocTO.getDateTo());
@@ -48,15 +72,12 @@ public class HQIProvider
 	        //Setting resource 
 		    uocTO.setResource(_query__return.getVOTABLE().getRESOURCE().get(0));
 		    //Calling UOC provider
-	        HqiQueryDao uocQueryDao=(HqiQueryDao)DAOFactory.getDAOFactory(uocTO.getWhichProvider());
+	        HqiQueryDao uocQueryDao=(HqiQueryDao)DAOFactory.getDAOFactory(uocTO.getWhichProvider(),uocTO.getProviderType());
 	        uocQueryDao.generateVOTable(uocTO);
         }catch(Exception e){
         	e.printStackTrace();
         	throw new DataNotFoundException(e.getMessage());
         }
 
-	}
-	
-
-      
+	}     
 }

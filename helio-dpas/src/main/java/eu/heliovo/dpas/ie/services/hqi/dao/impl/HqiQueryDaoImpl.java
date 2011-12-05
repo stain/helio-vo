@@ -27,6 +27,7 @@ public class HqiQueryDaoImpl implements HqiQueryDao {
 		 uocDataTO.setDateTo(commonTO.getDateTo());
 		 uocDataTO.setOutput(commonTO.getPrintWriter());
 		 uocDataTO.setWhichProvider(commonTO.getWhichProvider());
+		 uocDataTO.setProviderType(commonTO.getProviderType());
 		 uocDataTO.setVotableDescription(commonTO.getVotableDescription());
 		 uocDataTO.setBufferOutput(commonTO.getBufferOutput());
 		 uocDataTO.setStatus(commonTO.getStatus());

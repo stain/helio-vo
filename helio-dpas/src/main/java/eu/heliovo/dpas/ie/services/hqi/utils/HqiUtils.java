@@ -38,6 +38,17 @@ public class HqiUtils {
 		 }
 		  return null;
 	  }
+	 
+	 
+	 
+
+	  public static String getInstrumentWhereClause(String type,String instrument) throws Exception{
+		System.out.println("where call: " + "query.where."+type.toLowerCase() + "." + instrument);
+		  return ConfigurationProfiler.getInstance().getProperty("query.where."+type.toLowerCase() + "." + instrument);
+
+	  }				
+	 
+	 
 	  
 	 /**
 	  * Getting working URL for HQL,based on Type.
@@ -49,7 +60,8 @@ public class HqiUtils {
 		  boolean noConnection = true;
 		  int count=0;
 		  String urlValue="";
-		  HelioQueryServiceService ss =null;
+		  java.net.URLConnection urlc = null;
+		  //HelioQueryServiceService ss =null;
 		  try{
 			  String sHQIValues=ConfigurationProfiler.getInstance().getProperty("query.url."+type.toLowerCase());
 			  String[] arrayHQI=sHQIValues.split("::");
@@ -58,7 +70,8 @@ public class HqiUtils {
 			  //While loop
 			  while(noConnection){
 				  try{
-					  ss = new HelioQueryServiceService(new URL(urlValue), SERVICE_NAME);
+					  //ss = new HelioQueryServiceService(new URL(urlValue), SERVICE_NAME);
+					  urlc = new URL(urlValue).openConnection();
 					  noConnection=false;
 				  }catch(Exception e)
 				  {
@@ -71,8 +84,11 @@ public class HqiUtils {
 				  }
 			  }
 		  }finally{
-			  if(ss!=null)
-				  ss=null;
+			  if(urlc != null) {
+				  urlc = null;
+			  }
+			  //if(ss!=null)
+				  //ss=null;
 			  if(noConnection==true)
 				  throw new Exception(type+" is not running,please check the hql-config.txt file.");
 		  }
