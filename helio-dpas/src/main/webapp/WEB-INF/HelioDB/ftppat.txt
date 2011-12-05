@@ -18,3 +18,43 @@ PROBA2__LYRA,DIR,HTTP,lyra/data/bsd/,yyyy,MM/dd,proba2.oma.be,anonymous,,[0-9]{8
 BLEN__PHOENIX_2,DIR,HTTP,solarradio/data/1998-2009_Phoenix-2/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{14},yyyyMMddHHmmss,1,,,,
 RHESSI__HESSI_GMR,DIR,HTTP,hessidata/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{8}-[0-9]{6},yyyyMMdd'_'HHmmss,1,
 RHESSI__HESSI_HXR,DIR,HTTP,hessidata/,yyyy,MM/dd,soleil.i4ds.ch,anonymous,,[0-9]{8}-[0-9]{6},yyyyMMdd'_'HHmmss,1,
+
+THEMIS_A__FGM,DIR,HTTP,data/themis/tha/l2/fgm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_A__ESA,DIR,HTTP,data/themis/tha/l2/esa/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_A__SST,DIR,HTTP,data/themis/tha/l2/sst/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_A__SCM,DIR,HTTP,data/themis/tha/l2/scm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_A__EFI,DIR,HTTP,data/themis/tha/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+
+THEMIS_B__FGM,DIR,HTTP,data/themis/thb/l2/fgm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_B__ESA,DIR,HTTP,data/themis/thb/l2/esa/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_B__SST,DIR,HTTP,data/themis/thb/l2/sst/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_B__SCM,DIR,HTTP,data/themis/thb/l2/scm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_B__EFI,DIR,HTTP,data/themis/thb/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+
+THEMIS_C__FGM,DIR,HTTP,data/themis/thc/l2/fgm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_C__ESA,DIR,HTTP,data/themis/thc/l2/esa/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_C__SST,DIR,HTTP,data/themis/thc/l2/sst/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_C__SCM,DIR,HTTP,data/themis/thc/l2/scm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_C__EFI,DIR,HTTP,data/themis/thc/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+
+THEMIS_D__FGM,DIR,HTTP,data/themis/thd/l2/fgm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_D__ESA,DIR,HTTP,data/themis/thd/l2/esa/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_D__SST,DIR,HTTP,data/themis/thd/l2/sst/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_D__SCM,DIR,HTTP,data/themis/thd/l2/scm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_D__EFI,DIR,HTTP,data/themis/thd/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+
+THEMIS_E__FGM,DIR,HTTP,data/themis/the/l2/fgm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_E__ESA,DIR,HTTP,data/themis/the/l2/esa/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_E__SST,DIR,HTTP,data/themis/the/l2/sst/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_E__SCM,DIR,HTTP,data/themis/the/l2/scm/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+THEMIS_E__EFI,DIR,HTTP,data/themis/the/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,anonymous,,[0-9]{8},yyyyMMdd,1,,
+
+
+#http://themis.stp.isas.jaxa.jp/data/themis/  for THEMIS but need to ask Bob it has lots of instruments and spacecrafts
+#http://themis.stp.isas.jaxa.jp/data/themis/th*/l2/xxxx/20007/
+#five spacecraft tha, thb, thc, thd, the
+#data sets in /l2
+#the by year, e.g. 2007  (one file per day)
+##many instruments xxxx
+#(May be more logical access for THEMIS than via CDAWeb)
+
