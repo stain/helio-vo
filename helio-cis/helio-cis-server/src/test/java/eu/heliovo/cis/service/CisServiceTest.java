@@ -301,7 +301,14 @@ public class CisServiceTest
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
 
-
+	@Test
+	public void testGetPreferences() 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getPreferences...");		
+		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+	
 	private void removeUser(String user_name, String user_pwd) throws CisServiceException, SecurityUtilitiesException 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - removeUser("+user_name+","+user_pwd+")...");
