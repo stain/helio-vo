@@ -29,6 +29,12 @@ public class HttpProvider implements DirQueryDao
 	@Override
 	public List<DPASResultItem> query(String instrument, Calendar dateFrom, Calendar dateTo,int maxResults) throws Exception
 	{
+		/*
+		 * KMB-CHECK
+		 * IF(instrument.equals("LYRA")) {
+		 *   dateFrom.setHour(0);
+		 * }
+		 */
 		return explorer.query(dateFrom.getTime(), dateTo.getTime());
 	}
 

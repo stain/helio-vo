@@ -19,7 +19,14 @@ public abstract class DirInsAnlyFactory {
 	 private static FtpDataTO ftpTO=new FtpDataTO();
 	 private static HttpDataTO httpTO=new HttpDataTO();
 	  public static DPASDataProvider getDirProvider(DirDataTO dirTO) throws Exception {
-		DirType type=DirType.valueOf(dirTO.getInstrument());
+		DirType type= null;
+		try {
+			type = DirType.valueOf(dirTO.getInstrument());
+		} catch (IllegalArgumentException ex) {  
+	        //nope
+			type = DirType.valueOf("HTTP");
+		}
+		
 	    switch (type) {
 	      case PHOENIX_2: 
 	          return new Phoenix2Provider();
@@ -120,12 +127,34 @@ public abstract class DirInsAnlyFactory {
 				 }
 			//
 		    	return new HttpProvider(httpTO);
+	    	case HTTP		:
+		    	 ResultTO[] resTO =HsqlDbUtils.getInstance().getFtpAccessTableBasedOnInst(dirTO.getParaInstrument());
+				 //
+				 if(resTO!=null && resTO.length>0 && resTO[0]!=null){
+					 httpTO.setYearPattern(resTO[0].getYearPattern());
+					 String monthPattern = resTO[0].getMonthPattern();
+					 
+					 if(monthPattern == null || monthPattern.equals("null")) {
+						 monthPattern = "";
+					 }
+					 httpTO.setMonthPattern(monthPattern);
+					 httpTO.setHttpHost(resTO[0].getFtpHost());
+					 httpTO.setWorkingDir(resTO[0].getWorkingDir());
+					 httpTO.setHttpUser(resTO[0].getFtpUser());
+					 httpTO.setHttpPwd(resTO[0].getFtpPwd());
+					 httpTO.setHttpPattern(resTO[0].getFtpPattern());
+					 httpTO.setHttpDateFormat(resTO[0].getFtpDatePattern());
+					 httpTO.setProviderSource(dirTO.getProviderSource());
+					 httpTO.setEndUrl("");
+				 }
+			//
+		    	return new HttpProvider(httpTO);
 	      default        : 
 	          return null;
 	    }
 	  }
 	
 	enum DirType{
-		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP,HALPHA,SWAP,LYRA,Halpha,HalphaHASTA
+		PHOENIX_2,HESSI_GMR,HESSI_HXR,SP4D,FGIV,XRT,NORH,FTP,HALPHA,SWAP,LYRA,Halpha,HalphaHASTA,HTTP
 	};
 }

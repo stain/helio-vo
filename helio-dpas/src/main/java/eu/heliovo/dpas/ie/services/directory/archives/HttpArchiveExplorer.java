@@ -49,6 +49,7 @@ public class HttpArchiveExplorer
     		String workingDir=httpTO.getWorkingDir();
         	if(workingDir!=null){
         		String[] dirArray=workingDir.split("::");
+        		//check if there is a '/' at the end, if not then do the date conversion first.
     	    	for(int count=0;count<dirArray.length;count++){
     	    		if(HttpUtils.checkHttpUrlStatus("http://"+httpTO.getHttpHost()+"/"+dirArray[count])){
 	    	    		DateIterator i = new DateIterator(from, to,"d");
@@ -68,6 +69,7 @@ public class HttpArchiveExplorer
 			throw new Exception(fe.getMessage());
 		}catch(Exception e)
 		{
+			e.printStackTrace();
 			throw new Exception("Exception occurred while getting details from http. ");
 		}
 		

@@ -73,7 +73,11 @@ public class HttpUtils {
 				//System.out.println("FTPFile: " + ftpFile.getName() +  ";"+ftpFile.getTimestamp().getTime()+" : "+ FileUtils.byteCountToDisplaySize(ftpFile.getSize()));
 				System.out.println("fromDate  "+fromDate.getTime()+"  currCalendar "+currCalendar.getTime()+" toDate "+toDate.getTime());
 				if(currCalendar.after(fromDate) && currCalendar.before(toDate)){
-					currDpasResult.urlFITS	= httpTO.getWorkingDir()+"/"+httpTO.getHttpFileName();
+					if(httpTO.getHttpFileName().startsWith("/")) {
+						currDpasResult.urlFITS	= "http://" + httpTO.getHttpHost() + httpTO.getHttpFileName();
+					}else {
+						currDpasResult.urlFITS	= httpTO.getWorkingDir()+"/"+httpTO.getHttpFileName();
+					}
 					currDpasResult.measurementStart	=currCalendar;
 					currDpasResult.fileSize =	"";
 					results.add(currDpasResult);
@@ -159,12 +163,19 @@ public class HttpUtils {
 	
 	public static boolean checkHttpUrlStatus(String url) throws UrlNotFoundException{
 		boolean status=false;
-		try{
-			Document doc = Jsoup.connect(url).get();
-			status=true;
-		}catch(Exception e)
-		{
-			throw new UrlNotFoundException(e.getMessage());
+		//Almost all HTTP hostings seem to end with a '/' the one or two that don't require.
+		//Concat yyyy onto directories.  Hence were not going to check those one or two for status
+		//and let it fail further on when trying to retrieve the data.
+		if(!url.endsWith("/")) {
+			status = true;
+		}else {
+			try{
+				Document doc = Jsoup.connect(url).get();
+				status=true;
+			}catch(Exception e)
+			{
+				throw new UrlNotFoundException(e.getMessage());
+			}
 		}
 		return status;
 	}
