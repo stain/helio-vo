@@ -427,7 +427,7 @@ function History() {
                             var td2 =$("<td></td>");
                             
                             td2.append(selector);
-                            td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
+                            td2.append($("<div  style='float:right; margin-left: 17px;' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
                             tr2.append(td2);
                             table2.append(tr2);
                         
@@ -588,7 +588,7 @@ function History() {
                         img.attr('helio_type','result');
                     }
                     td.append(img);
-                    td.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
+                    td.append($("<div  style='float:right; margin-left: 17px;' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
 
                     img.draggable({
                         revert: "invalid",

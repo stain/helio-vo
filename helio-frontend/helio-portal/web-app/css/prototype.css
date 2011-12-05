@@ -274,10 +274,12 @@ display:table-cell;
 #history #historyContent .customLabel{
     width:10px;
     height:10px;
-
-
-
 }
+
+#history #historyContent img.history_draggable{
+	float:left;
+}
+
 .solid{
 
 }

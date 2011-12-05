@@ -332,7 +332,7 @@ function ActionViewer() {
                                 img.attr('helio_type','inst');
 
                                 td2.append(img);
-                                td2.append($("<div  style='margin-left:10px;margin-top:10px;;float:right' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
+                                td2.append($("<div  style='float:right; margin-left: 17px;' class='closeme ui-state-default ui-corner-all'><span class='ui-icon ui-icon-close'></span></div>"));
 
                                 img.draggable({
                                     revert: "invalid",
