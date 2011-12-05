@@ -223,6 +223,7 @@ public class CisServiceImpl implements CisService
 	private void printStatus() 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
+		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
 //		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing printStatus()");
 //		logUtilities.printLongLogEntry(repository.getAllUserNames().toString());
 //		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");		
