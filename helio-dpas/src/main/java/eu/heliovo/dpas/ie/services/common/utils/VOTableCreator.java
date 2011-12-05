@@ -33,13 +33,33 @@ public class VOTableCreator {
     	}else{
     		out = comCriteriaTO.getBufferOutput();
     	}
+    	String namespaceURI = "";
     	//Adding response header start for WebService VOTABLE.
 		if(status!=null && !status.equals("")  &&  (longRunning==null || longRunning.equals(""))){
-			 out.write("<helio:queryResponse xmlns:helio=\"http://helio-vo.eu/xml/QueryService/v0.1\">");
+			if(comCriteriaTO.getNamespaceURI() != null) {
+				namespaceURI = comCriteriaTO.getNamespaceURI();
+			}else {
+				namespaceURI = "http://helio-vo.eu/xml/QueryService/v0.1";
+			}
+			 out.write("<helio:queryResponse xmlns:helio=\"" + namespaceURI + "\">");
 		}else if(longRunning!=null && longRunning.equals("LongRunning")){
-			out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.1\">");
+			if(comCriteriaTO.getNamespaceURI() != null) {
+				namespaceURI = comCriteriaTO.getNamespaceURI();
+			}else {
+				namespaceURI = "http://helio-vo.eu/xml/LongQueryService/v0.9";
+			}
+			out.write("<helio:resultResponse xmlns:helio=\"" + namespaceURI + "\">");
 		}
-		out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
+		/*
+		 * if(comCriteriaTO.getVotable1_2()) {
+		 * 	out.write( "<VOTABLE version='1.2' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.2\">\n" );
+		 * }
+		 */
+		if(comCriteriaTO.getVotable1_2()) {
+			out.write( "<VOTABLE version='1.2' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.2\">\n" );
+		}else {
+			out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
+		}
 		//Checking for multiple Resources
 		if((comCriteriaTO.getAllDateFrom()!=null && comCriteriaTO.getAllDateFrom().split(",").length>1) || (comCriteriaTO.getAllDateTo()!=null && comCriteriaTO.getAllDateTo().split(",").length>1) || (comCriteriaTO.getAllInstrument()!=null && comCriteriaTO.getAllInstrument().split(",").length>1))
 			out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getFullRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
@@ -107,6 +127,13 @@ public class VOTableCreator {
     		}else if(longRunning!=null && longRunning.equals("LongRunning")){
     			out.write("<helio:resultResponse xmlns:helio=\"http://helio-vo.eu/xml/LongQueryService/v0.1\">");
     		}
+    		
+    		/*
+    		 if(comCriteriaTO.getVotable1_2()) {
+    		 out.write( "<VOTABLE version='1.2' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.2\">\n" );
+    		 }
+    		 */
+    		
         	out.write( "<VOTABLE version='1.1' xmlns=\"http://www.ivoa.net/xml/VOTable/v1.1\">\n" );
     	}
 		//Error resource
@@ -114,6 +141,7 @@ public class VOTableCreator {
 	        out.write( "<DESCRIPTION>"+comCriteriaTO.getVotableDescription()+"</DESCRIPTION>\n" );
 	        out.write( "<INFO name=\"QUERY_STATUS\" value=\""+comCriteriaTO.getQuerystatus()+"\"/>");
 	        out.write( "<INFO name=\"EXECUTED_AT\" value=\""+now()+"\"/>");
+	        //out.write("<INFO name=\"QUERY_URL\" >"+"<![CDATA["+CommonUtils.getRequestUrl(comCriteriaTO)+"]]>"+"</INFO>");
 	        out.write( "<INFO name=\"HELIO_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getHelioInstrument()+"\"/>");
 	        if(comCriteriaTO.getInstrument()!=null && !comCriteriaTO.getInstrument().trim().equals(""))
 	        	out.write( "<INFO name=\"PROVIDER_INSTRUMENT_NAME\" value=\""+comCriteriaTO.getInstrument()+"\"/>");

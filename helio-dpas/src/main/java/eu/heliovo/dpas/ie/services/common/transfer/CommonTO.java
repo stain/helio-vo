@@ -67,6 +67,22 @@ public class CommonTO {
 	private String whereClause;
 	private String join;
 	private String tableName;
+	private boolean votable1_2;
+	private String namespaceURI;
+	
+	/*
+	 * KMB-CHECK
+	 * public void setVotable1_2(boolean votable1_2) {this.votable1_2=votable1_2;}
+	 * public boolean getVotable1_2(){return this.votable1_2;}
+	 * 
+	 * 
+	 */
+	
+	public void setVotable1_2(boolean votable1_2) {this.votable1_2=votable1_2;}
+	public boolean getVotable1_2(){return this.votable1_2;}
+
+	public void setNamespaceURI(String namespaceURI) {this.namespaceURI=namespaceURI;}
+	public String getNamespaceURI(){return this.namespaceURI;}
 	
 	public String getFtpHost() {
 		return ftpHost;

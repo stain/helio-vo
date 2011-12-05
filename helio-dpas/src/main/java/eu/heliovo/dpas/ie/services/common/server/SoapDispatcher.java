@@ -100,6 +100,25 @@ public class SoapDispatcher implements Provider<Source> {
 			 Element inputDoc=toDocument(request);
 			 String interfaceName = inputDoc.getLocalName().intern();
 		     boolean votable=true;
+		     boolean votable1_2 = false;
+		     String namespaceURI = inputDoc.getNamespaceURI();
+		     if(namespaceURI != null && (namespaceURI.equals("http://helio-vo.eu/xml/QueryService/v1.0b") ||
+					 namespaceURI.equals("http://helio-vo.eu/xml/LongQueryService/v1.0b"))) {
+		    	 commonTO.setVotable1_2(true);				 
+			 }
+			 
+			 if(namespaceURI != null && namespaceURI.trim().length() > 0) {
+				 commonTO.setNamespaceURI(namespaceURI);
+			 }
+		     
+		     /*
+		      *
+		      * 
+		      if(inputDoc.getNamespaceURI().equals("http://www.something.com/votable1.2")) {
+		        votable1_2 = true;
+		      }
+		      * 
+		      */
 		     
 		    if(inputDoc.getElementsByTagNameNS("*","STARTTIME").getLength()>0 && inputDoc.getElementsByTagNameNS("*","STARTTIME").item(0).getFirstChild()!=null){
 				 NodeList nodeList=inputDoc.getElementsByTagNameNS("*","STARTTIME");
@@ -176,6 +195,7 @@ public class SoapDispatcher implements Provider<Source> {
 		     commonTO.setRequest(req);
 		     commonTO.setContextUrl(CommonUtils.getUrl(req));
 		     commonTO.setSelect(sSelect);
+		     //commonTo.setVotable1_2(votable1_2);
 		     //Start time
 		     if(startTime!=null && !startTime.toString().trim().equals(""))
 		    	 commonTO.setAllDateFrom(CommonUtils.arrayToString(startTime,","));

@@ -135,18 +135,18 @@ public class CommonUtils {
 	    	 commonTO.setHelioInstrument(resultTo[0].getHelioInst());
 	    	 System.out.println(" : Helio Instrument : "+resultTo[0].getHelioInst());
 	    	 commonTO.setWhichProvider(resultTo[0].getProviderName());
-	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderName());
+	    	 System.out.println(" : Provider Name : "+resultTo[0].getProviderName());
 	    	 commonTO.setInstrument(resultTo[0].getInst());
 	    	 System.out.println(" : Instrument : "+resultTo[0].getInst());
 	    	 commonTO.setProviderType(resultTo[0].getProviderType());
-	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderType());
+	    	 System.out.println(" : Provider Type : "+resultTo[0].getProviderType());	    	 
 	    	 commonTO.setMissionName(resultTo[0].getObsId());
 	    	 commonTO.setProviderSource(resultTo[0].getProviderSource());
 	    	 
 	    	 //Detector Field
 	    	 commonTO.setDetectiveField(resultTo[0].getDetectiveField());
 		     //Calling DAO factory to connect PROVIDERS
-		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof VsoQueryDao ){
+		     if(DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType()) instanceof VsoQueryDao ){
 		    	 System.out.println("--->  VSO Provider intiated--->");
 		    	 System.out.println(" : VSO Provider Name : "+resultTo[0].getProviderSource());
 		    	 commonTO.setProviderSource(resultTo[0].getObsId());
@@ -155,27 +155,27 @@ public class CommonUtils {
 		    	 VsoQueryDao vsoQueryDao= (VsoQueryDao) DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 System.out.println("2-ok commonto after copy from resultto = " + commonTO.getDetectiveField());
 	         	 vsoQueryDao.query(commonTO);
-		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof HqiQueryDao ){
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType()) instanceof HqiQueryDao ){
 		    	 commonTO.setVotableDescription("UOC query response");
 		    	 System.out.println("--->  UOC Provider intiated--->");
 		    	 System.out.println(" : Table name for UOC  : "+resultTo[0].getObsId());
 		    	 commonTO.setInstrument(resultTo[0].getObsId());
-		    	 HqiQueryDao hqiQueryDao=(HqiQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
+		    	 HqiQueryDao hqiQueryDao=(HqiQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType());
 		    	 hqiQueryDao.query(commonTO);
-		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof CdaWebQueryDao ){
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType()) instanceof CdaWebQueryDao ){
 		    	 System.out.println("--->  CDAWEB Provider intiated--->");
 		    	 System.out.println(" : Mission name for CDAWEB  : "+resultTo[0].getObsId());
 		    	 commonTO.setVotableDescription("CDAWEB query response "+resultTo[0].getProviderSource());
 		    	 CdaWebQueryDao cdaWebQueryDao=(CdaWebQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 cdaWebQueryDao.query(commonTO);
-		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof DirQueryDao ){
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType()) instanceof DirQueryDao ){
 		    	 commonTO.setVotableDescription("Archive query response "+resultTo[0].getProviderSource());
 		    	 System.out.println("--->  Directory Provider intiated--->");
 		    	 DirQueryDao dirQueryDao=(DirQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
 		    	 dirQueryDao.query(commonTO);
 		    	 //Http Utils
 		    	 HttpUtils.setClearResults();
-		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider()) instanceof SoteriaQueryDao ){
+		     }else if(DAOFactory.getDAOFactory(commonTO.getWhichProvider(),commonTO.getProviderType()) instanceof SoteriaQueryDao ){
 		    	 commonTO.setVotableDescription("Soteria query response "+resultTo[0].getProviderSource());
 		    	 System.out.println("--->  Soteria Provider intiated--->");
 		    	 SoteriaQueryDao soteriaQueryDao=(SoteriaQueryDao)DAOFactory.getDAOFactory(commonTO.getWhichProvider());
