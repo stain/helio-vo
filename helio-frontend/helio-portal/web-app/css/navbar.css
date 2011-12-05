@@ -2,10 +2,54 @@
     width:100%; position:absolute; left:0; top:80px; overflow:hidden; background:url(../images/navbar/ulback_yellow.png) repeat-x;
 }
 #menu {padding:0; margin:0; list-style:none; float:left; height:40px; position:relative; left:50%;}
-#menu li {float:left; position:relative; right:50%; margin:0 2px;}
-#menu li a {display:block; height:40px; line-height:40px; padding:0 15px 0 0; float:left; color:#111177; text-decoration:none;}
-#menu li a b {display:block; height:40px; float:left; padding:0 0 0 15px; cursor:pointer;}
-#menu li a:hover{background:url(../images/navbar/button_yellow.png) no-repeat right top; line-height:36px;}
-#menu li a:hover b{background:url(../images/navbar/button_yellow.png) no-repeat left top; line-height:36px;}
+#login {padding:0; margin:0; list-style:none; float:right; height:40px; position:relative;}
+#menu li, #login li {float:left; position:relative; right:50%; margin:0 2px;}
+#menu li a, #login li a {display:block; height:40px; line-height:40px; padding:0 15px 0 0; float:left; color:#111177; text-decoration:none;}
+#menu li a b, #login li a b {display:block; height:40px; float:left; padding:0 0 0 15px; cursor:pointer;}
+#menu li a:hover, #login li a:hover {background:url(../images/navbar/button_yellow.png) no-repeat right top; line-height:36px;}
+#menu li a:hover b, #login li a:hover b {background:url(../images/navbar/button_yellow.png) no-repeat left top; line-height:36px;}
+#login li span#loginLink {display:block; height:40px; line-height:40px; padding:0 0 0 10px; float:left; color:#111177; text-decoration:none;}
 #menu .first{background:url(../images/navbar/button_yellow.png) no-repeat right top; line-height:36px;}
 #menu .first b{background:url(../images/navbar/button_yellow.png) no-repeat left top; line-height:36px;}
+
+/**
+  * The login form.
+  */
+#ajaxLogin, #ajaxRegister {
+   margin: 15px 0px; padding: 0px;
+   text-align: center;
+}
+#ajaxLogin .inner, #ajaxRegister .inner {
+   width: 260px;
+   margin:0px auto;
+   text-align:left;
+   padding:10px;
+   border-top:1px dashed #499ede;
+   border-bottom:1px dashed #499ede;
+   background-color:#EEF;
+}
+#ajaxLogin .inner .fheader, #ajaxRegister .inner .fheader {
+   padding:4px;margin:3px 0px 3px 0;color:#2e3741;font-size:14px;font-weight:bold;
+}
+#ajaxLogin .inner .cssform p, #ajaxRegister .inner .cssform p {
+   clear: left;
+   margin: 0;
+   padding: 5px 0 8px 0;
+   padding-left: 105px;
+   border-top: 1px dashed gray;
+   margin-bottom: 10px;
+   height: 1%;
+}
+#ajaxLogin .inner .cssform input[type='text'], #ajaxRegister .inner .cssform input[type='text'] {
+   width: 120px;
+}
+#ajaxLogin .inner .cssform label, #ajaxRegister .inner .cssform label {
+   font-weight: bold;
+   float: left;
+   margin-left: -105px;
+   width: 100px;
+}
+#ajaxLogin .inner .login_message, #ajaxRegister .inner .login_message {color:red;}
+#ajaxLogin .inner .text_, #ajaxRegister .inner .text_ {width:120px;}
+#ajaxLogin .inner .chk, #ajaxRegister .inner .chk {height:12px;}
+.errorMessage { color: red; }

@@ -1,8 +1,8 @@
-package eu.heliovo.hfe.test
+package eu.heliovo.hfe.controller
 
 import grails.test.*
 
-class PrototypeControllerTests extends ControllerUnitTestCase {
+class UserControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

@@ -9,12 +9,20 @@ import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.clientapi.query.HelioQueryResult
 import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService
+import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.registryclient.HelioServiceName
 import eu.heliovo.registryclient.ServiceCapability
+import grails.util.GrailsUtil
 
 class BootStrap {
-
+    
      def init = { servletContext ->
+         // init roles
+         def userRole = Role.findByAuthority("ROLE_USER");
+         if (!userRole) {
+             userRole = new Role(authority: 'ROLE_USER').save(flush: true)
+         }
+         
          // fire up system.
          def helioClient = new HelioClient();
          
@@ -38,6 +46,17 @@ class BootStrap {
          VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
          ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
          servletContext.eventListDescriptors = resvt;
+         
+         switch(GrailsUtil.environment){
+             case "development":
+                 //org.hsqldb.util.DatabaseManager.main()
+             break
+             case "test":
+             break       
+             case "production":
+             break
+           }
+         
      }
      def destroy = {
      }

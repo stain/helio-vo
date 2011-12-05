@@ -40,7 +40,7 @@ class VoTableController {
                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
            }
            
-           def helioResult = voTableService.parseVoTable(file);
+           def helioResult = voTableService.parseAndSaveVoTable(file);
            
            def serviceName = 'upload';
            //ResultVT result = new ResultVT(votable);

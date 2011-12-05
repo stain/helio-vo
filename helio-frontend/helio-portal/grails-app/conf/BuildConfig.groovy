@@ -43,5 +43,5 @@ grails.war.resources = { stagingDir ->
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-jaxrpc-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-saaj-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")
-	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-log4j12-1.6.1.jar")
+	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-log4j12-1.6.1.jar")    
 }

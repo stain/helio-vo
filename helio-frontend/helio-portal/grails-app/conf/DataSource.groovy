@@ -3,6 +3,7 @@ dataSource {
     driverClassName = "org.hsqldb.jdbcDriver"
     username = "sa"
     password = ""
+    
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -15,6 +16,7 @@ environments {
 		dataSource {
 			dbCreate = "update" // one of 'create', 'create-drop','update'
 			url = "jdbc:hsqldb:mem:devDB"
+            logSql = false
 		}
 	}
 	test {

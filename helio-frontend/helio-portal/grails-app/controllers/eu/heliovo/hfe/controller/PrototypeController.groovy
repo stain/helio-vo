@@ -12,6 +12,7 @@ import javax.xml.transform.stream.StreamSource
 
 import net.ivoa.xml.votable.v1.*
 
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils;
 import org.springframework.web.context.request.RequestContextHolder
 
 import ch.i4ds.helio.frontend.parser.*
@@ -30,7 +31,6 @@ import eu.heliovo.clientapi.utils.STILUtils
 import eu.heliovo.hfe.model.HelioMemoryBar
 import eu.heliovo.hfe.model.HelioQuery
 import eu.heliovo.hfe.service.*
-import eu.heliovo.hfe.service.VoTableService;
 import eu.heliovo.registryclient.*
 
 /**
@@ -48,7 +48,6 @@ class PrototypeController {
      * Ref to the ResultVTManagerService
      */
     def ResultVTManagerService resultVTManagerService;
-    
     
     /**
      * Upload a file
@@ -294,7 +293,6 @@ class PrototypeController {
      */
     def asyncSaveHistoryBar = {
         log.info("asyncSaveHistoryBar =>" + params);
-
         
         HelioMemoryBar item = HelioMemoryBar.findByHUID(params.HUID);
         

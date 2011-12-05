@@ -82,4 +82,15 @@ log4j = {
     root {
         additivity = true;
     }
-}     
+}    
+ 
+// Added by the Spring Security Core plugin:
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'eu.heliovo.hfe.model.security.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'eu.heliovo.hfe.model.security.UserRole'
+grails.plugins.springsecurity.authority.className = 'eu.heliovo.hfe.model.security.Role'
+
+grails.plugins.springsecurity.providerNames = [
+    'daoAuthenticationProvider',
+    //'cisAuthenticationProvider',
+    'rememberMeAuthenticationProvider',
+    'anonymousAuthenticationProvider']

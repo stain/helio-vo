@@ -12,6 +12,11 @@ import eu.heliovo.clientapi.utils.STILUtils
  */
 class LocalHelioResult extends HelioResult {
     /**
+     * Original name of the file
+     */
+    String originalFileName;
+    
+    /**
      * The content of the VoTable stored in a large blob
      */
     String voTableContent;

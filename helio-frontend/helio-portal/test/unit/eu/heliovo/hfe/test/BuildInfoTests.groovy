@@ -1,14 +1,13 @@
 package eu.heliovo.hfe.test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotNull
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.Test
 
-public class BuildInfoTest {
+public class BuildInfoTests {
 	
-    @Ignore @Test public void getProperties() {
-		/*BuildInfo instance = BuildInfo.getInstance();
+    @Test public void getProperties() {
+/**		BuildInfo instance = BuildInfo.getInstance();
 		assertNotNull(instance.getBuildID());
 		assertNotNull(instance.getBuildNumber());
 		assertNotNull(instance.getBuildTag());
@@ -17,7 +16,6 @@ public class BuildInfoTest {
 		assertNotNull(instance.getJenkinsUrl());
 		assertNotNull(instance.getJobName());
 		assertNotNull(instance.getSvnRevision());
-		assertNotNull(instance.getWorkspacePath());*/
+		assertNotNull(instance.getWorkspacePath()); */
 	}
-
 }
