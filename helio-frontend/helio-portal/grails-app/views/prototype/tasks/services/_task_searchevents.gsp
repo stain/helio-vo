@@ -99,12 +99,12 @@
 
 
                   </tr>
-                  <tr align="center"><td><div class="custom_button" id="result_button">Display</div></td></tr>
+                  <tr align="center"><td><div class="custom_button" id="result_button">Search</div></td></tr>
                 </table>
               </td>
               <td valign="top">
                 
-                <div class="message"><b>Step 3</b><br/>Click on the 'Display' button once you are ready to proceed </div>
+                <div class="message"><b>Step 3</b><br/>Click on the 'Search' button once you are ready to proceed </div>
 
               </td>
             </tr>
