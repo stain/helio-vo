@@ -320,6 +320,7 @@ public class FileBasedHITRepository implements HITRepository
 			return false;
 		else
 		{
+			System.out.println(pwdHash + " <--> " + getHashFor(user));
 			return (pwdHash.equals(getHashFor(user)));
 //				return (secUtils.computeHashOf(pwd).equals(getHashFor(user)));
 		}
