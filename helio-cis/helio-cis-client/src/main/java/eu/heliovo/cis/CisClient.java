@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import eu.heliovo.cis.service.CisService;
 import eu.heliovo.cis.service.CisServiceException_Exception;
 import eu.heliovo.cis.service.CisServiceService;
-import eu.heliovo.shared.common.utilities.LogUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilitiesException;
 import eu.heliovo.shared.props.HelioFileUtil;
@@ -96,7 +95,7 @@ public class CisClient
 	}
 
 	/**
-	 * Test if a user with the given name exists
+	 * Test if a user with the given name exists.
 	 * @param userName the users name
 	 * @return true if the user exists.
 	 * @throws CisClientException
@@ -128,11 +127,11 @@ public class CisClient
 		} 
 		catch (CisServiceException_Exception e) 
 		{
-			throw new CisClientException();
+			throw new CisClientException(e);
 		} 
 		catch (SecurityUtilitiesException e) 
 		{
-			throw new CisClientException();
+			throw new CisClientException(e);
 		}		
 	}
 
@@ -176,5 +175,17 @@ public class CisClient
 		{
 			throw new CisClientException();
 		}						
+	}
+	
+	/**
+	 * Change the password of a user. TODO: implement
+	 * @param userName the name of the user
+	 * @param oldPwd the oldPw. Will be hashed by this implementation.
+	 * @param newPwd the newPw. Will be hashed by this implementation.
+	 * @return true if the password has been changed, false otherwise (because the old pw did not match).
+	 * @throws CisClientException if the oldPwd does not match.
+	 */
+	public boolean changePassword(String userName, String oldPwd, String newPwd) throws CisClientException {
+	    return false;
 	}
 }
