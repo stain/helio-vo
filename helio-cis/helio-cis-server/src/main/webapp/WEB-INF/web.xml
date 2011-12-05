@@ -23,7 +23,7 @@
 
     <servlet-mapping>
         <servlet-name>CXFServlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/cisService</url-pattern>
     </servlet-mapping>
   
 </web-app>
