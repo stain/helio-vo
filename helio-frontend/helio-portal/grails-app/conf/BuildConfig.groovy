@@ -20,8 +20,8 @@ grails.project.dependency.resolution = {
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
-        //mavenLocal()
-        //mavenCentral()
+        mavenLocal()
+        mavenCentral()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -33,7 +33,9 @@ grails.project.dependency.resolution = {
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
             excludes 'slf4j-log4j12', 'slf4j-api'    
         }
-        compile ('commons-collections:commons-collections:3.2' ,'commons-digester:commons-digester:1.6', 'javax.persistence:persistence-api:1.0')
+        compile ('commons-collections:commons-collections:3.2',
+                 'commons-digester:commons-digester:1.6', 
+                 'javax.persistence:persistence-api:1.0')
 	}
 }
 
