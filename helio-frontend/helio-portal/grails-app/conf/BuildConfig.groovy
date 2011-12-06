@@ -29,10 +29,11 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-		//provided 'javax.servlet:servlet-api:2.5'
+		provided 'javax.servlet:servlet-api:2.5'
+        compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
+            excludes 'slf4j-log4j12', 'slf4j-api'    
+        }
 	}
-	
-	pom true
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
@@ -43,5 +44,6 @@ grails.war.resources = { stagingDir ->
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-jaxrpc-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-saaj-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")
+	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.6.1.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-log4j12-1.6.1.jar")    
 }
