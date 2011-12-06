@@ -12,15 +12,15 @@ grails.project.dependency.resolution = {
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
-        grailsHome()
-        grailsCentral()
 		mavenLocal()
 		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
 		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/internal"
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
-        mavenCentral()
+        // mavenCentral()
+		// grailsHome()
+		// grailsCentral()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -29,9 +29,6 @@ grails.project.dependency.resolution = {
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		provided 'javax.servlet:servlet-api:2.5'
-		compile ('commons-collections:commons-collections:3.2.1',
-		        'commons-digester:commons-digester:1.8.1',
-                'javax.persistence:persistence-api:1.0')
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
             excludes 'slf4j-log4j12', 'slf4j-api'    
         }
