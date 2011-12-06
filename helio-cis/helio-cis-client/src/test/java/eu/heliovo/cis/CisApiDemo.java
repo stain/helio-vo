@@ -13,8 +13,8 @@ public class CisApiDemo
 
 	public static void main(String[] args) 
 	{
-	       System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
-	        System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
+//       System.setProperty("com.sun.xml.ws.transport.http.client.HttpTransportPipe.dump", "true");
+//        System.setProperty("com.sun.xml.internal.ws.transport.http.client.HttpTransportPipe.dump", "true");
 
 		CisApiDemo		demo	=	new CisApiDemo();
 		demo.runUI();
@@ -34,8 +34,9 @@ public class CisApiDemo
 			System.out.println(" * [2] - Remove and existing user");
 			System.out.println(" * [3] - Validate a user");
 			System.out.println(" * [4] - Authenticate a user");
-			System.out.println(" * [5] - Get preferences for a user");
-			System.out.println(" * [6] - Set preferences for a user");
+			System.out.println(" * [5] - Change the password for a user");
+			System.out.println(" * [6] - Get preferences for a user");
+			System.out.println(" * [7] - Set preferences for a user");
 			System.out.println(" * [X] - Exit ");
 			System.out.println("----------------------------------------------------------------------------");					
 			System.out.print(" * Please enter the corresponding key: ");
@@ -61,6 +62,7 @@ public class CisApiDemo
 					|| key.equals("4") 
 					|| key.equals("5") 
 					|| key.equals("6") 
+					|| key.equals("7") 
 					|| key.equals("X")) 
 			{
 				if (key.equals("0")) 
@@ -123,7 +125,7 @@ public class CisApiDemo
 				{
 					try 
 					{
-						getPreferences();
+						changePassword();
 					} 
 					catch (Exception e) 
 					{
@@ -131,6 +133,17 @@ public class CisApiDemo
 					}					
 				} 
 				if (key.equals("6")) 
+				{
+					try 
+					{
+						getPreferences();
+					} 
+					catch (Exception e) 
+					{
+						e.printStackTrace();
+					}					
+				} 
+				if (key.equals("7")) 
 				{
 					try 
 					{
@@ -152,6 +165,78 @@ public class CisApiDemo
 				
 			logUtilities.printShortLogEntry("... done");
 		}
+	}
+
+	private void changePassword() 
+	{
+		System.out.println();
+		System.out.print(" * Please enter the name of the user you want to change the password of : ");
+		InputStreamReader 	reader 	= new InputStreamReader(System.in);
+		BufferedReader 		in 		= new BufferedReader(reader);
+		String userName	=	null;
+		
+		try 
+		{
+			userName = in.readLine();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		System.out.println();
+
+		try 
+		{
+			if(!cisApi.isUserPresent(userName))
+			{
+				System.out.println(" * " + userName + " is not present, Please select another one");
+				System.out.println();
+			}
+			else
+			{
+				System.out.println();
+				System.out.print(" * Please enter the password for " + userName + " : ");
+				String userPwd = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+
+				try 
+				{
+					userPwd = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				if(cisApi.validateUser(userName, userPwd))
+				{
+					System.out.println();
+					System.out.print(" * Please enter the new password for " + userName + " : ");
+					String newUserPwd = null;
+					reader 	= 	new InputStreamReader(System.in);
+					in 		= 	new BufferedReader(reader);
+
+					try 
+					{
+						newUserPwd = in.readLine();
+					} 
+					catch (IOException e) 
+					{
+						e.printStackTrace();
+					}
+					cisApi.changePwdForUser(userName, userPwd, newUserPwd);
+				}
+				else
+				{
+					System.out.println(" * password is not valid ! ");
+				}
+				System.out.println();
+			}
+		} 
+		catch (CisApiException e) 
+		{
+			System.out.print(" * CANNOT check if " + userName + " is already present, Please contact the CIS administrator");
+		}		
 	}
 
 	private void authenticateUser() 
