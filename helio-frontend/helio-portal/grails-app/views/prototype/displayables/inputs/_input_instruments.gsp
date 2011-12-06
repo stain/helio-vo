@@ -16,7 +16,7 @@
             <th>Instruments</th></tr>
         </thead>
         <tbody>
-          <g:each in="${dpasInstruments}" status="i" var="rows">
+          <g:each in="${instrumentDescriptors}" status="i" var="rows">
             <tr >
               <td internal="${rows.value}">
                 ${rows.label}

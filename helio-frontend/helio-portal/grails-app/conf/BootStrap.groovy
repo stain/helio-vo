@@ -31,9 +31,9 @@ class BootStrap {
          if (dpasDao == null) {
              throw new NullPointerException("Unable to find service DPAS");
          }
-         HelioField<String> dpasInstrumentsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
-         DomainValueDescriptor<String>[] dpasInstruments = dpasInstrumentsField.getValueDomain();
-         servletContext.instrumentDescriptors = dpasInstruments;
+         HelioField<String> instrumentDescriptorsField = dpasDao.getCatalogById('dpas').getFieldById('instrument');
+         DomainValueDescriptor<String>[] instrumentDescriptors = instrumentDescriptorsField.getValueDomain();
+         servletContext.instrumentDescriptors = instrumentDescriptors;
          
          // init the HEC configuration
          AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );

@@ -4,6 +4,7 @@
     <li><a href="javascript:showHelp('./help.gsp', 'Helio:Help','500','600','100','100')"><b>Help</b></a></li>
     <%-- li><a target="_blank" href="http://helio-vo.blogspot.com/"><b>Helio-Blog</b></a></li --%>
   </ul>
+  <g:if env="development">
   <ul id="login">
       <li class="notLoggedIn">
         <a href="" onclick="showLogin(); return false;"><b>Login</b></a>
@@ -25,4 +26,5 @@
       
   </ul>
   <g:render template="/login/ajaxLogin"/>
+  </g:if>
 </div>

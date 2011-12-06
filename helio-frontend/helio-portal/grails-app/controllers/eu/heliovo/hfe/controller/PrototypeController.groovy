@@ -153,8 +153,8 @@ class PrototypeController {
         // TODO: read cookie value and load persisted session
         //Get sessionId to persist client history
         String sessionId = RequestContextHolder.getRequestAttributes()?.getSessionId()
-        
-        def initParams = [hecCatalogs:servletContext.eventListDescriptors, dpasInstruments: servletContext.dpasInstruments, HUID:sessionId];
+
+        def initParams = [hecCatalogs:servletContext.eventListDescriptors, instrumentDescriptors: servletContext.instrumentDescriptors, HUID:sessionId];
         render view:'explorer', model:initParams
     }
 
