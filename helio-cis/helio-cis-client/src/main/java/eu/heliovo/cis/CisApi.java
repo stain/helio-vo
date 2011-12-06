@@ -89,4 +89,18 @@ public class CisApi
 			throw new CisApiException();
 		}
 	}
+	
+	public void changePwdForUser(String userName, String userPwd,
+			String newUserPwd) throws CisApiException 
+	{
+		try 
+		{
+			cis.changePassword(userName, userPwd, newUserPwd);
+		} 
+		catch (CisClientException e) 
+		{
+			e.printStackTrace();
+			throw new CisApiException();
+		}		
+	}
 }
