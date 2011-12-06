@@ -40,7 +40,7 @@ public class CisClient
 	/**
 	 * Local address
 	 */
-	//private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://localhost:8080/helio-cis-server/cisService");	
+//	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://localhost:8080/helio-cis-server/cisService");	
 
 	/**
 	 * Remote address
@@ -181,14 +181,22 @@ public class CisClient
 	}
 	
 	/**
-	 * Change the password of a user. TODO: implement
+	 * Change the password of a user. 
 	 * @param userName the name of the user
 	 * @param oldPwd the oldPw. Will be hashed by this implementation.
 	 * @param newPwd the newPw. Will be hashed by this implementation.
 	 * @return true if the password has been changed, false otherwise (because the old pw did not match).
 	 * @throws CisClientException if the oldPwd does not match.
 	 */
-	public boolean changePassword(String userName, String oldPwd, String newPwd) throws CisClientException {
-	    return false;
+	public void changePassword(String userName, String oldPwd, String newPwd) throws CisClientException 
+	{
+		try 
+		{
+			cisService.changePwdForUser(userName, oldPwd, newPwd);
+		} 
+		catch (CisServiceException_Exception e) 
+		{
+			throw new CisClientException();
+		}						
 	}
 }
