@@ -2,6 +2,7 @@ package eu.heliovo.cis;
 
 import java.net.URL;
 
+import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
 import org.apache.log4j.Logger;
@@ -44,7 +45,12 @@ public class CisClient
 	/**
 	 * Remote address
 	 */
-	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://cagnode58.cs.tcd.ie:8080/helio-cis-server/cisService");
+	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://cagnode58.cs.tcd.ie:8080/helio-cis-server/cisService/cisService");
+	
+	/**
+     * Name of the long query service
+     */
+    private static final QName SERVICE_NAME = new QName("http://service.cis.heliovo.eu/", "CisService");
 	
 	/**
 	 * a happy little logger
@@ -75,11 +81,8 @@ public class CisClient
         this.cisServiceAddress = cisServiceAddress == null ? DEFAULT_CIS_SERVICE_ADDRESS : cisServiceAddress;
         
         //Creating stubs for the CIS Service
-        cisSS = new CisServiceService(this.cisServiceAddress);
+        cisSS = new CisServiceService(this.cisServiceAddress, SERVICE_NAME);
         cisService = cisSS.getCisServicePort();          
-        ((BindingProvider)cisService).getRequestContext().put(
-                BindingProvider.ENDPOINT_ADDRESS_PROPERTY,
-                cisServiceAddress);
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace("Exiting Constructor");
         }
