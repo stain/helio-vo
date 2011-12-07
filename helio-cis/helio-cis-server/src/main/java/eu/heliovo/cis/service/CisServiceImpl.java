@@ -7,7 +7,7 @@ import eu.heliovo.cis.service.hit.repository.HITRepository;
 import eu.heliovo.cis.service.hit.repository.HITRepositoryException;
 import eu.heliovo.shared.common.utilities.LogUtilities;
 
-@WebService(endpointInterface = "eu.heliovo.cis.service.CisService", serviceName = "CisService")
+@WebService(endpointInterface = "eu.heliovo.cis.service.CisService", serviceName = "CisService", portName="CisServicePort" )
 public class CisServiceImpl implements CisService 
 {
 	/*
@@ -53,7 +53,6 @@ public class CisServiceImpl implements CisService
 		}
 	}
 
-
 	@Override
 	public void addUser(String user, String pwdHash) throws CisServiceException 
 	{
@@ -66,7 +65,6 @@ public class CisServiceImpl implements CisService
 		} 
 		catch (HITRepositoryException e) 
 		{
-//			e.printStackTrace();
 			throw new CisServiceException();
 		}
 		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");
@@ -220,12 +218,68 @@ public class CisServiceImpl implements CisService
 		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");
 	}
 
+	@Override
+	public void changePwdForUser(String user, String oldPwdHash,
+			String newPwdHash) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing removeUser("+user+","+oldPwdHash+","+newPwdHash+")");
+		if(!isUserPresent(user))
+			throw new CisServiceException();
+		if(!validateUser(user, oldPwdHash))
+			throw new CisServiceException();
+			
+		try 
+		{
+			repository.changePwdForUser(user, oldPwdHash, newPwdHash);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");
+	}
+
+	@Override
+	public String getPreferenceForUser(String user, String service, String field) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing getPreferenceForUser(" + user + ", " + service + ", " + field + ")");
+		if(!isUserPresent(user))
+			throw new CisServiceException();			
+		try 
+		{
+			return repository.getPreferenceForUser(user, service, field);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+	}
+
+	@Override
+	public void setPreferenceForUser(String user, String pwdHash, String service,
+			String field, String value) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing getPreferenceForUser(" + user + ", " + service + ", " + field + ")");
+		if(!isUserPresent(user))
+			throw new CisServiceException();			
+		if(!validateUser(user, pwdHash))
+			throw new CisServiceException();			
+		try 
+		{
+			repository.setPreferenceForUser(user, service, field, value);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+	}
+
 	private void printStatus() 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
 		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
-//		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing printStatus()");
-//		logUtilities.printLongLogEntry(repository.getAllUserNames().toString());
-//		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");		
 	}
 }

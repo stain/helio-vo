@@ -5,10 +5,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
-import eu.heliovo.cis.service.hit.repository.HITRepositoryException;
-import eu.heliovo.shared.common.cis.hit.HIT;
-import eu.heliovo.shared.common.cis.hit.NewHit;
-
 @WebService
 public interface CisService 
 {
@@ -30,6 +26,7 @@ public interface CisService
 	 */
 
 	@WebMethod
+	@WebResult(name="validateUserResult")
 	public	boolean	validateUser(String user, String pwdHash);
 	/**
 	 * Adds a user with a standard profile.
@@ -60,7 +57,47 @@ public interface CisService
 	 * @throws CisServiceException 
 	 */
 	@WebMethod
+	@WebResult(name="isUserPresentResult")
 	public boolean isUserPresent(String user) throws CisServiceException;
+	/**
+	 * Changes the password of a user.
+	 * 
+	 * @param userName the name of the user
+	 * @param oldPwd the oldPw. Will be hashed by this implementation.
+	 * @param newPwd the newPw. Will be hashed by this implementation.
+	 * @return true if the password has been changed, false otherwise (because the old pw did not match).
+	 * @throws CisClientException if the oldPwd does not match.
+	 */
+	@WebMethod
+	public void changePwdForUser(String user, String oldPwdHash, String newPwdHash) throws CisServiceException;
+	/**
+	 * Gets the preference for the user.
+	 *
+	 * @param user the user
+	 * @param service the service 
+	 * @param field the field 
+	 * 
+	 * @return String, if the user is present, false otherwise
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	@WebResult(name="getPreferenceForUserResult")
+	public String getPreferenceForUser(String user, String service, String field) throws CisServiceException;
+	/**
+	 * Sets the preference for the user.
+	 *
+	 * @param user the user
+	 * @param pwd the password for the user
+	 * @param service the service 
+	 * @param field the field 
+	 * 
+	 * @return String, if the user is present, false otherwise
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	void setPreferenceForUser(String user, String pwdHash, String service,
+			String field, String value) throws CisServiceException;
+
 //	/**
 //	 * Returns the low security HIT for the specified user
 //	 *
