@@ -8,11 +8,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.xml.ws.BindingProvider;
-
 import org.junit.Ignore;
 import org.junit.Test;
 
+import eu.heliovo.shared.common.cis.tags.HELIOTags;
 import eu.heliovo.shared.common.utilities.LogUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilitiesException;
@@ -23,20 +22,6 @@ public class CisServiceTest
 	 * The Service Stubs
 	 */
 	CisService			cisService		=	new CisServiceImpl();
-	/*
-	 * Local instance of the CIS
-	 */
-	String				serviceAddress	=	"http://localhost:8080/helio-cis-server/cisService";
-	/*
-	 * Remote instance of the CIS
-	 */
-//	String  			serviceAddress	=	"http://cagnode58.cs.tcd.ie:8080/helio-hps-server/hpsService";
-
-	
-	//	HITUtilities			hitUtilities	=	new HITUtilities();	
-	//	CisService				cisService		=	new CisServiceImpl();
-	//	SecurityUtilities		secUtils		=	new SecurityUtilities();
-	//	PreferencesUtilities	prUtilities		=	new PreferencesUtilities();
 	/*
 	 * Utilities
 	 */
@@ -55,6 +40,7 @@ public class CisServiceTest
 	 */
 	String					user_a			=	"test_user_a";
 	String					pwd_a			=	"pwd_4_test_user_a";
+	String					new_pwd_a			=	"new_pwd_4_test_user_a";
 	String					user_b			=	"test_user_b";
 	String					pwd_b			=	"pwd_4_test_user_b";
 	/*
@@ -70,9 +56,8 @@ public class CisServiceTest
 	Set<String>				old				=	new HashSet<String>();
 	HashMap<String, String>	presentUsers	=	new HashMap<String, String>();
 	HashMap<String, String>	absentUsers		=	new HashMap<String, String>();
-	
 	/*
-	 * Default Contructor, also adds user_a and user_b if not already present in the CIS
+	 * Default Constructor, also adds user_a and user_b if not already present in the CIS
 	 */
 	public CisServiceTest() 
 	{
@@ -188,7 +173,6 @@ public class CisServiceTest
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
 
-
 	@Ignore @Test
 	public void testValidateUsers() 
 	{
@@ -232,7 +216,6 @@ public class CisServiceTest
 
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
-
 
 	@Ignore @Test
 	public void testAddUser() 
@@ -301,14 +284,106 @@ public class CisServiceTest
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
 
-	@Test
-	public void testGetPreferences() 
+	@Ignore @Test
+	public void testChangePwdForUser() 
 	{
-		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getPreferences...");		
-		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for changePwdForUser...");
+	
+		printStatus();
+		testValidateUsers();
+		testIsUserPresent();
+		changePwdForUser(user_a, pwd_a, new_pwd_a);
+		printStatus();
+		testValidateUsers();
+		testIsUserPresent();
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
-	
+
+	@Ignore @Test
+	public void testSetPreferences() 
+	{
+		String 	helioService		=	HELIOTags.dpas;
+		String 	servicePreference	=	HELIOTags.dpas_data_providers;
+		String	oldValue			=	null;
+		String	newValue			=	null;
+				
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getPreferences...");		
+		try 
+		{
+			oldValue	=	cisService.getPreferenceForUser(user_a, helioService, servicePreference);
+			newValue	=	oldValue + " modified.";
+			cisService.setPreferenceForUser(user_a, secUtilities.computeHashOf(pwd_a), helioService, servicePreference, newValue);			
+			assertTrue(true);
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+
+
+	@Ignore @Test
+	public void testGetPreferences() 
+	{
+		String 	helioService		=	HELIOTags.dpas;
+		String 	servicePreference	=	HELIOTags.dpas_data_providers;
+		String	value				=	null;
+		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getPreferences...");		
+		try 
+		{
+			value 	=	cisService.getPreferenceForUser(user_a, helioService, servicePreference);
+			logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Value for " + user_a + " of " + helioService + " of " + servicePreference + " is " + value);		
+			assertTrue(true);
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+
+	/*
+	 * These are utility methods for the tests
+	 */
+	private void changePwdForUser(String user_name, String oldPwd, String newPwd) 
+	{
+		try 
+		{
+			if(cisService.isUserPresent(user_name))			
+			{		
+				cisService.changePwdForUser(user_name, 
+						secUtilities.computeHashOf(oldPwd),
+						secUtilities.computeHashOf(newPwd));
+				/*
+				 * Add the user to the present users and remove it from the absent users...
+				 */
+				presentUsers.remove(user_name);
+				presentUsers.put(user_name, newPwd);
+			}
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		}
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");				
+
+	}
+
 	private void removeUser(String user_name, String user_pwd) throws CisServiceException, SecurityUtilitiesException 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - removeUser("+user_name+","+user_pwd+")...");
