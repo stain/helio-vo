@@ -7,8 +7,8 @@
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY helio-flare1 "http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#" >
-    <!ENTITY CoordinateSystems "http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#" >
+    <!ENTITY helio-full "http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#" >
+    <!ENTITY cs "http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#" >
 ]>
 
 
@@ -16,11 +16,11 @@
      xml:base="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-     xmlns:CoordinateSystems="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:helio-flare1="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#">
+     xmlns:helio-full="http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#"
+     xmlns:cs="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl"/>
     
 
@@ -33,7 +33,19 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <owl:AnnotationProperty rdf:about="&cs;PDS_coordinate_system_type"/>
     <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Datatypes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
     
 
 
@@ -50,30 +62,30 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasCoordinate -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasCoordinate">
-        <rdfs:range rdf:resource="&CoordinateSystems;Coordinate"/>
-        <owl:inverseOf rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
+    <owl:ObjectProperty rdf:about="&cs;hasCoordinate">
+        <rdfs:range rdf:resource="&cs;Coordinate"/>
+        <owl:inverseOf rdf:resource="&cs;hasCoordinateSystem"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasCoordinateSystem -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasCoordinateSystem">
-        <rdfs:domain rdf:resource="&CoordinateSystems;Coordinate"/>
-        <rdfs:range rdf:resource="&CoordinateSystems;CoordinateSystem"/>
+    <owl:ObjectProperty rdf:about="&cs;hasCoordinateSystem">
+        <rdfs:domain rdf:resource="&cs;Coordinate"/>
+        <rdfs:range rdf:resource="&cs;CoordinateSystem"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTimeBase -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasTimeBase">
-        <rdfs:range rdf:resource="&CoordinateSystems;Time"/>
+    <owl:ObjectProperty rdf:about="&cs;hasTimeBase">
+        <rdfs:range rdf:resource="&cs;Time"/>
         <rdfs:domain>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&CoordinateSystems;hasTimedependentTransfromation"/>
-                <owl:allValuesFrom rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+                <owl:onProperty rdf:resource="&cs;hasTimedependentTransfromation"/>
+                <owl:allValuesFrom rdf:resource="&cs;ReferenceSystem"/>
             </owl:Restriction>
         </rdfs:domain>
     </owl:ObjectProperty>
@@ -82,17 +94,17 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTimedependentTransfromation -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasTimedependentTransfromation">
-        <rdfs:range rdf:resource="&CoordinateSystems;CoordinateSystem"/>
-        <rdfs:domain rdf:resource="&CoordinateSystems;CoordinateSystem"/>
-        <rdfs:subPropertyOf rdf:resource="&CoordinateSystems;hasTransformation"/>
+    <owl:ObjectProperty rdf:about="&cs;hasTimedependentTransfromation">
+        <rdfs:range rdf:resource="&cs;CoordinateSystem"/>
+        <rdfs:domain rdf:resource="&cs;CoordinateSystem"/>
+        <rdfs:subPropertyOf rdf:resource="&cs;hasTransformation"/>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&CoordinateSystems;hasTimedependentTransfromation"/>
-            <rdf:Description rdf:about="&CoordinateSystems;hasTimeindependentTransformation"/>
+            <rdf:Description rdf:about="&cs;hasTimedependentTransfromation"/>
+            <rdf:Description rdf:about="&cs;hasTimeindependentTransformation"/>
         </owl:propertyChainAxiom>
         <owl:propertyChainAxiom rdf:parseType="Collection">
-            <rdf:Description rdf:about="&CoordinateSystems;hasTimeindependentTransformation"/>
-            <rdf:Description rdf:about="&CoordinateSystems;hasTimedependentTransfromation"/>
+            <rdf:Description rdf:about="&cs;hasTimeindependentTransformation"/>
+            <rdf:Description rdf:about="&cs;hasTimedependentTransfromation"/>
         </owl:propertyChainAxiom>
     </owl:ObjectProperty>
     
@@ -100,26 +112,26 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTimeindependentTransformation -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasTimeindependentTransformation">
-        <rdfs:range rdf:resource="&CoordinateSystems;CoordinateSystem"/>
-        <rdfs:domain rdf:resource="&CoordinateSystems;CoordinateSystem"/>
-        <rdfs:subPropertyOf rdf:resource="&CoordinateSystems;hasTransformation"/>
+    <owl:ObjectProperty rdf:about="&cs;hasTimeindependentTransformation">
+        <rdfs:range rdf:resource="&cs;CoordinateSystem"/>
+        <rdfs:domain rdf:resource="&cs;CoordinateSystem"/>
+        <rdfs:subPropertyOf rdf:resource="&cs;hasTransformation"/>
     </owl:ObjectProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTransformation -->
 
-    <owl:ObjectProperty rdf:about="&CoordinateSystems;hasTransformation">
+    <owl:ObjectProperty rdf:about="&cs;hasTransformation">
         <rdf:type rdf:resource="&owl;SymmetricProperty"/>
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasParameter -->
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#hasParameter -->
 
-    <owl:ObjectProperty rdf:about="&helio-flare1;hasParameter">
+    <owl:ObjectProperty rdf:about="&helio-full;hasParameter">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
     </owl:ObjectProperty>
     
@@ -138,8 +150,8 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#endTime -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;endTime">
-        <rdfs:subPropertyOf rdf:resource="&CoordinateSystems;hasTime"/>
+    <owl:DatatypeProperty rdf:about="&cs;endTime">
+        <rdfs:subPropertyOf rdf:resource="&cs;hasTime"/>
         <rdfs:range rdf:resource="&xsd;float"/>
     </owl:DatatypeProperty>
     
@@ -147,71 +159,69 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasAltitude -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasAltitude">
-        <owl:equivalentProperty rdf:resource="&CoordinateSystems;hasHeight"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasAltitude">
+        <owl:equivalentProperty rdf:resource="&cs;hasHeight"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasAzimuthAngle -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasAzimuthAngle">
-        <rdfs:domain rdf:resource="&CoordinateSystems;Coordinate"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasAzimuthAngle">
+        <rdfs:domain rdf:resource="&cs;Coordinate"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasElevationAngle -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasElevationAngle">
-        <rdfs:domain rdf:resource="&CoordinateSystems;Coordinate"/>
-    </owl:DatatypeProperty>
+    <owl:DatatypeProperty rdf:about="&cs;hasElevationAngle"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasHeight -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasHeight"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasHeight"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasLatitude -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasLatitude">
-        <rdfs:domain rdf:resource="&CoordinateSystems;Coordinate"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasLatitude">
+        <rdfs:domain rdf:resource="&cs;Coordinate"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasLongitude -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasLongitude">
-        <rdfs:domain rdf:resource="&CoordinateSystems;Coordinate"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasLongitude">
+        <rdfs:domain rdf:resource="&cs;Coordinate"/>
     </owl:DatatypeProperty>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasRadius -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasRadius"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasRadius"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasSpaseName -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasSpaseName"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasSpaseName"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#hasTime -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;hasTime"/>
+    <owl:DatatypeProperty rdf:about="&cs;hasTime"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#relativeEndTime -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;relativeEndTime">
+    <owl:DatatypeProperty rdf:about="&cs;relativeEndTime">
         <rdfs:range rdf:resource="&xsd;float"/>
     </owl:DatatypeProperty>
     
@@ -219,8 +229,8 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#startTime -->
 
-    <owl:DatatypeProperty rdf:about="&CoordinateSystems;startTime">
-        <rdfs:subPropertyOf rdf:resource="&CoordinateSystems;hasTime"/>
+    <owl:DatatypeProperty rdf:about="&cs;startTime">
+        <rdfs:subPropertyOf rdf:resource="&cs;hasTime"/>
         <rdfs:range rdf:resource="&xsd;float"/>
     </owl:DatatypeProperty>
     
@@ -239,18 +249,18 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#BodyFixedSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;BodyFixedSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
-        <owl:disjointWith rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <owl:disjointWith rdf:resource="&CoordinateSystems;PositionDependentSystem"/>
+    <owl:Class rdf:about="&cs;BodyFixedSystem">
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
+        <owl:disjointWith rdf:resource="&cs;LocalSystem"/>
+        <owl:disjointWith rdf:resource="&cs;PositionDependentSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#BoundaryNormalSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;BoundaryNormalSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;LocalSystem"/>
+    <owl:Class rdf:about="&cs;BoundaryNormalSystem">
+        <rdfs:subClassOf rdf:resource="&cs;LocalSystem"/>
         <rdfs:comment rdf:datatype="&xsd;string">Boundary normal coordinates, as their name implies, are defined relative to some boundary such as the magnetopause or the bow shock. They allow the data to be ordered in a way which is related to that boundary. The L and M axes, equivalent to x and y, lie in a plane tangential to the boundary - and the N axis, equivalent to z, is normal to the boundary.</rdfs:comment>
     </owl:Class>
     
@@ -258,46 +268,46 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CartesianCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;CartesianCoordinate">
+    <owl:Class rdf:about="&cs;CartesianCoordinate">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
-                        <owl:someValuesFrom rdf:resource="&CoordinateSystems;CoordinateSystem"/>
+                        <owl:onProperty rdf:resource="&cs;hasCoordinateSystem"/>
+                        <owl:someValuesFrom rdf:resource="&cs;CoordinateSystem"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasTime"/>
+                        <owl:onProperty rdf:resource="&cs;hasTime"/>
                         <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasAltitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasAltitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasLatitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasLatitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasLongitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasLongitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;OrthogonalCoordinate"/>
+        <rdfs:subClassOf rdf:resource="&cs;OrthogonalCoordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CelestialCoordinateSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;CelestialCoordinateSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;CelestialCoordinateSystem">
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
         <rdfs:comment rdf:datatype="&xsd;string">In astronomy, a celestial coordinate system is a coordinate system for mapping positions on the celestial sphere. There are different celestial coordinate systems each using a system of spherical coordinates projected on the celestial sphere, in analogy to the geographic coordinate system used on the surface of the Earth.</rdfs:comment>
     </owl:Class>
     
@@ -305,78 +315,94 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Coordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;Coordinate">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    <owl:Class rdf:about="&cs;Coordinate">
+        <rdfs:subClassOf rdf:resource="&cs;Parameter"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CoordinateInterval -->
+
+    <owl:Class rdf:about="&cs;CoordinateInterval">
+        <rdfs:subClassOf rdf:resource="&cs;Coordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CoordinateSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;CoordinateSystem">
-        <owl:equivalentClass rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;CoordinateSystem">
+        <owl:equivalentClass rdf:resource="&cs;ReferenceSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CylindricalCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;CylindricalCoordinate">
+    <owl:Class rdf:about="&cs;CylindricalCoordinate">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
-                        <owl:someValuesFrom rdf:resource="&CoordinateSystems;CoordinateSystem"/>
+                        <owl:onProperty rdf:resource="&cs;hasCoordinateSystem"/>
+                        <owl:someValuesFrom rdf:resource="&cs;CoordinateSystem"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasTime"/>
+                        <owl:onProperty rdf:resource="&cs;hasTime"/>
                         <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasAltitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasAltitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasLatitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasLatitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasLongitude"/>
+                        <owl:onProperty rdf:resource="&cs;hasLongitude"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;OrthogonalCoordinate"/>
+        <rdfs:subClassOf rdf:resource="&cs;OrthogonalCoordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#EllipsoidalCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;EllipsoidalCoordinate">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;OrthogonalCoordinate"/>
+    <owl:Class rdf:about="&cs;EllipsoidalCoordinate">
+        <rdfs:subClassOf rdf:resource="&cs;OrthogonalCoordinate"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Epoch -->
+
+    <owl:Class rdf:about="&cs;Epoch">
+        <rdfs:subClassOf rdf:resource="&cs;Time"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;GeocentricSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;BodyFixedSystem"/>
+    <owl:Class rdf:about="&cs;GeocentricSystem">
+        <rdfs:subClassOf rdf:resource="&cs;BodyFixedSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeodaticSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;GeodaticSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;BodyFixedSystem"/>
+    <owl:Class rdf:about="&cs;GeodaticSystem">
+        <rdfs:subClassOf rdf:resource="&cs;BodyFixedSystem"/>
         <rdfs:comment rdf:datatype="&xsd;string">The quantities latitude, longitude, and elevation which define the position of a point on the surface of a planet with respect to the reference spheroid.</rdfs:comment>
     </owl:Class>
     
@@ -384,40 +410,41 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;HeliocentricSystem">
-        <owl:equivalentClass rdf:resource="&CoordinateSystems;HeliographicSystem"/>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;BodyFixedSystem"/>
+    <owl:Class rdf:about="&cs;HeliocentricSystem">
+        <owl:equivalentClass rdf:resource="&cs;HeliographicSystem"/>
+        <rdfs:subClassOf rdf:resource="&cs;BodyFixedSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliographicSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;HeliographicSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;BodyFixedSystem"/>
+    <owl:Class rdf:about="&cs;HeliographicSystem">
+        <rdfs:subClassOf rdf:resource="&cs;BodyFixedSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#InertialSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;InertialSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
-        <owl:disjointWith rdf:resource="&CoordinateSystems;NonInertialSystem"/>
+    <owl:Class rdf:about="&cs;InertialSystem">
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
+        <owl:disjointWith rdf:resource="&cs;NonInertialSystem"/>
         <rdfs:comment rdf:datatype="&xsd;string">Any frame that does not rotate with respect to the starts background is  inertial.</rdfs:comment>
+        <PDS_coordinate_system_type rdf:datatype="&xsd;string">INERTIAL</PDS_coordinate_system_type>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#InstrumentSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;InstrumentSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Class rdf:about="&cs;InstrumentSystem">
+        <rdfs:subClassOf rdf:resource="&cs;LocalSystem"/>
+        <rdfs:subClassOf rdf:resource="&cs;RotatingSystem"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&CoordinateSystems;hasTimeindependentTransformation"/>
-                <owl:onClass rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+                <owl:onProperty rdf:resource="&cs;hasTimeindependentTransformation"/>
+                <owl:onClass rdf:resource="&cs;SpacecraftSystem"/>
                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
             </owl:Restriction>
         </rdfs:subClassOf>
@@ -427,194 +454,196 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#LocalSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;LocalSystem">
-        <owl:equivalentClass rdf:resource="&CoordinateSystems;PositionDependentSystem"/>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;LocalSystem">
+        <owl:equivalentClass rdf:resource="&cs;PositionDependentSystem"/>
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#NonInertialSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;NonInertialSystem">
-        <owl:equivalentClass rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;NonInertialSystem">
+        <owl:equivalentClass rdf:resource="&cs;RotatingSystem"/>
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
+        <PDS_coordinate_system_type rdf:datatype="&xsd;string">BODY-FIXED ROTATING</PDS_coordinate_system_type>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#NonOrthogonalCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;NonOrthogonalCoordinate">
+    <owl:Class rdf:about="&cs;NonOrthogonalCoordinate">
         <owl:equivalentClass>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
-                <owl:hasValue rdf:resource="&CoordinateSystems;McIlwainCoordinateSystem"/>
+                <owl:onProperty rdf:resource="&cs;hasCoordinateSystem"/>
+                <owl:hasValue rdf:resource="&cs;McIlwainCoordinateSystem"/>
             </owl:Restriction>
         </owl:equivalentClass>
         <owl:equivalentClass>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
-                <owl:hasValue rdf:resource="&CoordinateSystems;CGM"/>
+                <owl:onProperty rdf:resource="&cs;hasCoordinateSystem"/>
+                <owl:hasValue rdf:resource="&cs;CGM"/>
             </owl:Restriction>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Coordinate"/>
+        <rdfs:subClassOf rdf:resource="&cs;Coordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Orientation -->
 
-    <owl:Class rdf:about="&CoordinateSystems;Orientation">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    <owl:Class rdf:about="&cs;Orientation">
+        <rdfs:subClassOf rdf:resource="&cs;Parameter"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#OrthogonalCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;OrthogonalCoordinate">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Coordinate"/>
+    <owl:Class rdf:about="&cs;OrthogonalCoordinate">
+        <rdfs:subClassOf rdf:resource="&cs;Coordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Parameter -->
 
-    <owl:Class rdf:about="&CoordinateSystems;Parameter"/>
+    <owl:Class rdf:about="&cs;Parameter"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#PositionDependentSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;PositionDependentSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;PositionDependentSystem">
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#ProjectedSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;ProjectedSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;BodyFixedSystem"/>
+    <owl:Class rdf:about="&cs;ProjectedSystem">
+        <rdfs:subClassOf rdf:resource="&cs;BodyFixedSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#ReferenceSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;ReferenceSystem"/>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#RotatingSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;RotatingSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;ReferenceSystem"/>
+    <owl:Class rdf:about="&cs;RotatingSystem">
+        <rdfs:subClassOf rdf:resource="&cs;ReferenceSystem"/>
+        <PDS_coordinate_system_type rdf:datatype="&xsd;string">BODY-FIXED ROTATING</PDS_coordinate_system_type>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpacecraftSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;SpacecraftSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Class rdf:about="&cs;SpacecraftSystem">
+        <rdfs:subClassOf rdf:resource="&cs;LocalSystem"/>
+        <rdfs:subClassOf rdf:resource="&cs;RotatingSystem"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SphericalCoordinate -->
 
-    <owl:Class rdf:about="&CoordinateSystems;SphericalCoordinate">
+    <owl:Class rdf:about="&cs;SphericalCoordinate">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasCoordinateSystem"/>
-                        <owl:someValuesFrom rdf:resource="&CoordinateSystems;CoordinateSystem"/>
+                        <owl:onProperty rdf:resource="&cs;hasCoordinateSystem"/>
+                        <owl:someValuesFrom rdf:resource="&cs;CoordinateSystem"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasTime"/>
+                        <owl:onProperty rdf:resource="&cs;hasTime"/>
                         <owl:minQualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minQualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasAzimuthAngle"/>
+                        <owl:onProperty rdf:resource="&cs;hasAzimuthAngle"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasElevationAngle"/>
+                        <owl:onProperty rdf:resource="&cs;hasElevationAngle"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;hasRadius"/>
+                        <owl:onProperty rdf:resource="&cs;hasRadius"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;OrthogonalCoordinate"/>
+        <rdfs:subClassOf rdf:resource="&cs;OrthogonalCoordinate"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TemporalParameter -->
 
-    <owl:Class rdf:about="&CoordinateSystems;TemporalParameter">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;Parameter"/>
+    <owl:Class rdf:about="&cs;TemporalParameter">
+        <rdfs:subClassOf rdf:resource="&cs;Parameter"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Time -->
 
-    <owl:Class rdf:about="&CoordinateSystems;Time">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;TemporalParameter"/>
+    <owl:Class rdf:about="&cs;Time">
+        <rdfs:subClassOf rdf:resource="&cs;TemporalParameter"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TimeInterval -->
 
-    <owl:Class rdf:about="&CoordinateSystems;TimeInterval">
+    <owl:Class rdf:about="&cs;TimeInterval">
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
                     <owl:Class>
                         <owl:unionOf rdf:parseType="Collection">
                             <owl:Restriction>
-                                <owl:onProperty rdf:resource="&CoordinateSystems;endTime"/>
+                                <owl:onProperty rdf:resource="&cs;endTime"/>
                                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                                 <owl:onDataRange rdf:resource="&xsd;float"/>
                             </owl:Restriction>
                             <owl:Restriction>
-                                <owl:onProperty rdf:resource="&CoordinateSystems;relativeEndTime"/>
+                                <owl:onProperty rdf:resource="&cs;relativeEndTime"/>
                                 <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                                 <owl:onDataRange rdf:resource="&xsd;float"/>
                             </owl:Restriction>
                         </owl:unionOf>
                     </owl:Class>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="&CoordinateSystems;startTime"/>
+                        <owl:onProperty rdf:resource="&cs;startTime"/>
                         <owl:qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:qualifiedCardinality>
                         <owl:onDataRange rdf:resource="&xsd;float"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;TemporalParameter"/>
+        <rdfs:subClassOf rdf:resource="&cs;TemporalParameter"/>
     </owl:Class>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TopocentricSystem -->
 
-    <owl:Class rdf:about="&CoordinateSystems;TopocentricSystem">
-        <rdfs:subClassOf rdf:resource="&CoordinateSystems;LocalSystem"/>
+    <owl:Class rdf:about="&cs;TopocentricSystem">
+        <rdfs:subClassOf rdf:resource="&cs;LocalSystem"/>
         <rdfs:comment rdf:datatype="&xsd;string">Astronomical coordinates which use the observer&#39;s location as the center of the coordinate system</rdfs:comment>
     </owl:Class>
     
@@ -639,10 +668,10 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#ATS-VDHCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;ATS-VDHCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;ATS-VDHCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The other ATS coordinate system is ATS VDH. In this system H is chosen parallel to the Earth&#39;s spin axis. V is the local vertical. Since ATS-1 is in the Earth&#39;s equatorial plane, V is perpendicular to H. Finally, D, completes the right-handed set (D = H x V) and is azimuthal, eastwards in the equatorial plane.</rdfs:comment>
     </owl:Thing>
@@ -651,10 +680,10 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#ATS-XYZCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;ATS-XYZCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;ATS-XYZCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The ATS XYZ system is the coordinate system in which the ATS magnetometer data are originally obtained. The Z-axis is parallel to the Earth&#39;s rotation axis. Thus, it is parallel to the Z-axis of the geographic, and GEI systems. However, the Y-axis is chosen perpendicular to the Earth-Sun line towards dusk. The X-axis completes a right handed orthogonal set. Thus the X-Y plane is the Earth&#39;s rotational equator with X in the noon meridian.</rdfs:comment>
     </owl:Thing>
@@ -663,69 +692,69 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#AZP -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;AZP">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;AZP">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;HEEQ"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;PerspectiveZenithalProjectionCoordinateSystem"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;HEEQ"/>
+        <owl:sameAs rdf:resource="&cs;PerspectiveZenithalProjectionCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#Alt-AzimuthCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;Alt-AzimuthCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;TopocentricSystem"/>
+    <owl:Thing rdf:about="&cs;Alt-AzimuthCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;TopocentricSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">altazimuth coordinate system or horizon coordinate system, astronomical coordinate system in which the position of a body on the celestial sphere is described relative to an observer&#39;s celestial horizon and zenith . The coordinates of a body in this system are its altitude and azimuth . Altitude is measured from the celestial horizon along the vertical circle through the body and the zenith of the observer. Azimuth is measured along the celestial horizon from the observer&#39;s south point (the point on the horizon directly south of him) to the point where the body&#39;s vertical circle intersects the horizon. Because the earth rotates on its axis, the altitude and azimuth of a celestial body are constantly changing.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HorizonCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HorizonCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CAR -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CAR">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;CAR">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;HEEQ"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;PlateCarreeProjectionCoordinateSystem"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;HEEQ"/>
+        <owl:sameAs rdf:resource="&cs;PlateCarreeProjectionCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CEA -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CEA">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;CEA">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;CylindricalEqualAreaProjectionCoordinateSystem"/>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;HEEQ"/>
+        <owl:sameAs rdf:resource="&cs;CylindricalEqualAreaProjectionCoordinateSystem"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;HEEQ"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CGM -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CGM">
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;CGM">
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">CGM</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Corrected Geomagnetic - A coordinate system from a spatial point with GEO radial distance and geomagnetic latitude and longitude, follow the epoch-appropriate IGRF/DGRF model field vector through to the point where the field line crosses the geomagnetic dipole equatorial plane.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;CorrectedGeomagneticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;CorrectedGeomagneticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CarringtonCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CarringtonCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;CarringtonCoordinateSystem">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">Carrington</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Carrington heliographic coordinates One of two heliographic coordinate systems used for identifying the position of features on the Sun&#39;s surface. In the Carrington system, lines of longitude rotate with the Sun. A prime meridian, analogous to the Greenwich meridian on Earth, was defined to coincide with the central meridian of the Sun (as seen from Earth) at a specific time on 1853November9 when R. C.Carrington began his observations. A new Carrington rotation begins each time the prime meridian crosses the central meridian. The rotation period of the coordinate system varies throughout the year because of the changing distance of the Earth from the Sun, with an average value of 27.2753 days (the mean synodic period). This corresponds to a sidereal rotation period of 25.38 days. The Carrington longitude of the central meridian is 360� at the beginning of the Carrington rotation, and decreases to zero at the end. The longitude of a feature on the Sun (such as a sunspot) remains approximately constant in the Carrington system, in contrast to the Stonyhurst system.</rdfs:comment>
@@ -736,8 +765,8 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CorrectedGeomagneticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CorrectedGeomagneticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;CorrectedGeomagneticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -745,8 +774,8 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#CylindricalEqualAreaProjectionCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;CylindricalEqualAreaProjectionCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;CylindricalEqualAreaProjectionCoordinateSystem">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -754,23 +783,23 @@
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#DM -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;DM">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;DM">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">As with the solar magnetic system, the Z-axis of the dipole meridian system (DM) is chosen along the north magnetic dipole axis. However, the Y-axis is chosen to be perpendicular to a radius vector to the point of observation rather than the Sun. The positive Y direction is chosen to be eastwards, so that the X-axis is directed outwards from the dipole. This is a local coordinate system, in that it varies with position, however, since the X-Z plane contains the dipole magnetic field it is quite useful.</rdfs:comment>
         <hasSpaseName rdf:datatype="&xsd;string">DM</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;DipoleMeridianCoodrindateSystem"/>
+        <owl:sameAs rdf:resource="&cs;DipoleMeridianCoodrindateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#DipoleMeridianCoodrindateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;DipoleMeridianCoodrindateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;DipoleMeridianCoodrindateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">As with the solar magnetic system, the Z-axis of the dipolde meridian system (DM) is chosen alogn the north magnetic dipole axis. However, the Y-axis is directed outwards from the dipole. This is a local coordinate system, in that it varies with position, however, since the X-Z plane contains the dipole magnetic field it si quite useful
 
@@ -782,10 +811,10 @@ It si used to order data controlled by the dipole magnetic fiedl where the influ
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#EquatorialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;EquatorialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;EquatorialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The Equatorial Coordinate System functions by projecting the Earth&#39;s geographic poles, equator, and ecliptic onto the celestial sphere.</rdfs:comment>
     </owl:Thing>
@@ -794,125 +823,125 @@ It si used to order data controlled by the dipole magnetic fiedl where the influ
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#G -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;G">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;G">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GEO"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeographicCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;GEO"/>
+        <owl:sameAs rdf:resource="&cs;GeographicCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GCI -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GCI">
+    <owl:Thing rdf:about="&cs;GCI">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricInertialCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricInertialCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GEI -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GEI">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
+    <owl:Thing rdf:about="&cs;GEI">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">GEI</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis parallel to the Earth&#39;s rotation axis (positive to the North) and its X axis towards the First Point of Aries (the direction in space defined by the intersection between the Earth&#39;s equatorial plane and the plane of its orbit around the Sun (the plane of the ecliptic). This system is (to first order) fixed with respect to the distant stars. It is convenient for specifying the orbits (and hence location) of Earth-orbiting spacecraft as one can specify a Keplerian orbit in this frame.
 
 However note that the GEI system is subject to second order change with time owing to the various slow motions of the Earth&#39;s rotation axis with respect to the fixed stars. Thus for GEI coordinates one must specify the date (normally termed the epoch) to which the coordinate system applies. For space physics work one should use the epoch-of-date GEI system, i.e. the system applying at the same time as the data were taken. (Thus the rotation axis in GEI is identical with the GEO rotation axis.)</rdfs:comment>
-        <hasTransformation rdf:resource="&CoordinateSystems;GSE"/>
-        <hasTransformation rdf:resource="&CoordinateSystems;GSEQ"/>
-        <hasTransformation rdf:resource="&CoordinateSystems;GSM"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricEquatorialInertialCoordinateSystem"/>
-        <hasTimedependentTransfromation rdf:resource="&CoordinateSystems;HorizonCoordinateSystem"/>
-        <hasTransformation rdf:resource="&CoordinateSystems;SM"/>
+        <hasTransformation rdf:resource="&cs;GSE"/>
+        <hasTransformation rdf:resource="&cs;GSEQ"/>
+        <hasTransformation rdf:resource="&cs;GSM"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricEquatorialInertialCoordinateSystem"/>
+        <hasTimedependentTransfromation rdf:resource="&cs;HorizonCoordinateSystem"/>
+        <hasTransformation rdf:resource="&cs;SM"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GEI2000 -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GEI2000">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
+    <owl:Thing rdf:about="&cs;GEI2000">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">J2000</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Spacecraft orbits and locations are often made available in geocentric equatorial inertial coordinates for a fixed epoch, e.g. the standard astronomical epoch known as J2000.0, which is 12:00 UT on 1 January 2000. We treat this as a separate coordinate system (with the qualified acronym GEI2000) and specify how to transform from this to other systems.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricEquatorialInertialCoordinateSystemJ2000.0"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricEquatorialInertialCoordinateSystemJ2000.0"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GEO -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GEO">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GEO">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">GEO</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis parallel to the Earth&#39;s rotation axis (positive to the North) and its X axis towards the intersection of the Equator and the Greenwich Meridian. Thus it is convenient for specifying the location of ground stations and ground-based experiments as these are fixed quantities in the GEO system.
 
 When GEO coordinates are expressed in spherical form, the latitude component is identical what is termed geocentric latitude by astronomers and geographers. However, note that this is different to the system of geodetic latitude used in normal map-making. The geodetic latitude at any location is the angle between the equatorial plane and the local normal to the Earth&#39;s surface. In general that normal is NOT parallel to a radius vector because the shape of the Earth is an oblate spheroid and not a sphere.</rdfs:comment>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;GEI"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeographicCoordinateSystem"/>
-        <hasTransformation rdf:resource="&CoordinateSystems;MAG"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;GEI"/>
+        <owl:sameAs rdf:resource="&cs;GeographicCoordinateSystem"/>
+        <hasTransformation rdf:resource="&cs;MAG"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GSE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GSE">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GSE">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">GSE</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">The geocentric solar ecliptic system (GSE) has its X-axis pointing from the Earth towards the Sun and its Y-axis is chosen to be in the ecliptic plane pointing towards dusk (thus opposing planetary motion). Its Z-axis is parallel to the ecliptic pole. Relative to an inertial system this system has a yearly rotation.</rdfs:comment>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its X axis towards the Sun and its Z axis perpendicular to the plane of the Earth&#39;s orbit around the Sun (positive North). This system is fixed with respect to the Earth-Sun line. It is convenient for specifying magnetospheric boundaries. It has also been widely adopted as the system for representing vector quantities in space physics databases.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricSolarEclipticSystem"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricSolarEclipticSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GSEQ -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GSEQ">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GSEQ">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">GSEQ</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricSolarEquatorialCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricSolarEquatorialCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GSM -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GSM">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GSM">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">GSM</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its X axis towards the Sun and its Z axis is the projection of the Earth&#39;s magnetic dipole axis (positive North) on to the plane perpendicular to the X axis. The direction of the geomagnetic field near the nose of the magnetosphere is well-ordered by this system. Thus it is considered the best system to use when studying the effects of interplanetary magnetic field components (e.g. Bz) on magnetospheric and ionospheric phenomena.</rdfs:comment>
         <rdfs:comment rdf:datatype="&xsd;string">This system is useful for displaying magnetopause and shock boundary positions, magnetosheath and magnetotail magnetic fields and magnetosheath solar wind velocities because the orientation of the magnetic dipole axis alters the otherwise cylindrical symmetry of the solar wind flow. It also is used in models of magnetopause currents (Olson, 1969).</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;GeocentricSolarMagnetosphericCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;GeocentricSolarMagnetosphericCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GalacticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GalacticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;GalacticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The International Astronomical Union (IAU) defined the galactic coordinate system in reference to the Equatorial coordinate system in 1958 The north galactic pole is defined to be at right ascension 12h 49m, declination +27.4� (B1950), and the zero of longitude is the great semicircle that originates from this point along the line in position angle 123� with respect to the equatorial pole. The galactic longitude increases in the same direction as right ascension. Galactic latitude is positive towards the north galactic pole, the poles themselves at �90� and the galactic equator being zero.</rdfs:comment>
         <rdfs:comment rdf:datatype="&xsd;string">The galactic coordinate system is a celestial coordinate system which is centered on the Sun and is aligned with the apparent center of the Milky Way galaxy. The &#39;equator&#39; is aligned to the galactic plane.</rdfs:comment>
@@ -922,9 +951,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricEquatorialInertialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricEquatorialInertialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricEquatorialInertialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -932,9 +961,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricEquatorialInertialCoordinateSystemJ2000.0 -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricEquatorialInertialCoordinateSystemJ2000.0">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricEquatorialInertialCoordinateSystemJ2000.0">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -942,9 +971,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricInertialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricInertialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricInertialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">X = First point of Aries (Vernal Equinox, i.e. from Earth to the Sun in the first day of Spring) 
     Z = Earth&#39;s mean spin axis</rdfs:comment>
@@ -954,9 +983,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricSolarEclipticSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricSolarEclipticSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricSolarEclipticSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -964,9 +993,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricSolarEquatorialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricSolarEquatorialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricSolarEquatorialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The Geocentric Solar Equatorial System (GSEQ) as with the GSE system has its X-axis pointing towards the Sun from the Earth. However, instead of having its Y-axis in the ecliptic plane, the GSEQ Y-axis is parallel to the Sun&#39;s equatorial plane which is inclined to the ecliptic. We note that since the X-axis is in the ecliptic plane and therefore is not necessarily in the Sun&#39;s equatorial plane, the Z-axis of this system will not necessarily be parallel to the Sun&#39;s axis of rotation. However, the Sun&#39;s axis of rotation must lie in the X-Z plane. The Z-axis is chosen to be in the same sense as the ecliptic pole, i.e. northwards.</rdfs:comment>
         <rdfs:comment rdf:datatype="&xsd;string">This system has been used extensively to display interplanetary magnetic field data by the Ames magnetometer group (Colburn, 1969).</rdfs:comment>
@@ -976,9 +1005,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeocentricSolarMagnetosphericCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeocentricSolarMagnetosphericCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeocentricSolarMagnetosphericCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -986,9 +1015,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeodeticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeodeticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;GeodaticSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeodeticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;GeodaticSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The quantities latitude, longitude, and elevation which define the position of a point on the surface of the earth with respect to the reference ellipsoid.</rdfs:comment>
         <rdfs:comment rdf:datatype="&xsd;string">used by GPS systems</rdfs:comment>
@@ -998,9 +1027,9 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeographicCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeographicCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeographicCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1008,106 +1037,106 @@ When GEO coordinates are expressed in spherical form, the latitude component is 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GeomagneticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GeomagneticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;GeomagneticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis parallel to the Earth&#39;s magnetic dipole axis (positive North) and its Y axis is the intersection between the Earth&#39;s equator and the geographic meridian 90 degrees east of the meridan containing the dipole axis.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;MAG"/>
+        <owl:sameAs rdf:resource="&cs;MAG"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#GnomonicProjectionCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;GnomonicProjectionCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;GnomonicProjectionCoordinateSystem">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;TAN"/>
+        <owl:sameAs rdf:resource="&cs;TAN"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HAE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HAE">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HAE">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HAE</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricAriesEclipticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricAriesEclipticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HCD -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HCD">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HCD">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">Heliocentric of Date HCD
 XY-plane: Solar equator of date.
 +X-axis: Solar ascending node on ecliptic of date.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricOfDateCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricOfDateCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HCI -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HCI">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
+    <owl:Thing rdf:about="&cs;HCI">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HCI</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricInertialCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricInertialCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HEE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HEE">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HEE">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HEE</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricEarthEclipticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricEarthEclipticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HEEQ -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HEEQ">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HEEQ">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HEEQ</hasSpaseName>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricEarthEquatorialCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricEarthEquatorialCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HG -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HG">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HG">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HG</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Heliographic - A heliocentric rotating coordinate system where the Z axis is normal to the solar equatorial plane, positive northward.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HGC"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliographicCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HGC"/>
+        <owl:sameAs rdf:resource="&cs;HeliographicCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HGC -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HGC">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HGC">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">Physical features on the surface of the Sun are located in Heliographic coordinates (Expl.Suppl., 1961,11.B). Heliographic latitude is measured from the solar equator positive towards North, Heliographic longitude
 is defined westward (i.e. in the direction of planetary motion) from the solar prime meridian which passed through the ascending node on the ecliptic of date on 1854 Jan 1, noon (JD 239 8220.0). Heliographic
@@ -1115,42 +1144,42 @@ longitude is sometimes identified with Carrington longitude, but this usage shou
 XY-plane: Solar equator of date
 +X-axis: ascending node on 1854 Jan 1, noon (JD 239 8220.0)
 Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliographicCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliographicCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HGI -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HGI">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HGI">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">HGI</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Heliographic Inertial - A heliocentric coordinate system where the Z axis is normal to the solar equatorial plane, positive northward.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliographicInertialCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;HeliographicInertialCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HGRTN -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HGRTN">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;HGRTN">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system was, for example, used by the Ulysses mission.
 +X-axis: vector (Sun-S/C).
 +Y-axis: cross-product of (heliographic polar axis) and +X-axis.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;HeliocentricRTN"/>
+        <owl:sameAs rdf:resource="&cs;HeliocentricRTN"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricAriesEclipticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricAriesEclipticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricAriesEclipticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis perpendicular to the plane of the Earth&#39;s orbit around the Sun (positive North) and its X axis towards the First Point of Aries (the direction in space defined by the intersection between the Earth&#39;s equatorial plane and the plane of its orbit around the Sun (the plane of the ecliptic). This system is (to first order) fixed with respect to the distant stars. It is subject to slow change owing to the various slow motions of the Earth&#39;s rotation axis with respect to the fixed stars.</rdfs:comment>
     </owl:Thing>
@@ -1159,8 +1188,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricEarthEclipticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricEarthEclipticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricEarthEclipticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its X axis towards the Earth and its Z axis perpendicular to the plane of the Earth&#39;s orbit around the Sun (positive North). This system is fixed with respect to the Earth-Sun line.</rdfs:comment>
     </owl:Thing>
@@ -1169,8 +1198,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricEarthEquatorialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricEarthEquatorialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricEarthEquatorialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis parallel to the Sun&#39;s rotation axis (positive to the North) and its X axis towards the intersection of the solar equator and the solar central meridian as seen from the Earth. This system is sometimes known as heliocentric solar (HS).</rdfs:comment>
     </owl:Thing>
@@ -1179,8 +1208,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricInertialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricInertialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricInertialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1188,8 +1217,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricOfDateCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricOfDateCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricOfDateCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1197,9 +1226,9 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliocentricRTN -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliocentricRTN">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliocentricRTN">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1207,8 +1236,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliographicCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliographicCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliographicCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1216,8 +1245,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HeliographicInertialCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HeliographicInertialCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HeliographicInertialCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1225,9 +1254,9 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#HorizonCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;HorizonCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;HorizonCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">altazimuth coordinate system or horizon coordinate system, astronomical coordinate system in which the position of a body on the celestial sphere is described relative to an observer&#39;s celestial horizon and zenith . The coordinates of a body in this system are its altitude and azimuth . Altitude is measured from the celestial horizon along the vertical circle through the body and the zenith of the observer. Azimuth is measured along the celestial horizon from the observer&#39;s south point (the point on the horizon directly south of him) to the point where the body&#39;s vertical circle intersects the horizon. Because the earth rotates on its axis, the altitude and azimuth of a celestial body are constantly changing.</rdfs:comment>
     </owl:Thing>
@@ -1236,30 +1265,30 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#LCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;LCoordinateSystem">
+    <owl:Thing rdf:about="&cs;LCoordinateSystem">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;McIlwainCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;McIlwainCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#LGM -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;LGM">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;LGM">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">LGM</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Local Geomagnetic - A coordinate system used mainly for Earth surface or near Earth surface magnetic field data.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;LocalGeomagneticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;LocalGeomagneticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#LocalGeomagneticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;LocalGeomagneticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;LocalGeomagneticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1267,10 +1296,10 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#MAG -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;MAG">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;MAG">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">MAG</hasSpaseName>
     </owl:Thing>
@@ -1279,22 +1308,22 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#MFA -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;MFA">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;MFA">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">MFA</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Magnetic Field Aligned - A coordinate system spacecraft-centered system with Z in the direction of the ambient magnetic field vector.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;MagneticFieldAlignedCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;MagneticFieldAlignedCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#MagneticFieldAlignedCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;MagneticFieldAlignedCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;MagneticFieldAlignedCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1302,8 +1331,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#McIlwainCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;McIlwainCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;BoundaryNormalSystem"/>
+    <owl:Thing rdf:about="&cs;McIlwainCoordinateSystem">
+        <rdf:type rdf:resource="&cs;BoundaryNormalSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1311,18 +1340,18 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#OrthographicProjectionCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;OrthographicProjectionCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;OrthographicProjectionCoordinateSystem">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SIN"/>
+        <owl:sameAs rdf:resource="&cs;SIN"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#PerspectiveZenithalProjectionCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;PerspectiveZenithalProjectionCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;PerspectiveZenithalProjectionCoordinateSystem">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1330,8 +1359,8 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#PlateCarreeProjectionCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;PlateCarreeProjectionCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;PlateCarreeProjectionCoordinateSystem">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1339,22 +1368,22 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#RTN -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;RTN">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;RTN">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">RTN</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Typically centered at a spacecraft. Used for IMF and plasma V vectors. R (radial) axis is radially away from the Sun, T (tangential) axis is normal to the plane formed by R and the Sun&#39;s spin vector, positive in the direction of planetary motion. N (normal) is R x T.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;RadialTangentialNormalCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;RadialTangentialNormalCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#RadialTangentialNormalCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;RadialTangentialNormalCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;RadialTangentialNormalCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1362,125 +1391,125 @@ Angles: Heliographic latitude Y and longitude F right handed.</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SAE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SAE">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SAE">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpinAxisEclipticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpinAxisEclipticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SAS -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SAS">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SAS">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">This system is a fundamental reference system for most spinning spacecraft since the S/C - Sun meridian can
 easily be determined on board using a narrow-slit sun sensor. Thus a spacecraft-fixed instrumental system
 has only a longitudinal offset with respect to SAS linear in time.
 +Z-axis: spacecraft spin axis vA, right-handed orientation.
 +Y-axis: cross-product between +Z-axis and S/C - Sun vector vS.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpinAxisSunPulseCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpinAxisSunPulseCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SC -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SC">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SC">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SC</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Spacecraft - A coordinate system defined by the spacecraft geometry and/or spin.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpacecraftCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpacecraftCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SE">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SE">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SE</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Solar Ecliptic - A heliocentric coordinate system where the Z axis is normal to the ecliptic plane, positive northward.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SolarEclipticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SolarEclipticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SIN -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SIN">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;SIN">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;HEEQ"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;HEEQ"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SM -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SM">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;GeocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SM">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;GeocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SM</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">This system has its Z axis parallel to the Earth&#39;s magnetic dipole axis (positive North) and its Y axis perpendicular to the plane containing the dipole axis and the Earth-Sun line (positive in direction opposite to the Earth&#39;s orbital motion). The direction of the geomagnetic field in the outer magnetosphere is well-ordered by this system. It is the preferred system for defining magnetic local time in the outer magnetosphere.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SolarMagneticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SolarMagneticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SR -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SR">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SR">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SR</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Spin Reference - A special case of a Spacecraft (SC) coordinate system for a spinning spacecraft.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpinReferenceCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpinReferenceCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SR2 -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SR2">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SR2">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SR2</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Spin Reference 2 - A special case of a Spacecraft (SC) coordinate system for a spinning spacecraft.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpinReference2CoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpinReference2CoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SSE -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SSE">
-        <rdf:type rdf:resource="&CoordinateSystems;LocalSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SSE">
+        <rdf:type rdf:resource="&cs;LocalSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasSpaseName rdf:datatype="&xsd;string">SSE</hasSpaseName>
         <rdfs:comment rdf:datatype="&xsd;string">Spacecraft Solar Ecliptic - A coordinate system used for deep space spacecraft, for example Helios.</rdfs:comment>
-        <owl:sameAs rdf:resource="&CoordinateSystems;SpacecraftSolarEclipticCoordinateSystem"/>
+        <owl:sameAs rdf:resource="&cs;SpacecraftSolarEclipticCoordinateSystem"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SolarEclipticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SolarEclipticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SolarEclipticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1488,9 +1517,9 @@ has only a longitudinal offset with respect to SAS linear in time.
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SolarMagneticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SolarMagneticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SolarMagneticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1498,9 +1527,9 @@ has only a longitudinal offset with respect to SAS linear in time.
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpacecraftCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpacecraftCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SpacecraftCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1508,8 +1537,8 @@ has only a longitudinal offset with respect to SAS linear in time.
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpacecraftOrbitPlane -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpacecraftOrbitPlane">
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SpacecraftOrbitPlane">
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">A coordinate system where X lies in the plane normal to and in the direction of motion of the spacecraft, Z is normal to this plane and Y completes the triad in a right-handed coordinate system.</rdfs:comment>
         <hasSpaseName rdf:datatype="&xsd;string">Spacecraft Orbit Plane</hasSpaseName>
@@ -1519,9 +1548,9 @@ has only a longitudinal offset with respect to SAS linear in time.
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpacecraftSolarEclipticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpacecraftSolarEclipticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SpacecraftSolarEclipticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1529,8 +1558,8 @@ has only a longitudinal offset with respect to SAS linear in time.
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpinAxisEclipticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpinAxisEclipticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SpinAxisEclipticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">Spin axis ecliptic SAE [NSSDC, Pioneer data pages]
 This spacecraft centered system was for example used by the Pioneer missions (under the acronym PE).
@@ -1542,8 +1571,8 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpinAxisSunPulseCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpinAxisSunPulseCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;SpinAxisSunPulseCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1551,9 +1580,9 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpinReference2CoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpinReference2CoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SpinReference2CoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1561,9 +1590,9 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SpinReferenceCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SpinReferenceCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;SpacecraftSystem"/>
+    <owl:Thing rdf:about="&cs;SpinReferenceCoordinateSystem">
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
+        <rdf:type rdf:resource="&cs;SpacecraftSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
     </owl:Thing>
     
@@ -1571,9 +1600,9 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#StonyhurstCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;StonyhurstCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;HeliocentricSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;RotatingSystem"/>
+    <owl:Thing rdf:about="&cs;StonyhurstCoordinateSystem">
+        <rdf:type rdf:resource="&cs;HeliocentricSystem"/>
+        <rdf:type rdf:resource="&cs;RotatingSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">One of two heliographic coordinate systems used for identifying the position of features on the Sun&#39;s surface. In the Stonyhurst system the zero point is set at the intersection of the Sun&#39;s equator and central meridian as seen from the Earth. Longitude increases towards the Sun&#39;s western limb. A solar feature will have a fixed latitude as it rotates across the solar disk, but its longitude will increase. This is in contrast to the Carrington heliographic coordinate system, where the longitude remains approximately fixed in time. Stonyhurst coordinates are named after Stonyhurst College in Lancashire, England, where they were devised in the 19th century.</rdfs:comment>
     </owl:Thing>
@@ -1582,9 +1611,9 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#SupergalacticCoordinateSystem -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;SupergalacticCoordinateSystem">
-        <rdf:type rdf:resource="&CoordinateSystems;CelestialCoordinateSystem"/>
-        <rdf:type rdf:resource="&CoordinateSystems;InertialSystem"/>
+    <owl:Thing rdf:about="&cs;SupergalacticCoordinateSystem">
+        <rdf:type rdf:resource="&cs;CelestialCoordinateSystem"/>
+        <rdf:type rdf:resource="&cs;InertialSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">Supergalactic coordinates are coordinates in a spherical coordinate system which was designed to have its equator aligned with the supergalactic plane, which is the (two-dimensional) plane going through the structure formed by clusters of galaxies close to the Sun. The zero point for supergalactic longitude is defined by the intersection of this plane with the galactic plane.</rdfs:comment>
     </owl:Thing>
@@ -1593,7 +1622,7 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TAI -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;TAI">
+    <owl:Thing rdf:about="&cs;TAI">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">international atomic time, defined by SI seconds</rdfs:comment>
     </owl:Thing>
@@ -1602,17 +1631,17 @@ This spacecraft centered system was for example used by the Pioneer missions (un
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TAN -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;TAN">
-        <rdf:type rdf:resource="&CoordinateSystems;ProjectedSystem"/>
+    <owl:Thing rdf:about="&cs;TAN">
+        <rdf:type rdf:resource="&cs;ProjectedSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
-        <hasTimeindependentTransformation rdf:resource="&CoordinateSystems;HEEQ"/>
+        <hasTimeindependentTransformation rdf:resource="&cs;HEEQ"/>
     </owl:Thing>
     
 
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TDB -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;TDB">
+    <owl:Thing rdf:about="&cs;TDB">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">barycentric dynamical time, defined by the mean solar day at the
 solar system barycentre, basis for solar system ephemeris</rdfs:comment>
@@ -1622,7 +1651,7 @@ solar system barycentre, basis for solar system ephemeris</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#TT -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;TT">
+    <owl:Thing rdf:about="&cs;TT">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">terrestrial time, TT=TAI+32s .184, basis for geocentric ephemeris</rdfs:comment>
     </owl:Thing>
@@ -1631,7 +1660,7 @@ solar system barycentre, basis for solar system ephemeris</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#UT1 -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;UT1">
+    <owl:Thing rdf:about="&cs;UT1">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">universal time, defined by the mean solar day</rdfs:comment>
     </owl:Thing>
@@ -1640,7 +1669,7 @@ solar system barycentre, basis for solar system ephemeris</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#UTC -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;UTC">
+    <owl:Thing rdf:about="&cs;UTC">
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">coordinated universal time, TAI - leap seconds, broadcast standard</rdfs:comment>
     </owl:Thing>
@@ -1649,8 +1678,8 @@ solar system barycentre, basis for solar system ephemeris</rdfs:comment>
 
     <!-- http://www.semanticweb.org/ontologies/2009/10/CoordinateSystems.owl#WGS84 -->
 
-    <owl:Thing rdf:about="&CoordinateSystems;WGS84">
-        <rdf:type rdf:resource="&CoordinateSystems;GeodaticSystem"/>
+    <owl:Thing rdf:about="&cs;WGS84">
+        <rdf:type rdf:resource="&cs;GeodaticSystem"/>
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:comment rdf:datatype="&xsd;string">The World Geodetic System (WGS) defines a reference frame for the earth, for use in geodesy and navigation. The WGS84 uses the zero meridian as defined by the Bureau International de l&#39;Heure.</rdfs:comment>
         <hasSpaseName rdf:datatype="&xsd;string">WGS84</hasSpaseName>
@@ -1659,5 +1688,5 @@ solar system barycentre, basis for solar system ephemeris</rdfs:comment>
 
 
 
-<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 3.2.2.1785) http://owlapi.sourceforge.net -->
 

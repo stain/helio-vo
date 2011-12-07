@@ -8,12 +8,12 @@
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY helio-flare1 "http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#" >
+    <!ENTITY ext "http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#" >
     <!ENTITY HELIO_organisationalOntology "http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#" >
 ]>
 
 
-<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#"
+<rdf:RDF xmlns="org#"
      xml:base="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
@@ -22,7 +22,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:HELIO_organisationalOntology="http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#"
-     xmlns:helio-flare1="http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#">
+     xmlns:ext="http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#">
     <owl:Ontology rdf:about=""/>
     
 
@@ -35,6 +35,8 @@
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
 
+    <owl:AnnotationProperty rdf:about="&ext;HELIOService"/>
+    <owl:AnnotationProperty rdf:about="&ext;HELIOIdentifier"/>
     <owl:AnnotationProperty rdf:about="&dc;description"/>
     <owl:AnnotationProperty rdf:about="#SpaseIdentifier"/>
     
@@ -51,10 +53,39 @@
     
 
 
-    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl#hasParameter -->
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#hasParameter -->
 
-    <owl:ObjectProperty rdf:about="&helio-flare1;hasParameter">
+    <owl:ObjectProperty rdf:about="&ext;hasParameter">
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#containsDataResource -->
+
+    <owl:ObjectProperty rdf:about="#containsDataResource">
+        <rdfs:range rdf:resource="#DataResource"/>
+        <rdfs:domain rdf:resource="#Service"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#hasRecord -->
+
+    <owl:ObjectProperty rdf:about="#hasRecord">
+        <rdfs:domain rdf:resource="#Catalog"/>
+        <rdfs:range rdf:resource="#Record"/>
+        <owl:inverseOf rdf:resource="#isContainedInCatalog"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#hasRecordField -->
+
+    <owl:ObjectProperty rdf:about="#hasRecordField">
+        <rdfs:range rdf:resource="#CatalogField"/>
+        <rdfs:domain rdf:resource="#Record"/>
+        <owl:inverseOf rdf:resource="#isContainedInRecord"/>
     </owl:ObjectProperty>
     
 
@@ -66,6 +97,18 @@
         <rdfs:range rdf:resource="#Role"/>
         <owl:inverseOf rdf:resource="#isFilledBy"/>
     </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#isContainedInCatalog -->
+
+    <owl:ObjectProperty rdf:about="#isContainedInCatalog"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#isContainedInRecord -->
+
+    <owl:ObjectProperty rdf:about="#isContainedInRecord"/>
     
 
 
@@ -115,11 +158,271 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#DurationField -->
+
+    <owl:Class rdf:about="&ext;DurationField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#EnergyKeVField -->
+
+    <owl:Class rdf:about="&ext;EnergyKeVField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#FlareNumberField -->
+
+    <owl:Class rdf:about="&ext;FlareNumberField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#GoesXrayFlareEventCatalogField -->
+
+    <owl:Class rdf:about="&ext;GoesXrayFlareEventCatalogField">
+        <rdfs:subClassOf rdf:resource="&ext;NamedCatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#GoesXrayFlareRecord -->
+
+    <owl:Class rdf:about="&ext;GoesXrayFlareRecord">
+        <rdfs:subClassOf rdf:resource="#Record"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#HalphaFlareEventCatalogField -->
+
+    <owl:Class rdf:about="&ext;HalphaFlareEventCatalogField">
+        <rdfs:subClassOf rdf:resource="&ext;NamedCatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#HalphaFlareEventRecord -->
+
+    <owl:Class rdf:about="&ext;HalphaFlareEventRecord">
+        <rdfs:subClassOf rdf:resource="#Record"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#HessiFlareCatalogField -->
+
+    <owl:Class rdf:about="&ext;HessiFlareCatalogField">
+        <rdfs:subClassOf rdf:resource="&ext;NamedCatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#HessiFlareRecord -->
+
+    <owl:Class rdf:about="&ext;HessiFlareRecord">
+        <rdfs:subClassOf rdf:resource="#Record"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#KsoFlareCatalogField -->
+
+    <owl:Class rdf:about="&ext;KsoFlareCatalogField">
+        <rdfs:subClassOf rdf:resource="&ext;NamedCatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#KsoFlareRecord -->
+
+    <owl:Class rdf:about="&ext;KsoFlareRecord">
+        <rdfs:subClassOf rdf:resource="#Record"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#LatitudeField -->
+
+    <owl:Class rdf:about="&ext;LatitudeField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#LongCarrField -->
+
+    <owl:Class rdf:about="&ext;LongCarrField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#LongitudeField -->
+
+    <owl:Class rdf:about="&ext;LongitudeField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#NTimeEndField -->
+
+    <owl:Class rdf:about="&ext;NTimeEndField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#NTimeStartField -->
+
+    <owl:Class rdf:about="&ext;NTimeStartField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#NamedCatalogField -->
+
+    <owl:Class rdf:about="&ext;NamedCatalogField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#NarField -->
+
+    <owl:Class rdf:about="&ext;NarField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#OpticalClassField -->
+
+    <owl:Class rdf:about="&ext;OpticalClassField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#RadialArcSecField -->
+
+    <owl:Class rdf:about="&ext;RadialArcSecField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimeEndField -->
+
+    <owl:Class rdf:about="&ext;TimeEndField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimeEndMField -->
+
+    <owl:Class rdf:about="&ext;TimeEndMField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimePeakField -->
+
+    <owl:Class rdf:about="&ext;TimePeakField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimePeakMField -->
+
+    <owl:Class rdf:about="&ext;TimePeakMField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimeStartField -->
+
+    <owl:Class rdf:about="&ext;TimeStartField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#TimeStartMField -->
+
+    <owl:Class rdf:about="&ext;TimeStartMField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#XArcSecField -->
+
+    <owl:Class rdf:about="&ext;XArcSecField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#XRayClassField -->
+
+    <owl:Class rdf:about="&ext;XRayClassField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#XrayCountSecPeakField -->
+
+    <owl:Class rdf:about="&ext;XrayCountSecPeakField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#XrayTotalCountField -->
+
+    <owl:Class rdf:about="&ext;XrayTotalCountField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/helio-full.owl#YArcSecField -->
+
+    <owl:Class rdf:about="&ext;YArcSecField">
+        <rdfs:subClassOf rdf:resource="#CatalogField"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#AadGroundLevelEnhancementCatalog -->
+
+    <owl:Class rdf:about="#AadGroundLevelEnhancementCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >AAD Ground Level Enhancement List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">aad_gle</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Annotation -->
 
     <owl:Class rdf:about="#Annotation">
         <rdfs:subClassOf rdf:resource="#DataResource"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Annotation</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Annotation</HELIO_organisationalOntology:SpaseIdentifier>
         <dc:description rdf:datatype="&xsd;string"
             >Information which is explanatory or descriptive which is associated with another resource.</dc:description>
     </owl:Class>
@@ -130,8 +433,85 @@
 
     <owl:Class rdf:about="#ArchiveSpecialist">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >Archive Specialist</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >Archive Specialist</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusSohoCMECatalog -->
+
+    <owl:Class rdf:about="#CactusSohoCMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus SOHO/LASCO CME List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">cactus_soho_cme</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusSohoFlowCatalog -->
+
+    <owl:Class rdf:about="#CactusSohoFlowCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus SOHO/LASCO Flow List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cactus_soho_flow</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusStereoACMECatalog -->
+
+    <owl:Class rdf:about="#CactusStereoACMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus STEREO-A/COR CME List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cactus_stereoa_cme</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusStereoAFlowCatalog -->
+
+    <owl:Class rdf:about="#CactusStereoAFlowCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus STEREO-A/COR Flow List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cactus_stereoa_flow</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusStereoBCMECatalog -->
+
+    <owl:Class rdf:about="#CactusStereoBCMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus STEREO-B/COR CME List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cactus_stereob_cme</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CactusStereoBFlowCatalog -->
+
+    <owl:Class rdf:about="#CactusStereoBFlowCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CACTus STEREO-B/COR Flow List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cactus_stereob_flow</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
     </owl:Class>
     
 
@@ -142,7 +522,17 @@
         <rdfs:subClassOf rdf:resource="#DataResource"/>
         <dc:description rdf:datatype="&xsd;string"
             >A tabular listing of events or observational notes, especially those that have utility in aiding a user in locating data. Catalogues include lists of events, files in a product, and data availability.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Catalog</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Catalog</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#CatalogField -->
+
+    <owl:Class rdf:about="#CatalogField">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >sub structure in catalog</dc:description>
     </owl:Class>
     
 
@@ -151,7 +541,7 @@
 
     <owl:Class rdf:about="#CoInvestigator">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Co-Investigator</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Co-Investigator</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -160,7 +550,7 @@
 
     <owl:Class rdf:about="#Contributor">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Contributor</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Contributor</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -169,7 +559,7 @@
 
     <owl:Class rdf:about="#DataProducer">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Data Producer</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Data Producer</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -186,7 +576,7 @@
 
     <owl:Class rdf:about="#DeputyPI">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Deputy-PI</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Deputy-PI</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -197,7 +587,6 @@
         <rdfs:subClassOf rdf:resource="#DataResource"/>
         <dc:description rdf:datatype="&xsd;string"
             >A graphical representation of data wherein the underlying numeric values are not (readily) accessible for analysis.. Examples are line plots and spectrograms.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Display Data</SpaseIdentifier>
     </owl:Class>
     
 
@@ -208,7 +597,20 @@
         <rdfs:subClassOf rdf:resource="#DataResource"/>
         <dc:description rdf:datatype="&xsd;string"
             >A set of information designed and presented as an individual entity. A document may contain plain or formatted text, in-line graphics, sound, other multimedia data, or hypermedia references. Some examples of documents include a paper, letter, book, user guide, map, drawing, photograph, or image.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Document</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Document</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#ForbushCatalog -->
+
+    <owl:Class rdf:about="#ForbushCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >CME-related Forbush Decrease Event List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >cme_forbush_event</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
     </owl:Class>
     
 
@@ -217,7 +619,7 @@
 
     <owl:Class rdf:about="#FormerPI">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Former-PI</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Former-PI</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -226,7 +628,32 @@
 
     <owl:Class rdf:about="#GeneralContact">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">General Contact</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">General Contact</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#GoesProtonEventCatalog -->
+
+    <owl:Class rdf:about="#GoesProtonEventCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Geo-effective solar energetic proton (SEP) events (NOAA)</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">HEC</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >goes_proton_event</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#GoesSoftXrayFlareEventCatalog -->
+
+    <owl:Class rdf:about="#GoesSoftXrayFlareEventCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >GOES Soft X-ray Flare List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">goes_sxr_flare</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
     </owl:Class>
     
 
@@ -237,7 +664,36 @@
         <rdfs:subClassOf rdf:resource="#DataResource"/>
         <dc:description rdf:datatype="&xsd;string"
             >An accessible portion of another resource. A Granule may be composed of one or more physical pieces (files) which are considered inseparable. For example, a data storage format that maintains metadata and binary data in separate, but tightly coupled files. Granules should not be used to group files that have simple relationships or which are associated through a parent resource. For example, each file containing a time interval data for a Numerical Data resource would each be considered a Granule. The ParentID of a Granule resource must be a NumericalData resource. The attributes of a Granule supersede the corresponding attributes in the NumericalData resource.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Granule</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Granule</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#HaloCMEFlareMagneticStormCatalog -->
+
+    <owl:Class rdf:about="#HaloCMEFlareMagneticStormCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >SOHO/LASCO Halo CME with Associated SGD H-alpha Flare and WDC Magnetic Storm List</dc:description>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >halo_cme_flare_magnetic_storm</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#HelioEventCatalog -->
+
+    <owl:Class rdf:about="#HelioEventCatalog">
+        <rdfs:subClassOf rdf:resource="#Service"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#HelioFeatureCatalog -->
+
+    <owl:Class rdf:about="#HelioFeatureCatalog">
+        <rdfs:subClassOf rdf:resource="#Service"/>
     </owl:Class>
     
 
@@ -254,7 +710,20 @@
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
         <dc:description rdf:datatype="&xsd;string"
             >A two-dimensional representation of data with values at each element of the array related to an intensity or a color.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Image</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Image</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Imp8SolarWindCrossingTimeCatalog -->
+
+    <owl:Class rdf:about="#Imp8SolarWindCrossingTimeCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >IMP-8 Solar Wind Crossing Time List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >imp8_sw_crossing_time</ext:HELIOIdentifier>
     </owl:Class>
     
 
@@ -267,12 +736,127 @@
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#IstpSolarWindCatalog -->
+
+    <owl:Class rdf:about="#IstpSolarWindCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >ISTP Solar Wind Candidate Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">istp_sw_event</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#KsoHalphaFlareCatalog -->
+
+    <owl:Class rdf:about="#KsoHalphaFlareCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Kanzelhoehe Solar Observatory (KSO) H-alpha Flare List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >kso_halpha_flare</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#MetadataContact -->
 
     <owl:Class rdf:about="#MetadataContact">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >Metadata Contact</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >Metadata Contact</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NOAAActiveRegionSummaryCatalog -->
+
+    <owl:Class rdf:about="#NOAAActiveRegionSummaryCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NOAA/USAF Solar Active Region Summary List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >noaa_active_region_summary</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NOAADailySolarDataCatalog -->
+
+    <owl:Class rdf:about="#NOAADailySolarDataCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NOAA Daily Solar Data List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >noaa_daily_solar_data</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NOAAEnergeticEventCatalog -->
+
+    <owl:Class rdf:about="#NOAAEnergeticEventCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NOAA Solar Energetic Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >noaa_energetic_event</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NgdcAAStarMagneticStormCatalog -->
+
+    <owl:Class rdf:about="#NgdcAAStarMagneticStormCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NGDC AA* Major Magnetic Storm</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >ngdc_aastar_storm</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NgdcApStarMagneticStormCatalog -->
+
+    <owl:Class rdf:about="#NgdcApStarMagneticStormCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NGDC Ap* Major Magnetic Storm</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >ngdc_apstar_storm</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NgdcHalphaFlareEventCatalog -->
+
+    <owl:Class rdf:about="#NgdcHalphaFlareEventCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NGDC H-alpha Flare List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >ngdc_halpha_flare</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#NgdcStormSuddenCommencementCatalog -->
+
+    <owl:Class rdf:about="#NgdcStormSuddenCommencementCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >NGDC Storm Sudden Commencement List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">ngdc_ssc</ext:HELIOIdentifier>
     </owl:Class>
     
 
@@ -283,7 +867,7 @@
         <rdfs:subClassOf rdf:resource="#DataResource"/>
         <dc:description rdf:datatype="&xsd;string"
             >Data product stored as numerical values in a specified format.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Numerical Data</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Numerical Data</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -306,7 +890,7 @@
 
     <owl:Class rdf:about="#Plasmagram">
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Plasmagram</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Plasmagram</HELIO_organisationalOntology:SpaseIdentifier>
         <dc:description rdf:datatype="&xsd;string"
             >The characterization of signal strengths in active sounding measurements as a function of virtual range or
 signal delay time and sounding frequency. A Plasmagram is also referred to as an Ionogram.</dc:description>
@@ -318,8 +902,8 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#PrincipalInvestigator">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >Principal Investigator</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >Principal Investigator</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -328,8 +912,8 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#ProjectScientist">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >Project Scientist</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >Project Scientist</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -338,7 +922,15 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#Publisher">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Publisher</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Publisher</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Record -->
+
+    <owl:Class rdf:about="#Record">
+        <rdfs:subClassOf rdf:resource="#DataResource"/>
     </owl:Class>
     
 
@@ -355,6 +947,19 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#Repository">
         <rdfs:subClassOf rdf:resource="#InfrastructureResource"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#RhessiHardXrayFlareCatalog -->
+
+    <owl:Class rdf:about="#RhessiHardXrayFlareCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >RHESSI Hard X-ray Flare List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >rhessi_hxr_flare</ext:HELIOIdentifier>
     </owl:Class>
     
 
@@ -377,7 +982,7 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#Scientist">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Scientist</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Scientist</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -390,11 +995,69 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
     
 
 
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#SohoCDSObservationCatalog -->
+
+    <owl:Class rdf:about="#SohoCDSObservationCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">cds_cat</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">uoc</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#SohoEITWaveTransientCatalog -->
+
+    <owl:Class rdf:about="#SohoEITWaveTransientCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >SOHO/EIT Wave Transient List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >soho_eit_wave_transient</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#SohoLascoCMECatalog -->
+
+    <owl:Class rdf:about="#SohoLascoCMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >SOHO/LASCO CME Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">soho_lasco_cme</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#SohoPMInterplanetaryShockCatalog -->
+
+    <owl:Class rdf:about="#SohoPMInterplanetaryShockCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >SOHO/CELIAS/MTOF/PM Interplanetary Shock List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >soho_pm_ip_shock</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#SolarObservationCatalog -->
+
+    <owl:Class rdf:about="#SolarObservationCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">solar_cat</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">uoc</ext:HELIOService>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#Spectrogram -->
 
     <owl:Class rdf:about="#Spectrogram">
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Spectrogram</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Spectrogram</HELIO_organisationalOntology:SpaseIdentifier>
         <dc:description rdf:datatype="&xsd;string"
             >The characterization of signal strengths as a function of frequency (or energy) and time.</dc:description>
     </owl:Class>
@@ -407,7 +1070,58 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
         <dc:description rdf:datatype="&xsd;string"
             >A representation of data showing multiple sets of observations on a single plot, possibly offsetting each plot by some uniform amount.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Stack Plot</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Stack Plot</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#StereoEUVICatalog -->
+
+    <owl:Class rdf:about="#StereoEUVICatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >STEREO/SECCHI/EUVI Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >stereo_euvi_event</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#StereoHICMECatalog -->
+
+    <owl:Class rdf:about="#StereoHICMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >STEREO Heliospheric Imager CME Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">stereo_hi_cme</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#StereoHISolarWindCatalog -->
+
+    <owl:Class rdf:about="#StereoHISolarWindCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >STEREO Heliospheric Imager Solar Wind Transient List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >stereo_hi_sw_transient</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TSRSSolarRadioCatalog -->
+
+    <owl:Class rdf:about="#TSRSSolarRadioCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Trieste Solar Radio System (TSRS) Solar Radio Event List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >tsrs_solar_radio_event</ext:HELIOIdentifier>
     </owl:Class>
     
 
@@ -416,7 +1130,7 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#TeamLeader">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Team Leader</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Team Leader</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -425,7 +1139,7 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#TeamMember">
         <rdfs:subClassOf rdf:resource="#Contributor"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Team Member</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Team Member</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -434,8 +1148,8 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#TechnicalContact">
         <rdfs:subClassOf rdf:resource="#Role"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >Technical Contact</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >Technical Contact</HELIO_organisationalOntology:SpaseIdentifier>
     </owl:Class>
     
 
@@ -444,9 +1158,53 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
 
     <owl:Class rdf:about="#TimeSeries">
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
-        <SpaseIdentifier rdf:datatype="&xsd;string"
-            >A representation of data showing a set of observations taken at different points in time and charted as a time series.</SpaseIdentifier>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Time Series</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string"
+            >A representation of data showing a set of observations taken at different points in time and charted as a time series.</HELIO_organisationalOntology:SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Time Series</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#TraceObservationCatalog -->
+
+    <owl:Class rdf:about="#TraceObservationCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">trace_cat</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">uoc</ext:HELIOService>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#UlyssesGRBXrayFlareCatalog -->
+
+    <owl:Class rdf:about="#UlyssesGRBXrayFlareCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Ulysses/GRB X-ray Flare List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >ulysses_grb_xray_flare</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#UlyssesSwoopsICMECatalog -->
+
+    <owl:Class rdf:about="#UlyssesSwoopsICMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Ulysses/SWOOPS Interplanetary CME List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >ulysses_swoops_icme</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#UniversalObservationCatalog -->
+
+    <owl:Class rdf:about="#UniversalObservationCatalog">
+        <rdfs:subClassOf rdf:resource="#Service"/>
     </owl:Class>
     
 
@@ -457,7 +1215,108 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
         <rdfs:subClassOf rdf:resource="#DisplayData"/>
         <dc:description rdf:datatype="&xsd;string"
             >Spatial or temporal variations of wave amplitude over wave-period timescales.</dc:description>
-        <SpaseIdentifier rdf:datatype="&xsd;string">Wave Form</SpaseIdentifier>
+        <HELIO_organisationalOntology:SpaseIdentifier rdf:datatype="&xsd;string">Wave Form</HELIO_organisationalOntology:SpaseIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindMFIBowShockCrossingTimeCatalog -->
+
+    <owl:Class rdf:about="#WindMFIBowShockCrossingTimeCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >WIND/MFI Bow Shock Crossing Time List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_mfi_bs_crossing_time</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindMFIInterplanetaryShockCatalog -->
+
+    <owl:Class rdf:about="#WindMFIInterplanetaryShockCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >WIND/MFI Interplanetary Shock List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_mfi_ip_shock</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindMFIMagneticCloudCatalog -->
+
+    <owl:Class rdf:about="#WindMFIMagneticCloudCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >WIND/MFI Magnetic Cloud List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_mfi_mag_cloud</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindSohoRadioBurst2CMECatalog -->
+
+    <owl:Class rdf:about="#WindSohoRadioBurst2CMECatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Type II Radio Burst (WIND) and Associated CME (SOHO) List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_typeii_soho_cme</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindSolarWindCrossingTimeCatalog -->
+
+    <owl:Class rdf:about="#WindSolarWindCrossingTimeCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >WIND Solar Wind Crossing Time List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_sw_crossing_time</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#WindStereoRadioBurstCatalog -->
+
+    <owl:Class rdf:about="#WindStereoRadioBurstCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >WIND and STEREO Candidate Type II and IV Radio Burst List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >wind_stereo_ii_iv_radioburst</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#YohkohHardXrayFlareCatalog -->
+
+    <owl:Class rdf:about="#YohkohHardXrayFlareCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <dc:description rdf:datatype="&xsd;string"
+            >Yohkoh/HXT Hard X-ray Flare List</dc:description>
+        <ext:HELIOService rdf:datatype="&xsd;string">hec</ext:HELIOService>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string"
+            >yohkoh_hxr_flare</ext:HELIOIdentifier>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/2/HELIO_organisationalOntology.owl#YohkohSXTObservationCatalog -->
+
+    <owl:Class rdf:about="#YohkohSXTObservationCatalog">
+        <rdfs:subClassOf rdf:resource="#Catalog"/>
+        <ext:HELIOIdentifier rdf:datatype="&xsd;string">sxt_cat</ext:HELIOIdentifier>
+        <ext:HELIOService rdf:datatype="&xsd;string">uoc</ext:HELIOService>
     </owl:Class>
     
 
@@ -479,19 +1338,22 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="#Registry"/>
-            <rdf:Description rdf:about="#Repository"/>
-            <rdf:Description rdf:about="#Service"/>
-        </owl:members>
-    </rdf:Description>
-    <rdf:Description>
-        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
-        <owl:members rdf:parseType="Collection">
             <rdf:Description rdf:about="#Annotation"/>
             <rdf:Description rdf:about="#Catalog"/>
             <rdf:Description rdf:about="#DisplayData"/>
             <rdf:Description rdf:about="#Granule"/>
             <rdf:Description rdf:about="#NumericalData"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="#Image"/>
+            <rdf:Description rdf:about="#Plasmagram"/>
+            <rdf:Description rdf:about="#Spectrogram"/>
+            <rdf:Description rdf:about="#StackPlot"/>
+            <rdf:Description rdf:about="#TimeSeries"/>
+            <rdf:Description rdf:about="#WaveForm"/>
         </owl:members>
     </rdf:Description>
     <rdf:Description>
@@ -515,12 +1377,9 @@ signal delay time and sounding frequency. A Plasmagram is also referred to as an
     <rdf:Description>
         <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
         <owl:members rdf:parseType="Collection">
-            <rdf:Description rdf:about="#Image"/>
-            <rdf:Description rdf:about="#Plasmagram"/>
-            <rdf:Description rdf:about="#Spectrogram"/>
-            <rdf:Description rdf:about="#StackPlot"/>
-            <rdf:Description rdf:about="#TimeSeries"/>
-            <rdf:Description rdf:about="#WaveForm"/>
+            <rdf:Description rdf:about="#Registry"/>
+            <rdf:Description rdf:about="#Repository"/>
+            <rdf:Description rdf:about="#Service"/>
         </owl:members>
     </rdf:Description>
 </rdf:RDF>

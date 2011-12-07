@@ -51,8 +51,8 @@ public class QueryOntology {
 	public QueryOntology() {
 		try {
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager(); 
-			IRI flareOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl"); 
-			IRI flareOntologyFile = IRI.create(this.getClass().getResource("/helio-flare1.owl"));  
+			IRI flareOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/10/helio-full.owl"); 
+			IRI flareOntologyFile = IRI.create(this.getClass().getResource("/helio-full.owl"));  
 			IRI upperOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/5/HELIO_upperOntology.owl"); 
 			IRI upperOntologyFile = IRI.create(this.getClass().getResource("/HELIO_upperOntology.owl"));  
 			IRI physicisOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl"); 
@@ -70,7 +70,7 @@ public class QueryOntology {
 			mapper.addMapping(organisationalOntologyIRI, organisationalOntologyFile);
 			manager.addIRIMapper(mapper);
 
-			ont = manager.loadOntology(IRI.create(this.getClass().getResource("/helio-flare1.owl")));
+			ont = manager.loadOntology(IRI.create(this.getClass().getResource("/helio-full.owl")));
 	
 			onts.add(ont);
 			OWLReasonerFactory reasonerFactory = new Reasoner.ReasonerFactory(); 
@@ -291,7 +291,7 @@ public class QueryOntology {
 	 */
 	public List<String> getEventCatalogues(String phenomenon) throws ParserException {
 		ArrayList<String> list= new ArrayList<String>(); 
-		logger.info("getEventCatalogues entered");
+		logger.debug("getEventCatalogues entered");
 		if(phenomenon==null){
 			return list;
 		}
@@ -305,12 +305,13 @@ public class QueryOntology {
         	logger.debug("result classes " + cl.toString());
         	OWLAnnotationProperty service = getAnnotationProperty("HELIOService");
         	OWLAnnotationProperty identifier = getAnnotationProperty("HELIOIdentifier");
-        	
-        	Set<OWLAnnotation> servSet = cl.getAnnotations(ont, service);
-        	Set<OWLAnnotation> identSet = cl.getAnnotations(ont, identifier);
+        	Set<OWLAnnotation> servSet = getAnnotations(cl, service);
+        	Set<OWLAnnotation> identSet = getAnnotations(cl, identifier);
         	for(OWLAnnotation an : servSet){
+        		logger.debug("service: " + an.getValue().toString());
         		if(an.getValue().toString().contains("hec")){
         			for(OWLAnnotation an2 : identSet){
+        				logger.debug("identifier: " + an2.getValue().toString());
         				String content= an2.getValue().toString();
         				list.add(content.substring(content.indexOf("\"")+1, content.lastIndexOf("\"")));
         			}
@@ -321,4 +322,19 @@ public class QueryOntology {
 		return list;
 	}	
 
+	private Set<OWLAnnotation> getAnnotations(OWLClass cl,OWLAnnotationProperty annotation){
+		Set<OWLAnnotation> setAnnotations = null;
+		Iterator<OWLOntology> o=onts.iterator();
+    	while(o.hasNext()){
+    		if(setAnnotations==null){
+    			setAnnotations = cl.getAnnotations(o.next(), annotation);
+    		}else {
+    			setAnnotations.addAll(cl.getAnnotations(o.next(), annotation));
+    		}
+
+    	}
+    	return setAnnotations;
+	}
+	
 }
+

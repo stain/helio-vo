@@ -38,8 +38,8 @@ public class OntologyTest {
 		String dir1;
 			dir1 = new File(".").getCanonicalPath().replaceAll("\\\\", "/");
 			OWLOntologyManager manager = OWLManager.createOWLOntologyManager(); 
-			IRI flareOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/10/helio-flare1.owl"); 
-			IRI flareOntologyFile = IRI.create(new File(dir1+"/src/main/resources/helio-flare1.owl"));  
+			IRI flareOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/10/helio-full.owl"); 
+			IRI flareOntologyFile = IRI.create(new File(dir1+"/src/main/resources/helio-full.owl"));  
 			IRI upperOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2010/5/HELIO_upperOntology.owl"); 
 			IRI upperOntologyFile = IRI.create(new File(dir1+"/src/main/resources/HELIO_upperOntology.owl"));  
 			IRI physicisOntologyIRI = IRI.create("http://www.semanticweb.org/ontologies/2009/10/HELIO_physicsOntology.owl"); 
@@ -57,7 +57,7 @@ public class OntologyTest {
 			mapper.addMapping(organisationalOntologyIRI, organisationalOntologyFile);
 			manager.addIRIMapper(mapper);
 			
-			File file1= new File(dir1+"/src/main/resources/helio-flare1.owl");
+			File file1= new File(dir1+"/src/main/resources/helio-full.owl");
 			
 			
 			ont= manager.loadOntologyFromOntologyDocument(file1);
