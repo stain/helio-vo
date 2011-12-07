@@ -2,8 +2,8 @@ package eu.heliovo.cis.service.hit.repository;
 
 import java.util.Set;
 
-public interface HITRepository {
-
+public interface HITRepository 
+{
 	/**
 	 * Checks if is user present.
 	 *
@@ -99,4 +99,29 @@ public interface HITRepository {
 	 * @throws HITRepositoryException 
 	 */
 	public Set getAllUserNames();
+	/**
+	 * Changes the password for the user.
+	 *
+	 * @param user the user
+	 * @param oldPwdHash the hash for the old password
+	 * @param newPwdHash the hash for the new password
+	 * @throws HITRepositoryException 
+	 */
+	public abstract void changePwdForUser(String user, String oldPwdHash,
+			String newPwdHash) throws HITRepositoryException;
+	/**
+	 * Gets the preferences for the user
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	public abstract String getPreferenceForUser(String user, String service,
+			String field) throws HITRepositoryException;
+
+	/**
+	 * Sets the preferences for the user
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	void setPreferenceForUser(String user, String service, String field,
+			String value) throws HITRepositoryException;
 }

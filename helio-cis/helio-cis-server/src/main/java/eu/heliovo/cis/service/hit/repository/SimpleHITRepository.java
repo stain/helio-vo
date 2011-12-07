@@ -137,27 +137,44 @@ public class SimpleHITRepository implements HITRepository
 	}
 
 	@Override
-	public void addUser(String user, String pwd) throws HITRepositoryException {
-		// TODO Auto-generated method stub
-		
+	public void addUser(String user, String pwd) throws HITRepositoryException 
+	{		
 	}
 
 	@Override
 	public void setUserProfileEntity(String user, String service,
-			String entity, String value) throws HITRepositoryException {
-		// TODO Auto-generated method stub
-		
+			String entity, String value) throws HITRepositoryException 
+	{
 	}
 
 	@Override
 	public void removeUser(String user) 
-	{
-		
+	{	
 	}
 
 	@Override
 	public Set getAllUserNames() 
 	{
 		return null;
+	}
+
+	@Override
+	public void changePwdForUser(String user, String oldPwdHash,
+			String newPwdHash) throws HITRepositoryException 
+	{
+		return;
+	}
+
+	@Override
+	public String getPreferenceForUser(String user, String service, String field) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setPreferenceForUser(String user, String service, String field,
+			String value) throws HITRepositoryException {
+		// TODO Auto-generated method stub
+		
 	}
 }

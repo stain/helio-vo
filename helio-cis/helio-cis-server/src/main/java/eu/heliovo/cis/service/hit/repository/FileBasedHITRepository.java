@@ -11,9 +11,12 @@ import java.util.HashMap;
 import java.util.Set;
 
 import condor.classad.Constant;
+import condor.classad.Expr;
 import condor.classad.RecordExpr;
 import eu.heliovo.shared.common.cis.hit.info.CISValues;
+import eu.heliovo.shared.common.cis.hit.info.HITInfoTags;
 import eu.heliovo.shared.common.cis.hit.info.UserTags;
+import eu.heliovo.shared.common.cis.hit.preferences.PreferencesUtilities;
 import eu.heliovo.shared.common.cis.tags.HELIOTags;
 import eu.heliovo.shared.common.utilities.ClassAdUtilities;
 import eu.heliovo.shared.common.utilities.ClassAdUtilitiesException;
@@ -35,11 +38,15 @@ import eu.heliovo.shared.common.utilities.SystemUtilities;
  */
 public class FileBasedHITRepository implements HITRepository 
 {
-	String							statusFile			=	"/tmp/HITRepository.data";
+	String							statusFile			=	"/tmp/HITRepository.test";
 	/*
-	 * ClassAd utilities
+	 * ClassAd Utilities
 	 */
 	ClassAdUtilities				cadUtils			=	new ClassAdUtilities();
+	/*
+	 * Preferences Utilities
+	 */
+	PreferencesUtilities			preferencesUtils	=	new PreferencesUtilities();
 	/*
 	 * The description of the HIT in a hashmap of ClassAds
 	 */
@@ -109,19 +116,26 @@ public class FileBasedHITRepository implements HITRepository
 	{
 		defaultUserProfile	=	new RecordExpr();
 		/*
+		 * Define a default HFE
+		 */
+		RecordExpr	hfeDefaultUserProfile	=	new RecordExpr();
+		hfeDefaultUserProfile.insertAttribute(HELIOTags.hfe_field_1, Constant.getInstance(HELIOTags.hfe_field_1_std_value));
+		hfeDefaultUserProfile.insertAttribute(HELIOTags.hfe_field_2, Constant.getInstance(HELIOTags.hfe_field_2_std_value));
+		defaultUserProfile.insertAttribute(HELIOTags.hfe, hfeDefaultUserProfile);
+		/*
 		 * Define a default HEC
 		 */
 		RecordExpr	hecDefaultUserProfile	=	new RecordExpr();
-		hecDefaultUserProfile.insertAttribute(HELIOTags.hec_value_1, Constant.undefined(null));
-		hecDefaultUserProfile.insertAttribute(HELIOTags.hec_value_2, Constant.undefined(null));
-
+		hecDefaultUserProfile.insertAttribute(HELIOTags.hec_field_1, Constant.getInstance(HELIOTags.hec_field_1_std_value));
+		hecDefaultUserProfile.insertAttribute(HELIOTags.hec_field_2, Constant.getInstance(HELIOTags.hec_field_2_std_value));
 		defaultUserProfile.insertAttribute(HELIOTags.hec, hecDefaultUserProfile);
 		/*
 		 * Define a default DPAS
 		 */
 		RecordExpr	dpasDefaultUserProfile	=	new RecordExpr();
-		dpasDefaultUserProfile.insertAttribute(HELIOTags.dpas_data_providers, Constant.getInstance("provider1, provider2, provider3"));
-		dpasDefaultUserProfile.insertAttribute(HELIOTags.dpas_value_2, Constant.undefined(null));
+		dpasDefaultUserProfile.insertAttribute(HELIOTags.dpas_data_providers, Constant.getInstance(HELIOTags.dpas_data_providers_std_value));
+		dpasDefaultUserProfile.insertAttribute(HELIOTags.dpas_field_1, Constant.getInstance(HELIOTags.dpas_field_1_std_value));
+		dpasDefaultUserProfile.insertAttribute(HELIOTags.dpas_field_2, Constant.getInstance(HELIOTags.dpas_field_2_std_value));
 
 		defaultUserProfile.insertAttribute(HELIOTags.dpas, dpasDefaultUserProfile);
 	}
@@ -172,8 +186,6 @@ public class FileBasedHITRepository implements HITRepository
 		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(pwdHash));
 		users.put(user, cInfo.toString());		
 		System.out.println(user + " ==> " + pwdHash);
-
-		
 		/*
 		 * Save the status to the file
 		 */
@@ -541,5 +553,117 @@ public class FileBasedHITRepository implements HITRepository
 	public Set<String> getAllUserNames() 
 	{
 		return users.keySet();
+	}
+
+
+	@Override
+	public void changePwdForUser(String user, String oldPwdHash,
+			String newPwdHash) throws HITRepositoryException 
+	{
+		if(!users.containsKey(user))
+			throw new HITRepositoryException();
+		/*
+		 * Create the description of the user
+		 * TODO : Convert the profile into a recordExpression
+		 */			
+		RecordExpr		cInfo		=	new RecordExpr();
+		cInfo.insertAttribute(UserTags.userName, Constant.getInstance(user));
+		cInfo.insertAttribute(UserTags.createdOn, Constant.getInstance(new Date()));
+		cInfo.insertAttribute(UserTags.userProfile, defaultUserProfile);
+		//			cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(secUtils.computeHashOf(pwd)));
+		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(newPwdHash));
+		users.put(user, cInfo.toString());		
+		System.out.println(users.toString());
+		/*
+		 * Save the status to the file
+		 */
+		saveStatus();				
+	}
+
+	@Override
+	public String getPreferenceForUser(String user, String service, String field) throws HITRepositoryException 
+	{
+		if(!users.containsKey(user))
+			throw new HITRepositoryException();
+		/*
+		 * Retrieve the preferences for the user
+		 */
+		try 
+		{
+			/*
+			 * Getting the user information
+			 */
+			RecordExpr		cInfo		=	(RecordExpr) cadUtils.string2Expr(users.get(user));
+			System.out.println(cadUtils.exprToReadeableString(cInfo));
+			/*
+			 * Getting the user profile
+			 */
+			RecordExpr		prefs		=	(RecordExpr) cadUtils.evaluate(UserTags.userProfile, cInfo);
+			System.out.println(cadUtils.exprToReadeableString(prefs));
+			/*
+			 * Getting the user profile for the service
+			 */
+			RecordExpr		uPrefs		=	(RecordExpr) cadUtils.evaluate(service, prefs);
+			System.out.println(cadUtils.exprToReadeableString(uPrefs));
+			/*
+			 * Getting the user value
+			 */
+			Expr			value		=	cadUtils.evaluate(field, uPrefs);
+			System.out.println(cadUtils.exprToReadeableString(value));
+			return 			value.toString();
+		} 
+		catch (ClassAdUtilitiesException e) 
+		{
+			throw new HITRepositoryException();
+		}
+	}
+
+	@Override
+	public void setPreferenceForUser(String user, String service, String field, String value) throws HITRepositoryException 
+	{
+		if(!users.containsKey(user))
+			throw new HITRepositoryException();
+		/*
+		 * Retrieve the preferences for the user
+		 */
+		try 
+		{
+			/*
+			 * Getting the user information
+			 */
+			RecordExpr		cInfo		=	(RecordExpr) cadUtils.string2Expr(users.get(user));
+			System.out.println(cadUtils.exprToReadeableString(cInfo));
+			/*
+			 * Getting the user profile
+			 */
+			RecordExpr		prefs		=	(RecordExpr) cadUtils.evaluate(UserTags.userProfile, cInfo);
+			System.out.println(cadUtils.exprToReadeableString(prefs));
+			/*
+			 * Getting the user profile for the service
+			 */
+			RecordExpr		uPrefs		=	(RecordExpr) cadUtils.evaluate(service, prefs);
+			System.out.println(cadUtils.exprToReadeableString(uPrefs));
+			/*
+			 * Setting the value
+			 */
+			uPrefs.insertAttribute(field, Constant.getInstance(value));
+			/*
+			 * Setting the value in the preferences
+			 */
+			prefs.insertAttribute(service, uPrefs);
+			/*
+			 * Setting the preferences in the user's profile
+			 */
+			cInfo.insertAttribute(UserTags.userProfile, prefs);
+			/*
+			 * Setting the preferences in the user's profile back into the repository
+			 */
+			users.put(user, cadUtils.expr2String(cInfo));
+			saveStatus();
+		} 
+		catch (ClassAdUtilitiesException e) 
+		{
+			throw new HITRepositoryException();
+		}		
 	}
 }
