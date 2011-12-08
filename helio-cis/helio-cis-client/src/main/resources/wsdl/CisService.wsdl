@@ -4,10 +4,16 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://service.cis.heliovo.eu/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://service.cis.heliovo.eu/">
   <xs:element name="addUser" type="tns:addUser"/>
   <xs:element name="addUserResponse" type="tns:addUserResponse"/>
+  <xs:element name="changePwdForUser" type="tns:changePwdForUser"/>
+  <xs:element name="changePwdForUserResponse" type="tns:changePwdForUserResponse"/>
+  <xs:element name="getPreferenceForUser" type="tns:getPreferenceForUser"/>
+  <xs:element name="getPreferenceForUserResponse" type="tns:getPreferenceForUserResponse"/>
   <xs:element name="isUserPresent" type="tns:isUserPresent"/>
   <xs:element name="isUserPresentResponse" type="tns:isUserPresentResponse"/>
   <xs:element name="removeUser" type="tns:removeUser"/>
   <xs:element name="removeUserResponse" type="tns:removeUserResponse"/>
+  <xs:element name="setPreferenceForUser" type="tns:setPreferenceForUser"/>
+  <xs:element name="setPreferenceForUserResponse" type="tns:setPreferenceForUserResponse"/>
   <xs:element name="test" type="tns:test"/>
   <xs:element name="testResponse" type="tns:testResponse"/>
   <xs:element name="validateUser" type="tns:validateUser"/>
@@ -21,6 +27,18 @@
   <xs:complexType name="addUserResponse">
     <xs:sequence/>
   </xs:complexType>
+  <xs:complexType name="setPreferenceForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg3" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg4" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="setPreferenceForUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
   <xs:complexType name="validateUser">
     <xs:sequence>
       <xs:element minOccurs="0" name="arg0" type="xs:string"/>
@@ -29,7 +47,7 @@
   </xs:complexType>
   <xs:complexType name="validateUserResponse">
     <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
+      <xs:element name="validateUserResult" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="removeUser">
@@ -39,6 +57,28 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="removeUserResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="getPreferenceForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getPreferenceForUserResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="getPreferenceForUserResult" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="changePwdForUser">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg1" type="xs:string"/>
+      <xs:element minOccurs="0" name="arg2" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="changePwdForUserResponse">
     <xs:sequence/>
   </xs:complexType>
   <xs:complexType name="test">
@@ -58,7 +98,7 @@
   </xs:complexType>
   <xs:complexType name="isUserPresentResponse">
     <xs:sequence>
-      <xs:element name="return" type="xs:boolean"/>
+      <xs:element name="isUserPresentResult" type="xs:boolean"/>
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CisServiceException">
@@ -75,6 +115,10 @@
     <wsdl:part name="parameters" element="tns:addUserResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="changePwdForUserResponse">
+    <wsdl:part name="parameters" element="tns:changePwdForUserResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="isUserPresent">
     <wsdl:part name="parameters" element="tns:isUserPresent">
     </wsdl:part>
@@ -87,12 +131,16 @@
     <wsdl:part name="parameters" element="tns:removeUserResponse">
     </wsdl:part>
   </wsdl:message>
+  <wsdl:message name="getPreferenceForUserResponse">
+    <wsdl:part name="parameters" element="tns:getPreferenceForUserResponse">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="isUserPresentResponse">
     <wsdl:part name="parameters" element="tns:isUserPresentResponse">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:message name="removeUser">
-    <wsdl:part name="parameters" element="tns:removeUser">
+  <wsdl:message name="setPreferenceForUser">
+    <wsdl:part name="parameters" element="tns:setPreferenceForUser">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="addUser">
@@ -105,6 +153,22 @@
   </wsdl:message>
   <wsdl:message name="testResponse">
     <wsdl:part name="parameters" element="tns:testResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changePwdForUser">
+    <wsdl:part name="parameters" element="tns:changePwdForUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setPreferenceForUserResponse">
+    <wsdl:part name="parameters" element="tns:setPreferenceForUserResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="removeUser">
+    <wsdl:part name="parameters" element="tns:removeUser">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPreferenceForUser">
+    <wsdl:part name="parameters" element="tns:getPreferenceForUser">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="CisServiceException">
@@ -120,6 +184,14 @@
       <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
     </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="setPreferenceForUser">
+      <wsdl:input name="setPreferenceForUser" message="tns:setPreferenceForUser">
+    </wsdl:input>
+      <wsdl:output name="setPreferenceForUserResponse" message="tns:setPreferenceForUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="validateUser">
       <wsdl:input name="validateUser" message="tns:validateUser">
     </wsdl:input>
@@ -130,6 +202,22 @@
       <wsdl:input name="removeUser" message="tns:removeUser">
     </wsdl:input>
       <wsdl:output name="removeUserResponse" message="tns:removeUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPreferenceForUser">
+      <wsdl:input name="getPreferenceForUser" message="tns:getPreferenceForUser">
+    </wsdl:input>
+      <wsdl:output name="getPreferenceForUserResponse" message="tns:getPreferenceForUserResponse">
+    </wsdl:output>
+      <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="changePwdForUser">
+      <wsdl:input name="changePwdForUser" message="tns:changePwdForUser">
+    </wsdl:input>
+      <wsdl:output name="changePwdForUserResponse" message="tns:changePwdForUserResponse">
     </wsdl:output>
       <wsdl:fault name="CisServiceException" message="tns:CisServiceException">
     </wsdl:fault>
@@ -163,6 +251,18 @@
         <soap:fault name="CisServiceException" use="literal"/>
       </wsdl:fault>
     </wsdl:operation>
+    <wsdl:operation name="setPreferenceForUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setPreferenceForUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setPreferenceForUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
     <wsdl:operation name="removeUser">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="removeUser">
@@ -183,6 +283,30 @@
       <wsdl:output name="validateUserResponse">
         <soap:body use="literal"/>
       </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="changePwdForUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="changePwdForUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="changePwdForUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPreferenceForUser">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPreferenceForUser">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPreferenceForUserResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="CisServiceException">
+        <soap:fault name="CisServiceException" use="literal"/>
+      </wsdl:fault>
     </wsdl:operation>
     <wsdl:operation name="test">
       <soap:operation soapAction="" style="document"/>
