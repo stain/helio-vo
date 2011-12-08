@@ -296,7 +296,6 @@ public class CisClientTest
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
 
-
 	private void removeUser(String user_name, String user_pwd) throws Exception, SecurityUtilitiesException 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - removeUser("+user_name+","+user_pwd+")...");

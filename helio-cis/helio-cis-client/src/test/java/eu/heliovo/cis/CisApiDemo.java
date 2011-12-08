@@ -504,6 +504,22 @@ public class CisApiDemo
 					e.printStackTrace();
 				}
 				System.out.println();
+				System.out.println();
+				System.out.print(" * Please enter the field : ");
+				String field = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+				try 
+				{
+					field = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				System.out.println();
+				String	value	=	cisApi.getPreference(userName, service, field);
+				logUtilities.printShortLogEntry(" * Value for " + userName + " of " + service + " of " + field + " is " + value);		
 			}
 		} 
 		catch (CisApiException e) 
@@ -512,8 +528,93 @@ public class CisApiDemo
 		}					
 	}
 
-	private void setPreferences() {
-		// TODO Auto-generated method stub
+	private void setPreferences() 
+	{
+		System.out.println();
+		System.out.print(" * Please enter the name of the user you want to set the preferences of : ");
+		InputStreamReader 	reader 	= new InputStreamReader(System.in);
+		BufferedReader 		in 		= new BufferedReader(reader);
+		String userName	=	null;
 		
+		try 
+		{
+			userName = in.readLine();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		System.out.println();
+
+		try 
+		{
+			if(!cisApi.isUserPresent(userName))
+				System.out.print(" * " + userName + " is NOT present, Please select another user");
+			else
+			{
+				System.out.println();
+				System.out.print(" * Please enter the password for user : ");
+				String userPwd = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+
+				try 
+				{
+					userPwd = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}								
+				System.out.println();
+				System.out.print(" * Please enter the service : ");
+				String service = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+				try 
+				{
+					service = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				System.out.println();
+				System.out.println();
+				System.out.print(" * Please enter the field : ");
+				String field = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+				try 
+				{
+					field = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				System.out.println();
+				System.out.println();
+				System.out.println();
+				System.out.print(" * Please enter the new value : ");
+				String value = null;
+				reader 	= 	new InputStreamReader(System.in);
+				in 		= 	new BufferedReader(reader);
+				try 
+				{
+					value = in.readLine();
+				} 
+				catch (IOException e) 
+				{
+					e.printStackTrace();
+				}
+				System.out.println();
+				cisApi.setPreference(userName, userPwd, service, field, value);
+			}
+		} 
+		catch (CisApiException e) 
+		{
+			System.out.print(" * CANNOT set prefernces for " + userName + " .Please contact the CIS administrator");
+		}							
 	}		
 }
