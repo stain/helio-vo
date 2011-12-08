@@ -3,7 +3,6 @@ package eu.heliovo.cis;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
 
 import org.apache.log4j.Logger;
 
@@ -40,32 +39,29 @@ public class CisClient
 	/**
 	 * Local address
 	 */
-//	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://localhost:8080/helio-cis-server/cisService");	
+//	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://localhost:8080/helio-cis-server/cisService/cisService");	
 
 	/**
 	 * Remote address
 	 */
 	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://cagnode58.cs.tcd.ie:8080/helio-cis-server/cisService/cisService");
-	
 	/**
      * Name of the long query service
      */
     private static final QName SERVICE_NAME = new QName("http://service.cis.heliovo.eu/", "CisService");
-	
 	/**
 	 * a happy little logger
 	 */
-	private static final Logger LOGGER = Logger.getLogger(CisClient.class);
-	
+	private static final Logger LOGGER = Logger.getLogger(CisClient.class);	
 	/**
 	 * Security utilities
 	 */
 	SecurityUtilities secUtilities = new SecurityUtilities();
-	
 	/**
 	 * Create a CIS client and use the default service address.
 	 */
-	public CisClient() {
+	public CisClient() 
+	{
 	    this(null);
 	}
 
@@ -198,5 +194,34 @@ public class CisClient
 		{
 			throw new CisClientException();
 		}						
+	}
+
+	public String getPreferences(String userName, String service, String field) throws CisClientException 
+	{
+		try 
+		{
+			return cisService.getPreferenceForUser(userName, service, field);
+		} 
+		catch (CisServiceException_Exception e) 
+		{
+			throw new CisClientException();
+		}
+	}
+
+	public void setPreferences(String userName, String userPwd, String service, String field,
+			String value) throws CisClientException 
+	{
+		try 
+		{
+			cisService.setPreferenceForUser(userName, secUtilities.computeHashOf(userPwd), service, field, value);
+		} 
+		catch (CisServiceException_Exception e) 
+		{
+			throw new CisClientException();
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			throw new CisClientException();
+		}		
 	}
 }

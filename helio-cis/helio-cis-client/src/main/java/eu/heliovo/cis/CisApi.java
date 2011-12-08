@@ -68,13 +68,29 @@ public class CisApi
 	/*
 	 * Methods to get and set a preference field
 	 */
-	public void getPreference(String userName, String field, String value)
+	public String getPreference(String userName, String service, String field) throws CisApiException
 	{
-		return;
+		try 
+		{
+			return cis.getPreferences(userName, service, field);
+		} 
+		catch (CisClientException e) 
+		{
+			e.printStackTrace();
+			throw new CisApiException();
+		}
 	}
-	public void setPreference(String userName, String userPwd, String field, String value)
+	public void setPreference(String userName, String userPwd, String service, String field, String value) throws CisApiException
 	{
-		return;
+		try 
+		{
+			cis.setPreferences(userName, userPwd, service, field, value);
+		} 
+		catch (CisClientException e) 
+		{
+			e.printStackTrace();
+			throw new CisApiException();
+		}
 	}
 	
 	public boolean isUserPresent(String key) throws CisApiException 
