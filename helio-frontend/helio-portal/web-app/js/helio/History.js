@@ -6,6 +6,7 @@ function History() {
     var offset =0;
     var filter = "all";
     var current = 0;
+    var deleteParameter = false;
 
     return {
         instrument_input_form: function(selector){
@@ -439,8 +440,19 @@ function History() {
                             $("#historyContent").append(div);
                             $(".closeme").unbind();
                             $(".closeme").click(function(){
-                                $(this).parent().parent().parent().parent().parent().remove();
-                                saveHistoryBar();
+                            	// dialog which asks if paramter really wants to be deleted 
+                            	var floaterDiv = $(this).parent().parent().parent().parent().parent();
+                            	$('<div title="Confirmation">Do you really want to delete this parameter?</div>')
+                            	.dialog({ buttons:{
+                            		"Yes": function() {
+	            	                		floaterDiv.remove();
+	            	 	                    saveHistoryBar();
+	            	                		$(this).dialog("close");
+            	                		},
+                            		"No": function() {
+                                			$(this).dialog("close");
+                                		}
+                            	}});
                             });
                             var rowpos = $('#historyContent').position();
                             if(rowpos!=null){
@@ -628,12 +640,19 @@ function History() {
 
                     $(".closeme").unbind();
                     $(".closeme").click(function(){
-
-
-
-                        $(this).parent().parent().parent().parent().parent().remove();
-                        saveHistoryBar();
-
+                    	// dialog which asks if paramter really wants to be deleted 
+                    	var floaterDiv = $(this).parent().parent().parent().parent().parent();
+                    	$('<div title="Confirmation">Do you really want to delete this parameter?</div>')
+                    	.dialog({ buttons:{
+                    		"Yes": function() {
+    	                		floaterDiv.remove();
+    	 	                    saveHistoryBar();
+    	                		$(this).dialog("close");
+    	                		},
+                    		"No": function() {
+                        		$(this).dialog("close");
+                        		}
+                    	}});
                     });
                     
                     $("#dialog-message").remove();
@@ -661,12 +680,19 @@ function History() {
                 var img = $(this);
                 $(".closeme").unbind();
                 $(".closeme").click(function(){
-
-
-
-                    $(this).parent().parent().parent().parent().parent().remove();
-                    saveHistoryBar();
-
+                	// dialog which asks if paramter really wants to be deleted 
+                	var floaterDiv = $(this).parent().parent().parent().parent().parent();
+                	$('<div title="Confirmation">Do you really want to delete this parameter?</div>')
+                	.dialog({ buttons:{
+                		"Yes": function() {
+	                		floaterDiv.remove();
+	 	                    saveHistoryBar();
+	                		$(this).dialog("close");
+	                		},
+                		"No": function() {
+                    		$(this).dialog("close");
+                    		}
+                	}});
                 });
                 img.draggable({
                     revert: "invalid",

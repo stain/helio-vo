@@ -367,8 +367,19 @@ function ActionViewer() {
                                 $(".closeme").unbind();
                                 
                                 $(".closeme").click(function(){
-                                    $(this).parent().parent().parent().parent().parent().remove();//@todo find the apropriate selector
-                                    saveHistoryBar();
+                                	// dialog which asks if paramter really wants to be deleted 
+                                	var floaterDiv = $(this).parent().parent().parent().parent().parent();
+                                	$('<div title="Confirmation">Do you really want to delete this parameter?</div>')
+                                	.dialog({ buttons:{
+                                		"Yes": function() {
+                	                		floaterDiv.remove();
+                	 	                    saveHistoryBar();
+                	                		$(this).dialog("close");
+                	                		},
+                                		"No": function() {
+                                    		$(this).dialog("close");
+                                    		}
+                                	}});
                                 });
 
                                 var rowpos = $('#historyContent').position();
