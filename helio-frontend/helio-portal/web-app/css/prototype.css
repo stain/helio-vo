@@ -303,8 +303,7 @@ display:table-cell;
     box-shadow:0px 0px 2px #000000;
     background: -moz-linear-gradient(top, #bac7e9, #8591b4);
     background: -webkit-gradient(linear, center top, center bottom, from(#bac7e9), to(#8591b4));
-    background: -o-linear-gradient(top, #bac7e9, #8591b4);
-    background: linear-gradient(top, #bac7e9, #8591b4);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bac7e9', endColorstr='#8591b4');
     margin-bottom: 5px;
     width: 72px;
 
