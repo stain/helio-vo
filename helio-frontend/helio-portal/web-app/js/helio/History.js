@@ -244,32 +244,61 @@ function History() {
             var _formatDateRange =function(id){
                 $('#minDate'+id).datetimepicker("destroy");
                 $('#maxDate'+id).datetimepicker("destroy");
-                var dates = $( "#minDate"+id+", #maxDate"+id ).datetimepicker({
-
-                    yearRange: '1970:2011',
-                    dateFormat: 'yy-mm-dd',
-                    changeMonth: true,
-                    showOn: "both",
-                    showSecond: true,
-                    timeFormat: 'hh:mm:ss',
-                    separator: 'T',
-                    showButtonPanel: true,
-                    buttonImageOnly: true,
-                    buttonImage: "../images/icons/calendar.gif",
-                    changeYear: true,
-                    numberOfMonths: 1,
-                    onClose: function( selectedDate ) {
-                        var option = this.id == "minDate"+id ? "minDate" : "maxDate",
-                        instance = $( this ).data( "datetimepicker" ),
-                        date = $.datepicker.parseDate(
-                            instance.settings.dateFormat ||
-                            $.datepicker._defaults.dateFormat,
-                            selectedDate, instance.settings );
-                        dates.not( this ).datepicker( "option", option, date );
+                
+                var formats = function(){
+                	return {
+                	    yearRange: '1970:2011',
+                        dateFormat: 'yy-mm-dd',
+                        changeMonth: true,
+                        showOn: "both",
+                        showSecond: true,
+                        timeFormat: 'hh:mm:ss',
+                        separator: 'T',
+                        showButtonPanel: true,
+                        buttonImageOnly: true,
+                        buttonImage: "../images/icons/calendar.gif",
+                        changeYear: true,
+                        numberOfMonths: 1}
+                }
+                
+                /**
+                 *	formatMinDate and formatMaxDate format the dates
+                 * 	and correct the dates if the user enters a bigger minDate
+                 * 	then maxDate or a smaller maxDate then minDate
+                 */
+                
+                var formatMinDate = new formats();
+                formatMinDate.onClose = function(selectedDate) {
+                	$(this).blur();
+                	var endDateTextBox = $('#maxDate' + id);
+                	if (endDateTextBox.val() != '') {
+                		var testStartDate = new Date(selectedDate);
+                		var testEndDate = new Date(endDateTextBox.val());
+                		if (testStartDate > testEndDate)
+                			endDateTextBox.val(selectedDate);
+                	}
+                	else {
+                		endDateTextBox.val(selectedDate);
+                	}
+                }
+                
+                var formatMaxDate = new formats(); 
+                formatMaxDate.onClose = function(selectedDate) {
+                	$(this).blur();
+                    var startDateTextBox = $('#minDate' + id);
+                    if (startDateTextBox.val() != '') {
+                        var testStartDate = new Date(startDateTextBox.val());
+                        var testEndDate = new Date(selectedDate);
+                        if (testStartDate > testEndDate)
+                            startDateTextBox.val(selectedDate);
                     }
-                });
-
-
+                    else {
+                        startDateTextBox.val(selectedDate);
+                    }
+                }
+                
+                $( "#minDate"+id ).datetimepicker(formatMinDate);
+                $( "#maxDate"+id ).datetimepicker(formatMaxDate);
             }
             var _createDateRange =function(num){
                 var tr = $('<tr id="input_time_range_'+num+'"></tr>');
