@@ -72,7 +72,7 @@ class VoTableController {
            response.outputStream << voTableService.getContent(result);
        }
        else {
-           render(status: 503, text: 'Failed to retrieve votable wit id ${params.resultId}')
+           render(status: 503, text: 'Failed to retrieve votable with id ${params.resultId}')
        }
    }
 }

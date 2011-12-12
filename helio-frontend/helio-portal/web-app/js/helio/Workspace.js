@@ -654,6 +654,11 @@ function Workspace() {
         setDisplay: function(key){
             if (typeof console!="undefined")console.info("Workspace :: setDisplay -> " +key);
             this.clear();
+
+            // recreate droppable-inner if needed.
+            if ($("#droppable-inner").length == 0) {
+                $("#content").html('<div id="droppable-inner" class="candybox"></div>');
+            }
             var newDiv = $('<div></div>');
             if(divisions[key] == null){
                 key = "error";
@@ -661,7 +666,7 @@ function Workspace() {
             
             newDiv.html(divisions[key]);
             newDiv.css("display","block");
-            newDiv.attr("id","currentDisplay");
+            newDiv.attr("id","task");
             newDiv.attr("class","displayable");
             $("#droppable-inner").append(newDiv);
             
@@ -688,7 +693,7 @@ function Workspace() {
         clear: function() {
             if (typeof console!="undefined")console.info("Workspace :: clear");
             //$('#currentDisplay').fadeOut(1000,0);
-            $("#currentDisplay").remove();
+            $("#task").remove();
             $(".displayable").css("display","none");
             $(".resCont").remove();
             $(".tooltip").css("display","none");

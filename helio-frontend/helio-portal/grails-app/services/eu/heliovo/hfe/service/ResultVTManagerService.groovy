@@ -9,7 +9,8 @@ import eu.heliovo.clientapi.frontend.*
 */
 class ResultVTManagerService {
 
-    static transactional = true
+    static transactional = false;
+    
     private List<ResultVT>  resultList = new LinkedList<ResultVT>();
     private List<String>  resultListServiceRefence = new LinkedList<String>();
     
@@ -25,7 +26,7 @@ class ResultVTManagerService {
             return null;
         }
     }
-    public String getResultServiceReference(int index){
+    public String getResultServiceReference(Integer index){
         try{
             return this.resultListServiceRefence.get(index);
         }catch (Exception e){

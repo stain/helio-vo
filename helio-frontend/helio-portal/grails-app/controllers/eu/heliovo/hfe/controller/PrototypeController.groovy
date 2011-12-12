@@ -42,12 +42,12 @@ class PrototypeController {
     /**
      * Ref to the Data query Service
      */
-    def DataQueryService dataQueryService;
+    def dataQueryService;
     
     /**
      * Ref to the ResultVTManagerService
      */
-    def ResultVTManagerService resultVTManagerService;
+    def resultVTManagerService;
     
     /**
      * Upload a file
@@ -211,11 +211,14 @@ class PrototypeController {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
             Date date = new Date();
             def name= formatter.format(date);
-            name = ResultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-"+name;
+            name = resultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-"+name;
             response.setContentType("application/xml")
             response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
             response.outputStream << result.getStringTable()
+        } else {
+            render(status: 503, text: 'Failed to retrieve votable with id ' + params.resultId) 
         }
+        
     }
 
     /**
