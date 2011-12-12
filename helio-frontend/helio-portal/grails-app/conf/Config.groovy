@@ -94,3 +94,11 @@ grails.plugins.springsecurity.providerNames = [
     //'cisAuthenticationProvider',
     'rememberMeAuthenticationProvider',
     'anonymousAuthenticationProvider']
+
+// some remember me settings
+rememberMe.cookieName = 'helio-frontend'
+rememberMe.key = 'helioHFE'
+rememberMe.tokenValiditySeconds = 5184000  // 60days
+
+// anon settings (important for TemUserSecurityFilter)
+anon.key = 'helioHFE';

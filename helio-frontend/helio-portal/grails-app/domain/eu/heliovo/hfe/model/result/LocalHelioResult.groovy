@@ -10,7 +10,7 @@ import eu.heliovo.clientapi.utils.STILUtils
  * @author MarcoSoldati
  *
  */
-class LocalHelioResult extends HelioResult {
+class LocalHelioResult extends HelioResult {   
     /**
      * Original name of the file
      */
@@ -27,17 +27,5 @@ class LocalHelioResult extends HelioResult {
 
     static mapping = { 
         voTableContent type: 'text' 
-    }
-
-    /**
-     * Get the star model. load it if required.
-     * @return the starModel
-     */
-    StarTable[] getStarTableModel() {
-        // load if required
-        if (this.starTableModel == null) {
-            this.starTableModel = STILUtils.load(new ByteArrayInputStream(this.voTableContent.getBytes()));
-        }
-        return this.starTableModel;
     }
 }

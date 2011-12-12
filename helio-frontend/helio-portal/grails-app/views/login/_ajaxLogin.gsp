@@ -17,11 +17,6 @@
           type='checkbox' class='chk' id='remember_me'
           name='_spring_security_remember_me' />
       </p>
-      <p>
-        <a href='javascript:void(0)' onclick='authAjax(); return false;'>Login</a>
-        <a href='javascript:void(0)'
-          onclick='cancelLogin(); return false;'>Cancel</a>
-      </p>
     </form>
     <div style='display: none; text-align: left;' id='loginMessage'></div>
   </div>
@@ -43,10 +38,6 @@
         <label for='r_passwordconfirm'>Confirm password</label> 
         <input type='password' class='text_' name='password2' id='r_passwordconfirm' />
       </p>
-      <p>
-        <a href='javascript:void(0)' onclick='registerAjax(); return false;'>Register</a>
-        <a href='javascript:void(0)' onclick='cancelRegister(); return false;'>Cancel</a>
-      </p>
     </g:form>
     <div style='display: none; text-align: left;' id='registerMessage'></div>
   </div>
@@ -55,8 +46,14 @@
 <script type='text/javascript'>
 // center the form 
 $(document).ready(function() {
-    $('#ajaxLogin').dialog({ autoOpen: false });
-    $('#ajaxRegister').dialog({ autoOpen: false });
+    $('#ajaxLogin').dialog({ autoOpen: false, modal: true,
+        buttons: { "Login": authAjax, 
+                   "Cancel": cancelLogin } 
+    });
+    $('#ajaxRegister').dialog({ autoOpen: false, modal: true,
+        buttons: { "Register": registerAjax, 
+                   "Cancel": cancelRegister } 
+    });
   <sec:ifLoggedIn>
     $('.notLoggedIn').hide();
     $('.loggedIn').show();

@@ -395,15 +395,16 @@ display:table-cell;
 .draggable, #clearSystem { cursor:pointer; float: left; margin: 6px 10px 10px 15px }
 .draggable img{ width:40px;height:40px; }
 
+
+/**
+ * TODO: remove. should be covered in explorer.css 
+ */
 #content
 {
     background-color:white;
-    
-    
-    
     min-width: 887px;
     width:100%;
-    min-height:425px;
+    /* min-height:425px; */
 }
 
 #content h2 { margin: 0; }
@@ -570,14 +571,12 @@ input{
     height: 30px;
 
 }
-.viewerHeader h1{
-font-size:1.5em;
-font-weight: normal;
+
+.viewerHeader h1 {
+    font-size:1.5em;
+    font-weight: normal;
 }
 .viewerHeader{
-
-
-
     -moz-box-shadow:0px 0px 2px #000000;
     -webkit-box-shadow:0px 0px 2px #000000;
     box-shadow:0px 0px 2px #000000;
@@ -588,7 +587,6 @@ font-weight: normal;
     color:#444466;
     margin-bottom: 5px;
     /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
-
 }
 
 .module {
@@ -635,7 +633,7 @@ body {overflow-y: scroll;}
     font-size: 1em;
 }
 input.ui-button{
-    padding:0.2em 0.5em;
+    padding:0.4em 0em;
 }
 .ui-buttonset .ui-button{
     margin-right: -1px;

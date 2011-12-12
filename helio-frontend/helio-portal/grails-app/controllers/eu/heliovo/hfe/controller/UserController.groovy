@@ -27,8 +27,10 @@ class UserController {
      */
     def ajaxRegister = {RegisterCommand command ->
         if (springSecurityService.isLoggedIn()) {
-            render (error: 'You are already logged in.' as JSON)
-            return
+            if (!springSecurityService.principal.temporary) {
+                render ([errors: 'You are already logged in.'] as JSON)
+                return
+            }
         }
 
         if (!command.validate() || command.hasErrors()) {

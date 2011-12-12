@@ -6,7 +6,7 @@ function History() {
     var offset =0;
     var filter = "all";
     var current = 0;
-    var deleteParameter = false;
+    //var deleteParameter = false;
 
     return {
         instrument_input_form: function(selector){
@@ -24,6 +24,7 @@ function History() {
             $("#testdiv").append(div);
             $("#input_label_table").css('display',"block");
             $("#input_form_label").val(selector.closest("table").find(".inner_label td").html());
+            // create the instrument input data table.
             $("#input_table").dataTable( {
                 "bSort": false,
                 "bInfo": true,

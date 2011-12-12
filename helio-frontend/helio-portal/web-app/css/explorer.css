@@ -1,0 +1,66 @@
+/**
+ * Main CSS file for the HFE
+ */
+
+/**
+ * Format the main area of a task
+ */
+.task {
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+/**
+ * header bar within a task area
+ */
+.task .header,.task .header2 {
+  background: #FFAC0F
+    url(../images/jquery/ui-bg_inset-soft_75_ffac0f_1x100.png) repeat-x
+    scroll 50% 50%;
+  padding-left: 10px;
+  height: 16px;
+}
+
+.task .header h1,.task .header2 h1 {
+  margin: 0;
+  display: inline;
+  font-size: 16px;
+}
+
+
+/**
+ * content area in the task area
+ */
+.task .task_request {
+  clear: both;
+  padding: 10px;
+}
+
+/**
+ * used by the collapsible plugin?
+ */
+.task .expand {
+  float: right;
+  display: inline;
+  background-image: url('../images/jquery/plugins/toggle-sprite.png');
+  background-position: 0px -16px;
+  width: 16px;
+  height: 16px;
+}
+
+.task .collapse {
+  float: right;
+  display: inline;
+  background-image: url('../images/jquery/plugins/toggle-sprite.png');
+  background-position: 0px 0px;
+  width: 16px;
+  height: 16px;
+}
+
+
+/**
+.task .placeholder {
+  margin-top: 1px;
+  margin-right: 2px;
+}
+*/

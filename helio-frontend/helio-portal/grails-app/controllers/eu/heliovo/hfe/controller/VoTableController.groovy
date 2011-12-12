@@ -1,13 +1,11 @@
 package eu.heliovo.hfe.controller
 
-import javax.xml.bind.JAXBContext
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
-import javax.xml.bind.Unmarshaller
-import javax.xml.transform.stream.StreamSource
+import org.springframework.web.multipart.MultipartHttpServletRequest
 
-import net.ivoa.xml.votable.v1.VOTABLE
-import eu.heliovo.clientapi.frontend.ResultVT
-import eu.heliovo.clientapi.utils.STILUtils
+import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.service.ResultVTManagerService
 import eu.heliovo.hfe.service.VoTableService
 
@@ -22,38 +20,59 @@ class VoTableController {
     VoTableService voTableService;
 
     def index = { }
+
+    /**
+     * Upload a VOTable. The table will be parsed and then returned to be diplayed.
+     */
+    def asyncUpload ={
+ //       log.info("votable upload =>" +params);
+
+        try{
+            // some sanity checks
+            if (!(request instanceof MultipartHttpServletRequest)) {
+                throw new RuntimeException("Internal error: this is not a proper upload request. Are you trying to hack me?");
+            }
+
+            def file = request?.getFile("fileInput")
+            if (file == null || file.getOriginalFilename()=="") {
+                throw new RuntimeException("Please select a VOTable file to upload.");
+            }
+
+            if (!file.getOriginalFilename().endsWith(".xml")) {
+                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
+            }
+
+            def votableModel = voTableService.parseAndSaveVoTable(file);
+
+            def votableResult = [result:votableModel];
+            render template:'/output/votableResult', bean:votableResult, var:'votableResult'
+        } catch(Exception e) {
+            def message = e.getMessage() ? e.getMessage(): "Internal erro: a " + e.getClass() + " occurred while loading your VOTable.";
+            StringWriter sw = new StringWriter();
+            e.printStackTrace(new PrintWriter(sw))
+            def stackTrace = sw.toString();
+            sw.close();
+            println "upload error " + message;
+            def responseObject = [message : message, stackTrace : stackTrace];
+            render template:'/output/votableResultError', bean:responseObject, var:'responseObject'
+        }
+    }
     
     /**
-    * Upload a VoTable. The table will be parsed and then returned to be diplayed.
+    * Download result as a VOTable, i.e. retrieve the original content from the database 
     */
-   def asyncUpload ={
-       log.info("asyncUpload =>" +params);
-
-       try{
-           // some sanity checks
-           def file = request.getFile("fileInput") 
-           if (file.getOriginalFilename()=="") {
-               throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
-           }
+   def download = {
+       log.info("VoTableController.downloadVOTable =>" + params);
+       HelioResult result = HelioResult.get(params.resultId);
+       if(result !=null){
+           def name = voTableService.getFilename(result);
            
-           if (!file.getOriginalFilename().endsWith(".xml")) {
-               throw new RuntimeException("Not a valid xml file. The name should end with .xml");
-           }
-           
-           def helioResult = voTableService.parseAndSaveVoTable(file);
-           
-           def serviceName = 'upload';
-           //ResultVT result = new ResultVT(votable);
-           int resultId= ResultVTManagerService.addResult(helioResult,serviceName);
-           def uploadId =request.getFile("fileInput").getOriginalFilename();
-           
-           def responseObject = [result:helioResult];
-           render template:'templates/stilResponse', bean:responseObject, var:'responseObject'
-       } catch(Exception e) {
-           //e.printStackTrace();
-           def responseObject = [error:e.getMessage() ];
-           render template:'templates/response', bean:responseObject, var:'responseObject'
+           response.setContentType("application/xml")
+           response.setHeader("Content-disposition", "attachment;filename=" + name);
+           response.outputStream << voTableService.getContent(result);
+       }
+       else {
+           render(status: 503, text: 'Failed to retrieve votable wit id ${params.resultId}')
        }
    }
-
 }

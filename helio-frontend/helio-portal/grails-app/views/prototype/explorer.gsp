@@ -59,13 +59,13 @@
                 <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
               </td>
               <td>
-                <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
-              </td>
-              <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Search Instruments by Capability</div>
               </td>
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Search Instruments by Location</div>
+              </td>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
               </td>
             </tr>
           </table>
@@ -74,7 +74,7 @@
           <table>
             <tr>
               <td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div></td>
-    <%--td><div style="display:block" class="menu_it2em custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
+    <%--td><div style="display:block" class="menu_item custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
     <%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
@@ -82,6 +82,11 @@
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_context">Context Service</div>
               </td>
+              <g:if env="development">              
+                <td>
+                  <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>
+                </td>
+              </g:if>
             </tr>
           </table>
         </div>
@@ -112,7 +117,7 @@
             <g:render template="templates/displayable_content" />
           </div>
         </div>
-        <div id="responseDivision" style="width:858px;display:block"></div>
+        <div id="responseDivision" ></div>
       </div>
     </div>
     <div style="display:none">

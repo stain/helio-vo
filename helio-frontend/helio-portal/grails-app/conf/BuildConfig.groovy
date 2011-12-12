@@ -12,9 +12,9 @@ grails.project.dependency.resolution = {
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
-		mavenLocal()
 		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
 		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/internal"
+		mavenLocal()
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories

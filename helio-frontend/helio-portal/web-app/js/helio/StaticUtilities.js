@@ -503,7 +503,7 @@ function formatButton(selector){
  * they have attributes that keept track of the row selected and header corresponding to that row
  */
 function fnAddSelectedRow(pos,aData,oTable){
-    if (typeof console!="undefined")console.info("fnAddSelectedRow");
+    //if (typeof console!="undefined")console.info("fnAddSelectedRow");
 
     var totalResult =[];
     var headers =oTable.fnSettings().aoColumns;
@@ -547,7 +547,7 @@ function fnAddSelectedRow(pos,aData,oTable){
  * @tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
  */
 function fnFormatTable(tableName){
-    if (typeof console!="undefined")console.info("fnFormatTable");
+//    if (typeof console!="undefined")console.info("fnFormatTable");
 
     var dataTable =$("#"+tableName).dataTable({
         "bJQueryUI": true,

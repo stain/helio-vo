@@ -1,6 +1,10 @@
 import java.util.concurrent.TimeUnit
 
 import net.ivoa.xml.votable.v1.VOTABLE
+
+import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
+import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+
 import eu.heliovo.clientapi.HelioClient
 import eu.heliovo.clientapi.frontend.ResultVT
 import eu.heliovo.clientapi.model.catalog.HelioCatalogDao
@@ -23,6 +27,11 @@ class BootStrap {
              userRole = new Role(authority: 'ROLE_USER').save(flush: true)
          }
          
+         // add temp user filter
+         SpringSecurityUtils.clientRegisterFilter(
+             'tempUserFilter', SecurityFilterPosition.REMEMBER_ME_FILTER.order + 20)
+         
+         
          // fire up system.
          def helioClient = new HelioClient();
          
@@ -36,17 +45,18 @@ class BootStrap {
          servletContext.instrumentDescriptors = instrumentDescriptors;
          
          // init the HEC configuration
-         AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );
-         HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
-             Arrays.asList("hec_catalogue"), null, 0, 0, null);
-         
-         int timeout = 300;
-         
-         // TODO: replace by Hibernate objects.
-         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
-         ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
-         servletContext.eventListDescriptors = resvt;
-         
+         if (!servletContext.eventListDescriptors) {
+             AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null );
+             HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
+                 Arrays.asList("hec_catalogue"), null, 0, 0, null);
+             
+             int timeout = 300;
+             
+             // TODO: replace by Hibernate objects.
+             VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS);
+             ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs());
+             servletContext.eventListDescriptors = resvt;
+         }
          switch(GrailsUtil.environment){
              case "development":
                  //org.hsqldb.util.DatabaseManager.main()

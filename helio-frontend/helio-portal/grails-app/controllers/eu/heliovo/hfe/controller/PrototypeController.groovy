@@ -67,8 +67,8 @@ class PrototypeController {
             
             
             
-            starTable = STILUtils.load(request.getFile("fileInput").inputStream);
-            StilUtils.persist(starTable)
+            def starTable = STILUtils.load(request.getFile("fileInput").inputStream);
+            //StilUtils.persist(starTable)
             
             // TODO: Use StilUtils
             JAXBContext context = JAXBContext.newInstance(VOTABLE.class);

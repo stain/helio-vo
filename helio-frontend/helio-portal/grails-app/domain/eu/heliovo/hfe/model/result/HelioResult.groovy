@@ -12,26 +12,13 @@ import eu.heliovo.hfe.model.security.User;
  * @author MarcoSoldati
  *
  */
-abstract class HelioResult {
-    /**
-     * Transient property of the stil model 
-     */
-    StarTable[] starTableModel;
-    
+class HelioResult {
     /**
      * The user this result belongs to
      */
-    User user;
-    
-    static transients =  ['starTableModel']
+    User user
         
     static constraints = {
         user nullable : false;
     }
-    
-    /**
-     * Get the star model. This is lazy loaded it if required.
-     * @return the starModel the star model to access the stored voTable.
-     */
-    abstract StarTable[] getStarTableModel();
 }
