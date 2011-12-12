@@ -22,9 +22,16 @@
           <input id="task_name" name="taskName" type="hidden" value="task_upload"/>
           <input id="task_label" type="hidden" value="Upload"/>
 
-          File to upload: <input type="file" name="fileInput"/>
+          
 
-          <input type="submit" value="Submit" />
+		<input type="text" id="fileName" class="file_input_textbox" readonly="readonly">
+ 
+		<div class="file_input_div">
+		  <input type="button" id="browseButton" value="Browse" class="file_input_button menu_item custom_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" />
+		  <input type="file" id="fakeBrowseButton" class="file_input_hidden" onchange="javascript: document.getElementById('fileName').value = this.value" />
+		</div>
+
+          <input type="submit" value="Submit" class="menu_item custom_button ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" />
       </form>
     </div>
   </div>

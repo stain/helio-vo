@@ -3,9 +3,8 @@
  * Main startup method to load and initialize the frontend.
  * 
  */
-$(document).ready(function()
-{
-    //Init time cookies to persist last selection.
+$(document).ready(function() {
+	//Init time cookies to persist last selection.
     if($.cookie("minDate") == null)$.cookie("minDate","2003-01-01T00:00:00",{
         expires: 30
     });
