@@ -11,6 +11,8 @@ import java.util.Set;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import eu.heliovo.shared.common.cis.hit.info.CISValues;
+import eu.heliovo.shared.common.cis.hit.info.UserValues;
 import eu.heliovo.shared.common.cis.tags.HELIOTags;
 import eu.heliovo.shared.common.utilities.LogUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilities;
@@ -40,7 +42,7 @@ public class CisServiceTest
 	 */
 	String					user_a			=	"test_user_a";
 	String					pwd_a			=	"pwd_4_test_user_a";
-	String					new_pwd_a			=	"new_pwd_4_test_user_a";
+	String					new_pwd_a		=	"new_pwd_4_test_user_a";
 	String					user_b			=	"test_user_b";
 	String					pwd_b			=	"pwd_4_test_user_b";
 	/*
@@ -50,6 +52,11 @@ public class CisServiceTest
 	String					pwd_c			=	"pwd_4_test_user_c";
 	String					user_d			=	"test_user_d";
 	String					pwd_d			=	"pwd_4_test_user_d";
+	/*
+	 * This user is the administrator 
+	 */
+	String					adminName		=	CISValues.HelioDefaultAdministrator;
+	String					adminPwd		=	"pwd_4_HelioAdministrator";
 	/*
 	 * This keeps track of the users present in the CIS.
 	 */
@@ -171,6 +178,20 @@ public class CisServiceTest
 			} 
 		}
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+		/*
+		 * Testing administrator present in the CIS
+		 */
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + CISValues.HelioDefaultAdministrator);		
+			
+		try 
+		{
+			assertTrue(cisService.isUserPresent(CISValues.HelioDefaultAdministrator));
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
 	}
 
 	@Ignore @Test
@@ -213,6 +234,109 @@ public class CisServiceTest
 				assertTrue(false);
 			}
 		}
+		/*
+		 * Testing administrator present in the CIS
+		 */
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + CISValues.HelioDefaultAdministrator);		
+			
+		try 
+		{
+			assertTrue(cisService.validateUser(adminName, 
+					secUtilities.computeHashOf(adminPwd)));
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
+
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+
+	@Ignore @Test
+	public void testValidateUsersAndRoles() 
+	{
+		/*
+		 * Testing normal users present in the CIS
+		 */
+		Iterator<String>	iter	=	presentUsers.keySet().iterator();
+		while(iter.hasNext())
+		{
+			String	userName	=	iter.next();
+			
+			try 
+			{
+				assertTrue(cisService.validateUserAndRole(userName, 
+						secUtilities.computeHashOf(presentUsers.get(userName)),
+						UserValues.standardRole));
+				assertFalse(cisService.validateUserAndRole(userName, 
+						secUtilities.computeHashOf(presentUsers.get(userName)),
+						UserValues.administratorRole));
+			} 
+			catch (SecurityUtilitiesException e) 
+			{
+				e.printStackTrace();
+				assertTrue(false);
+			} 
+			catch (CisServiceException e) 
+			{
+				e.printStackTrace();
+				assertTrue(false);
+			}
+		}
+		/*
+		 * Testing users NOT present in the CIS
+		 */
+		iter	=	absentUsers.keySet().iterator();
+		while(iter.hasNext())
+		{
+			String	userName	=	iter.next();
+			logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + userName);		
+			
+			try 
+			{
+				assertFalse(cisService.validateUserAndRole(userName, 
+						secUtilities.computeHashOf(absentUsers.get(userName)),
+						UserValues.standardRole));
+				assertFalse(cisService.validateUserAndRole(userName, 
+						secUtilities.computeHashOf(absentUsers.get(userName)),
+						UserValues.administratorRole));
+			} 
+			catch (SecurityUtilitiesException e) 
+			{
+				e.printStackTrace();
+				assertTrue(false);
+			} 
+			catch (CisServiceException e) 
+			{
+				e.printStackTrace();
+				assertTrue(false);
+			}
+		}
+		/*
+		 * Testing administrator present in the CIS
+		 */
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + CISValues.HelioDefaultAdministrator);		
+			
+		try 
+		{
+			assertTrue(cisService.validateUserAndRole(adminName, 
+					secUtilities.computeHashOf(adminPwd),
+					UserValues.standardRole));
+			assertTrue(cisService.validateUserAndRole(adminName, 
+					secUtilities.computeHashOf(adminPwd),
+					UserValues.administratorRole));
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+			assertTrue(false);
+		} 
 
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
