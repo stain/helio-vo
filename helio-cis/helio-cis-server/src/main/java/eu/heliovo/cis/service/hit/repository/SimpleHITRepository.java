@@ -9,7 +9,6 @@ import java.util.Set;
 import eu.heliovo.cis.service.utilities.SecurityUtilities;
 import eu.heliovo.cis.service.utilities.SecurityUtilitiesException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SimpleHITRepository.
  */
@@ -176,5 +175,31 @@ public class SimpleHITRepository implements HITRepository
 			String value) throws HITRepositoryException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setRolesForUser(String user, Set<String> roles)
+			throws HITRepositoryException 
+	{
+	}
+
+	@Override
+	public Set<String> getRolesForUser(String user)
+			throws HITRepositoryException 
+	{
+		return null;
+	}
+
+	@Override
+	public boolean hasRole(String user) throws HITRepositoryException 
+	{
+		return false;
+	}
+
+	@Override
+	public boolean validateUser(String user, String pwdHash, String role)
+			throws HITRepositoryException 
+	{
+		return false;
 	}
 }

@@ -1,5 +1,7 @@
 package eu.heliovo.cis.service;
 
+import java.util.Set;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -47,6 +49,18 @@ public interface CisService
 	 */
 	@WebMethod
 	public void removeUser(String user, String pwdHash) throws CisServiceException;
+	/**
+	 * Removes another user (only for administrators).
+	 *
+	 * @param user the name of the user to be removed
+	 * @param requester the name of the administrator who requests the operation
+	 * @param requesterPwdHash the hash of the password for the administrator who requests the operation
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	public void removeAnotherUser(String user, String requester, String requesterPwdHash)
+	throws CisServiceException;
+
 	/**
 	 * Removes the user if it is present and the password matches.
 	 *
@@ -98,6 +112,34 @@ public interface CisService
 	void setPreferenceForUser(String user, String pwdHash, String service,
 			String field, String value) throws CisServiceException;
 
+	/**
+	 * Gets the roles for the user.
+	 *
+	 * @param user the user
+	 * 
+	 * @return Set, the set of roles given to the user
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	public Set<String> getRolesForUser(String user_a) throws CisServiceException;
+
+	/**
+	 * Validates the user given a certain role.
+	 *
+	 * @param user the user
+	 * @param pwd the has of the user pwd
+	 * @param role the role of the user we want to validate
+	 * 
+	 * @return true if the user is validated for that role
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	public boolean validateUserAndRole(String userName, 
+			String pwdHash,
+			String userRole) 
+					throws CisServiceException;
+	
+	
 //	/**
 //	 * Returns the low security HIT for the specified user
 //	 *

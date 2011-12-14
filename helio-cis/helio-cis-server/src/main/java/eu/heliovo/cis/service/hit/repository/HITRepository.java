@@ -124,4 +124,35 @@ public interface HITRepository
 	 */
 	void setPreferenceForUser(String user, String service, String field,
 			String value) throws HITRepositoryException;
+	
+	/**
+	 * Gets the roles for the user
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	public abstract Set<String> getRolesForUser(String user) throws HITRepositoryException;
+	/**
+	 * Returns true if the user has a certain role
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	public boolean hasRole(String user) throws HITRepositoryException;
+	/**
+	 * Sets the roles for the user
+	 *
+	 * @throws HITRepositoryException 
+	 */
+	void setRolesForUser(String user, Set<String> roles) throws HITRepositoryException;
+
+	/**
+	 * Validates a user with for a given role
+	 *
+	 * @param userName the name of the user
+	 * @param pwdHash the hash of the password
+	 * @param role the hash of the password
+	 * @return true, if successful
+	 * @throws HITRepositoryException the HIT repository exception
+	 */
+	boolean validateUser(String user, String pwdHash, String role)
+			throws HITRepositoryException;
 }

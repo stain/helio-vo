@@ -1,10 +1,14 @@
 package eu.heliovo.cis.service;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.jws.WebService;
 
 import eu.heliovo.cis.service.hit.repository.FileBasedHITRepository;
 import eu.heliovo.cis.service.hit.repository.HITRepository;
 import eu.heliovo.cis.service.hit.repository.HITRepositoryException;
+import eu.heliovo.shared.common.cis.hit.info.UserValues;
 import eu.heliovo.shared.common.utilities.LogUtilities;
 
 @WebService(endpointInterface = "eu.heliovo.cis.service.CisService", serviceName = "CisService", portName="CisServicePort" )
@@ -51,6 +55,47 @@ public class CisServiceImpl implements CisService
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public boolean validateUserAndRole(String userName, String pwdHash,
+			String userRole) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing validateUserAndRole("+userName+","+pwdHash+","+userRole+")");
+		try 
+		{
+			if(!isUserPresent(userName))
+				return false;
+
+			if(!validateUser(userName, pwdHash))
+				return false;
+
+			logUtilities.printShortLogEntry("[CIS-SERVER] - roles for "+ userName + " : " + getRolesForUser(userName));
+			logUtilities.printShortLogEntry("[CIS-SERVER] - role required "+ userRole);
+
+			if(contains(getRolesForUser(userName),userRole))
+				logUtilities.printShortLogEntry("[CIS-SERVER] - " + getRolesForUser(userName) + " includes " + userRole);
+			else
+				logUtilities.printShortLogEntry("[CIS-SERVER] - " + getRolesForUser(userName) + " DOES NOT include " + userRole);
+				
+			return	contains(getRolesForUser(userName), userRole);
+		} 
+		catch (CisServiceException e) 
+		{
+			throw new CisServiceException();
+		}
+	}
+
+	private boolean contains(Set<String> rolesForUser, String userRole) 
+	{
+		Iterator<String>	i	=	rolesForUser.iterator();
+		
+		while(i.hasNext())
+			if(i.next().contains(userRole))
+				return true;
+		
+		
+		return false;
 	}
 
 	@Override
@@ -219,6 +264,31 @@ public class CisServiceImpl implements CisService
 	}
 
 	@Override
+	public void removeAnotherUser(String user,
+			String requester, String requesterPwdHash)	throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing removeUser("+user+","+requester+","+requesterPwdHash+")");
+		/*
+		 * Validate that the requester has administrative role
+		 */
+		if(!validateUserAndRole(requester, requesterPwdHash, UserValues.administratorRole))
+			throw new CisServiceException();			
+		if(!isUserPresent(user))
+			throw new CisServiceException();
+			
+		try 
+		{
+			repository.removeUser(user);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+		logUtilities.printShortLogEntry("[CIS-SERVER] - ... DONE !");
+	}
+
+	@Override
 	public void changePwdForUser(String user, String oldPwdHash,
 			String newPwdHash) throws CisServiceException 
 	{
@@ -269,6 +339,23 @@ public class CisServiceImpl implements CisService
 		try 
 		{
 			repository.setPreferenceForUser(user, service, field, value);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+	}
+
+	@Override
+	public Set<String> getRolesForUser(String user) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing getRolesForUser(" + user + ")");
+		if(!isUserPresent(user))
+			throw new CisServiceException();			
+		try 
+		{
+			return repository.getRolesForUser(user);
 		} 
 		catch (HITRepositoryException e) 
 		{
