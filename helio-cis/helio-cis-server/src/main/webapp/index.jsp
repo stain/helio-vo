@@ -7,14 +7,11 @@
 <title>Propagation Model</title>
 </head>
 <body>
+<BR>HELIO Community Interaction Service<BR> 
 <BR>
-HELIO Community Interaction Service<BR> 
+<a href="admin.jsp">Administrator</a> 
 <BR>
-<FORM METHOD=POST ACTION="actions.jsp">
-Name = <INPUT TYPE=TEXT NAME=userName SIZE=16><BR>
-Password = <INPUT TYPE=TEXT NAME=userPwd SIZE=16><BR>
-<P>
-<INPUT TYPE=SUBMIT>
-</FORM>
+<a href="normal.jsp">Normal User</a> 
+<BR>
 </body>
 </html>
