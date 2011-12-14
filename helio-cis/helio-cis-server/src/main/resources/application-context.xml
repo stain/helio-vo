@@ -12,13 +12,10 @@
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
     
     <!-- Spring manage ServiceBean -->
-    
     <bean id="cisServ" class="eu.heliovo.cis.service.CisServiceImpl">
-    	<constructor-arg 
-    		type="java.lang.String"
-    		value="c:\\tmp\\HITRepository.data.new" />
     </bean>
-
+	
+	
     <!-- JAX-WS Service Endpoint -->    
     <jaxws:endpoint id="cisService" 
     				implementor="#cisServ" 
