@@ -33,6 +33,8 @@ grails.project.dependency.resolution = {
             excludes 'slf4j-log4j12', 'slf4j-api'    
         }
 	}
+    // force grails to fetch the latest versions from the maven repo rather than from the ivy cache.
+    changing = true
 }
 
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
