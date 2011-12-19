@@ -681,3 +681,11 @@ input.ui-button{
 	-khtml-opacity: 0; 
 	-moz-opacity: 0;
 }
+
+div.table_info {
+	word-wrap: break-word;
+}
+
+dd.indented {
+	margin-left: 10px;
+}

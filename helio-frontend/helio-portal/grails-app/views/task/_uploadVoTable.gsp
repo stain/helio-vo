@@ -31,6 +31,7 @@
 		  </div>
           
           <div id="btn_upload" >Upload</div>
+          
           <div id="msg_upload"></div>   
       </g:form>
     </div>

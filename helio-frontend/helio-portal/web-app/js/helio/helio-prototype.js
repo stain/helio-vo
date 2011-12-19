@@ -113,7 +113,7 @@ var initVoTableUpload = function(responseText, textStatus, XMLHttpRequest) {
                 $(".resultTable").each(function() {fnFormatTable(this.id);});
                 
                 // 3. enable ok-dialogs
-                $(".ok_dialog").dialog({ autoOpen: false, modal: true,
+                $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
                     buttons: { "Ok": function() { $(this).dialog("close"); }} 
                 });
                 

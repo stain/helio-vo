@@ -23,13 +23,13 @@
       
                 <%-- VOTable header info. dialog --%>
                 <g:if test="${result.infos.size() > 0}">
-                  <div id="table_info_all" class="ok_dialog">
-                    <h1>Common information about the table</h1>
-                    <ul>
+                  <div style="width: 600px;" id="table_info_all" class="ok_dialog table_info" title="Common information about the table (for debugging)">
+                    <dl>
                       <g:each in="${result.infos}" status="status" var="info">
-                        <li>${info.name}=${info.value ? info.value : 'no value'}</li>
+                        <dt title="${result.description}"><b>${info.name}</b></dt>
+                        <dd class="indented">${info.value ? info.value : 'no value'}</dd>
                       </g:each>
-                    </ul>
+                    </dl>
                   </div>
                   <div id="table_info_all_button" class="table_info_button custom_button" style="margin-left: 5px;">
                     Info
@@ -70,21 +70,23 @@
                   </h3>
                 </div>
                 
-                <div id="table_info_${status}" class="ok_dialog">
-                  <h1>Table info for ${table.name ? table.name :  'Un-named table' }</h1>
+                <div id="table_info_${status}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
                   <g:if test="${table.infos.size() > 0}">
                     <h2>Info Tags</h2>
-                    <div><ul>
+                    <br>
+                    <div><dl>
                     <g:each in="${table.infos}" var="info">
-                      <li title="${info.description}">${info.name}=${info.value ? info.value : 'undefined value'}</li>
+                    	<dt title="${info.description}" ><b>${info.name}</b></dt>
+                    	<dd class="indented">${info.value ? info.value : 'undefined value'}</dd>
                     </g:each>
-                    </ul></div>
+                    </dl></div>
                   </g:if>
                   <g:if test="${table.params.size() > 0}">
                     <h2>Param Tags</h2>
                     <ul>
                       <g:each in="${table.params}" status="paramNo" var="param" >
-                          <li title="${param.description}">${param.name}=${param.value ? param.value : 'undefined value'}</li>        
+                      	  <dt title="${param.description}" ><b>${param.name}</b></dt>
+                    	  <dd class="indented">${param.value ? param.value : 'undefined value'}</dd>        
                       </g:each>
                     </ul>
                   </g:if>            
