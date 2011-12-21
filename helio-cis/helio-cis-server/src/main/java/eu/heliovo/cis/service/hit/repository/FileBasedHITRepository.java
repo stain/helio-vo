@@ -83,6 +83,7 @@ public class FileBasedHITRepository implements HITRepository
 			{
 				addAnonymousUser();
 				addDefaultAdministrator();
+				addDefaultUser();
 			}
 		} 
 		catch (HITRepositoryException e) 
@@ -118,6 +119,32 @@ public class FileBasedHITRepository implements HITRepository
 		cInfo.insertAttribute(UserTags.userProfile, defaultUserProfile);
 		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance("7251428c2492edff4640cb0e9f1facce"));
 		users.put(CISValues.HelioDefaultAdministrator, cInfo.toString());		
+		/*
+		 * Save the status to the file
+		 */
+		saveStatus();				
+	}
+
+	private void addDefaultUser() throws HITRepositoryException 
+	{
+		if(users.containsKey(CISValues.HelioDefaultUser))
+			throw new HITRepositoryException();
+		/*
+		 * Create the description of the user
+		 */			
+		RecordExpr		cInfo		=	new RecordExpr();
+		/*
+		 * Roles
+		 */
+		ListExpr		roles		=	new ListExpr();
+		roles.add(Constant.getInstance(UserValues.standardRole));
+		
+		cInfo.insertAttribute(UserTags.userRoles, roles);
+		cInfo.insertAttribute(UserTags.userName, Constant.getInstance(CISValues.HelioDefaultAdministrator));
+		cInfo.insertAttribute(UserTags.createdOn, Constant.getInstance(new Date()));
+		cInfo.insertAttribute(UserTags.userProfile, defaultUserProfile);
+		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance("5c9a2c3c5c007a8b76b74072c6a2f989"));
+		users.put(CISValues.HelioDefaultUser, cInfo.toString());		
 		/*
 		 * Save the status to the file
 		 */
@@ -633,21 +660,20 @@ public class FileBasedHITRepository implements HITRepository
 	{
 		if(!users.containsKey(user))
 			throw new HITRepositoryException();
-		/*
-		 * Create the description of the user
-		 * TODO : Convert the profile into a recordExpression
-		 */			
-		RecordExpr		cInfo		=	new RecordExpr();
-		cInfo.insertAttribute(UserTags.userName, Constant.getInstance(user));
-		cInfo.insertAttribute(UserTags.createdOn, Constant.getInstance(new Date()));
-		cInfo.insertAttribute(UserTags.userProfile, defaultUserProfile);
-		//			cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(secUtils.computeHashOf(pwd)));
-		cInfo.insertAttribute(UserTags.passwdHash, Constant.getInstance(newPwdHash));
-		users.put(user, cInfo.toString());		
-		System.out.println(users.toString());
-		/*
-		 * Save the status to the file
-		 */
+		try 
+		{
+			RecordExpr		userRecord	=	(RecordExpr) cadUtils.string2Expr(users.get(user));
+			userRecord.insertAttribute(UserTags.passwdHash, Constant.getInstance(newPwdHash));
+			users.put(user, userRecord.toString());		
+		} 
+		catch (ArithmeticException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (ClassAdUtilitiesException e) 
+		{
+			e.printStackTrace();
+		}
 		saveStatus();				
 	}
 
@@ -703,21 +729,23 @@ public class FileBasedHITRepository implements HITRepository
 			 * Getting the user information
 			 */
 			RecordExpr		cInfo		=	(RecordExpr) cadUtils.string2Expr(users.get(user));
-//			System.out.println(cadUtils.exprToReadeableString(cInfo));
+			System.out.println(cadUtils.exprToReadeableString(cInfo));
 			/*
 			 * Getting the user profile
 			 */
 			RecordExpr		prefs		=	(RecordExpr) cadUtils.evaluate(UserTags.userProfile, cInfo);
-//			System.out.println(cadUtils.exprToReadeableString(prefs));
+			System.out.println(cadUtils.exprToReadeableString(prefs));
 			/*
 			 * Getting the user profile for the service
 			 */
 			RecordExpr		uPrefs		=	(RecordExpr) cadUtils.evaluate(service, prefs);
-//			System.out.println(cadUtils.exprToReadeableString(uPrefs));
+			System.out.println(cadUtils.exprToReadeableString(uPrefs));
 			/*
 			 * Setting the value
 			 */
+			System.out.println("Inserting " + value + " into " + field);
 			uPrefs.insertAttribute(field, Constant.getInstance(value));
+			System.out.println(cadUtils.exprToReadeableString(uPrefs));
 			/*
 			 * Setting the value in the preferences
 			 */

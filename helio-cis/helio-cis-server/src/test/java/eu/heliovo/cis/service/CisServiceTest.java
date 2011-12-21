@@ -475,6 +475,43 @@ public class CisServiceTest
 		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
 	}
 
+	@Ignore @Test
+	public void testGetAllUserNames() 
+	{		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getAllUserNames...");		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST]  - " + cisService.getAllUserNames());		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+
+	@Ignore @Test
+	public void testChangeStandardPreferences() 
+	{		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - Invoking test for getAllUserNames...");		
+
+		try 
+		{
+			logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + cisService.getPreferenceForUser(
+					CISValues.HelioAnonymousUser, HELIOTags.dpas, HELIOTags.dpas_field_1));
+			cisService.setPreferenceForAnotherUser(CISValues.HelioAnonymousUser, 
+					adminName, secUtilities.computeHashOf(adminPwd), 
+					HELIOTags.dpas, HELIOTags.dpas_field_1, "New Value");
+			logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - " + cisService.getPreferenceForUser(
+					CISValues.HelioAnonymousUser, HELIOTags.dpas, HELIOTags.dpas_field_1));
+		} 
+		catch (CisServiceException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (SecurityUtilitiesException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		
+		
+		logUtilities.printShortLogEntry("[CIS-SERVICE-TEST] - ...done");		
+	}
+
 	/*
 	 * These are utility methods for the tests
 	 */

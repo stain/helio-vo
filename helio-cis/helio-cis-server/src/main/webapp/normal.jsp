@@ -4,12 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Community Interaction Service</title>
+<title>CIS - Profile Page</title>
 </head>
 <body>
-Simple Interface to the Community Interaction Service<BR> 
-<P>
-<INPUT TYPE=SUBMIT>
-</FORM>
+Community Interaction Service - Profile Page<BR> 
+<a href="changeMyPassword.jsp">Change My Password</a><BR>
+<a href="seeMyPreference.jsp">See my preferences</a><BR>
+<a href="changeMyPreference.jsp">Modify my preferences</a><BR>
+<a href="removeMyAccount.jsp">Delete my account</a><BR>
 </body>
 </html>

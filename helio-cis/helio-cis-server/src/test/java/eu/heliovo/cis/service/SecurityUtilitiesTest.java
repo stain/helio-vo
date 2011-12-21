@@ -24,7 +24,7 @@ public class SecurityUtilitiesTest
 	@Test
 	public void testComputeHashOf() 
 	{
-		String	pwd	=	"pwd_4_HelioAdministrator";
+		String	pwd	=	"pwd_4_HelioUser";
 		
 		try 
 		{

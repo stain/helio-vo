@@ -1,5 +1,6 @@
 package eu.heliovo.cis.service;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -292,7 +293,7 @@ public class CisServiceImpl implements CisService
 	public void changePwdForUser(String user, String oldPwdHash,
 			String newPwdHash) throws CisServiceException 
 	{
-		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing removeUser("+user+","+oldPwdHash+","+newPwdHash+")");
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing changePwdForUser("+user+","+oldPwdHash+","+newPwdHash+")");
 		if(!isUserPresent(user))
 			throw new CisServiceException();
 		if(!validateUser(user, oldPwdHash))
@@ -348,6 +349,33 @@ public class CisServiceImpl implements CisService
 	}
 
 	@Override
+	public void setPreferenceForAnotherUser(String user,
+			String requester, String requesterPwdHash, String service,
+			String field, String value) throws CisServiceException 
+	{
+		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing setPreferenceForAnotherUser("+
+				user+","+requester+","+requesterPwdHash+","+
+				service+","+field+","+value+")");
+		/*
+		 * Validate that the requester has administrative role
+		 */
+		if(!validateUserAndRole(requester, requesterPwdHash, UserValues.administratorRole))
+			throw new CisServiceException();			
+		if(!isUserPresent(user))
+			throw new CisServiceException();
+
+		try 
+		{
+			repository.setPreferenceForUser(user, service, field, value);
+		} 
+		catch (HITRepositoryException e) 
+		{
+			e.printStackTrace();
+			throw new CisServiceException();
+		}
+	}
+
+	@Override
 	public Set<String> getRolesForUser(String user) throws CisServiceException 
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVER] - Executing getRolesForUser(" + user + ")");
@@ -368,5 +396,11 @@ public class CisServiceImpl implements CisService
 	{
 		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
 		logUtilities.printShortLogEntry("[CIS-SERVER] - " + repository.getAllUserNames().toString());
+	}
+
+	@Override
+	public Set<String> getAllUserNames() 
+	{
+		return repository.getAllUserNames();
 	}
 }

@@ -4,6 +4,7 @@
 package eu.heliovo.cis.service.hit.repository;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 import eu.heliovo.cis.service.utilities.SecurityUtilities;
@@ -152,7 +153,7 @@ public class SimpleHITRepository implements HITRepository
 	}
 
 	@Override
-	public Set getAllUserNames() 
+	public Set<String> getAllUserNames() 
 	{
 		return null;
 	}

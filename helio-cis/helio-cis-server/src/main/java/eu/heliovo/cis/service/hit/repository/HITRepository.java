@@ -1,5 +1,6 @@
 package eu.heliovo.cis.service.hit.repository;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public interface HITRepository 
@@ -98,7 +99,7 @@ public interface HITRepository
 	 *
 	 * @throws HITRepositoryException 
 	 */
-	public Set getAllUserNames();
+	public abstract Set<String> getAllUserNames();
 	/**
 	 * Changes the password for the user.
 	 *

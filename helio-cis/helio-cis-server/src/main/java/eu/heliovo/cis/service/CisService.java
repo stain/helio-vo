@@ -1,5 +1,6 @@
 package eu.heliovo.cis.service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.jws.WebMethod;
@@ -138,7 +139,28 @@ public interface CisService
 			String pwdHash,
 			String userRole) 
 					throws CisServiceException;
-	
+
+	/**
+	 * Return all users.
+	 * 
+	 * @return hashset with all the usernames
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	public Set<String> getAllUserNames();
+	/**
+	 * Sets the preferences for another user.
+	 * 
+	 * @throws CisServiceException 
+	 */
+	@WebMethod
+	public void setPreferenceForAnotherUser(
+			String user, 
+			String requester,
+			String requesterPwdHash, 
+			String service, String field, String value)
+			throws CisServiceException;
+
 	
 //	/**
 //	 * Returns the low security HIT for the specified user
