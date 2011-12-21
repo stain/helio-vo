@@ -1,5 +1,7 @@
 package eu.heliovo.shared.common.utilities;
 
+import java.util.Vector;
+
 
 public class LogUtilities
 {
@@ -24,11 +26,6 @@ public class LogUtilities
 		return " - " + tUtils.getMiniStamp() + " : " + m;
 	}
 
-	public	void	printShortLogEntry(String m)
-	{
-		System.out.println("[ " + tUtils.getMiniStamp() + " ] -> " + m);
-	}
-
 	public	void	printLongLogEntry(String m)
 	{
 		System.out.println("[ " + tUtils.getMiniStamp() + " ] ------------------ ");
@@ -36,4 +33,8 @@ public class LogUtilities
 		System.out.println("[ " + tUtils.getMiniStamp() + " ] ------------------ ");
 	}
 
+	public void printShortLogEntry(String arg) 
+	{
+		System.out.println("[ " + tUtils.getMiniStamp() + " ] " + arg);		
+	}
 }
