@@ -689,3 +689,8 @@ div.table_info {
 dd.indented {
 	margin-left: 10px;
 }
+
+#filterText {
+	font-size: 10px;
+	padding-left: 4px;
+}

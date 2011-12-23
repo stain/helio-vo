@@ -175,17 +175,113 @@ function Workspace() {
             $("#input_table").dataTable().fnSetColumnVis( 12, false );
             $("#input_table").dataTable().fnSetColumnVis( 13, false );
             $("#input_table").dataTable().fnSetColumnVis( 14, false );
-            $("input:checkbox").change(function(){
-                var checkboxColumn=$(this).attr("column");
-                var filter_expression = "\0";
+            $("#input_table").dataTable().fnSetColumnVis( 15, false );
+            
+            // is called when a filter checkbox is clicked
+            $(".checkFilter").change(function(){
+            	// uncheck "Show all" checkbox
+            	$("#checkAll").removeAttr("checked");
+            	
+				$("#input_table").dataTable().fnFilter("", 15, true);
+            	
+                var checkboxColumn = $(this).attr("column");
+                var filter_expression = "";
+                
+                var eventCounter = 0;
+                var locationCounter = 0;
+                var observationCounter = 0;
+                
+                // clear filterText <td>
+                $("#filterText").html("");
+                
+                // filters the table and displays filter text
                 $("input:checked").each(function(){
-                    if($(this).attr("column")==checkboxColumn)
-                        filter_expression=filter_expression+"|("+$(this).attr("name")+")";
+                	// ignore filterText when obs. type is both otherwise display default filter text
+                    if (eventCounter == 0 && locationCounter == 0 && observationCounter == 0){
+                    	if ($(this).attr("title") == "Both") {
+                    		$("#filterText").html("All flare lists are shown.");
+                    	}
+                    	else {
+                    		$("#filterText").html($("#filterText").html() + "Show flare lists WHERE ");
+                    	}
+                	}
+                    
+                    // display all filter criteria connected with AND's
+                    if($(this).hasClass("event")) {
+                    	if (eventCounter == 0) {
+                    		$("#filterText").html($("#filterText").html() + "Event is " + $(this).attr("name"));
+                    	}
+                    	else {
+                    		$("#filterText").html($("#filterText").html() + " AND " + $(this).attr("name"));
+                    	}
+                    	eventCounter++;
+                    } else if ($(this).hasClass("location")) {
+                    	if (locationCounter == 0) {
+                    		// only display first AND if no event filters are set
+                    		if (eventCounter == 0) {
+                    			$("#filterText").html($("#filterText").html() + "Location is " + $(this).attr("name"));
+                    		} else {
+                    			$("#filterText").html($("#filterText").html() + " <b> AND</b> Location is " + $(this).attr("name"));
+                    		}
+                    	} else {
+                    		$("#filterText").html($("#filterText").html() + " AND " + $(this).attr("title"));
+                    	}
+                    	locationCounter++;
+                    } else if ($(this).hasClass("observation")) {
+                    	if ($(this).attr("title") != "Both") {
+	                    	if (observationCounter == 0) {
+	                    		// only display first AND if no event filters and no location filters are set
+	                    		if (eventCounter == 0 && locationCounter == 0) {
+	                    			$("#filterText").html($("#filterText").html() + "Obs. Type is " + $(this).attr("title"));
+	                        	} else {
+	                        		$("#filterText").html($("#filterText").html() + " <b> AND</b> Obs. Type is " + $(this).attr("title"));
+	                        	}
+	                    	} else {
+	                    		$("#filterText").html($("#filterText").html() + " <b>AND " + $(this).attr("title"));
+	                    	}
+                    	}
+                    	observationCounter++;
+                    }
                 });
 
-                if(filter_expression=="\0")
-                    filter_expression="";
-                $("#input_table").dataTable().fnFilter(filter_expression,checkboxColumn,true);
+                // create filter expression
+                if($(this).attr("column") == checkboxColumn) {
+                    filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+                }
+                
+                // creates the new filtered table
+                $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+            });
+            
+            $("#checkAll").change(function(){
+            	if ($(this).attr("checked")) {
+            		$("#input_table").dataTable().fnFilter("", 15, true);
+        			$(".checkFilter").each(function(){
+        				// uncheck all filter checkboxes
+        				$(this).removeAttr("checked");
+        				// remove all filters from dataTable
+        				$("#input_table").dataTable().fnFilter("", $(this).attr("column"), true);
+        			});
+        			
+    				$("#obsBoth").attr("checked", "checked");
+    				$("#filterText").html("All flare lists are shown.");
+        		}
+        		else {
+        			$("#input_table").dataTable().fnFilter("never appearing filter text", 15, true);
+        			$("#filterText").html("No flare lists are shown.");
+        		}
+            });
+            
+            $("input:radio").change(function(){
+                var checkboxColumn = $(this).attr("column");
+                var filter_expression = "";
+                
+                $("input:checked").each(function(){
+                    if($(this).attr("column") == checkboxColumn)
+                        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+                });
+
+                $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
                 
             });
 

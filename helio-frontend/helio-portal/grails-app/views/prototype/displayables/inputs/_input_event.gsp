@@ -15,26 +15,31 @@
         <col width="100"/>
         <col width="100"/>
         <tr>
+        	<td></td>
+        	<td colspan="2"><input id="checkAll" checked="" name="everything" type="checkbox"/> Show all</td>
+        </tr>
+        <tr>
           <td></td>
           <td>Event type:</td>
-          <td><input name="y" column="7" type="checkbox" value=""/>CME</td>
-          <td><input name="y" column="6" type="checkbox" value=""/>Flare</td>
-          <td><input name="y" column="8" type="checkbox" value=""/>Solar Wind </td>
-          <td><input name="y" column="9" type="checkbox" value=""/>Particle</td>
+          <td><input class="checkFilter event" name="CME" title="Coronal Mass Ejection" column="7" type="checkbox" value="y"/> CME</td>
+          <td><input class="checkFilter event" name="Flare" title="Flare" title="Flare" column="6" type="checkbox" value="y"/> Flare</td>
+          <td><input class="checkFilter event" name="Solar Wind" title="Solar Wind" column="8" type="checkbox" value="y"/> Solar Wind </td>
+          <td><input class="checkFilter event" name="Particle" title="Particle" column="9" type="checkbox" value="y"/> Particle</td>
         </tr>
         <tr>
           <td></td>
           <td>Location:</td>
-          <td><input name="y" column="11" type="checkbox" value=""/>Solar</td>
-          <td><input name="y" column="12" type="checkbox" value=""/>IPS</td>
-          <td><input name="y" column="13" type="checkbox" value=""/>Geo</td>
-          <td><input name="y" column="14" type="checkbox" value=""/>Planet</td>
+          <td><input class="checkFilter location" name="Solar" title="Solar" name="solar" column="11" type="checkbox" value="y"/> Solar</td>
+          <td><input class="checkFilter location" name="IPS" title="Interplanetary Space" column="12" type="checkbox" value="y"/> IPS</td>
+          <td><input class="checkFilter location" name="Geo" title="Geo" column="13" type="checkbox" value="y"/> Geo</td>
+          <td><input class="checkFilter location" name="Planet "title="Planet" column="14" type="checkbox" value="y"/> Planet</td>
         </tr>
         <tr>
           <td></td>
           <td>Obs. type:</td>
-          <td><input name="I" column="10" type="checkbox" value=""/>In situ</td>
-          <td><input name="r" column="10" type="checkbox" value=""/>Remote</td>
+          <td><input class="checkFilter observation" title="In situ" name="obsType" column="10" type="radio" value="I"/> In situ</td>
+          <td><input class="checkFilter observation" title="Remote" name="obsType" column="10" type="radio" value="r"/> Remote</td>
+          <td><input class="checkFilter observation" title="Both" name="obsType" id="obsBoth" checked="" column="10" type="radio" value="I|r"/> Both</td>
           <td></td>
           <td></td>
         </tr>
@@ -45,8 +50,11 @@
     </td>
   </tr>
   <tr>
+  	<td colspan="3" id="filterText">All flare lists are shown.</td>
+  </tr>
+  <tr>
     <td colspan="3">
-      <table style="margin-top: 10px;width:100%">
+      <table style="width:100%">
         <tr>
           <td></td>
           <td>
@@ -57,6 +65,7 @@
                     <g:each in="${hecCatalogs?.getTables()?.get(0)?.getHeaders()}" status="i" var="header">
                       <th>${header}</th>
                     </g:each>
+                    <th>Invisible Filter Column</th>
                   </g:if>
                 </tr>
               </thead>
@@ -67,6 +76,7 @@
                       <g:each in="${rows}" status="j" var="tdelement">
                         <td internal="${tdelement}">${tdelement}</td>
                       </g:each>
+                      <td>f</td>
                     </tr>
                   </g:each>
                 </g:if>
