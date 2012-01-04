@@ -242,12 +242,12 @@ function Workspace() {
                     	}
                     	observationCounter++;
                     }
+                    
+                    // create filter expression
+                    if($(this).attr("column") == checkboxColumn) {
+                        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+                    }
                 });
-
-                // create filter expression
-                if($(this).attr("column") == checkboxColumn) {
-                    filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
-                }
                 
                 // creates the new filtered table
                 $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
