@@ -72,7 +72,7 @@
               <tbody>
                 <g:if test="${hecCatalogs?.getTables() != null && hecCatalogs?.getTables().size() > 0} ">
                   <g:each in="${hecCatalogs?.getTables()?.get(0)?.getData()}" status="i" var="rows">
-                    <tr>
+                    <tr id="row_${rows[0]}">
                       <g:each in="${rows}" status="j" var="tdelement">
                         <td internal="${tdelement}">${tdelement}</td>
                       </g:each>

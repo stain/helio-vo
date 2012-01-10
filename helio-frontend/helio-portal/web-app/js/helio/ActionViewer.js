@@ -463,7 +463,23 @@ function ActionViewer() {
                 drop: function( event, ui ) {
                     if( ui.draggable.data('event_data') != null){
                         $("#event_drop").attr('src','../images/helio/circle_event.png');
-                        $('#extra_list').html(ui.draggable.data('event_data'));
+                        
+                        // input list which contains all hidden input files
+                        var inputList = $("<div></div>");
+                        inputList.append(ui.draggable.data('event_data'));
+                        
+                        // clear extra list
+                        $("#extra_list").html("");
+                        
+                        // add selected lists to extra list
+                        var selectedLists = new Array();
+                        inputList.find("input[name='extra']").each(function() {
+                        	$("#extra_list").append($(this));
+                        	selectedLists.push($(this).attr("internal"));
+                        });
+
+            			$("#extra_list").append(selectedLists.join(" ,<br/>"));
+
                         window.workspace.evaluator();
                         $("#event_drop").addClass('drop_able');
                     }

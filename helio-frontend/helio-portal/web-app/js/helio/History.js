@@ -1,6 +1,4 @@
 function History() {
-
-
     var array=[];
     var limit = 13;
     var offset =0;
@@ -35,15 +33,14 @@ function History() {
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
-
-
-
+            
             $("#extra_list_form").html(holder.html());
 
             $("#extra_list_form li").each(function(){
                 $("#input_table td[internal='"+$(this).attr("internal")+"']").parent().addClass('row_selected');
 
             });
+            
             $("#input_filter").keyup(function(){
                 $("#input_table").dataTable().fnFilter($(this).val());
             });
@@ -96,15 +93,24 @@ function History() {
 
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
-
                     }
                 }
             });
         },
         event_input_form: function(selector){
-            var holder= $('<div></div>');
-            holder.html(selector.attr('event_data'));
+            var holder = $('<div></div>');
+            var buffer = $('<div></div>');
+            
+            buffer.html(selector.attr('event_data'));
 
+            // fill all event data from jQuery buffer element into holder	
+            buffer.find("input[name='extra']").each(function() {  	
+	        	holder.append("<li id='" + $(this).attr("value") + "' internal='" + $(this).attr("internal") + "'>'" + $(this).attr("internal") +
+	        			"'<input type='hidden'  name='extra' value='" + $(this).attr("value") + "' internal='" + $(this).attr("internal") +  "'/>" +
+	        			"<div style='float:right; height: 16px; width: 16px;' class='removeList ui-state-default ui-corner-all' onclick='Workspace.removeList_click(this)'>" +
+	        			"<span class='ui-icon ui-icon-close'></span></div></li>");	
+            });
+            
             $("#dialog-message").remove();
             var div =$('<div></div>');
             div.attr('id','dialog-message');
@@ -136,23 +142,116 @@ function History() {
             $("#input_table").dataTable().fnSetColumnVis( 12, false );
             $("#input_table").dataTable().fnSetColumnVis( 13, false );
             $("#input_table").dataTable().fnSetColumnVis( 14, false );
+            $("#input_table").dataTable().fnSetColumnVis( 15, false );
 
             $("#extra_list_form").html(holder.html());
-            $("input:checkbox").change(function(){
-                var checkboxColumn=$(this).attr("column");
-                var filter_expression = "\0";
-
+            
+         // is called when a filter checkbox is clicked
+            $(".checkFilter").change(function(){
+            	// uncheck "Show all" checkbox
+            	$("#checkAll").removeAttr("checked");
+            	
+				$("#input_table").dataTable().fnFilter("", 15, true);
+            	
+                var checkboxColumn = $(this).attr("column");
+                var filter_expression = "";
+                
+                var eventCounter = 0;
+                var locationCounter = 0;
+                var observationCounter = 0;
+                
+                // clear filterText <td>
+                $("#filterText").html("");
+                
+                // filters the table and displays filter text
                 $("input:checked").each(function(){
-                    if($(this).attr("column")==checkboxColumn)
-                        filter_expression=filter_expression+"|("+$(this).attr("name")+")";
+                	// ignore filterText when obs. type is both otherwise display default filter text
+                    if (eventCounter == 0 && locationCounter == 0 && observationCounter == 0){
+                    	if ($(this).attr("title") == "Both") {
+                    		$("#filterText").html("All flare lists are shown.");
+                    	}
+                    	else {
+                    		$("#filterText").html($("#filterText").html() + "Show flare lists WHERE ");
+                    	}
+                	}
+                    
+                    // display all filter criteria connected with AND's
+                    if($(this).hasClass("event")) {
+                    	if (eventCounter == 0) {
+                    		$("#filterText").html($("#filterText").html() + "Event is " + $(this).attr("name"));
+                    	}
+                    	else {
+                    		$("#filterText").html($("#filterText").html() + " AND " + $(this).attr("name"));
+                    	}
+                    	eventCounter++;
+                    } else if ($(this).hasClass("location")) {
+                    	if (locationCounter == 0) {
+                    		// only display first AND if no event filters are set
+                    		if (eventCounter == 0) {
+                    			$("#filterText").html($("#filterText").html() + "Location is " + $(this).attr("name"));
+                    		} else {
+                    			$("#filterText").html($("#filterText").html() + " <b> AND</b> Location is " + $(this).attr("name"));
+                    		}
+                    	} else {
+                    		$("#filterText").html($("#filterText").html() + " AND " + $(this).attr("title"));
+                    	}
+                    	locationCounter++;
+                    } else if ($(this).hasClass("observation")) {
+                    	if ($(this).attr("title") != "Both") {
+	                    	if (observationCounter == 0) {
+	                    		// only display first AND if no event filters and no location filters are set
+	                    		if (eventCounter == 0 && locationCounter == 0) {
+	                    			$("#filterText").html($("#filterText").html() + "Obs. Type is " + $(this).attr("title"));
+	                        	} else {
+	                        		$("#filterText").html($("#filterText").html() + " <b> AND</b> Obs. Type is " + $(this).attr("title"));
+	                        	}
+	                    	} else {
+	                    		$("#filterText").html($("#filterText").html() + " <b>AND " + $(this).attr("title"));
+	                    	}
+                    	}
+                    	observationCounter++;
+                    }
+                    
+                    // create filter expression
+                    if($(this).attr("column") == checkboxColumn) {
+                        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+                    }
+                });
+                
+                // creates the new filtered table
+                $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+            });
+            
+            $("#checkAll").change(function(){
+            	if ($(this).attr("checked")) {
+            		$("#input_table").dataTable().fnFilter("", 15, true);
+        			$(".checkFilter").each(function(){
+        				// uncheck all filter checkboxes
+        				$(this).removeAttr("checked");
+        				// remove all filters from dataTable
+        				$("#input_table").dataTable().fnFilter("", $(this).attr("column"), true);
+        			});
+        			
+    				$("#obsBoth").attr("checked", "checked");
+    				$("#filterText").html("All flare lists are shown.");
+        		}
+        		else {
+        			$("#input_table").dataTable().fnFilter("never appearing filter text", 15, true);
+        			$("#filterText").html("No flare lists are shown.");
+        		}
+            });
+            
+            $("input:radio").change(function(){
+                var checkboxColumn = $(this).attr("column");
+                var filter_expression = "";
+                
+                $("input:checked").each(function(){
+                    if($(this).attr("column") == checkboxColumn)
+                        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
                 });
 
-                if(filter_expression=="\0")
-                    filter_expression="";
-
-
-                $("#input_table").dataTable().fnFilter(filter_expression,checkboxColumn,true);
-
+                $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+                
             });
 
 
@@ -165,25 +264,46 @@ function History() {
             });
 
             $('#input_table tr').click( function() {
-                var row =$.trim($(this).find('td').attr("internal"));
+            	var row =$.trim($(this).find('td').attr("internal"));
+                
                 if ( $(this).hasClass('row_selected') ){
-                    $(this).removeClass('row_selected');
-
-                    $("#extra_list_form li[internal='"+row+"']").remove();
+                	$(this).removeClass('row_selected');
+                    $("#extra_list_form li[internal='" + row + "']").remove();
                 }
                 else{
-                    var aData = $("#input_table").dataTable().fnGetData( this );
-                    $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(this).addClass('row_selected');
+                    var aData = $("#input_table").dataTable().fnGetData( this );
+                    $("#extra_list_form").append("<li id='" + aData[0] + "' internal='" + row + "'>'" + row +
+                    		"'<input type='hidden' name='extra' value='" + aData[0] + "' internal='" + row +  "'/>" +
+            				"<div style='float:right; height: 16px; width: 16px;' class='removeList ui-state-default ui-corner-all' onclick='Workspace.removeList_click(this)'>" +
+            				"<span class='ui-icon ui-icon-close'></span></div></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
+                    $(".input_time_advanced").unbind();
+                    formatButton($(".custom_button"));
+                    $(".input_time_advanced").click(function(){
+                        getAdvancedFields($("#service_name").val(),$(this).parent().find('input').val());
+                    });
                 }
-            } );
+            	
+//            	debugger;
+//            	
+//                var row =$.trim($(this).find('td').attr("internal"));
+//                if ( $(this).hasClass('row_selected') ){
+//                    $(this).removeClass('row_selected');
+//
+//                    $("#extra_list_form li[internal='"+row+"']").remove();
+//                }
+//                else{
+//                    var aData = $("#input_table").dataTable().fnGetData( this );
+//                    $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
+//                    $(this).addClass('row_selected');
+//                }
+            });
             formatButton($(".custom_button"))
             $('#dialog-message').dialog({
                 modal: true,
                 height:630,
-                width:750,
+                width:900,
                 close: function(){
-
                     $("#dialog-message").remove();
                 },
                 buttons:{
@@ -204,17 +324,23 @@ function History() {
                             alert("Please make a selection before pressing Ok");
                             return false;
                         }
-
-                        selector.attr('event_data',$("#extra_list_form").html());
-                        selector.data('event_data',$("#extra_list_form").html());
+                        
+                        var inputList = $('<div></div>');
+                        
+                        // add selected inputs to inputList
+                        $("#extra_list_form").find("input[name='extra']").each(function() {
+                        	inputList.append($(this));
+                        });  			
+            			
+                        selector.attr('event_data', inputList.html());
+                        selector.data('event_data', inputList.html());
                         selector.closest("table").find(".inner_label td").html($("#input_form_label").val());
-                        selector.attr("title",$("#input_form_label").val());
+                        selector.attr("title", $("#input_form_label").val());
                         
                         saveHistoryBar();
 
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
-
                     }
                 }
             });
@@ -584,9 +710,6 @@ function History() {
                 activeClass: "ui-state-hover",
                 hoverClass: "ui-state-active",
                 drop: function( event, ui ) {
-
-
-
                     var testver =ui.draggable.attr('src');
                     var title ="";
                     var div = $("<div  title='"+$("#task_label").val()+"' class='floaters'></div>");

@@ -74,7 +74,9 @@ function Workspace() {
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
+            debugger;
             $("#extra_list_form").html(($("#extra_list").html()));
+            
             var tempextralist =$("#extra_list").html();
             $("#extra_list").html("");
 
@@ -128,14 +130,12 @@ function Workspace() {
                             return false;
                         }
                         $("#extra_list").html(($("#extra_list_form").html()));
-
                         
                         $("#instruments_drop").attr('src','../images/helio/circle_inst.png');
                         $("#instruments_drop").addClass('drop_able');
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
-
                     }
                 }
             });
@@ -285,8 +285,21 @@ function Workspace() {
                 
             });
 
-            $("#extra_list_form").html(($("#extra_list").html()));
-            var tempextralist =$("#extra_list").html();
+
+            $("input[name='extra']").each(function() {
+            	var tr = $("#row_" + $(this).attr("value"))[0];
+            	var row = $("#input_table").dataTable().fnGetData(tr, 1);
+            	
+            	$("#extra_list_form").append("<li id='" + $(this).attr("value") + "' internal='" + row + "'>'" + row +
+            			"'<input type='hidden' name='extra' value='" + $(this).attr("value") + "' internal='" + row + "'/>" +
+            			"<div style='float:right; height: 16px; width: 16px;' class='removeList ui-state-default ui-corner-all' onclick='Workspace.removeList_click(this)'>" +
+            			"<span class='ui-icon ui-icon-close'></span></div></li>");
+            	
+            });
+
+            var tempextralist = $("#extra_list").html();
+            
+            
             $("#extra_list").html("");
        
             $("#extra_list_form li").each(function(){
@@ -295,18 +308,21 @@ function Workspace() {
             $("#input_filter").keyup(function(){
                 $("#input_table").dataTable().fnFilter($(this).val());
             });
-
+            
             $('#input_table tr').click( function() {
                 var row =$.trim($(this).find('td').attr("internal"));
                 
                 if ( $(this).hasClass('row_selected') ){
-                    $(this).removeClass('row_selected');
-                    $("#extra_list_form li[internal='"+row+"']").remove();
+                	$(this).removeClass('row_selected');
+                    $("#extra_list_form li[internal='" + row + "']").remove();
                 }
                 else{
                     $(this).addClass('row_selected');
                     var aData = $("#input_table").dataTable().fnGetData( this );
-                    $("#extra_list_form").append("<li id='"+aData[0]+"' internal='"+row+"'>'"+row+"'<input type='hidden'  name='extra' value='"+aData[0]+"'/></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
+                    $("#extra_list_form").append("<li id='" + aData[0] + "' internal='" + row + "'>'" + row +
+                    		"'<input type='hidden' name='extra' value='" + aData[0] + "' internal='" + row +  "'/>" +
+            				"<div style='float:right; height: 16px; width: 16px;' class='removeList ui-state-default ui-corner-all' onclick='Workspace.removeList_click(this)'>" +
+            				"<span class='ui-icon ui-icon-close'></span></div></li>");//<div class='custom_button input_time_advanced'>Advanced</div>
                     $(".input_time_advanced").unbind();
                     formatButton($(".custom_button"));
                     $(".input_time_advanced").click(function(){
@@ -314,6 +330,7 @@ function Workspace() {
                     });
                 }
             });
+            
             formatButton($(".custom_button"));
             $('#dialog-message').dialog({
                 modal: true,
@@ -352,12 +369,25 @@ function Workspace() {
                         }
                         
                         $(".input_time_advanced").remove();
-                        $("#extra_list").html(($("#extra_list_form").html()));
+                        
+                        // clear extra list
+                        $("#extra_list").html("");
+                        
+                        // add all input elements to list (needed to get a result)
+                        $("#extra_list").append($("input[name='extra']"));
+                        
+                        // add selected lists to extra list
+                        var selectedLists = new Array();
+                        $("input[name='extra']").each(function() {
+                        	var tr = $("#row_" + $(this).attr("value"))[0];
+                        	selectedLists.push($("#input_table").dataTable().fnGetData(tr, 1));
+                        });
+                        
+            			$("#extra_list").append(selectedLists.join(" ,<br/>"));
                         
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();
                         window.workspace.evaluator();
-
                     }
                 }
             });
@@ -796,3 +826,11 @@ function Workspace() {
         }
     };
 }
+
+// removes the list from the #extra_list_form
+Workspace.removeList_click = function(selectedElement) {
+	// removes the "row_selected" class from the tr
+	$("#input_table tbody tr[id='row_" + $(selectedElement).parent().attr('id') + "']").removeClass('row_selected');
+	// removes the selected list form the extra_list_form
+    $("#extra_list_form li[internal='" + $(selectedElement).parent().attr('internal') + "']").remove();
+};
