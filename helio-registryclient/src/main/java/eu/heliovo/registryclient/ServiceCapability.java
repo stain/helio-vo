@@ -32,12 +32,12 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
     /**
      * Link provider service.
      */
-    public static final ServiceCapability LINK_PROVIDER_SERVICE = register("LINK_PROVIDER_SERVICE","ivo://helio-vo.eu/lps/v1.0");
+    public static final ServiceCapability LINK_PROVIDER_SERVICE = register("LINK_PROVIDER_SERVICE","helio://helio-vo.eu/lps/v0.1");
 
     /**
      * A registry service
      */
-    public static final ServiceCapability HELIO_PROCESSING_SERVICE = register("HELIO_PROCESSING_SERVICE", "ivo://helio-vo.eu/hps/1.0");
+    public static final ServiceCapability HELIO_PROCESSING_SERVICE = register("HELIO_PROCESSING_SERVICE", "helio://helio-vo.eu/hps/v0.1");
     
     /**
      * provider of a VOSI cababilites table.
@@ -58,6 +58,16 @@ public class ServiceCapability implements Iterable<ServiceCapability> {
      * A registry service
      */
     public static final ServiceCapability REGISTRY_SERVICE = register("REGISTRY_SERVICE", "ivo://ivoa.net/std/Registry");
+
+    /**
+     * A myexperiment registry
+     */
+    public static final ServiceCapability MYEXPERIMENT_REGISTRY = register("MYEXPERIMENT_REGISTRY", "helio://helio-vo.eu/std/myexperiment/v0.1");
+
+    /**
+     * A Taverna server service
+     */
+    public static final ServiceCapability TAVERNA_SERVER = register("TAVERNA_SERVER", "helio://helio-vo.eu/std/tavernaserver/v0.1");
 
     /**
      * Unknown capability.

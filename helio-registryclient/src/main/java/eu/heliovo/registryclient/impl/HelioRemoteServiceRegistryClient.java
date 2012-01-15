@@ -17,6 +17,7 @@ import uk.ac.starlink.registry.SoapClient;
 import eu.heliovo.registryclient.AccessInterface;
 import eu.heliovo.registryclient.AccessInterfaceType;
 import eu.heliovo.registryclient.HelioServiceName;
+import eu.heliovo.registryclient.RegistryProperties;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
 import eu.heliovo.registryclient.ServiceResolutionException;
@@ -36,6 +37,12 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 
 	/** The default address of the registry. */
 	public static final String REGISTRY_AT_MSSL = "http://msslxw.mssl.ucl.ac.uk:8080/helio_registry/services/RegistryQueryv1_0";
+	//public static final String REGISTRY_AT_MSSL = "http://msslkz.mssl.ucl.ac.uk/helio_registry/services/RegistryQueryv1_0";
+
+	/**
+	 * Name of the remote registry location
+	 */
+    private static final String REGISTRY_LOCATION = "eu.heliovo.registryclient.remote_registry_location";
 	
 	/**
 	 * Client stub to the registry.
@@ -46,7 +53,7 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 	 * Create the registry impl and initialize it accordingly.
 	 */
 	public HelioRemoteServiceRegistryClient() {
-	    setRegistryURL(HelioFileUtil.asURL(REGISTRY_AT_MSSL));
+	    setRegistryURL(getRegistryLocation());
 	}
 
 	/**
@@ -117,6 +124,19 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
         }
     }
 
+    /**
+     * Check if a service registry client class has been defined in the properties file.
+     * @return the registered or the default service registry client class.
+     */
+    private static URL getRegistryLocation() {
+        RegistryProperties props = RegistryProperties.getInstance();
+        if (props.containsKey(REGISTRY_LOCATION)) {
+            return HelioFileUtil.asURL(props.getProperty(REGISTRY_LOCATION));
+        } else {
+            return HelioFileUtil.asURL(REGISTRY_AT_MSSL);
+        }
+    }
+    
     /**
      * Extract a description string from a basic resource.
      * @param r the resource to read

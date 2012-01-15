@@ -65,14 +65,21 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	 * The semantic mapping services
 	 */
 	public static final HelioServiceName SMS = register("SMS", "ivo://helio-vo.eu/sms");
+	
 	/**
 	 * The Link Provider Service
 	 */
-	public static final HelioServiceName LPS = register("LPS", "ivo://helio-vo.eu/lps");
+	public static final HelioServiceName LPS = register("LPS", "helio://helio-vo.eu/lps");
+
 	/**
 	 * The HELIO Processing Service
 	 */
 	public static final HelioServiceName HPS = register("HPS", "ivo://helio-vo.eu/hps");
+
+	/**
+	 * The Taverna Server
+	 */
+	public static final HelioServiceName TAVERNA_SERVER = register("TAVERNA_SERVER", "ivo://helio-vo.eu/taverna-server");
 
 	/**
 	 * Name of the service
