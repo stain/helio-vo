@@ -19,14 +19,17 @@ import eu.heliovo.shared.util.IOUtil;
  *
  */
 public class HelioFileUtil {
-
+    /**
+     * A logger instance
+     */
 	private final static Logger _LOGGER = Logger.getLogger(HelioFileUtil.class);
 	
 	/**
 	 * Return the home directory of HELIO.
 	 * The directory will be created if not existing.
 	 * Points to ${user.home}/.helio/area
-	 * @return the home dir
+	 * @param area the area directory.
+	 * @return the home dir.
 	 */
 	public static File getHelioHomeDir(String area) {
 		File homeDir = new File(System.getProperty("user.home"), ".helio" + File.separator + area);
@@ -40,6 +43,7 @@ public class HelioFileUtil {
 	 * Get the helio temp dir. 
 	 * The directory will be created if not existing
 	 * Points to ${java.io.tmpdir}/.helio/area
+	 * @param area the area directory
 	 * @return the temp dir
 	 */
 	public static File getHelioTempDir(String area) {
