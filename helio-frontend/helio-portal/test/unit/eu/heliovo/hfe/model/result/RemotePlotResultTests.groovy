@@ -1,8 +1,8 @@
-package eu.heliovo.hfe.test
+package eu.heliovo.hfe.model.result
 
 import grails.test.*
 
-class VoTableUploadServiceTests extends GrailsUnitTestCase {
+class RemotePlotResultTests extends GrailsUnitTestCase {
     protected void setUp() {
         super.setUp()
     }

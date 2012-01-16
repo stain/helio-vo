@@ -10,7 +10,7 @@ import eu.heliovo.clientapi.utils.STILUtils
  * @author MarcoSoldati
  *
  */
-class LocalHelioResult extends HelioResult {   
+class LocalVOTableResult extends HelioResult {   
     /**
      * Original name of the file
      */

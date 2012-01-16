@@ -50,7 +50,7 @@
         <ul>
           <li><a href="#tabs-2">Services</a></li>
           <li><a href="#tabs-3">Advanced</a></li>
-          <li><a href="#tabs-4">User</a></li>
+          <li><a href="#tabs-4">Administration</a></li>
         </ul>
         <div id="tabs-2">
           <table>
@@ -83,6 +83,9 @@
                 <div style="display:block" class="menu_item custom_button"  id="task_context">Context Service</div>
               </td>
               <g:if env="development">              
+                <td>
+                  <div style="display:block" class="custom_button"  id="task_propagationmodel">Propagation Model</div>
+                </td>
                 <td>
                   <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>
                 </td>
@@ -120,10 +123,11 @@
         <div id="responseDivision" ></div>
       </div>
     </div>
+    
     <div style="display:none">
       <div id="loading_form" style="display:none">
         <div><h3 style="margin:30px;">Please wait </h3>
-          <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="couldnt find image" /></div>
+          <img style="margin:30px;" src="${resource(dir:'images/helio/',file:'load.gif')}" alt="Loading..." /></div>
         <div style="margin:30px;" id="loading_form_cancel_button" class="custom_button">Cancel</div>
       </div>
       <div style="padding:30px;text-align: left" id="help_overlay" style="display:none">
@@ -131,5 +135,7 @@
         <p></p>
       </div>
     </div>
+    <!-- placeholders to attach temporary ui widgets -->
+    <div id="dialog_placeholder" style="display:none"></div>
   </body>
 </html>

@@ -6,25 +6,40 @@ grails.project.test.reports.dir = "target/test-reports"
 grails.project.war.osgi.headers = false
 
 grails.project.dependency.resolution = {
+    // Everything with a version that ends with -SNAPSHOT is changing
+    chainResolver.changingPattern = ".*-SNAPSHOT"
+
     // inherit Grails' default dependencies
     inherits("global") {
-   		excludes "xml-apis"
+        excludes "xml-apis"
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
-		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
-		mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/internal"
-		mavenLocal()
+        // Register the new JAR
+        def classLoader = getClass().classLoader
+        classLoader.addURL(new File(baseFile, "lib/grails-snapshot-dependencies-fix-0.1.jar").toURI().toURL())
+        
+        // Get a hold of the class for the new resolver
+        def snapshotResolverClass = classLoader.loadClass("grails.resolver.SnapshotAwareM2Resolver")
+        
+        // Define a new resolver that is snapshot aware
+        resolver(snapshotResolverClass.newInstance(name: "helio-snapshots", root: "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"))
+
+        
+        mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
+        mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/internal"
+        mavenLocal()
 
         // uncomment the below to enable remote dependency resolution
         // from public Maven repositories
         // mavenCentral()
-		// grailsHome()
-		// grailsCentral()
+        // grailsHome()
+        // grailsCentral()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
+
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.

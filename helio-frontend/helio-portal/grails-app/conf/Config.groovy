@@ -102,3 +102,6 @@ rememberMe.tokenValiditySeconds = 5184000  // 60days
 
 // anon settings (important for TemUserSecurityFilter)
 anon.key = 'helioHFE';
+
+// make inner classes validating.
+grails.validateable.packages = ['eu.heliovo.hfe.model']

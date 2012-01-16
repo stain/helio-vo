@@ -120,7 +120,7 @@ html{
     min-height:480px;
     padding:10px;
 }
-.resultTable td, th {
+.resultTable td, .resultTable th {
     font: 11px verdana, arial, helvetica, sans-serif;
     line-height: 12px;
     padding: 5px 6px;
@@ -494,12 +494,9 @@ display:table-cell;
 }
 
 .new1{
-
-
     padding:1px;
     width: 49px;
     margin-bottom: 2px;
-
 }
 .newcurrent{
     background-color: #F4DF9F;
@@ -508,6 +505,7 @@ display:table-cell;
     border:1px solid #5B5FA8;
     margin-bottom: 2px;
 }
+
 .newghost{
     background-color: #B7DADD;
     color:#5B5FA8;
@@ -515,33 +513,26 @@ display:table-cell;
     border:1px solid #5B5FA8;
     margin-bottom: 2px;
 }
+
 .current{
     border:1px solid #5B5FA8;
 }
+
 .resultDroppable{
     background:url(../images/helio/circle_destination.png) no-repeat;
-    
-    
-    
 }
+
 .resultDroppable4{
-    
-    
-    
 }
+
 .resultDroppableEvent{
     background-image:url(../images/helio/circle_destination.png);
-    
-    
 }
+
 .resultDroppableInst{
      background-image:url(../images/helio/circle_destination.png);
 }
-.resultDroppable2{
-    background-image:url(../images/helio/circle_inst_grey.png);
-    background-repeat: no-repeat;
-    background-position: 12px 12px;
-}
+
 .fg-button{
     padding:0 10px;
 }

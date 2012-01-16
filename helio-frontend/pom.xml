@@ -14,10 +14,10 @@
   <packaging>pom</packaging>
   <name>helio-frontend</name>
   <description>
-		TODO: Add description in helio-frontend/pom.xml
+		Parent project for modules related to the HELIO Frontend.
 	</description>
   
   <modules>
-    <module>helio-portal</module>
+    <!--module>helio-portal</module-->
   </modules>
 </project>

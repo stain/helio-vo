@@ -14,8 +14,8 @@ import uk.ac.starlink.votable.VOElement
 import uk.ac.starlink.votable.VOStarTable
 import eu.heliovo.clientapi.utils.STILUtils
 import eu.heliovo.hfe.model.result.HelioResult
-import eu.heliovo.hfe.model.result.LocalHelioResult
-import eu.heliovo.hfe.model.result.RemoteHelioResult
+import eu.heliovo.hfe.model.result.LocalVOTableResult
+import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.security.User
 
 /**
@@ -39,12 +39,12 @@ class VoTableService {
      * @param file the handle to the uploaded file.
      * @return a HelioResult pointing to the loaded data.
      */
-    def parseAndSaveVoTable(MultipartFile file) {
+    def Map<String, Object> parseAndSaveVoTable(MultipartFile file) {
 
         // get the currently logged in user or create a new one.
         def user = User.get(springSecurityService.principal.id)
         def votableContent = file.inputStream.text;
-        HelioResult helioResult = new LocalHelioResult(originalFileName : file.originalFilename,
+        HelioResult helioResult = new LocalVOTableResult(originalFileName : file.originalFilename,
                 voTableContent : votableContent , user: user);
 
 
@@ -64,19 +64,27 @@ class VoTableService {
     /**
      * Create a voTable model structure from a given HelioResult
      * @param helioResult the helioResult to load into a structure
-     * @return the votableModel consisting of headers and tables.
+     * @return the votableModel consisting of a map of headers and tables.
      */
-    def createVOTableModel(helioResult) {
+    def Map<String, Object> createVOTableModel(HelioResult helioResult) {
         VOElement votableModel;
-        if (helioResult instanceof LocalHelioResult) {
+        if (helioResult instanceof LocalVOTableResult) {
             votableModel = STILUtils.readVOElement(new ByteArrayInputStream(helioResult.voTableContent.getBytes()), helioResult.originalFileName);
             //votableModel = STILUtils.readVOElement(new URL("http://hec.ts.astro.it/hec/hec_gui_fetch.php?cmd=http%3A%2F%2Fhec.ts.astro.it%3A8081%2Fstilts%2Ftask%2Fsqlclient%3Fdb%3Djdbc%3Apostgresql%3A%2F%2Fhec.ts.astro.it%2Fhec%26user%3Dapache%26sql%3Dselect+%2A+from+goes_sxr_flare+where+time_start%3E%3D%272011-02-09+00%3A00%3A00%27+AND+time_start%3C%3D%272011-03-09+23%3A59%3A59%27%26ofmt%3Dvotable&type=votable"));
-        } else if (helioResult instanceof RemoteHelioResult) {
+        } else if (helioResult instanceof RemoteVOTableResult) {
             votableModel = STILUtils.readVOElement(helioResult.url);
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
-
+        return createVOTableModel(helioResult.id, getFilename(helioResult), votableModel);
+    }
+    
+    /**
+     * Create a voTable model structure from a given HelioResult
+     * @param helioResult the helioResult to load into a structure
+     * @return the votableModel consisting of a map of headers and tables.
+     */
+    def Map<String, Object> createVOTableModel(Long id, String fileName, VOElement votableModel) {
         // create a table model to hold the extracted information
         def tableModel = [:]
 
@@ -170,15 +178,15 @@ class VoTableService {
     }
 
     /**
-     * Get the Helio Filename either from the upload file name or the URL.
+     * Get the HELIO Filename either from the upload file name or the URL.
      * @param helioResult the helioResult to load
      * @return the fileName (without any path)
      */
     public getFilename(HelioResult helioResult) {
         String filename;
-        if (helioResult instanceof LocalHelioResult) {
+        if (helioResult instanceof LocalVOTableResult) {
             filename = helioResult.originalFileName;
-        } else if (helioResult instanceof RemoteHelioResult) {
+        } else if (helioResult instanceof RemoteVOTableResult) {
             String url = helioResult.url.toString()
             filename = url.substring(url.lastIndexOf('/') + 1)
         } else {
@@ -193,9 +201,9 @@ class VoTableService {
      * @return
      */
     public getContent(HelioResult helioResult) {
-        if (helioResult instanceof LocalHelioResult) {
+        if (helioResult instanceof LocalVOTableResult) {
             return helioResult.voTableContent
-        } else if (helioResult instanceof RemoteHelioResult) {
+        } else if (helioResult instanceof RemoteVOTableResult) {
             return helioResult.url.text
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)

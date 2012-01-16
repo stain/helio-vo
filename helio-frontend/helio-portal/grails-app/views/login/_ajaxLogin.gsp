@@ -1,4 +1,4 @@
-<div id='ajaxLogin'>
+<div id='ajaxLogin' style="display:none;">
   <div class='inner'>
     <div class='fheader'>Please Login</div>
     <form action='${request.contextPath}/j_spring_security_check'
@@ -21,7 +21,7 @@
     <div style='display: none; text-align: left;' id='loginMessage'></div>
   </div>
 </div>
-<div id='ajaxRegister'>
+<div id='ajaxRegister' style="display:none;">
   <div class='inner'>
     <div class='fheader'>Please Register</div>
     <g:form controller="user" action="ajaxRegister"

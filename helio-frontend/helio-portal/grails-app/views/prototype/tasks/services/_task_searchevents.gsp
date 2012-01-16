@@ -7,10 +7,7 @@
         </td>
         <td>
           <h1 >Search Events</h1>
-
         </td>
-
-
       </tr>
     </table>
   </div>

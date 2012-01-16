@@ -9,7 +9,7 @@ import uk.ac.starlink.table.StarTable;
  * @author MarcoSoldati
  *
  */
-class RemoteHelioResult extends HelioResult {
+class RemoteVOTableResult extends HelioResult {
    /**
     * The URL where the result is coming from.
     * Unique

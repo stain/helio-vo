@@ -50,48 +50,8 @@ class PrototypeController {
     def resultVTManagerService;
     
     /**
-     * Upload a file
-     * TODO: Move to VoTableController
-     */
-    def asyncUpload ={
-        log.info("asyncUpload =>" +params);
-
-        try{
-    
-            if (request.getFile("fileInput").getOriginalFilename()=="") {
-                throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
-            }
-            if (!request.getFile("fileInput").getOriginalFilename().endsWith(".xml")) {
-                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
-            }
-            
-            
-            
-            def starTable = STILUtils.load(request.getFile("fileInput").inputStream);
-            //StilUtils.persist(starTable)
-            
-            // TODO: Use StilUtils
-            JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource(new StringReader( request.getFile("fileInput").inputStream.text)));
-            
-            def serviceName = 'upload';
-            ResultVT result = new ResultVT(votable);
-            int resultId= resultVTManagerService.addResult(result,serviceName);
-            def uploadId =request.getFile("fileInput").getOriginalFilename();
-            
-            def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
-            render template:'templates/response', bean:responseObject, var:'responseObject'
-        } catch(Exception e) {
-            //e.printStackTrace();
-            def responseObject = [error:e.getMessage() ];
-            render template:'templates/response', bean:responseObject, var:'responseObject'
-        }
-    }
-   
-    /**
      * Execute an asynchronous query
+     * TODO: Move to MetadataQueryController
      */
     def asyncQuery ={
         log.info("asyncQuery =>" +params);
@@ -159,7 +119,8 @@ class PrototypeController {
     }
 
     /**
-     * Generic method to handle searches to catalog services 
+     * Generic method to handle searches to catalog services
+     * TODO: Move to MetadataQueryController 
      */
     def search = {
         log.info("Search =>" +params);
@@ -199,28 +160,7 @@ class PrototypeController {
     	ResultVT result = dataQueryService.queryService(serviceName.getServiceName(), minDateList, maxDateList, extraList, where);
         return result;
     }
-
-    /**
-     * Download results as a VOTable
-     * TODO: move to VoTableController
-     */
-    def downloadVOTable = {
-        log.info("downloadVOTable =>" + params);
-        ResultVT result = resultVTManagerService.getResult(Integer.parseInt(params.resultId));
-        if(result !=null){
-            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-            Date date = new Date();
-            def name= formatter.format(date);
-            name = resultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-"+name;
-            response.setContentType("application/xml")
-            response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
-            response.outputStream << result.getStringTable()
-        } else {
-            render(status: 503, text: 'Failed to retrieve votable with id ' + params.resultId) 
-        }
-        
-    }
-
+    
     /**
      * Download selected rows as VOTable
      * TODO: move to VoTableController
@@ -277,7 +217,7 @@ class PrototypeController {
 
     /**
      * Get a previously stored result
-     * TODO: Move to VoTableController 
+     * TODO: Move to VoTableController (if still needed.) 
      */
     def asyncGetSavedResult = {
         log.info("asyncGetSavedResult =>" + params);
@@ -333,7 +273,7 @@ class PrototypeController {
 
     /**
      * Used for Error handling after loading an invalid HEC table.
-     * TODO: revise
+     * TODO: move to TaskController?
      */
     def asyncGetPreviousTaskState ={
         log.info("asyncGetPreviousTaskState =>" + params);
@@ -352,7 +292,7 @@ class PrototypeController {
     
     /**
      * Set the task state. 
-     * TODO: find out how this is used. Can probably be moved to the server side.
+     * TODO: move to TaskController? find out how this is used. Can probably be moved to the server side.
      */
     def asyncSetPreviousTaskState ={
         log.trace("asyncGetPreviousTaskState =>" + params);
@@ -372,6 +312,7 @@ class PrototypeController {
 
     /**
      * Query the context service
+     * TODO: Move to PlotController
      */
     def asyncQueryContextService = {
         log.info("asyncQueryContextService =>" + params);
@@ -414,6 +355,7 @@ class PrototypeController {
     
     /**
      * Call a HELIO LinkProviderService
+     * TODO: Move to LinkProviderController
      */
     def asyncQueryLinkService = {
         log.info("asyncQueryLinkService =>" + params);
@@ -455,4 +397,65 @@ class PrototypeController {
             render result;
         }
     }
+    
+    /**
+    * Download results as a VOTable
+    * TODO: move to VoTableController. Done, ready to be removed
+    */
+   def downloadVOTable = {
+       log.info("downloadVOTable =>" + params);
+       ResultVT result = resultVTManagerService.getResult(Integer.parseInt(params.resultId));
+       if(result !=null){
+           DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+           Date date = new Date();
+           def name= formatter.format(date);
+           name = resultVTManagerService.getResultServiceReference(Integer.parseInt(params.resultId)) +"-"+name;
+           response.setContentType("application/xml")
+           response.setHeader("Content-disposition", "attachment;filename="+name+".xml");
+           response.outputStream << result.getStringTable()
+       } else {
+           render(status: 503, text: 'Failed to retrieve votable with id ' + params.resultId)
+       }
+   }
+   
+   /**
+   * Upload a file
+   * TODO: Move to VoTableController. Done, ready to be removed.
+   */
+  def asyncUpload ={
+      log.info("asyncUpload =>" +params);
+
+      try{
+          if (request.getFile("fileInput").getOriginalFilename()=="") {
+              throw new RuntimeException("A valid xml VO-table file must be selected to continue.");
+          }
+          if (!request.getFile("fileInput").getOriginalFilename().endsWith(".xml")) {
+              throw new RuntimeException("Not a valid xml file. The name should end with .xml");
+          }
+          
+          def starTable = STILUtils.load(request.getFile("fileInput").inputStream);
+          //StilUtils.persist(starTable)
+          
+          // TODO: Use StilUtils
+          JAXBContext context = JAXBContext.newInstance(VOTABLE.class);
+          Unmarshaller unmarshaller = context.createUnmarshaller();
+
+          VOTABLE votable = (VOTABLE) unmarshaller.unmarshal(new StreamSource(new StringReader( request.getFile("fileInput").inputStream.text)));
+          
+          def serviceName = 'upload';
+          ResultVT result = new ResultVT(votable);
+          int resultId= resultVTManagerService.addResult(result,serviceName);
+          def uploadId =request.getFile("fileInput").getOriginalFilename();
+          
+          def responseObject = [result:result,resultId:resultId,uploadId:uploadId];
+          render template:'templates/response', bean:responseObject, var:'responseObject'
+      } catch(Exception e) {
+          //e.printStackTrace();
+          def responseObject = [error:e.getMessage() ];
+          render template:'templates/response', bean:responseObject, var:'responseObject'
+      }
+  }
+ 
+
+
 }

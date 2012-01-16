@@ -11,4 +11,6 @@ class ErrorsController {
      */
     def notFound = {
     }
+    
+    
 }

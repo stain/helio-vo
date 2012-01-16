@@ -46,13 +46,13 @@ class VoTableController {
 
             def votableResult = [result:votableModel];
             render template:'/output/votableResult', bean:votableResult, var:'votableResult'
-        } catch(Exception e) {
-            def message = e.getMessage() ? e.getMessage(): "Internal erro: a " + e.getClass() + " occurred while loading your VOTable.";
+        } catch (Exception e) {
+            def message = e.getMessage() ? e.getMessage(): "Internal error: " + e.getClass() + " occurred while processing your VOTable.";
             StringWriter sw = new StringWriter();
             e.printStackTrace(new PrintWriter(sw))
             def stackTrace = sw.toString();
             sw.close();
-            println "upload error " + message;
+            //println "upload error " + message;
             def responseObject = [message : message, stackTrace : stackTrace];
             render template:'/output/votableResultError', bean:responseObject, var:'responseObject'
         }

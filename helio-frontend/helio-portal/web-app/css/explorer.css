@@ -58,6 +58,21 @@
 }
 
 
+table.dialog_table {
+  height:100%; 
+  width: 100%;
+}
+
+table.dialog_content_table {
+  width:100%;
+  min-width: 500px; 
+  margin-top: 20px;
+}
+
+table.dialog_content_table td {
+  padding-bottom: 2px;
+}
+
 /**
 .task .placeholder {
   margin-top: 1px;

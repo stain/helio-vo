@@ -74,7 +74,7 @@ function Workspace() {
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
-            debugger;
+            //debugger;
             $("#extra_list_form").html(($("#extra_list").html()));
             
             var tempextralist =$("#extra_list").html();

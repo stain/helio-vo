@@ -12,6 +12,6 @@ class UserControllerTests extends ControllerUnitTestCase {
     }
 
     void testSomething() {
-
+        println "implement UserControllerTests."
     }
 }
