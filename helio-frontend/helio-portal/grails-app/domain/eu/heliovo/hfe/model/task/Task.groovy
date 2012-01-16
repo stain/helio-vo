@@ -61,10 +61,10 @@ class Task {
         owner nullable : false
     }
     
-    static hasMany = [
-        inputParams : AbstractParam,
-        outputParams : HelioResult
-    ]
+//    static hasMany = [
+//        inputParams : AbstractParam,
+//        outputParams : HelioResult
+//    ]
     
     /**
      * Assign user if required.

@@ -1,10 +1,5 @@
 package eu.heliovo.hfe.model.result
-import uk.ac.starlink.table.StarTable;
-import ch.i4ds.helio.frontend.parser.*
-import ch.i4ds.helio.frontend.query.*
-import eu.heliovo.clientapi.frontend.*
-import eu.heliovo.clientapi.utils.STILUtils;
-import eu.heliovo.hfe.model.security.User;
+import eu.heliovo.hfe.model.security.User
 
 /**
  * Abstract base class for stored results. Can be binary or textual data.
