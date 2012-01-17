@@ -1,6 +1,7 @@
 package eu.heliovo.hfe.model.param
 
-import eu.heliovo.hfe.utils.TaskDescriptor;
+import eu.heliovo.hfe.model.security.User
+import eu.heliovo.hfe.utils.TaskDescriptor
 
 
 /**
@@ -9,25 +10,25 @@ import eu.heliovo.hfe.utils.TaskDescriptor;
  * @author MarcoSoldati
  */
 class ParamSet extends AbstractParam {
+	
     /**
      * Hold the params
      */
-    Map<String, Object> params = new HashMap<String, Object>()
+    Map<String, String> params
     
     /**
      * The name of the Task this paramSet belongs to.
      */
     String taskName
     
-    /**
-     * The associated TaskDescriptor
-     */
-    transient Map taskDescriptor
-
     static constraints = {
     }
-    
-    /**
+	
+	static hasMany = [
+		params : String
+	]
+	
+	/**
      * Load the task description from the config
      * @return
      */
@@ -36,6 +37,6 @@ class ParamSet extends AbstractParam {
     }
     
     def String toString() {
-        "ParamSet: [" + params  + "]"
+        "ParamSet [taskName: " + taskName + ", params: " + params +"]"
     }
 }

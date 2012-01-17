@@ -17,6 +17,10 @@ class TimeRangeParam extends AbstractParam {
         timeRanges validator : { it.every{it?.validate() }}
     }
 
+	 static mapping = {
+	     tablePerHierarchy false
+	 }
+	
     /**
      * Default constructor
      */

@@ -44,8 +44,7 @@ class VoTableController {
 
             def votableModel = voTableService.parseAndSaveVoTable(file);
 
-            def votableResult = [result:votableModel];
-            render template:'/output/votableResult', bean:votableResult, var:'votableResult'
+            render template:'/output/votableResult', model:[result:votableModel]
         } catch (Exception e) {
             def message = e.getMessage() ? e.getMessage(): "Internal error: " + e.getClass() + " occurred while processing your VOTable.";
             StringWriter sw = new StringWriter();
@@ -62,7 +61,7 @@ class VoTableController {
     * Download result as a VOTable, i.e. retrieve the original content from the database 
     */
    def download = {
-       log.info("VoTableController.downloadVOTable =>" + params);
+       //log.info("VoTableController.downloadVOTable =>" + params);
        HelioResult result = HelioResult.get(params.resultId);
        if(result !=null){
            def name = voTableService.getFilename(result);

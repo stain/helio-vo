@@ -8,10 +8,10 @@ Expected variables:
     Range ${i}
   </td>
   <td align="center" valign="middle">
-    <input size="25" type="text" tabindex="-1" id="minDate_${i}" name="minDate" value="${g.formatDate(date:timeRange.start, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
+    <input style="width:150px" type="text" tabindex="-1" id="minDate_${i}" name="minDate" value="${g.formatDate(date:timeRange.start, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
   </td>
   <td align="center" valign="middle">
-    <input size="25" type="text" tabindex="-1" id="maxDate_${i}" name="maxDate" value="${g.formatDate(date:timeRange.end, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
+    <input style="width:150px" type="text" tabindex="-1" id="maxDate_${i}" name="maxDate" value="${g.formatDate(date:timeRange.end, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
   </td>
   <td><img class="input_time_range_remove" id="input_time_range_remove_${i}" src="${resource(dir:'images/helio',file:'remove.png')}" /></td>
   <td style="width: 100px;"></td>

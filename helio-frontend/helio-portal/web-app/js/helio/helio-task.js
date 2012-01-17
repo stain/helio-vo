@@ -30,7 +30,7 @@ helio.AbstractSummary.prototype.clear = undefined;
  */
 helio.AbstractSummary.prototype.isValid = function() {
     return helio.cache[this.dataKey] != null;
-}
+};
 
 /**
  * TimeRangeSummary class
@@ -162,7 +162,7 @@ helio.ParamSetSummary.prototype._init = function() {
             THIS.clear();
         }
 
-    }
+    };
     
     // 3. click handler for paramset dialogs
     $(".showParamSetDialog").click(function() {
@@ -276,13 +276,14 @@ helio.PropagationModelTask.prototype._submitQuery = function() {
 //            }
 //        },
 //        dataType: "json",
-        target: '#task_result_area',   // target element(s) to be updated with server response
+        //target: '#task_result_area',   // target element(s) to be updated with server response
         success: function(data) { THIS._handleResult.call(THIS, data); }
     });
     
 };
 
 helio.PropagationModelTask.prototype._handleResult = function(data) {
+	$('#task_result_area').html(data);
     this.result = new helio.VOTableResult(this, this.taskName);
 };
 
@@ -337,7 +338,6 @@ helio.VOTableUploadTask.prototype._submitQuery = function() {
         target: '#task_result_area',   // target element(s) to be updated with server response
         success: function(data) { THIS._handleResult.call(THIS, data); }
     }).submit();
-    
 };
 
 helio.VOTableUploadTask.prototype._handleResult = function(data) {
@@ -388,7 +388,6 @@ helio.VOTableUploadTask.prototype._handleResult = function(data) {
         if (!found) {
             download_list.append("<li>Nothing found to download</li>");
         }
-            
         
         var recipe =  window.open('','_blank','width=600,height=600');
         var html = '<html><head><title>Helio Downloads</title></head><body><h1>List of URLs to dowload</h1><p>Use a download manager for your browser to download the links.</p><div id="links">' + download_list.html() + '</div></body></html>';

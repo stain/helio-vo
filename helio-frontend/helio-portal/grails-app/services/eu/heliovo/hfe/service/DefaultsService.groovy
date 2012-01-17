@@ -4,6 +4,7 @@ import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.hfe.utils.TaskDescriptor;
 import eu.heliovo.shared.util.DateUtil
 import grails.validation.ValidationException
 
@@ -52,9 +53,19 @@ class DefaultsService {
 
         // create a new temporary task to be used as model
         if (!task) {
+            def taskDescriptor = TaskDescriptor.taskDescriptor[taskName];
+            if (!taskDescriptor) {
+                throw new RuntimeException("Unknown task: " + taskName); 
+            }
+            
+            def paramMap = [:]
+            taskDescriptor.inputParams.paramSet.each {
+                paramMap[it.key] = ""+it.value.defaultValue 
+            }
+            
             def inputParams = [
                 timeRange: createDefaultTimeRange(),
-                paramSet: newParamSet(taskName, [longitude:0, width: 45.0, speed : 800, speedError: 0])
+                paramSet: newParamSet(taskName, paramMap)
             ]
             task = new Task([
                 inputParams: inputParams,

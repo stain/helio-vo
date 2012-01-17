@@ -22,7 +22,11 @@ class HelioResult {
     static constraints = {
         owner nullable : false;
     }
-    
+	
+	static mapping = {
+		tablePerHierarchy false
+	}
+	
    /**
     * Assign user if required.
     * @return nothing

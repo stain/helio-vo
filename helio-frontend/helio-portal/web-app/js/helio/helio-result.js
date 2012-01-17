@@ -56,6 +56,12 @@ helio.VOTableResult.prototype._init = function() {
         var dialogId = "#" + this.id.substring(0, this.id.length - '_button'.length);
         $(dialogId).dialog('open');
     });
+        
+    var rowpos = $('#task_result_area').position();
+    if(rowpos){
+        $('html,body').scrollTop(rowpos.top);
+    }
+
 };
 })();
 

@@ -9,7 +9,7 @@ import eu.heliovo.hfe.model.security.User;
  * @author MarcoSoldati
  *
  */
-abstract class AbstractParam {
+class AbstractParam {
     /**
      * Wire the spring security service.
      */
@@ -34,6 +34,10 @@ abstract class AbstractParam {
      * owner of this parameter. Defaults to currently logged in user.
      */
     User owner
+	
+	static mapping = {
+		tablePerHierarchy false
+	}
 
     static constraints = {
         name nullable : true
@@ -44,7 +48,8 @@ abstract class AbstractParam {
      * Assign user if required.
      */
     def beforeValidate() {
-        if (!owner)
+        if (!owner) {
             owner = User.get(springSecurityService.principal.id)
+        }
     }
 }

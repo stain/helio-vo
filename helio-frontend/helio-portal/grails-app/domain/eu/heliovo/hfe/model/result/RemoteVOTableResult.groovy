@@ -18,5 +18,5 @@ class RemoteVOTableResult extends HelioResult {
    
    static constraints = {
        
-   }   
+   }
 }

@@ -76,15 +76,7 @@ class VoTableService {
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
-        return createVOTableModel(helioResult.id, getFilename(helioResult), votableModel);
-    }
-    
-    /**
-     * Create a voTable model structure from a given HelioResult
-     * @param helioResult the helioResult to load into a structure
-     * @return the votableModel consisting of a map of headers and tables.
-     */
-    def Map<String, Object> createVOTableModel(Long id, String fileName, VOElement votableModel) {
+
         // create a table model to hold the extracted information
         def tableModel = [:]
 

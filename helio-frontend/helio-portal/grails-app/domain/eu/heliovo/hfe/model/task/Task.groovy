@@ -3,8 +3,10 @@ package eu.heliovo.hfe.model.task
 import java.util.Date
 import java.util.Map;
 
+import eu.heliovo.cis.service.ValidateUser;
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.param.AbstractParam
+import eu.heliovo.hfe.model.param.TimeRangeParam;
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.utils.TaskDescriptor
@@ -59,12 +61,13 @@ class Task {
      
     static constraints = {
         owner nullable : false
+        taskName validator: { value, command -> TaskDescriptor.taskDescriptor[value] != null }
     }
     
-//    static hasMany = [
-//        inputParams : AbstractParam,
-//        outputParams : HelioResult
-//    ]
+    static hasMany = [
+        inputParams : AbstractParam,
+		outputParams : HelioResult
+	]
     
     /**
      * Assign user if required.
@@ -80,7 +83,7 @@ class Task {
     * @return
     */
    def findTaskDescriptor() {
-       TaskDescriptor.taskDescriptor[taskName]
+       def taskDescriptor = TaskDescriptor.taskDescriptor[taskName]
    }
    
    def String toString() {

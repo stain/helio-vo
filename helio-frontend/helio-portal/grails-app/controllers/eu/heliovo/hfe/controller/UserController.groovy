@@ -82,16 +82,16 @@ class RegisterCommand {
     
     static constraints = {
         username blank: false, email : true, validator: { value, command ->
-        if (value) {
-            def User = AH.application.getDomainClass(
-            SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
-            if (User.findByUsername(value)) {
-                return 'registerCommand.username.unique'
+            if (value) {
+                def User = AH.application.getDomainClass(
+                SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
+                if (User.findByUsername(value)) {
+                    return 'registerCommand.username.unique'
+                }
             }
         }
-    }
-    
-    password blank: false, minSize: 8, maxSize: 64, validator: UserController.passwordValidator
-    password2 validator: UserController.password2Validator
+        
+        password blank: false, minSize: 8, maxSize: 64, validator: UserController.passwordValidator
+        password2 validator: UserController.password2Validator
     }
 }

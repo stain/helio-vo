@@ -23,11 +23,16 @@ class TaskDescriptor {
                 "inputParams" : [
                     "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
                     "paramSet" : [
-                        "longitude" : [label : "Longitude", description : "Longitude in xxx", type : Float],
-                        "width" : [label : "Width", description : "Width in xxx", type : Float],
-                        "speed" : [label : "Speed", description : "Speed in xxx", type : Float],
-                        "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in xxx", type : Float]
+                        "longitude" : [label : "Longitude", description : "Longitude in xxx", type : Float, defaultValue : 0],
+                        "width" : [label : "Width", description : "Width in xxx", type : Float, defaultValue : 45.0],
+                        "speed" : [label : "Speed", description : "Speed in xxx", type : Float, defaultValue : 800],
+                        "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in xxx", type : Float, defaultValue : 0]
                     ]
+                ],
+                "outputParams" : [
+                    "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+                    "innerPlotUrl" : [id : "innerPlotUrl", label: "Plot of inner planets", type : "url" ],
+                    "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ]
                 ]
             ]
         ]

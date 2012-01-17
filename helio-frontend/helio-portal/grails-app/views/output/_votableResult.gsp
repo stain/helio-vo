@@ -1,20 +1,15 @@
 <%--
 Render a VOTable result
 Expected model:
- * TableModel votableResult : a map holding the components of a VOTable as defined in VoTableService.
+ * TableModel result : a map holding the components of a VOTable (as defined by VoTableService).
+ * String message : a message
  --%><div class="header queryHeader viewerHeader">
   <h1>Result</h1>
 </div>
 <div class="content">
   <div>
-    <table width="100%">
-      <tr>
-        <td>
-        </td>
-      </tr>
-    </table>
     <div id="voTables" style="clear: both; padding: 0px pt 20pt 5px;">
-      <g:set var="result" value="${votableResult.result}" />
+      <g:set var="result" value="${result}" />
       
       <table width="100%">
         <tr>
@@ -43,8 +38,8 @@ Expected model:
             <div id="download_selection_button" class="custom_button" style="margin-left: 5px;" >
               Download selected files/all
             </div>
-            <g:if test="${votableResult.message}">
-              <div class="message">${votableResult.message}</div>
+            <g:if test="${message}">
+              <div class="message">${message}</div>
             </g:if>
           </td>
           <td width="400px">
@@ -157,14 +152,14 @@ Expected model:
   </div>
 </div>
 <%-- show the user log if available --%>
-<g:if test="${votableResult?.result && votableResult.result?.logRecords?.length > 0}">
+<g:if test="${logRecords?.length > 0}">
   <div class="module">
     <div class="header queryHeader viewerHeader collapsed">
       <h1>Log</h1>
     </div>
     <div class="content">
       <table cellpadding="0" cellspacing="0" border="1">
-        <g:each in="${votableResult.result.logRecords}" var="record">
+        <g:each in="${logRecords}" var="record">
           <tr>
             <td valign="top" align="left"><%=record.level %></td>
             <td valign="top" align="left"><%=record.message %></td>

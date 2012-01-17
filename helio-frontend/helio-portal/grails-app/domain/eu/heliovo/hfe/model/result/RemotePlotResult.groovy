@@ -15,4 +15,6 @@ class RemotePlotResult extends HelioResult {
    
    static constraints = {
    }
+   
+
 }
