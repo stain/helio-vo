@@ -288,7 +288,7 @@ function Workspace() {
 
             $("input[name='extra']").each(function() {
             	var tr = $("#row_" + $(this).attr("value"))[0];
-            	var row = $("#input_table").dataTable().fnGetData(tr, 1);
+            	var row = $("#input_table").dataTable().fnGetData(tr)[1];
             	
             	$("#extra_list_form").append("<li id='" + $(this).attr("value") + "' internal='" + row + "'>'" + row +
             			"'<input type='hidden' name='extra' value='" + $(this).attr("value") + "' internal='" + row + "'/>" +
