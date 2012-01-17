@@ -23,6 +23,7 @@ class HelioQuery {
     String html;
 
     static constraints = {
-        id column:'hUID'
+		html type: 'text', maxSize:65536
+		id column:'hUID'
     }
 }
