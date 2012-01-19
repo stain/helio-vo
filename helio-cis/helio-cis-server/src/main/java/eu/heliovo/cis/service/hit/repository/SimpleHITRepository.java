@@ -4,7 +4,6 @@
 package eu.heliovo.cis.service.hit.repository;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 import eu.heliovo.cis.service.utilities.SecurityUtilities;

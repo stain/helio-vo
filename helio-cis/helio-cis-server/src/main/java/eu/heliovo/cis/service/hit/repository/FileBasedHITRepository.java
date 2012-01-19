@@ -17,7 +17,6 @@ import condor.classad.Expr;
 import condor.classad.ListExpr;
 import condor.classad.RecordExpr;
 import eu.heliovo.shared.common.cis.hit.info.CISValues;
-import eu.heliovo.shared.common.cis.hit.info.HITInfoTags;
 import eu.heliovo.shared.common.cis.hit.info.UserTags;
 import eu.heliovo.shared.common.cis.hit.info.UserValues;
 import eu.heliovo.shared.common.cis.hit.preferences.PreferencesUtilities;
@@ -25,7 +24,6 @@ import eu.heliovo.shared.common.cis.tags.HELIOTags;
 import eu.heliovo.shared.common.utilities.ClassAdUtilities;
 import eu.heliovo.shared.common.utilities.ClassAdUtilitiesException;
 import eu.heliovo.shared.common.utilities.SecurityUtilities;
-import eu.heliovo.shared.common.utilities.SecurityUtilitiesException;
 import eu.heliovo.shared.common.utilities.SystemUtilities;
 
 /**

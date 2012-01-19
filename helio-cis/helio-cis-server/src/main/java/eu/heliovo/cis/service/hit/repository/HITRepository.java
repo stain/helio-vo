@@ -1,6 +1,5 @@
 package eu.heliovo.cis.service.hit.repository;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public interface HITRepository 
