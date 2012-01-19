@@ -8,7 +8,8 @@ public class HELIORoles
 	public 	static 	final	String administrator	=	"administrator";
 
 	private	static	HashSet<String>	roles			=	new HashSet<String>()
-			{{
+			{private static final long serialVersionUID = 1L;
+			{
 				add(simpleUser);
 				add(administrator);
 			}};
