@@ -9,6 +9,12 @@
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
+
+// fetch buildinfo properteis if possible
+def buildinfo = getClass().getResource("buildinfo.properties")
+if (buildinfo)
+    grails.config.locations = [ "classpath:buildinfo.properties" ]
+
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
@@ -55,6 +61,8 @@ log4j = {
     
     // TODO: setup logs.
     appenders {
+        rollingFile name: "stacktrace", maxFileSize: 1024,
+            file: "${userHome}/.helio/logs/${appName}-${hfe.buildnumber ?: '0'}-stacktrace.log" 
     }
 
     debug 'grails.app.tagLib',

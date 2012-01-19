@@ -55,11 +55,13 @@ grails.project.dependency.resolution = {
 // MSo: due to a bug in grails 1.3.7 the generated war file includes an outdated slf4j-api-1.5.2.jar
 // http://jira.codehaus.org/browse/GRAILS-5943
 // the following hack just deletes this file
-grails.war.resources = { stagingDir ->
+grails.war.resources = { stagingDir, args ->
+    copy(file: "src/resources/buildinfo.properties", tofile: "${stagingDir}/WEB-INF/classes/buildinfo.properties", filtering: true)
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-jaxrpc-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-saaj-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.6.1.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-log4j12-1.6.1.jar")    
+	delete(file:"${stagingDir}/WEB-INF/lib/hsqldb-1.8.0.10.jar")    
 }
