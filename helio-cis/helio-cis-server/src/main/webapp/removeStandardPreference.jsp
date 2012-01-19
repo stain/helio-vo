@@ -10,23 +10,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-
-<title>HELIO Community Interaction Service</title>
-</head>
-<body>
 <img src="images/helio-logo.jpg"/> 
-<BR>HELIO Community Interaction Service<BR> 
+<title>CIS - Administrator Page</title>
 
-<body>
-   <%
-   out.print("Select the account to be removed : ");
-   out.println(controller.printAllRemovableAccounts());
-   %>
-   <FORM METHOD=POST ACTION="removeAnotherAccountDone.jsp">
-   <BR>
-   Enter the account to be removed: <INPUT TYPE=TEXT NAME=anotherAccount SIZE=20><BR>
-   <P>
-   <INPUT TYPE=SUBMIT>
-   </FORM>
-</body>
-</html>
+<BODY>
+		<% 
+		out.println("Now the standard preferences are : ");
+		%>
+		<BR>
+		<BR>
+		<% 
+		out.println(controller.printAllStandardPreferences());
+		%>
+		<FORM METHOD=POST ACTION="removeStandardPreferencesDone.jsp">
+		<BR>
+		Enter the service: <INPUT TYPE=TEXT NAME=prefService SIZE=20><BR>
+		Enter the field: <INPUT TYPE=TEXT NAME=prefField SIZE=20><BR>
+		<P><INPUT TYPE=SUBMIT>
+		</FORM>
+</BODY>
+</HTML>

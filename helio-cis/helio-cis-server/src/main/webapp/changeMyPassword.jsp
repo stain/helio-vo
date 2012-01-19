@@ -10,9 +10,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CIS - Administrator Page</title>
+<title>HELIO Community Interaction Service</title>
 </head>
-<HTML>
+<body>
+<img src="images/helio-logo.jpg"/> 
+<BR>HELIO Community Interaction Service<BR> 
+<BR>
 <BODY>
         <%
 		out.println("Change Password for " + controller.getUserName());

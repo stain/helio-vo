@@ -10,11 +10,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CIS - Administrator Page</title>
 
-<HTML>
-<BODY>
-        <%
+<title>HELIO Community Interaction Service</title>
+</head>
+<body>
+<img src="images/helio-logo.jpg"/> 
+   <BR>
+   <BR>
+		<% 
+		out.println("Now the standard preferences are : ");
+		%>
+		<BR>
+		<BR>
+		<% 
 		out.println(controller.printAllStandardPreferences());
 		%>
 		<FORM METHOD=POST ACTION="changeStandardPreferencesDone.jsp">

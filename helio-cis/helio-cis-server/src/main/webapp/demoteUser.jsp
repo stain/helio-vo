@@ -15,16 +15,15 @@
 </head>
 <body>
 <img src="images/helio-logo.jpg"/> 
-<BR>HELIO Community Interaction Service<BR> 
-
-<body>
-   <%
-   out.print("Select the account to be removed : ");
-   out.println(controller.printAllRemovableAccounts());
-   %>
-   <FORM METHOD=POST ACTION="removeAnotherAccountDone.jsp">
    <BR>
-   Enter the account to be removed: <INPUT TYPE=TEXT NAME=anotherAccount SIZE=20><BR>
+   <BR>
+   <%
+   out.println("HELIO administrator accounts: ");
+   out.println(controller.printAllAdministratorAccounts());
+   %>
+   <FORM METHOD=POST ACTION="demoteUserDone.jsp">
+   <BR>
+   Enter the account to be demoted from administrator: <INPUT TYPE=TEXT NAME=anotherAccount SIZE=20><BR>
    <P>
    <INPUT TYPE=SUBMIT>
    </FORM>

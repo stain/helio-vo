@@ -4,15 +4,16 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Community Interaction Service - Create an account</title>
+<title>HELIO Community Interaction Service</title>
 </head>
-<HTML>
 <BODY>
-		Community Interaction Service - Create an account
+<img src="images/helio-logo.jpg"/> 
+<BR>HELIO Community Interaction Service<BR> 
 		<FORM METHOD=POST ACTION="createDone.jsp">
 		<BR>
-		Enter your name: <INPUT TYPE=TEXT NAME=userName SIZE=20><BR>
-		Enter your password: <INPUT TYPE=PASSWORD NAME=newPwd1 SIZE=20><BR>
+		Enter your name       : <INPUT TYPE=TEXT NAME=userName SIZE=20><BR>
+		Enter your email      : <INPUT TYPE=TEXT NAME=userEmail SIZE=20><BR>
+		Enter your password   : <INPUT TYPE=PASSWORD NAME=newPwd1 SIZE=20><BR>
 		Re-enter your password: <INPUT TYPE=PASSWORD NAME=newPwd2 SIZE=20><BR>
 		<P><INPUT TYPE=SUBMIT>
 		</FORM>

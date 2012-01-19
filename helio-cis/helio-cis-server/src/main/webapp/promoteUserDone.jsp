@@ -10,35 +10,20 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <title>HELIO Community Interaction Service</title>
 </head>
 <body>
 <img src="images/helio-logo.jpg"/> 
 <BR>HELIO Community Interaction Service<BR> 
 
-<BODY>
 <% 
-if(!controller.canChangePreferences())
-{
-	out.println("Sorry, there is no preference for " + controller.getPrefService() + " and " + controller.getPrefField());
-	%>
-	<BR>
-	Please click <a href="changeMyPreference.jsp">here </a> to try again <BR>
-	<%
-}
-else
-{
-	controller.changePreferences();
-	%>
-	<BR>
-	<% 
-	out.println("Now Preferences for " + controller.getUserName() + " are :");
-	%>
-	<BR>
-	<BR>
-	<% 
-	out.println(controller.printAllPreferences());
-	%>	
+ controller.promoteAccount();
+ out.println("Now the HELIO administrator are : ");
+ out.println(controller.printAllAdministratorAccounts());
+%>
+
+
 	   <BR>
 	   <BR>
 	   <% 
@@ -55,8 +40,8 @@ else
 	   {%>
 	      <BR>You have normal user privileges:      
 	      <a href="normal.jsp">Click here to modify your account</a>
-	   <%}
-}
-%>
+	   <%}%>
+
+
 </BODY>
 </HTML>

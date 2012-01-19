@@ -16,15 +16,13 @@
 <body>
 <img src="images/helio-logo.jpg"/> 
 <BR>HELIO Community Interaction Service<BR> 
-
-<body>
    <%
-   out.print("Select the account to be removed : ");
-   out.println(controller.printAllRemovableAccounts());
+   out.print("Select the account from this list : ");
+   out.println(controller.printAllNormalAccounts());
    %>
-   <FORM METHOD=POST ACTION="removeAnotherAccountDone.jsp">
+   <FORM METHOD=POST ACTION="promoteUserDone.jsp">
    <BR>
-   Enter the account to be removed: <INPUT TYPE=TEXT NAME=anotherAccount SIZE=20><BR>
+   Enter the account to be promoted to administrator: <INPUT TYPE=TEXT NAME=anotherAccount SIZE=20><BR>
    <P>
    <INPUT TYPE=SUBMIT>
    </FORM>

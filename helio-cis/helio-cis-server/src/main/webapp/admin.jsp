@@ -4,11 +4,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CIS - Administrator Page</title>
+<title>HELIO Community Interaction Service</title>
+</head>
+<body>
+<img src="images/helio-logo.jpg"/> 
+<BR>HELIO Community Interaction Service<BR> 
+<BR>
 </head>
 <body>
 Community Interaction Service - Administrator Page<BR> 
 <a href="removeAnotherAccount.jsp">Remove a user</a><BR>
-<a href="changeStandardPreference.jsp">Modify a standard preference</a><BR>
+<a href="changeStandardPreference.jsp">Modify or add a standard preference</a><BR>
+<a href="removeStandardPreference.jsp">Remove a standard preference</a><BR>
+<a href="promoteUser.jsp">Add a user to the administrator list</a><BR>
+<a href="demoteUser.jsp">Remove a user from the administrator list</a><BR>
 </body>
 </html>

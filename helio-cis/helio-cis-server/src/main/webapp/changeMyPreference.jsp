@@ -10,9 +10,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CIS - Administrator Page</title>
+<title>HELIO Community Interaction Service</title>
+</head>
+<body>
+<img src="images/helio-logo.jpg"/> 
+<BR>HELIO Community Interaction Service<BR> 
+<BR>
+<BR>
 
-<HTML>
 <BODY>
         <%
 		out.println(controller.printAllPreferences());

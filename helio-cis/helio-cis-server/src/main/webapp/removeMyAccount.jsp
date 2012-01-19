@@ -10,13 +10,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>CIS - Profile Page</title>
+
+<title>HELIO Community Interaction Service</title>
 </head>
+<body>
+<img src="images/helio-logo.jpg"/> 
+<BR>HELIO Community Interaction Service<BR> 
+
 <body>
    <FORM METHOD=POST ACTION="removeMyAccountDone.jsp">
    <BR>
-   <%
-   System.out.println("Are you sure that you want to remove " + controller.getUserName());
+   <% 
+   out.println("Are you sure that you want to remove " + controller.getUserName() + " ?");
    %>
    <P><INPUT TYPE=SUBMIT>
    </FORM>
