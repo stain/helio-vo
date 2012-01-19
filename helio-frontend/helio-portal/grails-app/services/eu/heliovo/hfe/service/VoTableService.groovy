@@ -177,7 +177,6 @@ class VoTableService {
             }
         }
         tableModel["tables"] = tableList
-        println tableModel.actions
         return tableModel;
     }
 

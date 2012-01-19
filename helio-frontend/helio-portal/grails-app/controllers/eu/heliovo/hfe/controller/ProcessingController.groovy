@@ -57,7 +57,6 @@ class ProcessingController {
             // execute the query (this adds the tasks to the output params).
             def model = processingService.propagationModel(task)
             def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;  
-            println model.userLogs
             render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs])            
         } else {
             def message = "Unable to process the request."
