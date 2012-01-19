@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -221,8 +220,6 @@ public class SimpleAccounts implements Accounts
 	public HashMap<String, HashMap<String, String>> getAllPreferencesForUser(String user)
 			throws AccountsException 
 	{
-		Set<String> res	=	new HashSet<String>();
-		
 		if(!accounts.containsKey(user))
 			throw new AccountsException();
 		/*

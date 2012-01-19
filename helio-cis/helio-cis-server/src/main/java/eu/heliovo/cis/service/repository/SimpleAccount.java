@@ -3,7 +3,6 @@ package eu.heliovo.cis.service.repository;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import eu.heliovo.shared.cis.HELIORoles;
