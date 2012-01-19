@@ -16,7 +16,7 @@
     <div class="header queryHeader viewerHeader">
       <h1>Upload</h1>
     </div>
-    <div class="task_request">
+    <div class="task_body">
       <g:form controller="voTable" action="asyncUpload" method="post" name="upload2Form" enctype="multipart/form-data"> 
           <input id="service_name" name="serviceName" type="hidden" value="upload2"/>
           <input id="task_name" name="taskName" type="hidden" value="task_upload2"/>

@@ -57,6 +57,7 @@ class ProcessingService {
         // create the models for the template
         model.plotResults = []
         model.votableResults = []
+        model.userLogs = result.userLogs
         
         // ... and add the results to the task
         taskDescriptor.outputParams.each {

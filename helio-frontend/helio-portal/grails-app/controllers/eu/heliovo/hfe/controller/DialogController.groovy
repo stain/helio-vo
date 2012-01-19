@@ -1,8 +1,9 @@
 package eu.heliovo.hfe.controller
 
-import eu.heliovo.hfe.model.param.ParamSet;
-import eu.heliovo.hfe.model.param.TimeRangeParam;
-import eu.heliovo.hfe.model.task.Task;
+import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.TimeRangeParam
+import eu.heliovo.hfe.model.result.RemotePlotResult
+import eu.heliovo.hfe.model.task.Task
 
 class DialogController {
     /**
@@ -56,6 +57,16 @@ class DialogController {
         
         render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet])
     }
+    
+//    def plotResult = {
+//        def plotResults = [];
+//        
+//        (1..6).each{
+//            plotResults.add([id: "test_${it}", label: "Label ${it}", value: new RemotePlotResult(url : "http://sircamt.canceraquitaine.org/images/RCA/sarcomes/casdumois/200501/image${it}.jpg") ]);
+//        }
+//        println plotResults
+//        render template: "/output/plotResult", model: [ plotResults : plotResults]
+//    }
 }
 
 /**

@@ -81,25 +81,29 @@ class VoTableService {
         def tableModel = [:]
 
         // get some metadata
-        tableModel["id"] = helioResult.id;
+        tableModel["id"] = helioResult.id
         
-        tableModel["fileName"] = getFilename(helioResult);
+        tableModel["fileName"] = getFilename(helioResult)
+        
+        tableModel["actions"] = [] as Set
 
         // get header info
         // Find DESCRIPTION element
         tableModel["description"] =""
-        VOElement[] descriptions = votableModel.getChildrenByName("DESCRIPTION");
+        VOElement[] descriptions = votableModel.getChildrenByName("DESCRIPTION")
         for (VOElement descElement : descriptions) {
             tableModel["description"] += descElement.getTextContent()
         }
 
         // Find INFO elements.
         tableModel["infos"] = []
-        VOElement[] infoElements = votableModel.getChildrenByName("INFO");
+        VOElement[] infoElements = votableModel.getChildrenByName("INFO")
         for (VOElement infoElement : infoElements) {
             def info = handleInfoElement(infoElement, [:])
-            info["value"] = infoElement.getAttribute("value") ? infoElement.getAttribute("value") : infoElement.getTextContent()
             tableModel["infos"].add(info)
+        }
+        if (infoElements.length > 0) {
+            tableModel['actions'].add('info')
         }
 
         // todo: handle PARAM, GROUP elements, probably not needed for HELIO
@@ -114,7 +118,6 @@ class VoTableService {
             def infos = [];
             for (VOElement infoElement : infoElements) {
                 def info = handleInfoElement(infoElement, [:])
-                info["value"] = infoElement.getAttribute("value") ? infoElement.getAttribute("value") : infoElement.getTextContent()
                 infos.add(info)
             }
             TableElement[] tables = resource.getChildrenByName( "TABLE" );
@@ -129,17 +132,25 @@ class VoTableService {
                     def table = handleVOElement(tableElement, [:])
     
                     table["type"] = "table" // a real table
+                    table["actions"] = [] as Set 
+                    tableModel["actions"].add('extract')
                     
                     // the info of the parent resource.
                     // if a resource contains two tables the info will be duplicated.
-                    table["infos"] = infos 
-    
+                    table["infos"] = infos
+                    if (infos.size() > 0) {
+                        table['actions'].add('info')
+                    }
+                    
                     // extract fields
                     table["fields"] = []
                     FieldElement[] fieldElements = tableElement.getFields()
                     for (FieldElement fieldElement : fieldElements) {
                         def field = handleFieldElement(fieldElement, [:])
                         table["fields"].add(field)
+                        if (field['rendering_hint'] =='url') {
+                            tableModel['actions'].add('download');
+                        }
                     }
     
                     // extract links
@@ -166,6 +177,7 @@ class VoTableService {
             }
         }
         tableModel["tables"] = tableList
+        println tableModel.actions
         return tableModel;
     }
 
@@ -215,6 +227,8 @@ class VoTableService {
         field["unit"] = fieldElement.unit
         field["utype"] = fieldElement.utype
         field["xtype"] = fieldElement.xtype
+        // todo: use UCD
+        field["rendering_hint"] = fieldElement.name == 'url' ? 'url' : 'text'
         return field
     }
 
@@ -253,7 +267,7 @@ class VoTableService {
      */
     private handleInfoElement(VOElement infoElement, info) {
         handleVOElement(infoElement, info)
-        info["value"]= infoElement.textContent
+        info["value"] = infoElement.getAttribute("value") ? infoElement.getAttribute("value") : infoElement.getTextContent()
         return info
     }
 

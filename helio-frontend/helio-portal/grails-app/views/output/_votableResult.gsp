@@ -3,15 +3,14 @@ Render a VOTable result
 Expected model:
  * TableModel result : a map holding the components of a VOTable (as defined by VoTableService).
  * String message : a message
- --%><div class="header queryHeader viewerHeader">
-  <h1>Result</h1>
+ --%><div class="header votableResultHeader viewerHeader">
+  <h1>VOTable</h1>
 </div>
-<div class="content">
+<div class="content task_body">
   <div>
     <div id="voTables" style="clear: both; padding: 0px pt 20pt 5px;">
       <g:set var="result" value="${result}" />
-      
-      <table width="100%">
+      <table style="width:100%">
         <tr>
           <td valign="top">
             <%-- table actions --%>
@@ -20,8 +19,8 @@ Expected model:
               <g:actionSubmit class="custom_button" value="Save as VOTable" name="download" action="download"  />
             </g:form>
   
-            <%-- VOTable header info. dialog --%>
-            <g:if test="${result.infos.size() > 0}">
+            <%--info action --%>
+            <g:if test="${result.actions.contains('info')}">
               <div style="width: 600px;" id="table_info_all" class="ok_dialog table_info" title="Common information about the table (for debugging)">
                 <dl>
                   <g:each in="${result.infos}" status="status" var="info">
@@ -34,10 +33,14 @@ Expected model:
                 Info
               </div>
             </g:if>
-  
-            <div id="download_selection_button" class="custom_button" style="margin-left: 5px;" >
-              Download selected files/all
-            </div>
+            
+            <%-- download all actions --%>
+            <g:if test="${result.actions.contains('download')}">
+              <div id="download_selection_button" class="custom_button" style="margin-left: 5px;" >
+                Download selected files/all
+              </div>
+            </g:if>
+            
             <g:if test="${message}">
               <div class="message">${message}</div>
             </g:if>
@@ -100,10 +103,11 @@ Expected model:
             </div>
 
             <%-- TODO: add table actions --%>
-            <div id="table_info_${status}_button" class="table_info_button custom_button">
-              Info
-            </div>
-            
+            <g:if test="${table.actions.contains('info')}">
+              <div id="table_info_${status}_button" class="table_info_button custom_button">
+                Info
+              </div>
+            </g:if>
             <!--div reference="resultTable${status}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
             
             <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${status}">
@@ -125,16 +129,16 @@ Expected model:
                 <tbody>
                   <g:each var="i" in="${0..<table.data.rowCount}">
                     <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-                      <g:each in="${table.data.getRow(i)}" status="j" var="cell">
-                        <g:if test="${table.fields[j].name=='url'}">
+                      <g:each var="cell" in="${table.data.getRow(i)}" status="j" >
+                        <g:if test="${cell == table.fields[j].nullValue}">
+                          <td>-</td>
+                        </g:if>
+                        <g:elseif test="${table.fields[j].rendering_hint=='url' && cell != null}">
                           <td>
                             <a target="_blank" href="${cell}">
                               ${cell.substring(cell.lastIndexOf('/')+1,cell.length())}
                             </a>
                           </td>
-                        </g:if>
-                        <g:elseif test="${cell == table.fields[j].nullValue}">
-                          <td>-</td>
                         </g:elseif>
                         <g:else>
                           <td>${cell}</td>
@@ -151,21 +155,3 @@ Expected model:
     </div>
   </div>
 </div>
-<%-- show the user log if available --%>
-<g:if test="${logRecords?.length > 0}">
-  <div class="module">
-    <div class="header queryHeader viewerHeader collapsed">
-      <h1>Log</h1>
-    </div>
-    <div class="content">
-      <table cellpadding="0" cellspacing="0" border="1">
-        <g:each in="${logRecords}" var="record">
-          <tr>
-            <td valign="top" align="left"><%=record.level %></td>
-            <td valign="top" align="left"><%=record.message %></td>
-          </tr>
-        </g:each>
-      </table>
-    </div>
-  </div>
-</g:if>

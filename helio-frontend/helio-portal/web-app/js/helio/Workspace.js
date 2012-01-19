@@ -380,7 +380,6 @@ function Workspace() {
                         var selectedLists = new Array();
                         $("input[name='extra']").each(function() {
                         	var tr = $("#row_" + $(this).attr("value"))[0];
-                        	console.log(tr);
                         	selectedLists.push($("#input_table").dataTable().fnGetData(tr)[1]);
                         });                 
                         

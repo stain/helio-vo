@@ -209,8 +209,8 @@ html{
 }
 
 .candybox {
-    background: url("https://www.dropbox.com//static/images/shadow_gradient.gif") repeat-x scroll center bottom #FEFEFF;
-    border: 1px solid #C3C6CA;
+    background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #FEFEFF;
+	border: 1px solid #C3C6CA;
     margin: 0 0 2em;
     padding: 10px 20px 20px;
      border-radius: 5px 5px 5px 5px;
@@ -564,7 +564,7 @@ input{
 }
 
 .viewerHeader h1 {
-    font-size:1.5em;
+    font-size:1.3em;
     font-weight: normal;
 }
 .viewerHeader{

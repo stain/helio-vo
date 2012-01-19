@@ -1,6 +1,6 @@
 <div id="tables">
   <div class="module">
-    <div class="header queryHeader viewerHeader">
+    <div class="header votableResultHeader viewerHeader">
       <h1>Error in Result</h1>
     </div>
     <div class="content">

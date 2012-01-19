@@ -17,7 +17,7 @@
       <h1>Parameters</h1>
     </div>
     
-    <div class="task_input_params task_request">
+    <div class="task_input_params task_body">
       <g:form name="propagation_model_form" controller="procesing" action="propagationModel" method="post" > 
         <table width="100%" cellpadding="0" cellspacing="0">
           <col width="*" />
