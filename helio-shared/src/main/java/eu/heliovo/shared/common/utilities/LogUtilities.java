@@ -1,19 +1,17 @@
 package eu.heliovo.shared.common.utilities;
 
-import java.util.Vector;
-
 
 public class LogUtilities
 {
 	TimeUtilities		tUtils	=	new TimeUtilities();
 
-	public	String	createExceptionEntry(Class c, String m)
+	public	String	createExceptionEntry(Class<?> c, String m)
 	{
 		return	" * EXCEPTION in class " + c.getName() + 
 			" at " + tUtils.getMiniStamp() + " : " + m;
 	}
 
-	public	void	printExceptionEntry(Class c, String m)
+	public	void	printExceptionEntry(Class<?> c, String m)
 	{
 		System.out.println("[ " + tUtils.getMiniStamp() + " ] ============================= ");
 		System.out.println(" * EXCEPTION in class " + c.getName());
@@ -37,4 +35,11 @@ public class LogUtilities
 	{
 		System.out.println("[ " + tUtils.getMiniStamp() + " ] " + arg);		
 	}
+	
+	public void printShortLogEntry(Class<?> c, String arg) 
+	{
+		System.out.println("[ " + tUtils.getMiniStamp() + " ][ " 
+				+ c.getSimpleName() + " ] : "+ arg);		
+	}
+
 }

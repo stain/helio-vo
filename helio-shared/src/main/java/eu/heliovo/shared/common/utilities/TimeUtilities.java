@@ -1,6 +1,5 @@
 package eu.heliovo.shared.common.utilities;
 
-// Java classes
 import java.util.*;
 import java.text.*;
 
