@@ -2,6 +2,8 @@
  * Main CSS file for the HFE
  */
 
+
+/***************** CSS related to TASKS *********************/
 /**
  * Format the main area of a task
  */
@@ -58,6 +60,8 @@
 }
 
 
+/***************************** CSS related to dialogs *******************************/
+
 table.dialog_table {
   height:100%; 
   width: 100%;
@@ -72,6 +76,8 @@ table.dialog_content_table {
 table.dialog_content_table td {
   padding-bottom: 2px;
 }
+
+/*************************** CSS related to result areas *************************/
 
 .task_output_params {
   display: inline-block;
@@ -91,4 +97,19 @@ table.dialog_content_table td {
   border-radius: 5px 5px 5px 5px;
   box-shadow: 0 1px 1px #DFDFDF;
   border: 1px solid #C3C6CA;
+}
+
+/*************************** CSS related to the menu area *************************/
+ul.menu {
+	position:absolute;
+}
+
+ul.menu li {
+	border: none;
+}
+
+details_link {
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
 }

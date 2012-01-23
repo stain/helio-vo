@@ -12,7 +12,6 @@ import javax.xml.transform.stream.StreamSource
 
 import net.ivoa.xml.votable.v1.*
 
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils;
 import org.springframework.web.context.request.RequestContextHolder
 
 import ch.i4ds.helio.frontend.parser.*
@@ -20,18 +19,19 @@ import ch.i4ds.helio.frontend.query.*
 import eu.heliovo.clientapi.frontend.*
 import eu.heliovo.clientapi.linkprovider.*
 import eu.heliovo.clientapi.processing.ProcessingResult
-import eu.heliovo.clientapi.processing.context.ContextServiceFactory
+import eu.heliovo.clientapi.processing.ProcessingServiceFactory
 import eu.heliovo.clientapi.processing.context.FlarePlotterService
 import eu.heliovo.clientapi.processing.context.GoesPlotterService
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService
 import eu.heliovo.clientapi.query.*
 import eu.heliovo.clientapi.query.asyncquery.*
 import eu.heliovo.clientapi.utils.STILUtils
-
 import eu.heliovo.hfe.model.HelioMemoryBar
 import eu.heliovo.hfe.model.HelioQuery
 import eu.heliovo.hfe.service.*
 import eu.heliovo.registryclient.*
+import eu.heliovo.registryclient.impl.AccessInterfaceImpl
+import eu.heliovo.shared.props.HelioFileUtil
 
 /**
  * Main controller for the HFE.
@@ -316,14 +316,17 @@ class PrototypeController {
      */
     def asyncQueryContextService = {
         log.info("asyncQueryContextService =>" + params);
-
-        ContextServiceFactory factory = ContextServiceFactory.getInstance();
+        
+        // temporary workaround until the registry is switched.
+        AccessInterface ai = new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE, HelioFileUtil.asURL("http://msslkz.mssl.ucl.ac.uk/cxs/services/CommonExecutionConnectorService"));
+        
+        ProcessingServiceFactory factory = ProcessingServiceFactory.getInstance();
         // TODO: Use DateUtils
         Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
         Date maxDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.maxDate);
         if(params.type =="fplot"){
             
-            FlarePlotterService flarePlotterService = factory.getFlarePlotterService((AccessInterface[])null);
+            FlarePlotterService flarePlotterService = factory.getFlarePlotterService(ai);
             
             ProcessingResult result = flarePlotterService.flarePlot(minDate);
 
@@ -332,19 +335,19 @@ class PrototypeController {
             println url;
             render url;
         } else if(params.type =="gplot") {
-            GoesPlotterService goesPlotterService = factory.getGoesPlotterService((AccessInterface[])null);
+            GoesPlotterService goesPlotterService = factory.getGoesPlotterService(ai);
             Calendar cal = Calendar.getInstance();
             cal.set(2003, Calendar.JANUARY, 1, 0, 0, 0);
-            Date startDate =  cal.getTime();
+            Date startTime =  cal.getTime();
             cal.set(2003, Calendar.JANUARY, 3, 0, 0, 0);
-            Date endDate =  cal.getTime();
+            Date endTime =  cal.getTime();
             ProcessingResult result = goesPlotterService.goesPlot(minDate, maxDate);
 
             URL url = result.asURL(60, TimeUnit.SECONDS);
             println url;
             render url;
         } else if(params.type =="pplot") {
-            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
+            SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService(ai);
             
             ProcessingResult result = parkerModelService.parkerModel(minDate);
 
@@ -359,7 +362,7 @@ class PrototypeController {
      */
     def asyncQueryLinkService = {
         log.info("asyncQueryLinkService =>" + params);
-        ContextServiceFactory factory = ContextServiceFactory.getInstance();
+        ProcessingServiceFactory factory = ProcessingServiceFactory.getInstance();
         // TODO: Use DateUtil
         Date minDate = Date.parse("yyyy-MM-dd'T'HH:mm:ss",params.minDate);
         Date maxDate =null;

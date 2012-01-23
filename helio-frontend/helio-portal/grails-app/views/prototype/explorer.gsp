@@ -80,11 +80,25 @@
                 <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
               </td>
               <td>
-                <div style="display:block" class="menu_item custom_button"  id="task_context">Context Service</div>
+                <div>
+                  <div id="task_plotservice" title="Select a Plot">Plot Data</div><div
+                  id="task_plotservice_select">Select a Plot</div>
+                </div>
+                <ul id="task_plotservice_menu" class="menu" style="display: none;">
+                  <li style="display:block;" id="task_plotservice_goes">Goes timeline plot</li>
+                  <li style="display:block;" id="task_plotservice_flare">Goes Flare plot</li>
+                  <li style="display:block;" id="task_plotservice_parker">Simple Parker Spiral</li>
+                </ul>
               </td>
               <g:if env="development">              
                 <td>
-                  <div style="display:block" class="custom_button"  id="task_propagationmodel">Propagation Model</div>
+                  <div>
+                    <div id="task_propagationmodel" title="Select a Propagation Model">Propagation Model</div><div
+                    id="task_propagationmodel_select">Select a Propagation Model</div>
+                  </div>
+                  <ul id="task_propagationmodel_menu" class="menu" style="display: none;">
+                      <li id="task_propagationmodel_cme_pm">CME Forward Propagation Model</li>
+                  </ul>
                 </td>
                 <td>
                   <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>

@@ -173,6 +173,160 @@ helio.PropagationModelTask.prototype._isValid = function() {
     return isValid;
 };
 
+
+/**
+ * Create a PlotTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
+ */
+helio.PlotTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName);
+    this.timeRangeSummary = undefined;
+    if (taskName == 'parkerplot') {
+        this.paramSetSummary = undefined;
+    }
+    this.result = undefined;
+};
+
+//create PlotTask as subclass of AbstractTask
+helio.PlotTask.prototype = new helio.AbstractTask;
+helio.PlotTask.prototype.constructor = helio.PlotTask;
+
+helio.PlotTask.prototype.init = function() {
+    if (!this.timeRangeSummary) {
+        this.timeRangeSummary =  new helio.TimeRangeSummary(this, this.taskName);
+    }
+    this.timeRangeSummary.init();
+    
+    if (this.taskName == 'parkerplot') {
+        if (!this.paramSetSummary) {
+            this.paramSetSummary = new helio.ParamSetSummary(this, this.taskName);
+        }
+        this.paramSetSummary.init();
+    }
+    
+    if (this.result) {
+        $('#task_result_area').html(this.result.data);
+        this.result.init();
+    }
+    var THIS = this;
+    $("#result_summary_select").click(function() {THIS._submitQuery.call(THIS);});
+
+    this.validate();
+};
+
+/**
+ * Submit the query to the server and handle result appropriately
+ */
+helio.PlotTask.prototype._submitQuery = function() {
+    var THIS = this;
+    var bindings = this.taskName == 'parkerplot' ? {
+        "taskName" : this.taskName,
+        "inputParams" : {
+            "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 
+            "paramSet" : { "params" : helio.cache[this.paramSetSummary.dataKey].params.data}
+        }
+    } :
+    {
+        "taskName" : this.taskName,
+        "inputParams" : {
+            "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 
+        }
+    };
+    var modelParam = JSON.stringify(bindings);
+    //console.log(decodeURI(modelParam));
+
+    // ajax control object
+    var xhr = undefined;
+
+    // init submit dialog
+    var submitDialog = new helio.SubmitMessage(function() {
+        if(xhr) xhr.abort();
+        $("#task_result_area").html();
+    });
+    
+    // call the propModel
+    xhr = jQuery.ajax({
+        url: "../plot/plot",
+        type: "POST",
+        data: {bindings : modelParam},
+        error : function(jqXHR, textStatus, errorThrown) {
+            submitDialog.close();
+            if (textStatus == "abort") {
+                // nothing to do
+                return;
+            }
+            
+            var errorMessage = $('<div class="errorMessage"></div>');
+            errorMessage.append('Message: ' + textStatus + ' (<span id="details_link">details</span>)');
+            $('#perform_query_text').html(errorMessage);
+            
+            $('#details_link').click(function() {
+                var pre = $('<pre></pre>');
+                pre.append(errorThrown);
+                errorMessage.append(pre);
+                pre.dialog();
+            });
+        },
+        success: function(data) { 
+            submitDialog.close(); 
+            THIS._handleResult.call(THIS, data); 
+        },
+        complete: function(jqXHR, textStatus) {
+            submitDialog.close(); // if not already closed
+            switch (textStatus) {
+            case "success":
+                $('#perform_query_text').html("Data sucessfully loaded");
+                break;
+            case "error":
+                //$('#perform_query_text').html("Error occurred");
+                break;
+            case "abort":
+                $('#perform_query_text').html("Cancelled by user");
+                $("#task_result_area").html();
+                break;
+            case "timeout":
+                $('#perform_query_text').html("Your request timed out");
+                $("#task_result_area").html();
+            case "notmodified":
+            case "parsererror":
+            default:
+                $('#perform_query_text').html("Unknown status: " + textStatus);
+                $("#task_result_area").html();
+            }
+        } 
+    });
+    
+     // display the submit dialog
+    submitDialog.open();
+    
+};
+
+/**
+ * Add the result to the result_area and init handlers.
+ * @param data the data to add.
+ */
+helio.PlotTask.prototype._handleResult = function(data) {
+    this.result = data;
+    $('#task_result_area').html(data);
+    this.result = new helio.PlotTaskResult(this, this.taskName, data);
+    this.result.init();
+};
+
+/**
+ * Returns true if the task content is valid and can be submitted to the 
+ * server.
+ * @return {Boolean} true if valid. 
+ */
+helio.PlotTask.prototype._isValid = function() {
+    var isValid =
+       (this.timeRangeSummary != undefined && this.timeRangeSummary.isValid() &&
+       (this.taskName != 'parkerspiral' ||
+       this.paramSetSummary != undefined && this.paramSetSummary.isValid()));
+    return isValid;
+};
+
+
 /**
  * Task to upload a VOTable
  * @param {String} taskName name of the actual implementation variant of the task.  

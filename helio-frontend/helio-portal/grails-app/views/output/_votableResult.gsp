@@ -23,7 +23,7 @@ Expected model:
             <g:if test="${result.actions.contains('info')}">
               <div style="width: 600px;" id="table_info_all" class="ok_dialog table_info" title="Common information about the table (for debugging)">
                 <dl>
-                  <g:each in="${result.infos}" status="status" var="info">
+                  <g:each in="${result.infos}" status="h" var="info">
                     <dt title="${result.description}"><b>${info.name}</b></dt>
                     <dd class="indented">${info.value ? info.value : 'no value'}</dd>
                   </g:each>
@@ -61,7 +61,7 @@ Expected model:
       </table>          
       <%-- loop over tables --%>
       <div>
-        <g:each in="${result.tables}" status="status" var="table">
+        <g:each var="table" in="${result.tables}" status="h">
           <g:if test="${table.type == 'empty_resource'}">
              No data available. This is most likely because of an empty or invalid VOTable.
           </g:if>
@@ -72,7 +72,7 @@ Expected model:
               </h3>
             </div>
             
-            <div id="table_info_${status}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
+            <div id="table_info_${result.id}_${h}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
               <g:if test="${table.infos.size() > 0}">
                 <h2>Info Tags</h2>
                 <br>
@@ -104,13 +104,13 @@ Expected model:
 
             <%-- TODO: add table actions --%>
             <g:if test="${table.actions.contains('info')}">
-              <div id="table_info_${status}_button" class="table_info_button custom_button">
+              <div id="table_info_${h}_button" class="table_info_button custom_button">
                 Info
               </div>
             </g:if>
-            <!--div reference="resultTable${status}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
+            <!--div reference="resultTable${h}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
             
-            <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="resultTable${status}">
+            <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="table_${result.id}_${h}">
               <thead>
                 <tr>
                   <g:each var="field" in="${table.fields}" status="i">
@@ -128,7 +128,7 @@ Expected model:
               <g:if test="${table.data.rowCount > 0}">
                 <tbody>
                   <g:each var="i" in="${0..<table.data.rowCount}">
-                    <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+                    <tr id="table_${result.id}_${h}_row_${i}" >
                       <g:each var="cell" in="${table.data.getRow(i)}" status="j" >
                         <g:if test="${cell == table.fields[j].nullValue}">
                           <td>-</td>

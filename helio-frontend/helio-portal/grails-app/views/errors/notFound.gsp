@@ -17,7 +17,7 @@
     <p>Try to reload in few seconds. If this problem does not go away, please send a message to support@helio-vo.org. Thanks.</p>
   	<div class="message">
           Error Trace:<br/>
-		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'.encodeAsHTML()}<br/>
+		<strong>Error ${request.'javax.servlet.error.status_code'}:</strong> ${request.'javax.servlet.error.message'?.encodeAsHTML()}<br/>
 		<strong>Servlet:</strong> ${request.'javax.servlet.error.servlet_name'}<br/>
 		<strong>URI:</strong> ${request.'javax.servlet.error.request_uri'}<br/>
 		<g:if test="${exception}">

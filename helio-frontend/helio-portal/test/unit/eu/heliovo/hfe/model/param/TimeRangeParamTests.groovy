@@ -22,10 +22,10 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
                 password: "password.123", accountLocked: false, enabled: true)
 
         Calendar cal = Calendar.getInstance()
-        def startDate = cal.getTime()
+        def startTime = cal.getTime()
         cal.add(Calendar.DAY_OF_MONTH, 1)
-        def endDate = cal.getTime()
-        timeRange.addTimeRange(startDate, endDate)
+        def endTime = cal.getTime()
+        timeRange.addTimeRange(startTime, endTime)
 
         timeRange.name="my name"
 
@@ -47,16 +47,16 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
         cal.set(2011, 10, 10, 0, 0, 0)
         cal.set(Calendar.MILLISECOND, 0)
 
-        def startDate = cal.getTime()
+        def startTime = cal.getTime()
         cal.add(Calendar.DAY_OF_MONTH, 1)
-        def endDate = cal.getTime()
-        timeRange.addTimeRange(startDate, endDate)
+        def endTime = cal.getTime()
+        timeRange.addTimeRange(startTime, endTime)
 
         cal.add(Calendar.MONTH, 1)
-        startDate = cal.getTime()
+        startTime = cal.getTime()
         cal.add(Calendar.DAY_OF_MONTH, 1)
-        endDate = cal.getTime()
-        timeRange.addTimeRange(startDate, endDate)
+        endTime = cal.getTime()
+        timeRange.addTimeRange(startTime, endTime)
 
 
         assertTrue timeRange.validate()
@@ -72,11 +72,11 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
                 password: "password.123", accountLocked: false, enabled: true)
 
         Calendar cal = Calendar.getInstance()
-        def startDate = cal.getTime()
+        def startTime = cal.getTime()
         // end date before start date
         cal.add(Calendar.DAY_OF_MONTH, -1)
-        def endDate = cal.getTime()
-        timeRange.addTimeRange(startDate, endDate)
+        def endTime = cal.getTime()
+        timeRange.addTimeRange(startTime, endTime)
 
         assertFalse timeRange.validate()
         assertEquals(1, timeRange.errors.allErrors.size())

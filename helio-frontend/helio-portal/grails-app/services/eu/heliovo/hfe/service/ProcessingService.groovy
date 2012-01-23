@@ -70,7 +70,7 @@ class ProcessingService {
                 model.votableResults.push ([id: it.value.id, label: it.value.label, value : votable])
             }  else if (it.value.type == "url"){
                 def url = beanWrapper.getPropertyValue(it.value.id)
-                def plot = new RemotePlotResult(url : url)
+                def plot = new RemotePlotResult(url : url.toString())
                 plot.save()
                 task.outputParams.put(it.value.id, plot)
                 model.plotResults.push ([id: it.value.id, label: it.value.label, value : plot])

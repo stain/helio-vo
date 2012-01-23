@@ -144,6 +144,10 @@ class VoTableService {
                     
                     // extract fields
                     table["fields"] = []
+                    
+                    // add synthetic id column
+                    //table["fields"].add(createIdField([:]))
+                    
                     FieldElement[] fieldElements = tableElement.getFields()
                     for (FieldElement fieldElement : fieldElements) {
                         def field = handleFieldElement(fieldElement, [:])
@@ -212,7 +216,7 @@ class VoTableService {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
     }
-
+    
     /**
      * Fill the attributes of a field element into a map
      * @param fieldElement the field element to analyze

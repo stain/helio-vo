@@ -11,9 +11,10 @@ class RemotePlotResult extends HelioResult {
    /**
     * The URL where the result is coming from.
     */
-   URL url;
+   String url;
    
    static constraints = {
+       
    }
    
 

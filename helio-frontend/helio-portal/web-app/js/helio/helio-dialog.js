@@ -196,7 +196,6 @@ helio.TimeRangeSummary.prototype.clear = function() {
     this.task.validate();
 };
 
-
 /**
  * TimeRangeDialog class
  * @param {helio.TimeRanges} helio.TimeRanges timeRanges the time ranges. 
@@ -214,201 +213,6 @@ helio.TimeRangeDialog = function(/*helio.TimeRanges*/ timeRanges) {
 //create TimeRangeDialog as subclass of AbstractDialog
 helio.TimeRangeDialog.prototype = new helio.AbstractDialog;
 helio.TimeRangeDialog.prototype.constructor = helio.TimeRangeDialog;
-
-
-// define the static methods of the TimeRangeDialog
-/**
- * Add a new timerange widget to the interface
- */
-helio.TimeRangeDialog.__addTimeRange = function(/*String*/ start, /*String*/ end) {
-    // find the largest index
-    var index = 0;
-    var timeRanges = $('.input_time_range'); 
-    timeRanges.each(function() {
-        var id = $(this).attr("id");
-        var matcher = /^input_time_range_(\d+)$/.exec(id); 
-        if (matcher) {
-            index = Math.max(index, matcher[1]);
-        }
-    });
-    index++; // next free index
-    
-    // create the time range (.html() only encodes the children of an element, thus the <div></div> section)
-    var timeRange = $("<div></div>").append($('#input_time_range_tpl').clone()).html();
-
-    timeRange = timeRange.replace(/Range tpl/, "Range " + (timeRanges.size()));
-    timeRange = timeRange.replace(/tpl/g, index);
-
-    // add the time range
-    $('#input_time_range_list').append(timeRange);
-    
-    // set values, if any.
-    if (start && typeof start === "string") {
-        $('#minDate_' + index).val(start);
-    }
-    if (end && typeof end  === "string") {
-        $('#maxDate_' + index).val(end);
-    }
-    
-    helio.TimeRangeDialog.__formatTimeRange(index);
-    
-    $('#input_time_range_' + index).show(); // unhide the new range.
-    $("#input_time_range_remove_" + index).button();
-    $("#input_time_range_remove_" + index).click(helio.TimeRangeDialog.__removeTimeRange);
-    
-    // enable or disable time ranges.
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==1);
-};
-    
-/**
- * remove a time range entry.
- * $(this) refers to the pressed button
- */
-helio.TimeRangeDialog.__removeTimeRange = function() {
-    // get index to remove (read from id-suffix of pressed button)
-    var matcher = /^input_time_range_remove_(\d+)$/.exec(this.id);
-    if (!matcher) {
-        throw "Unable to find index of " + this.id;
-    }
-    var index = matcher[1];
-    
-    // remove timeRange
-    $('#input_time_range_'+index).remove();
-    
-    // get remaining time ranges and adjust numbering
-    var counter = 1;
-    
-    var timeRanges = $('.input_time_range');
-    timeRanges.each(function() {
-        matcher = /^input_time_range_(\d+)$/.exec(this.id);
-        if (matcher) {
-            var curIndex = matcher[1];
-            if (curIndex != counter) {
-                $(this).find(".input_time_range_label").html("Range " + counter);
-            }
-            counter++;
-        }
-    });
-    
-    // disable/enable the delete button
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
-};
-
-/**
- * private function to format the date range.
- */
-helio.TimeRangeDialog.__formatTimeRange = function(id){
-    $('#minDate_'+id).datetimepicker("destroy");
-    $('#maxDate_'+id).datetimepicker("destroy");
-    
-    /**
-     * Format for the date picker widget
-     */
-    var DatePickerFormat = function(){
-        return {
-            yearRange: '1997:' + (new Date().getFullYear() + 1),
-            dateFormat: 'yy-mm-dd',
-            changeMonth: true,
-            showOn: "both",
-            showSecond: true,
-            timeFormat: 'hh:mm:ss',
-            separator: 'T',
-            showButtonPanel: true,
-            buttonImageOnly: true,
-            buttonImage: "../images/icons/calendar.gif",
-            changeYear: true,
-            numberOfMonths: 1
-        };
-    };
-    
-    /**
-     *  formatMinDate and formatMaxDate format the dates
-     *  and correct the dates if the user enters a bigger minDate
-     *  than maxDate or a smaller maxDate than minDate
-     */
-    var formatMinDate = new DatePickerFormat();
-    formatMinDate.onClose = function(selectedDate) {
-        $(this).blur();
-        var endDateTextBox = $('#maxDate_' + id);
-        if (endDateTextBox.val() != '') {
-            var testStartDate = new Date(selectedDate);
-            var testEndDate = new Date(endDateTextBox.val());
-            if (testStartDate > testEndDate)
-                endDateTextBox.val(selectedDate);
-        }
-        else {
-            endDateTextBox.val(selectedDate);
-        }
-        $.cookie("minDate",$("#minDate_"+id).val(),{
-            expires: 30
-        });
-        $.cookie("maxDate",$("#maxDate_"+id).val(),{
-            expires: 30
-        });
-    };
-    
-    var formatMaxDate = new DatePickerFormat(); 
-    formatMaxDate.onClose = function(selectedDate) {
-        $(this).blur();
-        var startDateTextBox = $('#minDate_' + id);
-        if (startDateTextBox.val() != '') {
-            var testStartDate = new Date(startDateTextBox.val());
-            var testEndDate = new Date(selectedDate);
-            if (testStartDate > testEndDate)
-                startDateTextBox.val(selectedDate);
-        }
-        else {
-            startDateTextBox.val(selectedDate);
-        }
-        $.cookie("minDate",$("#minDate_"+id).val(),{
-            expires: 30
-        });
-        $.cookie("maxDate",$("#maxDate_"+id).val(),{
-            expires: 30
-        });
-    };
-    
-    $( "#minDate_"+id ).datetimepicker(formatMinDate);
-    $( "#maxDate_"+id ).datetimepicker(formatMaxDate);
-};
-
-/**
- * Helper function to validate correct date input in date selectors, 
- * returns false if wrong date pair.
- * @index index corresponding to the date range pair (maxdate, mindate)
- */
-helio.TimeRangeDialog.__validateTimeRange = function(index) {
-    try{
-        var maxDate = $("#maxDate_"+index).val();
-        if(maxDate.indexOf("T") == -1){//validates time part on its own and autocompletes if missing
-            maxDate = maxDate + "T00:00:00";
-            $("#maxDate_"+index).val(maxDate);
-        }
-        var minDate = $("#minDate_"+index).val();
-        if(minDate.indexOf("T") == -1){
-
-            minDate = minDate + "T00:00:00";
-            $("#minDate_"+index).val(minDate);
-
-        }
-        var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])T([0-9]{2}):([0-9]{2}):([0-9]{2})$");
-        
-        var matches = IsoDate.exec(minDate);
-        if(matches === null){
-            return false;
-        }
-        matches = IsoDate.exec(maxDate);
-        if(matches === null){
-            return false;
-        }
-
-        return true;
-
-    }
-    catch(err){
-        return false;
-    }
-};
 
 /**
  * The action to be executed when the Ok button is pressed.
@@ -527,6 +331,200 @@ helio.TimeRangeDialog.prototype.show = function(closeCallback) {
     }
 };
 
+// define the static methods of the TimeRangeDialog
+/**
+ * Add a new timerange widget to the interface
+ */
+helio.TimeRangeDialog.__addTimeRange = function(/*String*/ start, /*String*/ end) {
+    // find the largest index
+    var index = 0;
+    var timeRanges = $('.input_time_range'); 
+    timeRanges.each(function() {
+        var id = $(this).attr("id");
+        var matcher = /^input_time_range_(\d+)$/.exec(id); 
+        if (matcher) {
+            index = Math.max(index, matcher[1]);
+        }
+    });
+    index++; // next free index
+    
+    // create the time range (.html() only encodes the children of an element, thus the <div></div> section)
+    var timeRange = $("<div></div>").append($('#input_time_range_tpl').clone()).html();
+
+    timeRange = timeRange.replace(/Range tpl/, "Range " + (timeRanges.size()));
+    timeRange = timeRange.replace(/tpl/g, index);
+
+    // add the time range
+    $('#input_time_range_list').append(timeRange);
+    
+    // set values, if any.
+    if (start && typeof start === "string") {
+        $('#minDate_' + index).val(start);
+    }
+    if (end && typeof end  === "string") {
+        $('#maxDate_' + index).val(end);
+    }
+    
+    helio.TimeRangeDialog.__formatTimeRange(index);
+    
+    $('#input_time_range_' + index).show(); // unhide the new range.
+    $("#input_time_range_remove_" + index).button();
+    $("#input_time_range_remove_" + index).click(helio.TimeRangeDialog.__removeTimeRange);
+    
+    // enable or disable time ranges.
+    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==1);
+};
+    
+/**
+ * remove a time range entry.
+ * $(this) refers to the pressed button
+ */
+helio.TimeRangeDialog.__removeTimeRange = function() {
+    // get index to remove (read from id-suffix of pressed button)
+    var matcher = /^input_time_range_remove_(\d+)$/.exec(this.id);
+    if (!matcher) {
+        throw "Unable to find index of " + this.id;
+    }
+    var index = matcher[1];
+    
+    // remove timeRange
+    $('#input_time_range_'+index).remove();
+    
+    // get remaining time ranges and adjust numbering
+    var counter = 1;
+    
+    var timeRanges = $('.input_time_range');
+    timeRanges.each(function() {
+        matcher = /^input_time_range_(\d+)$/.exec(this.id);
+        if (matcher) {
+            var curIndex = matcher[1];
+            if (curIndex != counter) {
+                $(this).find(".input_time_range_label").html("Range " + counter);
+            }
+            counter++;
+        }
+    });
+    
+    // disable/enable the delete button
+    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+};
+
+/**
+ * private function to format the date range.
+ */
+helio.TimeRangeDialog.__formatTimeRange = function(id){
+    $('#minDate_'+id).datetimepicker("destroy");
+    $('#maxDate_'+id).datetimepicker("destroy");
+    
+    /**
+     * Format for the date picker widget
+     */
+    var DatePickerFormat = function(){
+        return {
+            yearRange: '1997:' + (new Date().getFullYear() + 1),
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            showOn: "both",
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            separator: 'T',
+            showButtonPanel: true,
+            buttonImageOnly: true,
+            buttonImage: "../images/icons/calendar.gif",
+            changeYear: true,
+            numberOfMonths: 1
+        };
+    };
+    
+    /**
+     *  formatMinDate and formatMaxDate format the dates
+     *  and correct the dates if the user enters a bigger minDate
+     *  than maxDate or a smaller maxDate than minDate
+     */
+    var formatMinDate = new DatePickerFormat();
+    formatMinDate.onClose = function(selectedDate) {
+        $(this).blur();
+        var endTimeTextBox = $('#maxDate_' + id);
+        if (endTimeTextBox.val() != '') {
+            var testStartTime = new Date(selectedDate);
+            var testEndTime = new Date(endTimeTextBox.val());
+            if (testStartTime > testEndTime)
+                endTimeTextBox.val(selectedDate);
+        }
+        else {
+            endTimeTextBox.val(selectedDate);
+        }
+        $.cookie("minDate",$("#minDate_"+id).val(),{
+            expires: 30
+        });
+        $.cookie("maxDate",$("#maxDate_"+id).val(),{
+            expires: 30
+        });
+    };
+    
+    var formatMaxDate = new DatePickerFormat(); 
+    formatMaxDate.onClose = function(selectedDate) {
+        $(this).blur();
+        var startTimeTextBox = $('#minDate_' + id);
+        if (startTimeTextBox.val() != '') {
+            var testStartTime = new Date(startTimeTextBox.val());
+            var testEndTime = new Date(selectedDate);
+            if (testStartTime > testEndTime)
+                startTimeTextBox.val(selectedDate);
+        }
+        else {
+            startTimeTextBox.val(selectedDate);
+        }
+        $.cookie("minDate",$("#minDate_"+id).val(),{
+            expires: 30
+        });
+        $.cookie("maxDate",$("#maxDate_"+id).val(),{
+            expires: 30
+        });
+    };
+    
+    $( "#minDate_"+id ).datetimepicker(formatMinDate);
+    $( "#maxDate_"+id ).datetimepicker(formatMaxDate);
+};
+
+/**
+ * Helper function to validate correct date input in date selectors, 
+ * returns false if wrong date pair.
+ * @index index corresponding to the date range pair (maxdate, mindate)
+ */
+helio.TimeRangeDialog.__validateTimeRange = function(index) {
+    try{
+        var maxDate = $("#maxDate_"+index).val();
+        if(maxDate.indexOf("T") == -1){//validates time part on its own and autocompletes if missing
+            maxDate = maxDate + "T00:00:00";
+            $("#maxDate_"+index).val(maxDate);
+        }
+        var minDate = $("#minDate_"+index).val();
+        if(minDate.indexOf("T") == -1){
+
+            minDate = minDate + "T00:00:00";
+            $("#minDate_"+index).val(minDate);
+
+        }
+        var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])T([0-9]{2}):([0-9]{2}):([0-9]{2})$");
+        
+        var matches = IsoDate.exec(minDate);
+        if(matches === null){
+            return false;
+        }
+        matches = IsoDate.exec(maxDate);
+        if(matches === null){
+            return false;
+        }
+
+        return true;
+
+    }
+    catch(err){
+        return false;
+    }
+};
+
 /**
  * ParamSetSummary class
  * @param {helio.ParamSetTask} task the task this summary is associated with.  
@@ -534,7 +532,7 @@ helio.TimeRangeDialog.prototype.show = function(closeCallback) {
  * 
  */
 helio.ParamSetSummary = function(task, taskName) {
-    helio.AbstractSummary.call(this, task);
+    helio.AbstractSummary.apply(this, [task, taskName]);
     this.dataKey = this.task.taskName + "_paramset_summary_data";
 };
 
@@ -578,7 +576,7 @@ helio.ParamSetSummary.prototype.init = function() {
         // get data from cache.
         var paramSet = helio.cache[THIS.dataKey];
         
-        var dialog = new helio.ParamSetDialog(paramSet);
+        var dialog = new helio.ParamSetDialog(THIS.task, THIS.taskName, paramSet);
         
         var closeCallback = function() {
             populateSummary(dialog.paramSet);
@@ -607,13 +605,17 @@ helio.ParamSetSummary.prototype.clear = function() {
 
 /**
  * ParamSetDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
  * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.ParamSetDialog = function(/*helio.ParamSet*/ paramSet) {
+helio.ParamSetDialog = function(task, taskName, /*helio.ParamSet*/ paramSet) {
     helio.AbstractDialog.call(this, this.__dialogConfig());
+    this.task = task;
+    this.taskName = taskName;
     this.paramSet = paramSet;  // may be null
     this.dialog = undefined; // store the dialog
 };
@@ -707,7 +709,7 @@ helio.ParamSetDialog.prototype.show = function(closeCallback) {
     if (this.dialog === undefined) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=pmFwCme', function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }

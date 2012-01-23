@@ -12,6 +12,13 @@ import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
 
+
+/**
+ * Controller to handle processing requests by forwarding them to the clientapi.
+ * 
+ * @author MarcoSoldati
+ *
+ */
 class ProcessingController {
     
     def processingService

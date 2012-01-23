@@ -30,18 +30,18 @@ class TimeRangeParam extends AbstractParam {
     /**
      * Convenience constructor for a time range param
      */
-    public TimeRangeParam(Date startDate, Date endDate) {
+    public TimeRangeParam(Date startTime, Date endTime) {
         this()
-        addTimeRange(startDate, endDate)
+        addTimeRange(startTime, endTime)
     }
 
     /**
      * Add the date range to the current date parameter.
-     * @param startDate the start date
-     * @param endDate the end date.
+     * @param startTime the start date
+     * @param endTime the end date.
      */
-    public void addTimeRange(Date startDate, Date endDate) {
-        def tr = new TimeRange(startDate, endDate)
+    public void addTimeRange(Date startTime, Date endTime) {
+        def tr = new TimeRange(startTime, endTime)
         timeRanges.add(tr)
     }
 
@@ -128,7 +128,7 @@ class TimeRange {
         start (validator: { val, obj ->
             // ensure the start date is  before the end date.
             if (val.after(obj.end)) {
-                return ['enddate.before.startdate']
+                return ['endtime.before.starttime']
             }
             return true
         })

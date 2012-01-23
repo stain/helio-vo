@@ -1,6 +1,8 @@
 package eu.heliovo.hfe.controller
 
 import eu.heliovo.hfe.model.security.User
+import eu.heliovo.hfe.model.task.Task;
+import eu.heliovo.hfe.utils.TaskDescriptor;
 
 /**
  * Controller to asynchronously load the input interface for a particular task.
@@ -39,7 +41,6 @@ class TaskController {
         if (!taskName) taskName = "pmFwCme";
 
         // load previous task from database
-        def user = User.get(springSecurityService.principal.id)
         def task = defaultsService.loadTask(taskName)
         
         def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0];
@@ -50,5 +51,23 @@ class TaskController {
             
         }
         render (template: "/task/propagationModel", model: [task:task, defaultTimeRange: defaultTimeRange, title:title])
+    }
+
+    /**
+     * Task to configure a call to a plotting service.
+     * Requests are handled by the PlotController
+     */
+    def plot = {
+        def taskName = params.taskName;
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        if (!taskDescriptor) {
+            throw new RuntimeException("Unknown task name " + taskName)
+        }
+        
+        // load previous task from database
+        Task task = defaultsService.loadTask(taskName)
+        def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0]
+        
+        render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }
 }

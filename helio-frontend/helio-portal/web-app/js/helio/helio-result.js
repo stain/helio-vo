@@ -30,14 +30,13 @@ helio.AbstractResult.prototype.clear = undefined;
  */
 helio.ProcessingServiceResult = function(task, taskName, data) {
     helio.AbstractResult.apply(this, [task, taskName]);
-    this.dataKey = taskName + ".result";
     this.data = data;
     this.votableResult = new helio.VOTableResult(task, taskName);
     this.plotResult = new helio.PlotResult(task, taskName);
     this.logResult = new helio.LogResult(task, taskName);
 };
 
-//create TimeRangeDialog as subclass of AbstractDialog
+//create ProcessingServiceResult as subclass of AbstractResult
 helio.ProcessingServiceResult.prototype = new helio.AbstractResult;
 helio.ProcessingServiceResult.prototype.constructor = helio.ProcessingServiceResult;
 
@@ -48,8 +47,45 @@ helio.ProcessingServiceResult.prototype.init = function() {
     this.votableResult.init();
     this.plotResult.init();
     this.logResult.init();
+    var rowpos = $('#task_result_area').position();
+    if(rowpos){
+        $('html,body').scrollTop(rowpos.top);
+    }
 };
 
+/**
+ * Result container for a call to a plotting service.
+ * This model delegates the core functionality to  PlotResult.
+ * @param {helio.AbstractTask} task the task this result is associated with.  
+ * @param {String} taskName the actual name of the task variant. 
+ * @param {Object} data the content of the result 
+ * 
+ */
+helio.PlotTaskResult = function(task, taskName, data) {
+    helio.AbstractResult.apply(this, [task, taskName]);
+    this.data = data;
+    this.plotResult = new helio.PlotResult(task, taskName);
+    this.logResult = new helio.LogResult(task, taskName);
+};
+
+//create PlotTaskResult as subclass of AbstractResult
+helio.PlotTaskResult.prototype = new helio.AbstractResult;
+helio.PlotTaskResult.prototype.constructor = helio.PlotTaskResult;
+
+/**
+ * Initialize the processing service result
+ */
+helio.PlotTaskResult.prototype.init = function() {
+    this.plotResult.init();
+    this.logResult.init();
+    var rowpos = $('#task_result_area').position();
+    if(rowpos){
+        $('html,body').scrollTop(rowpos.top);
+    }
+};
+
+
+/******************** Components of a result **************************/
 /**
  * VOTable result
  * @param {helio.AbstractTask} task the task this result is associated with.  
@@ -138,13 +174,6 @@ helio.VOTableResult.prototype.init = function() {
         recipe.document.write(html);
         recipe.document.close();
     });
-
-        
-    var rowpos = $('#task_result_area').position();
-    if(rowpos){
-        $('html,body').scrollTop(rowpos.top);
-    }
-
 };
 
 /**

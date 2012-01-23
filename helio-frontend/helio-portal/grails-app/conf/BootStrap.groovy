@@ -13,13 +13,11 @@ import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.clientapi.query.HelioQueryResult
 import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService
-import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.registryclient.HelioServiceName
 import eu.heliovo.registryclient.ServiceCapability
 import grails.util.GrailsUtil
-import grails.validation.ValidationException
 
 class BootStrap {
 
