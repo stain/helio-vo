@@ -3,8 +3,14 @@ package eu.heliovo.hfe.utils
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.SimpleParkerModelServiceImpl
+import eu.heliovo.clientapi.processing.context.impl.des.AcePlotterServiceImpl
+import eu.heliovo.clientapi.processing.context.impl.des.StaPlotterServiceImpl;
+import eu.heliovo.clientapi.processing.context.impl.des.StbPlotterServiceImpl;
+import eu.heliovo.clientapi.processing.context.impl.des.UlyssesPlotterServiceImpl;
+import eu.heliovo.clientapi.processing.context.impl.des.WindPlotterServiceImpl;
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.registryclient.HelioServiceName
+import eu.heliovo.registryclient.ServiceCapability
 
 /**
  * Utility to get the task descriptor map. 
@@ -44,6 +50,7 @@ class TaskDescriptor {
         "label" : "GOES XRay timeline plot",
         "description" : "GOES XRay timeline plot",
         "serviceName" : HelioServiceName.CXS,
+        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
         "serviceVariant" : GoesPlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,  // timeout in seconds.
         "inputParams" : [
@@ -57,6 +64,7 @@ class TaskDescriptor {
         "label" : "SOHO EIT Flare Plot",
         "description" : "SOHO EIT flare plot",
         "serviceName" : HelioServiceName.CXS,
+        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
         "serviceVariant" : FlarePlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
@@ -70,6 +78,7 @@ class TaskDescriptor {
         "label" : "Simple parker spiral",
         "description" : "Simple parker spiral",
         "serviceName" : HelioServiceName.CXS,
+        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
         "serviceVariant" : SimpleParkerModelServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
@@ -84,8 +93,77 @@ class TaskDescriptor {
             "url" : [id : "url", label: "Parker Spiral Plot", type : "url" ],
         ]
       ],
-      ]
-    }
+      "aceplot" :  [
+        "label" : "ACE timeline plot",
+        "description" : "ACE timeline plot",
+        "serviceName" : HelioServiceName.DES,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+        "serviceVariant" : AcePlotterServiceImpl.SERVICE_VARIANT,
+        "timeout" : 60,
+        "inputParams" : [
+          "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
+        ],
+        "outputParams" : [
+            "url" : [id : "url", label: "ACE Plot", type : "url" ],
+        ]
+      ],
+      "staplot" :  [
+        "label" : "STEREO-A timeline plot",
+        "description" : "STEREO-A timeline plot",
+        "serviceName" : HelioServiceName.DES,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+        "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
+        "timeout" : 60,
+        "inputParams" : [
+          "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
+        ],
+        "outputParams" : [
+          "url" : [id : "url", label: "STEREO-A Plot", type : "url" ],
+        ]
+      ],
+      "stbplot" :  [
+          "label" : "STEREO-B timeline plot",
+          "description" : "STEREO-B timeline plot",
+          "serviceName" : HelioServiceName.DES,
+          "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+          "serviceVariant" : StbPlotterServiceImpl.SERVICE_VARIANT,
+          "timeout" : 60,
+          "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
+          ],
+          "outputParams" : [
+            "url" : [id : "url", label: "STEREO-B Plot", type : "url" ],
+          ]
+      ],
+      "ulyssesplot" :  [
+        "label" : "Ulysses timeline plot",
+        "description" : "Ulysses timeline plot",
+        "serviceName" : HelioServiceName.DES,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+        "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
+        "timeout" : 60,
+        "inputParams" : [
+          "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
+        ],
+        "outputParams" : [
+          "url" : [id : "url", label: "Ulysses Plot", type : "url" ],
+        ]
+      ],
+      "windplot" :  [
+          "label" : "WIND timeline plot",
+          "description" : "WIND timeline plot",
+          "serviceName" : HelioServiceName.DES,
+          "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+          "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
+          "timeout" : 60,
+          "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
+          ],
+          "outputParams" : [
+            "url" : [id : "url", label: "WIND Plot", type : "url" ],
+          ]
+      ],  
+    ]}
     
     /**
      * Find a task descriptor by name

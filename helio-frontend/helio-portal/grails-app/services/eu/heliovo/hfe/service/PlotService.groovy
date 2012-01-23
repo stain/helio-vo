@@ -1,5 +1,7 @@
 package eu.heliovo.hfe.service
 
+import eu.heliovo.registryclient.ServiceCapability;
+
 import java.util.concurrent.TimeUnit
 
 import org.springframework.beans.BeanWrapper
@@ -36,11 +38,17 @@ class PlotService {
 //            ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE, 
 //            taskDescriptor.serviceVariant)
         
-        // temporary workaround until the registry is switched.
+        def plotService
+        
         ProcessingServiceFactory factory = ProcessingServiceFactory.getInstance();
-        AccessInterface ai = new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE, HelioFileUtil.asURL("http://msslkz.mssl.ucl.ac.uk/cxs/services/CommonExecutionConnectorService"));        
-        def plotService = factory.getHelioService(taskDescriptor.serviceName, taskDescriptor.serviceVariant, ai) 
-                
+        if (taskDescriptor.serviceCapability == ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE) {
+            // temporary workaround until the registry is switched.
+            AccessInterface ai = new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, taskDescriptor.serviceCapability, HelioFileUtil.asURL("http://msslkz.mssl.ucl.ac.uk/cxs/services/CommonExecutionConnectorService"));        
+            plotService = factory.getHelioService(taskDescriptor.serviceName, taskDescriptor.serviceVariant, ai) 
+        } else {
+            plotService = factory.getHelioService(taskDescriptor.serviceName, taskDescriptor.serviceVariant, null)         
+        }
+        
         def timeRanges = task.inputParams.timeRanges.timeRanges
 
         // populate the plot service

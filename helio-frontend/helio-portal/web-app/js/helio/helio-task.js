@@ -334,7 +334,8 @@ helio.PlotTask.prototype._isValid = function() {
  */
 helio.VOTableUploadTask = function(taskName) {
     helio.AbstractTask.call(this, taskName);
-    this.result = null; // store the result
+    this.uploadSummary = undefined; 
+    this.result = undefined;
 };
 
 //create VOTableUploadTask as subclass of AbstractTask
@@ -343,6 +344,12 @@ helio.VOTableUploadTask.prototype.constructor = helio.VOTableUploadTask;
 
 helio.VOTableUploadTask.prototype.init = function() {
     var THIS = this;
+    
+//    if (!this.uploadSummary) {
+//        this.uploadSummary =  new helio.UploadSummary(this, this.taskName);
+//    }
+//    this.uploadSummary.init();
+
     
     // 1, format the buttons
     formatButton($("#btn_upload"));
@@ -354,6 +361,8 @@ helio.VOTableUploadTask.prototype.init = function() {
     
     // connect the upload button
     $("#btn_upload").click(function() { THIS._submitQuery.call(THIS);});
+    
+    this.validate();
 };
 
 helio.VOTableUploadTask.prototype._submitQuery = function() {

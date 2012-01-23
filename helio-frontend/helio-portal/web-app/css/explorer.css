@@ -102,6 +102,7 @@ table.dialog_content_table td {
 /*************************** CSS related to the menu area *************************/
 ul.menu {
 	position:absolute;
+	z-index: 5;
 }
 
 ul.menu li {

@@ -71,7 +71,77 @@ $(document).ready(function() {
               task.init.call(task);
             });
           }
-        }
+        },
+        "task_plotservice_ace" : 
+        { 
+            "title": "ACE plot",
+            "click": function() {
+                $('#content').load('../task/plot?taskName=aceplot', function() {
+                    var task = helio.taskMap.findByName("aceplot");
+                    if (!task) {
+                        task = new helio.PlotTask("aceplot");
+                        helio.taskMap.put("aceplot", task);
+                    }
+                    task.init.call(task);
+                });
+            }
+        },
+        "task_plotservice_sta" : 
+        { 
+            "title": "STEREO-A plot",
+            "click": function() {
+                $('#content').load('../task/plot?taskName=staplot', function() {
+                    var task = helio.taskMap.findByName("staplot");
+                    if (!task) {
+                        task = new helio.PlotTask("staplot");
+                        helio.taskMap.put("staplot", task);
+                    }
+                    task.init.call(task);
+                });
+            }
+        },
+        "task_plotservice_stb" : 
+        { 
+            "title": "STEREO-B plot",
+            "click": function() {
+                $('#content').load('../task/plot?taskName=stbplot', function() {
+                    var task = helio.taskMap.findByName("stbplot");
+                    if (!task) {
+                        task = new helio.PlotTask("stbplot");
+                        helio.taskMap.put("stbplot", task);
+                    }
+                    task.init.call(task);
+                });
+            }
+        },
+        "task_plotservice_ulysses" : 
+        { 
+            "title": "Ulysses plot",
+            "click": function() {
+                $('#content').load('../task/plot?taskName=ulyssesplot', function() {
+                    var task = helio.taskMap.findByName("ulyssesplot");
+                    if (!task) {
+                        task = new helio.PlotTask("ulyssesplot");
+                        helio.taskMap.put("ulyssesplot", task);
+                    }
+                    task.init.call(task);
+                });
+            }
+        },
+        "task_plotservice_wind" : 
+        { 
+            "title": "WIND plot",
+            "click": function() {
+                $('#content').load('../task/plot?taskName=windplot', function() {
+                    var task = helio.taskMap.findByName("windplot");
+                    if (!task) {
+                        task = new helio.PlotTask("windplot");
+                        helio.taskMap.put("windplot", task);
+                    }
+                    task.init.call(task);
+                });
+            }
+        },
     });
 });
 

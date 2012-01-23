@@ -86,8 +86,13 @@
                 </div>
                 <ul id="task_plotservice_menu" class="menu" style="display: none;">
                   <li style="display:block;" id="task_plotservice_goes">Goes timeline plot</li>
-                  <li style="display:block;" id="task_plotservice_flare">Goes Flare plot</li>
+                  <li style="display:block;" id="task_plotservice_flare">SOHO EIT flare plot</li>
                   <li style="display:block;" id="task_plotservice_parker">Simple Parker Spiral</li>
+                  <li style="display:block;" id="task_plotservice_ace">ACE timeline</li>
+                  <li style="display:block;" id="task_plotservice_sta">STEREO-A timeline</li>
+                  <li style="display:block;" id="task_plotservice_stb">STEREO-B timeline</li>
+                  <li style="display:block;" id="task_plotservice_ulysses">Ulysses timeline</li>
+                  <li style="display:block;" id="task_plotservice_wind">WIND timeline</li>
                 </ul>
               </td>
               <g:if env="development">              
