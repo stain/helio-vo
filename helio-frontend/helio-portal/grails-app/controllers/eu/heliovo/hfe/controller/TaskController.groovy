@@ -38,19 +38,16 @@ class TaskController {
      */
     def propagationModel = {
         def taskName = params.taskName;
-        if (!taskName) taskName = "pmFwCme";
-
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        if (!taskDescriptor) {
+            throw new RuntimeException("Unknown task name " + taskName)
+        }
+        
         // load previous task from database
         def task = defaultsService.loadTask(taskName)
-        
         def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0];
     
-        def title
-        if (taskName == "pmFwCme") {
-            title = "CME Propagation model: Sun -&gt; object"
-            
-        }
-        render (template: "/task/propagationModel", model: [task:task, defaultTimeRange: defaultTimeRange, title:title])
+        render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }
 
     /**

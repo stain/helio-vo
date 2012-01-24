@@ -74,9 +74,13 @@ helio.AbstractSummary.prototype.isValid = function() {
 /**
  * Base class for dialogs.
  * @param {Object} custom options for a dialog. Will be merged with the default options 
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
  */
-helio.AbstractDialog = function(options) {
+helio.AbstractDialog = function(options, task, taskName) {
     this.opts = $.extend({}, helio.AbstractDialog.defaults, options);
+    this.task = task;
+    this.taskName = taskName;
 };
 
 /**
@@ -147,7 +151,6 @@ helio.TimeRangeSummary.prototype.init = function() {
 
             // store data in cache
             helio.cache[THIS.dataKey] = timeRanges;
-            //console.log();
             
             $("#time_range_summary_drop").attr('src','../images/helio/circle_time.png');
             $("#time_range_summary_drop").addClass('drop_able');
@@ -168,7 +171,7 @@ helio.TimeRangeSummary.prototype.init = function() {
         // get time range data from cache.
         var timeRanges = helio.cache[THIS.dataKey];
         
-        var dialog = new helio.TimeRangeDialog(timeRanges);
+        var dialog = new helio.TimeRangeDialog(THIS.task, THIS.taskName, timeRanges);
         
         var closeCallback = function() {
             populateSummary(dialog.timeRanges);
@@ -198,14 +201,16 @@ helio.TimeRangeSummary.prototype.clear = function() {
 
 /**
  * TimeRangeDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
  * @param {helio.TimeRanges} helio.TimeRanges timeRanges the time ranges. 
  * This object is read on init and used to populate the widget. 
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.TimeRangeDialog = function(/*helio.TimeRanges*/ timeRanges) {
-    helio.AbstractDialog.call(this, this.__dialogConfig());
+helio.TimeRangeDialog = function(task, taskName, /*helio.TimeRanges*/ timeRanges) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
     this.timeRanges = timeRanges;  // may be null
     this.dialog = undefined; // store the dialog
 };
@@ -325,7 +330,7 @@ helio.TimeRangeDialog.prototype.show = function(closeCallback) {
     if (this.dialog === undefined) {
         var THIS = this;
         var init = this.timeRanges ? "none" : "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/timeRangeDialog?init=' + init +'&taskName=pmFwCme', function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/timeRangeDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -560,7 +565,6 @@ helio.ParamSetSummary.prototype.init = function() {
             
             // store data in cache
             helio.cache[THIS.dataKey] = paramSet;
-            //console.log();
             
             $("#paramset_summary_drop").attr('src','../images/helio/circle_block.png');
             $("#paramset_summary_drop").addClass('drop_able');
@@ -613,7 +617,7 @@ helio.ParamSetSummary.prototype.clear = function() {
  * 
  */
 helio.ParamSetDialog = function(task, taskName, /*helio.ParamSet*/ paramSet) {
-    helio.AbstractDialog.call(this, this.__dialogConfig());
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
     this.task = task;
     this.taskName = taskName;
     this.paramSet = paramSet;  // may be null
@@ -630,7 +634,7 @@ helio.ParamSetDialog.prototype.constructor = helio.ParamSetDialog;
 helio.ParamSetDialog.prototype.__dialogActionOK = function() {
     // fill paramSet with updated values
     if(!this.paramSet) {
-        this.paramSet = new helio.ParamSet("pmFwCme");
+        this.paramSet = new helio.ParamSet(this.taskName);
     }
 
     // fill the param set object

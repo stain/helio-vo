@@ -10,23 +10,34 @@ $(document).ready(function() {
         });
     });    
 
+    var pmConfig = new Object();
+    pmConfig["pm_cme"] = { title: "CME Forward PM"};
+    pmConfig["pm_cme_back"] = { title: "CME Backward PM"};
+    pmConfig["pm_sw"] = { title: "Solar Wind PM"};
+    pmConfig["pm_sep"] = { title: "Energetic Particle PM"};
+    
+    var pmMenu = new Object();
+    // loop over config and fill menu object.
+    for (taskName in pmConfig) {
+        pmMenu["task_propagationmodel_" + taskName] = { 
+            "title": pmConfig[taskName].title,
+            "click": (function(taskName) {
+                return function() {
+                    $('#content').load('../task/propagationModel?taskName=' + taskName, function() {
+                        var task = helio.taskMap.findByName(taskName);
+                        if (!task) {
+                            task = new helio.PropagationModelTask(taskName); 
+                            helio.taskMap.put(taskName, task);
+                        }
+                        task.init.call(task);
+                    });
+                };
+            }) (taskName)
+        };
+    }
+    
     // create the dropdown menu
-    new helio.DropdownMenu("task_propagationmodel", {
-        "task_propagationmodel_cme_pm" : 
-          { 
-            "title": "CME Forward PM",
-            "click": function() {
-                $('#content').load('../task/propagationModel?taskName=pmFwCme', function() {
-                    var task = helio.taskMap.findByName("pmFwCme");
-                    if (!task) {
-                        task = new helio.PropagationModelTask("pmFwCme"); 
-                        helio.taskMap.put("pmFwCme", task);
-                    }
-                    task.init.call(task);
-                });
-             }        
-          }
-    });
+    new helio.DropdownMenu("task_propagationmodel", pmMenu);
     
     // create the dropdown menu for the plotservcie
     new helio.DropdownMenu("task_plotservice", {
@@ -195,8 +206,6 @@ helio.DropdownMenu = function(id, options) {
     var THIS = this;
     this.id = id;
     this.options = options;
-    
-    console.log(options);
     
     // init the drop down menu
     $("#" + this.id + "_menu").menu();

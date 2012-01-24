@@ -4,10 +4,12 @@ import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.SimpleParkerModelServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.des.AcePlotterServiceImpl
-import eu.heliovo.clientapi.processing.context.impl.des.StaPlotterServiceImpl;
-import eu.heliovo.clientapi.processing.context.impl.des.StbPlotterServiceImpl;
-import eu.heliovo.clientapi.processing.context.impl.des.UlyssesPlotterServiceImpl;
-import eu.heliovo.clientapi.processing.context.impl.des.WindPlotterServiceImpl;
+import eu.heliovo.clientapi.processing.context.impl.des.StaPlotterServiceImpl
+import eu.heliovo.clientapi.processing.context.impl.des.StbPlotterServiceImpl
+import eu.heliovo.clientapi.processing.hps.impl.CmeBackwardPropagationModelImpl
+import eu.heliovo.clientapi.processing.hps.impl.CmePropagationModelImpl
+import eu.heliovo.clientapi.processing.hps.impl.SepPropagationModelImpl
+import eu.heliovo.clientapi.processing.hps.impl.SolarWindPropagationModelImpl
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.registryclient.HelioServiceName
 import eu.heliovo.registryclient.ServiceCapability
@@ -27,9 +29,12 @@ class TaskDescriptor {
     * @return
     */
     private static def initTaskDescriptors() {
-      ["pmFwCme" : [
-        "label" : "CME Propagation Model",
-        "description" : "CME Propagation Model from Earth to a collection of predefined objects.",
+      ["pm_cme" : [
+        "label" : "CME Forward Propagation Model (from Sun to objects)",
+        "description" : "CME Propagation Model from the Sun to a collection of predefined objects.",
+        "serviceName" : HelioServiceName.HPS,
+        "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
+        "serviceVariant" : CmePropagationModelImpl.SERVICE_VARIANT,
         "inputParams" : [
             "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
             "paramSet" : [
@@ -45,6 +50,74 @@ class TaskDescriptor {
             "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ],
             "voyagerPlotUrl" : [id : "voyagerPlotUrl", label: "Plot containing voyager", type : "url" ]
         ]
+      ],
+      "pm_cme_back" : [
+          "label" : "CME Backward Propagation Model (from planet or satellite to Sun)",
+          "description" : "CME Propagation Model from a collection of predefined objects back to the Sun.",
+          "serviceName" : HelioServiceName.HPS,
+          "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
+          "serviceVariant" : CmeBackwardPropagationModelImpl.SERVICE_VARIANT,
+          "inputParams" : [
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
+              "paramSet" : [
+                  "width" : [label : "Width", description : "Width in Degrees", type : Float, defaultValue : 45.0],
+                  "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : String, defaultValue : "Earth", 
+                      valueDomain : ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", 
+                          "Cassini", "Dawn", "Galileo", "Messenger", "NewHorizons", "Rosetta", "StereoA", "StereoB", 
+                          "Ulysses", "Voyager1", "Voyager2"]
+                  ],
+                  "speed" : [label : "Speed", description : "Speed in km/s", type : Float, defaultValue : 800],
+                  "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in km/s", type : Float, defaultValue : 0]
+              ]
+          ],
+          "outputParams" : [
+              "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+              "innerPlotUrl" : [id : "innerPlotUrl", label: "Plot of inner planets", type : "url" ],
+              "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ],
+              "voyagerPlotUrl" : [id : "voyagerPlotUrl", label: "Plot containing voyager", type : "url" ]
+          ]
+      ],
+      "pm_sw" : [
+          "label" : "Solar Wind Propagation Model (from Sun to object)",
+          "description" : "Solar Wind Propagation Model from the Sun to a collection of predefined objects.",
+          "serviceName" : HelioServiceName.HPS,
+          "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
+          "serviceVariant" : SolarWindPropagationModelImpl.SERVICE_VARIANT,
+          "inputParams" : [
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
+              "paramSet" : [
+                  "longitude" : [label : "Longitude", description : "Longitude in Degrees", type : Float, defaultValue : 0],
+                  "width" : [label : "Width", description : "Width in Degrees", type : Float, defaultValue : 45.0],
+                  "speed" : [label : "Speed", description : "Speed in km/s", type : Float, defaultValue : 600],
+                  "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in km/s", type : Float, defaultValue : 0]
+              ]
+          ],
+          "outputParams" : [
+              "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+              "innerPlotUrl" : [id : "innerPlotUrl", label: "Plot of inner planets", type : "url" ],
+              "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ],
+          ]
+      ],
+      "pm_sep" : [
+          "label" : "Solar Energetic Particles Propagation Model (from Sun to objects)",
+          "description" : "Solar Energetic Particles from the Sun to a collection of predefined objects.",
+          "serviceName" : HelioServiceName.HPS,
+          "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
+          "serviceVariant" : SepPropagationModelImpl.SERVICE_VARIANT,
+          "inputParams" : [
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
+              "paramSet" : [
+                  "longitude" : [label : "Longitude", description : "Longitude in Degrees", type : Float, defaultValue : 0],
+                  "speed" : [label : "Speed", description : "Speed in km/s", type : Float, defaultValue : 600],
+                  "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in km/s", type : Float, defaultValue : 0],
+                  "beta" : [label : "Beta", description : "Beta as percentage of lightspeed", type : Float, defaultValue : 0.9],
+              ]
+          ],
+          "outputParams" : [
+              "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+              "innerPlotUrl" : [id : "innerPlotUrl", label: "Plot of inner planets", type : "url" ],
+              "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ],
+          ]
       ],
       "goesplot" : [
         "label" : "GOES XRay timeline plot",

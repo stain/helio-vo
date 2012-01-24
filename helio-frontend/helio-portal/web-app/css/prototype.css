@@ -218,19 +218,6 @@ html{
     width: 300px;
 }
 
-.candybox li {
-    font-size: 0.9em;
-	padding: 5px 0;
-	margin-bottom: 10px;
-	border-bottom: 1px dashed #333;
-	color: black;
-        list-style-type:none;
-	
-        
-	
-	line-height: 1.6em;
-}
-
 #history {
     min-height:90px;
     width: auto;

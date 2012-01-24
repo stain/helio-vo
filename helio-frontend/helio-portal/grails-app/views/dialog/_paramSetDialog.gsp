@@ -27,16 +27,22 @@ Expected parameters:
           </thead>
           <tbody>
             <g:each var="param" in="${paramSet.params}" status="i">
+              <g:set var="paramDescriptor" value="${taskDescriptor.inputParams.paramSet[param.key]}" />
               <tr>
                 <td>
-                  ${paramSet.findTaskDescriptor()?.inputParams.paramSet[param.key]?.label}
+                  ${paramDescriptor.label}
                 </td>
                 <td>
-                  <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramSet.findTaskDescriptor()?.inputParams.paramSet[param.key]?.label}" value="${param.value}" />
+                  <g:if test="${paramDescriptor.valueDomain}" >
+                    <g:select class="paramSetEntry" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}"/>
+                  </g:if>
+                  <g:else>
+                    <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramDescriptor.label}" value="${param.value}" />
+                  </g:else>
                 </td>
                 <td>
                   <div class="message" style="display:inline; width:250px; float:right; margin:2px 0px; padding:3px">
-                    ${paramSet.findTaskDescriptor()?.inputParams.paramSet[param.key]?.description}
+                    ${paramDescriptor.description}
                   </div>
                 </td>
               </tr>

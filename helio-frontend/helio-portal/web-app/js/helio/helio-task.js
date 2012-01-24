@@ -82,7 +82,6 @@ helio.PropagationModelTask.prototype._submitQuery = function() {
         }
     };
     var modelParam = JSON.stringify(bindings);
-    //console.log(decodeURI(modelParam));
 
     // ajax control object
     var xhr = undefined;
@@ -234,7 +233,6 @@ helio.PlotTask.prototype._submitQuery = function() {
         }
     };
     var modelParam = JSON.stringify(bindings);
-    //console.log(decodeURI(modelParam));
 
     // ajax control object
     var xhr = undefined;

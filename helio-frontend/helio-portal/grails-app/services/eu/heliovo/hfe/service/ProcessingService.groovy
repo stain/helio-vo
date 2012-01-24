@@ -31,23 +31,22 @@ class ProcessingService {
     def propagationModel(Task task) {
         //get the task descriptor
         def taskDescriptor = task.findTaskDescriptor()
-        
-        // create the model
-        CmePropagationModel cmeModel =
-                helioClient.getServiceInstance(HelioServiceName.HPS,
-                ServiceCapability.HELIO_PROCESSING_SERVICE,
-                CmePropagationModelImpl.SERVICE_VARIANT);
+                   
+        def propagationService = helioClient.getServiceInstance(
+            taskDescriptor.serviceName,
+            taskDescriptor.serviceCapability,
+            taskDescriptor.serviceVariant)
 
         def timeRanges = task.inputParams.timeRanges.timeRanges
         def paramSet = task.inputParams.paramSet.params
 
-        // populate the cmeModel (start time is hardcoded)
-		BeanWrapper beanWrapper = new BeanWrapperImpl(cmeModel)
+        // populate the propagationService (start time is hardcoded)
+		BeanWrapper beanWrapper = new BeanWrapperImpl(propagationService)
         beanWrapper.setPropertyValue("startTime", timeRanges[0].start)
 		beanWrapper.setPropertyValues(paramSet)
 		
-        ProcessingResult<CmeProcessingResultObject> result = cmeModel.execute();
-        CmeProcessingResultObject resultObject = result.asResultObject(60, TimeUnit.SECONDS);
+        ProcessingResult result = propagationService.execute();
+        def resultObject = result.asResultObject(60, TimeUnit.SECONDS);
         
         // wrap the resultObject ...
         beanWrapper = new BeanWrapperImpl(resultObject)

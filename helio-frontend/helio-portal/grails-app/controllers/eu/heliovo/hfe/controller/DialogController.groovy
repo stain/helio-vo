@@ -4,6 +4,7 @@ import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.result.RemotePlotResult
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.hfe.utils.TaskDescriptor;
 
 class DialogController {
     /**
@@ -40,6 +41,7 @@ class DialogController {
     
     def paramSetDialog = {
         def taskName = params.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
         
         def paramSet;
@@ -55,7 +57,7 @@ class DialogController {
             default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
         
-        render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet])
+        render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet, taskDescriptor : taskDescriptor])
     }
     
 //    def plotResult = {

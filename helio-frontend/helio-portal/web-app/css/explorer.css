@@ -1,8 +1,15 @@
 /**
  * Main CSS file for the HFE
  */
-
-
+ 
+ ul, ol {
+    padding-left: 25px;
+ }
+ 
+ li {
+    padding-left: 0px;
+ }
+ 
 /***************** CSS related to TASKS *********************/
 /**
  * Format the main area of a task
@@ -12,8 +19,20 @@
   margin-bottom: 20px;
 }
 
+/** main header **/
+.task .viewerHeader {
+    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
+    box-shadow: 0 0 2px #000000;
+    color: #444466;
+    margin-bottom: 5px;
+}
+
+.task .viewerHeader h1 {
+    padding: 5px;	
+}
+
 /**
- * header bar within a task area
+ * sub header within task area
  */
 .task .header,.task .header2 {
   background: #FFAC0F
@@ -21,6 +40,7 @@
     scroll 50% 50%;
   padding-left: 10px;
   height: 16px;
+  vertical-align: middle;
 }
 
 .task .header h1,.task .header2 h1 {

@@ -3,6 +3,7 @@ package eu.heliovo.hfe.controller
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.hfe.utils.TaskDescriptor;
 import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
@@ -18,7 +19,8 @@ class PlotController {
         
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
-        def taskName = jsonBindings.taskName;
+        def taskName = jsonBindings.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
         
         // create input params
         def timeRanges = new TimeRangeParam();
@@ -51,7 +53,7 @@ class PlotController {
             def model = plotService.plot(task)
             //def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
             
-            render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs])
+            render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
         } else {
             def message = "Unable to process the request."
             def responseObject = [message : message, stackTrace : task.errors.allErrors];

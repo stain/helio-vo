@@ -10,7 +10,7 @@
     <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
     <META HTTP-EQUIV="EXPIRES" CONTENT="0">
-    <title>HELIO FrontEnd</title>
+    <title>HELIO Front End</title>
     <g:render template="imports" />
     <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
   </head>
@@ -102,7 +102,10 @@
                     id="task_propagationmodel_select">Select a Propagation Model</div>
                   </div>
                   <ul id="task_propagationmodel_menu" class="menu" style="display: none;">
-                      <li id="task_propagationmodel_cme_pm">CME Forward Propagation Model</li>
+                      <li id="task_propagationmodel_pm_cme">CME Forward Propagation Model</li>
+                      <li id="task_propagationmodel_pm_cme_back">CME Backward Propagation Model</li>
+                      <li id="task_propagationmodel_pm_sw">Solar Wind Propagation Model</li>
+                      <li id="task_propagationmodel_pm_sep">Solar Energetic Particles Propagation Model</li>
                   </ul>
                 </td>
                 <td>

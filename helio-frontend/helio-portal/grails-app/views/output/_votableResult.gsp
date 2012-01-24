@@ -2,9 +2,9 @@
 Render a VOTable result
 Expected model:
  * TableModel result : a map holding the components of a VOTable (as defined by VoTableService).
- * String message : a message
+ * Map taskDescriptor : the task descriptor  
  --%><div class="header votableResultHeader viewerHeader">
-  <h1>VOTable</h1>
+  <h1>VOTable for task '${taskDescriptor.label}'</h1>
 </div>
 <div class="content task_body">
   <div>
@@ -39,11 +39,7 @@ Expected model:
               <div id="download_selection_button" class="custom_button" style="margin-left: 5px;" >
                 Download selected files/all
               </div>
-            </g:if>
-            
-            <g:if test="${message}">
-              <div class="message">${message}</div>
-            </g:if>
+            </g:if>            
           </td>
           <td width="400px">
             <div class="message"

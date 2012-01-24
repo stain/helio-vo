@@ -35,6 +35,7 @@ class ProcessingController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName;
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
         
         
         // create input params
@@ -64,7 +65,7 @@ class ProcessingController {
             // execute the query (this adds the tasks to the output params).
             def model = processingService.propagationModel(task)
             def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;  
-            render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs])            
+            render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])            
         } else {
             def message = "Unable to process the request."
             def responseObject = [message : message, stackTrace : task.errors.allErrors];

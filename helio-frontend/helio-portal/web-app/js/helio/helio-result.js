@@ -127,7 +127,6 @@ helio.VOTableResult.prototype.init = function() {
     $("#download_selection_button").click(function(){
         var itr= 0;
         $(".resultTable").each(function(){
-            //console.debug($(this));
             itr++;
         });
         itr = itr/2;
