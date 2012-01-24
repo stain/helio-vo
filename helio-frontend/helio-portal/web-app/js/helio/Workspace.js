@@ -74,7 +74,7 @@ function Workspace() {
                 "sScrollXInner": "100%",
                 "sDom": '<"H">t<"F">'
             });
-            //debugger;
+
             $("#extra_list_form").html(($("#extra_list").html()));
             
             var tempextralist =$("#extra_list").html();
@@ -193,7 +193,8 @@ function Workspace() {
                 
                 // clear filterText <td>
                 $("#filterText").html("");
-                
+                $("#filterText").hide();
+
                 // filters the table and displays filter text
                 $("input:checked").each(function(){
                 	// ignore filterText when obs. type is both otherwise display default filter text
@@ -251,9 +252,11 @@ function Workspace() {
                 
                 // creates the new filtered table
                 $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+                $("#filterText").delay(500).fadeIn();
             });
             
             $("#checkAll").change(function(){
+            	$("#filterText").hide();
             	if ($(this).attr("checked")) {
             		$("#input_table").dataTable().fnFilter("", 15, true);
         			$(".checkFilter").each(function(){
@@ -270,9 +273,11 @@ function Workspace() {
         			$("#input_table").dataTable().fnFilter("never appearing filter text", 15, true);
         			$("#filterText").html("No flare lists are shown.");
         		}
+            	$("#filterText").delay(500).fadeIn();
             });
             
             $("input:radio").change(function(){
+            	$("#filterText").hide();
                 var checkboxColumn = $(this).attr("column");
                 var filter_expression = "";
                 
@@ -282,7 +287,7 @@ function Workspace() {
                 });
 
                 $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
-                
+                $("#filterText").delay(500).fadeIn();
             });
 
 
@@ -372,7 +377,7 @@ function Workspace() {
                         
                         // clear extra list
                         $("#extra_list").html("");
-                        
+
                         // add all input elements to list (needed to get a result)
                         $("#extra_list").append($("input[name='extra']"));
                         
@@ -380,10 +385,10 @@ function Workspace() {
                         var selectedLists = new Array();
                         $("input[name='extra']").each(function() {
                         	var tr = $("#row_" + $(this).attr("value"))[0];
-                        	selectedLists.push($("#input_table").dataTable().fnGetData(tr)[1]);
+                        	selectedLists.push($(this).attr("internal"));
                         });                 
                         
-            			$("#extra_list").append(selectedLists.join(" ,<br/>"));
+                        $("#extra_list").append(selectedLists.join(",<br/>"));
                         
                         $("#dialog-message").dialog( "close" );
                         $("#dialog-message").remove();

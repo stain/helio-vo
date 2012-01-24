@@ -146,11 +146,10 @@ function History() {
 
             $("#extra_list_form").html(holder.html());
             
-         // is called when a filter checkbox is clicked
+            // is called when a filter checkbox is clicked
             $(".checkFilter").change(function(){
             	// uncheck "Show all" checkbox
             	$("#checkAll").removeAttr("checked");
-            	
 				$("#input_table").dataTable().fnFilter("", 15, true);
             	
                 var checkboxColumn = $(this).attr("column");
@@ -162,7 +161,8 @@ function History() {
                 
                 // clear filterText <td>
                 $("#filterText").html("");
-                
+                $("#filterText").hide();
+
                 // filters the table and displays filter text
                 $("input:checked").each(function(){
                 	// ignore filterText when obs. type is both otherwise display default filter text
@@ -220,9 +220,11 @@ function History() {
                 
                 // creates the new filtered table
                 $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+                $("#filterText").delay(500).fadeIn();
             });
             
             $("#checkAll").change(function(){
+            	$("#filterText").hide();
             	if ($(this).attr("checked")) {
             		$("#input_table").dataTable().fnFilter("", 15, true);
         			$(".checkFilter").each(function(){
@@ -239,9 +241,11 @@ function History() {
         			$("#input_table").dataTable().fnFilter("never appearing filter text", 15, true);
         			$("#filterText").html("No flare lists are shown.");
         		}
+            	$("#filterText").delay(500).fadeIn();
             });
             
             $("input:radio").change(function(){
+            	$("#filterText").hide();
                 var checkboxColumn = $(this).attr("column");
                 var filter_expression = "";
                 
@@ -251,7 +255,7 @@ function History() {
                 });
 
                 $("#input_table").dataTable().fnFilter(filter_expression, checkboxColumn, true);
-                
+                $("#filterText").delay(500).fadeIn();
             });
 
 

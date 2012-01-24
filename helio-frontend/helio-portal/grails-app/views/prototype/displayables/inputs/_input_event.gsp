@@ -50,7 +50,7 @@
     </td>
   </tr>
   <tr>
-  	<td colspan="3" id="filterText">All flare lists are shown.</td>
+  	<td colspan="3" style="height: 20px;"><span id="filterText">All flare lists are shown.</span></td>
   </tr>
   <tr>
     <td colspan="3">
