@@ -12,7 +12,7 @@ import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.clientapi.query.HelioQueryResult
-import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService
+import eu.heliovo.clientapi.query.HelioQueryService
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.registryclient.HelioServiceName
@@ -82,11 +82,11 @@ class BootStrap {
      */
     private def initEventListDescriptors(HelioClient helioClient) {
         // init the HEC configuration
-        AsyncQueryService service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE,null )
+        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE,null )
         HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
                 Arrays.asList("hec_catalogue"), null, 0, 0, null)
 
-        int timeout = 300
+        int timeout = 60
 
         // TODO: replace by Hibernate objects.
         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS)
