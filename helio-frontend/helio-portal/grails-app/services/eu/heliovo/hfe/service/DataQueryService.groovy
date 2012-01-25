@@ -46,16 +46,16 @@ class DataQueryService {
             return;
     	}
         def helioClient = new HelioClient();
-        AsyncQueryService service;
+        HelioQueryService service;
         HelioQueryResult result;
         
         switch (serviceName){
             case "ICS":
-            service = (AsyncQueryService)helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.ASYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
+            service = helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.SYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
             break;
             default:
             HelioServiceName helioServiceName = HelioServiceName.valueOf(serviceName.toUpperCase());
-            service = (AsyncQueryService)helioClient.getServiceInstance(helioServiceName, ServiceCapability.ASYNC_QUERY_SERVICE, null);
+            service = helioClient.getServiceInstance(helioServiceName, ServiceCapability.SYNC_QUERY_SERVICE, null);
             break;
 
         }
