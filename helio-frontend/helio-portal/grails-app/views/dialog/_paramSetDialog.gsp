@@ -34,7 +34,7 @@ Expected parameters:
                 </td>
                 <td>
                   <g:if test="${paramDescriptor.valueDomain}" >
-                    <g:select class="paramSetEntry" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}"/>
+                    <g:select class="paramSetEntry" id="${param.key}" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
                   </g:if>
                   <g:else>
                     <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramDescriptor.label}" value="${param.value}" />
