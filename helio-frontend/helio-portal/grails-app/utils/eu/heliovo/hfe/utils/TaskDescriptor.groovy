@@ -1,5 +1,6 @@
 package eu.heliovo.hfe.utils
 
+import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.SimpleParkerModelServiceImpl
@@ -10,12 +11,14 @@ import eu.heliovo.clientapi.processing.hps.impl.CmeBackwardPropagationModelImpl
 import eu.heliovo.clientapi.processing.hps.impl.CmePropagationModelImpl
 import eu.heliovo.clientapi.processing.hps.impl.SepPropagationModelImpl
 import eu.heliovo.clientapi.processing.hps.impl.SolarWindPropagationModelImpl
+import eu.heliovo.clientapi.processing.taverna.impl.TavernaWorkflow2283
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.registryclient.HelioServiceName
 import eu.heliovo.registryclient.ServiceCapability
 
 /**
  * Utility to get the task descriptor map. 
+ * TODO: needs some refactoring (i.e. move to clientapi).
  * 
  * @author MarcoSoldati
  *
@@ -29,6 +32,7 @@ class TaskDescriptor {
     * @return
     */
     private static def initTaskDescriptors() {
+/************* PROPAGATION MODEL *****************/
       ["pm_cme" : [
         "label" : "CME Forward Propagation Model (from Sun to objects)",
         "description" : "CME Propagation Model from the Sun to a collection of predefined objects.",
@@ -87,9 +91,7 @@ class TaskDescriptor {
               "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
               "paramSet" : [
                   "longitude" : [label : "Longitude", description : "Longitude in Degrees", type : Float, defaultValue : 0],
-                  "width" : [label : "Width", description : "Width in Degrees", type : Float, defaultValue : 45.0],
-                  "speed" : [label : "Speed", description : "Speed in km/s", type : Float, defaultValue : 600],
-                  "speedError" : [label : "SpeedError &plusmn;", description : "Speed Error in km/s", type : Float, defaultValue : 0]
+                  "speed" : [label : "Speed", description : "Speed in km/s", type : Float, defaultValue : 600]
               ]
           ],
           "outputParams" : [
@@ -119,6 +121,33 @@ class TaskDescriptor {
               "outerPlotUrl" : [id : "outerPlotUrl", label: "Plot of outer planets", type : "url" ],
           ]
       ],
+/************* TAVERNA *****************/
+      "tav_2283" : [
+        "label" : "Crossmatching of two HELIO event lists",
+        "description" : "Merge two HELIO event lists",
+        "serviceName" : HelioServiceName.TAVERNA_SERVER,
+        "serviceCapability" : ServiceCapability.TAVERNA_SERVER,
+        "serviceVariant" : TavernaWorkflow2283.SERVICE_VARIANT,
+        "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
+            "paramSet" : [
+                "catalogue1" : [label : "Catalogue 1", description : "1st Event list (not all HEC lists are supported)", type : String, defaultValue : "goes_sxr_flare", 
+                    valueDomain: ["goes_sxr_flare", "ngdc_halpha_flare", "noaa_energetic_event", "yohkoh_hxr_flare", 
+                        "kso_halpha_flare", "stereo_euvi_event", "wind_typeii_soho_cme", "ulysses_hxr_flare", 
+                        "timed_see_flare", "goes_flare_sep_event"]],
+                "catalogue2" : [label : "Catalogue 2", description : "2nd Event list", type : String, defaultValue : "ngdc_halpha_flare",
+                    valueDomain: ["goes_sxr_flare", "ngdc_halpha_flare", "noaa_energetic_event", "yohkoh_hxr_flare", 
+                        "kso_halpha_flare", "stereo_euvi_event", "wind_typeii_soho_cme", "ulysses_hxr_flare", 
+                        "timed_see_flare", "goes_flare_sep_event"]],
+                "timeDelta" : [label : "Time delta", description : "Max time delta between the two lists in seconds", type : Integer, defaultValue : 0],
+                "locationDelta" : [label : "Location delta", description : "Max delta in degrees", type : Double, defaultValue : 1.5d],
+            ]
+        ],
+        "outputParams" : [
+            "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+        ]
+      ],
+/************* PLOTS *****************/
       "goesplot" : [
         "label" : "GOES XRay timeline plot",
         "description" : "GOES XRay timeline plot",
@@ -158,8 +187,7 @@ class TaskDescriptor {
           "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
           "paramSet" : [
             "velocity" : [label : "Velocity", description : "Velocity in km/s (would speed be the better term?)", type : int, defaultValue : 400],
-            "inner" : [label : "Inner ?", description : "Width in Degrees", type : int, defaultValue : 4],
-            "outer" : [label : "Outer ?", description : "Speed in km/s", type : int, defaultValue : 0],
+            //"plotType" : [label : "Area to plot", description : "Plot inner or outer planets", type : PlotType, defaultValue : PlotType.INNER]
           ]
         ],
         "outputParams" : [

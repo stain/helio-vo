@@ -81,6 +81,7 @@ helio.AbstractDialog = function(options, task, taskName) {
     this.opts = $.extend({}, helio.AbstractDialog.defaults, options);
     this.task = task;
     this.taskName = taskName;
+    this.__active = false;
 };
 
 /**
@@ -109,9 +110,21 @@ helio.AbstractDialog.defaults = {
  * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
  */
 helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback) {
-    this.opts.close = closeCallback;
+    // prevent dialog from being shown twice (double click)
+    var THIS = this;
+    if (this.__active) {
+        return;
+    }
+    this.__active = true;
+    this.opts.close = function() {
+        THIS.__active = false;
+        closeCallback.call(THIS);
+        $(this).remove();
+    };
+    
     // display the dialog with the configured options.
     dialogNode.dialog(this.opts);
+    
     // set focus on ok button.
     $('.ui-dialog-buttonpane > button:last').focus();
 };
@@ -167,13 +180,17 @@ helio.TimeRangeSummary.prototype.init = function() {
     $.collapsible(".queryHeader","group1");
     
     // 3. click handler for time range dialogs
+    var active = false;
     $(".showTimeRangeDialog").click(function() {
+        if (active) return;
+        active = true;
         // get time range data from cache.
         var timeRanges = helio.cache[THIS.dataKey];
         
-        var dialog = new helio.TimeRangeDialog(THIS.task, THIS.taskName, timeRanges);
+        dialog = new helio.TimeRangeDialog(THIS.task, THIS.taskName, timeRanges);
         
         var closeCallback = function() {
+            active = false;
             populateSummary(dialog.timeRanges);
         };
         
@@ -642,8 +659,10 @@ helio.ParamSetDialog.prototype.__dialogActionOK = function() {
     params.config = new Object();
     params.data = new Object();
     $(".paramSetEntry").each(function() {
-        params["data"][$(this).attr('name')] = $(this).val();
-        params["config"][$(this).attr('name')] = {label:$(this).attr('title')};
+        if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
+            params["data"][$(this).attr('name')] = $(this).val();
+            params["config"][$(this).attr('name')] = {label:$(this).attr('title')};
+        }
     });
     
     this.paramSet.params = params;
@@ -692,8 +711,19 @@ helio.ParamSetDialog.prototype.init = function(closeCallback) {
     $("#dialog_placeholder").replaceWith(this.dialog);
     
     if (this.paramSet) {
-        for (var paramName in this.paramSet.params) {
-            $("input[name='"+paramName+"']").val(this.paramSet.params[paramName].value);
+        for (var paramName in this.paramSet.params.data) {
+            var input = $("input[name='"+paramName+"']");
+            // handle radio buttons
+            if (input.length) {
+                if (input.attr("type") == 'radio') {
+                    $("input[value='"+this.paramSet.params.data[paramName]+"']").prop('checked', true);
+                } else {
+                    input.val(this.paramSet.params.data[paramName]);
+                }
+            } else {
+                // try to set select box
+                $("select[name='"+paramName+"'] option[value='"+this.paramSet.params.data[paramName]+"']").prop('selected', true);
+            }
         }
         $("#param_set_name").val(this.paramSet.name); 
     } else {

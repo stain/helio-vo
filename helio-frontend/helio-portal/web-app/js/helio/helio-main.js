@@ -39,6 +39,7 @@ $(document).ready(function() {
     // create the dropdown menu
     new helio.DropdownMenu("task_propagationmodel", pmMenu);
     
+    
     // create the dropdown menu for the plotservcie
     new helio.DropdownMenu("task_plotservice", {
         "task_plotservice_goes" : 
@@ -152,6 +153,24 @@ $(document).ready(function() {
                     task.init.call(task);
                 });
             }
+        },
+    });
+    
+    // create the dropdown menu for taverna.
+    new helio.DropdownMenu("task_taverna", {
+        "task_tav_2283" : 
+        { 
+          "title": "Combine Event Lists",
+          "click": function() {
+            $('#content').load('../task/propagationModel?taskName=tav_2283', function() {
+              var task = helio.taskMap.findByName("tav_2283");
+              if (!task) {
+                task = new helio.PropagationModelTask("tav_2283");
+                helio.taskMap.put("tav_2283", task);
+              }
+              task.init.call(task);
+            });
+          }
         },
     });
 });

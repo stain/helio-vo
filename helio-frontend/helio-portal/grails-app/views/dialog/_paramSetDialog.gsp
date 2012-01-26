@@ -30,12 +30,18 @@ Expected parameters:
               <g:set var="paramDescriptor" value="${taskDescriptor.inputParams.paramSet[param.key]}" />
               <tr>
                 <td>
-                  ${paramDescriptor.label}
+                  <b>${paramDescriptor.label}&nbsp;</b>
                 </td>
                 <td>
                   <g:if test="${paramDescriptor.valueDomain}" >
                     <g:select class="paramSetEntry" id="${param.key}" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
                   </g:if>
+                  <g:elseif test="${paramDescriptor.type.isEnum()}" >
+                    <g:each var="type" in="${paramDescriptor.type.values()}">
+                      <g:radio class="paramSetEntry" name="${param.key}" value="${type}" checked="${type == param.value}" title="${paramDescriptor.label}"/>
+                      <g:message code="${type.label}" /><br/>
+                    </g:each>
+                  </g:elseif>
                   <g:else>
                     <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramDescriptor.label}" value="${param.value}" />
                   </g:else>

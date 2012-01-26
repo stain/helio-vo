@@ -1,14 +1,24 @@
 /**
  * Main CSS file for the HFE
  */
+
+#splash_screen ul, ol {
+  padding-left: 25px;
+}
  
- ul, ol {
-    padding-left: 25px;
- }
+#splash_screen li {
+  padding-left: 0px;
+}
  
- li {
-    padding-left: 0px;
- }
+#extra_list_form li, #extra_list li {
+    font-size: 0.9em;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #333;
+    color: black;
+    list-style-type:none;
+    line-height: 1.6em;
+}
  
 /***************** CSS related to TASKS *********************/
 /**

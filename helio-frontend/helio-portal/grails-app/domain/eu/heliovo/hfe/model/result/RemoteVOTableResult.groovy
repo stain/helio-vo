@@ -14,7 +14,7 @@ class RemoteVOTableResult extends HelioResult {
     * The URL where the result is coming from.
     * Unique
     */
-   URL url;
+   String url;
    
    static constraints = {
        

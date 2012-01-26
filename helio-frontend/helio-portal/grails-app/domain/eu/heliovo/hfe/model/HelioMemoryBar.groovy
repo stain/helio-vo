@@ -18,5 +18,6 @@ class HelioMemoryBar {
 
     static constraints = {
          id column:'hUID'
+         html type: 'text', maxSize:65536
     }
 }

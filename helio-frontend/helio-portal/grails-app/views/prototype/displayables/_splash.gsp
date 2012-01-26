@@ -1,4 +1,4 @@
-<div style="margin:20px">
+<div id="splash_screen" style="margin:20px">
   <h2 style="color:orange;padding-bottom:10px;border-bottom: 1px solid black">Welcome to the HELIO Front End</h2>
   <input id="task_name" name="taskName" type="hidden" value="splash"/>
 
@@ -10,6 +10,8 @@
         <ul>
             <li>23-Jan-2012: DES plots - see "Advanced-Plot".</li>
             <li>24-Jan-2012: Propagation Models - "See Advanced-Propagation Model".</li>
+            <li>25-Jan-2012: Speed improvements on query services, some cleaning up</li>
+            <li>26-Jan-2012: Addition of Taverna workflow. Minor fixes in SolarWind PM and Parker Spiral plot.</li>
         </ul>
         
         <h4 style="margin-top:10px;">How to use this interface</h4>

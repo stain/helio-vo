@@ -112,6 +112,17 @@
                   <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>
                 </td>
               </g:if>
+              <g:if env="development">              
+                <td>
+                  <div>
+                    <div id="task_taverna" title="Select a Taverna Workflow">Workflows</div><div
+                    id="task_propagationmodel_select">Select a Taverna Workflow</div>
+                  </div>
+                  <ul id="task_taverna_menu" class="menu" style="display: none;">
+                      <li id="task_tav_2283">Combine two event lists</li>
+                  </ul>
+                </td>
+              </g:if>
             </tr>
           </table>
         </div>

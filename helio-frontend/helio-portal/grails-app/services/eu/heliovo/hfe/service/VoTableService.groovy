@@ -1,8 +1,8 @@
 package eu.heliovo.hfe.service
 
-import java.io.ObjectInputStream.HandleTable.HandleList;
+import java.net.Authenticator
+import java.net.PasswordAuthentication
 
-import org.aspectj.asm.internal.HandleProviderDelimiter;
 import org.springframework.web.multipart.MultipartFile
 import org.w3c.dom.NodeList
 
@@ -72,7 +72,7 @@ class VoTableService {
             votableModel = STILUtils.readVOElement(new ByteArrayInputStream(helioResult.voTableContent.getBytes()), helioResult.originalFileName);
             //votableModel = STILUtils.readVOElement(new URL("http://hec.ts.astro.it/hec/hec_gui_fetch.php?cmd=http%3A%2F%2Fhec.ts.astro.it%3A8081%2Fstilts%2Ftask%2Fsqlclient%3Fdb%3Djdbc%3Apostgresql%3A%2F%2Fhec.ts.astro.it%2Fhec%26user%3Dapache%26sql%3Dselect+%2A+from+goes_sxr_flare+where+time_start%3E%3D%272011-02-09+00%3A00%3A00%27+AND+time_start%3C%3D%272011-03-09+23%3A59%3A59%27%26ofmt%3Dvotable&type=votable"));
         } else if (helioResult instanceof RemoteVOTableResult) {
-            votableModel = STILUtils.readVOElement(helioResult.url);
+            votableModel = STILUtils.readVOElement(new URL(helioResult.url));
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }

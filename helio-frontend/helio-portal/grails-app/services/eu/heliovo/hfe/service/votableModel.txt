@@ -1,0 +1,47 @@
+tableModel
++-id
++-fileName
++-description
++-actions=[info|download|extract]+
++-infos*
+  +-id
+  +-name
+  +-description
+  +-value
++-tables*
+  +-id
+  +-name
+  +-description
+  +-type [empty_resource|table]
+  +-actions=[info|download]+
+  +-infos
+    +-id
+    +-name
+    +-description
+    +-value
+  +-fields?
+    +-field
+      +-id
+      +-name
+      +-description
+      +-nullValue
+      +-ucd
+      +-unit
+      +-utype
+      +-xtype
+      +-rendering_hint=[date|text|url|hidden]
+  +-links*
+    +-link
+      +-id
+      +-name
+      +-description
+      +-handle // title
+      +-href
+  +-params*
+    +-param
+      +-id
+      +-name
+      +-description
+      +-value
+      +-object  // value as Java object
+  +-data :: import uk.ac.starlink.votable.VOStarTable
