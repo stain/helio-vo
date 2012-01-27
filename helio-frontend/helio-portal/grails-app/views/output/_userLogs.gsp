@@ -10,7 +10,7 @@ Excpected model:
     <g:each var="record" in="${userLogs}" >
       <tr>
         <td valign="top" align="left">${record.level}</td>
-        <td valign="top" align="left"><pre>${record.message}</pre></td>
+        <td valign="top" align="left"><pre style="white-space: pre-wrap;">${record.message.encodeAsHTML()}</pre></td>
       </tr>
     </g:each>
   </table>

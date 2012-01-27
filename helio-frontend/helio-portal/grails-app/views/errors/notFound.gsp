@@ -1,13 +1,11 @@
 <html>
   <head>
-	  <title>Oops</title>
+	  <title>Error</title>
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo.css')}" />
-
 <link rel="stylesheet" href="${resource(dir:'css',file:'navbar.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'prototype.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo_table.css')}" />
 <link rel="stylesheet" href="${resource(dir:'css',file:'demo_page.css')}" />
-
   </head>
 
   <body style="margin:10px">

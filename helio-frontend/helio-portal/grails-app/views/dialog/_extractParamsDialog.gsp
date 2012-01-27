@@ -44,13 +44,13 @@ Expected parameters:
                 </thead>
                 <tbody>
                   <%-- loop over all fields that can be used for the current parameter --%>
-                  <g:each var="field" in="${paramType.fields}" status="i">
+                  <g:each var="field" in="${paramType.fields}" status="j">
                     <tr>
                       <td>
                         ${field.label}
                       </td>
                       <td>
-                        <g:select class="paramSetEntry" id="${paramType.id}_${field.id}" name="${field.id}" value="${field.mappedto}" from="${field.mappedto_range}" title="Use column ${field.label} as field in ${paramType.label}"/>
+                        <g:select class="paramSetEntry" id="${paramType.id}_${field.id}" name="${field.id}" value="${field.mappedTo}" from="${paramType.mappedToRange}" title="Use column ${field.label} as field in ${paramType.label}"/>
                       </td>
                     </tr>
                   </g:each>

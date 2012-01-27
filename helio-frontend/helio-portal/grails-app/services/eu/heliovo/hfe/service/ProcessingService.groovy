@@ -85,8 +85,9 @@ class ProcessingService {
             // update task status
             task.lastKnownStatus = HelioWorkerServiceHandler.Phase.COMPLETED
             task.save()
+            model.status = "Data sucessfully loaded!"
         } catch (Exception e) {
-            result.userLogs.each {println it.message}
+            model.status = "Exception while loading data: " + e.getMessage() + ". Check the logs for more information."
         } finally {
             model.userLogs = result.userLogs
         }

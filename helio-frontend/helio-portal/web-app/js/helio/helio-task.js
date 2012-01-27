@@ -111,22 +111,27 @@ helio.PropagationModelTask.prototype._submitQuery = function() {
             $('#details_link').click(function() {
                 var pre = $('<pre></pre>');
                 pre.append(errorThrown);
+                pre.append(jqXHR.responseText)
                 errorMessage.append(pre);
+                
                 pre.dialog();
             });
         },
-        success: function(data) { 
+        success: function(data, textStatus, jqXHR) { 
             submitDialog.close(); 
+            var status = jqXHR.getResponseHeader('status');
+            if (!status) status = "Data sucessfully loaded";
+            $('#perform_query_text').html(status);
+            
             THIS._handleResult.call(THIS, data); 
         },
         complete: function(jqXHR, textStatus) {
             submitDialog.close(); // if not already closed
             switch (textStatus) {
             case "success":
-                $('#perform_query_text').html("Data sucessfully loaded");
                 break;
             case "error":
-                //$('#perform_query_text').html("Error occurred");
+                $("#task_result_area").html();
                 break;
             case "abort":
                 $('#perform_query_text').html("Cancelled by user");
