@@ -41,6 +41,30 @@ helio.SubmitMessage.prototype.close = function() {
     $.unblockUI();
 };
 
+/**
+ * Create a dialog to display a server side error message.
+ * @returns {helio.ErrorMessageDialog}
+ */
+helio.ErrorMessageDialog = function(title, message) {
+    this.title = title;
+    this.message = message;
+};
+
+/**
+ * Open the dialog
+ */
+helio.ErrorMessageDialog.prototype.open = function() {
+    var div = $('<div></div>');
+    div.append(this.message);
+    div.dialog({
+        modal:true,
+        title: this.title,
+        closeText : 'close',
+        height:530,
+        width:700,
+    });
+};
+
 /***************************** DATA SUMMARY ************************************/
 
 /**
