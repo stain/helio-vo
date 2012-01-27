@@ -112,7 +112,7 @@
                   <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>
                 </td>
               </g:if>
-              <g:if env="development">              
+              <g:if env="development" test="${false}">
                 <td>
                   <div>
                     <div id="task_taverna" title="Select a Taverna Workflow">Workflows</div><div
