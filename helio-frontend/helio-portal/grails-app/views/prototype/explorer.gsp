@@ -50,7 +50,8 @@
         <ul>
           <li><a href="#tabs-2">Services</a></li>
           <li><a href="#tabs-3">Advanced</a></li>
-          <li><a href="#tabs-4">Administration</a></li>
+          <li><a href="#tabs-4">Beta</a></li>
+          <li><a href="#tabs-5">Administration</a></li>
         </ul>
         <div id="tabs-2">
           <table>
@@ -59,10 +60,10 @@
                 <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
               </td>
               <td>
-                <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Search Instruments by Capability</div>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Find instruments by capability</div>
               </td>
               <td>
-                <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Search Instruments by Location</div>
+                <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Locate planets/instruments by time</div>
               </td>
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
@@ -73,9 +74,6 @@
         <div id="tabs-3">
           <table>
             <tr>
-              <td><div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div></td>
-    <%--td><div style="display:block" class="menu_item custom_button"  id="task_uploadVOTable">Propagation Model(disabled)</div></td--%>
-    <%--td><div style="display:block" class="menu_item custom_button"  id="task_chart">Chart Browsing</div></td--%>
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
               </td>
@@ -85,14 +83,14 @@
                   id="task_plotservice_select">Select a Plot</div>
                 </div>
                 <ul id="task_plotservice_menu" class="menu" style="display: none;">
-                  <li style="display:block;" id="task_plotservice_goes">Goes timeline plot</li>
-                  <li style="display:block;" id="task_plotservice_flare">SOHO EIT flare plot</li>
-                  <li style="display:block;" id="task_plotservice_parker">Simple Parker Spiral</li>
-                  <li style="display:block;" id="task_plotservice_ace">ACE timeline</li>
-                  <li style="display:block;" id="task_plotservice_sta">STEREO-A timeline</li>
-                  <li style="display:block;" id="task_plotservice_stb">STEREO-B timeline</li>
-                  <li style="display:block;" id="task_plotservice_ulysses">Ulysses timeline</li>
-                  <li style="display:block;" id="task_plotservice_wind">WIND timeline</li>
+                  <li id="task_plotservice_goes">GOES timeline plot</li>
+                  <li id="task_plotservice_flare">Flare plot</li>
+                  <li id="task_plotservice_parker">Simple Parker Spiral</li>
+                  <li id="task_plotservice_ace">ACE timeline</li>
+                  <li id="task_plotservice_sta">STEREO-A timeline</li>
+                  <li id="task_plotservice_stb">STEREO-B timeline</li>
+                  <li id="task_plotservice_ulysses">Ulysses timeline</li>
+                  <li id="task_plotservice_wind">WIND timeline</li>
                 </ul>
               </td>
               <g:if env="development">              
@@ -102,10 +100,10 @@
                     id="task_propagationmodel_select">Select a Propagation Model</div>
                   </div>
                   <ul id="task_propagationmodel_menu" class="menu" style="display: none;">
-                      <li id="task_propagationmodel_pm_cme">CME Forward Propagation Model</li>
-                      <li id="task_propagationmodel_pm_cme_back">CME Backward Propagation Model</li>
-                      <li id="task_propagationmodel_pm_sw">Solar Wind Propagation Model</li>
-                      <li id="task_propagationmodel_pm_sep">Solar Energetic Particles Propagation Model</li>
+                      <li id="task_propagationmodel_pm_cme" >CME Forward Propagation Model</li>
+                      <li id="task_propagationmodel_pm_cme_back" >CME Backward Propagation Model</li>
+                      <li id="task_propagationmodel_pm_sw" >Solar Wind Propagation Model</li>
+                      <li id="task_propagationmodel_pm_sep" >Solar Energetic Particles Propagation Model</li>
                   </ul>
                 </td>
                 <td>
@@ -127,6 +125,15 @@
           </table>
         </div>
         <div id="tabs-4">
+          <table>
+            <tr>
+              <td>
+                <div style="display:block" class="menu_item custom_button"  id="task_datamining">In-situ Data Mining (beta)</div>
+              </td>            
+            </tr>
+          </table>
+        </div>
+        <div id="tabs-5">
           <table>
             <tr>
               <td>

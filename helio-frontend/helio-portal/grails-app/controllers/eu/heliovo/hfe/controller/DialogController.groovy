@@ -2,6 +2,7 @@ package eu.heliovo.hfe.controller
 
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
+import eu.heliovo.hfe.model.result.HelioResult;
 import eu.heliovo.hfe.model.result.RemotePlotResult
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.hfe.utils.TaskDescriptor;
@@ -11,6 +12,11 @@ class DialogController {
      * Auto-wire the defaults service.
      */
     def defaultsService
+
+    /**
+     * Auto wire the extractParamsService    
+     */
+    def extractParamsService
     
     def index = { }
     
@@ -58,6 +64,23 @@ class DialogController {
         }
         
         render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet, taskDescriptor : taskDescriptor])
+    }
+    
+    def extractParamDialog = {
+        def tableId = params.tableId
+        def tableIndex = params.tableIndex
+        
+        if (tableId == null || tableIndex == 0) {
+            throw new RuntimeException("Got invalid parameters.")
+        }
+        
+        def votable = HelioResult.get(tableId)
+        
+        extractParamsService.createExtractionModel(votable, tableIndex)
+        
+        render (template: "/dialog/extractParamsDialog", model: [])
+        
+        
     }
     
 //    def plotResult = {

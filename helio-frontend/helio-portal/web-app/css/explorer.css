@@ -137,7 +137,10 @@ ul.menu {
 
 ul.menu li {
 	border: none;
+	padding: 2px 5px;
 }
+
+
 
 details_link {
     text-decoration: underline;

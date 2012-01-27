@@ -51,7 +51,9 @@ class PlotController {
             
             // execute the query (this adds the tasks to the output params).
             def model = plotService.plot(task)
-            //def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+            if (model.status) {
+                response.setHeader("status", model.status)
+            }
             
             render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
         } else {

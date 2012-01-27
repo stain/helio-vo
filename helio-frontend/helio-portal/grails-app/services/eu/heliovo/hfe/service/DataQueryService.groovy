@@ -51,7 +51,7 @@ class DataQueryService {
         
         switch (serviceName){
             case "ICS":
-                service = helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.SYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
+                service = helioClient.getServiceInstance(HelioServiceName.ICS, ServiceCapability.ASYNC_QUERY_SERVICE, "ivo://helio-vo.eu/ics/ics_pat");
             break;
             case "DES":
                 service = helioClient.getServiceInstance(HelioServiceName.DES, ServiceCapability.ASYNC_QUERY_SERVICE, null);

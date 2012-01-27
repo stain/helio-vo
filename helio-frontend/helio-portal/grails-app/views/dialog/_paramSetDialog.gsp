@@ -53,6 +53,13 @@ Expected parameters:
                 </td>
               </tr>
             </g:each>
+            <g:if test="${taskDescriptor.helpImage}" >
+              <tr>
+                <td colspan="3" > 
+                  <img src="${resource(dir:'images/helio/hps', file:taskDescriptor.helpImage)}" style="height:220px; margin-top:10px"/>
+                </td>
+              </tr>
+            </g:if>
           </tbody>
         </table>
       </td>

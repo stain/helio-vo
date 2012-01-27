@@ -1,12 +1,13 @@
 package eu.heliovo.hfe.utils
 
-import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.SimpleParkerModelServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.des.AcePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.des.StaPlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.des.StbPlotterServiceImpl
+import eu.heliovo.clientapi.processing.context.impl.des.UlyssesPlotterServiceImpl
+import eu.heliovo.clientapi.processing.context.impl.des.WindPlotterServiceImpl
 import eu.heliovo.clientapi.processing.hps.impl.CmeBackwardPropagationModelImpl
 import eu.heliovo.clientapi.processing.hps.impl.CmePropagationModelImpl
 import eu.heliovo.clientapi.processing.hps.impl.SepPropagationModelImpl
@@ -39,6 +40,7 @@ class TaskDescriptor {
         "serviceName" : HelioServiceName.HPS,
         "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
         "serviceVariant" : CmePropagationModelImpl.SERVICE_VARIANT,
+        "helpImage" : "exp_cme.png",
         "inputParams" : [
             "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
             "paramSet" : [
@@ -61,6 +63,7 @@ class TaskDescriptor {
           "serviceName" : HelioServiceName.HPS,
           "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
           "serviceVariant" : CmeBackwardPropagationModelImpl.SERVICE_VARIANT,
+          "helpImage" : "exp_cme.png",
           "inputParams" : [
               "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
               "paramSet" : [
@@ -87,6 +90,7 @@ class TaskDescriptor {
           "serviceName" : HelioServiceName.HPS,
           "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
           "serviceVariant" : SolarWindPropagationModelImpl.SERVICE_VARIANT,
+          "helpImage" : "exp_sw.png",
           "inputParams" : [
               "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
               "paramSet" : [
@@ -106,6 +110,7 @@ class TaskDescriptor {
           "serviceName" : HelioServiceName.HPS,
           "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
           "serviceVariant" : SepPropagationModelImpl.SERVICE_VARIANT,
+          "helpImage" : "exp_sep.png",
           "inputParams" : [
               "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
               "paramSet" : [
@@ -241,7 +246,7 @@ class TaskDescriptor {
         "description" : "Ulysses timeline plot",
         "serviceName" : HelioServiceName.DES,
         "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
-        "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
+        "serviceVariant" : UlyssesPlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
           "timeRanges" : ["timeRanges" : [type : TimeRange.class]]
@@ -255,7 +260,7 @@ class TaskDescriptor {
           "description" : "WIND timeline plot",
           "serviceName" : HelioServiceName.DES,
           "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
-          "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
+          "serviceVariant" : WindPlotterServiceImpl.SERVICE_VARIANT,
           "timeout" : 60,
           "inputParams" : [
             "timeRanges" : ["timeRanges" : [type : TimeRange.class]]

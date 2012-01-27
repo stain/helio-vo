@@ -251,7 +251,7 @@ helio.PlotTask.prototype._submitQuery = function() {
         url: "../plot/plot",
         type: "POST",
         data: {bindings : modelParam},
-        error : function(jqXHR, textStatus, errorThrown) {
+        error :  function(jqXHR, textStatus, errorThrown) {
             submitDialog.close();
             if (textStatus == "abort") {
                 // nothing to do
@@ -259,14 +259,14 @@ helio.PlotTask.prototype._submitQuery = function() {
             }
             
             var errorMessage = $('<div class="errorMessage"></div>');
-            errorMessage.append('Message: ' + textStatus + ' (<span id="details_link">details</span>)');
+            var status = jqXHR.getResponseHeader('status');
+            if (!status) status = textStatus;
+
+            errorMessage.append('Message: ' + status + ' (<span id="details_link" style="text-decoration:underline; cursor:pointer">click for details</span>)');
             $('#perform_query_text').html(errorMessage);
             
             $('#details_link').click(function() {
-                var pre = $('<pre></pre>');
-                pre.append(errorThrown);
-                errorMessage.append(pre);
-                pre.dialog();
+                new helio.ErrorMessageDialog(errorThrown, jqXHR.responseText).open();
             });
         },
         success: function(data) { 

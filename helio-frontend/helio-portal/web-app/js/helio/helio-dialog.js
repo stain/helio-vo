@@ -773,4 +773,130 @@ helio.ParamSetDialog.prototype.show = function(closeCallback) {
     }
 };
 
+/**
+ * ExtractParamsDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
+ * When the dialog gets closed it is filled with the current values.
+ * Note: The object is not touched while the dialog entries are modified.  
+ * 
+ */
+helio.ExtractParamsDialog = function(task, taskName, extractedParams) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
+    this.task = task;
+    this.taskName = taskName;
+    this.paramSet = paramSet;  // may be null
+    this.dialog = undefined; // store the dialog
+};
+
+//create ExtractParamsDialog as subclass of AbstractDialog
+helio.ExtractParamsDialog.prototype = new helio.AbstractDialog;
+helio.ExtractParamsDialog.prototype.constructor = helio.ExtractParamsDialog;
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.ExtractParamsDialog.prototype.__dialogActionOK = function() {
+    // fill paramSet with updated values
+    if(!this.paramSet) {
+        this.paramSet = new helio.ParamSet(this.taskName);
+    }
+
+    // fill the param set object
+    var params = new Object();
+    params.config = new Object();
+    params.data = new Object();
+    $(".paramSetEntry").each(function() {
+        if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
+            params["data"][$(this).attr('name')] = $(this).val();
+            params["config"][$(this).attr('name')] = {label:$(this).attr('title')};
+        }
+    });
+    
+    this.paramSet.params = params;
+    this.paramSet.name = $("#param_set_name").val();
+        
+    $("#paramSetDialog").dialog( "close" ); // this should trigger the closeCallback
+    $("#paramSetDialog").remove();
+};
+
+/**
+ * A configuration object for the param set dialog
+ */
+helio.ExtractParamsDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
+    
+    return {
+        title : "Select Parameter",
+        buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Parameter Selection");
+                $('#help_overlay p').text("Fill out the parameters you are interested in and click Ok." +
+                        "Move your mouse over the parameter title to see some help text.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+            Ok: function() {
+                THIS.__dialogActionOK();
+            }
+        }
+    };
+};
+
+/**
+ * init the dialog
+ * @param {function} closeCallback a call back that is executed after the dialog has been closed.
+ */
+helio.ExtractParamsDialog.prototype.init = function(closeCallback) {
+    
+    // attach the current dialog
+    $("#dialog_placeholder").replaceWith(this.dialog);
+    
+    if (this.paramSet) {
+        for (var paramName in this.paramSet.params.data) {
+            var input = $("input[name='"+paramName+"']");
+            // handle radio buttons
+            if (input.length) {
+                if (input.attr("type") == 'radio') {
+                    $("input[value='"+this.paramSet.params.data[paramName]+"']").prop('checked', true);
+                } else {
+                    input.val(this.paramSet.params.data[paramName]);
+                }
+            } else {
+                // try to set select box
+                $("select[name='"+paramName+"'] option[value='"+this.paramSet.params.data[paramName]+"']").prop('selected', true);
+            }
+        }
+        $("#param_set_name").val(this.paramSet.name); 
+    } else {
+        // just keep the values set on the server side.
+    }
+    
+    // show the input dialog
+    this.__showDialog($("#paramSetDialog"), closeCallback);
+};
+
+/**
+ * Load the dialog from remote and display it.
+ * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
+ *  
+ */
+helio.ExtractParamsDialog.prototype.show = function(closeCallback) {
+    if (this.dialog === undefined) {
+        var THIS = this;
+        var init = "last_task"; // should the template be initialized on the server side.
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+    } else {
+        this.init(closeCallback);
+    }
+};
+
+
 })();
