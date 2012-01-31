@@ -26,6 +26,7 @@
 <g:javascript src="/helio/helio-dialog.js"/><%--functions related to dialogs--%>
 <g:javascript src="/helio/helio-result.js"/><%--classes related to result display--%>
 <g:javascript src="/helio/helio-task.js"/><%--functions related to tasks--%>
+<g:javascript src="/helio/helio-datacart.js"/><%--the data cart--%>
 
 <g:javascript src="/helio/ActionViewer.js"/>
 <g:javascript src="/helio/HelioAjax.js"/>

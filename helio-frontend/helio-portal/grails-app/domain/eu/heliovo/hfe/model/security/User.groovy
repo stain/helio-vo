@@ -41,6 +41,6 @@ class User {
     
     @Override
     public String toString() {
-        "id " + id + "user " + username
+        "USER: [id:" + id + ", user:" + username + "]"
     }
 }

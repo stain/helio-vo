@@ -41,6 +41,8 @@ grails.enable.native2ascii = true
 // enable GSP preprocessing: replace head -> g:captureHead, title -> g:captureTitle, meta -> g:captureMeta, body -> g:captureBody
 grails.views.gsp.sitemesh.preprocess = true
 
+grails.converters.json.default.deep = true
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
@@ -48,6 +50,7 @@ environments {
     }
     development {
         grails.serverURL = "http://localhost:8080/${appName}"
+        grails.converters.json.pretty.print = true
     }
     test {
         grails.serverURL = "http://localhost:8080/${appName}"
@@ -71,7 +74,8 @@ log4j = {
               
 
      info 'grails.app.controller',
-          'grails.app.service'
+          'grails.app.service',
+          'eu.heliovo.clientapi'
            
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers

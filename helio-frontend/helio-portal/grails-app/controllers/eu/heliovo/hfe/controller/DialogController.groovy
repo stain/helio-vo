@@ -25,6 +25,8 @@ class DialogController {
      */
     def timeRangeDialog = {
         def taskName = params.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        assert taskDescriptor != null, "Unable to find descriptor for task: " + taskName
         def initMode = InitMode.valueOf(params.init)
         
         def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0]
@@ -42,7 +44,7 @@ class DialogController {
            default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
         
-        render (template: "/dialog/timeRangeDialog", model: [ timeRange : timeRange, defaultTimeRange : defaultTimeRange])
+        render (template: "/dialog/timeRangeDialog", model: [ timeRange : timeRange, defaultTimeRange : defaultTimeRange, taskDescriptor: taskDescriptor])
     }
     
     def paramSetDialog = {

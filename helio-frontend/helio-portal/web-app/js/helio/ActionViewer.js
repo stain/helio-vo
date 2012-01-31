@@ -73,10 +73,10 @@ function ActionViewer() {
                 var time_end = -1;
                 for(var j = 0;j< settings.aoColumns.length;j++){
                     if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
-                        time_start=j;
+                        time_start=j + 1;
                     }
                     if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
-                        time_end=j;
+                        time_end=j + 1;
                     }
                 }//end j
                 var times =$($(this).parent().children()[time_start]).text();

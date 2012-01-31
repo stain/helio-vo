@@ -2,6 +2,8 @@ package eu.heliovo.hfe.model.param
 
 import org.codehaus.groovy.grails.validation.Validateable
 
+import eu.heliovo.hfe.model.security.User
+
 /**
  * Parameter holding a collection of time ranges.
  * @author MarcoSoldati
@@ -9,31 +11,22 @@ import org.codehaus.groovy.grails.validation.Validateable
  */
 class TimeRangeParam extends AbstractParam {
     /**
-     * Start dates list
+     * Wire the spring security service.
      */
-    List<TimeRange> timeRanges = new ArrayList<TimeRange>()
+    transient springSecurityService
+    
+    /**
+     * list of time ranges.
+     */
+    List<TimeRange> timeRanges
 
     static constraints = {
         timeRanges validator : { it.every{it?.validate() }}
     }
-
-	 static mapping = {
-	     tablePerHierarchy false
-	 }
 	
-    /**
-     * Default constructor
-     */
-    public TimeRangeParam() {
-    }
-
-    /**
-     * Convenience constructor for a time range param
-     */
-    public TimeRangeParam(Date startTime, Date endTime) {
-        this()
-        addTimeRange(startTime, endTime)
-    }
+    static hasMany = [
+        timeRanges : TimeRange    
+    ]
 
     /**
      * Add the date range to the current date parameter.
@@ -41,8 +34,8 @@ class TimeRangeParam extends AbstractParam {
      * @param endTime the end date.
      */
     public void addTimeRange(Date startTime, Date endTime) {
-        def tr = new TimeRange(startTime, endTime)
-        timeRanges.add(tr)
+        def tr = new TimeRange(startTime : startTime, endTime: endTime)
+        this.addToTimeRanges(tr)
     }
 
     public String toString() {
@@ -78,63 +71,13 @@ class TimeRangeParam extends AbstractParam {
         }
         return min
     }
-}
-
-/**
- * Container to hold a time range.
- * @author MarcoSoldati
- *
- */
-@Validateable
-class TimeRange {
-    /**
-     * The id of this time range
-     */
-    Long id
     
     /**
-     * The version counter for the time range.
-     */
-    Long version
-
-    /**
-     * Start date
-     */
-    Date start
-
-    /**
-     * End date
-     */
-    Date end
-
-    /**
-     * Default constructor
-     */
-    TimeRange() {
-
-    }
-
-    /**
-     * Create a time range.
-     * @param start the start date.
-     * @param end the end date.
-     */
-    TimeRange(Date start, Date end) {
-        this.start = start
-        this.end = end
-    }
-
-    static constraints = {
-        start (validator: { val, obj ->
-            // ensure the start date is  before the end date.
-            if (val.after(obj.end)) {
-                return ['endtime.before.starttime']
-            }
-            return true
-        })
-    }
-
-    public String toString() {
-        return "" + start + "-" + end
-    }
+    * Assign user if required.
+    */
+   def beforeValidate() {
+       if (!owner) {
+           owner = User.get(springSecurityService.principal.id)
+       }
+   }
 }

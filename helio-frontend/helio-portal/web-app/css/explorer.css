@@ -140,10 +140,70 @@ ul.menu li {
 	padding: 2px 5px;
 }
 
-
+.ui-buttonset {
+    margin-right: 2px;
+}
 
 details_link {
     text-decoration: underline;
     color: blue;
     cursor: pointer;
+}
+
+/*************************** CSS related to the data cart area *************************/
+#datacart_container {
+    height: 90px;
+    width: auto;
+}
+
+#datacart_scrollarea {
+    height: 63px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 2500px;
+}
+
+#datacart_slider {
+    background: none repeat scroll 0 0 #BBBBBB;
+    float: left;
+    height: 6px;
+    margin: 5px;
+    position: relative;
+    width: 100%;
+}
+
+.cartitem {
+    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
+    box-shadow: 0 0 2px #000000;
+    float: left;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding: 2px 0 3px 4px;
+    white-space: normal;
+    width: 72px;
+    height: 50px;
+    cursor: move;
+}
+
+
+.cartitem_image {
+    height: 35px;
+    width: 35px;
+    -moz-user-select: none;
+}
+
+.cartitem_label {
+	color: white;
+}
+
+.cartitem_edit {
+	float: right;
+	cursor: pointer;
+}
+
+.cartitem_close {
+    float: right;
+	cursor: pointer;
 }

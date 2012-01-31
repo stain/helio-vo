@@ -65,7 +65,7 @@ helio.ErrorMessageDialog.prototype.open = function() {
     });
 };
 
-/***************************** DATA SUMMARY ************************************/
+/***************************** DATA SUMMARY AND DIALOG ************************************/
 
 /**
  * Base class for dialog summary.
@@ -142,7 +142,8 @@ helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback
     this.__active = true;
     this.opts.close = function() {
         THIS.__active = false;
-        closeCallback.call(THIS);
+        if (closeCallback)
+            closeCallback.call(THIS);
         $(this).remove();
     };
     
@@ -151,6 +152,13 @@ helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback
     
     // set focus on ok button.
     $('.ui-dialog-buttonpane > button:last').focus();
+};
+
+/**
+ * Get the data object assigned with this dialog
+ */
+helio.AbstractDialog.prototype.data = function() {
+    return null;
 };
 
 /**
@@ -182,7 +190,7 @@ helio.TimeRangeSummary.prototype.init = function() {
             // loop over the time ranges
             for(var i = 0; i < timeRanges.timeRanges.length; i++) {
                 var timeRange =  timeRanges.timeRanges[i];
-                table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.start + ' - ' + timeRange.end + '</td></tr>');
+                table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.start + (timeRange.start != timeRange.end ? ' - ' + timeRange.end : '') + '</td></tr>');
             }
             $("#time_range_summary_text").html(table);
 
@@ -264,7 +272,7 @@ helio.TimeRangeDialog.prototype.constructor = helio.TimeRangeDialog;
  * The action to be executed when the Ok button is pressed.
  */
 helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
-    //Validate date ranges and if and error is found, notify the user and stop thread
+    //Validate date ranges and if error is found, notify the user and stop thread
     var flag = true;
     var timeRanges = $('.input_time_range');
     
@@ -278,7 +286,7 @@ helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
                 alert("Time Range " + id + " is not valid. Please check your input.");
                 flag= false;
             }
-            timeRangeValues.push(new helio.TimeRange($("#minDate_"+index).val(), $("#maxDate_"+index).val()));
+            timeRangeValues.push(new helio.TimeRange($("#minDate_"+index).val(), $("#maxDate_"+index).length ? $("#maxDate_"+index).val() : $("#minDate_"+index).val()));
         }
     });
     if(!flag)
@@ -321,6 +329,13 @@ helio.TimeRangeDialog.prototype.__dialogConfig = function() {
             }
         }
     };
+};
+
+/**
+ * Get the data object assigned with this dialog
+ */
+helio.TimeRangeDialog.prototype.data = function() {
+    return this.timeRanges;
 };
 
 /**
@@ -491,7 +506,7 @@ helio.TimeRangeDialog.__formatTimeRange = function(id){
     formatMinDate.onClose = function(selectedDate) {
         $(this).blur();
         var endTimeTextBox = $('#maxDate_' + id);
-        if (endTimeTextBox.val() != '') {
+        if (endTimeTextBox && endTimeTextBox.val() != '') {
             var testStartTime = new Date(selectedDate);
             var testEndTime = new Date(endTimeTextBox.val());
             if (testStartTime > testEndTime)
@@ -541,26 +556,27 @@ helio.TimeRangeDialog.__formatTimeRange = function(id){
 helio.TimeRangeDialog.__validateTimeRange = function(index) {
     try{
         var maxDate = $("#maxDate_"+index).val();
-        if(maxDate.indexOf("T") == -1){//validates time part on its own and autocompletes if missing
+        if(maxDate && maxDate.indexOf("T") == -1){//validates time part on its own and autocompletes if missing
             maxDate = maxDate + "T00:00:00";
             $("#maxDate_"+index).val(maxDate);
         }
         var minDate = $("#minDate_"+index).val();
-        if(minDate.indexOf("T") == -1){
-
+        if(minDate && minDate.indexOf("T") == -1){
             minDate = minDate + "T00:00:00";
             $("#minDate_"+index).val(minDate);
-
         }
+        
         var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])T([0-9]{2}):([0-9]{2}):([0-9]{2})$");
         
         var matches = IsoDate.exec(minDate);
         if(matches === null){
             return false;
         }
-        matches = IsoDate.exec(maxDate);
-        if(matches === null){
-            return false;
+        if (maxDate) {
+            matches = IsoDate.exec(maxDate);
+            if(matches === null){
+                return false;
+            }
         }
 
         return true;
@@ -725,6 +741,14 @@ helio.ParamSetDialog.prototype.__dialogConfig = function() {
     };
 };
 
+
+/**
+ * Get the data object assigned with this dialog
+ */
+helio.ParamSetDialog.prototype.data = function() {
+    return this.paramSet;
+};
+
 /**
  * init the dialog
  * @param {function} closeCallback a call back that is executed after the dialog has been closed.
@@ -777,17 +801,18 @@ helio.ParamSetDialog.prototype.show = function(closeCallback) {
  * ExtractParamsDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
- * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
+ * @param {String} tableId id of the table to extract params from. 
+ * @param {int} tableNr nr of the table within the votable to use. 
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.ExtractParamsDialog = function(task, taskName, extractedParams) {
+helio.ExtractParamsDialog = function(task, taskName, tableId, tableNr) {
     helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
     this.task = task;
     this.taskName = taskName;
-    this.paramSet = paramSet;  // may be null
-    this.dialog = undefined; // store the dialog
+    this.tableId = tableId;  // must not be empty
+    this.tableNr = tableNr;  // must not be empty
 };
 
 //create ExtractParamsDialog as subclass of AbstractDialog
@@ -795,14 +820,27 @@ helio.ExtractParamsDialog.prototype = new helio.AbstractDialog;
 helio.ExtractParamsDialog.prototype.constructor = helio.ExtractParamsDialog;
 
 /**
- * The action to be executed when the Ok button is pressed.
+ * Action to be executed when the Ok button is pressed.
  */
-helio.ExtractParamsDialog.prototype.__dialogActionOK = function() {
-    // fill paramSet with updated values
-    if(!this.paramSet) {
-        this.paramSet = new helio.ParamSet(this.taskName);
-    }
+helio.ExtractParamsDialog.prototype._extractParams = function() {
+    // get name label
+    
+    // get active tab
+    
+    switch (activeTab) {
+    case 'instrument':
+            // validate selected params
+            if ($('.param_mapping').count() == 0) ;
+            
+            // create model object
+            new helio.Instruments();
+        break;
 
+    default:
+        break;
+    }
+    
+    
     // fill the param set object
     var params = new Object();
     params.config = new Object();

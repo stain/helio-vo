@@ -29,11 +29,19 @@ class DataCart {
     /**
      * List of params stored in the data cart. 
      */
-    List<AbstractParam> inputParams = new ArrayList<AbstractParam>()
+    List<AbstractParam> cartItems = new ArrayList<AbstractParam>()
 
     static constraints = { 
         owner nullable : false 
     }
+    
+    static hasMany = [
+        cartItems : AbstractParam
+    ]
+    
+    static mapping = {
+        cartItems cascade: "all-delete-orphan"
+     }
 
     /**
      * Assign user if required.

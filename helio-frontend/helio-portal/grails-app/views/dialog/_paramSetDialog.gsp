@@ -3,7 +3,7 @@ Currently the set is read from a definition object passed into this GSP.
 Expected parameters:
  * Map paramSet a map containing the list of fields to be rendered. 
    Each field is a map that contains "label", "description", "type"
- *
+ * Map taskDescriptor: descriptor that describes the task
  --%><div class="input-dialog" id="paramSetDialog" style="display:none">
   <table class="dialog_table" >
     <tr valign="top" align="left" height="*">
@@ -15,30 +15,30 @@ Expected parameters:
       <td valign="top" width="*">
         <table class="dialog_content_table" cellpadding="0" cellspacing="0">
           <thead>
-            <tr>
-              <th align="left">
+            <tr >
+              <th align="left" valign="top" style="padding-bottom: 0.5em;">
                 Parameter
               </th>
-              <th align="left" >
+              <th align="left" valign="top">
                 Value
               </th>
-              <th></th>
+              <th valign="top"></th>
             </tr>
           </thead>
           <tbody>
             <g:each var="param" in="${paramSet.params}" status="i">
               <g:set var="paramDescriptor" value="${taskDescriptor.inputParams.paramSet[param.key]}" />
               <tr>
-                <td>
+                <td valign="top">
                   <b>${paramDescriptor.label}&nbsp;</b>
                 </td>
-                <td>
+                <td valign="top">
                   <g:if test="${paramDescriptor.valueDomain}" >
                     <g:select class="paramSetEntry" id="${param.key}" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
                   </g:if>
                   <g:elseif test="${paramDescriptor.type.isEnum()}" >
                     <g:each var="type" in="${paramDescriptor.type.values()}">
-                      <g:radio class="paramSetEntry" name="${param.key}" value="${type}" checked="${type == param.value}" title="${paramDescriptor.label}"/>
+                      <g:radio class="paramSetEntry" name="${param.key}" value="${type}" checked="${type == paramDescriptor.defaultValue}" title="${paramDescriptor.label}"/>
                       <g:message code="${type.label}" /><br/>
                     </g:each>
                   </g:elseif>
@@ -46,7 +46,7 @@ Expected parameters:
                     <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramDescriptor.label}" value="${param.value}" />
                   </g:else>
                 </td>
-                <td>
+                <td valign="top">
                   <div class="message" style="display:inline; width:250px; float:right; margin:2px 0px; padding:3px">
                     ${paramDescriptor.description}
                   </div>

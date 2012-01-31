@@ -100,10 +100,12 @@
                     id="task_propagationmodel_select">Select a Propagation Model</div>
                   </div>
                   <ul id="task_propagationmodel_menu" class="menu" style="display: none;">
-                      <li id="task_propagationmodel_pm_cme" >CME Forward Propagation Model</li>
-                      <li id="task_propagationmodel_pm_cme_back" >CME Backward Propagation Model</li>
-                      <li id="task_propagationmodel_pm_sw" >Solar Wind Propagation Model</li>
-                      <li id="task_propagationmodel_pm_sep" >Solar Energetic Particles Propagation Model</li>
+                      <li id="task_propagationmodel_pm_cme_fw" >Coronal Mass Ejections (CME) Forward PM</li>
+                      <li id="task_propagationmodel_pm_cme_back" >Coronal Mass Ejections (CME) Backward PM</li>
+                      <li id="task_propagationmodel_pm_cir_fw" >Co-rotate Interaction Region (CIR) Forward PM</li>
+                      <li id="task_propagationmodel_pm_cir_back" >Co-rotate Interaction Region (CIR) Backward PM</li>
+                      <li id="task_propagationmodel_pm_sep_fw" >Solar Energetic Particles (SEP) Forward PM</li>
+                      <li id="task_propagationmodel_pm_sep_back" >Solar Energetic Particles (SEP) Backward PM</li>
                   </ul>
                 </td>
                 <td>
@@ -152,11 +154,20 @@
           </div>
           <div id="content-slider"></div>
         </div> <!-- History -->
+        
+        <%-- the data cart %>
+        <div class="candybox" id="datacart_container">
+          <div>Data Cart</div>
+          <div id="datacart_scrollarea">
+            <div id="datacart_content"></div>
+          </div>
+          <div id="datacart_slider"></div>
+        </div --%>
     
         <!-- Content -->
         <div id="content" >
           <!-- 1st level droppable -->
-          <div  id="droppable-inner" class="candybox">
+          <div id="droppable-inner" class="candybox">
             <g:render template="templates/displayable_content" />
           </div>
         </div>

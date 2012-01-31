@@ -1,8 +1,22 @@
 /**
+ * The helio name space
+ */
+// use existing global 'helio' (here, 'this' === window/global context)
+// or create new object/package
+this.helio = this.helio ||
+  { toString: function() { return 'package: helio'; } };
+
+/**
  * Base module for the HELIO project. This is used to initialize the HELIO
  * project and provides some generic classes.
  */
 $(document).ready(function() {
+     // use existing global 'helio' (here, 'this' === window/global context)
+     // or create new object/package
+     this.helio = this.helio ||
+       { toString: function() { return 'package: helio'; } };
+    
+    // init the menu
     $("#task_upload2").click(function() {
         $('#content').load('../task/uploadVoTable', function() {
             var task = new helio.VOTableUploadTask("votableupload"); 
@@ -11,10 +25,12 @@ $(document).ready(function() {
     });    
 
     var pmConfig = new Object();
-    pmConfig["pm_cme"] = { title: "CME Forward PM"};
+    pmConfig["pm_cme_fw"] = { title: "CME Forward PM"};
     pmConfig["pm_cme_back"] = { title: "CME Backward PM"};
-    pmConfig["pm_sw"] = { title: "Solar Wind PM"};
-    pmConfig["pm_sep"] = { title: "Energetic Particle PM"};
+    pmConfig["pm_cir_fw"] = { title: "CIR Forward PM"};
+    pmConfig["pm_cir_back"] = { title: "CIR Backward PM"};
+    pmConfig["pm_sep_fw"] = { title: "SEP Forward PM"};
+    pmConfig["pm_sep_back"] = { title: "SEP Backward PM"};
     
     var pmMenu = new Object();
     // loop over config and fill menu object.
@@ -173,20 +189,23 @@ $(document).ready(function() {
           }
         },
     });
+    
+    //create and init the data cart
+    helio.dataCart = new helio.DataCart();
+
+    // provde global access to the task map
+    helio.taskMap = new helio.TaskMap();
+
+    // cache for temporary data. Temporary data is stored in an associative array.
+    helio.cache = new Object();
+    
 });
 
-/**
- * The helio name space
- */
-(function() {
-// use existing global 'helio' (here, 'this' === window/global context)
-// or create new object/package
-this.helio = this.helio ||
-  { toString: function() { return 'package: helio'; } };
-  
-// cache for temporary data. Temporary data is stored in an associative array.
-this.helio.cache = new Object();
 
+(function() {
+
+
+    
 // map of previously stored tasks
 this.helio.TaskMap = function() {
     this.tasks = new Object();
@@ -216,10 +235,6 @@ this.helio.TaskMap.prototype.put = function(taskName, task) {
     this.tasks[taskName] = task;
 };
 
-/**
- * Provide global access to the task map.
- */
-this.helio.taskMap = new helio.TaskMap();
 
 helio.DropdownMenu = function(id, options) {
     var THIS = this;

@@ -1,8 +1,9 @@
 package eu.heliovo.hfe.model.param
 
-import java.util.Date;
+import java.util.Date
 
-import eu.heliovo.hfe.model.security.User;
+import eu.heliovo.hfe.model.security.User
+import eu.heliovo.hfe.model.task.Task
 
 /**
  * Abstract base class of any input parameter
@@ -36,7 +37,7 @@ class AbstractParam {
     User owner
 	
 	static mapping = {
-		tablePerHierarchy false
+		//tablePerHierarchy false
 	}
 
     static constraints = {
@@ -44,6 +45,11 @@ class AbstractParam {
         owner nullable : false
     }
 
+//    static belongsTo = [
+//        task : Task    
+//    ]
+    
+    
     /**
      * Assign user if required.
      */

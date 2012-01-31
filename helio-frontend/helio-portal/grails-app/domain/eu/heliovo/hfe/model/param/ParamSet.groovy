@@ -10,7 +10,11 @@ import eu.heliovo.hfe.utils.TaskDescriptor
  * @author MarcoSoldati
  */
 class ParamSet extends AbstractParam {
-	
+    /**
+     * Wire the spring security service.
+     */
+    transient springSecurityService
+   
     /**
      * Hold the params
      */
@@ -38,5 +42,14 @@ class ParamSet extends AbstractParam {
     
     def String toString() {
         "ParamSet [taskName: " + taskName + ", params: " + params +"]"
+    }
+    
+    /**
+     * Assign user if required.
+     */
+    def beforeValidate() {
+        if (!owner) {
+            owner = User.get(springSecurityService.principal.id)
+        }
     }
 }

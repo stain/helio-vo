@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.GrantedAuthorityImpl
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.web.context.request.RequestContextHolder;
 
 import eu.heliovo.hfe.model.security.User
 
@@ -41,16 +42,23 @@ class TempUserSecurityFilter implements Filter {
      * @return an {@link AnonymousAuthenticationToken} holding the newly create user.
      */
     private Authentication createAuthentication(req) {
-        // create the user
-        def user = new User()
-        def uuid = java.util.UUID.randomUUID().toString()
-        user.username = uuid
-        user.temporary = true
-        user.password = "top_secret1!"
-        User.withTransaction { status ->
-            if (!user.save()) {
-                throw new RuntimeException("Internal Error: Unable to save temporary user. Reason: " + user.errors)
+        // try to get user from session 
+        def session = RequestContextHolder.currentRequestAttributes().getSession(true)
+        def user = session.getAttribute('tempuser')
+        
+        if (!user) {
+            // else create new user
+            user = new User()
+            def uuid = java.util.UUID.randomUUID().toString()
+            user.username = uuid
+            user.temporary = true
+            user.password = "top_secret1!"
+            User.withTransaction { status ->
+                if (!user.save()) {
+                    throw new RuntimeException("Internal Error: Unable to save temporary user. Reason: " + user.errors)
+                }
             }
+            session.setAttribute("tempuser", user)
         }
         
         def authenticationToken = new AnonymousAuthenticationToken('helioHFE', user, NO_ROLES)

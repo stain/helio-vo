@@ -33,34 +33,23 @@ class PlotService {
         //get the task descriptor
         def taskDescriptor = task.findTaskDescriptor()
         
-//        def plotService = helioClient.getServiceInstance(
-//            taskDescriptor.serviceName,
-//            ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE, 
-//            taskDescriptor.serviceVariant)
-        
-        def plotService
-        
-        ProcessingServiceFactory factory = ProcessingServiceFactory.getInstance();
-        if (taskDescriptor.serviceCapability == ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE) {
-            // temporary workaround until the registry is switched.
-            AccessInterface ai = new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, taskDescriptor.serviceCapability, HelioFileUtil.asURL("http://msslkz.mssl.ucl.ac.uk/cxs/services/CommonExecutionConnectorService"));        
-            plotService = factory.getHelioService(taskDescriptor.serviceName, taskDescriptor.serviceVariant, ai) 
-        } else {
-            plotService = factory.getHelioService(taskDescriptor.serviceName, taskDescriptor.serviceVariant, null)         
-        }
+        def plotService = helioClient.getServiceInstance(
+            taskDescriptor.serviceName,
+            taskDescriptor.serviceCapability,
+            taskDescriptor.serviceVariant)
         
         def timeRanges = task.inputParams.timeRanges.timeRanges
 
         // populate the plot service
         BeanWrapper beanWrapper = new BeanWrapperImpl(plotService)
         if (beanWrapper.isWritableProperty("startTime")) {
-            beanWrapper.setPropertyValue("startTime", timeRanges[0].start)
+            beanWrapper.setPropertyValue("startTime", timeRanges[0].startTime)
         }
         if (beanWrapper.isWritableProperty("date")) {
-            beanWrapper.setPropertyValue("date", timeRanges[0].start)
+            beanWrapper.setPropertyValue("date", timeRanges[0].startTime)
         }
         if (beanWrapper.isWritableProperty("endTime")) {
-            beanWrapper.setPropertyValue("endTime", timeRanges[0].end)
+            beanWrapper.setPropertyValue("endTime", timeRanges[0].endTime)
         }
         if (taskDescriptor.inputParams.paramSet) {
             def paramSet = task.inputParams.paramSet.params

@@ -25,10 +25,11 @@ class DefaultsService {
     /**
      * Create a TimeRangeParam with default values, but do not store it in the database.
      * @return the default time range.
-     * @TODO: move to central utility method.
      */
     def TimeRangeParam createDefaultTimeRange() {
-        new TimeRangeParam(DateUtil.fromIsoDate("2003-01-01T00:00:00"), DateUtil.fromIsoDate("2003-01-03T00:00:00"))
+        def timeRangeParam = new TimeRangeParam();
+        timeRangeParam.addTimeRange(DateUtil.fromIsoDate("2003-01-01T00:00:00"), DateUtil.fromIsoDate("2003-01-03T00:00:00"))
+        timeRangeParam
     }
 
     /**
@@ -39,7 +40,8 @@ class DefaultsService {
      * @throws ValidationException in case the created params object is not valid.
      */
     def newParamSet(taskName, params) throws ValidationException {
-        def paramSet = new ParamSet(params: params, taskName: taskName)
+        def paramSet = new ParamSet(taskName: taskName)
+        paramSet.params = params
         if (!paramSet.validate()) {
             throw new ValidationException("ParamSet is not valid", paramSet.errors)
         }
@@ -67,10 +69,9 @@ class DefaultsService {
                 timeRange: createDefaultTimeRange(),
                 paramSet: newParamSet(taskName, paramMap)
             ]
-            task = new Task([
-                inputParams: inputParams,
-                taskName : taskName
-            ])
+            task = new Task(taskName : taskName)
+            task.inputParams = inputParams
         }
+        task
     }
 }

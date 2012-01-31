@@ -33,11 +33,12 @@ class PlotController {
         
         def task;
         // handle parker spiral params
-        if (taskName == 'parkerplot') {
+        if (taskDescriptor.inputParams.paramSet) {
             def inParams = [:]
             jsonBindings.inputParams.paramSet.params.each{inParams.put(it.key, it.value)}
             
-            def paramSet = new ParamSet(name : jsonBindings.inputParams.paramSet.name, taskName : taskName, params : inParams)
+            def paramSet = new ParamSet(name : jsonBindings.inputParams.paramSet.name, taskName : taskName)
+            paramSet.params = inParams
             if (!paramSet.validate()) {
                 throw new ValidationException ("Invalid param set", paramSet.errors)
             }
@@ -46,21 +47,18 @@ class PlotController {
         } else {
             task = new Task([taskName : taskName, "inputParams" : ["timeRanges" : timeRanges]])
         }
-        if (task.validate()) {
-            task.save(flush:true)
-            
-            // execute the query (this adds the tasks to the output params).
-            def model = plotService.plot(task)
-            if (model.status) {
-                response.setHeader("status", model.status)
-            }
-            
-            render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
-        } else {
-            def message = "Unable to process the request."
-            def responseObject = [message : message, stackTrace : task.errors.allErrors];
-            render (template:'/output/votableResultError', bean:responseObject, var:'responseObject')
+        if (!task.validate()) {
+            throw new ValidationException ("Unable to create task", task.errors)
         }
+        task.save(flush:true)
+
+        // execute the query (this adds the tasks to the output params).
+        def model = plotService.plot(task)
+        if (model.status) {
+            response.setHeader("status", model.status)
+        }
+            
+        render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
 
     

@@ -14,11 +14,10 @@ helio.AbstractTask = function(taskName) {
 
 /**
  * Returns true if the task content is valid and can be submitted to the 
- * server. Please overload this method.
+ * server. 
  * @return {Boolean} true if valid. 
  */
 helio.AbstractTask.prototype._isValid = function() {
-    throw "Please override method _isValid().";
     return false;
 };
 
@@ -184,7 +183,7 @@ helio.PropagationModelTask.prototype._isValid = function() {
 helio.PlotTask = function(taskName) {
     helio.AbstractTask.call(this, taskName);
     this.timeRangeSummary = undefined;
-    if (taskName == 'parkerplot') {
+    if (taskName == 'parkerplot' || taskName == 'goesplot') {
         this.paramSetSummary = undefined;
     }
     this.result = undefined;
@@ -199,8 +198,7 @@ helio.PlotTask.prototype.init = function() {
         this.timeRangeSummary =  new helio.TimeRangeSummary(this, this.taskName);
     }
     this.timeRangeSummary.init();
-    
-    if (this.taskName == 'parkerplot') {
+    if (this.taskName == 'parkerplot' || this.taskName == 'goesplot') {
         if (!this.paramSetSummary) {
             this.paramSetSummary = new helio.ParamSetSummary(this, this.taskName);
         }
@@ -222,7 +220,7 @@ helio.PlotTask.prototype.init = function() {
  */
 helio.PlotTask.prototype._submitQuery = function() {
     var THIS = this;
-    var bindings = this.taskName == 'parkerplot' ? {
+    var bindings = this.taskName == 'parkerplot' || this.taskName == 'goesplot' ? {
         "taskName" : this.taskName,
         "inputParams" : {
             "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 

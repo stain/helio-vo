@@ -22,6 +22,7 @@ import eu.heliovo.clientapi.processing.ProcessingResult
 import eu.heliovo.clientapi.processing.ProcessingServiceFactory
 import eu.heliovo.clientapi.processing.context.FlarePlotterService
 import eu.heliovo.clientapi.processing.context.GoesPlotterService
+import eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType;
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService
 import eu.heliovo.clientapi.query.*
 import eu.heliovo.clientapi.query.asyncquery.*
@@ -60,7 +61,7 @@ class PrototypeController {
         if(params.maxDate != null){
             try{
                
-                ResultVT  result = search(params);
+                ResultVT result = search(params);
                 String serviceName = params.serviceName;
                 
                 int resultId= resultVTManagerService.addResult(result,serviceName);
@@ -379,11 +380,11 @@ class PrototypeController {
             render url = result.asURL(60, TimeUnit.SECONDS);
         }else if(params.type =="cplot"){
             GoesPlotterService goesPlotterService = factory.getGoesPlotterService((AccessInterface[])null);
-            ProcessingResult result = goesPlotterService.goesPlot(minDate, maxDate);
+            ProcessingResult result = goesPlotterService.goesPlot(minDate, maxDate, PlotType.BOTH);
             render url = result.asURL(60, TimeUnit.SECONDS);
         }else if(params.type =="pplot"){
             SimpleParkerModelService parkerModelService = factory.getSimpleParkerModelService((AccessInterface[])null);
-            ProcessingResult result = parkerModelService.parkerModel(minDate);
+            ProcessingResult result = parkerModelService.parkerModel(minDate, null, null);
             render url = result.asURL(60, TimeUnit.SECONDS);
         }else if(params.type =="link"){
             LinkProviderFactory lfactory = LinkProviderFactory.getInstance();

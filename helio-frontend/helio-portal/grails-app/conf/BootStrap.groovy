@@ -13,10 +13,17 @@ import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.clientapi.query.HelioQueryResult
 import eu.heliovo.clientapi.query.HelioQueryService
+import eu.heliovo.hfe.model.cart.DataCart
+import eu.heliovo.hfe.model.param.AbstractParam
+import eu.heliovo.hfe.model.param.InstrumentParam
+import eu.heliovo.hfe.model.param.ParamSet;
+import eu.heliovo.hfe.model.param.TimeRange
+import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.registryclient.HelioServiceName
 import eu.heliovo.registryclient.ServiceCapability
+import grails.converters.JSON
 import grails.util.GrailsUtil
 
 class BootStrap {
@@ -24,6 +31,8 @@ class BootStrap {
     def init = { servletContext ->
         // setup roles and register temp user filter
         setupSecurity()
+        
+        initMarshallers()
         
         switch(GrailsUtil.environment){
             case "development":
@@ -92,5 +101,52 @@ class BootStrap {
         VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS)
         ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs())
         return resvt
+    }
+    
+    private def initMarshallers() {
+        JSON.registerObjectMarshaller DataCart, {
+            def returnArray = [:]
+            returnArray['id'] = it.id
+            returnArray['lastUpdated'] = it.lastUpdated
+            returnArray['cartItems'] = it.cartItems
+            return returnArray
+        }
+        JSON.registerObjectMarshaller TimeRange, {
+            def returnArray = [:]
+            returnArray['startTime'] = it.startTime
+            returnArray['endTime'] = it.endTime
+            return returnArray
+        }
+        JSON.registerObjectMarshaller TimeRangeParam, {
+            def returnArray = marshalAbstractParam([:], it)
+            returnArray['timeRanges'] = it.timeRanges
+            return returnArray
+        }
+        JSON.registerObjectMarshaller InstrumentParam, {
+            def returnArray = marshalAbstractParam([:], it)
+            returnArray['instruments'] = it.instruments
+            return returnArray
+        }
+        JSON.registerObjectMarshaller ParamSet, {
+            def returnArray = marshalAbstractParam([:], it)
+            returnArray['taskName'] = it.taskName
+            returnArray['params'] = it.params
+            return returnArray
+        }
+    }
+    
+    /**
+     * Marshal the common attributes of an AbstractParam
+     * @param map the map to populate. must not be null
+     * @param param the param
+     * @return the map
+     */
+    private def marshalAbstractParam(Map map, AbstractParam param) {
+        map['class'] = param.class
+        map['id'] = param.id
+        map['dateCreated'] = param.dateCreated
+        map['lastUpdated'] = param.lastUpdated
+        map['name'] = param.name
+        return map;
     }
 }

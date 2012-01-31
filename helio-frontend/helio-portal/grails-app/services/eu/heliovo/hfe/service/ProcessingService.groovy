@@ -37,22 +37,21 @@ class ProcessingService {
         // populate the propagationService (start time is hardcoded)
 		BeanWrapper beanWrapper = new BeanWrapperImpl(propagationService)
         if (beanWrapper.isWritableProperty("startTime")) {
-            beanWrapper.setPropertyValue("startTime", timeRanges[0].start)
+            beanWrapper.setPropertyValue("startTime", timeRanges[0].startTime)
         }
         if (beanWrapper.isWritableProperty("date")) {
-            beanWrapper.setPropertyValue("date", timeRanges[0].start)
+            beanWrapper.setPropertyValue("date", timeRanges[0].startTime)
         }
         if (beanWrapper.isWritableProperty("endTime")) {
-            beanWrapper.setPropertyValue("endTime", timeRanges[0].end)
+            beanWrapper.setPropertyValue("endTime", timeRanges[0].endTime)
         }
         if (taskDescriptor.inputParams.paramSet) {
             def paramSet = task.inputParams.paramSet.params
             beanWrapper.setPropertyValues(paramSet)
         }
         
-        def model = [:]
-        
         // create the models for the template
+        def model = [:]
         model.plotResults = []
         model.votableResults = []
         

@@ -42,37 +42,36 @@ class ProcessingController {
         def timeRanges = new TimeRangeParam();
         def dates = jsonBindings.inputParams.timeRanges.collect{ [DateUtil.fromIsoDate(it.start), DateUtil.fromIsoDate(it.end)] }
         dates.each { timeRanges.addTimeRange(it) }
-		if (!timeRanges.validate()) {
-			throw new ValidationException ("Invalid time ranges", timeRanges.errors)
-		}
-        timeRanges.save()
-		
+        if (!timeRanges.validate()) {
+            throw new ValidationException ("Invalid time ranges", timeRanges.errors)
+        }
+		timeRanges.save()
+        
         // map 
         def inParams = [:]
 		jsonBindings.inputParams.paramSet.params.each{inParams.put(it.key, it.value)}
 		
-        def paramSet = new ParamSet(name : jsonBindings.inputParams.paramSet.name, taskName : taskName, params : inParams) 
-		if (!paramSet.validate()) {
-			throw new ValidationException ("Invalid param set", paramSet.errors)
-		}
-		paramSet.save()
-        
-        def task = new Task([taskName : taskName, "inputParams" : ["timeRanges" : timeRanges, "paramSet" : paramSet]])
-        
-        if (task.validate()) {
-            task.save(flush:true)
-            
-            // execute the query (this adds the tasks to the output params).
-            def model = processingService.propagationModel(task)
-            if (model.status) {
-                response.setHeader("status", model.status)    
-            }
-            def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;  
-            render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])            
-        } else {
-            def message = "Unable to process the request."
-            def responseObject = [message : message, stackTrace : task.errors.allErrors];
-            render (template:'/output/votableResultError', bean:responseObject, var:'responseObject')
+        def paramSet = new ParamSet(name : jsonBindings.inputParams.paramSet.name, taskName : taskName)
+        paramSet.params = inParams 
+        if (!paramSet.validate()) {
+            throw new ValidationException ("Invalid param set", paramSet.errors)
         }
+        paramSet.save()
+		
+        def task = new Task(taskName : taskName)
+        task.inputParams = ["timeRanges" : timeRanges, "paramSet" : paramSet]
+        
+        if (!task.validate()) {
+            throw new ValidationException ("Unable to create task", task.errors)
+        }
+        task.save(flush:true)
+        
+        // execute the query (this adds the tasks to the output params).
+        def model = processingService.propagationModel(task)
+        if (model.status) {
+            response.setHeader("status", model.status)    
+        }
+        def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;  
+        render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])            
     }
 }

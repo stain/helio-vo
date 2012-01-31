@@ -7,7 +7,7 @@
 function handleSliderChange(event, ui) {
     var maxScroll = $("#historyScrollWidth").attr("scrollWidth") -
     $("#historyScrollWidth").width();
-    $("##historyScrollWidth").animate({
+    $("#historyScrollWidth").animate({
         scrollLeft: ui.value *
         (maxScroll / 100)
     }, 1000);

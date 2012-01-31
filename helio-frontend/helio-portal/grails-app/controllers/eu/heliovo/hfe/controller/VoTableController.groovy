@@ -1,13 +1,10 @@
 package eu.heliovo.hfe.controller
 
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-
 import org.springframework.web.multipart.MultipartHttpServletRequest
 
 import eu.heliovo.hfe.model.result.HelioResult
-import eu.heliovo.hfe.service.ResultVTManagerService
 import eu.heliovo.hfe.service.VoTableService
+import eu.heliovo.hfe.utils.TaskDescriptor
 
 /**
  * Controller to handle voTable uploads, downloads and displaying. 
@@ -25,8 +22,6 @@ class VoTableController {
      * Upload a VOTable. The table will be parsed and then returned to be diplayed.
      */
     def asyncUpload ={
- //       log.info("votable upload =>" +params);
-
         try{
             // some sanity checks
             if (!(request instanceof MultipartHttpServletRequest)) {
@@ -42,9 +37,11 @@ class VoTableController {
                 throw new RuntimeException("Not a valid xml file. The name should end with .xml");
             }
 
+            def taskDescriptor = TaskDescriptor.findTaskDescriptor("votableupload")
+            
             def votableModel = voTableService.parseAndSaveVoTable(file);
 
-            render template:'/output/votableResult', model:[result:votableModel]
+            render template:'/output/votableResult', model:[result:votableModel, taskDescriptor : taskDescriptor]
         } catch (Exception e) {
             def message = e.getMessage() ? e.getMessage(): "Internal error: " + e.getClass() + " occurred while processing your VOTable.";
             StringWriter sw = new StringWriter();

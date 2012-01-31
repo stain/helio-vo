@@ -14,6 +14,7 @@
             <li>26-Jan-2012: Addition of Taverna workflow (currently disabled because of security restrictions at FHNW, should be fixed on Monday). 
             Minor fixes in SolarWind PM and Parker Spiral plot.</li>
             <li>27-Jan-2012: Several smaller bug fixes.</li>
+            <li>30-Jan-2012: Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</li>
         </ul>
         
         <h4 style="margin-top:10px;">How to use this interface</h4>
