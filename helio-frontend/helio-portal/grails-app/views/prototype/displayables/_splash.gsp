@@ -11,7 +11,7 @@
             <li>23-Jan-2012: DES plots - see "Advanced-Plot".</li>
             <li>24-Jan-2012: Propagation Models - "See Advanced-Propagation Model".</li>
             <li>25-Jan-2012: Speed improvements on query services, some cleaning up</li>
-            <li>26-Jan-2012: Addition of Taverna workflow (currently disabled because of security restrictions at FHNW, should be fixed on Monday). 
+            <li>26-Jan-2012: Addition of Taverna workflow. 
             Minor fixes in SolarWind PM and Parker Spiral plot.</li>
             <li>27-Jan-2012: Several smaller bug fixes.</li>
             <li>30-Jan-2012: Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</li>
