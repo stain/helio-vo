@@ -4,7 +4,7 @@
  */
 function ActionViewer() {
     // attach a timeout handler to this object.
-    var resultFilterTimeout;
+    var resultFilterTimeout = new Object();
 
     return {
         /**
@@ -29,28 +29,190 @@ function ActionViewer() {
             $(":checkbox").unbind();//clear all possible listener on checkboxes
             $(":checkbox").removeAttr("checked");
             $("#result_drop").attr('result_id',$("#resultId").val());
-
-            //function to filter out the datatable based on whats being check in the checkboxes
+            
+            //function to filter out the data table based on what's being check in the checkboxes
             $("input:checkbox").change(function(){
-                var checkboxColumn=$(this).attr("column");
-                var filter_expression = "\0";
-                
-                $("input:checked").each(function(){
-                    if($(this).attr("column")==checkboxColumn)
-                        filter_expression=filter_expression+"|("+$(this).attr("name")+")";
-                });
-                
-                if(filter_expression=="\0")
-                    filter_expression="";
-                
-                if(resultFilterTimeout!=null)
-                    clearTimeout(resultFilterTimeout);
-                
-                resultFilterTimeout=setTimeout(function(){
-                    $("table#resultTable0").dataTable().fnFilter(filter_expression,checkboxColumn,true);
-                },200);
-            });
+            	// set the super filters
+            	if($(this).hasClass("obsEntityPhotons")) {
+            		if(!$(this).attr("checked")) {
+            			$(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
+            		}
+            		
+            		var typesChecked = false;
+            		$(".obsEntityPhotonsType").each(function(){
+            			if($(this).attr("checked")) {
+            				$(this).attr("checked", false);
+            				typesChecked = true;
+            				filter($(this));
+            			}
+            		});
+            		
+            		if(!typesChecked && $(this).attr("checked")) {
+            			$(".obsEntityPhotonsType").each(function(){
+            				if ($(this).is(":visible")) {
+                				$(this).attr("checked", true);
+                				filter($(this));
+            				}
+                		});
+            		}
+            	}
+            	else if($(this).hasClass("obsEntityPhotonsType")) {
+            		if($(this).attr("checked")) {
+            			$(".obsEntityPhotons").attr("checked", true);
+                		filter($($(".obsEntityPhotons").get(-1)));
+            		}
+            		else {
+            			var noTypeChecked = true;
+            			$(".obsEntityPhotonsType").each(function(){
+            				if($(this).attr("checked")) {
+            					noTypeChecked = false;
+            				}
+            			})
+            			if (noTypeChecked) {
+            				$(".obsEntityPhotons").attr("checked", false);
+            				filter($($(".obsEntityPhotons").get(-1)));
+            			}
+            		}
+            	}
+            	
+            	// set the super filters
+            	if($(this).hasClass("obsEntityParticles")) {
+            		if(!$(this).attr("checked")) {
+            			$(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
+            		}
+            		
+            		var typesChecked = false;
+            		$(".obsEntityParticlesType").each(function(){
+            			if($(this).attr("checked")) {
+            				$(this).attr("checked", false);
+            				typesChecked = true;
+            				filter($(this));
+            			}
+            		});
+            		
+            		if(!typesChecked && $(this).attr("checked")) {
+            			$(".obsEntityParticlesType").each(function(){
+            				if ($(this).is(":visible")) {
+                				$(this).attr("checked", true);
+                				filter($(this));
+            				}
+                		});
+            		}
+            	}
+            	else if($(this).hasClass("obsEntityParticlesType")) {
+            		if($(this).attr("checked")) {
+            			$(".obsEntityParticles").attr("checked", true);
+                		filter($($(".obsEntityParticles").get(-1)));
+            		}
+            		else {
+            			var noTypeChecked = true;
+            			$(".obsEntityParticlesType").each(function(){
+            				if($(this).attr("checked")) {
+            					noTypeChecked = false;
+            				}
+            			})
+            			if (noTypeChecked) {
+            				$(".obsEntityParticles").attr("checked", false);
+            				filter($($(".obsEntityParticles").get(-1)));
+            			}
+            		}
+            	}
 
+            	// set the super filters
+            	if($(this).hasClass("obsEntityFields")) {
+            		if(!$(this).attr("checked")) {
+            			$(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
+            		}
+            		
+            		var typesChecked = false;
+            		$(".obsEntityFieldsType").each(function(){
+            			if($(this).attr("checked")) {
+            				$(this).attr("checked", false);
+            				typesChecked = true;
+            				filter($(this));
+            			}
+            		});
+            		
+            		if(!typesChecked && $(this).attr("checked")) {
+            			$(".obsEntityFieldsType").each(function(){
+            				if ($(this).is(":visible")) {
+                				$(this).attr("checked", true);
+                				filter($(this));
+            				}
+                		});
+            		}
+            	}
+            	else if($(this).hasClass("obsEntityFieldsType")) {
+            		if($(this).attr("checked")) {
+            			$(".obsEntityFields").attr("checked", true);
+                		filter($($(".obsEntityFields").get(-1)));
+            		}
+            		else {
+            			var noTypeChecked = true;
+            			$(".obsEntityFieldsType").each(function(){
+            				if($(this).attr("checked")) {
+            					noTypeChecked = false;
+            				}
+            			})
+            			if (noTypeChecked) {
+            				$(".obsEntityFields").attr("checked", false);
+            				filter($($(".obsEntityFields").get(-1)));
+            			}
+            		}
+            	}
+            	
+            	//console.log("change: " + $(this).attr("name") + $(this).attr("column"));
+            	 
+            	filter($(this));
+            });
+            
+            function filter(checkbox){
+            	//console.log("filter: " + checkbox.attr("name") + checkbox.attr("column"))
+            	 var checkboxColumn = checkbox.attr("column");
+                 var filter_expression = "\0";
+                 
+                 var anySelected = false;
+                 var instruments = new Array();
+                 
+                 $("input:checked").each(function(){
+                	 anySelected = true;
+                     if($(this).attr("column") == checkboxColumn)
+                         filter_expression = filter_expression + "|(" + $(this).attr("name") + ")";
+
+                     if ($(this).hasClass("planet") || $(this).hasClass("spacecraft")) {
+                    	 instruments.push($(this).attr("name"));
+                     }
+                 });
+                 
+                 if (anySelected) {
+                	 $(".filterInstrumentsText").html("Show following: " + instruments.join(", "));
+                 }
+                 else {
+                	 $(".filterInstrumentsText").html("All instruments are shown.");
+                 }
+                 
+                 if(filter_expression=="\0")
+                     filter_expression="";
+                 
+                 if(resultFilterTimeout[checkboxColumn] != null)
+                     clearTimeout(resultFilterTimeout[checkboxColumn]);
+                 
+                 resultFilterTimeout[checkboxColumn] = setTimeout(function(){
+                     $("table#resultTable0").dataTable().fnFilter(filter_expression,checkboxColumn,true);
+                     //console.log(filter_expression);
+                 },200);
+            }
+            
+            var counter = 0;
+            $("input:radio").change(function(){
+                var checkboxColumn = $(this).attr("column");
+                var filter_expression = "";
+                
+                filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+
+                $("table#resultTable0").dataTable().fnFilter(filter_expression, checkboxColumn, true);
+            });
+            
             $('#displayableResult').append($('#tables'));
             $('#displayableResult').css("display","block");
 

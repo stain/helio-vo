@@ -39,35 +39,35 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input column="0" name="Mercury" type="checkbox">
+              <input class="planet" column="0" name="Mercury" type="checkbox">
               Mercury
             </td>
             <td>
-              <input column="0" name="Venus" type="checkbox">
+              <input class="planet" column="0" name="Venus" type="checkbox">
               Venus
             </td>
             <td>
-              <input column="0" name="Earth" type="checkbox">
+              <input class="planet" column="0" name="Earth" type="checkbox">
               Earth
             </td>
             <td>
-              <input column="0" name="Mars" type="checkbox">
+              <input class="planet" column="0" name="Mars" type="checkbox">
               Mars
             </td>
             <td>
-              <input column="0" name="Jupiter" type="checkbox">
+              <input class="planet" column="0" name="Jupiter" type="checkbox">
               Jupiter
             </td>
             <td>
-              <input column="0" name="Saturn" type="checkbox">
+              <input class="planet" column="0" name="Saturn" type="checkbox">
               Saturn
             </td>
             <td>
-              <input column="0" name="Uranus" type="checkbox">
+              <input class="planet" column="0" name="Uranus" type="checkbox">
               Uranus
             </td>
             <td>
-              <input column="0" name="Neptune" type="checkbox">
+              <input class="planet" column="0" name="Neptune" type="checkbox">
               Neptune
             </td>
           </tr>
@@ -84,49 +84,49 @@
         <table cellspacing="0" class="advanced_param_table">
           <tr>
             <td>
-              <input column="0" name="Ulysses" type="checkbox">
+              <input class="spacecraft" column="0" name="Ulysses" type="checkbox">
               Ulysses
             </td>
             <td>
-              <input column="0" name="STEREOA" type="checkbox">
+              <input class="spacecraft" column="0" name="STEREOA" type="checkbox">
               STEREO-A
             </td>
             <td>
-              <input column="0" name="STEREOB" type="checkbox">
+              <input class="spacecraft" column="0" name="STEREOB" type="checkbox">
               STEREO-B
             </td>
             <td>
-              <input column="0" name="Messenger" type="checkbox">
+              <input class="spacecraft" column="0" name="Messenger" type="checkbox">
               Messenger
             </td>
             <td>
-              <input column="0" name="Voyager1" type="checkbox">
+              <input class="spacecraft" column="0" name="Voyager1" type="checkbox">
               Voyager 1
             </td>
             <td>
-              <input column="0" name="Voyager2" type="checkbox">
+              <input class="spacecraft" column="0" name="Voyager2" type="checkbox">
               Voyager 2
             </td>
           </tr>
            <tr>
             <td>
-              <input column="0" name="Galileo" type="checkbox">
+              <input class="spacecraft" column="0" name="Galileo" type="checkbox">
               Galileo
             </td>
             <td>
-              <input column="0" name="Cassini" type="checkbox">
+              <input class="spacecraft" column="0" name="Cassini" type="checkbox">
               Cassini
             </td>
             <td>
-              <input column="0" name="NewHorizons" type="checkbox">
+              <input class="spacecraft" column="0" name="NewHorizons" type="checkbox">
               New Horizons
             </td>
             <td>
-              <input column="0" name="Rosetta" type="checkbox">
+              <input class="spacecraft" column="0" name="Rosetta" type="checkbox">
               Rosetta
             </td>
             <td>
-              <input column="0" name="Dawn" type="checkbox">
+              <input class="spacecraft" column="0" name="Dawn" type="checkbox">
               Dawn
             </td>
           </tr>
@@ -134,4 +134,5 @@
       </td>
     </tr>
   </table >
+  <div style="height: 20px;"><span class="filterInstrumentsText">All instruments are shown.</span></div>
 </div>
