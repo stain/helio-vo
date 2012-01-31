@@ -32,13 +32,18 @@ function ActionViewer() {
             
             //function to filter out the data table based on what's being check in the checkboxes
             $("input:checkbox").change(function(){
-            	// set the super filters
+            	// Photons
+            	// obsEntityPhotons = super filter
+            	// obsEntityPhotonsType = type filter
+            	
+            	// super filter clicked
             	if($(this).hasClass("obsEntityPhotons")) {
             		if(!$(this).attr("checked")) {
             			$(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
             		}
             		
             		var typesChecked = false;
+            		// if any type is checked, uncheck it
             		$(".obsEntityPhotonsType").each(function(){
             			if($(this).attr("checked")) {
             				$(this).attr("checked", false);
@@ -47,8 +52,10 @@ function ActionViewer() {
             			}
             		});
             		
+            		// if no type is checked, check all
             		if(!typesChecked && $(this).attr("checked")) {
             			$(".obsEntityPhotonsType").each(function(){
+            				// only check visible checkboxes, otherwise they can't be reset again
             				if ($(this).is(":visible")) {
                 				$(this).attr("checked", true);
                 				filter($(this));
@@ -56,13 +63,17 @@ function ActionViewer() {
                 		});
             		}
             	}
+            	// type filter clicked
             	else if($(this).hasClass("obsEntityPhotonsType")) {
+            		// check super filter
             		if($(this).attr("checked")) {
             			$(".obsEntityPhotons").attr("checked", true);
                 		filter($($(".obsEntityPhotons").get(-1)));
             		}
+            		// if no type filter is selected remove super filter
             		else {
             			var noTypeChecked = true;
+            			// prove if no type filter is checked
             			$(".obsEntityPhotonsType").each(function(){
             				if($(this).attr("checked")) {
             					noTypeChecked = false;
@@ -75,7 +86,7 @@ function ActionViewer() {
             		}
             	}
             	
-            	// set the super filters
+            	// Particles
             	if($(this).hasClass("obsEntityParticles")) {
             		if(!$(this).attr("checked")) {
             			$(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
@@ -118,7 +129,7 @@ function ActionViewer() {
             		}
             	}
 
-            	// set the super filters
+            	// Fields
             	if($(this).hasClass("obsEntityFields")) {
             		if(!$(this).attr("checked")) {
             			$(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
