@@ -194,7 +194,7 @@ class VoTableService {
         if (helioResult instanceof LocalVOTableResult) {
             filename = helioResult.originalFileName;
         } else if (helioResult instanceof RemoteVOTableResult) {
-            String url = helioResult.url.toString()
+            String url = helioResult.url
             filename = url.substring(url.lastIndexOf('/') + 1)
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
@@ -211,7 +211,7 @@ class VoTableService {
         if (helioResult instanceof LocalVOTableResult) {
             return helioResult.voTableContent
         } else if (helioResult instanceof RemoteVOTableResult) {
-            return helioResult.url.text
+            return helioResult.url
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
