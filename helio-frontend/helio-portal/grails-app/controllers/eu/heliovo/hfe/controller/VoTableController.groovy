@@ -33,9 +33,9 @@ class VoTableController {
                 throw new RuntimeException("Please select a VOTable file to upload.");
             }
 
-            if (!file.getOriginalFilename().endsWith(".xml")) {
-                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
-            }
+//            if (!file.getOriginalFilename().endsWith(".xml")) {
+//                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
+//            }
 
             def taskDescriptor = TaskDescriptor.findTaskDescriptor("votableupload")
             

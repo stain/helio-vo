@@ -1,8 +1,5 @@
 package eu.heliovo.hfe.service
 
-import java.net.Authenticator
-import java.net.PasswordAuthentication
-
 import org.springframework.web.multipart.MultipartFile
 import org.w3c.dom.NodeList
 
@@ -211,7 +208,7 @@ class VoTableService {
         if (helioResult instanceof LocalVOTableResult) {
             return helioResult.voTableContent
         } else if (helioResult instanceof RemoteVOTableResult) {
-            return helioResult.url
+            return new URL(helioResult.url).text
         } else {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
