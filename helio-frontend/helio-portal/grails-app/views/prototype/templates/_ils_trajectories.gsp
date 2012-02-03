@@ -134,5 +134,5 @@
       </td>
     </tr>
   </table >
-  <div style="height: 20px;"><span class="filterInstrumentsText">All instruments are shown.</span></div>
+  <div style="height: 20px;"><span class="filterInstrumentsText">All planets/spacecrafts are shown.</span></div>
 </div>

@@ -25,7 +25,7 @@ function ActionViewer() {
             $("#voTables").prepend($("#ils_trajectories").clone());
             $("#ics_instrument").css("display","none");//hide the originals again in the query part, they need to stay intact otherwise when a reloaded result needs it, they wont have them
             $("#ils_trajectories").css("display","none");
-            $("#result_overview").css("display","table");//make sure the ovrview is visible,redundant
+            $("#result_overview").css("display","table");//make sure the overview is visible,redundant
             $(":checkbox").unbind();//clear all possible listener on checkboxes
             $(":checkbox").removeAttr("checked");
             $("#result_drop").attr('result_id',$("#resultId").val());
@@ -178,7 +178,7 @@ function ActionViewer() {
             });
             
             function filter(checkbox){
-            	//console.log("filter: " + checkbox.attr("name") + checkbox.attr("column"))
+            	 $(".filterInstrumentsText").hide();
             	 var checkboxColumn = checkbox.attr("column");
                  var filter_expression = "\0";
                  
@@ -195,11 +195,11 @@ function ActionViewer() {
                      }
                  });
                  
-                 if (anySelected) {
-                	 $(".filterInstrumentsText").html("Show following: " + instruments.join(", "));
+                 if (anySelected && (checkbox.hasClass("planet") || checkbox.hasClass("spacecraft"))) {
+                	 $(".filterInstrumentsText").html("Show entries WHERE planet/spacecraft is " + instruments.join(" OR "));
                  }
-                 else {
-                	 $(".filterInstrumentsText").html("All instruments are shown.");
+                 else if (checkbox.hasClass("planet") || checkbox.hasClass("spacecraft")) {
+                	 $(".filterInstrumentsText").html("All planets/spacecrafts are shown.");
                  }
                  
                  if(filter_expression=="\0")
@@ -212,6 +212,7 @@ function ActionViewer() {
                      $("table#resultTable0").dataTable().fnFilter(filter_expression,checkboxColumn,true);
                      //console.log(filter_expression);
                  },200);
+                 $(".filterInstrumentsText").delay(500).fadeIn();
             }
             
             var counter = 0;

@@ -366,5 +366,5 @@
       </td>
     </tr>
   </table>
-  <div style="height: 20px;"><span class="filterInstrumentsText">All instruments are shown.</span></div>
+  <div style="height: 20px;"><span class="filterInstrumentsText">This will be a filter text.</span></div>
 </div>
