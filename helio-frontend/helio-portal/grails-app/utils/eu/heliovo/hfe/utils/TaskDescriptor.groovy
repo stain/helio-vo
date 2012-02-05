@@ -31,7 +31,14 @@ import eu.heliovo.registryclient.ServiceCapability
  */
 class TaskDescriptor {
     
-    def static Map<String, Map<String, Object>> taskDescriptor = initTaskDescriptors();
+    def static Map<String, Map<String, Object>> taskDescriptor;
+    
+    def synchronized static  Map<String, Map<String, Object>> getTaskDescriptor() {
+        if (taskDescriptor == null) {
+            taskDescriptor = initTaskDescriptors();
+        }
+        taskDescriptor;
+    }
     
     /**
     * Create task descriptors, if required.
@@ -373,6 +380,6 @@ class TaskDescriptor {
      * @return
      */
     static def findTaskDescriptor(taskName) {
-        taskDescriptor[taskName]    
+        getTaskDescriptor()[taskName]    
     }
 }
