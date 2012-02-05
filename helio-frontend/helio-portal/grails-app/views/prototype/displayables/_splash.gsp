@@ -16,6 +16,7 @@
             <li>27-Jan-2012: Several smaller bug fixes.</li>
             <li>30-Jan-2012: Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</li>
             <li>05-Feb-2012: Rework of the "Search Event" task. Swapping the data cart.</li>
+            <li>05-Feb-2012: Added extract-button.</li>
         </ul>
         
         
