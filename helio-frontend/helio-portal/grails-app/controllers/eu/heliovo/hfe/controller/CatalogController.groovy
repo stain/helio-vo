@@ -35,7 +35,6 @@ class CatalogController {
             bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
             // bind time ranges
             jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
-                println "tr : " +tr
                 timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
             }
             if (!timeRanges.validate()) {
@@ -71,8 +70,9 @@ class CatalogController {
             
             // add custom hec action
             votableModel.tables.each { table -> 
-                table.rowactions=['examine_event']
+                table.rowactions += 'examine_event'
             }
+            
         } catch (Exception e) {
             model.status = "Error while processing result votable (see logs for more information)"
             model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))

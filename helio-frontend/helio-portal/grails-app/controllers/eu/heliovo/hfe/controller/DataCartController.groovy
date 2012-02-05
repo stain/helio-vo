@@ -117,6 +117,10 @@ class DataCartController {
 
         // parse data item
         bindData(param, data, [exclude : ['timeRanges', 'params']]);
+        if (param instanceof TimeRangeParam) {
+            param.timeRanges.clear();
+        }
+        
         data.timeRanges?.each{ timeRange->
             param.addTimeRange(DateUtil.fromIsoDate(timeRange.startTime), DateUtil.fromIsoDate(timeRange.endTime))
         }

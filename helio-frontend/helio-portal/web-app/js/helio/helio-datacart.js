@@ -222,7 +222,7 @@ helio.DataCart.prototype.render = function() {
                     return function() {
                         var dialog = dialogFactory.call(THIS);
                         dialog.show(function() {
-                            THIS.update(dialog.data);
+                            THIS.update.call(THIS, dialog.data);
                             cartItemLabel.children().text(dialog.data.name);
                         });
                     };

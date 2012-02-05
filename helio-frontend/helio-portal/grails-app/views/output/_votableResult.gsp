@@ -40,6 +40,11 @@ Expected model:
                 Download selected files/all
               </div>
             </g:if>            
+            <g:if test="${result.actions.contains('extract')}">
+              <div id="extract_param_button" class="custom_button" style="margin-left: 5px;" title="Extract the time ranges from the selected rows and add them to the data cart.">
+                Extract selected times
+              </div>
+            </g:if>            
           </td>
           <td width="400px">
             <div class="message"

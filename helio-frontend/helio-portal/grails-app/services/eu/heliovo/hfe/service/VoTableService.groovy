@@ -122,15 +122,16 @@ class VoTableService {
                 // a resource without any tables in it.
                 def table = [:];
                 table["type"] = "empty_resource" // just a resource
-                table["infos"] = infos // the info of the parent resource.                   
+                table["infos"] = infos // the info of the parent resource.
                 tableList.add(table);
             } else {
                 for (TableElement tableElement : tables) {
                     def table = handleVOElement(tableElement, [:])
     
                     table["type"] = "table" // a real table
-                    table["actions"] = [] as Set 
-                    tableModel["actions"].add('extract')
+                    table["actions"] = [] as Set // actions that are globally available 
+                    tableModel["actions"].add('extract') 
+                    table["rowactions"] = new LinkedHashSet() // actions per row
                     
                     // the info of the parent resource.
                     // if a resource contains two tables the info will be duplicated.
@@ -235,6 +236,10 @@ class VoTableService {
             field["rendering_hint"] = 'url';
         } else {
             field["rendering_hint"] = 'text'
+        }
+        
+        if (fieldElement.ucd == 'meta.ref.url') {
+            field["rendering_hint"] = 'url';
         }
         return field
     }

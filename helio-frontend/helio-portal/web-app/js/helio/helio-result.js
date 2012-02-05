@@ -64,6 +64,7 @@ helio.TaskResult.prototype.init = function() {
 helio.VOTableResult = function(task, taskName) {
     helio.AbstractResult.apply(this, [task, taskName]);
     this.dataKey = taskName + ".result";
+    this._resultTables = [];
 };
 
 //create PlotResult as subclass of AbstractResult
@@ -78,7 +79,7 @@ helio.VOTableResult.prototype.init = function() {
     formatButton($(".custom_button"));
 
     // 2. result table
-    $(".resultTable").each(function() { THIS._formatTable(this.id);});
+    $(".resultTable").each(function() { THIS._resultTables.push(THIS._formatTable(this.id)); });
     
     // 3. enable ok-dialogs
     $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
@@ -95,54 +96,13 @@ helio.VOTableResult.prototype.init = function() {
     });
     
     // 6. download all/selection button
-    $("#download_selection_button").click(function(){
-        var itr= 0;
-        $(".resultTable").each(function(){
-            itr++;
-        });
-        itr = itr/2;
-        var download_list = $("<ul></ul>");
-        var found = false;
-        
-        for(var i = 0;i<itr;i++){
-            var dataTable =$("#resultTable"+i).dataTable();
-            var settings = dataTable.fnSettings();
-            var download_url = -1;
-
-            for(var j = 0;j< settings.aoColumns.length;j++){
-                if($.trim(settings.aoColumns[j].sTitle) == 'url'){
-                    download_url=j;
-                }
-            }//end j
-
-            if (download_url >= 0) {
-                $("#resultTable"+i+" .even_selected").each(function(){
-                    download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
-                    found = true;
-                });
-                $("#resultTable"+i+" .odd_selected").each(function(){
-                    download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
-                    found = true;
-                });
-                if(download_list.html().indexOf('li') < 0){
-                    var nNodes = dataTable.fnGetNodes();
-                    for(var node in nNodes){
-                        download_list.append("<li>"+$(nNodes[node]).children().eq(download_url).html()+"</li>");
-                        found = true;
-                    }
-                }
-            }
-        }//end i
-        
-        if (!found) {
-            download_list.append("<li>Nothing found to download</li>");
-        }
-        
-        var recipe =  window.open('','_blank','width=600,height=600');
-        var html = '<html><head><title>Helio Downloads</title></head><body><h1>List of URLs to dowload</h1><p>Use a download manager for your browser to download the links.</p><div id="links">' + download_list.html() + '</div></body></html>';
-        recipe.document.open();
-        recipe.document.write(html);
-        recipe.document.close();
+    $("#download_selection_button").click(function() {
+        THIS._download.call(THIS);
+    });
+    
+    // 7. extract params button
+    $('#extract_param_button').click(function() {
+        THIS._extractParams.call(THIS);
     });
 };
 
@@ -243,7 +203,6 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
     }
 
     // 4. the row selection listener
-    var rows = $('#' + tableName + ' tr');
     $('#' + tableName + ' tr').click( function() {
         //var row = table.fnGetData(this);    // current row
         if ( $(this).hasClass('row_selected') ){
@@ -255,6 +214,111 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         };
     });    
     return dataTable;
+};
+
+helio.VOTableResult.prototype._download = function(){
+    var itr= 0;
+    $(".resultTable").each(function(){
+        itr++;
+    });
+    itr = itr/2;
+    var download_list = $("<ul></ul>");
+    var found = false;
+    
+    for(var i = 0;i<itr;i++){
+        var dataTable =$("#resultTable"+i).dataTable();
+        var settings = dataTable.fnSettings();
+        var download_url = -1;
+
+        for(var j = 0;j< settings.aoColumns.length;j++){
+            if($.trim(settings.aoColumns[j].sTitle) == 'url'){
+                download_url=j;
+            }
+        }//end j
+
+        if (download_url >= 0) {
+            $("#resultTable"+i+" .even_selected").each(function(){
+                download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
+                found = true;
+            });
+            $("#resultTable"+i+" .odd_selected").each(function(){
+                download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
+                found = true;
+            });
+            if(download_list.html().indexOf('li') < 0){
+                var nNodes = dataTable.fnGetNodes();
+                for(var node in nNodes){
+                    download_list.append("<li>"+$(nNodes[node]).children().eq(download_url).html()+"</li>");
+                    found = true;
+                }
+            }
+        }
+    }//end i
+    
+    if (!found) {
+        download_list.append("<li>Nothing found to download</li>");
+    }
+    
+    var recipe =  window.open('','_blank','width=600,height=600');
+    var html = '<html><head><title>Helio Downloads</title></head><body><h1>List of URLs to dowload</h1><p>Use a download manager for your browser to download the links.</p><div id="links">' + download_list.html() + '</div></body></html>';
+    recipe.document.open();
+    recipe.document.write(html);
+    recipe.document.close();
+};
+
+helio.VOTableResult.prototype._extractParams = function() {
+    // create a new data object.
+    var data = new helio.TimeRanges('datacart', 'extracted');
+
+    $.each(this._resultTables, function(){
+        var dataTable = this;
+        // find the position of the time range columns we are interested in.
+        var settings = dataTable.fnSettings();
+        var time_start = -1;
+        var time_end = -1;
+        
+        for(var j = 0;j< settings.aoColumns.length;j++){
+            if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
+                time_start=j;
+            }
+            if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
+                time_end=j;
+            }
+        }//end j
+        if (time_start == -1) {
+            alert("Internal error: no column with name 'time_start' found");
+            return;
+        }
+        if (time_end == -1) {
+            time_end = time_start;
+        }
+        
+        // loop over all selected rows
+        dataTable.find('.row_selected').each(function() {
+            // extract time range and add to timeranges.
+            var times = dataTable.fnGetData(this, time_start);
+            var timee = dataTable.fnGetData(this, time_end);
+            data.timeRanges.push(new helio.TimeRange(times, timee));
+        });
+    });
+
+    if (data.timeRanges.length == 0) {
+        alert("Please select any row(s) to extract time ranges from.");
+        return;
+    }
+    
+    $("<div>Do you want to add " + data.timeRanges.length  + " selected time range" + (data.timeRanges.length ==1 ? "" : "s") + " to the data cart?</div>").dialog({ modal: true, width: 300,
+        buttons: { 
+            "Yes": function() { 
+                helio.dataCart.addItem(data); 
+                $(this).dialog("close");
+                var rowpos = $('#datacart_container').position();
+                if(rowpos){
+                    $('html,body').scrollTop(rowpos.top);
+                }
+            }, 
+            "No" : function() { $(this).dialog("close"); }} 
+    });
 };
 
 /**
