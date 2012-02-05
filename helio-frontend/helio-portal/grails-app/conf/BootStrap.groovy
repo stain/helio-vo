@@ -124,6 +124,8 @@ class BootStrap {
 
         URL votableUrl = hecQueryResult.asURL(timeout, TimeUnit.SECONDS)
         def model = voTableService.createVOTableModel(new RemoteVOTableResult(url: votableUrl.toString()))
+        assert model.tables[0], "Failed to load HEC list catalogue"
+        
         model.tables[0]
     }
 

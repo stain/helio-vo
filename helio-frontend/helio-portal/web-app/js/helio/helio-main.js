@@ -210,7 +210,7 @@ $(document).ready(function() {
 //    $("#task_plotservice_menu").click();
 //    $("#task_plotservice_parker").click();
     
-    $('#task_eventlist').click();
+  //  $('#task_eventlist').click();
     
     
 });
