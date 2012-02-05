@@ -47,7 +47,7 @@ class TaskDescriptor {
             "kso_halpha_flare", "stereo_euvi_event", "ulysses_hxr_flare",
             "timed_see_flare", "goes_flare_sep_event"]
         
-        def eventListModel = ServletContextHolder.servletContext?.eventListModel
+        def eventListModel = ServletContextHolder.servletContext.eventListModel
         
         
       /************* PROPAGATION MODEL *****************/
