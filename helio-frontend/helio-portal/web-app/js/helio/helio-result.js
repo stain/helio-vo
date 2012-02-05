@@ -163,7 +163,16 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
                     var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
                     var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
                     //sendExamineEvent(times,timee);
-
+                    
+                    // adjust times
+                    var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
+                    var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
+                    timeStartObject.subtract("hours", 6);
+                    timeEndObject.add("hours", 6);
+                    
+                    times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
+                    timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
+                    
                     $("#dialog-message").remove();
                     var div =$('<div></div>');
                     div.attr('id','dialog-message');

@@ -43,3 +43,4 @@
 <g:javascript src="/plugins/jquery.collapsible.js" />
 <g:javascript src="/plugins/jquery.selectBox.min.js" />
 <g:javascript src="/plugins/jquery.blockUI.js"/>
+<g:javascript src="/plugins/moment-1.4.0.min.js"/> <%-- a date parsing and formatting utility --%>
