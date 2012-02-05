@@ -8,8 +8,8 @@ Expected parameters:
   <table class="dialog_table" >
     <tr valign="top" align="left" height="*">
       <td valign="top" width="90px">
-        <div class="resultDroppable" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
-          <img id="drop_paramset" style="margin:11px" src="${resource(dir:'images/helio',file:'circle_block.png')}" />
+        <div class="paramDroppable" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+          <img style="margin:11px" src="${resource(dir:'images/helio',file:'circle_ParamSet.png')}" />
         </div>
       </td>
       <td valign="top" width="*">
@@ -26,24 +26,26 @@ Expected parameters:
             </tr>
           </thead>
           <tbody>
-            <g:each var="param" in="${paramSet.params}" status="i">
-              <g:set var="paramDescriptor" value="${taskDescriptor.inputParams.paramSet[param.key]}" />
+            <g:each var="paramDescriptorEntry" in="${paramSet.config}" status="i">
+              <g:set var="param" value="${paramSet.params[paramDescriptorEntry.key]}" />
+              <g:set var="paramDescriptor" value="${paramDescriptorEntry.value}" />
+              <g:set var="value" value="${param?.value ?:paramDescriptor.defaultValue}" />
               <tr>
                 <td valign="top">
                   <b>${paramDescriptor.label}&nbsp;</b>
                 </td>
                 <td valign="top">
                   <g:if test="${paramDescriptor.valueDomain}" >
-                    <g:select class="paramSetEntry" id="${param.key}" name="${param.key}" value="${param.value}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
+                    <g:select class="paramSetEntry" id="${paramDescriptorEntry.key}" name="${paramDescriptorEntry.key}" value="${value.toString()}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
                   </g:if>
                   <g:elseif test="${paramDescriptor.type.isEnum()}" >
                     <g:each var="type" in="${paramDescriptor.type.values()}">
-                      <g:radio class="paramSetEntry" name="${param.key}" value="${type}" checked="${type == paramDescriptor.defaultValue}" title="${paramDescriptor.label}"/>
+                      <g:radio class="paramSetEntry" name="${paramDescriptorEntry.key}" value="${type.toString()}" checked="${type.toString() == value.toString()}" title="${paramDescriptor.label}"/>
                       <g:message code="${type.label}" /><br/>
                     </g:each>
                   </g:elseif>
                   <g:else>
-                    <input size="7" type="text" class="paramSetEntry" name="${param.key}" title="${paramDescriptor.label}" value="${param.value}" />
+                    <input size="7" type="text" class="paramSetEntry" name="${paramDescriptorEntry.key}" title="${paramDescriptor.label}" value="${value}" />
                   </g:else>
                 </td>
                 <td valign="top">

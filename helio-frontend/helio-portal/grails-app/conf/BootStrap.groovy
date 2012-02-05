@@ -15,10 +15,12 @@ import eu.heliovo.clientapi.query.HelioQueryResult
 import eu.heliovo.clientapi.query.HelioQueryService
 import eu.heliovo.hfe.model.cart.DataCart
 import eu.heliovo.hfe.model.param.AbstractParam
+import eu.heliovo.hfe.model.param.EventListParam;
 import eu.heliovo.hfe.model.param.InstrumentParam
-import eu.heliovo.hfe.model.param.ParamSet;
+import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.param.TimeRangeParam
+import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.registryclient.HelioServiceName
@@ -27,25 +29,28 @@ import grails.converters.JSON
 import grails.util.GrailsUtil
 
 class BootStrap {
+    
+    def voTableService;
 
     def init = { servletContext ->
         // setup roles and register temp user filter
         setupSecurity()
-        
+
         initMarshallers()
-        
+
         switch(GrailsUtil.environment){
             case "development":
             //org.hsqldb.util.DatabaseManager.main()
             case "production":
-                // fire up HELIO Backend
+            // fire up HELIO Backend
                 def helioClient = new HelioClient()
-                // init descriptors
+            // init descriptors
                 if (!servletContext.instrumentDescriptors) {
                     servletContext.instrumentDescriptors = initDpasConfig(helioClient)
                 }
-                if (!servletContext.eventListDescriptors) {
-                    servletContext.eventListDescriptors = initEventListDescriptors(helioClient)
+                if (!servletContext.eventListModel) {
+                    //servletContext.eventListDescriptors = initEventListDescriptors(helioClient)
+                    servletContext.eventListModel = initEventListModel(helioClient)
                 }
 
                 break
@@ -102,7 +107,26 @@ class BootStrap {
         ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs())
         return resvt
     }
-    
+
+    /**
+     * Init the event list descriptors
+     * @param servletContext the current servletContext
+     * @param helioClient the helioClient
+     * @return
+     */
+    private def initEventListModel(HelioClient helioClient) {
+        // init the HEC configuration
+        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE,null )
+        HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
+                Arrays.asList("hec_catalogue"), null, 0, 0, null)
+
+        int timeout = 60
+
+        URL votableUrl = hecQueryResult.asURL(timeout, TimeUnit.SECONDS)
+        def model = voTableService.createVOTableModel(new RemoteVOTableResult(url: votableUrl.toString()))
+        model.tables[0]
+    }
+
     private def initMarshallers() {
         JSON.registerObjectMarshaller DataCart, {
             def returnArray = [:]
@@ -129,12 +153,17 @@ class BootStrap {
         }
         JSON.registerObjectMarshaller ParamSet, {
             def returnArray = marshalAbstractParam([:], it)
-            returnArray['taskName'] = it.taskName
             returnArray['params'] = it.params
+            returnArray['config'] = it.config
+            return returnArray
+        }
+        JSON.registerObjectMarshaller EventListParam, {
+            def returnArray = marshalAbstractParam([:], it)
+            returnArray['listNames'] = it.listNames
             return returnArray
         }
     }
-    
+
     /**
      * Marshal the common attributes of an AbstractParam
      * @param map the map to populate. must not be null
@@ -146,6 +175,7 @@ class BootStrap {
         map['id'] = param.id
         map['dateCreated'] = param.dateCreated
         map['lastUpdated'] = param.lastUpdated
+        map['taskName'] = param.taskName
         map['name'] = param.name
         return map;
     }

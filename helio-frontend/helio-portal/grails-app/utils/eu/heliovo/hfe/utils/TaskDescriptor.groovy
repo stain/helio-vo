@@ -1,5 +1,7 @@
 package eu.heliovo.hfe.utils
 
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
+
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
@@ -40,6 +42,13 @@ class TaskDescriptor {
         def hitObjectDomain = ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", 
                           "Cassini", "Dawn", "Galileo", "Messenger", "NewHorizons", "Rosetta", "StereoA", "StereoB", 
                           "Ulysses", "Voyager1", "Voyager2"]
+        
+        def tav2283ValueDomain = ["goes_sxr_flare", "ngdc_halpha_flare", "noaa_energetic_event", "yohkoh_hxr_flare",
+            "kso_halpha_flare", "stereo_euvi_event", "ulysses_hxr_flare",
+            "timed_see_flare", "goes_flare_sep_event"]
+        
+        def eventListModel = ServletContextHolder.servletContext?.eventListModel
+        
         
       /************* PROPAGATION MODEL *****************/
       [
@@ -202,13 +211,9 @@ class TaskDescriptor {
             "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
             "paramSet" : [
                 "catalogue1" : [label : "Catalogue 1", description : "1st Event list (not all HEC lists are supported)", type : String, defaultValue : "goes_sxr_flare", 
-                    valueDomain: ["goes_sxr_flare", "ngdc_halpha_flare", "noaa_energetic_event", "yohkoh_hxr_flare", 
-                        "kso_halpha_flare", "stereo_euvi_event", "wind_typeii_soho_cme", "ulysses_hxr_flare", 
-                        "timed_see_flare", "goes_flare_sep_event"]],
+                    valueDomain: tav2283ValueDomain],
                 "catalogue2" : [label : "Catalogue 2", description : "2nd Event list", type : String, defaultValue : "ngdc_halpha_flare",
-                    valueDomain: ["goes_sxr_flare", "ngdc_halpha_flare", "noaa_energetic_event", "yohkoh_hxr_flare", 
-                        "kso_halpha_flare", "stereo_euvi_event", "wind_typeii_soho_cme", "ulysses_hxr_flare", 
-                        "timed_see_flare", "goes_flare_sep_event"]],
+                    valueDomain: tav2283ValueDomain],
                 "timeDelta" : [label : "Time delta", description : "Max time delta between the two lists in seconds", type : Integer, defaultValue : 0],
                 "locationDelta" : [label : "Location delta", description : "Max delta in degrees", type : Double, defaultValue : 1.5d],
             ]
@@ -339,7 +344,27 @@ class TaskDescriptor {
           "outputParams" : [
             "url" : [id : "url", label: "WIND Plot", type : "url" ],
           ]
-      ],  
+      ],
+      "eventlist" :  [
+          "label" : "HELIO Event Catalogue",
+          "description" : "Query the HELIO Event Catalogue",
+          "serviceName" : HelioServiceName.HEC,
+          "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
+          "serviceVariant" : null,
+          "timeout" : 120,
+          "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'multi_time_range']],
+            "eventList" :  [
+                "listNames" : [label : "Event List", description : "Name of the Event List", type : String[], 
+                    defaultValue : [], 
+                    selectionTable: eventListModel]
+                ]
+          ],
+          "outputParams" : [
+            "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+          ]
+      ],
+
     ]}
     
     /**

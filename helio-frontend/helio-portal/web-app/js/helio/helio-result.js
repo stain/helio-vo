@@ -21,14 +21,14 @@ helio.AbstractResult.prototype.clear = undefined;
 
 
 /**
- * Result container for a call to a processing service.
- * This model delegates the core functionality to VoTableResult and PlotResult.
+ * Generic Result container for a call to a Task. Special tasks may implement their own container.
+ * This model delegates the core functionality to VOTableResult, PlotResult and LogResult.
  * @param {helio.AbstractTask} task the task this result is associated with.  
  * @param {String} taskName the actual name of the task variant. 
  * @param {Object} data the content of the result 
  * 
  */
-helio.ProcessingServiceResult = function(task, taskName, data) {
+helio.TaskResult = function(task, taskName, data) {
     helio.AbstractResult.apply(this, [task, taskName]);
     this.data = data;
     this.votableResult = new helio.VOTableResult(task, taskName);
@@ -36,46 +36,15 @@ helio.ProcessingServiceResult = function(task, taskName, data) {
     this.logResult = new helio.LogResult(task, taskName);
 };
 
-//create ProcessingServiceResult as subclass of AbstractResult
-helio.ProcessingServiceResult.prototype = new helio.AbstractResult;
-helio.ProcessingServiceResult.prototype.constructor = helio.ProcessingServiceResult;
+//create TaskResult as subclass of AbstractResult
+helio.TaskResult.prototype = new helio.AbstractResult;
+helio.TaskResult.prototype.constructor = helio.TaskResult;
 
 /**
  * Initialize the processing service result
  */
-helio.ProcessingServiceResult.prototype.init = function() {
+helio.TaskResult.prototype.init = function() {
     this.votableResult.init();
-    this.plotResult.init();
-    this.logResult.init();
-    var rowpos = $('#task_result_area').position();
-    if(rowpos){
-        $('html,body').scrollTop(rowpos.top);
-    }
-};
-
-/**
- * Result container for a call to a plotting service.
- * This model delegates the core functionality to  PlotResult.
- * @param {helio.AbstractTask} task the task this result is associated with.  
- * @param {String} taskName the actual name of the task variant. 
- * @param {Object} data the content of the result 
- * 
- */
-helio.PlotTaskResult = function(task, taskName, data) {
-    helio.AbstractResult.apply(this, [task, taskName]);
-    this.data = data;
-    this.plotResult = new helio.PlotResult(task, taskName);
-    this.logResult = new helio.LogResult(task, taskName);
-};
-
-//create PlotTaskResult as subclass of AbstractResult
-helio.PlotTaskResult.prototype = new helio.AbstractResult;
-helio.PlotTaskResult.prototype.constructor = helio.PlotTaskResult;
-
-/**
- * Initialize the processing service result
- */
-helio.PlotTaskResult.prototype.init = function() {
     this.plotResult.init();
     this.logResult.init();
     var rowpos = $('#task_result_area').position();
@@ -102,12 +71,14 @@ helio.VOTableResult.prototype = new helio.AbstractResult;
 helio.VOTableResult.prototype.constructor = helio.VOTableResult;
 
 helio.VOTableResult.prototype.init = function() {
+    var THIS = this;
+    
     // format the reponse elements
     // 1. buttons
     formatButton($(".custom_button"));
 
     // 2. result table
-    $(".resultTable").each(function() {fnFormatTable(this.id);});
+    $(".resultTable").each(function() { THIS._formatTable(this.id);});
     
     // 3. enable ok-dialogs
     $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
@@ -173,6 +144,117 @@ helio.VOTableResult.prototype.init = function() {
         recipe.document.write(html);
         recipe.document.close();
     });
+};
+
+/**
+ * Formats every datatable in the system and adds listeners to the rows to be clicked
+ * @tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
+ */
+helio.VOTableResult.prototype._formatTable = function(tableName) {
+    // 1. format the table
+    var dataTable =$("#"+tableName).dataTable({
+        "bJQueryUI": true,
+        "bAutoWidth": true,
+        "bRetrieve":true,
+        "bDestroy":true,
+        "bLengthChange": true,
+        "sPaginationType": "full_numbers",
+        "sScrollX": "100%",
+        "sScrollY": "500px",
+        "bPaginate": false,
+        "iDisplayLength": 25,
+        "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        //"sScrollXInner": "100%",
+        "bScrollCollapse": true,
+     
+    });
+    
+    // 2. init special columns
+    var cols = dataTable.fnSettings().aoColumns;
+    for (var col in cols) {
+        var th = $(cols[col].nTh); 
+        if (th.hasClass('hiddenRow')) {
+            dataTable.fnSetColumnVis( col, false);
+        }
+        if (th.hasClass('th_examine_event')) {
+            dataTable.find('.examine_event').attr('title', 'Get more information about this event')
+               .append('<img style="width:15px;heigth:15px" src="../images/search.png" />')
+               .click((function(dataTable) {
+                 return function() {
+                    var settings = dataTable.fnSettings();
+                    var time_start = -1;
+                    var time_end = -1;
+                    for(var j = 0;j< settings.aoColumns.length;j++){
+                        if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
+                            time_start=j;
+                        }
+                        if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
+                            time_end=j;
+                        }
+                    }//end j
+                    if (time_start == -1) {
+                        alert("No column with name time_start found");
+                        return;
+                    } 
+                    if (time_end == -1) {
+                        time_end = time_start;
+                    }
+                    var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
+                    var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
+                    //sendExamineEvent(times,timee);
+
+                    $("#dialog-message").remove();
+                    var div =$('<div></div>');
+                    div.attr('id','dialog-message');
+                    div.attr('title','Event Details');
+                                  
+                    var html = window.workspace.getDivisions()["input_event_view"];
+                    div.append(html);
+
+                    $("#testdiv").append(div);
+                    $("#details_start_date").text(times);
+                    $("#details_end_date").text(timee);
+                    formatButton($('.custom_button'));
+                    $("#fplot_button").click(function(){
+                        sendExamineEvent(times,timee,"fplot");
+                    });
+                    $("#cplot_button").click(function(){
+                        sendExamineEvent(times,timee,"cplot");
+                    });
+                    $("#pplot_button").click(function(){
+                        sendExamineEvent(times,timee,"pplot");
+                    });
+                    sendExamineEvent(times,timee,"link");
+                    $('#dialog-message').dialog({
+                        modal: true,
+                        height:600,
+                        width:800,
+                        buttons: {
+                            Ok: function() {
+                                $("#dialog-message").dialog( "close" );
+                                $("#dialog-message").remove();
+                            }
+                        }
+                    });
+                    return false;
+                };
+              })(dataTable));
+        }
+    }
+
+    // 4. the row selection listener
+    var rows = $('#' + tableName + ' tr');
+    $('#' + tableName + ' tr').click( function() {
+        //var row = table.fnGetData(this);    // current row
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+            //THIS.newdata.removeList.call(THIS.newdata, id);
+        } else {
+            $(this).addClass('row_selected');
+            //THIS.newdata.addList.apply(THIS.newdata, [id, label]);
+        };
+    });    
+    return dataTable;
 };
 
 /**

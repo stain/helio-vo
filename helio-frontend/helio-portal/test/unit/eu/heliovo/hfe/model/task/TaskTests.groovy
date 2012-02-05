@@ -24,7 +24,7 @@ class TaskTests extends GrailsUnitTestCase {
         task.owner = new User(username: "a.b@c.de",
             password: "password.123", accountLocked: false, enabled: true)
         task.taskName = "votableupload"
-        def timeRangeParam = new TimeRangeParam()
+        def timeRangeParam = new TimeRangeParam(taskName : "votableupload")
         timeRangeParam.addTimeRange(new Date()-5, new Date()-3)
         timeRangeParam.addTimeRange(new Date()-2, new Date())
         task.inputParams.put("timeRanges", timeRangeParam)

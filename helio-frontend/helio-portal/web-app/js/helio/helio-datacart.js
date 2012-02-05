@@ -66,9 +66,10 @@ helio.DataCart.prototype._handleSliderSlide = function(event, ui) {
  * @param {helio.AbstractModel} dataItem, the data Item to add.
  */
 helio.DataCart.prototype.addItem = function(dataItem) {
+    var THIS = this;
     this.data = $.getJSON(
         '../dataCart/create',
-        dataItem,
+        {data : JSON.stringify(dataItem)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
             THIS.render.call(THIS);
@@ -77,15 +78,32 @@ helio.DataCart.prototype.addItem = function(dataItem) {
 };
 
 /**
+ * Upate the content of an existing item and re-paint the cart.
+ * This method also updates the server side.
+ * @param {helio.AbstractModel} dataItem, the data Item to add.
+ */
+helio.DataCart.prototype.update = function(dataItem) {
+    var THIS = this;
+    this.data = $.getJSON(
+            '../dataCart/update',
+            {id : dataItem.id, data : JSON.stringify(dataItem)},
+            function(data, textStatus, jqXHR) {
+                THIS.data = data;
+                THIS.render.call(THIS);
+            }
+    );
+};
+
+/**
  * Remove a data item from the data cart and re-paint the cart.
  * This method also updates the server side.
  * @param {helio.AbstractModel} dataItem, the data Item to add.
  */
-helio.DataCart.prototype.removeItem = function(dataItem) {
-    debugger;
+helio.DataCart.prototype.deleteItem = function(dataItem) {
+    var THIS = this;
     this.data = $.getJSON(
-        '../dataCart/remove',
-        dataItem,
+        '../dataCart/delete',
+        {data : JSON.stringify(dataItem)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
             THIS.render.call(THIS);
@@ -103,15 +121,20 @@ helio.DataCart.prototype.render = function() {
     if (this.data && this.data.cartItems) {        
         
         $.each(this.data.cartItems, function(index, cartItem) {
-            var taskName = "datacart";  // name of the task
-            var task = {};              // not sure we need a task
+            // name of the task
+            var taskName = cartItem.taskName; // != null ? cartItem.taskName : "datacart";
             
+            var task = {};              // not sure we need a task
             var dataObject;             // helio-model javascript object holding the data
             var dialogFactory;          // the dialog factory bound to this item. This is basically a function that opens the dialog.
-            var icon;
+            
+            if (cartItem.name == null) {
+                cartItem.name = cartItem.taskName != null ? cartItem.taskName : "no name";
+            }
+            
             switch (cartItem.class) {
             case 'eu.heliovo.hfe.model.param.TimeRangeParam':
-                dataObject = new helio.TimeRanges(cartItem.name);
+                dataObject = new helio.TimeRanges(cartItem.taskName, cartItem.name);
                 dataObject.timeRanges = [];
                 dataObject.id = cartItem.id;
                 $.each (cartItem.timeRanges, function(index, timeRange) {
@@ -120,15 +143,15 @@ helio.DataCart.prototype.render = function() {
                 dialogFactory = (function(task, taskName, dataObject) { 
                     return function() {
                         return new helio.TimeRangeDialog(task, taskName, dataObject);
-                        dialog.show();
                     };
                 })(task, taskName, dataObject);
                 
-                icon = 'circle_time.png';
                 break;
             case 'eu.heliovo.hfe.model.param.ParamSet':
                 dataObject = new helio.ParamSet(cartItem.taskName, cartItem.name);
                 dataObject.params = cartItem.params;
+                dataObject.config = cartItem.config;
+                taskName = cartItem.taskName != null ? cartItem.taskName : taskName;
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
                     return function() {
@@ -136,19 +159,32 @@ helio.DataCart.prototype.render = function() {
                     };
                 })(task, taskName, dataObject);
                 
-                icon = 'circle_block.png';
                 break;
             case 'eu.heliovo.hfe.model.param.InstrumentParam':
-            case 'eu.heliovo.hfe.model.param.ObservatoryParam':
+                dataObject = new helio.Instrument(taskName, cartItem.name);
+                //dataObject.params = cartItem.params;
+                dataObject.id = cartItem.id;
+                dialogFactory = null;
+                break;                
+            case 'eu.heliovo.hfe.model.param.EventListParam':
+                dataObject = new helio.EventList(cartItem.taskName, cartItem.name);
+                dataObject.listNames = cartItem.listNames;
+                dataObject.id = cartItem.id;
+                dialogFactory = (function(task, taskName, dataObject) { 
+                    return function() {
+                        return new helio.EventListDialog(task, taskName, dataObject);
+                    };
+                })(task, taskName, dataObject);
+                break;
             default:
-                dataObject = "Unsupported " + cartItem.class;
-                icon = 'circle_block.png';
+                dataObject = new helio.AbstractModel("Unsupported " + cartItem.class, 'block');
                 dialogFactory = null;
                 break;
             }
             
-            var cartItemDiv= $('<div  title="' + cartItem.name + '" class="cartitem cartitem_draggable"></div>');
-            var img = $('<img class="cartitem_image" alt="' + icon + '"/>').attr('src', '../images/helio/' + icon);
+            var draggableClass = 'cartitemDraggable' + dataObject.type + (dataObject.subtype ? '_' + dataObject.subtype : '');
+            var cartItemDiv= $('<div  title="' + jQuery.escapeHTML(cartItem.name) + '" class="cartitem ' + draggableClass + '"></div>');
+            var img = $('<img class="cartitem_image ' + draggableClass + '" alt="' + dataObject.type + '"/>').attr('src', '../images/helio/circle_' + dataObject.type + '.png');
             cartItemDiv.append(img);
             var removeCartItem = $('<div class="cartitem_close ui-state-default ui-corner-all" title="Remove parameter">' +
             '<span class="ui-icon ui-icon-close"></span></div>');
@@ -161,14 +197,20 @@ helio.DataCart.prototype.render = function() {
             } else {
                 editCartItem = null;
             }
-            var cartItemLabel = $('<span class="cartitem_label">' + cartItem.name + '</span>');
+
+            var cartItemLabel = $('<span class="cartitem_label">' + jQuery.escapeHTML(cartItem.name) + '</span>');
             cartItemDiv.append(cartItemLabel);
             
+            // attach data to cartItemDiv
             cartItemDiv.draggable({
+                start : function(event, ui) {
+                    cartItemDiv.data('data', dataObject);
+                },
                 revert: "invalid",
                 helper: (function(img) {
                     return function() {
-                        return img.clone();
+                        var ret = img.clone().attr("style", "width:50px; height:50px;");
+                        return ret;
                     };
                 })(img),
                 zIndex: 1700
@@ -180,7 +222,8 @@ helio.DataCart.prototype.render = function() {
                     return function() {
                         var dialog = dialogFactory.call(THIS);
                         dialog.show(function() {
-                            THIS.addItem(dialog.data());
+                            THIS.update(dialog.data);
+                            cartItemLabel.children().text(dialog.data.name);
                         });
                     };
                 })(dialogFactory));
@@ -196,7 +239,7 @@ helio.DataCart.prototype.render = function() {
                     .dialog({ 
                       buttons:{
                         "Yes": function() {
-                            
+                            THIS.deleteItem(dataObject);
                             cartItemDiv.remove();
                             $(this).dialog("close");
                         },
@@ -221,7 +264,19 @@ helio.DataCart.prototype.render = function() {
     $(dataCartDivs).each(function(index, item) {
         dataCart.append(item);
     });
-    
+   
+    $('#datacart_scrollarea').droppable({
+        accept: ".paramDraggable",
+//        create : function(event, ui) {
+//        },
+        activeClass: "dataCartDroppableActive",
+        hoverClass: "dataCartDroppableHover",
+        drop: function( event, ui ) {
+            if( ui.draggable.data('data') != null){
+                THIS.addItem(ui.draggable.data('data'));
+            }
+        }
+    });
 };
 
 })();

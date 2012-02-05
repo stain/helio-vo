@@ -30,6 +30,11 @@ class AbstractParam {
      * user defined name of the param
      */
     String name
+    
+    /**
+     * Name of the corresponding task. Mandatory
+     */
+    String taskName
 
     /**
      * owner of this parameter. Defaults to currently logged in user.

@@ -1,22 +1,26 @@
+
 package eu.heliovo.hfe.controller
 
-import eu.heliovo.hfe.model.param.ParamSet
+import java.util.logging.Level
+import java.util.logging.LogRecord
+
+import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor;
+import eu.heliovo.hfe.utils.TaskDescriptor
 import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
 
-class PlotController {    
-    
-    def plotService
+class CatalogController {
+    def catalogService
+        
+    def voTableService
 
     def index = {
     }
     
-    def plot = {
-        
+    def hec = {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName
@@ -43,17 +47,14 @@ class PlotController {
             task.inputParams.put("timeRanges", timeRanges)
         }
         
-        // handle plot params, if required
-        if (taskDescriptor.inputParams.paramSet) {
-            def paramSet = new ParamSet(jsonBindings.inputParams.paramSet)
-            jsonBindings.inputParams.paramSet.params?.each{ entry ->
-                paramSet.params.put(entry.key, entry.value)
+        // handle eventlist params, if required
+        if (taskDescriptor.inputParams.eventList) {
+            def eventList = new EventListParam(jsonBindings.inputParams.eventList)
+            if (!eventList.validate()) {
+                throw new ValidationException ("Invalid param set", eventList.errors)
             }
-            if (!paramSet.validate()) {
-                throw new ValidationException ("Invalid param set", paramSet.errors)
-            }
-            paramSet.save()
-            task.inputParams.put("paramSet", paramSet)
+            eventList.save()
+            task.inputParams.put("eventList", eventList)
         }
         
         if (!task.validate()) {
@@ -62,13 +63,25 @@ class PlotController {
         task.save(flush:true)
 
         // execute the query (this adds the tasks to the output params).
-        def model = plotService.plot(task)
-        if (model.status) {
-            response.setHeader("status", model.status)
-        }
+        def model = catalogService.queryCatalog(task)
+         
+        def votableModel
+        try {
+            votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
             
-        render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
+            // add custom hec action
+            votableModel.tables.each { table -> 
+                table.rowactions=['examine_event']
+            }
+        } catch (Exception e) {
+            model.status = "Error while processing result votable (see logs for more information)"
+            model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
+            votableModel = null
+        } finally {
+            if (model.status) {
+                response.setHeader("status", model.status)
+            }
+        }
+        render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
-
-    
 }

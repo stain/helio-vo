@@ -228,7 +228,14 @@ class VoTableService {
         field["utype"] = fieldElement.utype
         field["xtype"] = fieldElement.xtype
         // todo: use UCD
-        field["rendering_hint"] = fieldElement.name == 'url' ? 'url' : 'text'
+        
+        if (fieldElement.name == 'hec_id') {
+            field["rendering_hint"] = 'hidden'
+        } else if (fieldElement.name == 'url') {
+            field["rendering_hint"] = 'url';
+        } else {
+            field["rendering_hint"] = 'text'
+        }
         return field
     }
 

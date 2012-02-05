@@ -1,11 +1,11 @@
 package eu.heliovo.hfe.controller
 
+import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
-import eu.heliovo.hfe.model.result.HelioResult;
-import eu.heliovo.hfe.model.result.RemotePlotResult
+import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor;
+import eu.heliovo.hfe.utils.TaskDescriptor
 
 class DialogController {
     /**
@@ -29,17 +29,20 @@ class DialogController {
         assert taskDescriptor != null, "Unable to find descriptor for task: " + taskName
         def initMode = InitMode.valueOf(params.init)
         
-        def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0]
+        def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
         def timeRange
         switch (initMode) {
             case InitMode.none:
-                timeRange = new TimeRangeParam() // create an empty time ranges param
+                timeRange = defaultsService.createDefaultTimeRange(taskName) // use the default time range
                 break
             case InitMode.last_task:
             case InitMode.default_mode:
                 // get task and load params from there.
                 Task task = defaultsService.loadTask(taskName)
                 timeRange = task.inputParams.timeRange
+                if (timeRange == null) {
+                    timeRange = defaultsService.createDefaultTimeRange(taskName)  
+                }
                 break;
            default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
@@ -61,6 +64,9 @@ class DialogController {
             case InitMode.default_mode: 
                 Task task = defaultsService.loadTask(taskName)
                 paramSet = task.inputParams.paramSet
+                if (paramSet == null) {
+                    paramSet = new ParamSet(taskName : taskName)
+                }
                 break;
             default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
@@ -68,6 +74,29 @@ class DialogController {
         render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet, taskDescriptor : taskDescriptor])
     }
     
+    def eventListDialog = {
+        def taskName = params.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def initMode = InitMode.valueOf(params.init)
+        
+        def eventList;
+        switch (initMode) {
+            case InitMode.none:
+                eventList = new EventListParam(taskName : taskName);
+                break;
+            case InitMode.last_task:
+            case InitMode.default_mode:
+                Task task = defaultsService.loadTask(taskName)
+                eventList = task.inputParams.eventList
+                if (eventList == null)
+                    eventList = new EventListParam(taskName : taskName);
+                break;
+            default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+        }
+        println taskDescriptor
+        render (template: "/dialog/eventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
+    }
+
     def extractParamDialog = {
         def tableId = params.tableId
         def tableIndex = params.tableIndex
@@ -77,14 +106,12 @@ class DialogController {
         }
         
         def votable = HelioResult.get(tableId)
-        
         extractParamsService.createExtractionModel(votable, tableIndex)
         
         render (template: "/dialog/extractParamsDialog", model: [])
-        
-        
     }
-    
+
+
 //    def plotResult = {
 //        def plotResults = [];
 //        

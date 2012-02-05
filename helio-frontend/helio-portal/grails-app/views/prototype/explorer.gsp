@@ -49,15 +49,15 @@
       <div id="tabs">
         <ul>
           <li><a href="#tabs-2">Services</a></li>
-          <li><a href="#tabs-3">Advanced</a></li>
+          <li><a id="advanced_tab" href="#tabs-3">Advanced</a></li>
           <li><a href="#tabs-4">Beta</a></li>
           <li><a href="#tabs-5">Administration</a></li>
         </ul>
         <div id="tabs-2">
           <table>
             <tr>
-              <td>
-                <div style="display:block" class="menu_item custom_button"  id="task_searchEvents">Search Events</div>
+              <td>                
+                <div id="task_eventlist" title="Search Events">Search Events</div>
               </td>
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchInstCap">Find instruments by capability</div>
@@ -74,23 +74,23 @@
         <div id="tabs-3">
           <table>
             <tr>
-              <td>
+              <%--td>
                 <div style="display:block" class="menu_item custom_button"  id="task_upload">VOtable Upload</div>
-              </td>
+              </td> --%>
               <td>
                 <div>
                   <div id="task_plotservice" title="Select a Plot">Plot Data</div><div
                   id="task_plotservice_select">Select a Plot</div>
                 </div>
                 <ul id="task_plotservice_menu" class="menu" style="display: none;">
-                  <li id="task_plotservice_goes">GOES timeline plot</li>
-                  <li id="task_plotservice_flare">Flare plot</li>
-                  <li id="task_plotservice_parker">Simple Parker Spiral</li>
-                  <li id="task_plotservice_ace">ACE timeline</li>
-                  <li id="task_plotservice_sta">STEREO-A timeline</li>
-                  <li id="task_plotservice_stb">STEREO-B timeline</li>
-                  <li id="task_plotservice_ulysses">Ulysses timeline</li>
-                  <li id="task_plotservice_wind">WIND timeline</li>
+                  <li id="task_plotservice_goesplot">GOES timeline plot</li>
+                  <li id="task_plotservice_flareplot">Flare plot</li>
+                  <li id="task_plotservice_parkerplot">Simple Parker Spiral</li>
+                  <li id="task_plotservice_aceplot">ACE timeline</li>
+                  <li id="task_plotservice_staplot">STEREO-A timeline</li>
+                  <li id="task_plotservice_stbplot">STEREO-B timeline</li>
+                  <li id="task_plotservice_ulyssesplot">Ulysses timeline</li>
+                  <li id="task_plotservice_windplot">WIND timeline</li>
                 </ul>
               </td>
               <g:if env="development">              
@@ -109,17 +109,17 @@
                   </ul>
                 </td>
                 <td>
-                  <div style="display:block" class="custom_button"  id="task_upload2">Upload VOTable (beta)</div>
+                  <div id="task_upload2">Upload VOTable</div>
                 </td>
               </g:if>
               <g:if env="development">
                 <td>
                   <div>
                     <div id="task_taverna" title="Select a Taverna Workflow">Workflows</div><div
-                    id="task_propagationmodel_select">Select a Taverna Workflow</div>
+                    id="task_taverna_select">Select a Taverna Workflow</div>
                   </div>
                   <ul id="task_taverna_menu" class="menu" style="display: none;">
-                      <li id="task_tav_2283">Combine two event lists</li>
+                      <li id="task_taverna_tav_2283">Combine two event lists</li>
                   </ul>
                 </td>
               </g:if>
@@ -147,22 +147,15 @@
       </div>
     
       <div id="content-container">
-        <div class="candybox" id="history">
-          <div>Data Cart</div>
-          <div id="historyScrollWidth">
-            <div id="historyContent"></div>
-          </div>
-          <div id="content-slider"></div>
-        </div> <!-- History -->
         
-        <%-- the data cart %>
+        <%-- the data cart --%>
         <div class="candybox" id="datacart_container">
           <div>Data Cart</div>
           <div id="datacart_scrollarea">
             <div id="datacart_content"></div>
           </div>
           <div id="datacart_slider"></div>
-        </div --%>
+        </div>
     
         <!-- Content -->
         <div id="content" >

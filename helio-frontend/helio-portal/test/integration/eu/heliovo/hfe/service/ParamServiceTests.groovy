@@ -20,12 +20,12 @@ class ParamServiceTests extends GrailsUnitTestCase {
     }
     
     /**
-     * Test teh fin latest time range function
+     * Test the find latest time range function
      */
     void testFindLatestTimeRangeParam() {
-        new TimeRangeParam([timeRanges: [new TimeRange(startTime : new Date()-50, endTime : new Date()-45)]]).save()
-        new TimeRangeParam([timeRanges: [new TimeRange(startTime : new Date()-200, endTime : new Date()-199)]]).save()
-        def latest = new TimeRangeParam([timeRanges: [new TimeRange(startTime : new Date()-100, endTime : new Date()-95)]])
+        new TimeRangeParam([taskName: 'votableupload', timeRanges: [new TimeRange(startTime : new Date()-50, endTime : new Date()-45)]]).save()
+        new TimeRangeParam([taskName: 'votableupload', timeRanges: [new TimeRange(startTime : new Date()-200, endTime : new Date()-199)]]).save()
+        def latest = new TimeRangeParam([taskName: 'votableupload', timeRanges: [new TimeRange(startTime : new Date()-100, endTime : new Date()-95)]])
         latest.save()
         
         def latest2 =  paramService.findLatestTimeRangeParam()

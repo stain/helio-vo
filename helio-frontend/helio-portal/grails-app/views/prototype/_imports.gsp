@@ -39,7 +39,7 @@
 <g:javascript src="jquery.form.js"/><%--used for file uploads--%>
 <g:javascript src="highcharts.js"/>
 <g:javascript src="themes/grid.js"/><%--highcharts theme--%>
-<g:javascript src="jquery.dataTables.min.js" />
+<g:javascript src="jquery.dataTables-1.9.0.min.js" />
 <g:javascript src="/plugins/jquery.collapsible.js" />
 <g:javascript src="/plugins/jquery.selectBox.min.js" />
 <g:javascript src="/plugins/jquery.blockUI.js"/>

@@ -17,7 +17,7 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
     void testAddTimeRange() {
         mockDomain(TimeRangeParam)
         mockDomain(TimeRange)
-        def timeRange = new TimeRangeParam()
+        def timeRange = new TimeRangeParam(taskName: 'votableupload')
         timeRange.owner = new User(username: "a.b@c.de",
                 password: "password.123", accountLocked: false, enabled: true)
 
@@ -40,7 +40,7 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
     void testAddMultipleTimeRange() {
         mockDomain(TimeRangeParam)
         mockDomain(TimeRange)
-        def timeRange = new TimeRangeParam()
+        def timeRange = new TimeRangeParam(taskName: 'votableupload')
         timeRange.owner = new User(username: "a.b@c.de",
                 password: "password.123", accountLocked: false, enabled: true)
         Calendar cal = Calendar.getInstance()
@@ -67,7 +67,7 @@ class TimeRangeParamTests extends GrailsUnitTestCase {
     void testInvalidTimeRangeManipulations() {
         mockDomain(TimeRangeParam)
         mockDomain(TimeRange)
-        def timeRange = new TimeRangeParam()
+        def timeRange = new TimeRangeParam(taskName: 'votableupload')
         timeRange.owner = new User(username: "a.b@c.de",
                 password: "password.123", accountLocked: false, enabled: true)
 

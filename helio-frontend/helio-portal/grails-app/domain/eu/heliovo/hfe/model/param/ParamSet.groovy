@@ -19,26 +19,38 @@ class ParamSet extends AbstractParam {
      * Hold the params
      */
     Map<String, String> params
-    
-    /**
-     * The name of the Task this paramSet belongs to.
-     */
-    String taskName
-    
+        
     static constraints = {
     }
 	
 	static hasMany = [
 		params : String
 	]
-	
+
+    static transients = [
+        'config'
+    ]
+    
+    /**
+     * Load the task descriptor config.
+     */
+    Map<String, String> getConfig() {
+        findTaskDescriptor()?.inputParams?.paramSet
+    }
+    
+    def setConfig(Map config) {
+        // ignore config, this is just to make the data-binding happy.    
+    }
+    	
 	/**
      * Load the task description from the config
      * @return
      */
     def findTaskDescriptor() {
-        TaskDescriptor.taskDescriptor[taskName]
+        TaskDescriptor.taskDescriptor[this.taskName]
     }
+    
+    
     
     def String toString() {
         "ParamSet [taskName: " + taskName + ", params: " + params +"]"

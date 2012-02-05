@@ -6,288 +6,213 @@
 this.helio = this.helio ||
   { toString: function() { return 'package: helio'; } };
 
+(function() {
+      
+   // map of previously stored tasks
+   this.helio.TaskMap = function() {
+       this.tasks = new Object();
+   };
+
+   /**
+    * Find task in the task map
+    * 
+    * @param {String}
+    *            taskName name of the task to find.
+    * @return the found task or undefined if not found.
+    */
+   this.helio.TaskMap.prototype.findByName = function(taskName) {
+       return this.tasks[taskName];
+   };
+
+   /**
+    * Put task into map.
+    * 
+    * @param {String}
+    *            taskName name of the task to find.
+    * @param {helio.AbstractTask}
+    *            task the task instance to persist.
+    * @return the found task or undefined if not found.
+    */
+   this.helio.TaskMap.prototype.put = function(taskName, task) {
+       this.tasks[taskName] = task;
+   };
+
+
+   helio.DropdownMenu = function(id, options) {
+       var THIS = this;
+       this.id = id;
+       this.options = options;
+       
+       // init the drop down menu
+       $("#" + this.id + "_menu").menu();
+       
+       // click handler
+       $("#" + this.id).button().click(function(e) {
+           $("#" + THIS.id + "_menu").toggle();
+           e.stopPropagation();
+       })
+       .next()
+       .button({
+           text: false,
+           icons: {
+               primary: "ui-icon-triangle-1-s"
+           }
+       })
+       .click(function(e) {
+           $("#" + THIS.id + "_menu").toggle();
+           e.stopPropagation();
+       })
+       .parent()
+       .buttonset();
+       
+       for(var menuItem in this.options) {
+           $("#" + menuItem)
+           .addClass('ui-state-default')
+           .hover(function() {$(this).addClass('ui-state-hover');}, function() {$(this).removeClass('ui-state-hover');});
+           $("#" + menuItem)
+           .click( (function(menuItem) {
+               return function() {
+                   $("#" + THIS.id + "_menu").hide();
+                   // change button text.
+                   var title = THIS.options[menuItem].title;
+                   $("#" + THIS.id + " span.ui-button-text").html(title);
+                   
+                   // register click handler
+                   $("#" + THIS.id).unbind("click");
+                   var click = THIS.options[menuItem].click;
+                   $("#" + THIS.id).click(click);
+                   click.call(this);
+               };
+           }) (menuItem));
+       };
+       
+       // register a global handler to hide the menu if clicked outside.
+       $(document).click(function() {        
+           $("#" + THIS.id + "_menu").hide();
+       });
+   };
+   // cache for temporary data. Temporary data is stored in an associative array.
+   helio.cache = new Object();
+   
+   // an extension to use JSON through a post request.
+   jQuery.extend({
+       postJSON: function( url, data, callback) {
+          return jQuery.post(url, data, callback, "json");
+       }
+   });
+   
+   jQuery.escapeHTML = function (text){
+       return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+   };
+   
+})();      
+
+
+  
 /**
  * Base module for the HELIO project. This is used to initialize the HELIO
  * project and provides some generic classes.
  */
-$(document).ready(function() {
-     // use existing global 'helio' (here, 'this' === window/global context)
-     // or create new object/package
-     this.helio = this.helio ||
-       { toString: function() { return 'package: helio'; } };
-    
-    // init the menu
-    $("#task_upload2").click(function() {
-        $('#content').load('../task/uploadVoTable', function() {
-            var task = new helio.VOTableUploadTask("votableupload"); 
-            task.init.call(task);
-        });
-    });    
-
-    var pmConfig = new Object();
-    pmConfig["pm_cme_fw"] = { title: "CME Forward PM"};
-    pmConfig["pm_cme_back"] = { title: "CME Backward PM"};
-    pmConfig["pm_cir_fw"] = { title: "CIR Forward PM"};
-    pmConfig["pm_cir_back"] = { title: "CIR Backward PM"};
-    pmConfig["pm_sep_fw"] = { title: "SEP Forward PM"};
-    pmConfig["pm_sep_back"] = { title: "SEP Backward PM"};
-    
-    var pmMenu = new Object();
-    // loop over config and fill menu object.
-    for (taskName in pmConfig) {
-        pmMenu["task_propagationmodel_" + taskName] = { 
-            "title": pmConfig[taskName].title,
-            "click": (function(taskName) {
-                return function() {
-                    $('#content').load('../task/propagationModel?taskName=' + taskName, function() {
-                        var task = helio.taskMap.findByName(taskName);
-                        if (!task) {
-                            task = new helio.PropagationModelTask(taskName); 
-                            helio.taskMap.put(taskName, task);
-                        }
-                        task.init.call(task);
-                    });
-                };
-            }) (taskName)
-        };
-    }
-    
-    // create the dropdown menu
-    new helio.DropdownMenu("task_propagationmodel", pmMenu);
-    
-    
-    // create the dropdown menu for the plotservcie
-    new helio.DropdownMenu("task_plotservice", {
-        "task_plotservice_goes" : 
-        { 
-          "title": "GOES timeline plot",
-          "click": function() {
-            $('#content').load('../task/plot?taskName=goesplot', function() {
-              var task = helio.taskMap.findByName("goesplot");
-              if (!task) {
-                task = new helio.PlotTask("goesplot");
-                helio.taskMap.put("goesplot", task);
-              }
-              task.init.call(task);
-            });
-          }
-        },
-        "task_plotservice_flare" : 
-        { 
-          "title": "Flare plot",
-          "click": function() {
-            $('#content').load('../task/plot?taskName=flareplot', function() {
-              var task = helio.taskMap.findByName("flareplot");
-              if (!task) {
-                task = new helio.PlotTask("flareplot");
-                helio.taskMap.put("flareplot", task);
-              }
-              task.init.call(task);
-            });
-          }
-        },
-        "task_plotservice_parker" : 
-        { 
-          "title": "Parker spiral plot",
-          "click": function() {
-            $('#content').load('../task/plot?taskName=parkerplot', function() {
-              var task = helio.taskMap.findByName("parkerplot");
-              if (!task) {
-                task = new helio.PlotTask("parkerplot");
-                helio.taskMap.put("parkerplot", task);
-              }
-              task.init.call(task);
-            });
-          }
-        },
-        "task_plotservice_ace" : 
-        { 
-            "title": "ACE plot",
-            "click": function() {
-                $('#content').load('../task/plot?taskName=aceplot', function() {
-                    var task = helio.taskMap.findByName("aceplot");
-                    if (!task) {
-                        task = new helio.PlotTask("aceplot");
-                        helio.taskMap.put("aceplot", task);
-                    }
-                    task.init.call(task);
-                });
-            }
-        },
-        "task_plotservice_sta" : 
-        { 
-            "title": "STEREO-A plot",
-            "click": function() {
-                $('#content').load('../task/plot?taskName=staplot', function() {
-                    var task = helio.taskMap.findByName("staplot");
-                    if (!task) {
-                        task = new helio.PlotTask("staplot");
-                        helio.taskMap.put("staplot", task);
-                    }
-                    task.init.call(task);
-                });
-            }
-        },
-        "task_plotservice_stb" : 
-        { 
-            "title": "STEREO-B plot",
-            "click": function() {
-                $('#content').load('../task/plot?taskName=stbplot', function() {
-                    var task = helio.taskMap.findByName("stbplot");
-                    if (!task) {
-                        task = new helio.PlotTask("stbplot");
-                        helio.taskMap.put("stbplot", task);
-                    }
-                    task.init.call(task);
-                });
-            }
-        },
-        "task_plotservice_ulysses" : 
-        { 
-            "title": "Ulysses plot",
-            "click": function() {
-                $('#content').load('../task/plot?taskName=ulyssesplot', function() {
-                    var task = helio.taskMap.findByName("ulyssesplot");
-                    if (!task) {
-                        task = new helio.PlotTask("ulyssesplot");
-                        helio.taskMap.put("ulyssesplot", task);
-                    }
-                    task.init.call(task);
-                });
-            }
-        },
-        "task_plotservice_wind" : 
-        { 
-            "title": "WIND plot",
-            "click": function() {
-                $('#content').load('../task/plot?taskName=windplot', function() {
-                    var task = helio.taskMap.findByName("windplot");
-                    if (!task) {
-                        task = new helio.PlotTask("windplot");
-                        helio.taskMap.put("windplot", task);
-                    }
-                    task.init.call(task);
-                });
-            }
-        },
-    });
-    
-    // create the dropdown menu for taverna.
-    new helio.DropdownMenu("task_taverna", {
-        "task_tav_2283" : 
-        { 
-          "title": "Combine Event Lists",
-          "click": function() {
-            $('#content').load('../task/propagationModel?taskName=tav_2283', function() {
-              var task = helio.taskMap.findByName("tav_2283");
-              if (!task) {
-                task = new helio.PropagationModelTask("tav_2283");
-                helio.taskMap.put("tav_2283", task);
-              }
-              task.init.call(task);
-            });
-          }
-        },
-    });
-    
+$(document).ready(function() {       
     //create and init the data cart
     helio.dataCart = new helio.DataCart();
 
     // provde global access to the task map
     helio.taskMap = new helio.TaskMap();
 
-    // cache for temporary data. Temporary data is stored in an associative array.
-    helio.cache = new Object();
+    // generic configuration of the menu
+    var menuConfig = {
+        "task_upload2" : {
+            "url"      : "../task/uploadVoTable",
+            "taskName" : "votableupload",
+            "taskConstructor" : function(taskName) { return new helio.VOTableUploadTask("votableupload"); }
+        },
+        "task_eventlist" : {
+            "url"      : "../task/load?taskName=eventlist",
+            "taskName" : "eventlist",
+            "taskConstructor" : function(taskName) { return new helio.EventListTask(taskName); }
+        },
+        "task_propagationmodel" : {
+            "menuitems" : {
+                "pm_cme_fw" : { title: "CME Forward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+                "pm_cme_back" : { title: "CME Backward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+                "pm_cir_fw" : { title: "CIR Forward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+                "pm_cir_back" : { title: "CIR Backward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+                "pm_sep_fw" : { title: "SEP Forward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+                "pm_sep_back" : { title: "SEP Backward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
+            }
+        },
+        "task_plotservice" : {
+            "menuitems" : {
+                "goesplot" : { title: "GOES timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "flareplot" : { title: "Flare plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "parkerplot" : { title: "Parker spiral plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "aceplot" : { title: "ACE timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "staplot" : { title: "STEREO-A timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "stbplot" : { title: "STEREO-B timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "ulyssesplot" : { title: "Ulysses timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+                "windplot" : { title: "Wind timeline plot", taskConstructor : function(taskName) {return new helio.PlotTask(taskName);}},
+            }
+        },
+        "task_taverna" : {
+            "menuitems" : {
+                "tav_2283" : { "title" : "Combine Event Lists", taskConstructor : function(taskName) { return new helio.PropagationModelTask(taskName); }}
+            }
+        },
+    };    
+    
+    // loop over config and fill menu object.
+    for (menuName in menuConfig) {
+        var config = menuConfig[menuName];
+        if (config.menuitems) {
+            var pmMenu = new Object();
+            for (subMenuItem in config.menuitems) {
+                var subMenuItemConfig = config.menuitems[subMenuItem];
+                var subMenuItemName = menuName + "_" + subMenuItem; 
+                pmMenu[subMenuItemName] = { 
+                    "title": subMenuItemConfig.title,
+                    "click": (function(taskName, subMenuItemConfig) {
+                        return function() {
+                            $('#content').load('../task/load?taskName=' + taskName, function() {
+                                var task = helio.taskMap.findByName(taskName);
+                                if (!task) {
+                                    task = subMenuItemConfig.taskConstructor.call(this, taskName); 
+                                    helio.taskMap.put(taskName, task);
+                                }
+                                task.init.call(task);
+                            });
+                        };
+                    }) (subMenuItem, subMenuItemConfig)
+                };
+            }
+            new helio.DropdownMenu(menuName, pmMenu);
+        } else if (config.taskName) {
+            $("#" + menuName).button();
+            $("#" + menuName).click((function(config) {
+                return function() {
+                    $('#content').empty();
+                    $('#content').load(config.url, function() {
+                        var task = helio.taskMap.findByName(config.taskName);
+                        if (!task) {
+                            task = config.taskConstructor.call(this, config.taskName); 
+                            helio.taskMap.put(config.taskName, task);
+                        }
+                        task.init.call(task);
+                    });
+                };                
+            })(config));
+        } else {
+            throw "unknown menu config " + config;
+        }
+    }
+
+//    $("#advanced_tab").click();
+//    $("#task_plotservice_menu").click();
+//    $("#task_plotservice_parker").click();
+    
+    $('#task_eventlist').click();
+    
     
 });
 
 
-(function() {
-
-
-    
-// map of previously stored tasks
-this.helio.TaskMap = function() {
-    this.tasks = new Object();
-};
-
-/**
- * Find task in the task map
- * 
- * @param {String}
- *            taskName name of the task to find.
- * @return the found task or undefined if not found.
- */
-this.helio.TaskMap.prototype.findByName = function(taskName) {
-    return this.tasks[taskName];
-};
-
-/**
- * Put task into map.
- * 
- * @param {String}
- *            taskName name of the task to find.
- * @param {helio.AbstractTask}
- *            task the task instance to persist.
- * @return the found task or undefined if not found.
- */
-this.helio.TaskMap.prototype.put = function(taskName, task) {
-    this.tasks[taskName] = task;
-};
-
-
-helio.DropdownMenu = function(id, options) {
-    var THIS = this;
-    this.id = id;
-    this.options = options;
-    
-    // init the drop down menu
-    $("#" + this.id + "_menu").menu();
-    
-    // click handler
-    $("#" + this.id).button().click(function(e) {
-        $("#" + THIS.id + "_menu").toggle();
-        e.stopPropagation();
-    })
-    .next()
-    .button({
-        text: false,
-        icons: {
-            primary: "ui-icon-triangle-1-s"
-        }
-    })
-    .click(function(e) {
-        $("#" + THIS.id + "_menu").toggle();
-        e.stopPropagation();
-    })
-    .parent()
-    .buttonset();
-    
-    for(var menuItem in this.options) {
-        $("#" + menuItem)
-        .addClass('ui-state-default')
-        .hover(function() {$(this).addClass('ui-state-hover');}, function() {$(this).removeClass('ui-state-hover');});
-        $("#" + menuItem)
-        .click( (function(menuItem) {
-            return function() {
-                $("#" + THIS.id + "_menu").hide();
-                // change button text.
-                var title = THIS.options[menuItem].title;
-                $("#" + THIS.id + " span.ui-button-text").html(title);
-                
-                // register click handler
-                $("#" + THIS.id).unbind("click");
-                var click = THIS.options[menuItem].click;
-                $("#" + THIS.id).click(click);
-                click.call(this);
-            };
-        }) (menuItem));
-    };
-    
-    // register a global handler to hide the menu if clicked outside.
-    $(document).click(function() {        
-        $("#" + THIS.id + "_menu").hide();
-    });
-};
-
-})();

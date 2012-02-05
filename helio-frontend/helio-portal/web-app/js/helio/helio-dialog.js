@@ -72,39 +72,242 @@ helio.ErrorMessageDialog.prototype.open = function() {
  * @param {helio.AbstractTask} task the task this object is bound to. 
  * @param {String} taskName the actual name of the task variant. 
  */
-helio.AbstractSummary = function(task, taskName) {
+helio.AbstractSummary = function(task, taskName, typeName, dataKey) {
     this.task = task;
     this.taskName = taskName;
+    this.typeName = typeName; // name of the type: TimeRange | ParamSet | Observatory
+    this.droppableName = typeName; // name of the accepted droppable. Can be overwritten in child classes (e.g. ParamSetSummary)
+    this.dataKey = this.taskName + '.' + dataKey;
+    this.data = helio.cache[this.dataKey];  // the data stored in this summary object
 };
 
 /**
- * Abstract base function to clear a dialog
- * Overload this method.
+ * Init or re-init a summary section
  */
-helio.AbstractSummary.prototype.clear = undefined;
+helio.AbstractSummary.prototype.init = function() {
+    var THIS = this;
+    
+    // 1, format the buttons
+    formatButton($(".button" + this.typeName));
+    
+    // 2. click handler for time range dialogs
+    $(".show" + this.typeName + 'Dialog').click(function() {
+        var dialogConstructor = 'new helio.' + THIS.typeName + 'Dialog(THIS.task, THIS.taskName, THIS.data)'; 
+        var dialog = eval(dialogConstructor);
+        
+        var closeCallback = function() {
+            THIS.render(dialog.data);
+        };
+        dialog.show(closeCallback);
+    });
+    
+    // 4. click handler for clear button
+    $('.clear' + this.typeName + 'Summary').click(function() {THIS.clear.call(THIS);});
+    
+    // 5. populate summary
+    this.render(this.data);
+    
+    // 6. init the droppable
+    $(".paramDroppable" + this.typeName).droppable({
+        accept: ".cartitemDraggable" + this.droppableName,
+        activeClass: "paramDroppableActive",
+        hoverClass: "paramDroppableHover",
+        drop: function( event, ui ) {
+           if( ui.draggable.data('data') != null){
+                THIS.render(ui.draggable.data('data'));
+            }
+        }
+    });
+    
+    // 7. and the draggable
+    $(".paramDraggable" + this.typeName).draggable({
+        // attach data to draggable
+        start : function(event, ui) {
+            $(this).data('data', THIS.data);
+        },
+        disabled: true,
+        revert: "invalid",
+        helper: function() {
+            return $(this).clone().attr("style", "width:30px; height:30px;");
+        },
+        zIndex: 1700
+    });
+};
+
 
 /**
- * Check if a summary section contains valid content.
- * @return {Boolean} true if the content is valid
+ * Render the content of the summary text box, init the handlers and 
+ * @param data the data to render.
  */
+helio.AbstractSummary.prototype.render = function(data) {
+    var summary = this.renderSummary(data);
+    if (summary != null) { // (re-)populate the summary section
+        $("#text" + this.typeName + "Summary").html(summary);
+
+        // store data in cache
+        helio.cache[this.dataKey] = data;
+        this.data = data;
+        
+        $("#img" +  this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '.png');
+        $(".paramDraggable" + this.typeName).draggable("option", "disabled", false );
+
+        this.task.validate();
+    } else {
+       this.clear();
+    }
+};
+
+/**
+ * Render the content of the summary and return as a dom node.
+ * Subclasses must implement this method.
+ * @param data the data object to render.
+ * @return DOM node containing the summary or null if no summary is rendered.
+ */
+helio.AbstractSummary.prototype.renderSummary = undefined;
+
+/**
+ * Clear the current summary section.
+ */ 
+helio.AbstractSummary.prototype.clear = function() {
+    $("#text" + this.typeName +  "Summary").html("");
+    $("#img" + this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '_grey.png');
+    $(".paramDraggable" + this.typeName).draggable("option", "disabled", true);
+    delete helio.cache[this.dataKey];
+    this.data = null;
+    this.task.validate();
+};
+
 /**
  * Return true if there is data for this area.
  * @returns {Boolean} true if there is data around.
  */
 helio.AbstractSummary.prototype.isValid = function() {
-    return helio.cache[this.dataKey] != null;
+    return this.data != null;
 };
+
+/**
+ * TimeRangeSummary class
+ * @param {helio.TimeRangeTask} task the task this summary is associated with.  
+ * 
+ */
+helio.TimeRangeSummary = function(task, taskName) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'TimeRange', 'time_range_summary_data']);
+};
+
+//create TimeRangeDialog as subclass of AbstractDialog
+helio.TimeRangeSummary.prototype = new helio.AbstractSummary;
+helio.TimeRangeSummary.prototype.constructor = helio.TimeRangeSummary;
+
+/**
+ * Render the summary and return a DOM node containing the summary
+ * or null if nothing has been rendered
+ */
+helio.TimeRangeSummary.prototype.renderSummary = function(timeRanges) {
+    if (timeRanges) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (timeRanges.name) {
+            table.append('<tr><td><b>Name</b> </td><td>' + timeRanges.name + '</td></tr>');
+        }
+        // loop over the time ranges
+        for(var i = 0; i < timeRanges.timeRanges.length; i++) {
+            var timeRange =  timeRanges.timeRanges[i];
+            table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.startTime + (timeRange.startTime != timeRange.endTime ? ' - ' + timeRange.endTime : '') + '</td></tr>');
+        }
+        return table;
+    } else {
+        return null;
+    }
+};
+
+/**
+ * ParamSetSummary class
+ * @param {helio.ParamSetTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * 
+ */
+helio.ParamSetSummary = function(task, taskName) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'ParamSet', 'paramset_summary_data']);
+    this.droppableName = this.typeName + '_' + taskName; 
+};
+
+//create ParamSetSummry as subclass of AbstractSummry
+helio.ParamSetSummary.prototype = new helio.AbstractSummary;
+helio.ParamSetSummary.prototype.constructor = helio.ParamSetSummary;
+
+
+helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
+    if (paramSet) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (paramSet.name) {
+            table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
+        }
+        // loop over the data
+        for(var param in paramSet.params) {
+                table.append('<tr><td><b>' + paramSet.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params[param] + '</td></tr>');
+        }
+        return table;
+    } else {
+        return null;
+    }
+};
+
+/**
+ * EventListSummary class
+ * @param {helio.EventListTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * 
+ */
+helio.EventListSummary = function(task, taskName) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'EventList', 'eventlist_summary_data']);
+};
+
+//create EventListSummry as subclass of AbstractSummry
+helio.EventListSummary.prototype = new helio.AbstractSummary;
+helio.EventListSummary.prototype.constructor = helio.EventListSummary;
+
+/**
+ * Remder the summary box.
+ * @param eventList the eventlist to render.
+ * @returns the summary box.
+ */
+helio.EventListSummary.prototype.renderSummary = function(eventList) {
+    this.data = eventList;
+    if (eventList) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (eventList.name) {
+            table.append('<tr><td><b>Name</b> ' + eventList.name + '</td></tr>');
+        }
+
+        for (var i = 0; i < eventList.listNames.length; i++) {
+            var listLabel = eventList.config.labels[i];
+            if (!listLabel) {
+                listLabel = eventList.listNames[i];
+            }
+            table.append('<tr><td><b>' +listLabel + '</b></td></tr>');
+        }        
+        return table;
+    } else {
+        return null;
+    }
+};
+
+// ---------------------------------------------------------------------------------- //
 
 /**
  * Base class for dialogs.
  * @param {Object} custom options for a dialog. Will be merged with the default options 
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
+ * @param {String} data the data stored in this dialog. May be null.
  */
-helio.AbstractDialog = function(options, task, taskName) {
+helio.AbstractDialog = function(options, task, taskName, data) {
     this.opts = $.extend({}, helio.AbstractDialog.defaults, options);
     this.task = task;
     this.taskName = taskName;
+    this.data = data;
+    this.dialog = null; // store the dialog's html text as retrieved from the remote host.
+    
+    // prevent duplicate opening of dialog
     this.__active = false;
 };
 
@@ -131,7 +334,7 @@ helio.AbstractDialog.defaults = {
 
 /**
  * Generic base function to display a dialog
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
+ * @param {function} closeCallback optional call back that is executed after the dialog has been closed through an ok button.
  */
 helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback) {
     // prevent dialog from being shown twice (double click)
@@ -140,11 +343,18 @@ helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback
         return;
     }
     this.__active = true;
-    this.opts.close = function() {
+    this.opts.close = function(event, ui) {
         THIS.__active = false;
-        if (closeCallback)
-            closeCallback.call(THIS);
         $(this).remove();
+    };
+    
+    var okButton = this.opts.buttons.Ok;
+    
+    if (okButton && closeCallback) {
+        this.opts.buttons.Ok = function() {
+            okButton.call(THIS);
+            closeCallback.call(THIS);
+        };
     };
     
     // display the dialog with the configured options.
@@ -154,99 +364,7 @@ helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback
     $('.ui-dialog-buttonpane > button:last').focus();
 };
 
-/**
- * Get the data object assigned with this dialog
- */
-helio.AbstractDialog.prototype.data = function() {
-    return null;
-};
-
-/**
- * TimeRangeSummary class
- * @param {helio.TimeRangeTask} task the task this summary is associated with.  
- * 
- */
-helio.TimeRangeSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName]);
-    this.dataKey = this.taskName + ".time_range_summary_data";
-};
-
-//create TimeRangeDialog as subclass of AbstractDialog
-helio.TimeRangeSummary.prototype = new helio.AbstractSummary;
-helio.TimeRangeSummary.prototype.constructor = helio.TimeRangeSummary;
-
-/**
- * Init the time range summary
- */
-helio.TimeRangeSummary.prototype.init = function() {
-    var THIS = this;
-    
-    var populateSummary = function(timeRanges) {
-        if (timeRanges) { // (re-)populate the summary section
-            var table =$("<table></table>");
-            if (timeRanges.name) {
-                table.append('<tr><td><b>Name</b> </td><td>' + timeRanges.name + '</td></tr>');
-            }
-            // loop over the time ranges
-            for(var i = 0; i < timeRanges.timeRanges.length; i++) {
-                var timeRange =  timeRanges.timeRanges[i];
-                table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.start + (timeRange.start != timeRange.end ? ' - ' + timeRange.end : '') + '</td></tr>');
-            }
-            $("#time_range_summary_text").html(table);
-
-            // store data in cache
-            helio.cache[THIS.dataKey] = timeRanges;
-            
-            $("#time_range_summary_drop").attr('src','../images/helio/circle_time.png');
-            $("#time_range_summary_drop").addClass('drop_able');
-            THIS.task.validate();
-        } else {
-           THIS.clear();
-        }        
-    };
-    
-    // 1, format the buttons
-    formatButton($(".custom_button"));
-    
-    // 2. init the collapsible sections
-    $.collapsible(".queryHeader","group1");
-    
-    // 3. click handler for time range dialogs
-    var active = false;
-    $(".showTimeRangeDialog").click(function() {
-        if (active) return;
-        active = true;
-        // get time range data from cache.
-        var timeRanges = helio.cache[THIS.dataKey];
-        
-        dialog = new helio.TimeRangeDialog(THIS.task, THIS.taskName, timeRanges);
-        
-        var closeCallback = function() {
-            active = false;
-            populateSummary(dialog.timeRanges);
-        };
-        
-        dialog.show(closeCallback);
-    });
-    
-    // 4. click handler for clear button
-    $('#time_range_summary_clear').click(function() {THIS.clear.call(THIS);});
-    
-    // 5. populate summary
-    populateSummary(helio.cache[THIS.dataKey]);
-    
-};
-
-/**
- * Clear the current summary section.
- */ 
-helio.TimeRangeSummary.prototype.clear = function() {
-    $("#time_range_summary_text").html("");
-    $("#time_range_summary_drop").attr('src','../images/helio/circle_time_grey.png');
-    $("#time_range_summary_drop").removeClass('drop_able');
-    delete helio.cache[this.dataKey];
-    this.task.validate();
-};
+//---------------------------------------------------------------------------------- //
 
 /**
  * TimeRangeDialog class
@@ -259,9 +377,7 @@ helio.TimeRangeSummary.prototype.clear = function() {
  * 
  */
 helio.TimeRangeDialog = function(task, taskName, /*helio.TimeRanges*/ timeRanges) {
-    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
-    this.timeRanges = timeRanges;  // may be null
-    this.dialog = undefined; // store the dialog
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, timeRanges]);
 };
 
 //create TimeRangeDialog as subclass of AbstractDialog
@@ -293,11 +409,11 @@ helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
         return false;
     
     // fill timeRanges with updated values
-    if(!this.timeRanges) {
-        this.timeRanges = new helio.TimeRanges();
+    if(!this.data) {
+        this.data = new helio.TimeRanges(this.taskName);
     }
-    this.timeRanges.timeRanges = timeRangeValues;
-    this.timeRanges.name = $("#time_range_name").val();
+    this.data.timeRanges = timeRangeValues;
+    this.data.name = $("#time_range_name").val();
         
     $("#timeRangeDialog").dialog( "close" ); // this should trigger the closeCallback
     $("#timeRangeDialog").remove();
@@ -325,18 +441,12 @@ helio.TimeRangeDialog.prototype.__dialogConfig = function() {
                 $(this).remove();
             },
             Ok: function() {
-                THIS.__dialogActionOK();
+                THIS.__dialogActionOK.call(THIS);
             }
         }
     };
 };
 
-/**
- * Get the data object assigned with this dialog
- */
-helio.TimeRangeDialog.prototype.data = function() {
-    return this.timeRanges;
-};
 
 /**
  * init the dialog
@@ -346,12 +456,13 @@ helio.TimeRangeDialog.prototype.init = function(closeCallback) {
     // attach the current dialog
     $("#dialog_placeholder").replaceWith(this.dialog);
     
-    if (this.timeRanges) {
-        for (var i = 0; i < this.timeRanges.timeRanges.length; i++) {
-            var timeRange = this.timeRanges.timeRanges[i];
-            helio.TimeRangeDialog.__addTimeRange(timeRange.start, timeRange.end);
+    if (this.data) {
+        $("tr.input_time_range:not(:first)").remove();
+        for (var i = 0; i < this.data.timeRanges.length; i++) {
+            var timeRange = this.data.timeRanges[i];
+            helio.TimeRangeDialog.__addTimeRange(timeRange.startTime, timeRange.endTime);
         }
-        $("#time_range_name").val(this.timeRanges.name);
+        $("#time_range_name").val(this.data.name);
     } else { 
         // init the time ranges defined on server side
         var timeRanges = $('.input_time_range');
@@ -383,9 +494,9 @@ helio.TimeRangeDialog.prototype.init = function(closeCallback) {
  *  
  */
 helio.TimeRangeDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === undefined) {
+    if (this.dialog === null) {
         var THIS = this;
-        var init = this.timeRanges ? "none" : "last_task"; // should the template be initialized on the server side.
+        var init = this.data ? "none" : "last_task"; // should the template be initialized on the server side.
         this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/timeRangeDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
@@ -396,7 +507,7 @@ helio.TimeRangeDialog.prototype.show = function(closeCallback) {
 /**
  * Add a new timerange widget to the interface
  */
-helio.TimeRangeDialog.__addTimeRange = function(/*String*/ start, /*String*/ end) {
+helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/ endTime) {
     // find the largest index
     var index = 0;
     var timeRanges = $('.input_time_range'); 
@@ -412,18 +523,18 @@ helio.TimeRangeDialog.__addTimeRange = function(/*String*/ start, /*String*/ end
     // create the time range (.html() only encodes the children of an element, thus the <div></div> section)
     var timeRange = $("<div></div>").append($('#input_time_range_tpl').clone()).html();
 
-    timeRange = timeRange.replace(/Range tpl/, "Range " + (timeRanges.size()));
+    timeRange = timeRange.replace(/# tpl/, "# " + (timeRanges.size()));
     timeRange = timeRange.replace(/tpl/g, index);
 
     // add the time range
     $('#input_time_range_list').append(timeRange);
     
     // set values, if any.
-    if (start && typeof start === "string") {
-        $('#minDate_' + index).val(start);
+    if (startTime && typeof startTime === "string") {
+        $('#minDate_' + index).val(startTime);
     }
-    if (end && typeof end  === "string") {
-        $('#maxDate_' + index).val(end);
+    if (endTime && typeof endTime  === "string") {
+        $('#maxDate_' + index).val(endTime);
     }
     
     helio.TimeRangeDialog.__formatTimeRange(index);
@@ -441,6 +552,9 @@ helio.TimeRangeDialog.__addTimeRange = function(/*String*/ start, /*String*/ end
  * $(this) refers to the pressed button
  */
 helio.TimeRangeDialog.__removeTimeRange = function() {
+    if ($(this).attr('disabled') =='disabled') {
+        return;
+    }
     // get index to remove (read from id-suffix of pressed button)
     var matcher = /^input_time_range_remove_(\d+)$/.exec(this.id);
     if (!matcher) {
@@ -460,7 +574,7 @@ helio.TimeRangeDialog.__removeTimeRange = function() {
         if (matcher) {
             var curIndex = matcher[1];
             if (curIndex != counter) {
-                $(this).find(".input_time_range_label").html("Range " + counter);
+                $(this).find(".input_time_range_label").html("# " + counter);
             }
             counter++;
         }
@@ -588,83 +702,6 @@ helio.TimeRangeDialog.__validateTimeRange = function(index) {
 };
 
 /**
- * ParamSetSummary class
- * @param {helio.ParamSetTask} task the task this summary is associated with.  
- * @param {String} taskName the name of the task to send.  
- * 
- */
-helio.ParamSetSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName]);
-    this.dataKey = this.task.taskName + "_paramset_summary_data";
-};
-
-//create ParamSetSummry as subclass of AbstractSummry
-helio.ParamSetSummary.prototype = new helio.AbstractSummary;
-helio.ParamSetSummary.prototype.constructor = helio.ParamSetSummary;
-
-/**
- * Init the param set summary
- */
-helio.ParamSetSummary.prototype.init = function() {
-    var THIS = this;
-    
-    var populateSummary = function(paramSet) {
-        if (paramSet) { // (re-)populate the summary section
-            var table =$("<table></table>");
-            if (paramSet.name) {
-                table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
-            }
-            // loop over the data
-            for(var param in paramSet.params.data) {
-                    table.append('<tr><td><b>' + paramSet.params.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params.data[param] + '</td></tr>');
-            }
-            $("#paramset_summary_text").html(table);
-            
-            // store data in cache
-            helio.cache[THIS.dataKey] = paramSet;
-            
-            $("#paramset_summary_drop").attr('src','../images/helio/circle_block.png');
-            $("#paramset_summary_drop").addClass('drop_able');
-            THIS.task.validate();
-        } else {
-            THIS.clear();
-        }
-
-    };
-    
-    // 3. click handler for paramset dialogs
-    $(".showParamSetDialog").click(function() {
-        // get data from cache.
-        var paramSet = helio.cache[THIS.dataKey];
-        
-        var dialog = new helio.ParamSetDialog(THIS.task, THIS.taskName, paramSet);
-        
-        var closeCallback = function() {
-            populateSummary(dialog.paramSet);
-        };
-        
-        dialog.show(closeCallback);
-    });
-    
-    // 4. click handler for clear button
-    $('#paramset_summary_clear').click(function() {THIS.clear.call(THIS);});
-    
-    // 5. populate summary
-    populateSummary(helio.cache[THIS.dataKey]);
-};
-
-/**
- * Clear the current summary section.
- */ 
-helio.ParamSetSummary.prototype.clear = function() {
-    $("#paramset_summary_text").html("");
-    $("#paramset_summary_drop").attr('src','../images/helio/circle_block_grey.png');
-    $("#paramset_summary_drop").removeClass('drop_able');
-    delete helio.cache[this.dataKey];
-    this.task.validate();
-};
-
-/**
  * ParamSetDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
@@ -674,11 +711,8 @@ helio.ParamSetSummary.prototype.clear = function() {
  * 
  */
 helio.ParamSetDialog = function(task, taskName, /*helio.ParamSet*/ paramSet) {
-    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName]);
-    this.task = task;
-    this.taskName = taskName;
-    this.paramSet = paramSet;  // may be null
-    this.dialog = undefined; // store the dialog
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, paramSet]);
+    this.data = paramSet;
 };
 
 //create ParamSetDialog as subclass of AbstractDialog
@@ -689,24 +723,25 @@ helio.ParamSetDialog.prototype.constructor = helio.ParamSetDialog;
  * The action to be executed when the Ok button is pressed.
  */
 helio.ParamSetDialog.prototype.__dialogActionOK = function() {
+    var THIS = this;
+    
     // fill paramSet with updated values
-    if(!this.paramSet) {
-        this.paramSet = new helio.ParamSet(this.taskName);
+    if(!this.data) {
+        this.data = new helio.ParamSet(this.taskName);
     }
 
     // fill the param set object
-    var params = new Object();
-    params.config = new Object();
-    params.data = new Object();
+    this.data.config = this.data.config ? this.data.config : new Object();
+    this.data.params = this.data.params ? this.data.params : new Object();
+    this.data.taskName = this.data.taskName;
     $(".paramSetEntry").each(function() {
         if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
-            params["data"][$(this).attr('name')] = $(this).val();
-            params["config"][$(this).attr('name')] = {label:$(this).attr('title')};
+            THIS.data["params"][$(this).attr('name')] = $(this).val();
+            THIS.data["config"][$(this).attr('name')] = {label:$(this).attr('title')};
         }
     });
     
-    this.paramSet.params = params;
-    this.paramSet.name = $("#param_set_name").val();
+    this.data.name = $("#param_set_name").val();
         
     $("#paramSetDialog").dialog( "close" ); // this should trigger the closeCallback
     $("#paramSetDialog").remove();
@@ -741,39 +776,30 @@ helio.ParamSetDialog.prototype.__dialogConfig = function() {
     };
 };
 
-
-/**
- * Get the data object assigned with this dialog
- */
-helio.ParamSetDialog.prototype.data = function() {
-    return this.paramSet;
-};
-
 /**
  * init the dialog
  * @param {function} closeCallback a call back that is executed after the dialog has been closed.
  */
 helio.ParamSetDialog.prototype.init = function(closeCallback) {
-    
     // attach the current dialog
     $("#dialog_placeholder").replaceWith(this.dialog);
     
-    if (this.paramSet) {
-        for (var paramName in this.paramSet.params.data) {
+    if (this.data) {
+        for (var paramName in this.data.params) {
             var input = $("input[name='"+paramName+"']");
             // handle radio buttons
             if (input.length) {
                 if (input.attr("type") == 'radio') {
-                    $("input[value='"+this.paramSet.params.data[paramName]+"']").prop('checked', true);
+                    $("input[value='"+this.data.params[paramName]+"']").prop('checked', true);
                 } else {
-                    input.val(this.paramSet.params.data[paramName]);
+                    input.val(this.data.params[paramName]);
                 }
             } else {
                 // try to set select box
-                $("select[name='"+paramName+"'] option[value='"+this.paramSet.params.data[paramName]+"']").prop('selected', true);
+                $("select[name='"+paramName+"'] option[value='"+this.data.params[paramName]+"']").prop('selected', true);
             }
         }
-        $("#param_set_name").val(this.paramSet.name); 
+        $("#param_set_name").val(this.data.name); 
     } else {
         // just keep the values set on the server side.
     }
@@ -788,10 +814,341 @@ helio.ParamSetDialog.prototype.init = function(closeCallback) {
  *  
  */
 helio.ParamSetDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === undefined) {
+    if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
         this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+    } else {
+        this.init(closeCallback);
+    }
+};
+
+
+/**
+ * EventListDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
+ * When the dialog gets closed it is filled with the current values.
+ * Note: The object is not touched while the dialog entries are modified.  
+ * 
+ */
+helio.EventListDialog = function(task, taskName, /*helio.ParamSet*/ eventList) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, eventList]);
+    // create an object to keep the entered data. if ok is pressed and validation passed it will replace this.data.
+    this.newdata = eventList ? $.extend(true, {}, eventList) : new helio.EventList(taskName);
+    this._idCol = -1;     // number of the column that contains the id (will be set in init()).
+    this._labelCol = -1;  // number of the column that contains the label.
+};
+
+//create EventListDialog as subclass of AbstractDialog
+helio.EventListDialog.prototype = new helio.AbstractDialog;
+helio.EventListDialog.prototype.constructor = helio.EventListDialog;
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.EventListDialog.prototype.__dialogActionOK = function() {
+    if (this.newdata.listNames.length == 0) {
+        alert("Please select at least one event list");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameEventList").val();
+    $("#eventListDialog").dialog( "close" ); // this should trigger the closeCallback
+    $("#eventListDialog").remove();
+};
+
+/**
+ * A configuration object for the EventList dialog
+ */
+helio.EventListDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
+    return {
+        width : 800,
+        title : "Select Event List",
+        buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Event List Selection");
+                $('#help_overlay p').text("Use the filters to select an event list you are interested in and click Ok.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+            Ok: function() {
+                THIS.__dialogActionOK();
+            }
+        }
+    };
+};
+
+/**
+ * init the dialog
+ * @param {function} closeCallback a call back that is executed after the dialog has been closed.
+ */
+helio.EventListDialog.prototype.init = function(closeCallback) {
+    var THIS = this;
+    
+    // attach the current dialog
+    $("#dialog_placeholder").replaceWith(this.dialog);
+        
+    // 1. init table
+    var table = $("#selectTableEventList").dataTable( {
+        "bSort": false,
+        "bInfo": true,
+        "sScrollY": "230px",
+        "bPaginate": false,
+        "bJQueryUI": true,
+        "sScrollX": "500px",
+        "sScrollXInner": "100%",
+        "sDom": '<"H">t<"F">'
+    });
+
+    var visibleCols = ['description', 'timefrom', 'timeto', 'type', 'status'];
+    var idColName = 'name'; // name of the column that contains the identifier for this table
+    var labelColName = 'description'; // name of the column that contains the identifier for this table
+    
+    var cols = table.fnSettings().aoColumns;
+    
+    for (var col in cols) {
+        var flag = $.inArray(cols[col].sTitle, visibleCols) >= 0;
+        table.fnSetColumnVis( col, flag );
+        if(cols[col].sTitle == idColName) {
+            this._idCol = col;
+        }
+        if(cols[col].sTitle == labelColName) {
+            this._labelCol = col;
+        }
+    }
+    
+    if (this._idCol < 0) throw "Internal Error: unable to find id col";
+    if (this._labelCol < 0) throw "Internal Error: unable to find label col";
+    
+    // 2. enable filters
+    $(".checkFilter").change(function(){
+        // uncheck "Show all" checkbox
+        $("#checkAll").removeAttr("checked");
+        
+        table.fnFilter("", 15, true);
+        
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        
+        var eventCounter = 0;
+        var locationCounter = 0;
+        var observationCounter = 0;
+        
+        // clear filterText <td>
+        $("#filterText").html("");
+        $("#filterText").hide();
+
+        // filters the table and displays filter text
+        $("input:checked").each(function(){
+            // ignore filterText when obs. type is both otherwise display default filter text
+            if (eventCounter == 0 && locationCounter == 0 && observationCounter == 0){
+                if ($(this).attr("title") == "Both") {
+                    $("#filterText").html("All flare lists are shown.");
+                }
+                else {
+                    $("#filterText").html($("#filterText").html() + "Show flare lists WHERE ");
+                }
+            }
+            
+            // display all filter criteria connected with AND's
+            if($(this).hasClass("event")) {
+                if (eventCounter == 0) {
+                    $("#filterText").html($("#filterText").html() + "Event is " + $(this).attr("name"));
+                }
+                else {
+                    $("#filterText").html($("#filterText").html() + " AND " + $(this).attr("name"));
+                }
+                eventCounter++;
+            } else if ($(this).hasClass("location")) {
+                if (locationCounter == 0) {
+                    // only display first AND if no event filters are set
+                    if (eventCounter == 0) {
+                        $("#filterText").html($("#filterText").html() + "Location is " + $(this).attr("name"));
+                    } else {
+                        $("#filterText").html($("#filterText").html() + " <b> AND</b> Location is " + $(this).attr("name"));
+                    }
+                } else {
+                    $("#filterText").html($("#filterText").html() + " AND " + $(this).attr("title"));
+                }
+                locationCounter++;
+            } else if ($(this).hasClass("observation")) {
+                if ($(this).attr("title") != "Both") {
+                    if (observationCounter == 0) {
+                        // only display first AND if no event filters and no location filters are set
+                        if (eventCounter == 0 && locationCounter == 0) {
+                            $("#filterText").html($("#filterText").html() + "Obs. Type is " + $(this).attr("title"));
+                        } else {
+                            $("#filterText").html($("#filterText").html() + " <b> AND</b> Obs. Type is " + $(this).attr("title"));
+                        }
+                    } else {
+                        $("#filterText").html($("#filterText").html() + " <b>AND " + $(this).attr("title"));
+                    }
+                }
+                observationCounter++;
+            }
+            
+            // create filter expression
+            if($(this).attr("column") == checkboxColumn) {
+                filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+            }
+        });
+        
+        // creates the new filtered table
+        table.fnFilter(filter_expression, checkboxColumn, true);
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // the check all option
+    $("#checkAll").change(function(){
+        $("#filterText").hide();
+        if ($(this).attr("checked")) {
+            table.fnFilter("", 15, true);
+            $(".checkFilter").each(function(){
+                // uncheck all filter checkboxes
+                $(this).removeAttr("checked");
+                // remove all filters from dataTable
+                table.fnFilter("", $(this).attr("column"), true);
+            });
+            
+            $("#obsBoth").attr("checked", "checked");
+            $("#filterText").html("All flare lists are shown.");
+        }
+        else {
+            table.fnFilter("never appearing filter text", 15, true);
+            $("#filterText").html("No flare lists are shown.");
+        }
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // handle the radio buttons
+    $("input:radio").change(function(){
+        $("#filterText").hide();
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        
+        $("input:checked").each(function(){
+            if($(this).attr("column") == checkboxColumn)
+                filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+        });
+
+        table.fnFilter(filter_expression, checkboxColumn, true);
+        $("#filterText").delay(500).fadeIn();
+    });
+    
+    // the textbox filters
+    $("#input_filter").keyup(function(){
+        table.fnFilter($(this).val());
+    });
+
+    // 3. render the content of the summary box
+    this._renderSummaryBox(table);
+    
+     // 4. the row selection listener
+    $('#selectTableEventList tr').click( function() {
+        var id = table.fnGetData(this, THIS._idCol);    // id of the selected event list
+        var label = table.fnGetData(this, THIS._labelCol);
+        
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+            THIS.newdata.removeList.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        } else {
+            $(this).addClass('row_selected');
+            THIS.newdata.addList.apply(THIS.newdata, [id, label]);
+            THIS._renderSummaryBox.call(THIS, table);
+        };
+    });
+    
+    // 1. init row selection from previous values. 
+    this._updateSelection(table);
+
+    // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        $('#checkAll').click();
+        $('#checkAll').click();
+    }, 10);
+    
+    // show the input dialog
+    this.__showDialog($("#eventListDialog"), closeCallback);
+};
+
+/**
+ * update the current table selection based on the data model.
+ * @param table the table to init
+ */
+helio.EventListDialog.prototype._updateSelection = function(table) {
+    var THIS = this;
+    var trNodes = table.fnGetNodes();
+    $.each(trNodes, function(index, tr) {
+        var pos = $.inArray(table.fnGetData(tr, THIS._idCol), THIS.newdata.listNames);
+        var flag = pos >= 0;
+        if (flag) {
+            if (!THIS.newdata.config.labels[pos]) {
+                var label = table.fnGetData(tr, THIS._labelCol);
+                THIS.newdata.config.labels[pos] = label;
+            }
+            $(tr).addClass('row_selected');                
+        } else {
+            $(tr).removeClass('row_selected');                
+        }
+    });
+    $("#nameEventList").val(this.newdata.name);
+    
+    this._renderSummaryBox(table);
+};
+
+/**
+ * (Re-)render the content of the summary box within the dialog
+ */
+helio.EventListDialog.prototype._renderSummaryBox = function(table) {
+    var THIS = this;
+    $("#summaryEventList").empty();
+    var ul = $("<ul></ul>");
+    $("#summaryEventList").append(ul);
+    
+    for (var i = 0; i < this.newdata.listNames.length; i++) {
+        var listName = this.newdata.listNames[i];
+        var listLabel = this.newdata.config.labels[i];
+        var li = $('<li id="sel_' + listName + '"></li>');
+        ul.append(li);
+        
+        var removeButton =
+            $('<div style="float:left; height: 16px; width: 16px; margin-right:3px" class="removeList ui-state-default ui-corner-all">' +
+              '<span class="ui-icon ui-icon-close"></span>' +
+            '</div>');
+        
+        removeButton.click((function(listName) {
+            return function() {
+                THIS.newdata.removeList.call(THIS.newdata, listName);
+                THIS._updateSelection.call(THIS, table); // notify the data table about the change.
+            };
+        })(listName));
+        
+        li.append(removeButton);
+        li.append('<div class="dialog_selection_area_text" >' + listLabel + '<div>');
+    }
+};
+
+
+/**
+ * Load the dialog from remote and display it.
+ * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
+ *  
+ */
+helio.EventListDialog.prototype.show = function(closeCallback) {
+    if (this.dialog === null) {
+        var THIS = this;
+        var init = "last_task"; // should the template be initialized on the server side.
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/eventListDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -842,18 +1199,6 @@ helio.ExtractParamsDialog.prototype._extractParams = function() {
     
     
     // fill the param set object
-    var params = new Object();
-    params.config = new Object();
-    params.data = new Object();
-    $(".paramSetEntry").each(function() {
-        if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
-            params["data"][$(this).attr('name')] = $(this).val();
-            params["config"][$(this).attr('name')] = {label:$(this).attr('title')};
-        }
-    });
-    
-    this.paramSet.params = params;
-    this.paramSet.name = $("#param_set_name").val();
         
     $("#paramSetDialog").dialog( "close" ); // this should trigger the closeCallback
     $("#paramSetDialog").remove();
@@ -897,22 +1242,8 @@ helio.ExtractParamsDialog.prototype.init = function(closeCallback) {
     // attach the current dialog
     $("#dialog_placeholder").replaceWith(this.dialog);
     
-    if (this.paramSet) {
-        for (var paramName in this.paramSet.params.data) {
-            var input = $("input[name='"+paramName+"']");
-            // handle radio buttons
-            if (input.length) {
-                if (input.attr("type") == 'radio') {
-                    $("input[value='"+this.paramSet.params.data[paramName]+"']").prop('checked', true);
-                } else {
-                    input.val(this.paramSet.params.data[paramName]);
-                }
-            } else {
-                // try to set select box
-                $("select[name='"+paramName+"'] option[value='"+this.paramSet.params.data[paramName]+"']").prop('selected', true);
-            }
-        }
-        $("#param_set_name").val(this.paramSet.name); 
+    if (this.newdata) {
+        $("#param_set_name").val(this.newdata.name); 
     } else {
         // just keep the values set on the server side.
     }
@@ -927,7 +1258,7 @@ helio.ExtractParamsDialog.prototype.init = function(closeCallback) {
  *  
  */
 helio.ExtractParamsDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === undefined) {
+    if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
         this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
@@ -935,6 +1266,5 @@ helio.ExtractParamsDialog.prototype.show = function(closeCallback) {
         this.init(closeCallback);
     }
 };
-
 
 })();

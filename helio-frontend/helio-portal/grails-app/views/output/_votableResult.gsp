@@ -105,46 +105,7 @@ Expected model:
               </div>
             </g:if>
             <!--div reference="resultTable${h}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
-            
-            <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="table_${result.id}_${h}">
-              <thead>
-                <tr>
-                  <g:each var="field" in="${table.fields}" status="i">
-                    <th title="${field.description}">
-                      ${field.name}
-                      <g:if env="dev">
-                      ${field.utype}
-                      ${field.ucd}
-                      ${field.unit}
-                      </g:if>
-                    </th>
-                  </g:each>
-                </tr>
-              </thead>
-              <g:if test="${table.data.rowCount > 0}">
-                <tbody>
-                  <g:each var="i" in="${0..<table.data.rowCount}">
-                    <tr id="table_${result.id}_${h}_row_${i}" >
-                      <g:each var="cell" in="${table.data.getRow(i)}" status="j" >
-                        <g:if test="${cell == table.fields[j].nullValue}">
-                          <td>-</td>
-                        </g:if>
-                        <g:elseif test="${table.fields[j].rendering_hint=='url' && cell != null}">
-                          <td>
-                            <a target="_blank" href="${cell}">
-                              ${cell.substring(cell.lastIndexOf('/')+1,cell.length())}
-                            </a>
-                          </td>
-                        </g:elseif>
-                        <g:else>
-                          <td>${cell}</td>
-                        </g:else>
-                      </g:each>
-                    </tr>
-                  </g:each>
-                </tbody>
-              </g:if>
-            </table>
+            <g:render template="/output/_votable" model="${[tableId:'table_' + result.id + '_' + h, table:table]}"/>
           </g:else>
         </g:each>
       </div>

@@ -6,19 +6,39 @@
 /**
  * Base class for a task
  * @param {String} taskName name of the task. 
+ * @param {String} url the url to use for this specific task. 
  */
-helio.AbstractTask = function(taskName) {
+helio.AbstractTask = function(taskName, url) {
     this.taskName = taskName;
+    this.url = url;
+    this.summaries = {};
+    this.result = undefined;
 };
-
-
+    
 /**
- * Returns true if the task content is valid and can be submitted to the 
- * server. 
- * @return {Boolean} true if valid. 
+ * Init or re-init a task
  */
-helio.AbstractTask.prototype._isValid = function() {
-    return false;
+helio.AbstractTask.prototype.init = function() {
+    // 1. init the collapsible sections
+    $.collapsible(".queryHeader", "group1");
+    
+    // 2, format the buttons
+    formatButton($(".buttonPerformQuery"));
+
+    // 3. init the summary sections
+    for(summary in this.summaries) {
+        this.summaries[summary].init.call(this.summaries[summary]);
+    }
+    
+    // 4. init the result area
+    if (this.result) {
+        $('#task_result_area').html(this.result.data);
+        this.result.init.call(this.result);
+    }
+    var THIS = this;
+    $("#result_summary_select").click(function() {THIS._submitQuery.call(THIS);});
+    // 5 enable submit button if required
+    this.validate();
 };
 
 /**
@@ -32,54 +52,32 @@ helio.AbstractTask.prototype.validate = function() {
 };
 
 /**
- * Create a PropagationModelTask
- * @param {String} taskName name of the actual implementation of the task.  
- * 
+ * Returns true if the task content is valid and can be submitted to the 
+ * server. 
+ * @return {Boolean} true if valid. 
  */
-helio.PropagationModelTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName);
-    this.timeRangeSummary = undefined;
-    this.paramSetSummary = undefined;
-    this.result = undefined;
-};
-
-//create PropagationModelTask as subclass of AbstractTask
-helio.PropagationModelTask.prototype = new helio.AbstractTask;
-helio.PropagationModelTask.prototype.constructor = helio.PropagationModelTask;
-
-helio.PropagationModelTask.prototype.init = function() {
-    if (!this.timeRangeSummary) {
-        this.timeRangeSummary =  new helio.TimeRangeSummary(this, this.taskName);
+helio.AbstractTask.prototype._isValid = function() {
+    var flag = true;
+    for(summary in this.summaries) {
+        flag &= this.summaries[summary] && this.summaries[summary].isValid.call(this.summaries[summary]);
     }
-    this.timeRangeSummary.init();
-    
-    if (!this.paramSetSummary) {
-        this.paramSetSummary = new helio.ParamSetSummary(this, this.taskName);
-    }
-    this.paramSetSummary.init();
-    
-    if (this.result) {
-        $('#task_result_area').html(this.result.data);
-        this.result.init();
-    }
-    var THIS = this;
-    $("#result_summary_select").click(function() {THIS._submitQuery.call(THIS);});
-
-    this.validate();
+    return flag;
 };
 
 /**
  * Submit the query to the server and handle result appropriately
  */
-helio.PropagationModelTask.prototype._submitQuery = function() {
+helio.AbstractTask.prototype._submitQuery = function() {
     var THIS = this;
     var bindings = {
         "taskName" : this.taskName,
-        "inputParams" : {
-            "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 
-            "paramSet" : { "params" : helio.cache[this.paramSetSummary.dataKey].params.data }
-        }
+        "inputParams" : {},
     };
+    
+    for(summary in this.summaries) {
+        bindings.inputParams[summary] = this.summaries[summary].data; 
+    }
+    
     var modelParam = JSON.stringify(bindings);
 
     // ajax control object
@@ -93,7 +91,7 @@ helio.PropagationModelTask.prototype._submitQuery = function() {
     
     // call the propModel
     xhr = jQuery.ajax({
-        url: "../processing/propagationModel",
+        url: this.url,
         type: "POST",
         data: {bindings : modelParam},
         error : function(jqXHR, textStatus, errorThrown) {
@@ -148,32 +146,33 @@ helio.PropagationModelTask.prototype._submitQuery = function() {
     
      // display the submit dialog
     submitDialog.open();
-    
 };
 
 /**
  * Add the result to the result_area and init handlers.
  * @param data the data to add.
  */
-helio.PropagationModelTask.prototype._handleResult = function(data) {
+helio.AbstractTask.prototype._handleResult = function(data) {
     this.result = data;
-	$('#task_result_area').html(data);
-    this.result = new helio.ProcessingServiceResult(this, this.taskName, data);
+    $('#task_result_area').html(data);
+    this.result = new helio.TaskResult(this, this.taskName, data);
     this.result.init();
 };
 
 /**
- * Returns true if the task content is valid and can be submitted to the 
- * server.
- * @return {Boolean} true if valid. 
+ * Create a PropagationModelTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
  */
-helio.PropagationModelTask.prototype._isValid = function() {
-    var isValid =
-       (this.timeRangeSummary != undefined && this.timeRangeSummary.isValid() &&
-       this.paramSetSummary != undefined && this.paramSetSummary.isValid());
-    return isValid;
+helio.PropagationModelTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "../processing/propagationModel");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+    this.summaries["paramSet"] = new helio.ParamSetSummary(this, this.taskName);
 };
 
+//create PropagationModelTask as subclass of AbstractTask
+helio.PropagationModelTask.prototype = new helio.AbstractTask;
+helio.PropagationModelTask.prototype.constructor = helio.PropagationModelTask;
 
 /**
  * Create a PlotTask
@@ -181,149 +180,32 @@ helio.PropagationModelTask.prototype._isValid = function() {
  * 
  */
 helio.PlotTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName);
-    this.timeRangeSummary = undefined;
+    helio.AbstractTask.call(this, taskName, "../plot/plot");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+    
     if (taskName == 'parkerplot' || taskName == 'goesplot') {
-        this.paramSetSummary = undefined;
+        this.summaries["paramSet"] = new helio.ParamSetSummary(this, this.taskName);
     }
-    this.result = undefined;
 };
 
 //create PlotTask as subclass of AbstractTask
 helio.PlotTask.prototype = new helio.AbstractTask;
 helio.PlotTask.prototype.constructor = helio.PlotTask;
 
-helio.PlotTask.prototype.init = function() {
-    if (!this.timeRangeSummary) {
-        this.timeRangeSummary =  new helio.TimeRangeSummary(this, this.taskName);
-    }
-    this.timeRangeSummary.init();
-    if (this.taskName == 'parkerplot' || this.taskName == 'goesplot') {
-        if (!this.paramSetSummary) {
-            this.paramSetSummary = new helio.ParamSetSummary(this, this.taskName);
-        }
-        this.paramSetSummary.init();
-    }
-    
-    if (this.result) {
-        $('#task_result_area').html(this.result.data);
-        this.result.init();
-    }
-    var THIS = this;
-    $("#result_summary_select").click(function() {THIS._submitQuery.call(THIS);});
-
-    this.validate();
-};
-
 /**
- * Submit the query to the server and handle result appropriately
+ * Create a EventListTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
  */
-helio.PlotTask.prototype._submitQuery = function() {
-    var THIS = this;
-    var bindings = this.taskName == 'parkerplot' || this.taskName == 'goesplot' ? {
-        "taskName" : this.taskName,
-        "inputParams" : {
-            "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 
-            "paramSet" : { "params" : helio.cache[this.paramSetSummary.dataKey].params.data}
-        }
-    } :
-    {
-        "taskName" : this.taskName,
-        "inputParams" : {
-            "timeRanges" : helio.cache[this.timeRangeSummary.dataKey].timeRanges, 
-        }
-    };
-    var modelParam = JSON.stringify(bindings);
-
-    // ajax control object
-    var xhr = undefined;
-
-    // init submit dialog
-    var submitDialog = new helio.SubmitMessage(function() {
-        if(xhr) xhr.abort();
-        $("#task_result_area").html();
-    });
-    
-    // call the propModel
-    xhr = jQuery.ajax({
-        url: "../plot/plot",
-        type: "POST",
-        data: {bindings : modelParam},
-        error :  function(jqXHR, textStatus, errorThrown) {
-            submitDialog.close();
-            if (textStatus == "abort") {
-                // nothing to do
-                return;
-            }
-            
-            var errorMessage = $('<div class="errorMessage"></div>');
-            var status = jqXHR.getResponseHeader('status');
-            if (!status) status = textStatus;
-
-            errorMessage.append('Message: ' + status + ' (<span id="details_link" style="text-decoration:underline; cursor:pointer">click for details</span>)');
-            $('#perform_query_text').html(errorMessage);
-            
-            $('#details_link').click(function() {
-                new helio.ErrorMessageDialog(errorThrown, jqXHR.responseText).open();
-            });
-        },
-        success: function(data) { 
-            submitDialog.close(); 
-            THIS._handleResult.call(THIS, data); 
-        },
-        complete: function(jqXHR, textStatus) {
-            submitDialog.close(); // if not already closed
-            switch (textStatus) {
-            case "success":
-                $('#perform_query_text').html("Data sucessfully loaded");
-                break;
-            case "error":
-                //$('#perform_query_text').html("Error occurred");
-                break;
-            case "abort":
-                $('#perform_query_text').html("Cancelled by user");
-                $("#task_result_area").html();
-                break;
-            case "timeout":
-                $('#perform_query_text').html("Your request timed out");
-                $("#task_result_area").html();
-            case "notmodified":
-            case "parsererror":
-            default:
-                $('#perform_query_text').html("Unknown status: " + textStatus);
-                $("#task_result_area").html();
-            }
-        } 
-    });
-    
-     // display the submit dialog
-    submitDialog.open();
-    
+helio.EventListTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "../catalog/hec");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+    this.summaries["eventList"] = new helio.EventListSummary(this, this.taskName);
 };
 
-/**
- * Add the result to the result_area and init handlers.
- * @param data the data to add.
- */
-helio.PlotTask.prototype._handleResult = function(data) {
-    this.result = data;
-    $('#task_result_area').html(data);
-    this.result = new helio.PlotTaskResult(this, this.taskName, data);
-    this.result.init();
-};
-
-/**
- * Returns true if the task content is valid and can be submitted to the 
- * server.
- * @return {Boolean} true if valid. 
- */
-helio.PlotTask.prototype._isValid = function() {
-    var isValid =
-       (this.timeRangeSummary != undefined && this.timeRangeSummary.isValid() &&
-       (this.taskName != 'parkerspiral' ||
-       this.paramSetSummary != undefined && this.paramSetSummary.isValid()));
-    return isValid;
-};
+//create EventListTask as subclass of AbstractTask
+helio.EventListTask.prototype = new helio.AbstractTask;
+helio.EventListTask.prototype.constructor = helio.EventListTask;
 
 
 /**
@@ -373,12 +255,6 @@ helio.VOTableUploadTask.prototype._submitQuery = function() {
         target: '#task_result_area',   // target element(s) to be updated with server response
         success: function(data) { THIS._handleResult.call(THIS, data); }
     }).submit();
-};
-
-helio.VOTableUploadTask.prototype._handleResult = function(data) {
-    $('#msg_upload').html('');
-    this.result = new helio.VOTableResult(this, this.taskName);
-    this.result.init();    
 };
 
 })();

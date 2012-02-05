@@ -31,10 +31,10 @@
 
 /** main header **/
 .task .viewerHeader {
-    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
     box-shadow: 0 0 2px #000000;
     color: #444466;
     margin-bottom: 5px;
+    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
 }
 
 .task .viewerHeader h1 {
@@ -89,6 +89,10 @@
   height: 16px;
 }
 
+.showDialog {
+	cursor: pointer;
+}
+
 
 /***************************** CSS related to dialogs *******************************/
 
@@ -107,10 +111,46 @@ table.dialog_content_table td {
   padding-bottom: 2px;
 }
 
+.dialog_selection_area {
+  width:250px;
+  height:226px;
+  margin: 5px 5xp 3px 5px;
+}
+
+.dialog_selection_area ul {
+  list-style: none;
+}
+
+.dialog_selection_area_icon {
+  float : left;
+  width : 20px;
+  margin-bottom: 2px;	
+}
+
+.dialog_selection_area_text {
+  float : left;
+  width:220px;
+  min-height: 20px;	
+}
+
+#filterText {
+    font-size: 10px;
+    padding-left: 4px;
+	overflow: hidden;
+	white-space: nowrap;
+	display: inline-block;
+    max-width:500px;
+}
+
 /*************************** CSS related to result areas *************************/
 
 .task_output_params {
-  display: inline-block;
+    display: inline-block;
+}
+
+.examine_event {
+ 	text-align: center;
+ 	cursor: pointer;
 }
 
 .plot_floating_box {
@@ -173,8 +213,6 @@ details_link {
 }
 
 .cartitem {
-    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
-    box-shadow: 0 0 2px #000000;
     float: left;
     margin-bottom: 5px;
     margin-left: 5px;
@@ -185,6 +223,12 @@ details_link {
     width: 72px;
     height: 50px;
     cursor: move;
+    box-shadow: 0 0 2px #000000;
+    
+    background: #BAC7E9 repeat scroll 0 0 transparent; /* for non-css3 browsers */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BAC7E9', endColorstr='#8591B4'); /* for IE */
+    background: -webkit-gradient(linear, 50% top, 50% bottom, from(#BAC7E9), to(#8591B4)); /* for webkit browsers */
+    background: -moz-linear-gradient(center top,  #BAC7E9, #8591B4); /* for firefox 3.6+ */ 
 }
 
 
@@ -206,4 +250,19 @@ details_link {
 .cartitem_close {
     float: right;
 	cursor: pointer;
+}
+
+/***************** drag and drop ******************/
+.paramDroppable{
+    background:url(../images/helio/circle_destination.png) no-repeat;
+}
+.paramDroppableActive{
+    background:url(../images/helio/circle_destination_active.png) no-repeat;
+}
+.paramDroppableHover{
+    background:url(../images/helio/circle_destination_hover.png) no-repeat;
+}
+
+.paramDraggable {
+	cursor: move;
 }

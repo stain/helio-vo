@@ -14,12 +14,17 @@
           <g:set var="step" value="${1}"/>
           <%-- Time Selection Area --%>
           <g:if test="${taskDescriptor.inputParams?.timeRanges}">
-            <g:render template="/inputParams/timeRangeSummary" model="[step:step, mode:'first-starttime-only']" />
+            <g:render template="/inputParams/timeRangeSummary" model="[paramName : 'TimeRange', title : 'Select Dates', step:step]" />
+            <g:set var="step" value="${step+1}"/>
+          </g:if>
+          <%-- Event list Selection Area --%>
+          <g:if test="${taskDescriptor.inputParams?.eventList}">
+            <g:render template="/inputParams/genericSummary" model="[paramName : 'EventList', title : 'Select an Event List', step:step]" />
             <g:set var="step" value="${step+1}"/>
           </g:if>
           <%-- Param Selection Area --%>
           <g:if test="${taskDescriptor.inputParams?.paramSet}">
-            <g:render template="/inputParams/paramSetSummary" model="[step:step]" />
+            <g:render template="/inputParams/paramSetSummary" model="[paramName : 'ParamSet', title : 'Select Parameters', step:step]" />
             <g:set var="step" value="${step+1}"/>
           </g:if>
           <%-- Execute Query area --%>

@@ -26,9 +26,9 @@ class DefaultsService {
      * Create a TimeRangeParam with default values, but do not store it in the database.
      * @return the default time range.
      */
-    def TimeRangeParam createDefaultTimeRange() {
-        def timeRangeParam = new TimeRangeParam();
-        timeRangeParam.addTimeRange(DateUtil.fromIsoDate("2003-01-01T00:00:00"), DateUtil.fromIsoDate("2003-01-03T00:00:00"))
+    def TimeRangeParam createDefaultTimeRange(taskName) {
+        def timeRangeParam = new TimeRangeParam(taskName : taskName);
+        timeRangeParam.addTimeRange(DateUtil.fromIsoDate("2011-02-14T00:00:00"), DateUtil.fromIsoDate("2011-02-16T00:00:00"))
         timeRangeParam
     }
 
@@ -66,7 +66,7 @@ class DefaultsService {
             }
             
             def inputParams = [
-                timeRange: createDefaultTimeRange(),
+                timeRange: createDefaultTimeRange(taskName),
                 paramSet: newParamSet(taskName, paramMap)
             ]
             task = new Task(taskName : taskName)

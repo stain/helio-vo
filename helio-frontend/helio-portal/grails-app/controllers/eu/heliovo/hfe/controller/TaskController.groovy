@@ -33,8 +33,27 @@ class TaskController {
     }
 
     /**
+     * Load a specific task configuration.
+     * Requests are handled by specific task controllers.
+     */
+    def load = {
+        def taskName = params.taskName;
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        if (!taskDescriptor) {
+            throw new RuntimeException("Unknown task name " + taskName)
+        }
+
+        // load previous task from database
+        Task task = defaultsService.loadTask(taskName)
+        def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
+
+        render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
+    }
+    
+    /**
      * Task to configure a call to the propagation model.
      * Requests are handled by the ProcessingController
+     * @deprecated replace by load
      */
     def propagationModel = {
         def taskName = params.taskName;
@@ -45,7 +64,7 @@ class TaskController {
         
         // load previous task from database
         def task = defaultsService.loadTask(taskName)
-        def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0];
+        def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0];
     
         render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }
@@ -53,6 +72,7 @@ class TaskController {
     /**
      * Task to configure a call to a plotting service.
      * Requests are handled by the PlotController
+     * @deprecated replace by load
      */
     def plot = {
         def taskName = params.taskName;
@@ -63,7 +83,7 @@ class TaskController {
         
         // load previous task from database
         Task task = defaultsService.loadTask(taskName)
-        def defaultTimeRange = defaultsService.createDefaultTimeRange().timeRanges[0]
+        def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
         
         render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }

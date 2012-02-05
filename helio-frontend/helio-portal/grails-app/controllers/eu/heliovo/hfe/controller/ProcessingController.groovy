@@ -1,12 +1,11 @@
 package eu.heliovo.hfe.controller
 
-import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler;
+import java.util.logging.Level
+import java.util.logging.LogRecord
+
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
-import eu.heliovo.hfe.model.result.RemotePlotResult
-import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.service.VoTableService;
 import eu.heliovo.hfe.utils.TaskDescriptor
 import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
@@ -22,8 +21,6 @@ import grails.validation.ValidationException
 class ProcessingController {
     
     def processingService
-    
-    def conversionService
 	
 	def voTableService
 
@@ -39,8 +36,8 @@ class ProcessingController {
         
         
         // create input params
-        def timeRanges = new TimeRangeParam();
-        def dates = jsonBindings.inputParams.timeRanges.collect{ [DateUtil.fromIsoDate(it.start), DateUtil.fromIsoDate(it.end)] }
+        def timeRanges = new TimeRangeParam(taskName : taskName);
+        def dates = jsonBindings.inputParams.timeRanges.timeRanges.collect{ [DateUtil.fromIsoDate(it.startTime), DateUtil.fromIsoDate(it.endTime)] }
         dates.each { timeRanges.addTimeRange(it) }
         if (!timeRanges.validate()) {
             throw new ValidationException ("Invalid time ranges", timeRanges.errors)
@@ -68,10 +65,18 @@ class ProcessingController {
         
         // execute the query (this adds the tasks to the output params).
         def model = processingService.propagationModel(task)
-        if (model.status) {
-            response.setHeader("status", model.status)    
+        def votableModel
+        try {
+            votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+        } catch (Exception e) {
+            model.status = "Error while processing result votable (see logs for more information)"
+            model.userLogs.add(new LogRecord(Level.WARNING, e.getClass() + ": " + e.getMessage()))
+            votableModel = null
+        } finally {
+            if (model.status) {
+                response.setHeader("status", model.status)
+            }
         }
-        def votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;  
         render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])            
     }
 }
