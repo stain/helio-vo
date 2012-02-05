@@ -145,17 +145,18 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
                     var time_start = -1;
                     var time_end = -1;
                     for(var j = 0;j< settings.aoColumns.length;j++){
-                        if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
+                        var title = $.trim(settings.aoColumns[j].sTitle);
+                        if(title == 'time_start'){
                             time_start=j;
-                        }
-                        if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
+                        } else if(title == 'time_end'){
                             time_end=j;
-                        }
+                        } 
                     }//end j
+                    
                     if (time_start == -1) {
-                        alert("No column with name time_start found");
+                        alert("No column with name 'time_start' or 'time' found");
                         return;
-                    } 
+                    }
                     if (time_end == -1) {
                         time_end = time_start;
                     }
@@ -278,11 +279,14 @@ helio.VOTableResult.prototype._extractParams = function() {
         var time_end = -1;
         
         for(var j = 0;j< settings.aoColumns.length;j++){
-            if($.trim(settings.aoColumns[j].sTitle) == 'time_start'){
+            var title = $.trim(settings.aoColumns[j].sTitle); 
+            if(title == 'time_start'){
                 time_start=j;
             }
-            if($.trim(settings.aoColumns[j].sTitle) == 'time_end'){
+            if(title == 'time_end'){
                 time_end=j;
+            } else if (title == 'time' && time_start == -1) {
+                time_start=j;
             }
         }//end j
         if (time_start == -1) {

@@ -130,7 +130,7 @@ class VoTableService {
     
                     table["type"] = "table" // a real table
                     table["actions"] = [] as Set // actions that are globally available 
-                    tableModel["actions"].add('extract') 
+                     
                     table["rowactions"] = new LinkedHashSet() // actions per row
                     
                     // the info of the parent resource.
@@ -152,6 +152,9 @@ class VoTableService {
                         table["fields"].add(field)
                         if (field['rendering_hint'] =='url') {
                             tableModel['actions'].add('download');
+                        }
+                        if (field.name == 'time_start' || field.name == 'time') {
+                           tableModel["actions"].add('extract')
                         }
                     }
     

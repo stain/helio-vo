@@ -253,7 +253,7 @@ helio.VOTableUploadTask.prototype._submitQuery = function() {
             $('#msg_upload').html('Submitting...');
         },
         target: '#task_result_area',   // target element(s) to be updated with server response
-        success: function(data) { THIS._handleResult.call(THIS, data); }
+        success: function(data) { $('#msg_upload').html(); THIS._handleResult.call(THIS, data); }
     }).submit();
 };
 

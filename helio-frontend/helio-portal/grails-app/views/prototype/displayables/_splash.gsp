@@ -19,7 +19,6 @@
             <li>05-Feb-2012: Added extract-button.</li>
         </ul>
         
-        
         <h4 style="margin-top:10px;">Known limitations</h4>
         <ul>
             <li>Data cart for ILS/ICS and DPAS is currently broken</li>

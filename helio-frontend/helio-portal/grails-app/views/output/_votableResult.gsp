@@ -35,7 +35,7 @@ Expected model:
             </g:if>
             
             <%-- download all actions --%>
-            <g:if test="${result.actions.contains('download')}">
+            <g:if test="${false && result.actions.contains('download')}">
               <div id="download_selection_button" class="custom_button" style="margin-left: 5px;" >
                 Download selected files/all
               </div>
