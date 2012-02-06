@@ -65,8 +65,11 @@
               <td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchInstLoc">Locate planets/instruments by time</div>
               </td>
-              <td>
+              <%--td>
                 <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
+              </td --%>
+              <td>                
+                <div id="task_dataaccess" title="Access Data">Search Data (new style)</div>
               </td>
             </tr>
           </table>

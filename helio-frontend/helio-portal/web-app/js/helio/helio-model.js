@@ -69,12 +69,38 @@ helio.ParamSet.prototype.constructor = helio.ParamSet;
  */
 helio.Instrument = function(taskName, name) {
     helio.AbstractModel.apply(this, [taskName, name, 'Instrument']);
-    this.Instrument = []; // list of instrument keys.
+    this.name = name;
+    this.instruments = []; // list of instrument keys.
+    this.config = { labels:[]};    // transient config object holding the names of the selected instrument.
+
 };
 
 //create Instrument subclass of AbstractModel
 helio.Instrument.prototype = new helio.AbstractModel;
 helio.Instrument.prototype.constructor = helio.Instrument;
+
+
+/**
+ * Convenience method to add a list name. Use this method whenever possible.
+ * @param instrument the name of the instrument
+ * @param instLabel the label of the instrument
+ */
+helio.Instrument.prototype.addInstrument = function(instrument, instLabel) {
+    this.instruments.push(instrument);
+    this.config.labels.push(instLabel);
+};
+
+/**
+ * Convenience method to remove an instrument
+ * @param instrument the name of the instrument
+ */
+helio.Instrument.prototype.removeInstrument = function(instrument) {
+    var pos = $.inArray(instrument, this.instruments);
+    if (pos >= 0) {
+        this.instruments.splice(pos, 1);
+        this.config.labels.splice(pos, 1);
+    }
+};
 
 /**
  * Data object to hold an observatory.

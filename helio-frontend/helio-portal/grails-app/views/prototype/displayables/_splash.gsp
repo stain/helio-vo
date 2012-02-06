@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>06-Feb-2012: Changed DPAS dialog to new style.</li>
             <li>05-Feb-2012: Added extract-button.</li>
             <li>05-Feb-2012: Rework of the "Search Event" task. Swapping the data cart.</li>
             <li>30-Jan-2012: Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</li>

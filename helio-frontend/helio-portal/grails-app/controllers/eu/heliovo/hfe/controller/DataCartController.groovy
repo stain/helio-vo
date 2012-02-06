@@ -84,6 +84,11 @@ class DataCartController {
         } else if (data.listNames) {
             param = new EventListParam()
             bindData(param,data)
+        } else if (data.instruments) {
+            param = new InstrumentParam()
+            bindData(param,data)
+        } else {
+            throw new RuntimeException("Internal error: unknown parameter added to data cart: " + data)
         }
 
         param.save()

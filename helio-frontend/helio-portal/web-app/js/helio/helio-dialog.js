@@ -291,6 +291,46 @@ helio.EventListSummary.prototype.renderSummary = function(eventList) {
     }
 };
 
+/**
+ * InstrumentSummary class
+ * @param {helio.InstrumentTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * 
+ */
+helio.InstrumentSummary = function(task, taskName) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'Instrument', 'instrument_summary_data']);
+};
+
+//create InstrumentSummry as subclass of AbstractSummry
+helio.InstrumentSummary.prototype = new helio.AbstractSummary;
+helio.InstrumentSummary.prototype.constructor = helio.InstrumentSummary;
+
+/**
+ * Remder the summary box.
+ * @param instrument the instrument to render.
+ * @returns the summary box.
+ */
+helio.InstrumentSummary.prototype.renderSummary = function(instrument) {
+    this.data = instrument;
+    if (instrument) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (instrument.name) {
+            table.append('<tr><td><b>Name</b> ' + instrument.name + '</td></tr>');
+        }
+
+        for (var i = 0; i < instrument.instruments.length; i++) {
+            var instLabel = instrument.config.labels[i];
+            if (!instLabel) {
+                instLabel = instrument.instruments[i];
+            }
+            table.append('<tr><td><b>' +instLabel + '</b></td></tr>');
+        }        
+        return table;
+    } else {
+        return null;
+    }
+};
+
 // ---------------------------------------------------------------------------------- //
 
 /**
@@ -1149,6 +1189,220 @@ helio.EventListDialog.prototype.show = function(closeCallback) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
         this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/eventListDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+    } else {
+        this.init(closeCallback);
+    }
+};
+
+/**
+ * InstrumentDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.Instrument} instrument the instrument used to populate the dialog. 
+ * When the dialog gets closed it is filled with the current values.
+ * Note: The object is not touched while the dialog entries are modified.  
+ * 
+ */
+helio.InstrumentDialog = function(task, taskName, /*helio.ParamSet*/ instrument) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, instrument]);
+    // create an object to keep the entered data. if ok is pressed and validation passed it will replace this.data.
+    this.newdata = instrument ? $.extend(true, {}, instrument) : new helio.Instrument(taskName);
+    this._idCol = -1;     // number of the column that contains the id (will be set in init()).
+    this._labelCol = -1;  // number of the column that contains the label.
+};
+
+
+
+//create InstrumentDialog as subclass of AbstractDialog
+helio.InstrumentDialog.prototype = new helio.AbstractDialog;
+helio.InstrumentDialog.prototype.constructor = helio.InstrumentDialog;
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.InstrumentDialog.prototype.__dialogActionOK = function() {
+    if (this.newdata.instruments.length == 0) {
+        alert("Please select at least one instrument");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameInstrument").val();
+    $("#instrumentDialog").dialog( "close" ); // this should trigger the closeCallback
+    $("#instrumentDialog").remove();
+};
+
+/**
+ * A configuration object for the Instrument dialog
+ */
+helio.InstrumentDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
+    return {
+        width : 800,
+        title : "Select Instrument",
+        buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Instrument Selection");
+                $('#help_overlay p').text("Select an instrument and click Ok.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+            Ok: function() {
+                THIS.__dialogActionOK();
+            }
+        }
+    };
+};
+
+/**
+ * init the dialog
+ * @param {function} closeCallback a call back that is executed after the dialog has been closed.
+ */
+helio.InstrumentDialog.prototype.init = function(closeCallback) {
+    var THIS = this;
+    
+    // attach the current dialog
+    $("#dialog_placeholder").replaceWith(this.dialog);
+        
+    // 1. init table
+    var table = $("#selectInstrument").dataTable( {
+        "bSort": false,
+        "bInfo": true,
+        "sScrollY": "230px",
+        "bPaginate": false,
+        "bJQueryUI": true,
+        "sScrollX": "300px",
+        "sScrollXInner": "100%",
+        "sDom": '<"H">t<"F">'
+    });
+    var visibleCols = ['Label', 'Internal Name'];
+    var idColName = 'Internal Name'; // name of the column that contains the identifier for this table
+    var labelColName = 'Label'; // name of the column that contains the identifier for this table
+    
+    var cols = table.fnSettings().aoColumns;
+    for (var col in cols) {
+        var flag = $.inArray(cols[col].sTitle, visibleCols) >= 0;
+        table.fnSetColumnVis( col, flag );
+        if(cols[col].sTitle == idColName) {
+            this._idCol = col;
+        }
+        if(cols[col].sTitle == labelColName) {
+            this._labelCol = col;
+        }
+    }
+    
+    if (this._idCol < 0) throw "Internal Error: unable to find id col";
+    if (this._labelCol < 0) throw "Internal Error: unable to find label col";
+    
+    // 2. enable filters
+    // the textbox filters
+    $("#input_filter").keyup(function(){
+        table.fnFilter($(this).val());
+    });
+
+    // 3. render the content of the summary box
+    this._renderSummaryBox(table);
+    
+     // 4. the row selection listener
+    $('#selectInstrument tr').click( function() {
+        var id = table.fnGetData(this, THIS._idCol);    // id of the selected instrument list
+        var label = table.fnGetData(this, THIS._labelCol);
+        
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+            THIS.newdata.removeInstrument.call(THIS.newdata, id);
+            THIS._renderSummaryBox.call(THIS, table);
+        } else {
+            $(this).addClass('row_selected');
+            THIS.newdata.addInstrument.apply(THIS.newdata, [id, label]);
+            THIS._renderSummaryBox.call(THIS, table);
+        };
+    });
+    
+    // 5. init row selection from previous values. 
+    this._updateSelection(table);
+
+    // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        table.fnFilter('');
+    }, 10);
+    
+    // show the input dialog
+    this.__showDialog($("#instrumentDialog"), closeCallback);
+};
+
+/**
+ * update the current table selection based on the data model.
+ * @param table the table to init
+ */
+helio.InstrumentDialog.prototype._updateSelection = function(table) {
+    var THIS = this;
+    var trNodes = table.fnGetNodes();
+    $.each(trNodes, function(index, tr) {
+        var pos = $.inArray(table.fnGetData(tr, THIS._idCol), THIS.newdata.instruments);
+        var flag = pos >= 0;
+        if (flag) {
+            if (!THIS.newdata.config.labels[pos]) {
+                var label = table.fnGetData(tr, THIS._labelCol);
+                THIS.newdata.config.labels[pos] = label;
+            }
+            $(tr).addClass('row_selected');                
+        } else {
+            $(tr).removeClass('row_selected');                
+        }
+    });
+    $("#nameInstrument").val(this.newdata.name);
+    
+    this._renderSummaryBox(table);
+};
+
+/**
+ * (Re-)render the content of the summary box within the dialog
+ */
+helio.InstrumentDialog.prototype._renderSummaryBox = function(table) {
+    var THIS = this;
+    $("#summaryInstrument").empty();
+    var ul = $("<ul></ul>");
+    $("#summaryInstrument").append(ul);
+    
+    for (var i = 0; i < this.newdata.instruments.length; i++) {
+        var instrument = this.newdata.instruments[i];
+        var instLabel = this.newdata.config.labels[i];
+        var li = $('<li id="sel_' + instrument + '"></li>');
+        ul.append(li);
+        
+        var removeButton =
+            $('<div style="float:left; height: 16px; width: 16px; margin-right:3px" class="removeInst ui-state-default ui-corner-all">' +
+              '<span class="ui-icon ui-icon-close"></span>' +
+            '</div>');
+        
+        removeButton.click((function(instrument) {
+            return function() {
+                THIS.newdata.removeInstrument.call(THIS.newdata, instrument);
+                THIS._updateSelection.call(THIS, table); // notify the data table about the change.
+            };
+        })(instrument));
+        
+        li.append(removeButton);
+        li.append('<div class="dialog_selection_area_text" >' + instLabel + '<div>');
+    }
+};
+
+/**
+ * Load the dialog from remote and display it.
+ * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
+ *  
+ */
+helio.InstrumentDialog.prototype.show = function(closeCallback) {
+    if (this.dialog === null) {
+        var THIS = this;
+        var init = "last_task"; // should the template be initialized on the server side.
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/instrumentDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }

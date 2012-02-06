@@ -1,8 +1,8 @@
 package eu.heliovo.hfe.controller
 
 import eu.heliovo.hfe.model.param.EventListParam
+import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
-import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.hfe.utils.TaskDescriptor
@@ -95,6 +95,29 @@ class DialogController {
         }
         println taskDescriptor
         render (template: "/dialog/eventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
+    }
+
+     def instrumentDialog = {
+        def taskName = params.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def initMode = InitMode.valueOf(params.init)
+        
+        def instrumentParam;
+        switch (initMode) {
+        case InitMode.none:
+            instrumentParam = new InstrumentParam(taskName : taskName);
+            break;
+        case InitMode.last_task:
+        case InitMode.default_mode:
+            Task task = defaultsService.loadTask(taskName)
+            instrumentParam = task.inputParams.instruments
+            if (instrumentParam == null)
+                instrumentParam = new InstrumentParam(taskName : taskName);
+            break;
+        default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+        }
+        println taskDescriptor.inputParams.instruments.instruments.selectionDescriptor
+        render (template: "/dialog/instrumentDialog", model: [ instrument : instrumentParam, taskDescriptor : taskDescriptor])
     }
 
     def extractParamDialog = {

@@ -10,7 +10,7 @@ Expected variables:
   <table class="dialog_table">
     <tr valign="top" align="left" height="*">
       <td valign="top" width="90px">
-        <div class="paramDroppable"style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
+        <div class="paramDroppable" style="width: 70px; height: 70px; padding: 0; float: left; margin: 10px;">
           <img style="margin:11px" src="${resource(dir:'images/helio',file:'circle_EventList.png')}" />
         </div>
       </td>

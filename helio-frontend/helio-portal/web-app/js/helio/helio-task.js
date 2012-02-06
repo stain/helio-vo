@@ -207,6 +207,21 @@ helio.EventListTask = function(taskName) {
 helio.EventListTask.prototype = new helio.AbstractTask;
 helio.EventListTask.prototype.constructor = helio.EventListTask;
 
+/**
+ * Create an DataAccessTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
+ */
+helio.DataAccessTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "../catalog/dpas");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+    this.summaries["instruments"] = new helio.InstrumentSummary(this, this.taskName);
+};
+
+//create DataAccessTask as subclass of AbstractTask
+helio.DataAccessTask.prototype = new helio.AbstractTask;
+helio.DataAccessTask.prototype.constructor = helio.DataAccessTask;
+
 
 /**
  * Task to upload a VOTable

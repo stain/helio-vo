@@ -55,7 +55,7 @@ class TaskDescriptor {
             "timed_see_flare", "goes_flare_sep_event"]
         
         def eventListModel = ServletContextHolder.servletContext.eventListModel
-        
+        def instrumentDescriptor =  ServletContextHolder.servletContext.instrumentDescriptors
         
       /************* PROPAGATION MODEL *****************/
       [
@@ -371,7 +371,25 @@ class TaskDescriptor {
             "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
           ]
       ],
-
+      "dataaccess" :  [
+        "label" : "Data Access Service",
+        "description" : "Query for data",
+        "serviceName" : HelioServiceName.DPAS,
+        "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
+        "serviceVariant" : null,
+        "timeout" : 180,
+        "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'multi_time_range']],
+            "instruments" :  [
+                "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
+                    defaultValue : [],
+                    selectionDescriptor: instrumentDescriptor]
+            ]
+        ],
+        "outputParams" : [
+            "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+        ]
+      ],
     ]}
     
     /**

@@ -42,6 +42,8 @@ class CatalogService {
         def from;
         if (taskDescriptor.inputParams.eventList) {
             from = task.inputParams.eventList.listNames
+        } else if (taskDescriptor.inputParams.instruments) {
+            from = task.inputParams.instruments.instruments
         } else {
             throw new RuntimeException("Internal Error: unable to determine parameter 'from' for task " + task)
         }

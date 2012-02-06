@@ -22,6 +22,11 @@
             <g:render template="/inputParams/genericSummary" model="[paramName : 'EventList', title : 'Select an Event List', step:step]" />
             <g:set var="step" value="${step+1}"/>
           </g:if>
+          <%-- Instrument list Selection Area --%>
+          <g:if test="${taskDescriptor.inputParams?.instruments}">
+            <g:render template="/inputParams/genericSummary" model="[paramName : 'Instrument', title : 'Select an Instrument', step:step]" />
+            <g:set var="step" value="${step+1}"/>
+          </g:if>
           <%-- Param Selection Area --%>
           <g:if test="${taskDescriptor.inputParams?.paramSet}">
             <g:render template="/inputParams/paramSetSummary" model="[paramName : 'ParamSet', title : 'Select Parameters', step:step]" />

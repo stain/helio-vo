@@ -162,9 +162,13 @@ helio.DataCart.prototype.render = function() {
                 break;
             case 'eu.heliovo.hfe.model.param.InstrumentParam':
                 dataObject = new helio.Instrument(taskName, cartItem.name);
-                //dataObject.params = cartItem.params;
+                dataObject.instruments = cartItem.instruments;
                 dataObject.id = cartItem.id;
-                dialogFactory = null;
+                dialogFactory = (function(task, taskName, dataObject) { 
+                    return function() {
+                        return new helio.InstrumentDialog(task, taskName, dataObject);
+                    };
+                })(task, taskName, dataObject);
                 break;                
             case 'eu.heliovo.hfe.model.param.EventListParam':
                 dataObject = new helio.EventList(cartItem.taskName, cartItem.name);
