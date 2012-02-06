@@ -69,7 +69,7 @@
                 <div style="display:block" class="menu_item custom_button"  id="task_searchData">Search Data</div>
               </td --%>
               <td>                
-                <div id="task_dataaccess" title="Access Data">Search Data (new style)</div>
+                <div id="task_dataaccess" title="Access Data">Search Data</div>
               </td>
             </tr>
           </table>
