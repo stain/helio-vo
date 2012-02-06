@@ -1,3 +1,4 @@
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit
 
 import net.ivoa.xml.votable.v1.VOTABLE
@@ -33,6 +34,8 @@ class BootStrap {
     def voTableService;
 
     def init = { servletContext ->
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        
         // setup roles and register temp user filter
         setupSecurity()
 
