@@ -1,7 +1,7 @@
 <table>
   <tr>
     <td id="details">
-      <h5>Start Date</h5>
+      <h5>Start Date (added +/- 6 hours)</h5>
       <span id="details_start_date"></span>
       <h5>End Date</h5>
       <span id="details_end_date"></span>

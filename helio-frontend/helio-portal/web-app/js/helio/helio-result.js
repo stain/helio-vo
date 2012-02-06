@@ -319,19 +319,29 @@ helio.VOTableResult.prototype._extractParams = function() {
         alert("Please select any row(s) to extract time ranges from.");
         return;
     }
-    
-    $("<div>Do you want to add " + data.timeRanges.length  + " selected time range" + (data.timeRanges.length ==1 ? "" : "s") + " to the data cart?</div>").dialog({ modal: true, width: 300,
-        buttons: { 
-            "Yes": function() { 
-                helio.dataCart.addItem(data); 
-                $(this).dialog("close");
-                var rowpos = $('#datacart_container').position();
-                if(rowpos){
-                    $('html,body').scrollTop(rowpos.top);
-                }
-            }, 
-            "No" : function() { $(this).dialog("close"); }} 
+    var dummyTask = new helio.AbstractTask("datacart", null);
+    var dialog = new helio.TimeRangeDialog(dummyTask, "datacart", data);
+    dialog.show(function() {
+        helio.dataCart.addItem(data); 
+        var rowpos = $('#datacart_container').position();
+        if(rowpos){
+            $('html,body').scrollTop(rowpos.top);
+        }        
     });
+    
+//    
+//    $("<div>Do you want to add " + data.timeRanges.length  + " selected time range" + (data.timeRanges.length ==1 ? "" : "s") + " to the data cart?</div>").dialog({ modal: true, width: 300,
+//        buttons: { 
+//            "Yes": function() { 
+//                helio.dataCart.addItem(data); 
+//                $(this).dialog("close");
+//                var rowpos = $('#datacart_container').position();
+//                if(rowpos){
+//                    $('html,body').scrollTop(rowpos.top);
+//                }
+//            }, 
+//            "No" : function() { $(this).dialog("close"); }} 
+//    });
 };
 
 /**
