@@ -125,8 +125,8 @@ class TaskDescriptor {
           ]
       ],
       "pm_cir_fw" : [
-          "label" : "Co-rotate Interaction Region (CIR) Propagation Model (from Sun to object)",
-          "description" : "Co-rotate Interaction Region (CIR) Propagation Model from the Sun to a collection of predefined objects.",
+          "label" : "Co-rotating Interaction Region (CIR) Propagation Model (from Sun to object)",
+          "description" : "Co-rotating Interaction Region (CIR) Propagation Model from the Sun to a collection of predefined objects.",
           "serviceName" : HelioServiceName.HPS,
           "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
           "serviceVariant" : CirPropagationModelImpl.SERVICE_VARIANT,

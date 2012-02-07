@@ -101,8 +101,8 @@
                 <ul id="task_propagationmodel_menu" class="menu" style="display: none;">
                     <li id="task_propagationmodel_pm_cme_fw" >Coronal Mass Ejections (CME) Forward PM</li>
                     <li id="task_propagationmodel_pm_cme_back" >Coronal Mass Ejections (CME) Backward PM</li>
-                    <li id="task_propagationmodel_pm_cir_fw" >Co-rotate Interaction Region (CIR) Forward PM</li>
-                    <li id="task_propagationmodel_pm_cir_back" >Co-rotate Interaction Region (CIR) Backward PM</li>
+                    <li id="task_propagationmodel_pm_cir_fw" >Co-rotating Interaction Region (CIR) Forward PM</li>
+                    <li id="task_propagationmodel_pm_cir_back" >Co-rotating Interaction Region (CIR) Backward PM</li>
                     <li id="task_propagationmodel_pm_sep_fw" >Solar Energetic Particles (SEP) Forward PM</li>
                     <li id="task_propagationmodel_pm_sep_back" >Solar Energetic Particles (SEP) Backward PM</li>
                 </ul>
@@ -155,10 +155,7 @@
     
         <!-- Content -->
         <div id="content" >
-          <!-- 1st level droppable -->
-          <div id="droppable-inner" class="candybox">
-            <g:render template="templates/displayable_content" />
-          </div>
+          <g:render template="/prototype/displayables/splash" />
         </div>
         <div id="responseDivision" ></div>
       </div>

@@ -72,13 +72,12 @@ helio.ErrorMessageDialog.prototype.open = function() {
  * @param {helio.AbstractTask} task the task this object is bound to. 
  * @param {String} taskName the actual name of the task variant. 
  */
-helio.AbstractSummary = function(task, taskName, typeName, dataKey) {
+helio.AbstractSummary = function(task, taskName, typeName, data) {
     this.task = task;
     this.taskName = taskName;
     this.typeName = typeName; // name of the type: TimeRange | ParamSet | Observatory
     this.droppableName = typeName; // name of the accepted droppable. Can be overwritten in child classes (e.g. ParamSetSummary)
-    this.dataKey = this.taskName + '.' + dataKey;
-    this.data = helio.cache[this.dataKey];  // the data stored in this summary object
+    this.data = data === undefined ? null : data;  // the data stored in this summary object
 };
 
 /**
@@ -123,7 +122,8 @@ helio.AbstractSummary.prototype.init = function() {
     $(".paramDraggable" + this.typeName).draggable({
         // attach data to draggable
         start : function(event, ui) {
-            $(this).data('data', THIS.data);
+            // create a deep copy of the data.
+            $(this).data('data', $.extend(true, {}, THIS.data));
         },
         disabled: true,
         revert: "invalid",
@@ -145,7 +145,6 @@ helio.AbstractSummary.prototype.render = function(data) {
         $("#text" + this.typeName + "Summary").html(summary);
 
         // store data in cache
-        helio.cache[this.dataKey] = data;
         this.data = data;
         
         $("#img" +  this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '.png');
@@ -172,7 +171,6 @@ helio.AbstractSummary.prototype.clear = function() {
     $("#text" + this.typeName +  "Summary").html("");
     $("#img" + this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '_grey.png');
     $(".paramDraggable" + this.typeName).draggable("option", "disabled", true);
-    delete helio.cache[this.dataKey];
     this.data = null;
     this.task.validate();
 };
@@ -191,7 +189,7 @@ helio.AbstractSummary.prototype.isValid = function() {
  * 
  */
 helio.TimeRangeSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName, 'TimeRange', 'time_range_summary_data']);
+    helio.AbstractSummary.apply(this, [task, taskName, 'TimeRange', null]);
 };
 
 //create TimeRangeDialog as subclass of AbstractDialog
@@ -225,8 +223,8 @@ helio.TimeRangeSummary.prototype.renderSummary = function(timeRanges) {
  * @param {String} taskName the name of the task to send.  
  * 
  */
-helio.ParamSetSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName, 'ParamSet', 'paramset_summary_data']);
+helio.ParamSetSummary = function(task, taskName, data) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'ParamSet', data]);
     this.droppableName = this.typeName + '_' + taskName; 
 };
 
@@ -257,8 +255,8 @@ helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
  * @param {String} taskName the name of the task to send.  
  * 
  */
-helio.EventListSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName, 'EventList', 'eventlist_summary_data']);
+helio.EventListSummary = function(task, taskName, data) {
+    helio.AbstractSummary.apply(this, [task, taskName, 'EventList', data]);
 };
 
 //create EventListSummry as subclass of AbstractSummry
@@ -298,7 +296,7 @@ helio.EventListSummary.prototype.renderSummary = function(eventList) {
  * 
  */
 helio.InstrumentSummary = function(task, taskName) {
-    helio.AbstractSummary.apply(this, [task, taskName, 'Instrument', 'instrument_summary_data']);
+    helio.AbstractSummary.apply(this, [task, taskName, 'Instrument']);
 };
 
 //create InstrumentSummry as subclass of AbstractSummry
@@ -317,7 +315,7 @@ helio.InstrumentSummary.prototype.renderSummary = function(instrument) {
         if (instrument.name) {
             table.append('<tr><td><b>Name</b> ' + instrument.name + '</td></tr>');
         }
-
+        
         for (var i = 0; i < instrument.instruments.length; i++) {
             var instLabel = instrument.config.labels[i];
             if (!instLabel) {

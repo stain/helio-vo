@@ -153,7 +153,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         "bPaginate": true,
         "sPaginationType": "full_numbers",
         "iDisplayLength": 50,
-        "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
         
         "fnDrawCallback": function() {
             THIS._initCustomColumns.call(THIS, this, tableName);
@@ -361,6 +361,13 @@ helio.VOTableResult.prototype._extractParams = function() {
             // extract time range and add to timeranges.
             var times = dataTable.fnGetData(this, time_start);
             var timee = dataTable.fnGetData(this, time_end);
+     
+            // parse and reformat the time to be a bit more forgiving
+            var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
+            var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
+            times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
+            timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
+            
             data.timeRanges.push(new helio.TimeRange(times, timee));
         });
     });

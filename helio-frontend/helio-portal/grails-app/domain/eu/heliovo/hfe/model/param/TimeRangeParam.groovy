@@ -35,6 +35,7 @@ class TimeRangeParam extends AbstractParam {
      */
     public void addTimeRange(Date startTime, Date endTime) {
         def tr = new TimeRange(startTime : startTime, endTime: endTime)
+        tr.save()
         this.addToTimeRanges(tr)
     }
 

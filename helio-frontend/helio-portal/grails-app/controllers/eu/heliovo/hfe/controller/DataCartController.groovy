@@ -124,6 +124,7 @@ class DataCartController {
         bindData(param, data, [exclude : ['timeRanges', 'params']]);
         if (param instanceof TimeRangeParam) {
             param.timeRanges.clear();
+            param.save()
         }
         
         data.timeRanges?.each{ timeRange->

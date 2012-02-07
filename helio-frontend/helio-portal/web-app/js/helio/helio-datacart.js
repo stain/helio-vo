@@ -235,8 +235,7 @@ helio.DataCart.prototype.render = function() {
                 $('<div title="Information">Unsupported data type</div>')
                 .button();
             }
-            
-            removeCartItem.click((function(cartItemDiv){   
+            removeCartItem.click((function(dataObject){   
                 return function(){
                     // dialog which asks if parameter really ought to be deleted 
                     $('<div title="Confirmation">Do you want to remove this parameter from the data cart?</div>')
@@ -244,7 +243,7 @@ helio.DataCart.prototype.render = function() {
                       buttons:{
                         "Yes": function() {
                             THIS.deleteItem(dataObject);
-                            cartItemDiv.remove();
+//                            cartItemDiv.remove();
                             $(this).dialog("close");
                         },
                         "No": function() {
@@ -254,7 +253,7 @@ helio.DataCart.prototype.render = function() {
                     });
                     return false;
                 };
-            })(cartItemDiv));
+            })(dataObject));
             
             // add cart item to datacarts
             dataCartDivs.push(cartItemDiv);

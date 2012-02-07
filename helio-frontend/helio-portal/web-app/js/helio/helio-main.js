@@ -120,6 +120,9 @@ $(document).ready(function() {
     // provde global access to the task map
     helio.taskMap = new helio.TaskMap();
 
+    // init menu tabs
+    $( "#tabs" ).tabs();//inits the main task selector
+
     // generic configuration of the menu
     var menuConfig = {
         "task_upload2" : {
@@ -220,6 +223,7 @@ $(document).ready(function() {
             throw "unknown menu config " + config;
         }
     }
+
 
 //    $("#advanced_tab").click();
 //    $("#task_plotservice_menu").click();
