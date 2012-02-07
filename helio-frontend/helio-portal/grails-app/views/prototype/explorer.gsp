@@ -155,7 +155,10 @@
     
         <!-- Content -->
         <div id="content" >
-          <g:render template="/prototype/displayables/splash" />
+          <!-- 1st level droppable -->
+          <div id="droppable-inner" class="candybox">
+            <g:render template="templates/displayable_content" />
+          </div>
         </div>
         <div id="responseDivision" ></div>
       </div>

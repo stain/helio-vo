@@ -24,30 +24,11 @@ function Workspace() {
         //Initializes by filling the @divisions map with the html contained in the sections, also removes the html to not overlap ids
         init: function() {
             if (typeof console!="undefined")console.info("Workspace :: init");
-            ingestDivision("hec_extended","#displayableHEC_extended");
-            ingestDivision("task_chart","#displayableTaskChart");
-            ingestDivision("task_hec","#displayableHEC");
-            ingestDivision("task_ics","#displayableICS");
             ingestDivision("input_time","#displayableInputTime");
-            ingestDivision("input_instruments","#displayableInputInstruments");
-            ingestDivision("input_event","#displayableInputEvent");
-            ingestDivision("input_result","#displayableInputResult");
             ingestDivision("input_datamining","#displayableInputDataMining");
-            ingestDivision("task_ils","#displayableILS");
-            ingestDivision("task_dpas","#displayableDPAS");
-            ingestDivision("task_upload","#displayableTaskUpload");
-            ingestDivision("loading","#displayableOnLoading");
-            ingestDivision("error","#displayableError");
+            ingestDivision("task_datamining","#displayableTaskDataMining");            
             ingestDivision("splash","#displayableSplash");
-            ingestDivision("selected_result","#displayableSeletedResult");
-            ingestDivision("task_searchEvents","#displayableTaskSearchEvents");
-            ingestDivision("task_searchInstLoc","#displayableTaskSearchInstLoc");
-            ingestDivision("task_searchInstCap","#displayableTaskSearchInstCap");
-            ingestDivision("task_searchData","#displayableTaskSearchData");
-            ingestDivision("task_datamining","#displayableTaskDataMining");
-            ingestDivision("task_context","#displayableTaskContext");
-            ingestDivision("input_event_view","#displayableInputEventView");
-
+            
             window.workspace.setDisplay("splash");
             
         },
