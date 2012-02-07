@@ -79,9 +79,9 @@ class VoTableService {
 
         // get some metadata
         tableModel["id"] = helioResult.id
-        
+
         tableModel["fileName"] = getFilename(helioResult)
-        
+
         tableModel["actions"] = [] as Set
 
         // get header info
@@ -127,37 +127,57 @@ class VoTableService {
             } else {
                 for (TableElement tableElement : tables) {
                     def table = handleVOElement(tableElement, [:])
-    
+
                     table["type"] = "table" // a real table
-                    table["actions"] = [] as Set // actions that are globally available 
-                     
+                    table["actions"] = [] as Set // actions that are globally available
+
                     table["rowactions"] = new LinkedHashSet() // actions per row
-                    
+
                     // the info of the parent resource.
                     // if a resource contains two tables the info will be duplicated.
                     table["infos"] = infos
                     if (infos.size() > 0) {
                         table['actions'].add('info')
                     }
-                    
+
                     // extract fields
                     table["fields"] = []
-                    
+
                     // add synthetic id column
                     //table["fields"].add(createIdField([:]))
-                    
+
                     FieldElement[] fieldElements = tableElement.getFields()
                     for (FieldElement fieldElement : fieldElements) {
                         def field = handleFieldElement(fieldElement, [:])
                         table["fields"].add(field)
-                        if (field['rendering_hint'] =='url') {
+
+                        // init rendering_hints based on field names
+                        if (field.name == 'experiment_id') {
+                            field['rendering_hint'] = 'url=http://nssdc.gsfc.nasa.gov/nmc/experimentDisplay.do?id=%1$s'
+                        } else if (fieldElement.name == 'hec_id') {
+                            table["rowactions"] += 'examine_event'
+                            field["rendering_hint"] = 'hidden'
+                        } else if (fieldElement.name == 'url') {
+                            field["rendering_hint"] = 'url';
+                        } else {
+                            field["rendering_hint"] = 'text'
+                        }
+
+                        // based on ucd
+                        if (fieldElement.ucd == 'meta.ref.url') {
+                            field["rendering_hint"] = 'url';
+                        }
+
+                        // init global table model actions
+                        if (field.name == 'time_start' || field.name == 'time') {
+                            tableModel["actions"].add('extract')
+                        } else if (field.name == 'obsinst_key') {
+                            tableModel["actions"].add('extract_instrument')
+                        } else if (field['rendering_hint'] =='url') {
                             tableModel['actions'].add('download');
                         }
-                        if (field.name == 'time_start' || field.name == 'time') {
-                           tableModel["actions"].add('extract')
-                        }
                     }
-    
+
                     // extract links
                     table["links"] = []
                     LinkElement[] linkElements = tableElement.getLinks()
@@ -165,7 +185,7 @@ class VoTableService {
                         def link = handleLinkElement(linkElement, [:])
                         table["links"].add(link)
                     }
-    
+
                     // extract params
                     table["params"] = []
                     ParamElement[] paramElements = tableElement.getParams()
@@ -173,8 +193,8 @@ class VoTableService {
                         def param = handleParamElement(paramElement, [:])
                         table["params"].add(param)
                     }
-    
-                    // extrakt data
+
+                    // extract data
                     def starTable = new VOStarTable(tableElement);
                     table["data"] = starTable
                     tableList.add(table);
@@ -184,6 +204,7 @@ class VoTableService {
         tableModel["tables"] = tableList
         return tableModel;
     }
+
 
     /**
      * Get the HELIO Filename either from the upload file name or the URL.
@@ -217,7 +238,7 @@ class VoTableService {
             throw new IllegalArgumentException("Unknown type of helioResult: " + helioResult)
         }
     }
-    
+
     /**
      * Fill the attributes of a field element into a map
      * @param fieldElement the field element to analyze
@@ -231,19 +252,6 @@ class VoTableService {
         field["unit"] = fieldElement.unit
         field["utype"] = fieldElement.utype
         field["xtype"] = fieldElement.xtype
-        // todo: use UCD
-        
-        if (fieldElement.name == 'hec_id') {
-            field["rendering_hint"] = 'hidden'
-        } else if (fieldElement.name == 'url') {
-            field["rendering_hint"] = 'url';
-        } else {
-            field["rendering_hint"] = 'text'
-        }
-        
-        if (fieldElement.ucd == 'meta.ref.url') {
-            field["rendering_hint"] = 'url';
-        }
         return field
     }
 

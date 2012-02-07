@@ -87,61 +87,161 @@ class CatalogController {
     }
     
     def dpas = {
-            // do the data binding (i.e. create task)
-            def jsonBindings = JSON.parse(params.bindings) // parse bindings
-                    def taskName = jsonBindings.taskName
-                    def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
-                    
-                    // create a new task
-                    def task = new Task(taskName : taskName)
-            
-            // create timeRanges
-            if (taskDescriptor.inputParams.timeRanges) {
-                def timeRanges = new TimeRangeParam();
-                bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
-                // bind time ranges
-                jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
-                timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
-                }
-                if (!timeRanges.validate()) {
-                    throw new ValidationException ("Invalid time ranges", timeRanges.errors)
-                }
-                timeRanges.save()
+        // do the data binding (i.e. create task)
+        def jsonBindings = JSON.parse(params.bindings) // parse bindings
+                def taskName = jsonBindings.taskName
+                def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
                 
-                // add to current task
-                task.inputParams.put("timeRanges", timeRanges)
+                // create a new task
+                def task = new Task(taskName : taskName)
+        
+        // create timeRanges
+        if (taskDescriptor.inputParams.timeRanges) {
+            def timeRanges = new TimeRangeParam();
+            bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
+            // bind time ranges
+            jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
+                timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
             }
-            
-            // handle instrument params, if required
-            if (taskDescriptor.inputParams.instruments) {
-                def instrumentParam = new InstrumentParam(jsonBindings.inputParams.instruments)
-                if (!instrumentParam.validate()) {
-                    throw new ValidationException ("Invalid param set", instrumentParam.errors)
-                }
-                instrumentParam.save()
-                task.inputParams.put("instruments", instrumentParam)
+            if (!timeRanges.validate()) {
+                throw new ValidationException ("Invalid time ranges", timeRanges.errors)
             }
+            timeRanges.save()
             
-            if (!task.validate()) {
-                throw new ValidationException ("Unable to create task", task.errors)
+            // add to current task
+            task.inputParams.put("timeRanges", timeRanges)
+        }
+        
+        // handle instrument params, if required
+        if (taskDescriptor.inputParams.instruments) {
+            def instrumentParam = new InstrumentParam(jsonBindings.inputParams.instruments)
+            if (!instrumentParam.validate()) {
+                throw new ValidationException ("Invalid param set", instrumentParam.errors)
             }
-            task.save(flush:true)
-            
-            // execute the query (this adds the tasks to the output params).
-            def model = catalogService.queryCatalog(task)
-            
-            def votableModel
-            try {
-                votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
-            } catch (Exception e) {
-                model.status = "Error while processing result votable (see logs for more information)"
-                        model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
-                        votableModel = null
-            } finally {
-                if (model.status) {
-                    response.setHeader("status", model.status)
-                }
+            instrumentParam.save()
+            task.inputParams.put("instruments", instrumentParam)
+        }
+        
+        if (!task.validate()) {
+            throw new ValidationException ("Unable to create task", task.errors)
+        }
+        task.save(flush:true)
+        
+        // execute the query (this adds the tasks to the output params).
+        def model = catalogService.queryCatalog(task)
+        
+        def votableModel
+        try {
+            votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+        } catch (Exception e) {
+            model.status = "Error while processing result votable (see logs for more information)"
+                    model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
+                    votableModel = null
+        } finally {
+            if (model.status) {
+                response.setHeader("status", model.status)
             }
-            render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
+        }
+        render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
+    
+    def ics = {
+        // do the data binding (i.e. create task)
+        def jsonBindings = JSON.parse(params.bindings) // parse bindings
+        def taskName = jsonBindings.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        
+        // create a new task
+        def task = new Task(taskName : taskName)
+        
+        // create timeRanges
+        if (taskDescriptor.inputParams.timeRanges) {
+            def timeRanges = new TimeRangeParam();
+            bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
+            // bind time ranges
+            jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
+                timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
+            }
+            if (!timeRanges.validate()) {
+                throw new ValidationException ("Invalid time ranges", timeRanges.errors)
+            }
+            timeRanges.save()
+            
+            // add to current task
+            task.inputParams.put("timeRanges", timeRanges)
+        }
+                
+        if (!task.validate()) {
+            throw new ValidationException ("Unable to create task", task.errors)
+        }
+        task.save(flush:true)
+
+        // execute the query (this adds the tasks to the output params).
+        def model = catalogService.queryCatalog(task)
+         
+        def votableModel
+        try {
+            votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+        } catch (Exception e) {
+            model.status = "Error while processing result votable (see logs for more information)"
+            model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
+            votableModel = null
+        } finally {
+            if (model.status) {
+                response.setHeader("status", model.status)
+            }
+        }
+        render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
+    }
+    
+    def ils = {
+        // do the data binding (i.e. create task)
+        def jsonBindings = JSON.parse(params.bindings) // parse bindings
+        def taskName = jsonBindings.taskName
+        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        
+        // create a new task
+        def task = new Task(taskName : taskName)
+        
+        // create timeRanges
+        if (taskDescriptor.inputParams.timeRanges) {
+            def timeRanges = new TimeRangeParam();
+            bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
+            // bind time ranges
+            jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
+                timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
+            }
+            if (!timeRanges.validate()) {
+                throw new ValidationException ("Invalid time ranges", timeRanges.errors)
+            }
+            timeRanges.save()
+            
+            // add to current task
+            task.inputParams.put("timeRanges", timeRanges)
+        }
+                
+        if (!task.validate()) {
+            throw new ValidationException ("Unable to create task", task.errors)
+        }
+        task.save(flush:true)
+
+        // execute the query (this adds the tasks to the output params).
+        def model = catalogService.queryCatalog(task)
+         
+        def votableModel
+        try {
+            votableModel = (model.votableResults.size() > 0) ? voTableService.createVOTableModel(model.votableResults[0].value) : null;
+                        
+        } catch (Exception e) {
+            model.status = "Error while processing result votable (see logs for more information)"
+            model.userLogs.add(new LogRecord(Level.WARNING, e.getClass + ": " + e.getMessage()))
+            votableModel = null
+        } finally {
+            if (model.status) {
+                response.setHeader("status", model.status)
+            }
+        }
+        render (template: "/output/processingResult", model: [votableModel : votableModel, plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
+    }
+
 }

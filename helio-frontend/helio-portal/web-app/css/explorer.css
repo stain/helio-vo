@@ -169,6 +169,14 @@ table.dialog_content_table td {
   border: 1px solid #C3C6CA;
 }
 
+.item_found {
+  color:green;
+}
+.item_missing {
+  color:red;
+}
+
+
 /*************************** CSS related to the menu area *************************/
 ul.menu {
 	position:absolute;
@@ -200,7 +208,7 @@ details_link {
     height: 63px;
     overflow: hidden;
     white-space: nowrap;
-    width: 2500px;
+    width: 100%;
 }
 
 #datacart_slider {

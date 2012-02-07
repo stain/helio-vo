@@ -77,9 +77,6 @@ helio.VOTableResult.prototype.init = function() {
     // format the reponse elements
     // 1. buttons
     formatButton($(".custom_button"));
-
-    // 2. result table
-    $(".resultTable").each(function() { THIS._resultTables.push(THIS._formatTable(this.id)); });
     
     // 3. enable ok-dialogs
     $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
@@ -104,6 +101,26 @@ helio.VOTableResult.prototype.init = function() {
     $('#extract_param_button').click(function() {
         THIS._extractParams.call(THIS);
     });
+    $('#extract_instrument_param_button').click(function() {
+        THIS._extractInstrumentParams.call(THIS);
+    });    
+
+    // 2. result table
+    $(".resultTable").each(function() {
+        var table = THIS._formatTable(this.id);
+        THIS._resultTables.push(table);
+        
+        // do service specific initialisation, if applicable
+        var tableName = $(this).attr("name"); 
+        if (tableName.indexOf("initTable_") == 0) { // startsWith
+            // if there is a function with the initName defined on this object
+            var initName = '_' + tableName;
+            if (helio.VOTableResult.prototype[initName]) {
+                // call the function
+                THIS[initName].call(THIS, table);                
+            }
+        };
+    });    
 };
 
 /**
@@ -111,21 +128,47 @@ helio.VOTableResult.prototype.init = function() {
  * @tableName: takes in the id of the datatable to be parsed, data table should have headers set and body set with matching number of elements
  */
 helio.VOTableResult.prototype._formatTable = function(tableName) {
+    var THIS = this;
+    var tmp = tableName.split('_');
+    var resultId = tmp[1];
+    var tableIndex = tmp[2];
+    
     // 1. format the table
-    var dataTable =$("#"+tableName).dataTable({
+    var dataTable = null;
+    dataTable =$("#"+tableName).dataTable({
         "bJQueryUI": true,
         "bAutoWidth": true,
-        "bRetrieve":true,
-        "bDestroy":true,
-        "bLengthChange": true,
-        "sPaginationType": "full_numbers",
-        "sScrollX": "100%",
+
+        "bProcessing": true,
+        "sAjaxSource": '../voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
+        "bDeferRender": true,
+
+//        "sScrollX": "100%",
+//        "iScrollLoadGap": 50,
         "sScrollY": "500px",
-        "bPaginate": false,
-        "iDisplayLength": 25,
+//        "bScrollInfinite": true,
+//        "bScrollCollapse": true,
+//        "sDom": "frtiS",
+        
+        "bPaginate": true,
+        "sPaginationType": "full_numbers",
+        "iDisplayLength": 50,
         "aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+        
+        "fnDrawCallback": function() {
+            THIS._initCustomColumns.call(THIS, this, tableName);
+        },
+        "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+            // do service specific row formatting, if required
+            var tableName = $(this).attr("name"); 
+            var functionName =  "_" + tableName + "_initRow";
+            // if there is a function with the functionName defined on this object
+            if (helio.VOTableResult.prototype[functionName]) {
+                // call the function
+                THIS[functionName].call(THIS, nRow, aData, iDataIndex);
+            }
+        }
         //"sScrollXInner": "100%",
-        "bScrollCollapse": true,
      
     });
     
@@ -136,95 +179,102 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         if (th.hasClass('hiddenRow')) {
             dataTable.fnSetColumnVis( col, false);
         }
-        if (th.hasClass('th_examine_event')) {
-            dataTable.find('.examine_event').attr('title', 'Get more information about this event')
-               .append('<img style="width:15px;heigth:15px" src="../images/search.png" />')
-               .click((function(dataTable) {
-                 return function() {
-                    var settings = dataTable.fnSettings();
-                    var time_start = -1;
-                    var time_end = -1;
-                    for(var j = 0;j< settings.aoColumns.length;j++){
-                        var title = $.trim(settings.aoColumns[j].sTitle);
-                        if(title == 'time_start'){
-                            time_start=j;
-                        } else if(title == 'time_end'){
-                            time_end=j;
-                        } 
-                    }//end j
-                    
-                    if (time_start == -1) {
-                        alert("No column with name 'time_start' or 'time' found");
-                        return;
-                    }
-                    if (time_end == -1) {
-                        time_end = time_start;
-                    }
-                    var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
-                    var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
-                    //sendExamineEvent(times,timee);
-                    
-                    // adjust times
-                    var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
-                    var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
-                    timeStartObject.subtract("hours", 6);
-                    timeEndObject.add("hours", 6);
-                    
-                    times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
-                    timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
-                    
-                    $("#dialog-message").remove();
-                    var div =$('<div></div>');
-                    div.attr('id','dialog-message');
-                    div.attr('title','Event Details');
-                                  
-                    var html = window.workspace.getDivisions()["input_event_view"];
-                    div.append(html);
-
-                    $("#testdiv").append(div);
-                    $("#details_start_date").text(times);
-                    $("#details_end_date").text(timee);
-                    formatButton($('.custom_button'));
-                    $("#fplot_button").click(function(){
-                        sendExamineEvent(times,timee,"fplot");
-                    });
-                    $("#cplot_button").click(function(){
-                        sendExamineEvent(times,timee,"cplot");
-                    });
-                    $("#pplot_button").click(function(){
-                        sendExamineEvent(times,timee,"pplot");
-                    });
-                    sendExamineEvent(times,timee,"link");
-                    $('#dialog-message').dialog({
-                        modal: true,
-                        height:600,
-                        width:800,
-                        buttons: {
-                            Ok: function() {
-                                $("#dialog-message").dialog( "close" );
-                                $("#dialog-message").remove();
-                            }
-                        }
-                    });
-                    return false;
-                };
-              })(dataTable));
-        }
     }
-
-    // 4. the row selection listener
-    $('#' + tableName + ' tr').click( function() {
-        //var row = table.fnGetData(this);    // current row
-        if ( $(this).hasClass('row_selected') ){
-            $(this).removeClass('row_selected');
-            //THIS.newdata.removeList.call(THIS.newdata, id);
-        } else {
-            $(this).addClass('row_selected');
-            //THIS.newdata.addList.apply(THIS.newdata, [id, label]);
-        };
-    });    
+        
     return dataTable;
 };
+
+helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName) {
+    // 1. the row selection listener
+    $('#' + tableName + ' tr').unbind('click').click( function() {
+        if ( $(this).hasClass('row_selected') ){
+            $(this).removeClass('row_selected');
+        } else {
+            $(this).addClass('row_selected');
+        };
+    });    
+
+    // 2. 
+    var cols = dataTable.fnSettings().aoColumns;
+    for (var col in cols) {
+      var th = $(cols[col].nTh); 
+      if (th.hasClass('th_examine_event')) {
+        dataTable.find('.examine_event').attr('title', 'Get more information about this event')
+           .append('<img style="width:15px;heigth:15px" src="../images/search.png" />')
+           .click((function(dataTable) {
+             return function() {
+                var settings = dataTable.fnSettings();
+                var time_start = -1;
+                var time_end = -1;
+                for(var j = 0;j< settings.aoColumns.length;j++){
+                    var title = $.trim(settings.aoColumns[j].sTitle);
+                    if(title == 'time_start'){
+                        time_start=j;
+                    } else if(title == 'time_end'){
+                        time_end=j;
+                    } 
+                }//end j
+                
+                if (time_start == -1) {
+                    alert("No column with name 'time_start' or 'time' found");
+                    return;
+                }
+                if (time_end == -1) {
+                    time_end = time_start;
+                }
+                var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
+                var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
+                //sendExamineEvent(times,timee);
+                
+                // adjust times
+                var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
+                var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
+                timeStartObject.subtract("hours", 6);
+                timeEndObject.add("hours", 6);
+                
+                times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
+                timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
+                
+                $("#dialog-message").remove();
+                var div =$('<div></div>');
+                div.attr('id','dialog-message');
+                div.attr('title','Event Details');
+                              
+                var html = window.workspace.getDivisions()["input_event_view"];
+                div.append(html);
+
+                $("#testdiv").append(div);
+                $("#details_start_date").text(times);
+                $("#details_end_date").text(timee);
+                formatButton($('.custom_button'));
+                $("#fplot_button").click(function(){
+                    sendExamineEvent(times,timee,"fplot");
+                });
+                $("#cplot_button").click(function(){
+                    sendExamineEvent(times,timee,"cplot");
+                });
+                $("#pplot_button").click(function(){
+                    sendExamineEvent(times,timee,"pplot");
+                });
+                sendExamineEvent(times,timee,"link");
+                $('#dialog-message').dialog({
+                    modal: true,
+                    height:600,
+                    width:800,
+                    buttons: {
+                        Ok: function() {
+                            $("#dialog-message").dialog( "close" );
+                            $("#dialog-message").remove();
+                        }
+                    }
+                });
+                return false;
+            };
+        })(dataTable));
+      }
+    }   
+};
+
 
 helio.VOTableResult.prototype._download = function(){
     var itr= 0;
@@ -327,22 +377,465 @@ helio.VOTableResult.prototype._extractParams = function() {
         if(rowpos){
             $('html,body').scrollTop(rowpos.top);
         }        
+    });    
+};
+
+helio.VOTableResult.prototype._extractInstrumentParams = function() {
+    // create a new data object.
+    var data = new helio.Instrument('datacart', 'extracted');
+
+    $.each(this._resultTables, function(){
+        var dataTable = this;
+        // find the position of the time range columns we are interested in.
+        var settings = dataTable.fnSettings();
+        var instrument = -1;
+        var longname = -1;
+        for(var j = 0;j< settings.aoColumns.length;j++){
+            var title = $.trim(settings.aoColumns[j].sTitle); 
+            if(title == 'obsinst_key'){
+                instrument=j;
+            }
+            if(title == 'longname'){
+                longname=j;
+            }
+        }//end j
+        if (instrument == -1) {
+            alert("Internal error: no column with name 'obsinst_key' found");
+            return;
+        }
+        if (longname == -1) {
+            longname = instrument;
+        }
+        
+        // loop over all selected rows
+        dataTable.find('.row_selected').each(function() {
+            // extract time range and add to timeranges.
+            var instr = dataTable.fnGetData(this, instrument);
+            var instrLabel = dataTable.fnGetData(this, longname);
+            data.addInstrument(instr, instrLabel);
+        });
+    });
+
+    if (data.instruments.length == 0) {
+        alert("Please select any row(s) to extract instruments from.");
+        return;
+    }
+    var dummyTask = new helio.AbstractTask("datacart", null);
+    var dialog = new helio.InstrumentDialog(dummyTask, "datacart", data);
+    dialog.show(function() {
+        helio.dataCart.addItem(data); 
+        var rowpos = $('#datacart_container').position();
+        if(rowpos){
+            $('html,body').scrollTop(rowpos.top);
+        }
+    });
+};
+
+/**
+ * Init-function for ICS result. Is called from init().
+ */
+helio.VOTableResult.prototype._initTable_ICS = function(table) {
+    this._resultFilterTimeout = {};
+    var THIS = this;
+    
+    // handle filtering
+    $("#instrument_filter").tabs();
+    
+    //function to filter out the data table based on what's being check in the checkboxes
+    $("input:checkbox").change(function(){
+        // Photons
+        // obsEntityPhotons = super filter
+        // obsEntityPhotonsType = type filter
+        
+        // super filter clicked
+        if($(this).hasClass("obsEntityPhotons")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            // if any type is checked, uncheck it
+            $(".obsEntityPhotonsType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+
+                }
+            });
+            
+            // if no type is checked, check all
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityPhotonsType").each(function(){
+                    // only check visible checkboxes, otherwise they can't be reset again
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+
+                    }
+                });
+            }
+        }
+        // type filter clicked
+        else if($(this).hasClass("obsEntityPhotonsType")) {
+            // check super filter
+            if($(this).attr("checked")) {
+                $(".obsEntityPhotons").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+
+            }
+            // if no type filter is selected remove super filter
+            else {
+                var noTypeChecked = true;
+                // prove if no type filter is checked
+                $(".obsEntityPhotonsType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityPhotons").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+                }
+            }
+        }
+        
+        // Particles
+        if($(this).hasClass("obsEntityParticles")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            $(".obsEntityParticlesType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+                }
+            });
+            
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityParticlesType").each(function(){
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+                    }
+                });
+            }
+        }
+        else if($(this).hasClass("obsEntityParticlesType")) {
+            if($(this).attr("checked")) {
+                $(".obsEntityParticles").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+            }
+            else {
+                var noTypeChecked = true;
+                $(".obsEntityParticlesType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityParticles").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+                }
+            }
+        }
+
+        // Fields
+        if($(this).hasClass("obsEntityFields")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            $(".obsEntityFieldsType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+                }
+            });
+            
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityFieldsType").each(function(){
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+                    }
+                });
+            }
+        }
+        else if($(this).hasClass("obsEntityFieldsType")) {
+            if($(this).attr("checked")) {
+                $(".obsEntityFields").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+            }
+            else {
+                var noTypeChecked = true;
+                $(".obsEntityFieldsType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityFields").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+                }
+            }
+        }
+        
+        //console.log("change: " + $(this).attr("name") + $(this).attr("column"));
+         
+        THIS._filter.call(THIS, $(this), table);
+    });
+
+    $("input:radio").change(function(){
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+        table.fnFilter(filter_expression, checkboxColumn, true);
     });
     
-//    
-//    $("<div>Do you want to add " + data.timeRanges.length  + " selected time range" + (data.timeRanges.length ==1 ? "" : "s") + " to the data cart?</div>").dialog({ modal: true, width: 300,
-//        buttons: { 
-//            "Yes": function() { 
-//                helio.dataCart.addItem(data); 
-//                $(this).dialog("close");
-//                var rowpos = $('#datacart_container').position();
-//                if(rowpos){
-//                    $('html,body').scrollTop(rowpos.top);
-//                }
-//            }, 
-//            "No" : function() { $(this).dialog("close"); }} 
-//    });
+    $("#show_accessible").click();
+
 };
+
+helio.VOTableResult.prototype._initTable_ICS_initRow = function(nRow, aData, iDataIndex) {
+    // loop over all rows.
+    var data = $('td:last', nRow).text();
+    if(data == "true") {
+        $(nRow).addClass("item_found");
+    } else {
+        $(nRow).addClass("item_missing");
+    }
+};
+
+/**
+ * Init-function for ILS result. Is called from init().
+ */
+helio.VOTableResult.prototype._initTable_ILS = function(table) {
+    this._resultFilterTimeout = {};
+    var THIS = this;
+    // loop over all rows.
+    var trNodes = table.fnGetNodes();
+    $.each(trNodes, function(index, tr) {
+        var trdata = table.fnGetData(tr);
+        var data = trdata[trdata.length-1];
+        if(data == "true") {
+            $(tr).addClass("item_found");
+        }else {
+            $(tr).addClass("item_missing");
+        }
+    });
+    
+    // handle filtering
+    $("#instrument_filter").tabs();
+    
+    //function to filter out the data table based on what's being check in the checkboxes
+    $("input:checkbox").change(function(){
+        // Photons
+        // obsEntityPhotons = super filter
+        // obsEntityPhotonsType = type filter
+        
+        // super filter clicked
+        if($(this).hasClass("obsEntityPhotons")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            // if any type is checked, uncheck it
+            $(".obsEntityPhotonsType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+
+                }
+            });
+            
+            // if no type is checked, check all
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityPhotonsType").each(function(){
+                    // only check visible checkboxes, otherwise they can't be reset again
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+
+                    }
+                });
+            }
+        }
+        // type filter clicked
+        else if($(this).hasClass("obsEntityPhotonsType")) {
+            // check super filter
+            if($(this).attr("checked")) {
+                $(".obsEntityPhotons").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+
+            }
+            // if no type filter is selected remove super filter
+            else {
+                var noTypeChecked = true;
+                // prove if no type filter is checked
+                $(".obsEntityPhotonsType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityPhotons").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+                }
+            }
+        }
+        
+        // Particles
+        if($(this).hasClass("obsEntityParticles")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            $(".obsEntityParticlesType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+                }
+            });
+            
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityParticlesType").each(function(){
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+                    }
+                });
+            }
+        }
+        else if($(this).hasClass("obsEntityParticlesType")) {
+            if($(this).attr("checked")) {
+                $(".obsEntityParticles").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+            }
+            else {
+                var noTypeChecked = true;
+                $(".obsEntityParticlesType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityParticles").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+                }
+            }
+        }
+
+        // Fields
+        if($(this).hasClass("obsEntityFields")) {
+            if(!$(this).attr("checked")) {
+                $(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
+            }
+            
+            var typesChecked = false;
+            $(".obsEntityFieldsType").each(function(){
+                if($(this).attr("checked")) {
+                    $(this).attr("checked", false);
+                    typesChecked = true;
+                    THIS._filter.call(THIS, $(this), table);
+                }
+            });
+            
+            if(!typesChecked && $(this).attr("checked")) {
+                $(".obsEntityFieldsType").each(function(){
+                    if ($(this).is(":visible")) {
+                        $(this).attr("checked", true);
+                        THIS._filter.call(THIS, $(this), table);
+                    }
+                });
+            }
+        }
+        else if($(this).hasClass("obsEntityFieldsType")) {
+            if($(this).attr("checked")) {
+                $(".obsEntityFields").attr("checked", true);
+                THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+            }
+            else {
+                var noTypeChecked = true;
+                $(".obsEntityFieldsType").each(function(){
+                    if($(this).attr("checked")) {
+                        noTypeChecked = false;
+                    }
+                });
+                if (noTypeChecked) {
+                    $(".obsEntityFields").attr("checked", false);
+                    THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+                }
+            }
+        }
+        
+        //console.log("change: " + $(this).attr("name") + $(this).attr("column"));
+         
+        THIS._filter.call(THIS, $(this), table);
+    });
+
+    $("input:radio").change(function(){
+        var checkboxColumn = $(this).attr("column");
+        var filter_expression = "";
+        filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("value") + ")";
+        table.fnFilter(filter_expression, checkboxColumn, true);
+    });
+    
+    $("#show_accessible").click();
+
+};
+
+
+helio.VOTableResult.prototype._filter = function(checkbox, table) {
+    $(".filterInstrumentsText").hide();
+    
+    var checkboxColumn = checkbox.attr("column");
+    var filter_expression = "\0";
+    
+    var anySelected = false;
+    var instruments = new Array();
+    
+    $("input:checked").each(function(){
+        anySelected = true;
+        if($(this).attr("column") == checkboxColumn)
+            filter_expression = filter_expression + "|(.*" + $(this).attr("name") + ".*)";
+
+        if ($(this).hasClass("planet") || $(this).hasClass("spacecraft")) {
+            instruments.push($(this).attr("name"));
+        }
+    });
+    
+    if (anySelected && (checkbox.hasClass("planet") || checkbox.hasClass("spacecraft"))) {
+        $(".filterInstrumentsText").html("Show entries WHERE planet/spacecraft is " + instruments.join(" OR "));
+    }
+    else if (checkbox.hasClass("planet") || checkbox.hasClass("spacecraft")) {
+        $(".filterInstrumentsText").html("All planets/spacecraft are shown.");
+    } else {
+        $(".filterInstrumentsText").html("");        
+    }
+    
+    if(filter_expression=="\0")
+        filter_expression="";
+    
+    if(this._resultFilterTimeout[checkboxColumn] != null)
+        clearTimeout(this._resultFilterTimeout[checkboxColumn]);
+    
+    this._resultFilterTimeout[checkboxColumn] = setTimeout(function(){
+        table.fnFilter(filter_expression,checkboxColumn,true);
+        //console.log(filter_expression);
+    },200);
+    $(".filterInstrumentsText").delay(500).fadeIn();   
+};
+
 
 /**
  * Plot result

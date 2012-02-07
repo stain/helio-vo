@@ -16,7 +16,7 @@ Expected model:
             <%-- table actions --%>
             <g:form target="_blank" controller="voTable" method="get" action="download" style="display: inline">
               <input id="resultId" name="resultId" type="hidden" value="${result.id}" />
-              <g:actionSubmit class="custom_button" value="Save as VOTable" name="download" action="download"  />
+              <g:actionSubmit class="custom_button" value="Save as VOTable" name="download" action="download" title="Download the VOTable as a file for further processing in external applications." />
             </g:form>
   
             <%--info action --%>
@@ -45,19 +45,22 @@ Expected model:
                 Extract selected times
               </div>
             </g:if>            
+            <g:if test="${result.actions.contains('extract_instrument')}">
+              <div id="extract_instrument_param_button" class="custom_button" style="margin-left: 5px;" title="Extract the instrument labels from the selected rows and add them to the data cart.">
+                Extract selected instruments
+              </div>
+            </g:if>            
           </td>
-          <td width="400px">
+          <td width="400px" rowspan="2">
             <div class="message"
               style="margin: 0; clear: both; padding: 0px 10px 0pt 0px; max-width: 400px;">
-              <b>Select result</b><br /> To save your results you
-              can click on 'Save as VOTable', you can also transform
-              them into parameters to use in another query by
-              selecting the rows of interest and then clicking on
-              "Save selection to Data-Cart" or download the data by
-              clicking on "Download Selected files/all". These
-              options will only be avaliable where applicable.
+              <b>Select result</b><br />
+              Hover over the buttons on the left side to get more information about what they do.
             </div>
           </td>
+        </tr>
+        <tr>
+          <td><span id="result_message"></span></td>
         </tr>
       </table>          
       <%-- loop over tables --%>
@@ -73,7 +76,7 @@ Expected model:
               </h3>
             </div>
             
-            <div id="table_info_${result.id}_${h}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
+            <div id="table_info_${h}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
               <g:if test="${table.infos.size() > 0}">
                 <h2>Info Tags</h2>
                 <br>
@@ -109,8 +112,11 @@ Expected model:
                 Info
               </div>
             </g:if>
+            <g:if test="${taskDescriptor.resultfilter}">
+                <g:render template="/output/${taskDescriptor.resultfilter}" model="${[tableId:'table_' + result.id + '_' + h, table:table, taskDescriptor:taskDescriptor]}" />
+            </g:if>
             <!--div reference="resultTable${h}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
-            <g:render template="/output/_votable" model="${[tableId:'table_' + result.id + '_' + h, table:table]}"/>
+            <g:render template="/output/_votable" model="${[tableId:'table_' + result.id + '_' + h, table:table, tableName : 'initTable_' + taskDescriptor.serviceName, renderData:false]}"/>
           </g:else>
         </g:each>
       </div>

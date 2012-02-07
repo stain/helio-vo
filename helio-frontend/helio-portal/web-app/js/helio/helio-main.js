@@ -137,6 +137,16 @@ $(document).ready(function() {
             "taskName" : "dataaccess",
             "taskConstructor" : function(taskName) { return new helio.DataAccessTask(taskName); }
         },
+        "task_ics" : {
+            "url"      : "../task/load?taskName=ics",
+            "taskName" : "ics",
+            "taskConstructor" : function(taskName) { return new helio.IcsTask(taskName); }
+        },
+        "task_ils" : {
+            "url"      : "../task/load?taskName=ils",
+            "taskName" : "ils",
+            "taskConstructor" : function(taskName) { return new helio.IlsTask(taskName); }
+        },
         "task_propagationmodel" : {
             "menuitems" : {
                 "pm_cme_fw" : { title: "CME Forward PM", taskConstructor : function(taskName) {return new helio.PropagationModelTask(taskName);}},
@@ -215,7 +225,7 @@ $(document).ready(function() {
 //    $("#task_plotservice_menu").click();
 //    $("#task_plotservice_parker").click();
     
-   // $('#task_dataaccess').click();
+    //$('#task_ics').click();
     
     
 });

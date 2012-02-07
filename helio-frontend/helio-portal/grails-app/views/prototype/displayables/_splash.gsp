@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>07-Feb-2012: Added new ICS/ILS GUIS. Changed the way to process VOTables: can handle up to 50'000 records now.</li>
             <li>06-Feb-2012: Changed DPAS dialog to new style.</li>
             <li>05-Feb-2012: Added extract-button.</li>
             <li>05-Feb-2012: Rework of the "Search Event" task. Swapping the data cart.</li>
@@ -19,12 +20,7 @@
             <li>24-Jan-2012: Propagation Models - "See Advanced-Propagation Model".</li>
             <li>23-Jan-2012: DES plots - see "Advanced-Plot".</li>
         </ul>
-        
-        <h4 style="margin-top:10px;">Known limitations</h4>
-        <ul>
-            <li>Data cart for ILS/ICS and DPAS is currently broken</li>
-        </ul>
-        
+                
         <h4 style="margin-top:10px;">How to use this interface</h4>
         The HELIO user interface follows this very generic pattern:
         <ol>

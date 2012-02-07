@@ -67,7 +67,7 @@ Expected variables:
         <table style="width:750">
           <tr>
             <td width="500" valign="top">
-              <g:render template="/output/_votable" model="${[tableId: 'selectTableEventList', table:taskDescriptor.inputParams.eventList.listNames.selectionTable]}"/>
+              <g:render template="/output/_votable" model="${[tableId: 'selectTableEventList', tableName: 'selectTableEventList', table:taskDescriptor.inputParams.eventList.listNames.selectionTable, renderData:true]}"/>
             </td>
             <td width="250" valign="top">
                 <div id="summaryEventList" class="candybox dialog_selection_area"></div>

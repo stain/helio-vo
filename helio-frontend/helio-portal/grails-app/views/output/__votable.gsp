@@ -1,9 +1,11 @@
 <%-- Render a single table of a full votable.
 Expected params: 
 * String tableId: a unique identifier of the table for a prefix of the table rows.
+* String tableName: name of the table. Will be used to attach specific JavaScripts to a table.
 * Map table : the particular table model as created by votableService.
+* boolean renderData : render the body section, if true
  --%>
-<table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="${tableId}">
+<table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="${tableId}" name="${tableName}">
   <thead>
     <tr>
       <g:each var="action" in="${table?.rowactions}" status="i">
@@ -14,7 +16,7 @@ Expected params:
       </g:each>
     </tr>
   </thead>
-  <g:if test="${table.data.rowCount > 0}">
+  <g:if test="${renderData && table.data.rowCount > 0}">
     <tbody>
       <g:each var="i" in="${0..<table.data.rowCount}">
         <tr id="${tableId}_row_${i}" >
@@ -32,6 +34,14 @@ Expected params:
                 </a>
               </td>
             </g:elseif>
+            <g:elseif test="${table.fields[j].rendering_hint.startsWith('url=') && cell != null}">
+              <td>
+                <a target="_blank" href="${String.format(table.fields[j].rendering_hint.substring(4), cell)}" >
+                  ${cell}
+                </a>
+              </td>
+            </g:elseif>
+            
             <g:else>
               <td>${cell}</td>
             </g:else>

@@ -111,6 +111,7 @@ helio.AbstractTask.prototype._submitQuery = function() {
             $('#details_link').click(function() {
                 new helio.ErrorMessageDialog(errorThrown, jqXHR.responseText).open();
             });
+            THIS._clearResult.call(THIS); 
         },
         success: function(data, textStatus, jqXHR) { 
             submitDialog.close(); 
@@ -135,6 +136,7 @@ helio.AbstractTask.prototype._submitQuery = function() {
             case "timeout":
                 $('#perform_query_text').html("Your request timed out");
                 $("#task_result_area").html();
+                THIS._clearResult.call(THIS); 
             case "notmodified":
             case "parsererror":
             default:
@@ -153,11 +155,21 @@ helio.AbstractTask.prototype._submitQuery = function() {
  * @param data the data to add.
  */
 helio.AbstractTask.prototype._handleResult = function(data) {
-    this.result = data;
     $('#task_result_area').html(data);
     this.result = new helio.TaskResult(this, this.taskName, data);
     this.result.init();
 };
+
+/**
+ * Clear result area
+ */
+helio.AbstractTask.prototype._clearResult = function(data) {
+    $('#task_result_area').empty();
+    this.result = new helio.TaskResult(this, this.taskName, data);
+    this.result.init();
+};
+
+
 
 /**
  * Create a PropagationModelTask
@@ -221,6 +233,35 @@ helio.DataAccessTask = function(taskName) {
 //create DataAccessTask as subclass of AbstractTask
 helio.DataAccessTask.prototype = new helio.AbstractTask;
 helio.DataAccessTask.prototype.constructor = helio.DataAccessTask;
+
+/**
+ * Create an IcsTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
+ */
+helio.IcsTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "../catalog/ics");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+};
+
+//create IcsTask as subclass of AbstractTask
+helio.IcsTask.prototype = new helio.AbstractTask;
+helio.IcsTask.prototype.constructor = helio.IcsTask;
+
+/**
+ * Create an IlsTask
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
+ */
+helio.IlsTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "../catalog/ils");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+};
+
+//create IlsTask as subclass of AbstractTask
+helio.IlsTask.prototype = new helio.AbstractTask;
+helio.IlsTask.prototype.constructor = helio.IlsTask;
+
 
 
 /**

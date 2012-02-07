@@ -40,7 +40,9 @@ class CatalogService {
         def endTime = timeRanges.collect{ it.endTime}
         
         def from;
-        if (taskDescriptor.inputParams.eventList) {
+        if (taskDescriptor.from) {
+            from = [taskDescriptor.from]
+        } else if (taskDescriptor.inputParams.eventList) {
             from = task.inputParams.eventList.listNames
         } else if (taskDescriptor.inputParams.instruments) {
             from = task.inputParams.instruments.instruments

@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.service.VoTableService
 import eu.heliovo.hfe.utils.TaskDescriptor
+import grails.converters.JSON
 
 /**
  * Controller to handle voTable uploads, downloads and displaying. 
@@ -69,6 +70,60 @@ class VoTableController {
        }
        else {
            render(status: 503, text: 'Failed to retrieve votable with id ${params.resultId}')
+       }
+   }
+   
+   /**
+    * get the data of a given VoTable Result in Ajax format.
+    */
+   def data = {
+       def votableModel
+       try {
+           def result = HelioResult.get(params.resultId);
+           votableModel = voTableService.createVOTableModel(result);
+           def table = votableModel.tables[params.tableIndex.toInteger()];
+           def tableModel = 
+           [
+               "aaData": []
+           ]
+
+           for (int i = 0; i < table.data.rowCount; i++) {
+               def currentRow = table.data.getRow(i)
+               def row = []
+               
+               for (def action : table.rowactions) {
+                   row += '<div class="' + action + '"></div'
+               }
+
+               for (int j = 0; j < currentRow.size(); j++) {
+                   def cell = currentRow[j]
+                   def value;
+                   if (cell == table.fields[j].nullValue) {
+                       value = '-'
+                   } else if (cell == Float.NaN) {
+                       value = ''
+                   } else if (table.fields[j].rendering_hint=='url' && cell != null) {
+                       value = '<a target="_blank" href="' + cell + '">'+ cell.substring(cell.lastIndexOf('/')+1,cell.length()) + '</a';
+                   } else if (table.fields[j].rendering_hint.startsWith('url=') && cell != null) {
+                       value = '<a target="_blank" href="' + String.format(table.fields[j].rendering_hint.substring(4), cell) + '" >' + cell +'</a>' 
+                   } else {
+                       value = cell
+                   }
+                   row += value
+               }
+               tableModel.aaData.add(row)
+           } 
+           
+          // println "table: " + table.data.getRow(4)
+          // println "table: " + tableModel.aaData[4] 
+           render tableModel as JSON
+           //render template:'/output/votabledata', model : [table : table]
+           
+       } catch (Exception e) {
+           def status = "Error while processing result votable (see logs for more information)"
+           response.setHeader("status", status)
+           votableModel = null
+           throw e
        }
    }
 }

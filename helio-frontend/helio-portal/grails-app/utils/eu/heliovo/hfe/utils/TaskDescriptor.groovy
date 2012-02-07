@@ -69,6 +69,11 @@ class TaskDescriptor {
         "inputParams" : [
             "timeRanges" : ["timeRanges" : [type : TimeRange.class]],
             "paramSet" : [
+            ],
+            "instruments" :  [
+                "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
+                    defaultValue : [],
+                    selectionDescriptor: instrumentDescriptor]
             ]
         ]
       ],
@@ -389,6 +394,38 @@ class TaskDescriptor {
         "outputParams" : [
             "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
         ]
+      ],
+      "ils" :  [
+        "label" : "Locate planets/intruments by time",
+        "description" : "Locate planets/intruments by time",
+        "serviceName" : HelioServiceName.ILS,
+        "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
+        "serviceVariant" : null,
+        "from" : "trajectories",
+        "resultfilter" : "ilsfilter", // name and id of the gsp page to use as result filter
+        "timeout" : 180,
+        "inputParams" : [
+            "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+        ],
+        "outputParams" : [
+            "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+        ]
+      ],
+      "ics" :  [
+          "label" : "Find instruments by capability",
+          "description" : "Find instruments by capability",
+          "serviceName" : HelioServiceName.ICS,
+          "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
+          "serviceVariant" : "ivo://helio-vo.eu/ics/ics_pat",
+          "from" : "instrument",
+          "resultfilter" : "icsfilter", // name and id of the gsp page to use as result filter
+          "timeout" : 180,
+          "inputParams" : [
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+          ],
+          "outputParams" : [
+              "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
+          ]
       ],
     ]}
     
