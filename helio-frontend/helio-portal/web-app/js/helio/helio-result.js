@@ -199,7 +199,7 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
     for (var col in cols) {
       var th = $(cols[col].nTh); 
       if (th.hasClass('th_examine_event')) {
-        dataTable.find('.examine_event').attr('title', 'Get more information about this event')
+        dataTable.find('.examine_event').not(':has(img)').attr('title', 'Get more information about this event')
            .append('<img style="width:15px;heigth:15px" src="../images/search.png" />')
            .click((function(dataTable) {
              return function() {
@@ -243,7 +243,8 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
                 var html = window.workspace.getDivisions()["input_event_view"];
                 div.append(html);
 
-                $("#testdiv").append(div);
+                $("#dialog_placeholder").empty();
+                $("#dialog_placeholder").append(div);
                 $("#details_start_date").text(times);
                 $("#details_end_date").text(timee);
                 formatButton($('.custom_button'));

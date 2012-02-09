@@ -144,7 +144,6 @@ helio.AbstractSummary.prototype.render = function(data) {
     if (summary != null) { // (re-)populate the summary section
         $("#text" + this.typeName + "Summary").html(summary);
 
-        // store data in cache
         this.data = data;
         
         $("#img" +  this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '.png');

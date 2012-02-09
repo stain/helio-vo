@@ -21,3 +21,6 @@
 <div id="displayableTaskDataMining" class="displayable" style="display:none">
   <g:render template="tasks/advanced/task_datamining" />
 </div>
+<div id="displayableInputEventView" class="displayable" style="display:none">
+  <g:render template="displayables/inputs/input_event_view" />
+</div>

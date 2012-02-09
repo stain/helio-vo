@@ -91,8 +91,6 @@ this.helio = this.helio ||
            $("#" + THIS.id + "_menu").hide();
        });
    };
-   // cache for temporary data. Temporary data is stored in an associative array.
-   helio.cache = new Object();
    
    // an extension to use JSON through a post request.
    jQuery.extend({
@@ -180,11 +178,11 @@ $(document).ready(function() {
     };    
     
     // loop over config and fill menu object.
-    for (menuName in menuConfig) {
+    for (var menuName in menuConfig) {
         var config = menuConfig[menuName];
         if (config.menuitems) {
             var pmMenu = new Object();
-            for (subMenuItem in config.menuitems) {
+            for (var subMenuItem in config.menuitems) {
                 var subMenuItemConfig = config.menuitems[subMenuItem];
                 var subMenuItemName = menuName + "_" + subMenuItem; 
                 pmMenu[subMenuItemName] = { 

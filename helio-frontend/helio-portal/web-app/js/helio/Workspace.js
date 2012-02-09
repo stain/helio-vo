@@ -28,6 +28,7 @@ function Workspace() {
             ingestDivision("input_datamining","#displayableInputDataMining");
             ingestDivision("task_datamining","#displayableTaskDataMining");            
             ingestDivision("splash","#displayableSplash");
+            ingestDivision("input_event_view","#displayableInputEventView");
             
             window.workspace.setDisplay("splash");
             

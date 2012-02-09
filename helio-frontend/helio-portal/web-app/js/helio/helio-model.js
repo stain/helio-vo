@@ -1,9 +1,8 @@
 /**
  * Helper objects to handle the client-side model.
- * The main purpose of these objects is to cache data.
- * Typically they will be stored in a globally accessible object called 'helio.cache'.
+ * The main purpose of these objects is to keep parameters on the client side.
+ * The model classes resemble the param classes on the server side.
  */
-
 (function() {
     
 /**
