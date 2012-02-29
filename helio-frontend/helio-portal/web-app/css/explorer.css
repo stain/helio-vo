@@ -1,3 +1,14 @@
+
+/**
+ * Setting the margin and padding globally to 0 is acutally not the best.
+ * but for historical reasons we have to live with it for the moment
+ */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
 /**
  * Main CSS file for the HFE
  */
@@ -186,6 +197,7 @@ ul.menu {
 ul.menu li {
 	border: none;
 	padding: 2px 5px;
+	cursor: pointer;
 }
 
 .ui-buttonset {
@@ -273,4 +285,10 @@ details_link {
 
 .paramDraggable {
 	cursor: move;
+}
+
+
+/******************* data tables *********************/
+.css_right {
+    float: right;
 }

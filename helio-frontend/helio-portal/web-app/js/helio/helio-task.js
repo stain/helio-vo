@@ -23,7 +23,7 @@ helio.AbstractTask.prototype.init = function() {
     $.collapsible(".queryHeader", "group1");
     
     // 2, format the buttons
-    formatButton($(".buttonPerformQuery"));
+    $(".buttonPerformQuery").button();
 
     // 3. init the summary sections
     for(summary in this.summaries) {
@@ -177,7 +177,7 @@ helio.AbstractTask.prototype._clearResult = function(data) {
  * 
  */
 helio.PropagationModelTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../processing/propagationModel");
+    helio.AbstractTask.call(this, taskName, "./processing/propagationModel");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
     this.summaries["paramSet"] = new helio.ParamSetSummary(this, this.taskName);
 };
@@ -192,7 +192,7 @@ helio.PropagationModelTask.prototype.constructor = helio.PropagationModelTask;
  * 
  */
 helio.PlotTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../plot/plot");
+    helio.AbstractTask.call(this, taskName, "./plot/plot");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
     
     if (taskName == 'parkerplot' || taskName == 'goesplot') {
@@ -210,7 +210,7 @@ helio.PlotTask.prototype.constructor = helio.PlotTask;
  * 
  */
 helio.EventListTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../catalog/hec");
+    helio.AbstractTask.call(this, taskName, "./catalog/hec");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
     this.summaries["eventList"] = new helio.EventListSummary(this, this.taskName);
 };
@@ -225,7 +225,7 @@ helio.EventListTask.prototype.constructor = helio.EventListTask;
  * 
  */
 helio.DataAccessTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../catalog/dpas");
+    helio.AbstractTask.call(this, taskName, "./catalog/dpas");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
     this.summaries["instruments"] = new helio.InstrumentSummary(this, this.taskName);
 };
@@ -240,7 +240,7 @@ helio.DataAccessTask.prototype.constructor = helio.DataAccessTask;
  * 
  */
 helio.IcsTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../catalog/ics");
+    helio.AbstractTask.call(this, taskName, "./catalog/ics");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
 };
 
@@ -254,7 +254,7 @@ helio.IcsTask.prototype.constructor = helio.IcsTask;
  * 
  */
 helio.IlsTask = function(taskName) {
-    helio.AbstractTask.call(this, taskName, "../catalog/ils");
+    helio.AbstractTask.call(this, taskName, "./catalog/ils");
     this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
 };
 
@@ -287,9 +287,8 @@ helio.VOTableUploadTask.prototype.init = function() {
 //    }
 //    this.uploadSummary.init();
 
-    
     // 1, format the buttons
-    formatButton($("#btn_upload"));
+    $("#btn_upload").button();
     
     // 2. init the collapsible sections
     $.collapsible(".queryHeader","group1");

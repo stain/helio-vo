@@ -19,7 +19,7 @@ helio.DataCart = function() {
 helio.DataCart.prototype._init = function() {
     var THIS = this;
     $.getJSON(
-        '../dataCart/load',
+        './dataCart/load',
         function(data, textStatus, jqXHR) {
             THIS.data = data;
             THIS.render.call(THIS);
@@ -68,7 +68,7 @@ helio.DataCart.prototype._handleSliderSlide = function(event, ui) {
 helio.DataCart.prototype.addItem = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
-        '../dataCart/create',
+        './dataCart/create',
         {data : JSON.stringify(dataItem)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
@@ -85,7 +85,7 @@ helio.DataCart.prototype.addItem = function(dataItem) {
 helio.DataCart.prototype.update = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
-            '../dataCart/update',
+            './dataCart/update',
             {id : dataItem.id, data : JSON.stringify(dataItem)},
             function(data, textStatus, jqXHR) {
                 THIS.data = data;
@@ -102,7 +102,7 @@ helio.DataCart.prototype.update = function(dataItem) {
 helio.DataCart.prototype.deleteItem = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
-        '../dataCart/delete',
+        './dataCart/delete',
         {data : JSON.stringify(dataItem)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
@@ -188,7 +188,7 @@ helio.DataCart.prototype.render = function() {
             
             var draggableClass = 'cartitemDraggable' + dataObject.type + (dataObject.subtype ? '_' + dataObject.subtype : '');
             var cartItemDiv= $('<div  title="' + jQuery.escapeHTML(cartItem.name) + '" class="cartitem ' + draggableClass + '"></div>');
-            var img = $('<img class="cartitem_image ' + draggableClass + '" alt="' + dataObject.type + '"/>').attr('src', '../images/helio/circle_' + dataObject.type + '.png');
+            var img = $('<img class="cartitem_image ' + draggableClass + '" alt="' + dataObject.type + '"/>').attr('src', './images/helio/circle_' + dataObject.type + '.png');
             cartItemDiv.append(img);
             var removeCartItem = $('<div class="cartitem_close ui-state-default ui-corner-all" title="Remove parameter">' +
             '<span class="ui-icon ui-icon-close"></span></div>');

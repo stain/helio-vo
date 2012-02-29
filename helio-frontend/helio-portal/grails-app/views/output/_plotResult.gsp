@@ -2,13 +2,12 @@
 Expected parameters:
  * List<RemotePlotResult> plotResults : a list of plot results to be displayed. 
    The plots must have three properties: url, id, label.
- * Map taskDescriptor : the task descriptor  
+ * String title
  --%><div id="task_output_plot_area">
-  
   <div class="header plotResultHeader viewerHeader">
-    <h1>
-      Plot${plotResults.size() == 1 ? '' : 's'} for task '${taskDescriptor.label}'
-    </h1>
+    <g:if test="${title}">
+        <h1>${title}</h1>       
+    </g:if>
   </div>
   <div class="task_output_params task_body">
     <g:each var="plot" in="${plotResults}">

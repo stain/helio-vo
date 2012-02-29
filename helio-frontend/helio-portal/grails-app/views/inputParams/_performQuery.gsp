@@ -13,7 +13,6 @@ Expected params:
       </tbody>
     </table>
   </td>
-
   <td style="border-top: solid 1px gray; vertical-align: top;">
     <div class="message">
       <b>Step ${step}</b><br /> Click 'Submit' to send the query to the server and retrieve the result. Depending on the query this may take a while.

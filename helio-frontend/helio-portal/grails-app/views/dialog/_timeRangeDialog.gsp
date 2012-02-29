@@ -43,7 +43,7 @@ Expected variables:
     <g:if test="${!paramDescriptor.restriction || paramDescriptor.restriction.contains('multi')}">
       <tr valign="top" align="left" style="height:20px;">
         <td></td>
-        <td style="padding-bottom:5px;"><div id="input_time_range_button" class="custom_button">+ Range</div></td>
+        <td style="padding-bottom:5px;"><div id="input_time_range_button">+ Range</div></td>
       </tr>
     </g:if>
     <%-- label management --%>

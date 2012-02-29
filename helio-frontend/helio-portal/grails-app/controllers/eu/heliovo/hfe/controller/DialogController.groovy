@@ -1,11 +1,14 @@
 package eu.heliovo.hfe.controller
 
+import eu.heliovo.clientapi.linkprovider.LinkProviderFactory
+import eu.heliovo.clientapi.linkprovider.LinkProviderService
 import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.hfe.utils.TaskDescriptor
+import eu.heliovo.shared.util.DateUtil
 
 class DialogController {
     /**
@@ -48,6 +51,37 @@ class DialogController {
         }
         
         render (template: "/dialog/timeRangeDialog", model: [ timeRange : timeRange, defaultTimeRange : defaultTimeRange, taskDescriptor: taskDescriptor])
+    }
+    
+    /**
+     * Get the time range dialog.
+     */
+    def timeRangeDetailsDialog = {
+        def startTime = params.startTime
+        def endTime = params.endTime
+        
+        def startTimeObj = DateUtil.fromIsoDate(startTime)
+        def endTimeObj = DateUtil.fromIsoDate(endTime)
+        
+        def plots = []
+        
+        def plotTasks = ['goesplot', 'flareplot', 'parkerplot']
+        plotTasks.each {
+            def plotTask = TaskDescriptor.findTaskDescriptor(it)
+            plots.add([taskName: it, task : plotTask, startTime : startTime, endTime : endTime])
+        }
+        
+        def links = []
+        LinkProviderFactory lfactory = LinkProviderFactory.getInstance();
+        LinkProviderService[] linkProviders = lfactory.getLinkProviders();
+        linkProviders.each { 
+            def link = it.getLink(startTimeObj, endTimeObj)
+            def title = it.getTitle(startTimeObj, endTimeObj)
+            if (link) {
+                links.add([link : link, title: title])
+            }
+        }
+        render (template: "/dialog/timeRangeDetailsDialog", model: [ plots : plots, links : links, startTime: startTime, endTime : endTime])
     }
     
     def paramSetDialog = {

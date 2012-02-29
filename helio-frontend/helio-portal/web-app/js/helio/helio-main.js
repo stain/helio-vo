@@ -124,27 +124,27 @@ $(document).ready(function() {
     // generic configuration of the menu
     var menuConfig = {
         "task_upload2" : {
-            "url"      : "../task/uploadVoTable",
+            "url"      : "./task/uploadVoTable",
             "taskName" : "votableupload",
             "taskConstructor" : function(taskName) { return new helio.VOTableUploadTask("votableupload"); }
         },
         "task_eventlist" : {
-            "url"      : "../task/load?taskName=eventlist",
+            "url"      : "./task/load?taskName=eventlist",
             "taskName" : "eventlist",
             "taskConstructor" : function(taskName) { return new helio.EventListTask(taskName); }
         },
         "task_dataaccess" : {
-            "url"      : "../task/load?taskName=dataaccess",
+            "url"      : "./task/load?taskName=dataaccess",
             "taskName" : "dataaccess",
             "taskConstructor" : function(taskName) { return new helio.DataAccessTask(taskName); }
         },
         "task_ics" : {
-            "url"      : "../task/load?taskName=ics",
+            "url"      : "./task/load?taskName=ics",
             "taskName" : "ics",
             "taskConstructor" : function(taskName) { return new helio.IcsTask(taskName); }
         },
         "task_ils" : {
-            "url"      : "../task/load?taskName=ils",
+            "url"      : "./task/load?taskName=ils",
             "taskName" : "ils",
             "taskConstructor" : function(taskName) { return new helio.IlsTask(taskName); }
         },
@@ -189,7 +189,7 @@ $(document).ready(function() {
                     "title": subMenuItemConfig.title,
                     "click": (function(taskName, subMenuItemConfig) {
                         return function() {
-                            $('#content').load('../task/load?taskName=' + taskName, function() {
+                            $('#content').load('./task/load?taskName=' + taskName, function() {
                                 var task = helio.taskMap.findByName(taskName);
                                 if (!task) {
                                     task = subMenuItemConfig.taskConstructor.call(this, taskName); 

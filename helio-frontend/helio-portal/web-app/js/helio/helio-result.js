@@ -76,7 +76,7 @@ helio.VOTableResult.prototype.init = function() {
     
     // format the reponse elements
     // 1. buttons
-    formatButton($(".custom_button"));
+    $(".custom_button").button();
     
     // 3. enable ok-dialogs
     $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
@@ -140,7 +140,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         "bAutoWidth": true,
 
         "bProcessing": true,
-        "sAjaxSource": '../voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
+        "sAjaxSource": './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
         "bDeferRender": true,
 
 //        "sScrollX": "100%",
@@ -200,7 +200,7 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
       var th = $(cols[col].nTh); 
       if (th.hasClass('th_examine_event')) {
         dataTable.find('.examine_event').not(':has(img)').attr('title', 'Get more information about this event')
-           .append('<img style="width:15px;heigth:15px" src="../images/search.png" />')
+           .append('<img style="width:15px;heigth:15px" src="./images/search.png" />')
            .click((function(dataTable) {
              return function() {
                 var settings = dataTable.fnSettings();
@@ -235,40 +235,10 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
                 times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
                 timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
                 
-                $("#dialog-message").remove();
-                var div =$('<div></div>');
-                div.attr('id','dialog-message');
-                div.attr('title','Event Details');
-                              
-                var html = window.workspace.getDivisions()["input_event_view"];
-                div.append(html);
-
-                $("#dialog_placeholder").empty();
-                $("#dialog_placeholder").append(div);
-                $("#details_start_date").text(times);
-                $("#details_end_date").text(timee);
-                formatButton($('.custom_button'));
-                $("#fplot_button").click(function(){
-                    sendExamineEvent(times,timee,"fplot");
-                });
-                $("#cplot_button").click(function(){
-                    sendExamineEvent(times,timee,"cplot");
-                });
-                $("#pplot_button").click(function(){
-                    sendExamineEvent(times,timee,"pplot");
-                });
-                sendExamineEvent(times,timee,"link");
-                $('#dialog-message').dialog({
-                    modal: true,
-                    height:600,
-                    width:800,
-                    buttons: {
-                        Ok: function() {
-                            $("#dialog-message").dialog( "close" );
-                            $("#dialog-message").remove();
-                        }
-                    }
-                });
+                
+                var timeRange = new helio.TimeRange(times, timee);
+                var dialog = new helio.TimeRangeDetailsDialog(null, 'timeRangeDetails', timeRange);
+                dialog.show();
                 return false;
             };
         })(dataTable));

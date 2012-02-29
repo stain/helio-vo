@@ -28,7 +28,7 @@ helio.SubmitMessage.prototype.open = function() {
         css: {  }
     });
     
-    $("#loading_form_cancel_button").click(function(){
+    $("#loading_form_cancel_button").button().click(function(){
         $.unblockUI();
         THIS.cancelCallback.call(THIS);
     });
@@ -87,7 +87,7 @@ helio.AbstractSummary.prototype.init = function() {
     var THIS = this;
     
     // 1, format the buttons
-    formatButton($(".button" + this.typeName));
+    $(".button" + this.typeName).button();
     
     // 2. click handler for time range dialogs
     $(".show" + this.typeName + 'Dialog').click(function() {
@@ -146,7 +146,7 @@ helio.AbstractSummary.prototype.render = function(data) {
 
         this.data = data;
         
-        $("#img" +  this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '.png');
+        $("#img" +  this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '.png');
         $(".paramDraggable" + this.typeName).draggable("option", "disabled", false );
 
         this.task.validate();
@@ -168,7 +168,7 @@ helio.AbstractSummary.prototype.renderSummary = undefined;
  */ 
 helio.AbstractSummary.prototype.clear = function() {
     $("#text" + this.typeName +  "Summary").html("");
-    $("#img" + this.typeName + "Summary").attr('src','../images/helio/circle_' + this.typeName + '_grey.png');
+    $("#img" + this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '_grey.png');
     $(".paramDraggable" + this.typeName).draggable("option", "disabled", true);
     this.data = null;
     this.task.validate();
@@ -534,7 +534,7 @@ helio.TimeRangeDialog.prototype.show = function(closeCallback) {
     if (this.dialog === null) {
         var THIS = this;
         var init = this.data ? "none" : "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/timeRangeDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/timeRangeDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -642,7 +642,7 @@ helio.TimeRangeDialog.__formatTimeRange = function(id){
             separator: 'T',
             showButtonPanel: true,
             buttonImageOnly: true,
-            buttonImage: "../images/icons/calendar.gif",
+            buttonImage: "./images/icons/calendar.gif",
             changeYear: true,
             numberOfMonths: 1
         };
@@ -666,12 +666,6 @@ helio.TimeRangeDialog.__formatTimeRange = function(id){
         else {
             endTimeTextBox.val(selectedDate);
         }
-        $.cookie("minDate",$("#minDate_"+id).val(),{
-            expires: 30
-        });
-        $.cookie("maxDate",$("#maxDate_"+id).val(),{
-            expires: 30
-        });
     };
     
     var formatMaxDate = new DatePickerFormat(); 
@@ -687,12 +681,6 @@ helio.TimeRangeDialog.__formatTimeRange = function(id){
         else {
             startTimeTextBox.val(selectedDate);
         }
-        $.cookie("minDate",$("#minDate_"+id).val(),{
-            expires: 30
-        });
-        $.cookie("maxDate",$("#maxDate_"+id).val(),{
-            expires: 30
-        });
     };
     
     $( "#minDate_"+id ).datetimepicker(formatMinDate);
@@ -854,7 +842,7 @@ helio.ParamSetDialog.prototype.show = function(closeCallback) {
     if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -1185,7 +1173,7 @@ helio.EventListDialog.prototype.show = function(closeCallback) {
     if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/eventListDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/eventListDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -1399,7 +1387,7 @@ helio.InstrumentDialog.prototype.show = function(closeCallback) {
     if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/instrumentDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/instrumentDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }
@@ -1506,13 +1494,68 @@ helio.ExtractParamsDialog.prototype.init = function(closeCallback) {
 /**
  * Load the dialog from remote and display it.
  * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
  */
 helio.ExtractParamsDialog.prototype.show = function(closeCallback) {
     if (this.dialog === null) {
         var THIS = this;
         var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('../dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
+    } else {
+        this.init(closeCallback);
+    }
+};
+
+/**
+ * TimeRangeDetailsDialog class
+ * @param {helio.Task} task the task this dialog is assigned to.
+ * @param {String} taskName the task variant of this dialog.
+ * @param {helio.TimeRange} helio.TimeRange the time range to use in the dialog. 
+ */
+helio.TimeRangeDetailsDialog = function(task, taskName, /*helio.TimeRange*/ timeRange) {
+    helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, timeRange]);
+    this.data = timeRange;
+};
+
+//create TimeRangeDetailsDialog as subclass of AbstractDialog
+helio.TimeRangeDetailsDialog.prototype = new helio.AbstractDialog;
+helio.TimeRangeDetailsDialog.prototype.constructor = helio.TimeRangeDetailsDialog;
+
+/**
+ * A configuration object for the dialog
+ */
+helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {    
+    return {
+        title : "Details for a time range",
+        buttons: {
+            Ok: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+        }
+    };
+};
+
+/**
+ * init the dialog
+ * @param {function} closeCallback a call back that is executed after the dialog has been closed.
+ */
+helio.TimeRangeDetailsDialog.prototype.init = function(closeCallback) {
+    // attach the current dialog
+    $("#dialog_placeholder").replaceWith(this.dialog);
+    
+    // show the input dialog
+    this.__showDialog($("#timeRangeDetailsDialog"), closeCallback);
+};
+
+/**
+ * Load the dialog from remote and display it.
+ * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
+ *  
+ */
+helio.TimeRangeDetailsDialog.prototype.show = function(closeCallback) {
+    if (this.dialog === null) {
+        var THIS = this;
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/timeRangeDetailsDialog?startTime=' + this.data.startTime + '&endTime=' + this.data.endTime, function() {THIS.init(closeCallback);});
     } else {
         this.init(closeCallback);
     }

@@ -5,7 +5,7 @@ Expected params:
  * String title
  --%><tr>
   <td style="border-top: solid 1px gray;">
-    <b>${title}</b>
+    <b><g:message code="input.summary.${paramName}.title" /></b>
     <table style="margin-bottom: 10px;">
       <tr>
         <td valign="top">
@@ -27,6 +27,6 @@ Expected params:
     </table>
   </td>
   <td style="border-top: solid 1px gray; vertical-align: top;">
-    <div class="message"><b>Step ${step}</b><br/>Specify further values of this task.</div>
+    <div class="message"><b>Step ${step}</b><br/><g:message code="input.summary.${paramName}.helptext" /></div>
   </td>
 </tr>

@@ -9,7 +9,8 @@ Expected model params:
  * optional List userLogs: the log records
 --%><div id="task_output_area">
   <g:if test="${plotResults}">
-    <g:render template="/output/plotResult" model="[plotResults:plotResults, taskDescriptor: taskDescriptor]" />
+    <g:set var="title" value="${'Plot' + (plotResults.size() == 1 ? '' : 's') + ' for task \'' + taskDescriptor.label + '\''}" />
+    <g:render template="/output/plotResult" model="[plotResults:plotResults, title: title]" />
   </g:if>
   <g:if test="${votableModel}">
     <g:render template="/output/votableResult" model="[result:votableModel, taskDescriptor: taskDescriptor]" />
