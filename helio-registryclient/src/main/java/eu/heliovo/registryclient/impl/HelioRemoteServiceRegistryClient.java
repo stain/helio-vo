@@ -93,32 +93,33 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
                 _LOGGER.trace("found match: " + r.getIdentifier() + " (" + r.getTitle() + ")");
             }
             String description = getDescription(r);
-            HelioServiceName serviceName = HelioServiceName.register(r.getTitle(), r.getIdentifier());
-            ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(serviceName, description, (ServiceCapability)null);
-            serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
-            
-            // register capabilities
-            for (BasicCapability c : r.getCapabilities()) {
-                ServiceCapability cap = ServiceCapability.findServiceCapabilityByStandardId(c.getStandardId());
-                //System.out.println(c.getStandardId() + ", " + c.getXsiType() + ", " +  c.getDescription() + ", " + c.getVersion() + ", "+ c.getAccessUrl());
-                if (cap == null) {
-                    if (c.getStandardId() != null) {
-                        cap = ServiceCapability.register(c.getStandardId(), c.getStandardId());
-                    } else {
-                        cap = ServiceCapability.UNDEFINED;
+            if (r.getIdentifier() != null && r.getTitle() != null) {
+                HelioServiceName serviceName = HelioServiceName.register(r.getTitle(), r.getIdentifier());
+                ServiceDescriptor serviceDescriptor = new GenericServiceDescriptor(serviceName, description, (ServiceCapability)null);
+                serviceDescriptor = registerServiceDescriptor(serviceDescriptor);
+                // register capabilities
+                for (BasicCapability c : r.getCapabilities()) {
+                    ServiceCapability cap = ServiceCapability.findServiceCapabilityByStandardId(c.getStandardId());
+                    //System.out.println(c.getStandardId() + ", " + c.getXsiType() + ", " +  c.getDescription() + ", " + c.getVersion() + ", "+ c.getAccessUrl());
+                    if (cap == null) {
+                        if (c.getStandardId() != null) {
+                            cap = ServiceCapability.register(c.getStandardId(), c.getStandardId());
+                        } else {
+                            cap = ServiceCapability.UNDEFINED;
+                        }
                     }
-                }
-                
-                AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
-                
-                if (accessInterfaceType == null) {
-                    accessInterfaceType = AccessInterfaceType.register(c.getXsiType(), c.getXsiType());
-                }
-                try {
-                    AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, cap, new URL(c.getAccessUrl()));
-                    registerServiceInstance(serviceDescriptor, accessInterface);
-                } catch (MalformedURLException e) {
-                    _LOGGER.warn("Unable to register URL " + c.getAccessUrl() + " for " + serviceDescriptor + "::" + cap + ": " + e.getMessage(), e);
+                    
+                    AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
+                    
+                    if (accessInterfaceType == null) {
+                        accessInterfaceType = AccessInterfaceType.register(c.getXsiType(), c.getXsiType());
+                    }
+                    try {
+                        AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, cap, new URL(c.getAccessUrl()));
+                        registerServiceInstance(serviceDescriptor, accessInterface);
+                    } catch (MalformedURLException e) {
+                        _LOGGER.warn("Unable to register URL " + c.getAccessUrl() + " for " + serviceDescriptor + "::" + cap + ": " + e.getMessage(), e);
+                    }
                 }
             }
         }
