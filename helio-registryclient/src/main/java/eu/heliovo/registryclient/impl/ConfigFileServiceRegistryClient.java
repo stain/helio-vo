@@ -25,14 +25,13 @@ class ConfigFileServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	 * Public constructor is package local for testing
 	 */
 	ConfigFileServiceRegistryClient() {
-	    init();
 	}
 
 	/**
 	 * Init the registry. Try to load local configuration file, if this does not exist create it
 	 * with default values and then load it. 
 	 */
-	private void init() {
+	public void init() {
 	    File registryDir = HelioFileUtil.getHelioHomeDir("registry");
 	    File registryFile = new File(registryDir, REGISTRY_TXT);
 	    if (!registryFile.exists()) {

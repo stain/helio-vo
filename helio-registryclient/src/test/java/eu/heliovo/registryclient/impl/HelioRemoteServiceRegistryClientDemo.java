@@ -18,6 +18,7 @@ public class HelioRemoteServiceRegistryClientDemo {
     
     public static void main(String[] args) {
         HelioRemoteServiceRegistryClient serviceRegistryClient = new HelioRemoteServiceRegistryClient();
+        serviceRegistryClient.init();
         
         System.out.println("Known capabilities");
         System.out.println("-------------------------------------------------------------------------------------------------------------------");

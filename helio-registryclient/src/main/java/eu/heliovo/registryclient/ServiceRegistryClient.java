@@ -59,8 +59,9 @@ public interface ServiceRegistryClient {
 	 *         found.
 	 * @throws ServiceResolutionException
 	 *             in case the service cannot be found.
+	 * @deprecated moved to service helio-clientapi
 	 */
-	public AccessInterface getBestEndpoint(HelioServiceName name,
+ 	@Deprecated public AccessInterface getBestEndpoint(HelioServiceName name,
 			ServiceCapability capability, AccessInterfaceType type)
 			throws ServiceResolutionException;
 
@@ -77,8 +78,9 @@ public interface ServiceRegistryClient {
 	 * @return the URL pointing to the WSDL files or null if no endpoint has
 	 *         been found.
 	 * @throws ServiceResolutionException 
+	 * @deprecated moved to service helio-clientapi
 	 */
-	public AccessInterface getBestEndpoint(ServiceDescriptor descriptor,
+	@Deprecated public AccessInterface getBestEndpoint(ServiceDescriptor descriptor,
 			ServiceCapability capability, AccessInterfaceType type)
 			throws ServiceResolutionException;
 

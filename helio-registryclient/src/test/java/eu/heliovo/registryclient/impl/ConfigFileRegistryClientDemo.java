@@ -12,6 +12,7 @@ public class ConfigFileRegistryClientDemo {
     
     public static void main(String[] args) {
         ConfigFileServiceRegistryClient helioRegistry = new ConfigFileServiceRegistryClient();
+        helioRegistry.init();
         ServiceDescriptor[] serviceDescriptors = helioRegistry.getAllServiceDescriptors();
         for (ServiceDescriptor helioServiceDescriptor : serviceDescriptors) {
             AccessInterface[] endpoints = helioRegistry.getAllEndpoints(helioServiceDescriptor, null, null);

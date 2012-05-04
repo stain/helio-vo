@@ -69,12 +69,19 @@ public abstract class AbstractHelioServiceRegistryClient implements
 						+ "' has been previously registered. This is probably fine.");
 			}
 		} else {
-			_LOGGER.info("Service descriptor '" + helioServiceDescriptor
-					+ "' has been successfully registered.");
+		    if (_LOGGER.isDebugEnabled()) {
+    			_LOGGER.debug("Service descriptor '" + helioServiceDescriptor
+    					+ "' has been previously registered.");
+		    }
 			ret = helioServiceDescriptor;
 		}
 		return ret;
 	}
+	
+	/**
+	 * init method to be called after configuring the registry client.
+	 */
+	abstract public void init();
 
 	/**
 	 * Convenience method to register a capability for a given service.
@@ -129,8 +136,10 @@ public abstract class AbstractHelioServiceRegistryClient implements
 			_LOGGER.warn("Service instance descriptor '" + instanceDescriptor
 					+ "' has been previously registered.");
 		} else {
-			_LOGGER.info("Register access interface '" + accessInterface
-					+ "' for service '" + serviceDescriptor + "' ");
+		    if (_LOGGER.isDebugEnabled()) {
+    			_LOGGER.debug("Register access interface '" + accessInterface
+    					+ "' for service '" + serviceDescriptor + "' ");
+		    }
 		}
 		return ret;
 	}

@@ -77,6 +77,9 @@ public class ServiceRegistryClientFactory {
             } catch (IllegalAccessException e) {
                 throw new RuntimeException("Unable to instantiate " + DEFAULT_REGISTRY_CLIENT.getName() + ". Cause: " + e.getMessage(), e);
             }
+            if (this.serviceRegistryClient instanceof AbstractHelioServiceRegistryClient) {
+                ((AbstractHelioServiceRegistryClient)this.serviceRegistryClient).init();
+            }
         }
         return serviceRegistryClient;
     }

@@ -11,19 +11,18 @@ import eu.heliovo.shared.props.HelioFileUtil;
  * @author MarcoSoldati
  *
  */
-class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+public class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistryClient {
     /**
 	 * Public constructor is package local for testing
 	 */
 	LocalHelioServiceRegistryClient() {
-	    init();
 	}
 
 	/**
 	 * Init the registry. Try to load local configuration file, if this does not exist create it
 	 * with default values and then load it. 
 	 */
-	private void init() {
+	public void init() {
 	    // populate registry
 	    register(HelioServiceName.HEC, ServiceCapability.ASYNC_QUERY_SERVICE, "http://festung1.oats.inaf.it:8080/helio-hec/HelioLongQueryService?wsdl");
 	    register(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE, "http://festung1.oats.inaf.it:8080/helio-hec/HelioService?wsdl");

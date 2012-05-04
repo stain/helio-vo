@@ -29,7 +29,7 @@ import eu.heliovo.shared.props.HelioFileUtil;
  * @author donal k fellows
  * @author marco soldati at fhnw ch
  */
-class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClient {
+public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClient {
     /**
      * The logger.
      */
@@ -53,22 +53,20 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
 	 * Create the registry impl and initialize it accordingly.
 	 */
 	public HelioRemoteServiceRegistryClient() {
-	    setRegistryURL(getRegistryLocation());
 	}
-
+	
 	/**
 	 * Set the URL to use to access the registry.
 	 * @param url the URL to use.
 	 */
 	public void setRegistryURL(URL url)  {
 		registry = new HelioBasicRegistryClient(new SoapClient(url));
-		reinit();
 	}
 
 	/**
 	 * Delete the full content of the registry and repopulate it
 	 */
-	private void reinit() {
+	public void reinit() {
 	    this.instanceDescriptors.clear();
 	    this.serviceDescriptors.clear();
 	    init();
@@ -78,7 +76,8 @@ class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegistryClien
      * Update the service descriptors with all known services. 
      * @throws ServiceResolutionException
      */
-    private void init() throws ServiceResolutionException {
+    public void init() throws ServiceResolutionException {
+        setRegistryURL(getRegistryLocation());
         List<BasicResource> allServices;
         try {
             allServices = registry.getResourceList(keywordSearch(
