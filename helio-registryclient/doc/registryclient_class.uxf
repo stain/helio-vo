@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.4">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>560</x>
+      <y>40</y>
+      <w>190</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>ServiceDescriptor
+--
++ name : String
++ label : String
++ description : String 	
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>420</x>
+      <y>750</y>
+      <w>190</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>HelioService
+--
+...
+--
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>560</x>
+      <y>170</y>
+      <w>190</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>AccessInterface
+--
++ url : URL
++ type : InterfaceType
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>720</x>
+      <y>30</y>
+      <w>170</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+capabilities</panel_attributes>
+    <additional_attributes>150;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>720</x>
+      <y>160</y>
+      <w>170</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+capability</panel_attributes>
+    <additional_attributes>150;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>600</x>
+      <y>300</y>
+      <w>280</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>| type   | url                                  |
+| SOAP | http://foo.com/bar?wsdl |
+| REST  | http://foo.com/bar/get  |</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>870</x>
+      <y>40</y>
+      <w>270</w>
+      <h>240</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enumeration&gt;&gt;
+ServiceCapability
+--
+ASYNC_QUERY_SERVICE
+SYNC_QUERY_SERVICE
+REGISTRY_SERVICE
+MYEXPERIMENT_REGISTRY
+TAVERNA_SERVER
+LINK_PROVIDER_SERVICE
+HELIO_PROCESSING_SERVICE
+VOSI_CAPABILITIES
+VOSI_TABLES
+COMMON_EXECUTION_ARCHITECTURE_SERVICE
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>540</x>
+      <y>210</y>
+      <w>80</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>60;90;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>310</x>
+      <y>100</y>
+      <w>190</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>ServiceInstance
+{private}
+--
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>120</y>
+      <w>110</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=0..*</panel_attributes>
+    <additional_attributes>30;30;90;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>470</x>
+      <y>60</y>
+      <w>110</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+m1=1
+m2=1</panel_attributes>
+    <additional_attributes>30;50;90;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>130</x>
+      <y>180</y>
+      <w>340</w>
+      <h>170</h>
+    </coordinates>
+    <panel_attributes>RegistryClient
+--
+--
+getAllServiceDescriptors() : ServiceDescriptor[]
+getServiceDescriptor(HelioServiceName serviceName) : ServiceDescriptor 
+getAllEndpoints(...) : AccessInterface[]
+registerServiceInstance(...) : boolean
+registerServiceDescriptor(...) : ServiceDescriptor</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
