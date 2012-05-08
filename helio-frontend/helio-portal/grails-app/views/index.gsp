@@ -11,7 +11,7 @@
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
     <META HTTP-EQUIV="EXPIRES" CONTENT="0">
     <title>HELIO Front End</title>
-    <g:render template="misc/imports" />
+    <g:render template="/misc/imports" />
     <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
   </head>
 
@@ -34,12 +34,12 @@
     <!-- Navigation Bar -->
     <div >
       <!-- elements with tooltips -->
-      <g:render template="misc/navbar" />
+      <g:render template="/misc/navbar" />
     </div>
 
     <!-- Body Container -->
     <div id="container" >
-      <g:render template="misc/taskSelectionArea" />
+      <g:render template="/misc/taskSelectionArea" />
     
       <div id="content-container">
         <%-- the data cart --%>
@@ -53,7 +53,7 @@
     
         <!-- Content -->
         <div id="content" >
-            <g:render template="misc/splash" />
+            <g:render template="/misc/splash" />
         </div>
       </div>
     </div>

@@ -3,7 +3,6 @@ package eu.heliovo.hfe.model.result
 import java.net.URL
 
 import uk.ac.starlink.table.StarTable
-import eu.heliovo.clientapi.utils.STILUtils
 
 /**
  * A local copy of a VOTable.

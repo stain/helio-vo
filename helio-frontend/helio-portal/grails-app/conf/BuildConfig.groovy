@@ -15,15 +15,15 @@ grails.project.dependency.resolution = {
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     repositories {
-        // Register the new JAR
-        def classLoader = getClass().classLoader
-        classLoader.addURL(new File(baseFile, "lib/grails-snapshot-dependencies-fix-0.1.jar").toURI().toURL())
-        
-        // Get a hold of the class for the new resolver
-        def snapshotResolverClass = classLoader.loadClass("grails.resolver.SnapshotAwareM2Resolver")
-        
-        // Define a new resolver that is snapshot aware
-        resolver(snapshotResolverClass.newInstance(name: "helio-snapshots", root: "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"))
+//        // Register the new JAR
+//        def classLoader = getClass().classLoader
+//        classLoader.addURL(new File(baseFile, "lib/grails-snapshot-dependencies-fix-0.1.jar").toURI().toURL())
+//        
+//        // Get a hold of the class for the new resolver
+//        def snapshotResolverClass = classLoader.loadClass("grails.resolver.SnapshotAwareM2Resolver")
+//        
+//        // Define a new resolver that is snapshot aware
+//        resolver(snapshotResolverClass.newInstance(name: "helio-snapshots", root: "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"))
 
         
         mavenRepo "http://helio-dev.cs.technik.fhnw.ch/archiva/repository/snapshots"
@@ -45,7 +45,7 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		provided 'javax.servlet:servlet-api:2.5'
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
-            excludes 'slf4j-log4j12', 'slf4j-api'    
+            excludes 'slf4j-log4j12', 'slf4j-api', 'hibernate-commons-annotations'    
         }
 	}
     // force grails to fetch the latest versions from the maven repo rather than from the ivy cache.

@@ -8,7 +8,6 @@ import org.springframework.beans.BeanWrapper
 import org.springframework.beans.BeanWrapperImpl
 
 import eu.heliovo.clientapi.HelioClient
-import eu.heliovo.clientapi.processing.ProcessingServiceFactory
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.result.RemotePlotResult
 import eu.heliovo.hfe.model.task.Task
@@ -20,7 +19,7 @@ import eu.heliovo.shared.props.HelioFileUtil
 
 class PlotService {
 
-    HelioClient helioClient = new HelioClient()
+    def helioClient
 
     static transactional = true
 
@@ -35,8 +34,8 @@ class PlotService {
         
         def plotService = helioClient.getServiceInstance(
             taskDescriptor.serviceName,
-            taskDescriptor.serviceCapability,
-            taskDescriptor.serviceVariant)
+            taskDescriptor.serviceVariant,
+            taskDescriptor.serviceCapability)
         
         def timeRanges = task.inputParams.timeRanges.timeRanges
 

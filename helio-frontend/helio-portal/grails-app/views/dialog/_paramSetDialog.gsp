@@ -45,7 +45,7 @@ Expected parameters:
                     </g:each>
                   </g:elseif>
                   <g:else>
-                    <input size="7" type="text" class="paramSetEntry" name="${paramDescriptorEntry.key}" title="${paramDescriptor.label}" value="${value}" />
+                    <input size="7" type="text" class="paramSetEntry" name="${paramDescriptorEntry.key}" title="${paramDescriptor.label}" value="${value.toString()}" />
                   </g:else>
                 </td>
                 <td valign="top">

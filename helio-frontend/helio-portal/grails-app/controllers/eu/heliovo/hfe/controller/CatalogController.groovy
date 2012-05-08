@@ -13,6 +13,12 @@ import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
 
+
+/**
+ * Controller that handles access to data and metadata catalogues
+ * TODO: Rename to data access controller
+ * @author MarcoSoldati
+ */
 class CatalogController {
     def catalogService
         

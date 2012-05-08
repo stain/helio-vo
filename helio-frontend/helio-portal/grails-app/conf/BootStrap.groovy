@@ -1,15 +1,11 @@
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit
 
-import net.ivoa.xml.votable.v1.VOTABLE
-
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 import eu.heliovo.clientapi.HelioClient
-import eu.heliovo.clientapi.frontend.ResultVT
 import eu.heliovo.clientapi.model.catalog.HelioCatalogDao
-import eu.heliovo.clientapi.model.catalog.impl.HelioCatalogDaoFactory
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor
 import eu.heliovo.clientapi.model.field.HelioField
 import eu.heliovo.clientapi.query.HelioQueryResult
@@ -32,7 +28,14 @@ import grails.util.GrailsUtil
 class BootStrap {
     
     def voTableService;
+    
+    def dpasDao;
 
+    /**
+     * Auto-wire the helio client
+     */
+    def helioClient;
+    
     def init = { servletContext ->
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         
@@ -45,14 +48,11 @@ class BootStrap {
             case "development":
             //org.hsqldb.util.DatabaseManager.main()
             case "production":
-            // fire up HELIO Backend
-                def helioClient = new HelioClient()
             // init descriptors
                 if (!servletContext.instrumentDescriptors) {
                     servletContext.instrumentDescriptors = initDpasConfig(helioClient)
                 }
                 if (!servletContext.eventListModel) {
-                    //servletContext.eventListDescriptors = initEventListDescriptors(helioClient)
                     servletContext.eventListModel = initEventListModel(helioClient)
                 }
 
@@ -83,9 +83,8 @@ class BootStrap {
 
     private def initDpasConfig(HelioClient helioClient) {
         // init catalog list for DPAS GUI
-        HelioCatalogDao dpasDao = HelioCatalogDaoFactory.getInstance().getHelioCatalogDao(HelioServiceName.DPAS)
         if (dpasDao == null) {
-            throw new NullPointerException("Unable to find service DPAS")
+            throw new NullPointerException("dpasDao was not auto-wired")
         }
         HelioField<String> instrumentDescriptorsField = dpasDao.getCatalogById('dpas').getFieldById('instrument')
         DomainValueDescriptor<String>[] instrumentDescriptors = instrumentDescriptorsField.getValueDomain()
@@ -97,29 +96,9 @@ class BootStrap {
      * @param helioClient the helioClient
      * @return
      */
-    private def initEventListDescriptors(HelioClient helioClient) {
-        // init the HEC configuration
-        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE,null )
-        HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
-                Arrays.asList("hec_catalogue"), null, 0, 0, null)
-
-        int timeout = 60
-
-        // TODO: replace by Hibernate objects.
-        VOTABLE voTable = hecQueryResult.asVOTable(timeout, TimeUnit.SECONDS)
-        ResultVT resvt = new ResultVT(voTable, hecQueryResult.getUserLogs())
-        return resvt
-    }
-
-    /**
-     * Init the event list descriptors
-     * @param servletContext the current servletContext
-     * @param helioClient the helioClient
-     * @return
-     */
     private def initEventListModel(HelioClient helioClient) {
         // init the HEC configuration
-        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, ServiceCapability.SYNC_QUERY_SERVICE,null )
+        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, null, ServiceCapability.SYNC_QUERY_SERVICE)
         HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
                 Arrays.asList("hec_catalogue"), null, 0, 0, null)
 

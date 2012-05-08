@@ -291,7 +291,7 @@ class TaskDescriptor {
         "label" : "ACE timeline plot",
         "description" : "ACE timeline plot",
         "serviceName" : HelioServiceName.DES,
-        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
         "serviceVariant" : AcePlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
@@ -305,7 +305,7 @@ class TaskDescriptor {
         "label" : "STEREO-A timeline plot",
         "description" : "STEREO-A timeline plot",
         "serviceName" : HelioServiceName.DES,
-        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
         "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
@@ -319,7 +319,7 @@ class TaskDescriptor {
           "label" : "STEREO-B timeline plot",
           "description" : "STEREO-B timeline plot",
           "serviceName" : HelioServiceName.DES,
-          "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
+          "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
           "serviceVariant" : StbPlotterServiceImpl.SERVICE_VARIANT,
           "timeout" : 60,
           "inputParams" : [
@@ -333,7 +333,7 @@ class TaskDescriptor {
         "label" : "Ulysses timeline plot",
         "description" : "Ulysses timeline plot",
         "serviceName" : HelioServiceName.DES,
-        "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
+        "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
         "serviceVariant" : UlyssesPlotterServiceImpl.SERVICE_VARIANT,
         "timeout" : 60,
         "inputParams" : [
@@ -347,7 +347,7 @@ class TaskDescriptor {
           "label" : "WIND timeline plot",
           "description" : "WIND timeline plot",
           "serviceName" : HelioServiceName.DES,
-          "serviceCapability" : ServiceCapability.COMMON_EXECUTION_ARCHITECTURE_SERVICE,
+          "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
           "serviceVariant" : WindPlotterServiceImpl.SERVICE_VARIANT,
           "timeout" : 60,
           "inputParams" : [

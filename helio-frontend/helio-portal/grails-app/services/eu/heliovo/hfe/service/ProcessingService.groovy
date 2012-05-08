@@ -14,7 +14,7 @@ import eu.heliovo.hfe.model.task.Task
 
 class ProcessingService {
 
-    def helioClient = new HelioClient()
+    def helioClient
 
     static transactional = true
 
@@ -29,8 +29,8 @@ class ProcessingService {
                    
         def propagationService = helioClient.getServiceInstance(
             taskDescriptor.serviceName,
-            taskDescriptor.serviceCapability,
-            taskDescriptor.serviceVariant)
+            taskDescriptor.serviceVariant,
+            taskDescriptor.serviceCapability)
 
         def timeRanges = task.inputParams.timeRanges.timeRanges
 

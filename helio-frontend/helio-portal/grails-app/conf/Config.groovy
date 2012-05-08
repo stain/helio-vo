@@ -58,16 +58,17 @@ environments {
 }
 
 // log4j configuration
+def logbaseDir = "${userHome}"
+
 log4j = {
     // Example of changing the log pattern for the default console
     // appender:
     
-    // TODO: setup logs.
     appenders {
         rollingFile name: "stacktrace", maxFileSize: 1024,
-            file: "${userHome}/.helio/logs/${appName}-${hfe.buildnumber ?: '0'}-stacktrace.log" 
+            file: logbaseDir + "/.helio/logs/stacktrace.log" 
     }
-
+    
     debug 'grails.app.tagLib',
           'grails.app.controller',
           'grails.app.service'
@@ -75,7 +76,7 @@ log4j = {
 
      info 'grails.app.controller',
           'grails.app.service',
-          'eu.heliovo.clientapi'
+          'eu.heliovo'
            
 
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers

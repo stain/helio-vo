@@ -13,7 +13,7 @@ import eu.heliovo.shared.util.DateUtil
 
 class CatalogService {
 
-    def helioClient = new HelioClient()
+    def helioClient
 
     static transactional = true
 
@@ -28,8 +28,8 @@ class CatalogService {
 
         def catalogService = helioClient.getServiceInstance(
                 taskDescriptor.serviceName,
-                taskDescriptor.serviceCapability,
-                taskDescriptor.serviceVariant)
+                taskDescriptor.serviceVariant,
+                taskDescriptor.serviceCapability)
 
         def timeRanges = task.inputParams.timeRanges.timeRanges
 

@@ -1,20 +1,29 @@
 package eu.heliovo.hfe.controller
 
-import eu.heliovo.clientapi.linkprovider.LinkProviderFactory
-import eu.heliovo.clientapi.linkprovider.LinkProviderService
 import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.hfe.utils.TaskDescriptor
+import eu.heliovo.registryclient.ServiceCapability
 import eu.heliovo.shared.util.DateUtil
+
+import eu.heliovo.clientapi.HelioClient
+import eu.heliovo.clientapi.model.service.HelioService
+import eu.heliovo.clientapi.linkprovider.LinkProviderService
+
 
 class DialogController {
     /**
      * Auto-wire the defaults service.
      */
     def defaultsService
+    
+    /**
+     * Auto wire the HELIO client.
+     */
+    def helioClient
 
     /**
      * Auto wire the extractParamsService    
@@ -72,8 +81,7 @@ class DialogController {
         }
         
         def links = []
-        LinkProviderFactory lfactory = LinkProviderFactory.getInstance();
-        LinkProviderService[] linkProviders = lfactory.getLinkProviders();
+        def linkProviders = helioClient.getServiceInstances(ServiceCapability.LINK_PROVIDER_SERVICE);
         linkProviders.each { 
             def link = it.getLink(startTimeObj, endTimeObj)
             def title = it.getTitle(startTimeObj, endTimeObj)
@@ -127,7 +135,7 @@ class DialogController {
                 break;
             default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
-        println taskDescriptor
+        //println taskDescriptor
         render (template: "/dialog/eventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
     }
 
@@ -150,7 +158,7 @@ class DialogController {
             break;
         default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
-        println taskDescriptor.inputParams.instruments.instruments.selectionDescriptor
+        //println taskDescriptor.inputParams.instruments.instruments.selectionDescriptor
         render (template: "/dialog/instrumentDialog", model: [ instrument : instrumentParam, taskDescriptor : taskDescriptor])
     }
 
