@@ -65,7 +65,11 @@ public abstract class DirInsAnlyFactory {
 				 //
 				 if(resultTo!=null && resultTo.length>0 && resultTo[0]!=null){
 					 ftpTO.setYearPattern(resultTo[0].getYearPattern());
-			  		 ftpTO.setMonthPattern(resultTo[0].getMonthPattern());
+					 String monthPattern = resultTo[0].getMonthPattern();
+					 if(monthPattern == null || monthPattern.equals("null")) {
+						 monthPattern = "";
+					 }
+			  		 ftpTO.setMonthPattern(monthPattern);
 			  		 ftpTO.setFtpHost(resultTo[0].getFtpHost());
 			  		 ftpTO.setWorkingDir(resultTo[0].getWorkingDir());
 			  		 ftpTO.setFtpUser(resultTo[0].getFtpUser());

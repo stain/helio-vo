@@ -8,7 +8,7 @@ OAUC__SHELIO,DIR,FTP,pub/coimbra/Halpha/::pub/coimbra/dopp/::pub/coimbra/K1v/::p
 PDMO__COGHA,DIR,FTP,pub/coro/::data1/coro/::data2/coro/::data3/coro/::data4/coro/::data5/coro/::data6/coro/,yy,MM,ftpbass2000.obspm.fr,anonymous,,[0-9]{6}.[0-9]{6},yyMMdd'.'HHmmss,1,,
 
 GONG-HALPH,DIR,FTP,HA/haf/,yyyy,MM,gong2.nso.edu,anonymous,,[0-9]{14},yyyyMMddHHmmss,1,,
-GOES,DIR,FTP,goes/,yyyy,MM,hesperia.gsfc.nasa.gov,anonymous,,[0-9]{10},yyyyMMdd,1,,
+GOES__XRS,DIR,FTP,goes/,yyyy,,hesperia.gsfc.nasa.gov,anonymous,,[0-9]{8}\.,yyyyMMdd,1,,
 
 
 HalphaKanz,DIR,HTTP,observations/halpha2/archive/,yyyy,MM,kanzelhohe.uni-graz.at,anonymous,,[0-9]{8}_[0-9]{6},yyyyMMdd'_'HHmmss,1,,
@@ -57,4 +57,5 @@ THEMIS_E__EFI,DIR,HTTP,data/themis/the/l2/efi/,yyyy, ,themis.stp.isas.jaxa.jp,an
 #the by year, e.g. 2007  (one file per day)
 ##many instruments xxxx
 #(May be more logical access for THEMIS than via CDAWeb)
+
 

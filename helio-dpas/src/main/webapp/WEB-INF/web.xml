@@ -15,6 +15,15 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>		
 	</servlet>
+	
+	 <servlet>
+      	<description>
+      	</description>
+      	<display-name>PatQueryServlet</display-name>
+      	<servlet-name>PatQueryServlet</servlet-name>
+      	<servlet-class>
+      	eu.heliovo.dpas.ie.servlets.PatQueryServlet</servlet-class>
+      </servlet>
   
   <filter>
         <filter-name>struts2</filter-name>
@@ -49,8 +58,43 @@
    
      <servlet-mapping>
 	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioService1_0</url-pattern>
+   </servlet-mapping>  
+   
+    <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioService1_1</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioService1_0b</url-pattern>
+   </servlet-mapping>  
+   
+     <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
 	   <url-pattern>/HelioLongQueryService</url-pattern>
    </servlet-mapping>  
+   
+   <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioLongQueryService1_0</url-pattern>
+   </servlet-mapping>  
+   
+      <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioLongQueryService1_1</url-pattern>
+   </servlet-mapping>  
+   
+        <servlet-mapping>
+	   <servlet-name>jaxws-servlet</servlet-name>
+	   <url-pattern>/HelioLongQueryService1_2</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+		<servlet-name>PatQueryServlet</servlet-name>
+		<url-pattern>/HelioPatServlet</url-pattern>
+	</servlet-mapping>
   
       <servlet>
       	<description>

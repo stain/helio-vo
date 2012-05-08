@@ -4,6 +4,8 @@ package eu.heliovo.dpas.ie.servlets;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TimeZone;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +23,8 @@ public class StartupServlet extends HttpServlet {
 		super.init(config);
 		try{
 			//Getting the path.
+			TimeZone.setDefault(TimeZone.getTimeZone("GMT"));
+
 			System.out.println("---> getting HSQL database path -------->");
 			String sProfileFilePath=getServletContext().getRealPath("/");
 			if(sProfileFilePath!=null && !sProfileFilePath.equals("")){

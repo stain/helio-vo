@@ -1,6 +1,10 @@
 query.url.uoc=http://140.105.77.30:8080/helio-uoc/HelioService
 query.url.medocsoho=http://helio-hqi.ias.u-psud.fr/helio-soho/HelioService
 query.url.medocstereo=http://helio-hqi.ias.u-psud.fr/helio-stereo/HelioService
+query.url.medoctrace=http://helio-hqi.ias.u-psud.fr/helio-trace/HelioService
+
+query.url.raltrace=http://helio.ukssdc.ac.uk/trace/HelioService
+query.url.ralstereo=http://helio.ukssdc.ac.uk/stereo/HelioService
 
 query.where.medocstereo.STEREO_A__EUVI=secchisata,T;detector,*SECCHI_EUVI*
 query.where.medocstereo.STEREO_A__COR=secchisata,T;detector,*SECCHI_COR*
