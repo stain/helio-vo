@@ -74,7 +74,7 @@ class VoTableController {
    }
    
    /**
-    * get the data of a given VoTable Result in Ajax format.
+    * Get the data of a given VoTable Result in JSON format for data tables.
     */
    def data = {
        def votableModel

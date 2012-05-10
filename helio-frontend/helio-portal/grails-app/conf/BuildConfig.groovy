@@ -56,19 +56,6 @@ grails.project.dependency.resolution = {
 // http://jira.codehaus.org/browse/GRAILS-5943
 // the following hack just deletes this file
 grails.war.resources = { stagingDir, args ->
-    copy(file: "src/resources/buildinfo.properties", tofile: "${stagingDir}/WEB-INF/classes/buildinfo.properties", filtering: true) {
-      filterset {
-        filter(token:"TITLE", value:"Foo Bar")
-        filter(token:"BUILD_ID", value:"BUILD_ID")
-        filter(token:"JOB_NAME", value:"JOB_NAME")
-        filter(token:"BUILD_TAG", value:"BUILD_TAG")
-        filter(token:"EXECUTOR_NUMBER", value:"EXECUTOR_NUMBER")
-        filter(token:"JAVA_HOME", value:"JAVA_HOME")
-        filter(token:"WORKSPACE", value:"WORKSPACE")
-        filter(token:"JENKINS_URL", value:"JENKINS_URL")
-        filter(token:"SVN_REVISION", value:"SVN_REVISION")
-      }
-    }
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-jaxrpc-1.3.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/axis-saaj-1.3.jar")

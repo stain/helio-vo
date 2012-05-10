@@ -147,7 +147,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
 //        "iScrollLoadGap": 50,
         "sScrollY": "500px",
 //        "bScrollInfinite": true,
-//        "bScrollCollapse": true,
+        "bScrollCollapse": true,
 //        "sDom": "frtiS",
         
         "bPaginate": true,
@@ -171,6 +171,9 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         //"sScrollXInner": "100%",
      
     });
+    
+    // adjust the size
+    dataTable.fnAdjustColumnSizing();
     
     // 2. init special columns
     var cols = dataTable.fnSettings().aoColumns;
