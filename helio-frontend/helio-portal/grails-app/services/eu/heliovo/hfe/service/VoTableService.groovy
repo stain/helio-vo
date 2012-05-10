@@ -232,7 +232,7 @@ class VoTableService {
     /**
      * Read the content of a VOTable from the database
      * @param helioResult the result to parse. Must not be null.
-     * @return
+     * @return the content of the VOTable as text.
      */
     public getContent(HelioResult helioResult) {
         if (helioResult instanceof LocalVOTableResult) {

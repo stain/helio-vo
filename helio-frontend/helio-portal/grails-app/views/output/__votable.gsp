@@ -16,6 +16,7 @@ Expected params:
       </g:each>
     </tr>
   </thead>
+  <!--  the data is rendered only if renderData is true. Otherwise the caller must load the data asynchronously -->
   <g:if test="${renderData && table.data.rowCount > 0}">
     <tbody>
       <g:each var="i" in="${0..<table.data.rowCount}">

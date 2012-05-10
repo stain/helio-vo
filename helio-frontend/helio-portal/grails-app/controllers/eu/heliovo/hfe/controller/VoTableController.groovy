@@ -84,9 +84,26 @@ class VoTableController {
            def table = votableModel.tables[params.tableIndex.toInteger()];
            def tableModel = 
            [
+               "aoColumns" : [],
                "aaData": []
            ]
-
+           
+           // render header rows
+           for(def field : table.fields) {
+               def headerCell = [:]
+               headerCell["sTitle"] = field.name
+               
+               // HELIO specific properties, ignored by data tables
+               headerCell["sDescription"] = field.description
+               headerCell["sNullValue"] = '-'
+               headerCell["ucd"] = field.ucd
+               headerCell["unit"] = field.unit
+               headerCell["utype"] = field.utype
+               headerCell["xtype"] = field.xtype
+               tableModel.aoColumns.add(headerCell)           
+           }
+           
+           // render the data
            for (int i = 0; i < table.data.rowCount; i++) {
                def currentRow = table.data.getRow(i)
                def row = []

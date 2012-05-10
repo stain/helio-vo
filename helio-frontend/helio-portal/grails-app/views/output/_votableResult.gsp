@@ -106,7 +106,7 @@ Expected model:
               </g:if>
             </div>
 
-            <%-- TODO: add table actions --%>
+            <%-- table actions --%>
             <g:if test="${table.actions.contains('info')}">
               <div id="table_info_${h}_button" class="table_info_button custom_button">
                 Info
