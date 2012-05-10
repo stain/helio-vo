@@ -79,62 +79,13 @@ class VoTableController {
    def data = {
        def votableModel
        try {
-           def result = HelioResult.get(params.resultId);
-           votableModel = voTableService.createVOTableModel(result);
-           def table = votableModel.tables[params.tableIndex.toInteger()];
-           def tableModel = 
-           [
-               "aoColumns" : [],
-               "aaData": []
-           ]
+           def result = HelioResult.get(params.resultId)
+           votableModel = voTableService.createVOTableModel(result)
+           def table = votableModel.tables[params.tableIndex.toInteger()]
            
-           // render header rows
-           for(def field : table.fields) {
-               def headerCell = [:]
-               headerCell["sTitle"] = field.name
-               
-               // HELIO specific properties, ignored by data tables
-               headerCell["sDescription"] = field.description
-               headerCell["sNullValue"] = '-'
-               headerCell["ucd"] = field.ucd
-               headerCell["unit"] = field.unit
-               headerCell["utype"] = field.utype
-               headerCell["xtype"] = field.xtype
-               tableModel.aoColumns.add(headerCell)           
-           }
+           def tableModel = voTableService.createDatatablesModel(table)
            
-           // render the data
-           for (int i = 0; i < table.data.rowCount; i++) {
-               def currentRow = table.data.getRow(i)
-               def row = []
-               
-               for (def action : table.rowactions) {
-                   row += '<div class="' + action + '"></div'
-               }
-
-               for (int j = 0; j < currentRow.size(); j++) {
-                   def cell = currentRow[j]
-                   def value;
-                   if (cell == table.fields[j].nullValue) {
-                       value = '-'
-                   } else if (cell == Float.NaN) {
-                       value = ''
-                   } else if (table.fields[j].rendering_hint=='url' && cell != null) {
-                       value = '<a target="_blank" href="' + cell + '">'+ cell.substring(cell.lastIndexOf('/')+1,cell.length()) + '</a';
-                   } else if (table.fields[j].rendering_hint.startsWith('url=') && cell != null) {
-                       value = '<a target="_blank" href="' + String.format(table.fields[j].rendering_hint.substring(4), cell) + '" >' + cell +'</a>' 
-                   } else {
-                       value = cell
-                   }
-                   row += value
-               }
-               tableModel.aaData.add(row)
-           } 
-           
-          // println "table: " + table.data.getRow(4)
-          // println "table: " + tableModel.aaData[4] 
            render tableModel as JSON
-           //render template:'/output/votabledata', model : [table : table]
            
        } catch (Exception e) {
            def status = "Error while processing result votable (see logs for more information)"
