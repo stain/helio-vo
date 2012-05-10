@@ -3,7 +3,7 @@ package eu.heliovo.registryclient.impl;
 import eu.heliovo.registryclient.AccessInterfaceType;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
-import eu.heliovo.shared.props.HelioFileUtil;
+import eu.heliovo.shared.util.FileUtil;
 
 /**
  * Data access object to get access a local search registry implementation.
@@ -50,6 +50,6 @@ public class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistr
 	 * @param wsdlFile the WSDL file.
 	 */
     private void register(HelioServiceName serviceName, ServiceCapability capability, String wsdlFile) {
-        registerServiceInstance(serviceName, null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, HelioFileUtil.asURL(wsdlFile)));
+        registerServiceInstance(serviceName, null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, FileUtil.asURL(wsdlFile)));
     }
 }

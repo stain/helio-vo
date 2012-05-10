@@ -11,7 +11,7 @@ import eu.heliovo.cis.service.CisServiceException_Exception;
 import eu.heliovo.cis.service.CisServiceService;
 import eu.heliovo.shared.common.utilities.SecurityUtilities;
 import eu.heliovo.shared.common.utilities.SecurityUtilitiesException;
-import eu.heliovo.shared.props.HelioFileUtil;
+import eu.heliovo.shared.util.FileUtil;
 
 /**
  * Create a CIS client to access the CIS service. 
@@ -44,7 +44,7 @@ public class CisClient
 	/**
 	 * Remote address
 	 */
-	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = HelioFileUtil.asURL("http://cagnode58.cs.tcd.ie:8080/helio-cis-server/cisService/cisService");
+	private final static URL DEFAULT_CIS_SERVICE_ADDRESS = FileUtil.asURL("http://cagnode58.cs.tcd.ie:8080/helio-cis-server/cisService/cisService");
 	/**
      * Name of the long query service
      */

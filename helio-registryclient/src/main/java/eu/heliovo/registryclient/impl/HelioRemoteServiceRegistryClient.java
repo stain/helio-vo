@@ -21,7 +21,7 @@ import eu.heliovo.registryclient.RegistryProperties;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.registryclient.ServiceDescriptor;
 import eu.heliovo.registryclient.ServiceResolutionException;
-import eu.heliovo.shared.props.HelioFileUtil;
+import eu.heliovo.shared.util.FileUtil;
 
 /**
  * A registry client to access the HELIO Search Registry in order to find the
@@ -131,9 +131,9 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
     private static URL getRegistryLocation() {
         RegistryProperties props = RegistryProperties.getInstance();
         if (props.containsKey(REGISTRY_LOCATION)) {
-            return HelioFileUtil.asURL(props.getProperty(REGISTRY_LOCATION));
+            return FileUtil.asURL(props.getProperty(REGISTRY_LOCATION));
         } else {
-            return HelioFileUtil.asURL(REGISTRY_AT_MSSL);
+            return FileUtil.asURL(REGISTRY_AT_MSSL);
         }
     }
     

@@ -9,6 +9,7 @@ import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.props.HelioFileUtil;
 import eu.heliovo.shared.util.DataReaderUtil;
+import eu.heliovo.shared.util.FileUtil;
 
 /**
  * Registry client that reads the registry values from a delimited file.
@@ -84,6 +85,6 @@ class ConfigFileServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	 * @param wsdlFile the WSDL file.
 	 */
     private void register(HelioServiceName serviceName, ServiceCapability capability, String wsdlFile) {
-        registerServiceInstance(serviceName, null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, HelioFileUtil.asURL(wsdlFile)));
+        registerServiceInstance(serviceName, null, new AccessInterfaceImpl(AccessInterfaceType.SOAP_SERVICE, capability, FileUtil.asURL(wsdlFile)));
     }
 }

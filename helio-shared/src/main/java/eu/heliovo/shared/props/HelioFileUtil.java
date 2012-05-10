@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -93,19 +92,5 @@ public class HelioFileUtil {
 			return null;
 		}
 		return cacheFile;
-	}
-
-	/**
-	 * Convert String to URL. 
-	 * @param url the url to convert
-	 * @return the url as URL object
-	 * @throws RuntimeException if the URL is not valid
-	 */
-	public static URL asURL(String url) throws RuntimeException {
-		try {
-			return new URL(url);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException("Unable to parse URL '" + url + "'. Cause: " + e.getMessage(), e);
-		}
 	}	
 }
