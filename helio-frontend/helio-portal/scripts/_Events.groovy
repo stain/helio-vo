@@ -3,8 +3,8 @@ eventCreateWarStart = {
     //if (grailsEnv == "production") {
     //}
     
-    println "Copying build info file to classpath!"
-    ant.copy(file: "${basedir}/jenkins/buildinfo.properties", tofile: "${classesDir}/buildinfo.properties", filtering: true, overwrite: true) {
+    println "Copying build info file ${basedir}/jenkins/buildinfo.properties to ${stagingDir}/WEB-INF/classes/buildinfo.properties."
+    ant.copy(file: "${basedir}/jenkins/buildinfo.properties", tofile: "${stagingDir}/WEB-INF/classes/buildinfo.properties", filtering: true, overwrite: true, verbose:true) {
         filterset {
           filter(token:"TITLE", value:"TITLE")
           filter(token:"BUILD_ID", value:"BUILD_ID")

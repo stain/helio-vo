@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>11-Mai-2012: CSS cleanup. Various small bug fixes.</li>
             <li>10-Mai-2012: Upgrade to Grails 2.0.3.</li>
             <li>29-Feb-2012: Removing unused code. Reworking the event details dialog. Lots of housekeeping.</li>
             <li>07-Feb-2012: Added new ICS/ILS GUIS. Changed the way to process VOTables: can handle up to 50'000 records now.</li>

@@ -143,7 +143,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         "sAjaxSource": './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
         "bDeferRender": true,
 
-//        "sScrollX": "100%",
+        "sScrollX": "100%",
 //        "iScrollLoadGap": 50,
         "sScrollY": "500px",
 //        "bScrollInfinite": true,
@@ -171,10 +171,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         //"sScrollXInner": "100%",
      
     });
-    
-    // adjust the size
-    dataTable.fnAdjustColumnSizing();
-    
+        
     // 2. init special columns
     var cols = dataTable.fnSettings().aoColumns;
     for (var col in cols) {

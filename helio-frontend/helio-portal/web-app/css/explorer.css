@@ -1,196 +1,283 @@
-
-/**
- * Setting the margin and padding globally to 0 is acutally not the best.
- * but for historical reasons we have to live with it for the moment
- */
-* {
-  margin: 0;
-  padding: 0;
-}
-
-
 /**
  * Main CSS file for the HFE
  */
 
-#splash_screen ul, ol {
-  padding-left: 25px;
+/***************** Global properties *********************/
+/**
+ * Setting the margin and padding globally to 0 is actually not the best.
+ * but for historical reasons we have to live with it for the moment
+ */
+* {
+	margin: 0;
+	padding: 0;
 }
- 
+
+body {
+	color: #464339;
+	font: 12px/15px Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	overflow-y: scroll;
+}
+
+/**
+ * prevent images from being moved around (for drag & drop).
+ * not sure if this is really needed.  
+ */
+img {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+}
+
+
+/****************** data tables **********************/
+/**
+ * select a row in a table
+ */
+tr.odd.row_selected {
+    background-color:#FAAC66;	
+}
+
+tr.even.row_selected {
+    background-color:#FFC591;
+}
+
+/* For the standard odd/even */
+tr.odd.row_selected td.sorting_1 {
+    background-color: #D69860;
+}
+
+tr.odd.row_selected td.sorting_2 {
+    background-color: #E3A268;
+}
+
+tr.odd.row_selected td.sorting_3 {
+    background-color: #D69860;
+}
+
+tr.even.row_selected td.sorting_1 {
+    background-color: #E3A268;
+}
+
+tr.even.row_selected td.sorting_2 {
+    background-color: #D69860;
+}
+
+tr.even.row_selected td.sorting_3 {
+    background-color: #E3A268;
+}
+
+
+
+.css_right {
+    float: right;
+}
+
+
+
+/***************** Splash screen *********************/
+#splash_screen ul,ol {
+	padding-left: 25px;
+}
+
 #splash_screen li {
-  padding-left: 0px;
+	padding-left: 0px;
 }
- 
-#extra_list_form li, #extra_list li {
-    font-size: 0.9em;
-    padding: 5px 0;
-    margin-bottom: 10px;
-    border-bottom: 1px dashed #333;
-    color: black;
-    list-style-type:none;
-    line-height: 1.6em;
+
+#extra_list_form li,#extra_list li {
+	font-size: 0.9em;
+	padding: 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px dashed #333;
+	color: black;
+	list-style-type: none;
+	line-height: 1.6em;
 }
- 
+
 /***************** CSS related to TASKS *********************/
 /**
  * Format the main area of a task
  */
 .task {
-  border: 1px solid #ccc;
-  margin-bottom: 20px;
+	border: 1px solid #ccc;
+	margin-bottom: 20px;
 }
+
 
 /** main header **/
 .task .viewerHeader {
-    box-shadow: 0 0 2px #000000;
-    color: #444466;
-    margin-bottom: 5px;
-    background: -moz-linear-gradient(center top , #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
+	color: #444466;
+	margin-bottom: 5px;
+	box-shadow: 0 0 2px #000000;
+	background: -moz-linear-gradient(center top, #BAC7E9, #8591B4) repeat scroll 0 0 transparent;
+    background: -webkit-gradient(linear, center top, center bottom, from(#bac7e9), to(#8591b4));
+    background: -o-linear-gradient(top, #bac7e9, #8591b4);
+    background: linear-gradient(top, #bac7e9, #8591b4);
+    -moz-box-shadow:0px 0px 2px #000000;
+    -webkit-box-shadow:0px 0px 2px #000000;
+    /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
 }
 
 .task .viewerHeader h1 {
-    padding: 5px;	
+	padding: 5px;
+    font-size:1.3em;
+    font-weight: normal;
 }
+
 
 /**
  * sub header within task area
  */
 .task .header,.task .header2 {
-  background: #FFAC0F
-    url(../images/jquery/ui-bg_inset-soft_75_ffac0f_1x100.png) repeat-x
-    scroll 50% 50%;
-  padding-left: 10px;
-  height: 16px;
-  vertical-align: middle;
+	background: #FFAC0F
+		url(../images/jquery/ui-bg_inset-soft_75_ffac0f_1x100.png) repeat-x
+		scroll 50% 50%;
+	padding-left: 10px;
+	height: 16px;
+	vertical-align: middle;
 }
 
 .task .header h1,.task .header2 h1 {
-  margin: 0;
-  display: inline;
-  font-size: 1.2em;
+	margin: 0;
+	display: inline;
+	font-size: 1.2em;
 }
-
 
 /**
  * content area in the task area
  */
 .task .task_body {
-  clear: both;
-  padding: 10px;
+	clear: both;
+	padding: 10px;
 }
 
 /**
  * used by the collapsible plugin?
  */
 .task .expand {
-  float: right;
-  display: inline;
-  background-image: url('../images/jquery/plugins/toggle-sprite.png');
-  background-position: 0px -16px;
-  width: 16px;
-  height: 16px;
+	float: right;
+	display: inline;
+	background-image: url('../images/jquery/plugins/toggle-sprite.png');
+	background-position: 0px -16px;
+	width: 16px;
+	height: 16px;
 }
 
 .task .collapse {
-  float: right;
-  display: inline;
-  background-image: url('../images/jquery/plugins/toggle-sprite.png');
-  background-position: 0px 0px;
-  width: 16px;
-  height: 16px;
+	float: right;
+	display: inline;
+	background-image: url('../images/jquery/plugins/toggle-sprite.png');
+	background-position: 0px 0px;
+	width: 16px;
+	height: 16px;
 }
 
 .showDialog {
 	cursor: pointer;
 }
 
-
 /***************************** CSS related to dialogs *******************************/
-
 table.dialog_table {
-  height:100%; 
-  width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 table.dialog_content_table {
-  width:100%;
-  min-width: 500px; 
-  margin-top: 20px;
+	width: 100%;
+	min-width: 500px;
+	margin-top: 20px;
 }
 
 table.dialog_content_table td {
-  padding-bottom: 2px;
+	padding-bottom: 2px;
 }
 
 .dialog_selection_area {
-  width:250px;
-  height:226px;
-  margin: 5px 5xp 3px 5px;
+	width: 250px;
+	height: 226px;
+	margin: 5px 5xp 3px 5px;
 }
 
 .dialog_selection_area ul {
-  list-style: none;
+	list-style: none;
 }
 
 .dialog_selection_area_icon {
-  float : left;
-  width : 20px;
-  margin-bottom: 2px;	
+	float: left;
+	width: 20px;
+	margin-bottom: 2px;
 }
 
 .dialog_selection_area_text {
-  float : left;
-  width:220px;
-  min-height: 20px;	
+	float: left;
+	width: 220px;
+	min-height: 20px;
 }
 
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+
 #filterText {
-    font-size: 10px;
-    padding-left: 4px;
+	font-size: 10px;
+	padding-left: 4px;
 	overflow: hidden;
 	white-space: nowrap;
 	display: inline-block;
-    max-width:500px;
+	max-width: 500px;
+}
+
+.filterInstrumentsText {
+    font-size: 10px;
+    padding-left: 4px;
 }
 
 /*************************** CSS related to result areas *************************/
-
 .task_output_params {
-    display: inline-block;
+	display: inline-block;
 }
 
 .examine_event {
- 	text-align: center;
- 	cursor: pointer;
+	text-align: center;
+	cursor: pointer;
 }
 
 .plot_floating_box {
-  float: left;
-  display: inline-block;
-  overflow: hidden;
+	float: left;
+	display: inline-block;
+	overflow: hidden;
+	height: 200px;
+	background: url("../images/helio/shadow_gradient.gif") repeat-x scroll
+		center bottom #FEFEFF;
+	margin: 5px 10px;
+	padding: 5px;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 1px 1px #DFDFDF;
+	border: 1px solid #C3C6CA;
+}
 
-  height: 200px; 
-  
-  background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #FEFEFF;
-  margin: 5px 10px;  
-  padding: 5px;
-  
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 0 1px 1px #DFDFDF;
-  border: 1px solid #C3C6CA;
+/**
+ * data tables 
+ */
+.resultTable td, .resultTable th {
+    font: 11px verdana, arial, helvetica, sans-serif;
+    line-height: 12px;
+    padding: 5px 6px;
+    vertical-align: top;
 }
 
 .item_found {
-  color:green;
-}
-.item_missing {
-  color:red;
+	color: green;
 }
 
+.item_missing {
+	color: red;
+}
 
 /*************************** CSS related to the menu area *************************/
 ul.menu {
-	position:absolute;
+	position: absolute;
 	z-index: 5;
 }
 
@@ -201,61 +288,63 @@ ul.menu li {
 }
 
 .ui-buttonset {
-    margin-right: 2px;
+	margin-right: 2px;
 }
 
 details_link {
-    text-decoration: underline;
-    color: blue;
-    cursor: pointer;
+	text-decoration: underline;
+	color: blue;
+	cursor: pointer;
 }
 
 /*************************** CSS related to the data cart area *************************/
 #datacart_container {
-    height: 90px;
-    width: auto;
+	height: 90px;
+	width: auto;
 }
 
 #datacart_scrollarea {
-    height: 63px;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
+	height: 63px;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 100%;
 }
 
 #datacart_slider {
-    background: none repeat scroll 0 0 #BBBBBB;
-    float: left;
-    height: 6px;
-    margin: 5px;
-    position: relative;
-    width: 100%;
+	background: none repeat scroll 0 0 #BBBBBB;
+	float: left;
+	height: 6px;
+	margin: 5px;
+	position: relative;
+	width: 100%;
 }
 
 .cartitem {
-    float: left;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    margin-top: 2px;
-    overflow: hidden;
-    padding: 2px 0 3px 4px;
-    white-space: normal;
-    width: 72px;
-    height: 50px;
-    cursor: move;
-    box-shadow: 0 0 2px #000000;
-    
-    background: #BAC7E9 repeat scroll 0 0 transparent; /* for non-css3 browsers */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BAC7E9', endColorstr='#8591B4'); /* for IE */
-    background: -webkit-gradient(linear, 50% top, 50% bottom, from(#BAC7E9), to(#8591B4)); /* for webkit browsers */
-    background: -moz-linear-gradient(center top,  #BAC7E9, #8591B4); /* for firefox 3.6+ */ 
+	float: left;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	margin-top: 2px;
+	overflow: hidden;
+	padding: 2px 0 3px 4px;
+	white-space: normal;
+	width: 72px;
+	height: 50px;
+	cursor: move;
+	box-shadow: 0 0 2px #000000;
+	background: #BAC7E9 repeat scroll 0 0 transparent;
+	/* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#BAC7E9',
+		endColorstr='#8591B4' ); /* for IE */
+	background: -webkit-gradient(linear, 50% top, 50% bottom, from(#BAC7E9),
+		to(#8591B4) ); /* for webkit browsers */
+	background: -moz-linear-gradient(center top, #BAC7E9, #8591B4);
+	/* for firefox 3.6+ */
 }
 
-
 .cartitem_image {
-    height: 35px;
-    width: 35px;
-    -moz-user-select: none;
+	height: 35px;
+	width: 35px;
+	-moz-user-select: none;
 }
 
 .cartitem_label {
@@ -268,27 +357,23 @@ details_link {
 }
 
 .cartitem_close {
-    float: right;
+	float: right;
 	cursor: pointer;
 }
 
 /***************** drag and drop ******************/
-.paramDroppable{
-    background:url(../images/helio/circle_destination.png) no-repeat;
+.paramDroppable {
+	background: url(../images/helio/circle_destination.png) no-repeat;
 }
-.paramDroppableActive{
-    background:url(../images/helio/circle_destination_active.png) no-repeat;
+
+.paramDroppableActive {
+	background: url(../images/helio/circle_destination_active.png) no-repeat;
 }
-.paramDroppableHover{
-    background:url(../images/helio/circle_destination_hover.png) no-repeat;
+
+.paramDroppableHover {
+	background: url(../images/helio/circle_destination_hover.png) no-repeat;
 }
 
 .paramDraggable {
 	cursor: move;
-}
-
-
-/******************* data tables *********************/
-.css_right {
-    float: right;
 }
