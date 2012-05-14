@@ -38,7 +38,7 @@ public class DateUtil {
 	 *            the date to convert.
 	 * @return the date as string.
 	 */
-	public static String toIsoDateString(Date date) {
+	public static synchronized String toIsoDateString(Date date) {
 		if (date == null) {
 			return null;
 		}
@@ -57,7 +57,7 @@ public class DateUtil {
 	 * @return the ISO date.
 	 * @throws ParseException if anything goes wrong
 	 */
-	public static Date fromIsoDate(String isoDate) throws ParseException {
+	public static synchronized Date fromIsoDate(String isoDate) throws ParseException {
 	    if (isoDate == null) {
 	        return null;
 	    }
