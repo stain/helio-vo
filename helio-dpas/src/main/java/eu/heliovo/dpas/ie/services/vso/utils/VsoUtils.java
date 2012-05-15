@@ -83,9 +83,11 @@ public class VsoUtils {
           {
 			SimpleDateFormat sdf = new SimpleDateFormat(ConstantKeywords.ORGINALDATEFORMAT.getDateFormat());
 			Date dt=sdf.parse(date.replace("T", " "));
+			sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+
             //Converting back the format
             DateFormat dateFormat = new SimpleDateFormat(ConstantKeywords.VSODATEFORMAT.getDateFormat());
-   	     	dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));	
+   	     	dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));	
    	     	String datetime=dateFormat.format(dt);
    	     	System.out.println(" Date and time "+datetime);
   	     	return datetime;
