@@ -78,7 +78,7 @@ class ProcessingService {
                     def plot = new RemotePlotResult(url : url.toString())
                     plot.save()
                     task.outputParams.put(it.value.id, plot)
-                    model.plotResults.push ([id: it.value.id, label: it.value.label, value : plot])
+                    model.plotResults.push ([id: it.value.id, label: it.value.label, url : plot.url])
                 }
             }
             // update task status

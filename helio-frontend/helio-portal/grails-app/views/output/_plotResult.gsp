@@ -12,8 +12,8 @@ Expected parameters:
   <div class="task_output_params task_body">
     <g:each var="plot" in="${plotResults}">
       <div class="plot_floating_box">
-        <a href="${plot.value.url}" target="_blank">
-          <img id="plot_${plot.id}" class="task_output_plot" src="${plot.value.url}" title="${plot.label}" height="190" />
+        <a href="${plot.url}" target="_blank">
+          <img id="plot_${plot.id}" class="task_output_plot" src="${plot.url}" title="${plot.label}" height="190" />
         </a><br/>
         ${plot.label}
       </div>

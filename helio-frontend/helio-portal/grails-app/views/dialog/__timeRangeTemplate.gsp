@@ -17,9 +17,12 @@ Expected variables:
     </g:if>
   </td>
   <td>
+    <img class="input_time_range_inspect" id="input_time_range_inspect_${i}" src="${resource(dir:'images',file:'search.png')}" 
+      title="Inspect current time range" width="16" height="16"/>
     <g:if test="${!paramDescriptor.restriction || paramDescriptor.restriction.contains('multi')}">
       <img class="input_time_range_remove" id="input_time_range_remove_${i}" src="${resource(dir:'images/helio',file:'remove.png')}" />
-    </g:if>
+    </g:if>    
+    
   </td>
   <td style="width: 100px;"></td>
 </tr>

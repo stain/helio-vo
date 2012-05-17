@@ -64,14 +64,17 @@ class PlotController {
         if (model.status) {
             response.setHeader("status", model.status)
         }
+        if (model.error) {
+            response.setStatus(400) // bad request
+        }
             
         render (template: "/output/processingResult", model: [plotResults: model.plotResults, userLogs : model.userLogs, taskDescriptor : taskDescriptor])
     }
     
     /**
-     * Compute a plot and return it as an image file.
+     * Load a plot and return the url and the log as JSON structure
      */
-    def syncplot = {
+    def asyncplot = {
         def taskName = params.taskName
         def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
 
@@ -113,8 +116,12 @@ class PlotController {
         if (model.status) {
             response.setHeader("status", model.status)
         }
-
-        render (template: "/output/plotResult", model: [plotResults: model.plotResults, taskDescriptor : taskDescriptor])
+        if (model.error) {
+            response.setStatus(400) // bad request
+        }
+        
+        render model as JSON
+        //render (template: "/output/plotResult", model: [plotResults: model.plotResults, taskDescriptor : taskDescriptor])
     }
 
     

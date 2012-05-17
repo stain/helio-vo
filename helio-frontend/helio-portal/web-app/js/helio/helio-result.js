@@ -157,6 +157,9 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
         
         "fnDrawCallback": function() {
             THIS._initCustomColumns.call(THIS, this, tableName);
+            var oSettings = this.fnSettings();
+            // FF hack to fix the problem of a scrolling bar appearing if only one row of data is shown.
+            oSettings.nTable.parentNode.style.height = ($(oSettings.nTable).height() + 17) + "px";
         },
         "fnCreatedRow": function( nRow, aData, iDataIndex ) {
             // do service specific row formatting, if required
@@ -185,6 +188,7 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
 };
 
 helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName) {
+    var THIS = this;
     // 1. the row selection listener
     $('#' + tableName + ' tr').unbind('click').click( function() {
         if ( $(this).hasClass('row_selected') ){
@@ -199,7 +203,7 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
     for (var col in cols) {
       var th = $(cols[col].nTh); 
       if (th.hasClass('th_examine_event')) {
-        dataTable.find('.examine_event').not(':has(img)').attr('title', 'Get more information about this event')
+        dataTable.find('.examine_event').not(':has(img)').attr('title', 'Inspect the time range covered by this event')
            .append('<img style="width:15px;heigth:15px" src="./images/search.png" />')
            .click((function(dataTable) {
              return function() {
@@ -230,15 +234,20 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
                 var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
                 var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
                 timeStartObject.subtract("hours", 6);
-                timeEndObject.add("hours", 6);
+                timeEndObject.add("hours", 6);                
                 
-                times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
-                timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
-                
-                
-                var timeRange = new helio.TimeRange(times, timee);
+                var timeRange = new helio.TimeRange(timeStartObject, timeEndObject);
                 var dialog = new helio.TimeRangeDetailsDialog(null, 'timeRangeDetails', timeRange);
-                dialog.show();
+                dialog.show(function() {
+                    if (dialog.data.timeStart != times ||
+                        dialog.data.timeEnd   != timee) {
+                        var timeRanges = new helio.TimeRanges('datacart', 'extracted');
+                        timeRanges.timeRanges.push(new helio.TimeRange(dialog.data.timeStart, dialog.data.timeEnd));
+                        THIS._showExtractParamsDialog.call(THIS, timeRanges, 
+                            "<p><b>You modified the time range.</b> Do you want to store it to the data cart?</p>" +
+                            "<p>Click <code>Ok</code> to store or <code>Cancel</code> to dismiss.</p>");
+                    }
+                });
                 return false;
             };
         })(dataTable));
@@ -299,7 +308,7 @@ helio.VOTableResult.prototype._download = function(){
 
 helio.VOTableResult.prototype._extractParams = function() {
     // create a new data object.
-    var data = new helio.TimeRanges('datacart', 'extracted');
+    var timeRanges = new helio.TimeRanges('datacart', 'extracted');
 
     $.each(this._resultTables, function(){
         var dataTable = this;
@@ -339,23 +348,33 @@ helio.VOTableResult.prototype._extractParams = function() {
             times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
             timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
             
-            data.timeRanges.push(new helio.TimeRange(times, timee));
+            timeRanges.timeRanges.push(new helio.TimeRange(times, timee));
         });
     });
 
-    if (data.timeRanges.length == 0) {
+    if (timeRanges.timeRanges.length == 0) {
         alert("Please select any row(s) to extract time ranges from.");
         return;
     }
+    
+    this._showExtractParamsDialog(timeRanges);
+};
+
+/**
+ * Show the time extraction dialog.
+ * @param {helio.TimeRanges} timeRanges the timeRanges object to use.
+ * @param {String} message optional message to be shown in the time range dialog.
+ */
+helio.VOTableResult.prototype._showExtractParamsDialog = function(timeRanges, message) {
     var dummyTask = new helio.AbstractTask("datacart", null);
-    var dialog = new helio.TimeRangeDialog(dummyTask, "datacart", data);
+    var dialog = new helio.TimeRangeDialog(dummyTask, "datacart", timeRanges, message);
     dialog.show(function() {
-        helio.dataCart.addItem(data); 
+        helio.dataCart.addItem(timeRanges); 
         var rowpos = $('#datacart_container').position();
         if(rowpos){
             $('html,body').scrollTop(rowpos.top);
         }        
-    });    
+    });
 };
 
 helio.VOTableResult.prototype._extractInstrumentParams = function() {

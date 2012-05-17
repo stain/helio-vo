@@ -307,5 +307,5 @@
       </div>
   <div style="height: 20px;"><span class="filterInstrumentsText">This will be a filter text.</span></div>
 </div>
-<input id="show_accessible" column="16" name="T" type="checkbox" />
+<input id="show_accessible" column="17" name="true" type="checkbox" />
 Show accessible instruments only ('Note: Instruments in <span style="color:red">red</span> cannot be accessed through HELIO')

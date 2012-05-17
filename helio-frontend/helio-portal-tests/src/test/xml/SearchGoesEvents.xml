@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:8080/helio-portal/" />
+<title>Search GOES Events</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Search GOES Events</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/helio-portal/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=span.ui-button-text</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=(//*[@id='textTimeRangeSummary'])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.showTimeRangeDialog</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=(.//*[@id='timeRangeDialog'])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=img.ui-datepicker-trigger</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=12</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//img[@alt='...'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=17</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[6]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[9]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=td.showEventListDialog</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=(.//*[@id='eventListDialog'])</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=checkAll</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=checkAll</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//tr[@id='selectTableEventList_row_0']/td</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>xpath=(//button[@type='button'])[9]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#result_summary_select &gt; span.ui-button-text</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>xpath=(.//*[@class='dataTables_wrapper'])</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

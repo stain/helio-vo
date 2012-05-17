@@ -1,6 +1,4 @@
-package eu.heliovo.hfe.controller
-
-import grails.test.*
+import grails.test.ControllerUnitTestCase;
 
 class TaskControllerTests extends ControllerUnitTestCase {
     protected void setUp() {

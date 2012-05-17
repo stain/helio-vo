@@ -3,15 +3,14 @@ package eu.heliovo.hfe.controller
 import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.TimeRange
+import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.hfe.utils.TaskDescriptor
 import eu.heliovo.registryclient.ServiceCapability
 import eu.heliovo.shared.util.DateUtil
 
-import eu.heliovo.clientapi.HelioClient
-import eu.heliovo.clientapi.model.service.HelioService
-import eu.heliovo.clientapi.linkprovider.LinkProviderService
 
 
 class DialogController {
@@ -89,7 +88,10 @@ class DialogController {
                 links.add([link : link, title: title])
             }
         }
-        render (template: "/dialog/timeRangeDetailsDialog", model: [ plots : plots, links : links, startTime: startTime, endTime : endTime])
+        
+        def timeRangeDescriptor = ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+        def timeRangeParam = new TimeRange(startTime : startTimeObj, endTime : endTimeObj)
+        render (template: "/dialog/timeRangeDetailsDialog", model: [ plots : plots, links : links, timeRangeDescriptor : timeRangeDescriptor, timeRangeParam : timeRangeParam])
     }
     
     def paramSetDialog = {

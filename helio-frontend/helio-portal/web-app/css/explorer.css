@@ -3,20 +3,13 @@
  */
 
 /***************** Global properties *********************/
-/**
- * Setting the margin and padding globally to 0 is actually not the best.
- * but for historical reasons we have to live with it for the moment
- */
-* {
-	margin: 0;
-	padding: 0;
-}
-
 body {
 	color: #464339;
 	font: 12px/15px Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	overflow-y: scroll;
+	margin: 0;
+	padding: 0;
 }
 
 /**
@@ -100,6 +93,8 @@ tr.even.row_selected td.sorting_3 {
 .task {
 	border: 1px solid #ccc;
 	margin-bottom: 20px;
+	width: auto;
+	padding: 0;
 }
 
 
@@ -119,6 +114,7 @@ tr.even.row_selected td.sorting_3 {
 
 .task .viewerHeader h1 {
 	padding: 5px;
+	margin-top: 0px;
     font-size:1.3em;
     font-weight: normal;
 }
@@ -199,6 +195,7 @@ table.dialog_content_table td {
 
 .dialog_selection_area ul {
 	list-style: none;
+	padding: 0px;
 }
 
 .dialog_selection_area_icon {
@@ -211,6 +208,11 @@ table.dialog_content_table td {
 	float: left;
 	width: 220px;
 	min-height: 20px;
+}
+
+.dialog_tab_area {
+	min-height: 315px;
+    overflow: auto;
 }
 
 .ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
@@ -301,6 +303,7 @@ details_link {
 #datacart_container {
 	height: 90px;
 	width: auto;
+	margin-bottom: 1em;
 }
 
 #datacart_scrollarea {

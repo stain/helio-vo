@@ -65,6 +65,87 @@ helio.ErrorMessageDialog.prototype.open = function() {
     });
 };
 
+/***************************** Utilities ************************************/
+/**
+ * Selector widget for one time range.
+ * @param {String} startTimeField id of an input field containing the start time.
+ * @param {String} endTimeField id of an input field containing the end time.
+ */
+helio.TimeRangeSelector = function(/*String*/ startTimeField, /*String*/ endTimeField) {
+    this.startTimeField = startTimeField;
+    this.endTimeField = endTimeField;
+    this._init();
+};
+
+/**
+ * Initialize the time range selector
+ */
+helio.TimeRangeSelector.prototype._init = function(){
+    var THIS = this;
+    
+    // remove picker, if already set.
+    $(this.startTimeField).datetimepicker("destroy");
+    $(this.endTimeField).datetimepicker("destroy");
+    
+    /**
+     * Format for the date picker widget
+     */
+    var DatePickerFormat = function(){
+        return {
+            yearRange: '1997:' + (new Date().getFullYear() + 1),
+            dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            showOn: "both",
+            showSecond: true,
+            timeFormat: 'hh:mm:ss',
+            separator: 'T',
+            showButtonPanel: true,
+            buttonImageOnly: true,
+            buttonImage: "./images/icons/calendar.gif",
+            changeYear: true,
+            numberOfMonths: 1
+        };
+    };
+    
+    /**
+     *  formatMinDate and formatMaxDate format the dates
+     *  and correct the dates if the user enters a bigger minDate
+     *  than maxDate or a smaller maxDate than minDate
+     */
+    var formatMinDate = new DatePickerFormat();
+    formatMinDate.onClose = function(selectedDate) {
+        $(this).blur();
+        var endTimeTextBox = $(THIS.endTimeField);
+        if (endTimeTextBox && endTimeTextBox.val() != '') {
+            var testStartTime = new Date(selectedDate);
+            var testEndTime = new Date(endTimeTextBox.val());
+            if (testStartTime > testEndTime)
+                endTimeTextBox.val(selectedDate);
+        }
+        else {
+            endTimeTextBox.val(selectedDate);
+        }
+    };
+    
+    var formatMaxDate = new DatePickerFormat(); 
+    formatMaxDate.onClose = function(selectedDate) {
+        $(this).blur();
+        var startTimeTextBox = $(THIS.startTimeField);
+        if (startTimeTextBox.val() != '') {
+            var testStartTime = new Date(startTimeTextBox.val());
+            var testEndTime = new Date(selectedDate);
+            if (testStartTime > testEndTime)
+                startTimeTextBox.val(selectedDate);
+        }
+        else {
+            startTimeTextBox.val(selectedDate);
+        }
+    };
+    
+    $(this.startTimeField).datetimepicker(formatMinDate);
+    $(this.endTimeField).datetimepicker(formatMaxDate);
+};
+
 /***************************** DATA SUMMARY AND DIALOG ************************************/
 
 /**
@@ -94,10 +175,10 @@ helio.AbstractSummary.prototype.init = function() {
         var dialogConstructor = 'new helio.' + THIS.typeName + 'Dialog(THIS.task, THIS.taskName, THIS.data)'; 
         var dialog = eval(dialogConstructor);
         
-        var closeCallback = function() {
+        var okCallback = function() {
             THIS.render(dialog.data);
         };
-        dialog.show(closeCallback);
+        dialog.show(okCallback);
     });
     
     // 4. click handler for clear button
@@ -342,6 +423,7 @@ helio.AbstractDialog = function(options, task, taskName, data) {
     this.task = task;
     this.taskName = taskName;
     this.data = data;
+    this.okCallback = null;  // the callback being called on success.
     this.dialog = null; // store the dialog's html text as retrieved from the remote host.
     
     // prevent duplicate opening of dialog
@@ -370,35 +452,76 @@ helio.AbstractDialog.defaults = {
 };
 
 /**
- * Generic base function to display a dialog
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed through an ok button.
+ * Load the dialog from remote and display it.
+ * @param {function} okCallback optional call back that is executed after the dialog has been closed.
  */
-helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback) {
+helio.AbstractDialog.prototype.show = function(okCallback) {
+    var THIS = this;
+    this.okCallback = okCallback;
+    if (this.dialog === null) {
+        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load(this._dialogUrl(), function() {THIS.__onLoad.call(THIS);});
+    } else {
+        THIS.__onLoad.call(THIS);
+    }
+};
+
+/**
+ * Overload this function to provide the dialog URL to load.
+ * @return the URL to call the dialog
+ */
+helio.AbstractDialog.prototype._dialogUrl = function() {
+    throw "Please overload method '_dialogUrl'";
+};
+
+/**
+ * Overload this function to initialize the dialog after it has been loaded.
+ */
+helio.AbstractDialog.prototype._init = function() {
+    throw "Please overload method '_init'";
+};
+
+/**
+ * Called after successfully loading the dialog (or after redisplaying the dialog).
+ */
+helio.AbstractDialog.prototype.__onLoad = function() {
+    // attach the current dialog to the dom initialize it and display the dialog window.
+    $("#dialog_placeholder").replaceWith(this.dialog);
+    this._init();
+    this.__showDialog();
+};
+
+/**
+ * Generic base function to display a dialog
+ */
+helio.AbstractDialog.prototype.__showDialog = function() {
     // prevent dialog from being shown twice (double click)
     var THIS = this;
     if (this.__active) {
         return;
     }
     this.__active = true;
+    
+    var dlg = $("#dialog_placeholder > :first-child");
     this.opts.close = function(event, ui) {
         THIS.__active = false;
-        $(this).remove();
+        dlg.remove();
     };
     
     var okButton = this.opts.buttons.Ok;
     
-    if (okButton && closeCallback) {
+    if (okButton && this.okCallback) {
         this.opts.buttons.Ok = function() {
             okButton.call(THIS);
-            closeCallback.call(THIS);
+            THIS.okCallback.call(THIS);
+            dlg.remove();
         };
     };
     
     // display the dialog with the configured options.
-    dialogNode.dialog(this.opts);
+    dlg.dialog(this.opts);
     
     // set focus on ok button.
-    $('.ui-dialog-buttonpane > button:last').focus();
+    $('.ui-dialog-buttonset > button:last').focus();
 };
 
 //---------------------------------------------------------------------------------- //
@@ -407,19 +530,86 @@ helio.AbstractDialog.prototype.__showDialog = function(dialogNode, closeCallback
  * TimeRangeDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
- * @param {helio.TimeRanges} helio.TimeRanges timeRanges the time ranges. 
+ * @param {helio.TimeRanges} helio.TimeRanges timeRanges the time ranges.
+ * @param {String} message optional help message show to the user. 
  * This object is read on init and used to populate the widget. 
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.TimeRangeDialog = function(task, taskName, /*helio.TimeRanges*/ timeRanges) {
+helio.TimeRangeDialog = function(task, taskName, /*helio.TimeRanges*/ timeRanges, /*String*/ message) {
     helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, timeRanges]);
+    this.message = message;
 };
 
 //create TimeRangeDialog as subclass of AbstractDialog
 helio.TimeRangeDialog.prototype = new helio.AbstractDialog;
 helio.TimeRangeDialog.prototype.constructor = helio.TimeRangeDialog;
+
+/**
+ * Url to the dialog
+ */
+helio.TimeRangeDialog.prototype._dialogUrl = function() {
+    var init = this.data ? "none" : "last_task"; // should the template be initialized on the server side.
+    return './dialog/timeRangeDialog?init=' + init +'&taskName=' + this.taskName;
+};
+
+/**
+ * init the dialog
+ */
+helio.TimeRangeDialog.prototype._init = function() {
+    var THIS = this;
+    
+    if (this.data) {
+        $("tr.input_time_range:not(:first)").remove();
+        for (var i = 0; i < this.data.timeRanges.length; i++) {
+            var timeRange = this.data.timeRanges[i];
+            helio.TimeRangeDialog.__addTimeRange(timeRange.startTime, timeRange.endTime);
+        }
+        $("#time_range_name").val(this.data.name);
+    } else { 
+        // init the time ranges defined on server side
+        var timeRanges = $('.input_time_range');
+        timeRanges.each(function() {
+            var id = $(this).attr("id");
+            var matcher = /^input_time_range_(\d+)$/.exec(id); 
+            if (matcher) {
+                var index = matcher[1];
+                // enable datepicker
+                new helio.TimeRangeSelector('#minDate_' + index, '#maxDate_' + index);
+                // and remove button
+                $("#input_time_range_remove_" + index).button({
+                    'disabled' : timeRanges.length <= 2  // do not remove the last entry
+                }).click(helio.TimeRangeDialog.__removeTimeRange);
+                debugger;
+                $("#input_time_range_inspect_" + index)
+                    .button()
+                    .click((function(index) {
+                        return function() {
+                            var timeRange = new helio.TimeRange(
+                                moment($('#minDate_' + index).val(), "YYYY-MM-DDTHH:mm:ss"), 
+                                moment($('#maxDate_' + index).val(), "YYYY-MM-DDTHH:mm:ss")
+                            );
+                            var dialog = new helio.TimeRangeDetailsDialog(THIS.task, THIS.taskName, timeRange);
+                            dialog.show(function() {  // callback when the ok button is pressed
+                                $('#minDate_' + index).val(dialog.data.startTime.format("YYYY-MM-DDTHH:mm:ss"));
+                                $('#maxDate_' + index).val(dialog.data.endTime.format("YYYY-MM-DDTHH:mm:ss"));
+                            });
+                        };
+                    })(index)
+                );
+            }
+        });
+    }
+    $("#input_time_range_button").button();
+    $("#input_time_range_button").click(helio.TimeRangeDialog.__addTimeRange);
+    if (this.message) {
+        $("#timeRangeDialogMessage").html(this.message);
+    } else {
+        $("#timeRangeDialogMessage").remove();
+    }
+    
+};
 
 /**
  * The action to be executed when the Ok button is pressed.
@@ -450,10 +640,7 @@ helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
         this.data = new helio.TimeRanges(this.taskName);
     }
     this.data.timeRanges = timeRangeValues;
-    this.data.name = $("#time_range_name").val();
-        
-    $("#timeRangeDialog").dialog( "close" ); // this should trigger the closeCallback
-    $("#timeRangeDialog").remove();
+    this.data.name = $("#time_range_name").val();        
 };
 
 /**
@@ -484,61 +671,6 @@ helio.TimeRangeDialog.prototype.__dialogConfig = function() {
     };
 };
 
-
-/**
- * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
- */
-helio.TimeRangeDialog.prototype.init = function(closeCallback) {
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
-    
-    if (this.data) {
-        $("tr.input_time_range:not(:first)").remove();
-        for (var i = 0; i < this.data.timeRanges.length; i++) {
-            var timeRange = this.data.timeRanges[i];
-            helio.TimeRangeDialog.__addTimeRange(timeRange.startTime, timeRange.endTime);
-        }
-        $("#time_range_name").val(this.data.name);
-    } else { 
-        // init the time ranges defined on server side
-        var timeRanges = $('.input_time_range');
-        timeRanges.each(function() {
-            var id = $(this).attr("id");
-            var matcher = /^input_time_range_(\d+)$/.exec(id); 
-            if (matcher) {
-                var index = matcher[1];
-                // enable datepicker
-                helio.TimeRangeDialog.__formatTimeRange(index);
-                // and remove button
-                $("#input_time_range_remove_" + index).button({
-                    'disabled' : timeRanges.length <= 2  // do not remove the last entry
-                });
-                $("#input_time_range_remove_" + index).click(helio.TimeRangeDialog.__removeTimeRange);
-            }
-        });
-    }
-    $("#input_time_range_button").button();
-    $("#input_time_range_button").click(helio.TimeRangeDialog.__addTimeRange);
-    
-    // show the input dialog
-    this.__showDialog($("#timeRangeDialog"), closeCallback);
-};
-
-/**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
- */
-helio.TimeRangeDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        var init = this.data ? "none" : "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/timeRangeDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
-};
 
 // define the static methods of the TimeRangeDialog
 /**
@@ -574,7 +706,7 @@ helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/
         $('#maxDate_' + index).val(endTime);
     }
     
-    helio.TimeRangeDialog.__formatTimeRange(index);
+    new helio.TimeRangeSelector('#minDate_' + index, '#maxDate_' + index);
     
     $('#input_time_range_' + index).show(); // unhide the new range.
     $("#input_time_range_remove_" + index).button();
@@ -622,72 +754,6 @@ helio.TimeRangeDialog.__removeTimeRange = function() {
 };
 
 /**
- * private function to format the date range.
- */
-helio.TimeRangeDialog.__formatTimeRange = function(id){
-    $('#minDate_'+id).datetimepicker("destroy");
-    $('#maxDate_'+id).datetimepicker("destroy");
-    
-    /**
-     * Format for the date picker widget
-     */
-    var DatePickerFormat = function(){
-        return {
-            yearRange: '1997:' + (new Date().getFullYear() + 1),
-            dateFormat: 'yy-mm-dd',
-            changeMonth: true,
-            showOn: "both",
-            showSecond: true,
-            timeFormat: 'hh:mm:ss',
-            separator: 'T',
-            showButtonPanel: true,
-            buttonImageOnly: true,
-            buttonImage: "./images/icons/calendar.gif",
-            changeYear: true,
-            numberOfMonths: 1
-        };
-    };
-    
-    /**
-     *  formatMinDate and formatMaxDate format the dates
-     *  and correct the dates if the user enters a bigger minDate
-     *  than maxDate or a smaller maxDate than minDate
-     */
-    var formatMinDate = new DatePickerFormat();
-    formatMinDate.onClose = function(selectedDate) {
-        $(this).blur();
-        var endTimeTextBox = $('#maxDate_' + id);
-        if (endTimeTextBox && endTimeTextBox.val() != '') {
-            var testStartTime = new Date(selectedDate);
-            var testEndTime = new Date(endTimeTextBox.val());
-            if (testStartTime > testEndTime)
-                endTimeTextBox.val(selectedDate);
-        }
-        else {
-            endTimeTextBox.val(selectedDate);
-        }
-    };
-    
-    var formatMaxDate = new DatePickerFormat(); 
-    formatMaxDate.onClose = function(selectedDate) {
-        $(this).blur();
-        var startTimeTextBox = $('#minDate_' + id);
-        if (startTimeTextBox.val() != '') {
-            var testStartTime = new Date(startTimeTextBox.val());
-            var testEndTime = new Date(selectedDate);
-            if (testStartTime > testEndTime)
-                startTimeTextBox.val(selectedDate);
-        }
-        else {
-            startTimeTextBox.val(selectedDate);
-        }
-    };
-    
-    $( "#minDate_"+id ).datetimepicker(formatMinDate);
-    $( "#maxDate_"+id ).datetimepicker(formatMaxDate);
-};
-
-/**
  * Helper function to validate correct date input in date selectors, 
  * returns false if wrong date pair.
  * @index index corresponding to the date range pair (maxdate, mindate)
@@ -717,7 +783,6 @@ helio.TimeRangeDialog.__validateTimeRange = function(index) {
                 return false;
             }
         }
-
         return true;
 
     }
@@ -745,6 +810,39 @@ helio.ParamSetDialog.prototype = new helio.AbstractDialog;
 helio.ParamSetDialog.prototype.constructor = helio.ParamSetDialog;
 
 /**
+ * Load the dialog URL.
+ */
+helio.ParamSetDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/paramSetDialog?init=' + init +'&taskName=' + this.taskName;
+};
+
+/**
+ * init the dialog
+ */
+helio.ParamSetDialog.prototype._init = function() {
+    if (this.data) {
+        for (var paramName in this.data.params) {
+            var input = $("input[name='"+paramName+"']");
+            // handle radio buttons
+            if (input.length) {
+                if (input.attr("type") == 'radio') {
+                    $("input[value='"+this.data.params[paramName]+"']").prop('checked', true);
+                } else {
+                    input.val(this.data.params[paramName]);
+                }
+            } else {
+                // try to set select box
+                $("select[name='"+paramName+"'] option[value='"+this.data.params[paramName]+"']").prop('selected', true);
+            }
+        }
+        $("#param_set_name").val(this.data.name); 
+    } else {
+        // just keep the values set on the server side.
+    }
+};
+
+/**
  * The action to be executed when the Ok button is pressed.
  */
 helio.ParamSetDialog.prototype.__dialogActionOK = function() {
@@ -768,7 +866,7 @@ helio.ParamSetDialog.prototype.__dialogActionOK = function() {
     
     this.data.name = $("#param_set_name").val();
         
-    $("#paramSetDialog").dialog( "close" ); // this should trigger the closeCallback
+    $("#paramSetDialog").dialog( "close" );
     $("#paramSetDialog").remove();
 };
 
@@ -801,52 +899,6 @@ helio.ParamSetDialog.prototype.__dialogConfig = function() {
     };
 };
 
-/**
- * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
- */
-helio.ParamSetDialog.prototype.init = function(closeCallback) {
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
-    
-    if (this.data) {
-        for (var paramName in this.data.params) {
-            var input = $("input[name='"+paramName+"']");
-            // handle radio buttons
-            if (input.length) {
-                if (input.attr("type") == 'radio') {
-                    $("input[value='"+this.data.params[paramName]+"']").prop('checked', true);
-                } else {
-                    input.val(this.data.params[paramName]);
-                }
-            } else {
-                // try to set select box
-                $("select[name='"+paramName+"'] option[value='"+this.data.params[paramName]+"']").prop('selected', true);
-            }
-        }
-        $("#param_set_name").val(this.data.name); 
-    } else {
-        // just keep the values set on the server side.
-    }
-    
-    // show the input dialog
-    this.__showDialog($("#paramSetDialog"), closeCallback);
-};
-
-/**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
- */
-helio.ParamSetDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
-};
 
 
 /**
@@ -871,56 +923,18 @@ helio.EventListDialog.prototype = new helio.AbstractDialog;
 helio.EventListDialog.prototype.constructor = helio.EventListDialog;
 
 /**
- * The action to be executed when the Ok button is pressed.
+ * Load the dialog URL.
  */
-helio.EventListDialog.prototype.__dialogActionOK = function() {
-    if (this.newdata.listNames.length == 0) {
-        alert("Please select at least one event list");
-        return false;
-    }
-    this.data = this.newdata;
-    this.data.name = $("#nameEventList").val();
-    $("#eventListDialog").dialog( "close" ); // this should trigger the closeCallback
-    $("#eventListDialog").remove();
-};
-
-/**
- * A configuration object for the EventList dialog
- */
-helio.EventListDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
-    return {
-        width : 800,
-        title : "Select Event List",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Event List Selection");
-                $('#help_overlay p').text("Use the filters to select an event list you are interested in and click Ok.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK();
-            }
-        }
-    };
+helio.EventListDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/eventListDialog?init=' + init +'&taskName=' + this.taskName;
 };
 
 /**
  * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
  */
-helio.EventListDialog.prototype.init = function(closeCallback) {
+helio.EventListDialog.prototype._init = function() {
     var THIS = this;
-    
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
         
     // 1. init table
     var table = $("#selectTableEventList").dataTable( {
@@ -1093,7 +1107,7 @@ helio.EventListDialog.prototype.init = function(closeCallback) {
         };
     });
     
-    // 1. init row selection from previous values. 
+    // 5. init row selection from previous values. 
     this._updateSelection(table);
 
     // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
@@ -1101,9 +1115,48 @@ helio.EventListDialog.prototype.init = function(closeCallback) {
         $('#checkAll').click();
         $('#checkAll').click();
     }, 10);
-    
-    // show the input dialog
-    this.__showDialog($("#eventListDialog"), closeCallback);
+};
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.EventListDialog.prototype.__dialogActionOK = function() {
+    if (this.newdata.listNames.length == 0) {
+        alert("Please select at least one event list");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameEventList").val();
+    $("#eventListDialog").dialog( "close" );
+    $("#eventListDialog").remove();
+};
+
+/**
+ * A configuration object for the EventList dialog
+ */
+helio.EventListDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
+    return {
+        width : 800,
+        title : "Select Event List",
+        buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Event List Selection");
+                $('#help_overlay p').text("Use the filters to select an event list you are interested in and click Ok.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+            Ok: function() {
+                THIS.__dialogActionOK();
+            }
+        }
+    };
 };
 
 /**
@@ -1163,22 +1216,6 @@ helio.EventListDialog.prototype._renderSummaryBox = function(table) {
     }
 };
 
-
-/**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
- */
-helio.EventListDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/eventListDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
-};
-
 /**
  * InstrumentDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
@@ -1196,63 +1233,23 @@ helio.InstrumentDialog = function(task, taskName, /*helio.ParamSet*/ instrument)
     this._labelCol = -1;  // number of the column that contains the label.
 };
 
-
-
 //create InstrumentDialog as subclass of AbstractDialog
 helio.InstrumentDialog.prototype = new helio.AbstractDialog;
 helio.InstrumentDialog.prototype.constructor = helio.InstrumentDialog;
 
 /**
- * The action to be executed when the Ok button is pressed.
+ * Load the dialog URL
  */
-helio.InstrumentDialog.prototype.__dialogActionOK = function() {
-    if (this.newdata.instruments.length == 0) {
-        alert("Please select at least one instrument");
-        return false;
-    }
-    this.data = this.newdata;
-    this.data.name = $("#nameInstrument").val();
-    $("#instrumentDialog").dialog( "close" ); // this should trigger the closeCallback
-    $("#instrumentDialog").remove();
-};
-
-/**
- * A configuration object for the Instrument dialog
- */
-helio.InstrumentDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
-    return {
-        width : 800,
-        title : "Select Instrument",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Instrument Selection");
-                $('#help_overlay p').text("Select an instrument and click Ok.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK();
-            }
-        }
-    };
+helio.InstrumentDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/instrumentDialog?init=' + init +'&taskName=' + this.taskName;
 };
 
 /**
  * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
  */
-helio.InstrumentDialog.prototype.init = function(closeCallback) {
+helio.InstrumentDialog.prototype._init = function() {
     var THIS = this;
-    
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
         
     // 1. init table
     var table = $("#selectInstrument").dataTable( {
@@ -1316,10 +1313,51 @@ helio.InstrumentDialog.prototype.init = function(closeCallback) {
     setTimeout(function() {
         table.fnFilter('');
     }, 10);
-    
-    // show the input dialog
-    this.__showDialog($("#instrumentDialog"), closeCallback);
 };
+
+
+/**
+ * The action to be executed when the Ok button is pressed.
+ */
+helio.InstrumentDialog.prototype.__dialogActionOK = function() {
+    if (this.newdata.instruments.length == 0) {
+        alert("Please select at least one instrument");
+        return false;
+    }
+    this.data = this.newdata;
+    this.data.name = $("#nameInstrument").val();
+    $("#instrumentDialog").dialog( "close" );
+    $("#instrumentDialog").remove();
+};
+
+/**
+ * A configuration object for the Instrument dialog
+ */
+helio.InstrumentDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
+    return {
+        width : 800,
+        title : "Select Instrument",
+        buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Instrument Selection");
+                $('#help_overlay p').text("Select an instrument and click Ok.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
+            Ok: function() {
+                THIS.__dialogActionOK();
+            }
+        }
+    };
+};
+
 
 /**
  * update the current table selection based on the data model.
@@ -1379,21 +1417,6 @@ helio.InstrumentDialog.prototype._renderSummaryBox = function(table) {
 };
 
 /**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
- */
-helio.InstrumentDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/instrumentDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
-};
-
-/**
  * ExtractParamsDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
@@ -1416,6 +1439,25 @@ helio.ExtractParamsDialog.prototype = new helio.AbstractDialog;
 helio.ExtractParamsDialog.prototype.constructor = helio.ExtractParamsDialog;
 
 /**
+ * Load the dialog URL
+ */
+helio.ExtractParamsDialog.prototype._dialogUrl = function() {
+    var init = "last_task"; // should the template be initialized on the server side.
+    return './dialog/paramSetDialog?init=' + init +'&taskName=' + this.taskName;
+};
+
+/**
+ * init the dialog
+ */
+helio.ExtractParamsDialog.prototype._init = function() {
+    if (this.newdata) {
+        $("#param_set_name").val(this.newdata.name); 
+    } else {
+        // just keep the values set on the server side.
+    }
+};
+
+/**
  * Action to be executed when the Ok button is pressed.
  */
 helio.ExtractParamsDialog.prototype._extractParams = function() {
@@ -1436,11 +1478,7 @@ helio.ExtractParamsDialog.prototype._extractParams = function() {
         break;
     }
     
-    
-    // fill the param set object
-        
-    $("#paramSetDialog").dialog( "close" ); // this should trigger the closeCallback
-    $("#paramSetDialog").remove();
+
 };
 
 /**
@@ -1466,47 +1504,17 @@ helio.ExtractParamsDialog.prototype.__dialogConfig = function() {
                 $(this).remove();
             },
             Ok: function() {
-                THIS.__dialogActionOK();
+                THIS.__dialogActionOK.call(THIS);
+                $(this).dialog( "close" );
+                $(this).remove();
             }
         }
     };
 };
 
-/**
- * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
- */
-helio.ExtractParamsDialog.prototype.init = function(closeCallback) {
-    
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
-    
-    if (this.newdata) {
-        $("#param_set_name").val(this.newdata.name); 
-    } else {
-        // just keep the values set on the server side.
-    }
-    
-    // show the input dialog
-    this.__showDialog($("#paramSetDialog"), closeCallback);
-};
 
 /**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- */
-helio.ExtractParamsDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        var init = "last_task"; // should the template be initialized on the server side.
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/paramSetDialog?init=' + init +'&taskName=' + THIS.taskName, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
-};
-
-/**
- * TimeRangeDetailsDialog class
+ * Dialog containing the TimeRange inspector. 
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
  * @param {helio.TimeRange} helio.TimeRange the time range to use in the dialog. 
@@ -1521,13 +1529,71 @@ helio.TimeRangeDetailsDialog.prototype = new helio.AbstractDialog;
 helio.TimeRangeDetailsDialog.prototype.constructor = helio.TimeRangeDetailsDialog;
 
 /**
+ * Load the dialog URL
+ *  
+ */
+helio.TimeRangeDetailsDialog.prototype._dialogUrl = function() {
+    var startTime = this.data.startTime.format("YYYY-MM-DDTHH:mm:ss");
+    var endTime = this.data.endTime.format("YYYY-MM-DDTHH:mm:ss");
+    return './dialog/timeRangeDetailsDialog?startTime=' + startTime + '&endTime=' + endTime;
+};
+
+/**
+ * init the dialog
+ */
+helio.TimeRangeDetailsDialog.prototype._init = function() {
+    var THIS = this;
+        
+    // 1. show tabs
+    $("#tabs_time_range_details").tabs();
+    
+    // 2. init the date picker
+    new helio.TimeRangeSelector("#inspectStartTime", "#inspectEndTime");
+    
+    // 3. attach the add/subtract listeners to the +/- buttons
+    $("#inspect_time_range_start_inc").click(function(){
+        $("#inspectStartTime").val(THIS._incTime($("#inspectStartTime").val(), 6));
+        if ($("#inspectStartTime").val() > $("#inspectEndTime").val()) {
+            $("#inspectEndTime").val($("#inspectStartTime").val());
+        }
+    });
+    $("#inspect_time_range_start_dec").click(function(){
+        $("#inspectStartTime").val(THIS._incTime($("#inspectStartTime").val(), -6));
+    });
+    $("#inspect_time_range_end_inc").click(function(){
+        $("#inspectEndTime").val(THIS._incTime($("#inspectEndTime").val(), 6));
+    });
+    $("#inspect_time_range_end_dec").click(function(){
+        $("#inspectEndTime").val(THIS._incTime($("#inspectEndTime").val(), -6));
+        if ($("#inspectStartTime").val() > $("#inspectEndTime").val()) {
+            $("#inspectStartTime").val($("#inspectEndTime").val());
+        }
+    });
+};
+
+/**
  * A configuration object for the dialog
  */
-helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {    
+helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
     return {
-        title : "Details for a time range",
+        title : "Time Range inspector",
         buttons: {
+            Help: function(){
+                $('#help_overlay h3').text("Date range inspection.");
+                $('#help_overlay p').text("Adjust the date range on top and load plots to see if it covers what you need. " +
+                        "Clicking ok will use the adjusted date range in the calling item.");
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                $(this).remove();
+            },
             Ok: function() {
+                THIS.__dialogActionOK.call(THIS);
                 $(this).dialog( "close" );
                 $(this).remove();
             },
@@ -1536,29 +1602,23 @@ helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {
 };
 
 /**
- * init the dialog
- * @param {function} closeCallback a call back that is executed after the dialog has been closed.
+ * The action to be executed when the Ok button is pressed.
  */
-helio.TimeRangeDetailsDialog.prototype.init = function(closeCallback) {
-    // attach the current dialog
-    $("#dialog_placeholder").replaceWith(this.dialog);
-    
-    // show the input dialog
-    this.__showDialog($("#timeRangeDetailsDialog"), closeCallback);
+helio.TimeRangeDetailsDialog.prototype.__dialogActionOK = function() {
+    this.data.startTime = moment($("#inspectStartTime").val(), "YYYY-MM-DDTHH:mm:ss");
+    this.data.endTime = moment($("#inspectEndTime").val(), "YYYY-MM-DDTHH:mm:ss");
 };
 
 /**
- * Load the dialog from remote and display it.
- * @param {function} closeCallback optional call back that is executed after the dialog has been closed.
- *  
+ * Increment a given time string by a given amount of hours (may be negative) and return time as UTC string
+ * @param {String} time Time as ISO string
+ * @param {int} inc Increment in hours.
+ * @return adjusted time as ISO string.
  */
-helio.TimeRangeDetailsDialog.prototype.show = function(closeCallback) {
-    if (this.dialog === null) {
-        var THIS = this;
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load('./dialog/timeRangeDetailsDialog?startTime=' + this.data.startTime + '&endTime=' + this.data.endTime, function() {THIS.init(closeCallback);});
-    } else {
-        this.init(closeCallback);
-    }
+helio.TimeRangeDetailsDialog.prototype._incTime = function(/*String*/ time, /*number*/ inc) {
+    var date = moment(time, "YYYY-MM-DDTHH:mm:ss");
+    date.add("hours", inc);
+    return date.format("YYYY-MM-DDTHH:mm:ss");
 };
 
 })();

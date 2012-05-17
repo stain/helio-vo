@@ -1,6 +1,4 @@
-package eu.heliovo.hfe.controller
-
-import grails.test.*
+import grails.test.ControllerUnitTestCase;
 
 class CatalogControllerTests extends ControllerUnitTestCase {
     protected void setUp() {

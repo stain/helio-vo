@@ -1,4 +1,4 @@
-<div id="task" class="task">
+<div id="task" class="task candybox">
   <div class="task_header_area viewerHeader">
     <h1>${taskDescriptor.label}</h1>
   </div>

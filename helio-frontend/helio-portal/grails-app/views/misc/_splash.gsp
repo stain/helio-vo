@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>17-Mai-2012: Add time range inspector.</li>
             <li>11-Mai-2012: CSS cleanup. Various small bug fixes.</li>
             <li>10-Mai-2012: Upgrade to Grails 2.0.3.</li>
             <li>29-Feb-2012: Removing unused code. Reworking the event details dialog. Lots of housekeeping.</li>

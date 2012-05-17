@@ -1,6 +1,4 @@
-package eu.heliovo.hfe.controller
-
-import grails.test.*
+import grails.test.ControllerUnitTestCase;
 
 class ProcessingControllerTests extends ControllerUnitTestCase {
     protected void setUp() {
