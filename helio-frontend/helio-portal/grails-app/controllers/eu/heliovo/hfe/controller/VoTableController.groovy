@@ -4,7 +4,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest
 
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.service.VoTableService
-import eu.heliovo.hfe.utils.TaskDescriptor
 import grails.converters.JSON
 
 /**
@@ -12,6 +11,9 @@ import grails.converters.JSON
  * @author MarcoSoldati
  */
 class VoTableController {
+    
+    def taskDescriptorService
+    
     /**
      * point to the voTableUplaodService
      */
@@ -38,7 +40,7 @@ class VoTableController {
 //                throw new RuntimeException("Not a valid xml file. The name should end with .xml");
 //            }
 
-            def taskDescriptor = TaskDescriptor.findTaskDescriptor("votableupload")
+            def taskDescriptor = taskDescriptorService.findTaskDescriptor("votableupload")
             
             def votableModel = voTableService.parseAndSaveVoTable(file);
 

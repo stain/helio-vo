@@ -1,3 +1,6 @@
+eventCompileStart = {
+}
+
 eventCreateWarStart = {
     warName, stagingDir ->
     //if (grailsEnv == "production") {

@@ -1,11 +1,11 @@
 <!-- Content container -->
 <div id="tabs">
   <ul>
-    <li><a href="#tabs-2">Services</a></li>
-    <li><a id="advanced_tab" href="#tabs-3">Advanced</a></li>
-    <li><a href="#tabs-4">Beta</a></li>
+    <li><a href="#services_tab">Services</a></li>
+    <li><a href="#advanced_tab">Advanced</a></li>
+    <li><a href="#beta_tab">Beta</a></li>
   </ul>
-  <div id="tabs-2">
+  <div id="services_tab">
     <table>
       <tr>
         <td>                
@@ -23,7 +23,7 @@
       </tr>
     </table>
   </div>
-  <div id="tabs-3">
+  <div id="advanced_tab">
     <table>
       <tr>
         <td>
@@ -71,11 +71,11 @@
       </tr>
     </table>
   </div>
-  <div id="tabs-4">
+  <div id="beta_tab">
     <table>
       <tr>
         <td>
-          <div style="display:block" class="menu_item"  id="task_datamining">In-situ Data Mining (beta)</div>
+          <%-->div id="task_datamining" title="insitu data mining">In-situ Data Mining (beta)</div  --%>
         </td>            
       </tr>
     </table>

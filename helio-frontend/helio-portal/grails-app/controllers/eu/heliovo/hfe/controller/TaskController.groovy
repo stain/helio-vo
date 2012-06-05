@@ -1,8 +1,6 @@
 package eu.heliovo.hfe.controller
 
-import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.model.task.Task;
-import eu.heliovo.hfe.utils.TaskDescriptor;
 
 /**
  * Controller to asynchronously load the input interface for a particular task.
@@ -11,6 +9,9 @@ import eu.heliovo.hfe.utils.TaskDescriptor;
  *
  */
 class TaskController {
+    
+    def taskDescriptorService
+    
     /**
      * Auto-wire the springSecurityService
      */
@@ -38,7 +39,7 @@ class TaskController {
      */
     def load = {
         def taskName = params.taskName;
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }
@@ -57,7 +58,7 @@ class TaskController {
      */
     def propagationModel = {
         def taskName = params.taskName;
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }
@@ -76,7 +77,7 @@ class TaskController {
      */
     def plot = {
         def taskName = params.taskName;
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }

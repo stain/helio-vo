@@ -8,7 +8,6 @@ import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor
 import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
@@ -20,6 +19,9 @@ import grails.validation.ValidationException
  * @author MarcoSoldati
  */
 class CatalogController {
+    
+    def taskDescriptorService
+    
     def catalogService
         
     def voTableService
@@ -31,7 +33,7 @@ class CatalogController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         
         // create a new task
         def task = new Task(taskName : taskName)
@@ -96,7 +98,7 @@ class CatalogController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
                 def taskName = jsonBindings.taskName
-                def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+                def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
                 
                 // create a new task
                 def task = new Task(taskName : taskName)
@@ -155,7 +157,7 @@ class CatalogController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         
         // create a new task
         def task = new Task(taskName : taskName)
@@ -204,7 +206,7 @@ class CatalogController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         
         // create a new task
         def task = new Task(taskName : taskName)

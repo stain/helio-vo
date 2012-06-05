@@ -123,19 +123,18 @@ class DataCartController {
         // parse data item
         bindData(param, data, [exclude : ['timeRanges', 'params']]);
         if (param instanceof TimeRangeParam) {
-            param.timeRanges.clear();
-            param.save()
+            param.timeRanges.clear()
+            data.timeRanges?.each{ timeRange->
+                param.addTimeRange(DateUtil.fromIsoDate(timeRange.startTime), DateUtil.fromIsoDate(timeRange.endTime))
+            }
         }
-        
-        data.timeRanges?.each{ timeRange->
-            param.addTimeRange(DateUtil.fromIsoDate(timeRange.startTime), DateUtil.fromIsoDate(timeRange.endTime))
-        }
+        // update params
         data.params?.each{ entry ->
             param.params.put(entry.key, entry.value)
         }
 
         // save param
-        param.save()
+        //param.save()
         dataCart.save(flush: true)
 
         render dataCart as JSON
@@ -148,19 +147,19 @@ class DataCartController {
         User owner = User.get(springSecurityService.principal.id)
         DataCart dataCart = DataCart.findByOwner(owner)
         assert dataCart != null, "Internal error: unable to find data cart for current user."
-
+        
         // parse data item
         def data = JSON.parse(params.data)
 
         def param = AbstractParam.get(data.id);
-
+        
         assert param != null, "Cannot find param with id " + data.id;
         assert dataCart.cartItems.contains(param), "Param must be in DataCart of current user"
-
+        
         dataCart.removeFromCartItems(param)
-        param.delete()
-        dataCart.save(flush: true)
-
+        dataCart.save(flush : true)        
+        
+        println "before to json"
         render dataCart as JSON
     }
 }

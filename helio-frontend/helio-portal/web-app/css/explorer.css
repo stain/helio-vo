@@ -21,6 +21,15 @@ img {
 	-khtml-user-select: none;
 }
 
+.candybox {
+    background: url("../images/helio/shadow_gradient.gif") repeat-x scroll center bottom #FEFEFF;
+    border: 1px solid #C3C6CA;
+    margin: 0 0 2em;
+    padding: 10px 20px 20px;
+     border-radius: 5px 5px 5px 5px;
+    box-shadow: 0 1px 1px #DFDFDF;
+    width: 300px;
+}
 
 /****************** data tables **********************/
 /**
@@ -189,8 +198,8 @@ table.dialog_content_table td {
 
 .dialog_selection_area {
 	width: 250px;
-	height: 226px;
-	margin: 5px 5xp 3px 5px;
+    height: 220px;
+    margin: 0;
 }
 
 .dialog_selection_area ul {
@@ -235,6 +244,13 @@ table.dialog_content_table td {
     padding-left: 4px;
 }
 
+select.paramSetEntry {
+	max-width: 220px;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+}
+
 /*************************** CSS related to result areas *************************/
 .task_output_params {
 	display: inline-block;
@@ -275,6 +291,33 @@ table.dialog_content_table td {
 
 .item_missing {
 	color: red;
+}
+
+.toolbar {
+    padding: .1em; 
+    margin: 0.3em 0; 
+    width: auto;
+    height: 30px;
+    border: solid 1px gray;
+    display: inline-block;
+}
+
+.toolbar-icon { 
+	width: 30px; height: 30px; 
+	background-image: url(../images/helio/toolbar_med.png);
+    display: inline-block;
+    position: relative;
+}
+
+.toolbar-icon.toolbar-icon-info { background-position: 0 0 }
+.toolbar-icon.toolbar-icon-savevotable { background-position: -30px 0 }
+.toolbar-icon.toolbar-icon-extract { background-position: -60px 0 }
+.toolbar-icon.toolbar-icon-downloadfiles { background-position: -90px 0 }
+.toolbar-icon.toolbar-icon-selectall { background-position: -120px 0 }
+
+
+div.tabs_votable_result .ui-tabs-panel {
+	padding: 0.5em;
 }
 
 /*************************** CSS related to the menu area *************************/

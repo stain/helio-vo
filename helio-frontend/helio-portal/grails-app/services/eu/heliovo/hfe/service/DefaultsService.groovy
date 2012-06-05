@@ -4,7 +4,6 @@ import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor;
 import eu.heliovo.shared.util.DateUtil
 import grails.validation.ValidationException
 
@@ -21,6 +20,8 @@ class DefaultsService {
      * Auto-wire the springSecurityService
      */
     def springSecurityService
+    
+    def taskDescriptorService
 
     /**
      * Create a TimeRangeParam with default values, but do not store it in the database.
@@ -55,7 +56,7 @@ class DefaultsService {
 
         // create a new temporary task to be used as model
         if (!task) {
-            def taskDescriptor = TaskDescriptor.taskDescriptor[taskName];
+            def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName);
             if (!taskDescriptor) {
                 throw new RuntimeException("Unknown task: " + taskName); 
             }

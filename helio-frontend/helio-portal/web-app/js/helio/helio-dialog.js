@@ -223,7 +223,7 @@ helio.AbstractSummary.prototype.init = function() {
 helio.AbstractSummary.prototype.render = function(data) {
     var summary = this.renderSummary(data);
     if (summary != null) { // (re-)populate the summary section
-        $("#text" + this.typeName + "Summary").html(summary);
+        $("#text" + this.typeName + "Summary").empty().html(summary);
 
         this.data = data;
         
@@ -248,7 +248,7 @@ helio.AbstractSummary.prototype.renderSummary = undefined;
  * Clear the current summary section.
  */ 
 helio.AbstractSummary.prototype.clear = function() {
-    $("#text" + this.typeName +  "Summary").html("");
+    $("#text" + this.typeName +  "Summary").empty().html("");
     $("#img" + this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '_grey.png');
     $(".paramDraggable" + this.typeName).draggable("option", "disabled", true);
     this.data = null;
@@ -289,7 +289,7 @@ helio.TimeRangeSummary.prototype.renderSummary = function(timeRanges) {
         // loop over the time ranges
         for(var i = 0; i < timeRanges.timeRanges.length; i++) {
             var timeRange =  timeRanges.timeRanges[i];
-            table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.startTime + (timeRange.startTime != timeRange.endTime ? ' - ' + timeRange.endTime : '') + '</td></tr>');
+            table.append('<tr><td><b># ' + (i+1) + '</b>&nbsp;&nbsp;</td><td>' + timeRange.toString() + '</td></tr>');
         }
         return table;
     } else {
@@ -322,6 +322,37 @@ helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
         // loop over the data
         for(var param in paramSet.params) {
                 table.append('<tr><td><b>' + paramSet.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params[param] + '</td></tr>');
+        }
+        return table;
+    } else {
+        return null;
+    }
+};
+
+/**
+ * DesParamSetSummary class
+ * @param {helio.DesTask} task the task this summary is associated with.  
+ * @param {String} taskName the name of the task to send.  
+ * 
+ */
+helio.DesParamSetSummary = function(task, taskName, data) {
+    helio.ParamSetSummary.apply(this, [task, taskName, 'DesParamSet', data]);
+};
+
+//create ParamSetSummry as subclass of AbstractSummry
+helio.DesParamSetSummary.prototype = new helio.ParamSetSummary;
+helio.DesParamSetSummary.prototype.constructor = helio.ParamSetSummary;
+
+
+helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
+    if (paramSet) { // (re-)populate the summary section
+        var table =$("<table></table>");
+        if (paramSet.name) {
+            table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
+        }
+        // loop over the data
+        for(var param in paramSet.params) {
+            table.append('<tr><td><b>' + paramSet.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params[param] + '</td></tr>');
         }
         return table;
     } else {
@@ -428,6 +459,37 @@ helio.AbstractDialog = function(options, task, taskName, data) {
     
     // prevent duplicate opening of dialog
     this.__active = false;
+    
+    var THIS = this;
+    
+    // setup default buttons
+    if (!this.opts.buttons) {
+        this.opts.buttons = {
+            Help: function(){
+                $('#help_overlay h3').text(THIS.opts.dialogTitle);
+                $('#help_overlay p').text(THIS.opts.helpText);
+                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
+                $.blockUI({
+                    message: $('#help_overlay')
+                });
+            },
+            Cancel: function() {
+                $(this).dialog( "close" );
+                THIS.__active = false;
+                $(this).remove();
+            },
+            Ok: function() {
+                if(THIS.__updateDataModel.call(THIS)) {
+                    // close the dialog
+                    $(this).dialog( "close" );
+                    THIS.__active = false;
+                    $(this).remove();
+                    // and notify the registered okCallback
+                    THIS.okCallback.call(THIS);
+                }
+            }
+        };
+    }
 };
 
 /**
@@ -446,9 +508,8 @@ helio.AbstractDialog.defaults = {
     open: null,
     focus: null,
     close: null,
-
-    // custom buttons
-    buttons: null
+    
+    buttons : null
 };
 
 /**
@@ -459,6 +520,7 @@ helio.AbstractDialog.prototype.show = function(okCallback) {
     var THIS = this;
     this.okCallback = okCallback;
     if (this.dialog === null) {
+        $('#dialog_placeholder').empty();
         this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load(this._dialogUrl(), function() {THIS.__onLoad.call(THIS);});
     } else {
         THIS.__onLoad.call(THIS);
@@ -481,10 +543,22 @@ helio.AbstractDialog.prototype._init = function() {
 };
 
 /**
+ * Method that will be called after pressing the ok button but before closing the dialog.
+ * The method should do input validation and then update the internal data model.
+ * @return {boolean} if true the dialog will be closed, if false it's up to the implementation
+ * to show to the user why the model cannot be updated.
+ */
+helio.AbstractDialog.prototype.__updateDataModel = function() {
+    throw "Please overload method '__updateDataModel'";
+};
+
+
+/**
  * Called after successfully loading the dialog (or after redisplaying the dialog).
  */
 helio.AbstractDialog.prototype.__onLoad = function() {
     // attach the current dialog to the dom initialize it and display the dialog window.
+    $("#dialog_placeholder").empty();
     $("#dialog_placeholder").replaceWith(this.dialog);
     this._init();
     this.__showDialog();
@@ -495,29 +569,13 @@ helio.AbstractDialog.prototype.__onLoad = function() {
  */
 helio.AbstractDialog.prototype.__showDialog = function() {
     // prevent dialog from being shown twice (double click)
-    var THIS = this;
     if (this.__active) {
         return;
     }
     this.__active = true;
     
-    var dlg = $("#dialog_placeholder > :first-child");
-    this.opts.close = function(event, ui) {
-        THIS.__active = false;
-        dlg.remove();
-    };
-    
-    var okButton = this.opts.buttons.Ok;
-    
-    if (okButton && this.okCallback) {
-        this.opts.buttons.Ok = function() {
-            okButton.call(THIS);
-            THIS.okCallback.call(THIS);
-            dlg.remove();
-        };
-    };
-    
     // display the dialog with the configured options.
+    var dlg = $("#dialog_placeholder > :first-child");
     dlg.dialog(this.opts);
     
     // set focus on ok button.
@@ -559,12 +617,11 @@ helio.TimeRangeDialog.prototype._dialogUrl = function() {
  */
 helio.TimeRangeDialog.prototype._init = function() {
     var THIS = this;
-    
     if (this.data) {
-        $("tr.input_time_range:not(:first)").remove();
+        $("tr.input_time_range").filter(":not(:first)").remove();
         for (var i = 0; i < this.data.timeRanges.length; i++) {
             var timeRange = this.data.timeRanges[i];
-            helio.TimeRangeDialog.__addTimeRange(timeRange.startTime, timeRange.endTime);
+            helio.TimeRangeDialog.__addTimeRange.apply(this, timeRange.timeAsString());
         }
         $("#time_range_name").val(this.data.name);
     } else { 
@@ -581,19 +638,17 @@ helio.TimeRangeDialog.prototype._init = function() {
                 $("#input_time_range_remove_" + index).button({
                     'disabled' : timeRanges.length <= 2  // do not remove the last entry
                 }).click(helio.TimeRangeDialog.__removeTimeRange);
-                debugger;
                 $("#input_time_range_inspect_" + index)
                     .button()
                     .click((function(index) {
                         return function() {
                             var timeRange = new helio.TimeRange(
-                                moment($('#minDate_' + index).val(), "YYYY-MM-DDTHH:mm:ss"), 
-                                moment($('#maxDate_' + index).val(), "YYYY-MM-DDTHH:mm:ss")
+                                $('#minDate_' + index).val(), $('#maxDate_' + index).val()
                             );
                             var dialog = new helio.TimeRangeDetailsDialog(THIS.task, THIS.taskName, timeRange);
                             dialog.show(function() {  // callback when the ok button is pressed
-                                $('#minDate_' + index).val(dialog.data.startTime.format("YYYY-MM-DDTHH:mm:ss"));
-                                $('#maxDate_' + index).val(dialog.data.endTime.format("YYYY-MM-DDTHH:mm:ss"));
+                                $('#minDate_' + index).val(dialog.data.timeAsString()[0]);
+                                $('#maxDate_' + index).val(dialog.data.timeAsString()[1]);
                             });
                         };
                     })(index)
@@ -614,7 +669,7 @@ helio.TimeRangeDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
+helio.TimeRangeDialog.prototype.__updateDataModel = function() {
     //Validate date ranges and if error is found, notify the user and stop thread
     var flag = true;
     var timeRanges = $('.input_time_range');
@@ -640,34 +695,16 @@ helio.TimeRangeDialog.prototype.__dialogActionOK = function() {
         this.data = new helio.TimeRanges(this.taskName);
     }
     this.data.timeRanges = timeRangeValues;
-    this.data.name = $("#time_range_name").val();        
+    this.data.name = $("#time_range_name").val();
+    return true;
 };
 
 /**
  * A configuration object for the time range dialog
  */
 helio.TimeRangeDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
-    
     return {
-        title : "Select date and time ranges",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Time Range Selection");
-                $('#help_overlay p').text("Fill out the time ranges you are interested in and click Ok");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK.call(THIS);
-            }
-        }
+        title : "Select date and time ranges"
     };
 };
 
@@ -677,6 +714,7 @@ helio.TimeRangeDialog.prototype.__dialogConfig = function() {
  * Add a new timerange widget to the interface
  */
 helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/ endTime) {
+
     // find the largest index
     var index = 0;
     var timeRanges = $('.input_time_range'); 
@@ -760,31 +798,8 @@ helio.TimeRangeDialog.__removeTimeRange = function() {
  */
 helio.TimeRangeDialog.__validateTimeRange = function(index) {
     try{
-        var maxDate = $("#maxDate_"+index).val();
-        if(maxDate && maxDate.indexOf("T") == -1){//validates time part on its own and autocompletes if missing
-            maxDate = maxDate + "T00:00:00";
-            $("#maxDate_"+index).val(maxDate);
-        }
-        var minDate = $("#minDate_"+index).val();
-        if(minDate && minDate.indexOf("T") == -1){
-            minDate = minDate + "T00:00:00";
-            $("#minDate_"+index).val(minDate);
-        }
-        
-        var IsoDate = new RegExp("^(19|20)\\d\\d[- /.](0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])T([0-9]{2}):([0-9]{2}):([0-9]{2})$");
-        
-        var matches = IsoDate.exec(minDate);
-        if(matches === null){
-            return false;
-        }
-        if (maxDate) {
-            matches = IsoDate.exec(maxDate);
-            if(matches === null){
-                return false;
-            }
-        }
-        return true;
-
+        var timeRange = new helio.TimeRange($("#minDate_"+index).val(), $("#maxDate_"+index).val());
+        return timeRange.isValid();
     }
     catch(err){
         return false;
@@ -839,13 +854,13 @@ helio.ParamSetDialog.prototype._init = function() {
         $("#param_set_name").val(this.data.name); 
     } else {
         // just keep the values set on the server side.
-    }
+    }    
 };
 
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.ParamSetDialog.prototype.__dialogActionOK = function() {
+helio.ParamSetDialog.prototype.__updateDataModel = function() {
     var THIS = this;
     
     // fill paramSet with updated values
@@ -865,37 +880,18 @@ helio.ParamSetDialog.prototype.__dialogActionOK = function() {
     });
     
     this.data.name = $("#param_set_name").val();
-        
-    $("#paramSetDialog").dialog( "close" );
-    $("#paramSetDialog").remove();
+    return true;
 };
 
 /**
  * A configuration object for the param set dialog
  */
 helio.ParamSetDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
-    
     return {
         title : "Select Parameter",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Parameter Selection");
-                $('#help_overlay p').text("Fill out the parameters you are interested in and click Ok." +
-                		"Move your mouse over the parameter title to see some help text.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK();
-            }
-        }
+        dialogTitle : "Parameter Selection",
+        helpText : "Fill out the parameters you are interested in and click Ok." +
+                   "Move your mouse over the parameter title to see some help text."
     };
 };
 
@@ -940,7 +936,7 @@ helio.EventListDialog.prototype._init = function() {
     var table = $("#selectTableEventList").dataTable( {
         "bSort": false,
         "bInfo": true,
-        "sScrollY": "230px",
+        "sScrollY": "220px",
         "bPaginate": false,
         "bJQueryUI": true,
         "sScrollX": "500px",
@@ -1120,42 +1116,25 @@ helio.EventListDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.EventListDialog.prototype.__dialogActionOK = function() {
+helio.EventListDialog.prototype.__updateDataModel = function() {
     if (this.newdata.listNames.length == 0) {
         alert("Please select at least one event list");
         return false;
     }
     this.data = this.newdata;
     this.data.name = $("#nameEventList").val();
-    $("#eventListDialog").dialog( "close" );
-    $("#eventListDialog").remove();
+    return true;
 };
 
 /**
  * A configuration object for the EventList dialog
  */
 helio.EventListDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
     return {
         width : 800,
         title : "Select Event List",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Event List Selection");
-                $('#help_overlay p').text("Use the filters to select an event list you are interested in and click Ok.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK();
-            }
-        }
+        dialogTitle : "Event List Selection",
+        helpText : "Use the filters to select an event list you are interested in and click Ok."
     };
 };
 
@@ -1319,45 +1298,27 @@ helio.InstrumentDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.InstrumentDialog.prototype.__dialogActionOK = function() {
+helio.InstrumentDialog.prototype.__updateDataModel = function() {
     if (this.newdata.instruments.length == 0) {
         alert("Please select at least one instrument");
         return false;
     }
     this.data = this.newdata;
     this.data.name = $("#nameInstrument").val();
-    $("#instrumentDialog").dialog( "close" );
-    $("#instrumentDialog").remove();
+    return true;
 };
 
 /**
  * A configuration object for the Instrument dialog
  */
 helio.InstrumentDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
     return {
         width : 800,
         title : "Select Instrument",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Instrument Selection");
-                $('#help_overlay p').text("Select an instrument and click Ok.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK();
-            }
-        }
+        dialogTitle : "Instrument Selection",
+        helpText : "Select an instrument and click Ok."
     };
 };
-
 
 /**
  * update the current table selection based on the data model.
@@ -1485,30 +1446,11 @@ helio.ExtractParamsDialog.prototype._extractParams = function() {
  * A configuration object for the param set dialog
  */
 helio.ExtractParamsDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
-    
     return {
         title : "Select Parameter",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Parameter Selection");
-                $('#help_overlay p').text("Fill out the parameters you are interested in and click Ok." +
-                        "Move your mouse over the parameter title to see some help text.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK.call(THIS);
-                $(this).dialog( "close" );
-                $(this).remove();
-            }
-        }
+        dialogTitle : "Parameter Selection",
+        helpText : "Fill out the parameters you are interested in and click Ok." +
+                   "Move your mouse over the parameter title to see some help text."
     };
 };
 
@@ -1533,9 +1475,8 @@ helio.TimeRangeDetailsDialog.prototype.constructor = helio.TimeRangeDetailsDialo
  *  
  */
 helio.TimeRangeDetailsDialog.prototype._dialogUrl = function() {
-    var startTime = this.data.startTime.format("YYYY-MM-DDTHH:mm:ss");
-    var endTime = this.data.endTime.format("YYYY-MM-DDTHH:mm:ss");
-    return './dialog/timeRangeDetailsDialog?startTime=' + startTime + '&endTime=' + endTime;
+    var time = this.data.timeAsString();
+    return './dialog/timeRangeDetailsDialog?startTime=' + time[0] + '&endTime=' + time[1];
 };
 
 /**
@@ -1575,38 +1516,21 @@ helio.TimeRangeDetailsDialog.prototype._init = function() {
  * A configuration object for the dialog
  */
 helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {
-    var THIS = this;
     return {
         title : "Time Range inspector",
-        buttons: {
-            Help: function(){
-                $('#help_overlay h3').text("Date range inspection.");
-                $('#help_overlay p').text("Adjust the date range on top and load plots to see if it covers what you need. " +
-                        "Clicking ok will use the adjusted date range in the calling item.");
-                $('#help_overlay').attr('title','Click to close help window').click($.unblockUI);
-                $.blockUI({
-                    message: $('#help_overlay')
-                });
-            },
-            Cancel: function() {
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-            Ok: function() {
-                THIS.__dialogActionOK.call(THIS);
-                $(this).dialog( "close" );
-                $(this).remove();
-            },
-        }
+        dialogTitle : "Date range inspection.",
+        helpText : "Adjust the date range on top and load plots to see if it covers what you need. " +
+                   "Clicking ok will use the adjusted date range in the calling item."
     };
 };
 
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.TimeRangeDetailsDialog.prototype.__dialogActionOK = function() {
-    this.data.startTime = moment($("#inspectStartTime").val(), "YYYY-MM-DDTHH:mm:ss");
-    this.data.endTime = moment($("#inspectEndTime").val(), "YYYY-MM-DDTHH:mm:ss");
+helio.TimeRangeDetailsDialog.prototype.__updateDataModel = function() {
+    this.data.setStartTime($("#inspectStartTime").val());
+    this.data.setEndTime($("#inspectEndTime").val());
+    return true;
 };
 
 /**

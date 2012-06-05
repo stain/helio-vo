@@ -41,7 +41,7 @@ class DataCart {
     
     static mapping = {
         cartItems cascade: "all-delete-orphan"
-     }
+    }
 
     /**
      * Assign user if required.

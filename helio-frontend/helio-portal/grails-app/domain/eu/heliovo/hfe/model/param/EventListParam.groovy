@@ -1,15 +1,15 @@
 package eu.heliovo.hfe.model.param
 
-import java.util.Map;
 
 import eu.heliovo.hfe.model.security.User
-import eu.heliovo.hfe.utils.TaskDescriptor
 
 class EventListParam extends AbstractParam {
     /**
     * Wire the spring security service.
     */
    transient springSecurityService
+   
+   transient taskDescriptorService
   
    /**
     * Hold the params
@@ -30,7 +30,7 @@ class EventListParam extends AbstractParam {
     * @return
     */
    def findTaskDescriptor() {
-       TaskDescriptor.taskDescriptor[this.taskName]
+       taskDescriptorService.taskDescriptor[this.taskName]
    }
    
    def String toString() {

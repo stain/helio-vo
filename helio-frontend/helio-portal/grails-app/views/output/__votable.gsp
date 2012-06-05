@@ -42,7 +42,6 @@ Expected params:
                 </a>
               </td>
             </g:elseif>
-            
             <g:else>
               <td>${cell}</td>
             </g:else>

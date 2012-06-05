@@ -27,33 +27,14 @@ Expected parameters:
           </thead>
           <tbody>
             <g:each var="paramDescriptorEntry" in="${paramSet.config}" status="i">
-              <g:set var="param" value="${paramSet.params[paramDescriptorEntry.key]}" />
+              <g:set var="paramName" value="${paramDescriptorEntry.key}" />
+              <g:set var="param" value="${paramSet.params[paramName]}" />
               <g:set var="paramDescriptor" value="${paramDescriptorEntry.value}" />
               <g:set var="value" value="${param?.value ?:paramDescriptor.defaultValue}" />
-              <tr>
-                <td valign="top">
-                  <b>${paramDescriptor.label}&nbsp;</b>
-                </td>
-                <td valign="top">
-                  <g:if test="${paramDescriptor.valueDomain}" >
-                    <g:select class="paramSetEntry" id="${paramDescriptorEntry.key}" name="${paramDescriptorEntry.key}" value="${value.toString()}" from="${paramDescriptor.valueDomain}" title="${paramDescriptor.label}"/>
-                  </g:if>
-                  <g:elseif test="${paramDescriptor.type.isEnum()}" >
-                    <g:each var="type" in="${paramDescriptor.type.values()}">
-                      <g:radio class="paramSetEntry" name="${paramDescriptorEntry.key}" value="${type.toString()}" checked="${type.toString() == value.toString()}" title="${paramDescriptor.label}"/>
-                      <g:message code="${type.label}" /><br/>
-                    </g:each>
-                  </g:elseif>
-                  <g:else>
-                    <input size="7" type="text" class="paramSetEntry" name="${paramDescriptorEntry.key}" title="${paramDescriptor.label}" value="${value.toString()}" />
-                  </g:else>
-                </td>
-                <td valign="top">
-                  <div class="message" style="display:inline; width:250px; float:right; margin:2px 0px; padding:3px">
-                    ${paramDescriptor.description}
-                  </div>
-                </td>
-              </tr>
+              <g:set var="template" value="${paramDescriptor.template ?: '/dialog/_paramSetParamRow'}" />
+              <g:if test="${paramDescriptor.render == null || paramDescriptor.render == true}">
+                <g:render template="${template}" model="[paramName : paramName, param : param, paramDescriptor : paramDescriptor, value : value, paramSet : paramSet]"></g:render>
+              </g:if>
             </g:each>
             <g:if test="${taskDescriptor.helpImage}" >
               <tr>

@@ -9,7 +9,7 @@
 <%-- new style css imports --%>
 <link rel="stylesheet" href="${resource(dir:'css',file:'explorer.css')}" />
 
-<g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some functions--%>
+<g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some extra functions--%>
 
 <%--plugins--%>
 <g:javascript src="/plugins/jquery-ui-1.8.11.custom.min.js"/>
@@ -21,6 +21,8 @@
 <g:javascript src="/plugins/jquery.collapsible.min.js" /> <%-- enable collapsible sections --%>
 <g:javascript src="/plugins/jquery.blockUI.js"/> <%--block the full ui to display help texts --%>
 <g:javascript src="/plugins/moment-1.4.0.min.js"/> <%-- a date parsing and formatting utility --%>
+<g:javascript src="/plugins/highcharts-2.2.3.min.js"/> <%-- a charting library --%>
+<g:javascript src="/plugins/highcharts-exporting-2.2.3.min.js"/> <%-- an extension for highcharts --%>
 
 <%-- HELIO java scripts --%>
 <g:javascript src="/helio/helio-main.js"/><%--basic initialization of the HELIO environment--%>
@@ -29,3 +31,4 @@
 <g:javascript src="/helio/helio-result.js"/><%--classes related to result display--%>
 <g:javascript src="/helio/helio-task.js"/><%--functions related to tasks--%>
 <g:javascript src="/helio/helio-datacart.js"/><%--the data cart--%>
+<g:javascript src="/helio/helio-charts.js"/><%--the HEC charting functions--%>

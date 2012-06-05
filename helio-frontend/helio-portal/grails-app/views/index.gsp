@@ -1,36 +1,17 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-
-<%@ page import="ch.i4ds.helio.frontend.model.*" %>
-<%@ page import="ch.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
-
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
-    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
-    <META HTTP-EQUIV="EXPIRES" CONTENT="0">
     <title>HELIO Front End</title>
+    <meta name="layout" content="main" />
     <g:render template="/misc/imports" />
-    <link rel="shortcut icon" href="${resource(dir:'images/helio',file:'sun.ico')}" type="image/x-icon" />
   </head>
 
   <body>
-    <input type="hidden" value="${HUID}" id="HUID"/>
     <!-- Background Elements -->
     <div id="page-background"></div>
-
-    <!-- Logo Elements -->
-    <div id="logo">
-      <table style="width: 100%;position:relative;top:-18px;">
-        <tr>
-          <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
-          <td><center><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></center></td>
-        <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
-        </tr>
-      </table>
-    </div>
-
+    
     <!-- Navigation Bar -->
     <div >
       <!-- elements with tooltips -->

@@ -3,13 +3,10 @@ package eu.heliovo.hfe.model.task
 import java.util.Date
 import java.util.Map;
 
-import eu.heliovo.cis.service.ValidateUser;
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.param.AbstractParam
-import eu.heliovo.hfe.model.param.TimeRangeParam;
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.security.User
-import eu.heliovo.hfe.utils.TaskDescriptor
 
 /**
  * Configuration of a concrete instance of a HELIO task. A task basically consists of a 
@@ -22,6 +19,11 @@ class Task {
      * Auto-wire the spring security service.
      */
     transient springSecurityService;
+    
+    /**
+     * Auto-wire the task descriptor service
+     */
+    transient taskDescriptorService;
 
     /**
      * Creation date will be automatically set by GORM
@@ -61,7 +63,7 @@ class Task {
      
     static constraints = {
         owner nullable : false
-        taskName validator: { value, command -> TaskDescriptor.taskDescriptor[value] != null }
+        taskName validator: { value, command -> command.taskDescriptorService.findTaskDescriptor(value) != null }
     }
     
     static hasMany = [
@@ -83,7 +85,7 @@ class Task {
     * @return
     */
    def findTaskDescriptor() {
-       def taskDescriptor = TaskDescriptor.taskDescriptor[taskName]
+       def taskDescriptor = taskDescriptorService.taskDescriptor[taskName]
    }
    
    def String toString() {

@@ -75,7 +75,7 @@ this.helio = this.helio ||
                    $("#" + THIS.id + "_menu").hide();
                    // change button text.
                    var title = THIS.options[menuItem].title;
-                   $("#" + THIS.id + " span.ui-button-text").html(title);
+                   $("#" + THIS.id + " span.ui-button-text").empty().html(title);
                    
                    // register click handler
                    $("#" + THIS.id).unbind("click");
@@ -111,7 +111,12 @@ this.helio = this.helio ||
  * Base module for the HELIO project. This is used to initialize the HELIO
  * project and provides some generic classes.
  */
-$(document).ready(function() {       
+$(document).ready(function() {
+    // decorate moments object with a custom to json method
+    moment.fn.toJSON = function() {
+        return this.format("YYYY-MM-DDTHH:mm:ss");
+    };
+    
     //create and init the data cart
     helio.dataCart = new helio.DataCart();
 
@@ -175,7 +180,12 @@ $(document).ready(function() {
                 "tav_2283" : { "title" : "Combine Event Lists", taskConstructor : function(taskName) { return new helio.PropagationModelTask(taskName); }}
             }
         },
-    };    
+        "task_datamining" : {
+            "url"      : "./task/load?taskName=des",
+            "taskName" : "des",
+            "taskConstructor" : function(taskName) { return new helio.DesTask(taskName); }
+        },
+    };
     
     // loop over config and fill menu object.
     for (var menuName in menuConfig) {

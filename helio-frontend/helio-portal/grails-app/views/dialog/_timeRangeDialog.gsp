@@ -15,6 +15,7 @@ Expected variables:
         </div>
       </td>
       <td valign="top"  width="*">
+        <div id="timeRangeDialogMessage"></div>
         <table class="dialog_content_table" cellpadding="0" cellspacing="0">
           <thead>
             <tr>
@@ -46,12 +47,6 @@ Expected variables:
         <td style="padding-bottom:5px;"><div id="input_time_range_button">+ Range</div></td>
       </tr>
     </g:if>
-    <tr valign="top" align="left" height="*">
-      <td></td>
-      <td>
-        <div class="message" id="timeRangeDialogMessage"></div>
-      </td>
-    </tr>
     <%-- label management --%>
     <tr valign="top" align="left" height="20" >
       <td colspan="2" style="padding:5px; border-top:2px solid grey" title="Assign a name to the current date range.">Name: <input tabindex="-1" id="time_range_name" name="time_range_name" type="text" tabindex="1" value="${timeRange.name}"/>

@@ -25,15 +25,136 @@ helio.AbstractModel = function(taskName, name, type) {
 };
 
 /**
- * Data object to store a time range. This is used within the timeRanes
+ * Data object to store a time range. If startTime == endTime the object stores a point in time rather than a time range.
+ * @param startTime the start time either as Date object or as a string in format YYYY-MM-DDTHH:mm:ss. Defaults to the current time.
+ * @param endTime the end time either as Date object or as a string in format YYYY-MM-DDTHH:mm:ss.Defaults to the current time.
+ * @param {nubmer} autoAdjust make sure that end date is &gt;= start date. If autoAdjust &lt;0 no adjustment will be applied, 
+ * if 0 or positive: minimal number of minutes between start and end date. Defaults to -1.
  */
-helio.TimeRange = function(/*Date*/ startTime, /*Date*/ endTime) {
-    this.startTime = startTime ? startTime : new Date();
-    this.endTime = endTime ? endTime : new Date();
+helio.TimeRange = function(/*Date*/ startTime, /*Date*/ endTime, autoAdjust) {
+    this.startTime = null;
+    this.endTime = null;
+    this.autoAdjust = autoAdjust ? autoAdjust : -1;
+    this.setStartTime(startTime);
+    this.setEndTime(endTime);
 };
 
 /**
- * Data object to store a collecion of time ranges and a name
+ * Get the start and end time in an string[2] in format "YYYY-MM-DDTHH:mm:ss".
+ * @return a string array of size 2, string[0] is the startTime, string[1] is the endTime.
+ */
+helio.TimeRange.prototype.timeAsString = function() {
+    var ret = [];
+    ret.push(this.startTime.format("YYYY-MM-DDTHH:mm:ss"));
+    ret.push(this.endTime.format("YYYY-MM-DDTHH:mm:ss"));
+    return ret;
+};
+
+/**
+ * is it a time range.
+ * @return true if startTime != endTime.
+ */
+helio.TimeRange.prototype.isRange = function() {
+    return this.startTime.diff(this.endTime) != 0;
+};
+
+/**
+ * set the start time
+ * @param startTime the start time either as Date object or as a string in format YYYY-MM-DDTHH:mm:ss. Defaults to the current time.
+ * @returns the start time as moment object
+ */
+helio.TimeRange.prototype.setStartTime = function(startTime) {
+    this.startTime = startTime ? (
+            typeof startTime === 'string' ? moment(startTime, "YYYY-MM-DDTHH:mm:ss") :
+                moment(startTime)
+            )
+            : moment();
+    this.__adjust("endTime");
+    return this.startTime;
+};
+
+/**
+ * set the end time
+ * @param endTime the end time either as Date object or as a string in format YYYY-MM-DDTHH:mm:ss. Defaults to the current time.
+ * @returns the end time as moment object
+ */
+helio.TimeRange.prototype.setEndTime = function(endTime) {
+    this.endTime = endTime ? (
+            typeof endTime === 'string' ? moment(endTime, "YYYY-MM-DDTHH:mm:ss") :
+                moment(endTime)
+        )
+        : moment();
+   this.__adjust("startTime");
+   return this.endTime;
+};
+
+/**
+ * Create a string representation of the time range.
+ * @returns string representation of the time range or the single time.
+ */
+helio.TimeRange.prototype.toString = function() {
+   return this.startTime.format("YYYY-MM-DDTHH:mm:ss") + (this.isRange() ? " &ndash; " + this.endTime.format("YYYY-MM-DDTHH:mm:ss") : "");
+};
+
+/**
+ * Check if the end date is bigger or equal than the start date
+ * @returns {boolean} true if the the range is valid.
+ */
+helio.TimeRange.prototype.isValid = function() {
+    return this.endTime.diff(this.startTime) >= 0;
+};
+
+/**
+ * Increment the start time and adjust end time if required
+ * @param unit the unit (seconds, minutes, hours, days)
+ * @param inc inc factor, use negative numbers for decrement.
+ * @returns the adjusted start time.
+ */
+helio.TimeRange.prototype.incStartTime = function(unit, inc) {
+    this.startTime.add(unit, inc);
+    this.__adjust("startTime");
+    return this.startTime;
+};
+
+/**
+ * Increment the end time and adjust start time if required
+ * @param unit the unit (seconds, minutes, hours, days)
+ * @param inc inc factor, use negative numbers for decrement.
+ * @returns the adjusted end time.
+ */
+helio.TimeRange.prototype.incEndTime = function(unit, inc) {
+    this.endTime.add(unit, inc);
+    this.__adjust("endTime");
+    return this.endTime;
+};
+
+/**
+ * do auto adjustment if needed.
+ * @param toAdjust which field to adjust? either "startTime" or "endTime".
+ */
+helio.TimeRange.prototype.__adjust = function(toAdjust) {
+    if (this.autoAdjust >= 0) {
+        var tmpEndTime = moment(this.endTime);
+        var tmpStartTime = moment(this.startTime);
+        tmpEndTime.add("minutes", this.autoAdjust);
+        
+        if (tmpEndTime.diff(tmpStartTime) < 0) {
+             
+            // we have to adjust
+            if (toAdjust == "startTime") {
+                tmpEndTime = moments(this.endTime);  // reset end time
+                this.startTime == tmpEndTime.add("minutes", -this.autoAdjust);
+            } else if (toAdjust == "endTime") {
+                this.endTime == tmpStartTime.add("minutes", this.autoAdjust);                
+            } else {
+                throw "Internal Error: unknown value for argument 'toAdjust': " + toAdjust;
+            }
+        }
+    }
+};
+
+/**
+ * Data object to store a collection of time ranges and a name
  * @param {String} name the name of the time range, if any.
  */
 helio.TimeRanges = function(taskName, name) {

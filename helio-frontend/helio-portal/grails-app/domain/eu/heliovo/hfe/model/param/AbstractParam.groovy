@@ -10,7 +10,7 @@ import eu.heliovo.hfe.model.task.Task
  * @author MarcoSoldati
  *
  */
-class AbstractParam {
+abstract class AbstractParam {
     /**
      * Wire the spring security service.
      */
@@ -42,7 +42,7 @@ class AbstractParam {
     User owner
 	
 	static mapping = {
-		//tablePerHierarchy false
+		tablePerHierarchy false
 	}
 
     static constraints = {

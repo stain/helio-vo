@@ -1,7 +1,6 @@
 package eu.heliovo.hfe.model.param
 
 import eu.heliovo.hfe.model.security.User
-import eu.heliovo.hfe.utils.TaskDescriptor
 
 
 /**
@@ -14,6 +13,8 @@ class ParamSet extends AbstractParam {
      * Wire the spring security service.
      */
     transient springSecurityService
+    
+    transient taskDescriptorService
    
     /**
      * Hold the params
@@ -47,7 +48,7 @@ class ParamSet extends AbstractParam {
      * @return
      */
     def findTaskDescriptor() {
-        TaskDescriptor.taskDescriptor[this.taskName]
+        taskDescriptorService.taskDescriptor[this.taskName]
     }
     
     

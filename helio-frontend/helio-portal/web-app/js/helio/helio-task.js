@@ -32,7 +32,8 @@ helio.AbstractTask.prototype.init = function() {
     
     // 4. init the result area
     if (this.result) {
-        $('#task_result_area').html(this.result.data);
+        var resultArea = this._cleanResultArea();
+        resultArea.html(this.result.data);
         this.result.init.call(this.result);
     }
     var THIS = this;
@@ -86,7 +87,8 @@ helio.AbstractTask.prototype._submitQuery = function() {
     // init submit dialog
     var submitDialog = new helio.SubmitMessage(function() {
         if(xhr) xhr.abort();
-        $("#task_result_area").html();
+        // clear result area
+        THIS._cleanResultArea.call(THIS);
     });
     
     // call the propModel
@@ -106,7 +108,7 @@ helio.AbstractTask.prototype._submitQuery = function() {
             if (!status) status = textStatus;
 
             errorMessage.append('Message: ' + status + ' (<span id="details_link" style="text-decoration:underline; cursor:pointer">click for details</span>)');
-            $('#perform_query_text').html(errorMessage);
+            $('#perform_query_text').empty().html(errorMessage);
             
             $('#details_link').click(function() {
                 new helio.ErrorMessageDialog(errorThrown, jqXHR.responseText).open();
@@ -116,8 +118,8 @@ helio.AbstractTask.prototype._submitQuery = function() {
         success: function(data, textStatus, jqXHR) { 
             submitDialog.close(); 
             var status = jqXHR.getResponseHeader('status');
-            if (!status) status = "Data sucessfully loaded";
-            $('#perform_query_text').html(status);
+            if (!status) status = "Data successfully loaded";
+            $('#perform_query_text').empty().html(status);
             
             THIS._handleResult.call(THIS, data); 
         },
@@ -127,21 +129,20 @@ helio.AbstractTask.prototype._submitQuery = function() {
             case "success":
                 break;
             case "error":
-                $("#task_result_area").html();
+                THIS._cleanResultArea.call(THIS);
                 break;
             case "abort":
-                $('#perform_query_text').html("Cancelled by user");
-                $("#task_result_area").html();
+                $('#perform_query_text').empty().html("Cancelled by user");
+                THIS._cleanResultArea.call(THIS);
                 break;
             case "timeout":
-                $('#perform_query_text').html("Your request timed out");
-                $("#task_result_area").html();
+                $('#perform_query_text').empty().html("Your request timed out");
                 THIS._clearResult.call(THIS); 
             case "notmodified":
             case "parsererror":
             default:
-                $('#perform_query_text').html("Unknown status: " + textStatus);
-                $("#task_result_area").html();
+                $('#perform_query_text').empty().html("Unknown status: " + textStatus);
+                THIS._cleanResultArea.call(THIS);
             }
         } 
     });
@@ -155,7 +156,8 @@ helio.AbstractTask.prototype._submitQuery = function() {
  * @param data the data to add.
  */
 helio.AbstractTask.prototype._handleResult = function(data) {
-    $('#task_result_area').html(data);
+    var resultArea = this._cleanResultArea.call();
+    resultArea.html(data);
     this.result = new helio.TaskResult(this, this.taskName, data);
     this.result.init();
 };
@@ -164,11 +166,25 @@ helio.AbstractTask.prototype._handleResult = function(data) {
  * Clear result area
  */
 helio.AbstractTask.prototype._clearResult = function(data) {
-    $('#task_result_area').empty();
+    this._cleanResultArea();
     this.result = new helio.TaskResult(this, this.taskName, data);
     this.result.init();
 };
 
+/**
+ * Remove anything from the result area before it gets populated with a new table.
+ * This method makes sure to remove any registered handlers from the result area.
+ * @return the empty result area handler
+ */
+helio.AbstractTask.prototype._cleanResultArea = function() {
+    $('#task_result_area .resultTable').each(function() {
+        var table = $(this).dataTable();
+        if (table) {
+            table.fnDestroy();
+        }
+    });
+    return $('#task_result_area').empty();
+};
 
 
 /**
@@ -262,6 +278,20 @@ helio.IlsTask = function(taskName) {
 helio.IlsTask.prototype = new helio.AbstractTask;
 helio.IlsTask.prototype.constructor = helio.IlsTask;
 
+/**
+ * Create a DES Task
+ * @param {String} taskName name of the actual implementation of the task.  
+ * 
+ */
+helio.DesTask = function(taskName) {
+    helio.AbstractTask.call(this, taskName, "./catalog/des");
+    this.summaries["timeRanges"] = new helio.TimeRangeSummary(this, this.taskName);
+    this.summaries["paramSet"] = new helio.ParamSetSummary(this, this.taskName);
+};
+
+//create PlotTask as subclass of AbstractTask
+helio.DesTask.prototype = new helio.AbstractTask;
+helio.DesTask.prototype.constructor = helio.PlotTask;
 
 
 /**
@@ -305,10 +335,10 @@ helio.VOTableUploadTask.prototype._submitQuery = function() {
     var THIS = this;
     $("#upload2Form").ajaxForm({
         beforeSubmit: function() {
-            $('#msg_upload').html('Submitting...');
+            $('#msg_upload').empty().html('Submitting...');
         },
         target: '#task_result_area',   // target element(s) to be updated with server response
-        success: function(data) { $('#msg_upload').html(""); THIS._handleResult.call(THIS, data); }
+        success: function(data) { $('#msg_upload').empty(); THIS._handleResult.call(THIS, data); }
     }).submit();
 };
 

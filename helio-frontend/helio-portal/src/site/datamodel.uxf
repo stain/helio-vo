@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.4">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>50</x>
+      <y>20</y>
+      <w>260</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>DataCart
+--
+lastUpdated : Date
+cartItems : Set&lt;AbstractParam&gt;
+owner : User</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>50</x>
+      <y>210</y>
+      <w>260</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>Task
+--
+dateCreated : Date
+lastUpdated : Date
+taskName : String
+owner : User
+inputParams : Set&lt;AbstractParam&gt;
+outputParams : Set&lt;AbstractParam&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>110</x>
+      <y>110</y>
+      <w>122</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+cartItems</panel_attributes>
+    <additional_attributes>70;30;70;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>50</x>
+      <y>430</y>
+      <w>260</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>AbstractParam
+--
+dateCreated : Date
+lastUpdated : Date
+paramValue : String
+name : String
+taskName : String
+owner : User
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>40</x>
+      <y>340</y>
+      <w>142</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+inputParams</panel_attributes>
+    <additional_attributes>80;30;80;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>170</x>
+      <y>340</y>
+      <w>154</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-
+outputParams</panel_attributes>
+    <additional_attributes>80;30;80;90</additional_attributes>
+  </element>
+</diagram>

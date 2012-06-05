@@ -74,9 +74,13 @@ helio.VOTableResult.prototype.constructor = helio.VOTableResult;
 helio.VOTableResult.prototype.init = function() {
     var THIS = this;
     
-    // format the reponse elements
+    // format the response elements
     // 1. buttons
-    $(".custom_button").button();
+//    $(".custom_button").button();
+    
+    // 2. result tabs
+    $("#tabs_votables").tabs(); // tabs for multiple votables
+    $(".tabs_votable_result").tabs(); // tab for plot/tabular view
     
     // 3. enable ok-dialogs
     $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
@@ -87,6 +91,7 @@ helio.VOTableResult.prototype.init = function() {
     $.collapsible(".votableResultHeader", "votableResult");
 
     // 5. connect table info buttons
+    
     $(".table_info_button").click(function() {
         var dialogId = "#" + this.id.substring(0, this.id.length - '_button'.length);
         $(dialogId).dialog('open');
@@ -101,26 +106,55 @@ helio.VOTableResult.prototype.init = function() {
     $('#extract_param_button').click(function() {
         THIS._extractParams.call(THIS);
     });
+    
     $('#extract_instrument_param_button').click(function() {
         THIS._extractInstrumentParams.call(THIS);
     });    
 
-    // 2. result table
-    $(".resultTable").each(function() {
-        var table = THIS._formatTable(this.id);
-        THIS._resultTables.push(table);
-        
-        // do service specific initialisation, if applicable
-        var tableName = $(this).attr("name"); 
-        if (tableName.indexOf("initTable_") == 0) { // startsWith
-            // if there is a function with the initName defined on this object
-            var initName = '_' + tableName;
-            if (helio.VOTableResult.prototype[initName]) {
-                // call the function
-                THIS[initName].call(THIS, table);                
-            }
-        };
-    });    
+    // 8. init result table when tab is first opened.
+    $("#tabs_votables").bind('tabsselect', function(event, ui) {
+        $(ui.panel).find(".resultTable").each(function() {
+            if (!$(this).hasClass('dataTable') ) {
+                var table = THIS._formatTable.call(THIS, this.id);
+                THIS._resultTables.push(table);
+                
+                // do service specific initialisation, if applicable
+                var tableName = $(this).attr("name"); 
+                if (tableName.indexOf("initTable_") == 0) { // startsWith
+                    // if there is a function with the initName defined on this object
+                    var initName = '_' + tableName;
+                    if (helio.VOTableResult.prototype[initName]) {
+                        // call the function
+                        THIS[initName].call(THIS, table);                
+                    }
+                };
+            } 
+        });
+    });
+    
+    var firstTab = $('#tabs_votables div').filter(':first');
+    $("#tabs_votables").trigger('tabsselect', [{panel : firstTab }]);
+    
+    // 9. switch between tabular / plot view of a votable and init plot view on first invocation of the tab
+    $(".tabs_votable_result").bind('tabsselect', function(event, ui) {
+        if (ui.panel.id.indexOf('tab_votable_plot_') == 0) {
+            $(".tabs_votable_result").unbind(event);
+            var tmp = ui.panel.id.split('_');
+            var resultId = tmp[3];
+            var tableIndex = tmp[4];
+            
+            var containerName = 'table_' + resultId + '_' + tableIndex + '_plot';
+            var additionalContainerName = 'table_' + resultId + '_' + tableIndex + '_plot_options';
+            var chartTitleName = $(ui.panel).find('input[name="plotTitle"]').val();
+            
+            // load plot data.
+            $.ajax({
+                url : './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex
+            }).done(function(jsonObject) {
+                createHELIOChart(containerName,additionalContainerName,chartTitleName,jsonObject);                
+            });
+        }
+    });
 };
 
 /**
@@ -231,12 +265,9 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
                 //sendExamineEvent(times,timee);
                 
                 // adjust times
-                var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
-                var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
-                timeStartObject.subtract("hours", 6);
-                timeEndObject.add("hours", 6);                
-                
-                var timeRange = new helio.TimeRange(timeStartObject, timeEndObject);
+                var timeRange = new helio.TimeRange(times, timee);
+                timeRange.incStartTime("hours", -6);
+                timeRange.incEndTime("hours", 6);
                 var dialog = new helio.TimeRangeDetailsDialog(null, 'timeRangeDetails', timeRange);
                 dialog.show(function() {
                     if (dialog.data.timeStart != times ||
@@ -244,8 +275,8 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
                         var timeRanges = new helio.TimeRanges('datacart', 'extracted');
                         timeRanges.timeRanges.push(new helio.TimeRange(dialog.data.timeStart, dialog.data.timeEnd));
                         THIS._showExtractParamsDialog.call(THIS, timeRanges, 
-                            "<p><b>You modified the time range.</b> Do you want to store it to the data cart?</p>" +
-                            "<p>Click <code>Ok</code> to store or <code>Cancel</code> to dismiss.</p>");
+                            "<p><b>You modified the time range.</b> Do you want to store it to the data cart? " +
+                            "Click <code>Ok</code> to store or <code>Cancel</code> to dismiss.</p>");
                     }
                 });
                 return false;
@@ -342,12 +373,6 @@ helio.VOTableResult.prototype._extractParams = function() {
             var times = dataTable.fnGetData(this, time_start);
             var timee = dataTable.fnGetData(this, time_end);
      
-            // parse and reformat the time to be a bit more forgiving
-            var timeStartObject = moment(times, "YYYY-MM-DDTHH:mm:ss");
-            var timeEndObject = moment(timee, "YYYY-MM-DDTHH:mm:ss");
-            times = timeStartObject.format("YYYY-MM-DDTHH:mm:ss");
-            timee = timeEndObject.format("YYYY-MM-DDTHH:mm:ss");
-            
             timeRanges.timeRanges.push(new helio.TimeRange(times, timee));
         });
     });
@@ -875,5 +900,3 @@ helio.LogResult.prototype.init = function() {
 };
 
 })();
-
-

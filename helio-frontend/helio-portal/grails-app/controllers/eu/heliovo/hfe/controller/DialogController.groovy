@@ -4,16 +4,16 @@ import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRange
-import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor
 import eu.heliovo.registryclient.ServiceCapability
 import eu.heliovo.shared.util.DateUtil
 
 
 
 class DialogController {
+    def taskDescriptorService
+    
     /**
      * Auto-wire the defaults service.
      */
@@ -36,7 +36,7 @@ class DialogController {
      */
     def timeRangeDialog = {
         def taskName = params.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         assert taskDescriptor != null, "Unable to find descriptor for task: " + taskName
         def initMode = InitMode.valueOf(params.init)
         
@@ -75,7 +75,7 @@ class DialogController {
         
         def plotTasks = ['goesplot', 'flareplot', 'parkerplot']
         plotTasks.each {
-            def plotTask = TaskDescriptor.findTaskDescriptor(it)
+            def plotTask = taskDescriptorService.findTaskDescriptor(it)
             plots.add([taskName: it, task : plotTask, startTime : startTime, endTime : endTime])
         }
         
@@ -96,7 +96,7 @@ class DialogController {
     
     def paramSetDialog = {
         def taskName = params.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
         
         def paramSet;
@@ -120,7 +120,7 @@ class DialogController {
     
     def eventListDialog = {
         def taskName = params.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
         
         def eventList;
@@ -143,7 +143,7 @@ class DialogController {
 
      def instrumentDialog = {
         def taskName = params.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
         
         def instrumentParam;

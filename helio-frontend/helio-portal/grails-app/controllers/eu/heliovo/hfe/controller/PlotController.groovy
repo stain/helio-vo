@@ -3,12 +3,13 @@ package eu.heliovo.hfe.controller
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
-import eu.heliovo.hfe.utils.TaskDescriptor;
 import eu.heliovo.shared.util.DateUtil
 import grails.converters.JSON
 import grails.validation.ValidationException
 
 class PlotController {    
+    
+    def taskDescriptorService
     
     def plotService
 
@@ -19,7 +20,7 @@ class PlotController {
         // do the data binding (i.e. create task)
         def jsonBindings = JSON.parse(params.bindings) // parse bindings
         def taskName = jsonBindings.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         
         // create a new task
         def task = new Task(taskName : taskName)
@@ -76,7 +77,7 @@ class PlotController {
      */
     def asyncplot = {
         def taskName = params.taskName
-        def taskDescriptor = TaskDescriptor.findTaskDescriptor(taskName)
+        def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
 
         // create a new task
         def task = new Task(taskName : taskName)
