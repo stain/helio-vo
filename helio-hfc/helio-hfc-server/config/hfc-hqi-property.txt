@@ -1,5 +1,5 @@
 jdbc.driver=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://helio-fc1.obspm.fr:3306/hfc1test
+jdbc.url=jdbc:mysql://voparis-mysql5-paris.obspm.fr:3306/hfc1
 jdbc.user=guest
 jdbc.password=guest
  
