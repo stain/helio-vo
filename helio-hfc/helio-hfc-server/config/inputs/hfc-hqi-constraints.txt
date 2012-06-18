@@ -1,0 +1,9 @@
+TABLE|TIME|INSTRUMENT|COORDINATES|ORDERBY|MAXRECORD
+VIEW_OBS_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_FIL_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_AR_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_CH_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_SP_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_RS_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_PRO_HQI|(date_obs>='[:kwstartdate:]' and date_end<='[:kwenddate:]')||||10000
+VIEW_T3_HQI|(time_start>='[:kwstartdate:]' and time_end<='[:kwenddate:]')||||10000
