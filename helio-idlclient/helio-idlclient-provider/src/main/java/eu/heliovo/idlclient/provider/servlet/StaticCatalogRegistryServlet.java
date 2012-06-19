@@ -88,8 +88,6 @@ public class StaticCatalogRegistryServlet extends HttpServlet {
 	        response.setContentLength(out.length());
 			writer.append(out);
 		}
-	
-			
 	}
 
 	/**

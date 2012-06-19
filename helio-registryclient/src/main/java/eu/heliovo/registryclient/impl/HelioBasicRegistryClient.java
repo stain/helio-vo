@@ -23,7 +23,7 @@ import uk.ac.starlink.registry.SoapClient;
 
 /**
  * RegistryClient concrete subclass which turns registry queries into
- * BasicResource elements.
+ * BasicResource elements. The RegistryClient is used by {@link HelioRemoteServiceRegistryClient}.
  *
  * <p>This class is implemented using an ad-hoc XPath-like mechanism for
  * accumulating items of interest from the SAX stream, while ignoring

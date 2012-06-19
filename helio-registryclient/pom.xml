@@ -9,10 +9,9 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<groupId>eu.heliovo</groupId>
 	<artifactId>helio-registryclient</artifactId>
 	<name>helio-registryclient</name>
-	<version>5.0-SNAPSHOT</version>
+  
 	<packaging>jar</packaging>
 	<description>Client libary to access the HELIO IVOA registry.</description>
 	<inceptionYear>2011</inceptionYear>

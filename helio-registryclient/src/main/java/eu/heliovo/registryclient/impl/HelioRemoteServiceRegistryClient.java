@@ -50,9 +50,15 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
 	private AbstractRegistryClient<BasicResource> registry;
 
 	/**
+	 * Id of the application. Used to qualify the temp and property directory.
+	 */
+    private final String appId;
+
+	/**
 	 * Create the registry impl and initialize it accordingly.
 	 */
-	public HelioRemoteServiceRegistryClient() {
+	public HelioRemoteServiceRegistryClient(String appId) {
+        this.appId = appId;
 	}
 	
 	/**
@@ -128,8 +134,8 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
      * Check if a service registry client class has been defined in the properties file.
      * @return the registered or the default service registry client class.
      */
-    private static URL getRegistryLocation() {
-        RegistryProperties props = RegistryProperties.getInstance();
+    private URL getRegistryLocation() {
+        RegistryProperties props = new RegistryProperties(appId);
         if (props.containsKey(REGISTRY_LOCATION)) {
             return FileUtil.asURL(props.getProperty(REGISTRY_LOCATION));
         } else {

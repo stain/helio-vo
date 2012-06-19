@@ -21,11 +21,14 @@ class ConfigFileServiceRegistryClient extends AbstractHelioServiceRegistryClient
      * name of the file that defines the registry content.
      */
     private static final String REGISTRY_TXT = "registry.txt";
+    private final String appId;
 
     /**
 	 * Public constructor is package local for testing
+	 * @param appId the id of the application. 
 	 */
-	ConfigFileServiceRegistryClient() {
+	ConfigFileServiceRegistryClient(String appId) {
+        this.appId = appId;
 	}
 
 	/**
@@ -33,7 +36,7 @@ class ConfigFileServiceRegistryClient extends AbstractHelioServiceRegistryClient
 	 * with default values and then load it. 
 	 */
 	public void init() {
-	    File registryDir = HelioFileUtil.getHelioHomeDir("registry");
+	    File registryDir = new HelioFileUtil(appId).getHelioHomeDir("registry");
 	    File registryFile = new File(registryDir, REGISTRY_TXT);
 	    if (!registryFile.exists()) {
 	        throw new RuntimeException("Unable to locate registry file " + registryFile);

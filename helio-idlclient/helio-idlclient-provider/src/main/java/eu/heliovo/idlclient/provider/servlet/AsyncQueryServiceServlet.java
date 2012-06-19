@@ -16,12 +16,12 @@ import model.IdlHelioQueryResult;
 import model.IdlLogRecord;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import eu.heliovo.clientapi.HelioClient;
-import eu.heliovo.clientapi.model.service.HelioService;
 import eu.heliovo.clientapi.query.HelioQueryResult;
-import eu.heliovo.clientapi.query.asyncquery.AsyncQueryService;
-import eu.heliovo.idlclient.provider.serialize.*;
+import eu.heliovo.clientapi.query.syncquery.SyncQueryService;
+import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.util.AssertUtil;
@@ -81,17 +81,17 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			} catch (ParseException e) {
 			    throw new RuntimeException("Wrong date format. Date must be in ISO-8601 standard", e);
 			}
-			
-			HelioClient helioClient = new HelioClient();
-			HelioService queryService = helioClient.getServiceInstance(HelioServiceName.valueOf(service.toUpperCase()), ServiceCapability.ASYNC_QUERY_SERVICE, null);
-			AsyncQueryService asyncQueryService = (AsyncQueryService)queryService;
+
+	        GenericXmlApplicationContext context = new GenericXmlApplicationContext("classpath:spring/clientapi-main.xml");
+	        HelioClient helioClient = (HelioClient) context.getBean("helioClient");
+	        SyncQueryService queryService = (SyncQueryService)helioClient.getServiceInstance(HelioServiceName.valueOf(service.toUpperCase()), null, ServiceCapability.SYNC_QUERY_SERVICE);
 			
 			if (queryService == null) {
 			    throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
 			}
 			HelioQueryResult result;
 			
-			result = asyncQueryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
+			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
 			if(result != null)
 			{
 				String out = idl.idlserialize(result);

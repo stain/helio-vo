@@ -15,7 +15,7 @@ public class LocalHelioServiceRegistryClient extends AbstractHelioServiceRegistr
     /**
 	 * Public constructor is package local for testing
 	 */
-	LocalHelioServiceRegistryClient() {
+	public LocalHelioServiceRegistryClient() {
 	}
 
 	/**

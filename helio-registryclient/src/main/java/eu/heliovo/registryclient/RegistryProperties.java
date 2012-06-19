@@ -25,26 +25,10 @@ public class RegistryProperties extends Properties {
     private static final String REGISTRY_FILE_NAME = "registry.properties";
 
     /**
-     * The singleton instance
-     */
-    private static RegistryProperties instance;
-    
-    /**
-     * Get the singleton instance.
-     * @return the instance
-     */
-    public synchronized static RegistryProperties getInstance() {
-        if (instance == null) {
-            instance = new RegistryProperties();
-        }
-        return instance;
-    }
-    
-    /**
      * Hide the default constructor
      */
-    private RegistryProperties() {
-        File propertiesDir = HelioFileUtil.getHelioHomeDir("registry");
+    public RegistryProperties(String appId) {
+        File propertiesDir = new HelioFileUtil(appId).getHelioHomeDir("registry");
         File propertiesFile = new File(propertiesDir, REGISTRY_FILE_NAME);
         
         if (propertiesFile.exists()) {

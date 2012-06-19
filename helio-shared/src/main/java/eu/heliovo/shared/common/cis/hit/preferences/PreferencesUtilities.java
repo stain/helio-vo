@@ -27,7 +27,6 @@ public class PreferencesUtilities
 		{
 			System.out.println("Problem in extracting " + service + " from :");
 			System.out.println(cadUtilities.exprToReadeableString(cadPreferences));			
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		/*

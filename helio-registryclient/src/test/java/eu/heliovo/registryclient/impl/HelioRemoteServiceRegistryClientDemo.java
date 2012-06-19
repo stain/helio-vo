@@ -17,7 +17,7 @@ public class HelioRemoteServiceRegistryClientDemo {
     private static final String REGISTRY_TABLE_FORMAT = "| %-80s | %-50s | %-20s | %-90s |";
     
     public static void main(String[] args) {
-        HelioRemoteServiceRegistryClient serviceRegistryClient = new HelioRemoteServiceRegistryClient();
+        HelioRemoteServiceRegistryClient serviceRegistryClient = new HelioRemoteServiceRegistryClient("demo");
         serviceRegistryClient.init();
         
         System.out.println("Known capabilities");

@@ -4,8 +4,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>560</x>
-      <y>40</y>
+      <x>290</x>
+      <y>210</y>
       <w>190</w>
       <h>90</h>
     </coordinates>
@@ -21,8 +21,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>420</x>
-      <y>750</y>
+      <x>150</x>
+      <y>900</y>
       <w>190</w>
       <h>60</h>
     </coordinates>
@@ -37,8 +37,8 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>560</x>
-      <y>170</y>
+      <x>290</x>
+      <y>340</y>
       <w>190</w>
       <h>70</h>
     </coordinates>
@@ -53,33 +53,35 @@
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>720</x>
-      <y>30</y>
-      <w>170</w>
-      <h>70</h>
+      <x>450</x>
+      <y>250</y>
+      <w>160</w>
+      <h>120</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-
-capabilities</panel_attributes>
-    <additional_attributes>150;50;30;50</additional_attributes>
+    <panel_attributes>lt=-
+capabilities
+m1=*
+m2=*</panel_attributes>
+    <additional_attributes>140;100;30;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>720</x>
-      <y>160</y>
-      <w>170</w>
-      <h>70</h>
+      <x>450</x>
+      <y>350</y>
+      <w>160</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 capability</panel_attributes>
-    <additional_attributes>150;50;30;50</additional_attributes>
+    <additional_attributes>140;80;30;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Note</type>
     <coordinates>
-      <x>600</x>
-      <y>300</y>
-      <w>280</w>
+      <x>300</x>
+      <y>490</y>
+      <w>260</w>
       <h>70</h>
     </coordinates>
     <panel_attributes>| type   | url                                  |
@@ -90,8 +92,8 @@ capability</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>870</x>
-      <y>40</y>
+      <x>590</x>
+      <y>330</y>
       <w>270</w>
       <h>240</h>
     </coordinates>
@@ -114,62 +116,103 @@ COMMON_EXECUTION_ARCHITECTURE_SERVICE
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>540</x>
-      <y>210</y>
-      <w>80</w>
-      <h>110</h>
+      <x>270</x>
+      <y>380</y>
+      <w>50</w>
+      <h>130</h>
     </coordinates>
     <panel_attributes>lt=.</panel_attributes>
-    <additional_attributes>60;90;30;30</additional_attributes>
+    <additional_attributes>30;110;30;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>310</x>
-      <y>100</y>
+      <x>50</x>
+      <y>210</y>
       <w>190</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>ServiceInstance
-{private}
+    <panel_attributes>ServiceBean
 --
 --
-</panel_attributes>
+execute() :: ResultObject</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>470</x>
-      <y>120</y>
-      <w>110</w>
-      <h>100</h>
+      <x>140</x>
+      <y>230</y>
+      <w>170</w>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=0..*</panel_attributes>
-    <additional_attributes>30;30;90;80</additional_attributes>
+    <additional_attributes>30;30;150;140</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>470</x>
-      <y>60</y>
-      <w>110</w>
-      <h>70</h>
+      <x>210</x>
+      <y>190</y>
+      <w>100</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>lt=-
 m1=1
 m2=1</panel_attributes>
-    <additional_attributes>30;50;90;30</additional_attributes>
+    <additional_attributes>30;30;80;70</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>130</x>
-      <y>180</y>
+      <x>40</x>
+      <y>30</y>
+      <w>400</w>
+      <h>60</h>
+    </coordinates>
+    <panel_attributes>ServiceFactory
+--
+--
+getServiceImpl(name, variant, capability) : ServiceBean 
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>590</x>
+      <y>210</y>
+      <w>240</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>HelioServiceName
+--
+serviceName</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>450</x>
+      <y>200</y>
+      <w>160</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=-
+name
+m1=*
+m2=*</panel_attributes>
+    <additional_attributes>140;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>510</x>
+      <y>30</y>
       <w>340</w>
-      <h>170</h>
+      <h>130</h>
     </coordinates>
     <panel_attributes>RegistryClient
 --

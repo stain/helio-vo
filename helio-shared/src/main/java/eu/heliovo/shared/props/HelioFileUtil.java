@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -24,14 +25,28 @@ public class HelioFileUtil {
 	private final static Logger _LOGGER = Logger.getLogger(HelioFileUtil.class);
 	
 	/**
+	 * The id of the application. Will be appended to the helio directories.
+	 */
+	private final String appId;
+
+	/**
+	 * Create the helio file util.
+	 * @param appId the app id  to use, will be appended to the helio dir, thus it must contain only values acceptable in a path. 
+	 * must not be null.
+	 */
+	public HelioFileUtil(String appId) {
+        this.appId = appId;
+    }
+	
+	/**
 	 * Return the home directory of HELIO.
 	 * The directory will be created if not existing.
 	 * Points to ${user.home}/.helio/area
 	 * @param area the area directory.
 	 * @return the home dir.
 	 */
-	public static File getHelioHomeDir(String area) {
-		File homeDir = new File(System.getProperty("user.home"), ".helio" + File.separator + area);
+	public File getHelioHomeDir(String area) {
+		File homeDir = new File(System.getProperty("user.home"), ".helio_" + appId + File.separator + area);
 		if (!homeDir.exists() && !homeDir.mkdirs()) {
 			throw new RuntimeException("Unable to create home dir: " + homeDir);
 		}
@@ -45,8 +60,8 @@ public class HelioFileUtil {
 	 * @param area the area directory
 	 * @return the temp dir
 	 */
-	public static File getHelioTempDir(String area) {
-		File tempDir = new File(System.getProperty("java.io.tmpdir"), ".helio" + File.separator + area);
+	public File getHelioTempDir(String area) {
+		File tempDir = new File(System.getProperty("java.io.tmpdir"), ".helio_" + appId + File.separator + area);
 		if (!tempDir.exists() && !tempDir.mkdirs()) {
 			throw new RuntimeException("Unable to create temp dir: " + tempDir);
 		}
@@ -54,14 +69,14 @@ public class HelioFileUtil {
 	}
 	
 	/**
-	 * Get a file from a remote location of from the cache if remote fails. 
+	 * Get a file from a remote location or from the cache if remote fails. 
 	 * The cache will be updated automatically
 	 * @param cacheFileDir the directory in which to store the cached file
 	 * @param cacheFileName the name of the cached file
 	 * @param remoteURL the url of the file.
 	 * @return reference to the file in the cache.
 	 */
-	public static File getFileFromRemoteOrCache(String cacheFileDir, String cacheFileName, URL remoteURL) {
+	public URL getFileFromRemoteOrCache(String cacheFileDir, String cacheFileName, URL remoteURL) {
 		// create the cache dir
 		File cacheDir = getHelioTempDir(cacheFileDir);
 		File cacheFile = cacheDir == null ? null : new File(cacheDir, cacheFileName);
@@ -91,6 +106,10 @@ public class HelioFileUtil {
 		if (!cacheFile.exists()) {
 			return null;
 		}
-		return cacheFile;
-	}	
+		try {
+            return cacheFile.toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Unable to convert file path to URL: " + e.getMessage(), e);
+        }
+	}
 }

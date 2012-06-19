@@ -6,8 +6,9 @@ import eu.heliovo.registryclient.ServiceRegistryClient;
 /**
  * Factory to get the registry DAO
  * @author MarcoSoldati
- *
+ * @deprecated use spring to configure the registry client factory.
  */
+@Deprecated 
 public class ServiceRegistryClientFactory {
     /**
      * Key of the registry class.
@@ -20,10 +21,9 @@ public class ServiceRegistryClientFactory {
     private static final ServiceRegistryClientFactory instance = new ServiceRegistryClientFactory();
     
     /**
-     * The default DAO to use if none has been set.
+     * The default client to use if none has been set.
      */
     private final static Class<? extends ServiceRegistryClient> DEFAULT_REGISTRY_CLIENT = getServiceRegistryClientClass();
-    //private final static Class<? extends ServiceRegistryClient> DEFAULT_REGISTRY_DAO = LocalServiceRegistryClient.class;
     
     /**
      * Get the singleton instance of this factory
@@ -39,7 +39,7 @@ public class ServiceRegistryClientFactory {
      */
     private static Class<? extends ServiceRegistryClient> getServiceRegistryClientClass() {
         Class<? extends ServiceRegistryClient> registryClientClass = HelioRemoteServiceRegistryClient.class;
-        RegistryProperties props = RegistryProperties.getInstance();
+        RegistryProperties props = new RegistryProperties("deprecated");
         if (props.containsKey(REGISTRY_CLASS_KEY)) {
             String className = props.getProperty(REGISTRY_CLASS_KEY);
             try {

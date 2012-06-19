@@ -8,10 +8,8 @@ import eu.heliovo.registryclient.ServiceDescriptor;
  * Unit test for the {@link LocalHelioServiceRegistryClient}.
  */
 public class ConfigFileRegistryClientDemo {
-
-    
     public static void main(String[] args) {
-        ConfigFileServiceRegistryClient helioRegistry = new ConfigFileServiceRegistryClient();
+        ConfigFileServiceRegistryClient helioRegistry = new ConfigFileServiceRegistryClient("demo");
         helioRegistry.init();
         ServiceDescriptor[] serviceDescriptors = helioRegistry.getAllServiceDescriptors();
         for (ServiceDescriptor helioServiceDescriptor : serviceDescriptors) {
