@@ -9,15 +9,6 @@
   </head>
 
   <body>
-    <!-- Background Elements -->
-    <div id="page-background"></div>
-    
-    <!-- Navigation Bar -->
-    <div >
-      <!-- elements with tooltips -->
-      <g:render template="/misc/navbar" />
-    </div>
-
     <!-- Body Container -->
     <div id="container" >
       <g:render template="/misc/taskSelectionArea" />

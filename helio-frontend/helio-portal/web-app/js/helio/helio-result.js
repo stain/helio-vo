@@ -221,6 +221,11 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
     return dataTable;
 };
 
+/**
+ * initialise some selected custom columns
+ * @param dataTable the table object
+ * @param tableName name of the table
+ */
 helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName) {
     var THIS = this;
     // 1. the row selection listener

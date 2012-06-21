@@ -43,16 +43,20 @@ grails.views.gsp.sitemesh.preprocess = true
 
 grails.converters.json.default.deep = true
 
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
-        grails.serverURL = "https://helio.i4ds.technik.fhnw.ch"
+        helio.appId = 'helio'
+        grails.serverURL = "https://helio.i4ds.technik.fhnw.ch/${appName}"
     }
     development {
-        grails.serverURL = "http://localhost:8080/${appName}"
+        helio.appId = 'helio-dev'
+        grails.serverURL = "https://helio.i4ds.technik.fhnw.ch/${appName}"
         grails.converters.json.pretty.print = true
     }
     test {
+        helio.appId = 'helio-test'
         grails.serverURL = "http://localhost:8080/${appName}"
     }
 }

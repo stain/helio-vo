@@ -10,15 +10,14 @@
     </head>
     <body>
         <!-- Logo Elements -->
-        <div id="logo">
-          <table style="width: 100%;position:relative;top:-18px;">
-            <tr>
-              <td><img style="float:left;z-index:100;" src="${resource(dir:'images/background',file:'header_logo.png')}"   /></td>
-              <td align="center"><img style="z-index:100;" src="${resource(dir:'images/background',file:'header_text.png')}"   /></td>
-            <td><img style="position:relative;top:-1px;float:right;height: 120px" src="${resource(dir:'images/background',file:'glowlogo.png')}"  /></td>
-            </tr>
-          </table>
-        </div>
+        <div id="headerbar">
+          <div style="float:left; display: block; height: 89px;vertical-align: middle; "><a href="http://helio-vo.eu"><img style="top:-2px;vertical-align: middle; " src="${resource(dir:'images/background',file:'header_logo.png')}" /></a></div>
+          <div style="float:left; display: block; height: 89px;"><img src="${resource(dir:'images/background',file:'header_text.png')}" /></div>
+          <div style="float:right; display: block; height: 89px;vertical-align: middle;"><img style="height: 89px; top:-2px;vertical-align: middle; " src="${resource(dir:'images/background',file:'glowlogo.png')}" /></div>
+        </div><%-- 
+        
+        Navigation Bar 
+        --%><g:render template="/misc/navbar" />        
         <g:layoutBody />
     </body>
 </html>

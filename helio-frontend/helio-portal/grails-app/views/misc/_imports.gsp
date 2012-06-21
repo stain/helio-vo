@@ -12,7 +12,12 @@
 <g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some extra functions--%>
 
 <%--plugins--%>
-<g:javascript src="/plugins/jquery-ui-1.8.11.custom.min.js"/>
+<g:if env="prod">
+  <g:javascript src="/plugins/jquery-ui-1.8.21.custom.min.js"/>
+</g:if>
+<g:else>
+  <g:javascript src="/plugins/jquery-ui-1.8.21.custom.js"/>
+</g:else>
 <g:javascript src="/plugins/jquery-ui-timepicker-addon.js"/><%--Addon that expand the ui-datepicker into a time-datepicker --%>
 <g:javascript src="/plugins/jquery.tools.min.js"/> <%--Support libraries for jquery with capabilities extended for tabs and tooltips--%>
 <g:javascript src="/plugins/cookies.js"/> <%--support for cookies --%>

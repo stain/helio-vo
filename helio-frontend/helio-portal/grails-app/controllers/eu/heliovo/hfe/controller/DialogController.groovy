@@ -10,7 +10,11 @@ import eu.heliovo.registryclient.ServiceCapability
 import eu.heliovo.shared.util.DateUtil
 
 
-
+/**
+ * Controller for the Dialogs
+ * @author MarcoSoldati
+ *
+ */
 class DialogController {
     def taskDescriptorService
     

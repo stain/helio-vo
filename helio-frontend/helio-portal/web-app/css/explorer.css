@@ -26,9 +26,92 @@ img {
     border: 1px solid #C3C6CA;
     margin: 0 0 2em;
     padding: 10px 20px 20px;
-     border-radius: 5px 5px 5px 5px;
+    border-radius: 5px 5px 5px 5px;
     box-shadow: 0 1px 1px #DFDFDF;
     width: 300px;
+}
+
+
+/****************** Header bar ***********************/
+#headerbar{
+    background-image:url(../images/background/header_lines.png);
+    background-repeat:repeat-x;
+    z-index:-1;
+    width:100%;
+    height:89px;
+    overflow:hidden;
+}
+
+#headerbar table {
+    height: 89px;
+    max-height: 89px;
+}
+
+#headerbar img {
+    z-index:100;
+}
+
+#headerbar table tbody tr td {
+	padding: 0;
+}
+
+/****************** Menu bar ***********************/
+#menubar {
+    width:100%; 
+    margin: 0; 
+    overflow:hidden; 
+    background:url(../images/navbar/ulback_yellow.png) repeat-x;
+}
+
+#menu,#login {
+	padding: 0 20px;
+	margin: 0;
+	list-style: none;
+	height: 36px;
+	line-height:36px;
+}
+
+#menu {
+	float: left;
+}
+
+#login {
+	float: right;
+}
+
+#menu li,#login li {
+	font-weight: bold;
+	float: left;
+	margin: 0 4px;
+	padding: 0 6px;
+	cursor: pointer;
+	background:url(../images/navbar/button_yellow.png) no-repeat left top; 
+	line-height:36px;
+}
+
+#menu li a,#login li a {
+	height: 36px;
+	line-height: 36px;
+	padding: 0 15px 0 0;
+	color: #111177;
+	text-decoration: none;
+}
+
+
+#menu li:hover,#login li:hover {
+	background: url(../images/navbar/button_yellow.png) no-repeat right top;
+	line-height: 36px;
+	height: 36px;
+}
+
+#login li span#loginLink {
+	display: block;
+	height: 36px;
+	line-height: 36px;
+	padding: 0 0 0 10px;
+	color: #111177;
+	text-decoration: none;
+	cursor: pointer;
 }
 
 /****************** data tables **********************/

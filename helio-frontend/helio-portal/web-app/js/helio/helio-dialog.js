@@ -618,58 +618,45 @@ helio.TimeRangeDialog.prototype._dialogUrl = function() {
 helio.TimeRangeDialog.prototype._init = function() {
     var THIS = this;
     if (this.data) {
+        // clear current time ranges
         $("tr.input_time_range").filter(":not(:first)").remove();
+        
+        // readd
         for (var i = 0; i < this.data.timeRanges.length; i++) {
             var timeRange = this.data.timeRanges[i];
-            helio.TimeRangeDialog.__addTimeRange.apply(this, timeRange.timeAsString());
+            THIS.__addTimeRange.apply(THIS, timeRange.timeAsString());
         }
         $("#time_range_name").val(this.data.name);
-    } else { 
-        // init the time ranges defined on server side
+    } else {
+        // init the existing time range actions
         var timeRanges = $('.input_time_range');
         timeRanges.each(function() {
             var id = $(this).attr("id");
             var matcher = /^input_time_range_(\d+)$/.exec(id); 
             if (matcher) {
                 var index = matcher[1];
-                // enable datepicker
-                new helio.TimeRangeSelector('#minDate_' + index, '#maxDate_' + index);
-                // and remove button
-                $("#input_time_range_remove_" + index).button({
-                    'disabled' : timeRanges.length <= 2  // do not remove the last entry
-                }).click(helio.TimeRangeDialog.__removeTimeRange);
-                $("#input_time_range_inspect_" + index)
-                    .button()
-                    .click((function(index) {
-                        return function() {
-                            var timeRange = new helio.TimeRange(
-                                $('#minDate_' + index).val(), $('#maxDate_' + index).val()
-                            );
-                            var dialog = new helio.TimeRangeDetailsDialog(THIS.task, THIS.taskName, timeRange);
-                            dialog.show(function() {  // callback when the ok button is pressed
-                                $('#minDate_' + index).val(dialog.data.timeAsString()[0]);
-                                $('#maxDate_' + index).val(dialog.data.timeAsString()[1]);
-                            });
-                        };
-                    })(index)
-                );
+                THIS.__initTimeRange.call(THIS, index);
             }
         });
     }
-    $("#input_time_range_button").button();
-    $("#input_time_range_button").click(helio.TimeRangeDialog.__addTimeRange);
+    
+    // create the "add time range" button
+    $("#input_time_range_button").button()
+    .click(function() {THIS.__addTimeRange.call(THIS);});
+    
     if (this.message) {
         $("#timeRangeDialogMessage").html(this.message);
     } else {
         $("#timeRangeDialogMessage").remove();
     }
-    
 };
 
 /**
  * The action to be executed when the Ok button is pressed.
  */
 helio.TimeRangeDialog.prototype.__updateDataModel = function() {
+    var THIS = this;
+    
     //Validate date ranges and if error is found, notify the user and stop thread
     var flag = true;
     var timeRanges = $('.input_time_range');
@@ -680,7 +667,7 @@ helio.TimeRangeDialog.prototype.__updateDataModel = function() {
         var matcher = /^input_time_range_(\d+)$/.exec(id); 
         if (matcher) {
             var index = matcher[1];
-            if(!helio.TimeRangeDialog.__validateTimeRange(index)) {
+            if(!THIS.__validateTimeRange.call(THIS, index)) {
                 alert("Time Range " + id + " is not valid. Please check your input.");
                 flag= false;
             }
@@ -713,9 +700,9 @@ helio.TimeRangeDialog.prototype.__dialogConfig = function() {
 /**
  * Add a new timerange widget to the interface
  */
-helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/ endTime) {
+helio.TimeRangeDialog.prototype.__addTimeRange = function(/*String*/ startTime, /*String*/ endTime) {
 
-    // find the largest index
+    // find the highest used index
     var index = 0;
     var timeRanges = $('.input_time_range'); 
     timeRanges.each(function() {
@@ -729,12 +716,15 @@ helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/
     
     // create the time range (.html() only encodes the children of an element, thus the <div></div> section)
     var timeRange = $("<div></div>").append($('#input_time_range_tpl').clone()).html();
-
+    
     timeRange = timeRange.replace(/# tpl/, "# " + (timeRanges.size()));
     timeRange = timeRange.replace(/tpl/g, index);
 
     // add the time range
     $('#input_time_range_list').append(timeRange);
+
+    // and show it
+    $('#input_time_range_' + index).show(); 
     
     // set values, if any.
     if (startTime && typeof startTime === "string") {
@@ -744,30 +734,52 @@ helio.TimeRangeDialog.__addTimeRange = function(/*String*/ startTime, /*String*/
         $('#maxDate_' + index).val(endTime);
     }
     
+    // init the newly created time range
+    this.__initTimeRange.call(this, index);
+};
+
+/**
+ * Init a  time range
+ * @param index the index of the time range to init
+ */
+helio.TimeRangeDialog.prototype.__initTimeRange = function(/*int*/ index) {
+    var THIS = this;
+    
+    // enable datepicker
     new helio.TimeRangeSelector('#minDate_' + index, '#maxDate_' + index);
     
-    $('#input_time_range_' + index).show(); // unhide the new range.
-    $("#input_time_range_remove_" + index).button();
-    $("#input_time_range_remove_" + index).click(helio.TimeRangeDialog.__removeTimeRange);
+    // create the "remove button"
+    $("#input_time_range_remove_" + index).button()
+    .click(function() {THIS.__removeTimeRange.call(THIS, this, index);});
+    $("#input_time_range_inspect_" + index)
+    .button()
+    .click((function(index) {
+        return function() {
+            var timeRange = new helio.TimeRange(
+                    $('#minDate_' + index).val(), $('#maxDate_' + index).val()
+            );
+            var dialog = new helio.TimeRangeDetailsDialog(THIS.task, THIS.taskName, timeRange);
+            dialog.show(function() {  // callback when the ok button is pressed
+                $('#minDate_' + index).val(dialog.data.timeAsString()[0]);
+                $('#maxDate_' + index).val(dialog.data.timeAsString()[1]);
+            });
+        };
+    })(index)
+    );
     
-    // enable or disable time ranges.
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==1);
+    // disable/enable the delete buttons
+    var timeRanges = $('.input_time_range'); 
+    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);    
 };
-    
+
 /**
  * remove a time range entry.
  * $(this) refers to the pressed button
  */
-helio.TimeRangeDialog.__removeTimeRange = function() {
-    if ($(this).attr('disabled') =='disabled') {
+helio.TimeRangeDialog.prototype.__removeTimeRange = function(caller, index) {
+    if ($(caller).attr('disabled') =='disabled') {
         return;
     }
-    // get index to remove (read from id-suffix of pressed button)
-    var matcher = /^input_time_range_remove_(\d+)$/.exec(this.id);
-    if (!matcher) {
-        throw "Unable to find index of " + this.id;
-    }
-    var index = matcher[1];
     
     // remove timeRange
     $('#input_time_range_'+index).remove();
@@ -796,7 +808,7 @@ helio.TimeRangeDialog.__removeTimeRange = function() {
  * returns false if wrong date pair.
  * @index index corresponding to the date range pair (maxdate, mindate)
  */
-helio.TimeRangeDialog.__validateTimeRange = function(index) {
+helio.TimeRangeDialog.prototype.__validateTimeRange = function(index) {
     try{
         var timeRange = new helio.TimeRange($("#minDate_"+index).val(), $("#maxDate_"+index).val());
         return timeRange.isValid();
