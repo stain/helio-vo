@@ -45,7 +45,7 @@ public class IdlProviderMain {
     /**
      * Directory for where to place temporary files. Defaults to helioTempDir/idl_provider.
      */
-    private File tempDir = HelioFileUtil.getHelioTempDir("idl_provider");
+    private File tempDir = new HelioFileUtil("idl").getHelioTempDir("provider");
 
     /**
      * The webapp context path, Defaults to "/".
