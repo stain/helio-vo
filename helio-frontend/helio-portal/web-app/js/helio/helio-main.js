@@ -242,4 +242,12 @@ $(document).ready(function() {
     
 });
 
+jQuery(function(){
+	jQuery('ul.sf-menu').superfish({
+		speed:	'fast',
+		delay:	'600',
+		animation:	{opacity:'show'}
+	});
+});
+
 

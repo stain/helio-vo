@@ -59,8 +59,9 @@ img {
 #menubar {
     width:100%; 
     margin: 0; 
-    overflow:hidden; 
-    background:url(../images/navbar/ulback_yellow.png) repeat-x;
+    overflow: visible; 
+    background: url(../images/navbar/ulback_yellow.png) repeat-x;
+    height: 36px;
 }
 
 #menu,#login {
@@ -82,26 +83,65 @@ img {
 #menu li,#login li {
 	font-weight: bold;
 	float: left;
-	margin: 0 4px;
-	padding: 0 6px;
 	cursor: pointer;
-	background:url(../images/navbar/button_yellow.png) no-repeat left top; 
-	line-height:36px;
+	/*background:url(../images/navbar/button_yellow.png) no-repeat left top; */
+}
+
+#menu > li, #login > li {
+	border: 1px solid rgba(0,0,0,0.1);
+	border-style: none solid none none;
+}
+
+#menu > li:first-child, #login > li:first-child {
+	border: 1px solid rgba(0,0,0,0.1);
+	border-style: none solid;
+}
+
+#menu > li ul {
+	background: white;
+	border: 1px solid #E4A10C;
+	border-style: none solid solid solid;
+	border-radius: 0px 0px 5px 5px;
 }
 
 #menu li a,#login li a {
 	height: 36px;
-	line-height: 36px;
-	padding: 0 15px 0 0;
+	padding: 0 15px;
 	color: #111177;
 	text-decoration: none;
 }
 
 
-#menu li:hover,#login li:hover {
-	background: url(../images/navbar/button_yellow.png) no-repeat right top;
+#menu > li:hover,#login > li:hover {
+	/*background: url(../images/navbar/button_yellow.png) no-repeat right top;*/
+	background: rgba(255,255,255,0.3);
 	line-height: 36px;
 	height: 36px;
+}
+
+#menu > li li {
+	font-weight: normal;
+}
+
+#menu > li li:hover,#login > li li:hover {
+	background: rgba(228,161,12,0.1);
+}
+
+#menu > li li.separated {
+	/*background: rgba(228,161,12,0.2) !important;*/
+}
+
+#menu > li li.separated.first {
+	border-top: 1px dotted black;
+}
+
+#menu > li li.mega:not(.first) {
+	text-indent: 1em;
+	overflow: hidden;
+}
+
+#menu > li li.mega.first {
+	font-style: italic;
 }
 
 #login li span#loginLink {

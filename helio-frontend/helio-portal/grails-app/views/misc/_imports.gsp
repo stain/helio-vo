@@ -8,6 +8,7 @@
 
 <%-- new style css imports --%>
 <link rel="stylesheet" href="${resource(dir:'css',file:'explorer.css')}" />
+<link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
 
 <g:javascript library="jquery" plugin="jquery"/><%--The main jquery library is managed by grails, this is done to enable the wiring of some extra functions--%>
 
@@ -28,6 +29,7 @@
 <g:javascript src="/plugins/moment-1.4.0.min.js"/> <%-- a date parsing and formatting utility --%>
 <g:javascript src="/plugins/highcharts-2.2.3.min.js"/> <%-- a charting library --%>
 <g:javascript src="/plugins/highcharts-exporting-2.2.3.min.js"/> <%-- an extension for highcharts --%>
+<g:javascript src="/plugins/superfish-1.4.8.js"/> <%-- plugin to create a dropdown menu --%>
 
 <%-- HELIO java scripts --%>
 <g:javascript src="/helio/helio-main.js"/><%--basic initialization of the HELIO environment--%>
