@@ -125,7 +125,7 @@ helio.VOTableResult.prototype.init = function() {
                     var initName = '_' + tableName;
                     if (helio.VOTableResult.prototype[initName]) {
                         // call the function
-                        THIS[initName].call(THIS, table);                
+                        THIS[initName].call(THIS, table);
                     }
                 };
             } 
@@ -468,156 +468,80 @@ helio.VOTableResult.prototype._initTable_ICS = function(table) {
     // handle filtering
     $("#instrument_filter").tabs();
     
-    //function to filter out the data table based on what's being check in the checkboxes
     $("input:checkbox").change(function(){
-        // Photons
-        // obsEntityPhotons = super filter
-        // obsEntityPhotonsType = type filter
-        
-        // super filter clicked
-        if($(this).hasClass("obsEntityPhotons")) {
-            if(!$(this).attr("checked")) {
-                $(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
-            }
-            
-            var typesChecked = false;
-            // if any type is checked, uncheck it
-            $(".obsEntityPhotonsType").each(function(){
-                if($(this).attr("checked")) {
-                    $(this).attr("checked", false);
-                    typesChecked = true;
-                    THIS._filter.call(THIS, $(this), table);
+    	var checkboxColumn = $(this).attr("column");
+    	
+    	var filter_expression = "";
+    	
+    	var className = $(this).attr("class");
 
-                }
-            });
-            
-            // if no type is checked, check all
-            if(!typesChecked && $(this).attr("checked")) {
-                $(".obsEntityPhotonsType").each(function(){
-                    // only check visible checkboxes, otherwise they can't be reset again
-                    if ($(this).is(":visible")) {
-                        $(this).attr("checked", true);
-                        THIS._filter.call(THIS, $(this), table);
+    	// check or uncheck all subelements of photons, particles and fields and remove filters if necessary
+    	// subclasses always end with "Type"
+    	if (className != null && className.substring(0, 9) == "obsEntity" && className.substring(className.length - 4, className.length) != "Type") {
+    		var classNameType = "." + className + "Type";
+    		if ($(this).attr("checked")) {
+    			$(classNameType).each(function(){
+    				if ($(this).attr("checked")) {
+	    				table.fnFilter("", $(this).attr("column"), true);
+    				}
+    				$(this).attr("checked", true);
+    			});
+    		}
+    		else {
+    			$(classNameType).each(function(){
+    				if ($(this).attr("checked")) {
+	    				$(this).attr("checked", false);
+	    				table.fnFilter("", $(this).attr("column"), true);
+    				}
+    			});
+    		}
+    	}
+    	
+    	// check or uncheck all subelements of visible (helper attribute: "filterClass")
+//    	if ($(this).attr("filterClass") == "visible") {
+//    		if ($(this).attr("checked")) {
+//    			$('input[filterClass="visibleType"]').each(function() {
+//    				$(this).attr("checked", true);
+//    			});
+//    		}
+//    		else {
+//    			$('input[filterClass="visibleType"]').each(function() {
+//    				$(this).attr("checked", false);
+//    			});
+//    		}
+//    	}
+    	
+    	var checked = new Array();
+    	
+	    // filters the table
+	    $("input:checked").each(function(){
+		    	if ($(this).attr("name") != "instrumentType" && $(this).attr("name") != "true") {
+		    		checked.push($(this).attr("name"));
+		    	}
+		    	
+		        // create filter expression
+		        if($(this).attr("column") == checkboxColumn) {
+		        	if ($(this).attr("name") == "uv") {
+		        		// hack because EUV contains the word UV
+		        		filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(^UV)";
+		        	}
+		        	else {
+		        		filter_expression = (filter_expression == "" ? "" : (filter_expression + "|")) + "(" + $(this).attr("name") + ")";
+		        	}
+		        }
+	    });
 
-                    }
-                });
-            }
-        }
-        // type filter clicked
-        else if($(this).hasClass("obsEntityPhotonsType")) {
-            // check super filter
-            if($(this).attr("checked")) {
-                $(".obsEntityPhotons").attr("checked", true);
-                THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
-
-            }
-            // if no type filter is selected remove super filter
-            else {
-                var noTypeChecked = true;
-                // prove if no type filter is checked
-                $(".obsEntityPhotonsType").each(function(){
-                    if($(this).attr("checked")) {
-                        noTypeChecked = false;
-                    }
-                });
-                if (noTypeChecked) {
-                    $(".obsEntityPhotons").attr("checked", false);
-                    THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
-                }
-            }
-        }
-        
-        // Particles
-        if($(this).hasClass("obsEntityParticles")) {
-            if(!$(this).attr("checked")) {
-                $(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
-            }
-            
-            var typesChecked = false;
-            $(".obsEntityParticlesType").each(function(){
-                if($(this).attr("checked")) {
-                    $(this).attr("checked", false);
-                    typesChecked = true;
-                    THIS._filter.call(THIS, $(this), table);
-                }
-            });
-            
-            if(!typesChecked && $(this).attr("checked")) {
-                $(".obsEntityParticlesType").each(function(){
-                    if ($(this).is(":visible")) {
-                        $(this).attr("checked", true);
-                        THIS._filter.call(THIS, $(this), table);
-                    }
-                });
-            }
-        }
-        else if($(this).hasClass("obsEntityParticlesType")) {
-            if($(this).attr("checked")) {
-                $(".obsEntityParticles").attr("checked", true);
-                THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
-            }
-            else {
-                var noTypeChecked = true;
-                $(".obsEntityParticlesType").each(function(){
-                    if($(this).attr("checked")) {
-                        noTypeChecked = false;
-                    }
-                });
-                if (noTypeChecked) {
-                    $(".obsEntityParticles").attr("checked", false);
-                    THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
-                }
-            }
-        }
-
-        // Fields
-        if($(this).hasClass("obsEntityFields")) {
-            if(!$(this).attr("checked")) {
-                $(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
-            }
-            
-            var typesChecked = false;
-            $(".obsEntityFieldsType").each(function(){
-                if($(this).attr("checked")) {
-                    $(this).attr("checked", false);
-                    typesChecked = true;
-                    THIS._filter.call(THIS, $(this), table);
-                }
-            });
-            
-            if(!typesChecked && $(this).attr("checked")) {
-                $(".obsEntityFieldsType").each(function(){
-                    if ($(this).is(":visible")) {
-                        $(this).attr("checked", true);
-                        THIS._filter.call(THIS, $(this), table);
-                    }
-                });
-            }
-        }
-        else if($(this).hasClass("obsEntityFieldsType")) {
-            if($(this).attr("checked")) {
-                $(".obsEntityFields").attr("checked", true);
-                THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
-            }
-            else {
-                var noTypeChecked = true;
-                $(".obsEntityFieldsType").each(function(){
-                    if($(this).attr("checked")) {
-                        noTypeChecked = false;
-                    }
-                });
-                if (noTypeChecked) {
-                    $(".obsEntityFields").attr("checked", false);
-                    THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
-                }
-            }
-        }
-        
-        //console.log("change: " + $(this).attr("name") + $(this).attr("column"));
-         
-        THIS._filter.call(THIS, $(this), table);
+	    table.fnFilter(filter_expression, checkboxColumn, true);
+    	
+	    // filter text isn't good but at least it displays all set filters so you can see them in all tabs
+	    if (checked.length > 0) {
+	    	$(".filterInstrumentsText").text("Folowing filters are set: " + checked.join(", "));
+	    }
+	    else {
+	    	$(".filterInstrumentsText").text("All lists are shown.");
+	    }
     });
-
+    
     $("input:radio").change(function(){
         var checkboxColumn = $(this).attr("column");
         var filter_expression = "";
@@ -625,8 +549,154 @@ helio.VOTableResult.prototype._initTable_ICS = function(table) {
         table.fnFilter(filter_expression, checkboxColumn, true);
     });
     
-    $("#show_accessible").click();
+    //function to filter out the data table based on what's being check in the checkboxes
+//    $("input:checkbox").change(function(){
+//        // Photons
+//        // obsEntityPhotons = super filter
+//        // obsEntityPhotonsType = type filter
+//        
+//        // super filter clicked
+//        if($(this).hasClass("obsEntityPhotons")) {
+//            if(!$(this).attr("checked")) {
+//                $(".obsEntityPhotons").attr("checked", false); //uncheck hidden checkbox
+//            }
+//            
+//            var typesChecked = false;
+//            // if any type is checked, uncheck it
+//            $(".obsEntityPhotonsType").each(function(){
+//                if($(this).attr("checked")) {
+//                    $(this).attr("checked", false);
+//                    typesChecked = true;
+//                    THIS._filter.call(THIS, $(this), table);
+//                }
+//            });
+//            
+//            // if no type is checked, check all
+//            if(!typesChecked && $(this).attr("checked")) {
+//                $(".obsEntityPhotonsType").each(function(){
+//                    // only check visible checkboxes, otherwise they can't be reset again
+//                    if ($(this).is(":visible")) {
+//                        $(this).attr("checked", true);
+//                        THIS._filter.call(THIS, $(this), table);
+//                    }
+//                });
+//            }
+//        }
+//        // type filter clicked
+//        else if($(this).hasClass("obsEntityPhotonsType")) {
+//            // check super filter
+//            if($(this).attr("checked")) {
+//                $(".obsEntityPhotons").attr("checked", true);
+//                THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+//            }
+//            // if no type filter is selected remove super filter
+//            else {
+//                var noTypeChecked = true;
+//                // prove if no type filter is checked
+//                $(".obsEntityPhotonsType").each(function(){
+//                    if($(this).attr("checked")) {
+//                        noTypeChecked = false;
+//                    }
+//                });
+//                if (noTypeChecked) {
+//                    $(".obsEntityPhotons").attr("checked", false);
+//                    THIS._filter.call(THIS, $($(".obsEntityPhotons").get(-1)), table);
+//                }
+//            }
+//        }
+//        
+//        // Particles
+//        if($(this).hasClass("obsEntityParticles")) {
+//            if(!$(this).attr("checked")) {
+//                $(".obsEntityParticles").attr("checked", false); //uncheck hidden checkbox
+//            }
+//            
+//            var typesChecked = false;
+//            $(".obsEntityParticlesType").each(function(){
+//                if($(this).attr("checked")) {
+//                    $(this).attr("checked", false);
+//                    typesChecked = true;
+//                    THIS._filter.call(THIS, $(this), table);
+//                }
+//            });
+//            
+//            if(!typesChecked && $(this).attr("checked")) {
+//                $(".obsEntityParticlesType").each(function(){
+//                    if ($(this).is(":visible")) {
+//                        $(this).attr("checked", true);
+//                        THIS._filter.call(THIS, $(this), table);
+//                    }
+//                });
+//            }
+//        }
+//        else if($(this).hasClass("obsEntityParticlesType")) {
+//            if($(this).attr("checked")) {
+//                $(".obsEntityParticles").attr("checked", true);
+//                THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+//            }
+//            else {
+//                var noTypeChecked = true;
+//                $(".obsEntityParticlesType").each(function(){
+//                    if($(this).attr("checked")) {
+//                        noTypeChecked = false;
+//                    }
+//                });
+//                if (noTypeChecked) {
+//                    $(".obsEntityParticles").attr("checked", false);
+//                    THIS._filter.call(THIS, $($(".obsEntityParticles").get(-1)), table);
+//                }
+//            }
+//        }
+//
+//        // Fields
+//        if($(this).hasClass("obsEntityFields")) {
+//            if(!$(this).attr("checked")) {
+//                $(".obsEntityFields").attr("checked", false); //uncheck hidden checkbox
+//            }
+//            
+//            var typesChecked = false;
+//            $(".obsEntityFieldsType").each(function(){
+//                if($(this).attr("checked")) {
+//                    $(this).attr("checked", false);
+//                    typesChecked = true;
+//                    THIS._filter.call(THIS, $(this), table);
+//                }
+//            });
+//            
+//            if(!typesChecked && $(this).attr("checked")) {
+//                $(".obsEntityFieldsType").each(function(){
+//                    if ($(this).is(":visible")) {
+//                        $(this).attr("checked", true);
+//                        THIS._filter.call(THIS, $(this), table);
+//                    }
+//                });
+//            }
+//        }
+//        else if($(this).hasClass("obsEntityFieldsType")) {
+//            if($(this).attr("checked")) {
+//                $(".obsEntityFields").attr("checked", true);
+//                THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+//            }
+//            else {
+//                var noTypeChecked = true;
+//                $(".obsEntityFieldsType").each(function(){
+//                    if($(this).attr("checked")) {
+//                        noTypeChecked = false;
+//                    }
+//                });
+//                if (noTypeChecked) {
+//                    $(".obsEntityFields").attr("checked", false);
+//                    THIS._filter.call(THIS, $($(".obsEntityFields").get(-1)), table);
+//                }
+//            }
+//        }
+//        
+//        //console.log("change: " + $(this).attr("name") + $(this).attr("column"));
+//         
+//        //THIS._filter.call(THIS, $(this), table);
+//    });
 
+    $("#show_accessible").click();
 };
 
 helio.VOTableResult.prototype._initTable_ICS_initRow = function(nRow, aData, iDataIndex) {
@@ -659,13 +729,13 @@ helio.VOTableResult.prototype._initTable_ILS = function(table) {
     
     // handle filtering
     $("#instrument_filter").tabs();
-    
+
     //function to filter out the data table based on what's being check in the checkboxes
     $("input:checkbox").change(function(){
         // Photons
         // obsEntityPhotons = super filter
         // obsEntityPhotonsType = type filter
-        
+    	
         // super filter clicked
         if($(this).hasClass("obsEntityPhotons")) {
             if(!$(this).attr("checked")) {
@@ -806,7 +876,7 @@ helio.VOTableResult.prototype._initTable_ILS = function(table) {
         }
         
         //console.log("change: " + $(this).attr("name") + $(this).attr("column"));
-         
+        
         THIS._filter.call(THIS, $(this), table);
     });
 
@@ -823,6 +893,7 @@ helio.VOTableResult.prototype._initTable_ILS = function(table) {
 
 
 helio.VOTableResult.prototype._filter = function(checkbox, table) {
+	debugger;
     $(".filterInstrumentsText").hide();
     
     var checkboxColumn = checkbox.attr("column");

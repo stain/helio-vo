@@ -178,20 +178,10 @@
               UV
             </td>
             <td>
-              <input class="obsEntityPhotonsType" column="11" name="visible" type="checkbox">
+              <input class="obsEntityPhotonsType" filterClass="visible" column="11" name="visible" type="checkbox">
               visible
             </td>
-            
-          </tr>
-          <tr>            
-            <td>
-              <input class="" column="15" name="H-alpha" type="checkbox">
-              H-alpha
-            </td>
-            <td>
-              <input class="" column="15" name="He10830" type="checkbox">
-              He 10830
-            </td>
+            <td></td>
             <td>
               <input class="obsEntityPhotonsType" column="11" name="microwave" type="checkbox">
               &mu;-wave
@@ -200,6 +190,24 @@
               <input class="obsEntityPhotonsType" column="11" name="radio" type="checkbox">
               radio
             </td>
+          </tr>
+          
+          <tr>
+          <!-- Disabled because of technical filter problem
+          	<td></td>
+          	<td></td>
+          	<td></td>
+          	<td></td>
+          	<td></td>
+            <td>
+              <input class="obsEntityPhotonsType" filterClass="visibleType" column="15" name="H-alpha" type="checkbox">
+              H-alpha
+            </td>
+            <td>
+              <input class="obsEntityPhotonsType" filterClass="visibleType" column="15" name="He10830" type="checkbox">
+              He 10830
+            </td>
+            -->
           </tr>
           <tr>
             <td width="80">
@@ -222,10 +230,12 @@
               <input class="obsEntityParticlesType" column="11" name="dust" type="checkbox">
               Dust
             </td>
+            <!-- Disabled because of technical filter problem
             <td>        
-              <input class="" column="15" name="cosmic-ray" type="checkbox">
+              <input class="obsEntityParticlesType" column="15" name="cosmic-ray" type="checkbox">
               Cosmic-ray
             </td>
+            -->
           </tr>
           <tr>
             <td width="80">
@@ -305,7 +315,7 @@
           </tr>
         </table>
       </div>
-  <div style="height: 20px;"><span class="filterInstrumentsText">This will be a filter text.</span></div>
+  <div style="height: 20px;"><span class="filterInstrumentsText"></span></div>
 </div>
 <input id="show_accessible" column="17" name="true" type="checkbox" />
 Show accessible instruments only ('Note: Instruments in <span style="color:red">red</span> cannot be accessed through HELIO')

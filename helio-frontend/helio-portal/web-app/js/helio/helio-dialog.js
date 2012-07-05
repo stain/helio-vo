@@ -978,6 +978,8 @@ helio.EventListDialog.prototype._init = function() {
     
     // 2. enable filters
     $(".checkFilter").change(function(){
+    	// remove "never appearing filter text"
+    	table.fnFilter("", 1, true);
         // uncheck "Show all" checkbox
         $("#checkAll").removeAttr("checked");
         
@@ -1058,7 +1060,8 @@ helio.EventListDialog.prototype._init = function() {
     $("#checkAll").change(function(){
         $("#filterText").hide();
         if ($(this).attr("checked")) {
-            table.fnFilter("", 15, true);
+        	// remove "never appearing filter text"
+            table.fnFilter("", 1, true);
             $(".checkFilter").each(function(){
                 // uncheck all filter checkboxes
                 $(this).removeAttr("checked");
@@ -1070,7 +1073,7 @@ helio.EventListDialog.prototype._init = function() {
             $("#filterText").html("All flare lists are shown.");
         }
         else {
-            table.fnFilter("never appearing filter text", 15, true);
+            table.fnFilter("never appearing filter text", 1, true);
             $("#filterText").html("No flare lists are shown.");
         }
         $("#filterText").delay(500).fadeIn();
@@ -1119,10 +1122,10 @@ helio.EventListDialog.prototype._init = function() {
     this._updateSelection(table);
 
     // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
-    setTimeout(function() {
-        $('#checkAll').click();
-        $('#checkAll').click();
-    }, 10);
+//    setTimeout(function() {
+//        $('#checkAll').click();
+//        $('#checkAll').click();
+//    }, 10);
 };
 
 /**
