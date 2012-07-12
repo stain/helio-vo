@@ -164,7 +164,7 @@ public class HelioServiceName implements Iterable<HelioServiceName> {
 	 * Find a service by its name (e.g. HEC, HFC, ...)
 	 * 
 	 * @param serviceName
-	 * @return Enumerated name.
+	 * @return Enumerated name or null if not found.
 	 */
 	public static HelioServiceName valueOf(String serviceName) {
 		AssertUtil.assertArgumentHasText(serviceName, "serviceName");
