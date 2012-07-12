@@ -1,4 +1,4 @@
-package model;
+package eu.heliovo.idlclient.model;
 
 public class IdlClass {
 	

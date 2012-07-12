@@ -12,9 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.IdlName;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
+
+import eu.heliovo.idlclient.model.IdlName;
 
 /**
  * Utility to convert
@@ -64,7 +65,7 @@ public class IdlObjConverter {
 	 * @param bean for serialize to idl struct. Null is not allowed.
 	 * @return serialized string with idl syntax for struct.
 	 */
-	public String idlserialize(Object bean)
+	public String idlSerialize(Object bean)
 	{
 		StringBuilder out = new StringBuilder();
 		StringBuilder _define = new StringBuilder();

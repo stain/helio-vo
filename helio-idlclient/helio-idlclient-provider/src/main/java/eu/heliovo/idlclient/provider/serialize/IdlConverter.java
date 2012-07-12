@@ -11,9 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import model.IdlName;
 
 import org.apache.commons.beanutils.PropertyUtilsBean;
+
+import eu.heliovo.idlclient.model.IdlName;
 
 /**
  * Utility to convert

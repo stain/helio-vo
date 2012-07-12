@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import model.IdlHelioQueryResult;
-import model.IdlLogRecord;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -21,6 +19,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import eu.heliovo.clientapi.HelioClient;
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.query.syncquery.SyncQueryService;
+import eu.heliovo.idlclient.model.IdlHelioQueryResult;
+import eu.heliovo.idlclient.model.IdlLogRecord;
 import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
 import eu.heliovo.registryclient.HelioServiceName;
 import eu.heliovo.registryclient.ServiceCapability;
@@ -94,7 +94,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
 			if(result != null)
 			{
-				String out = idl.idlserialize(result);
+				String out = idl.idlSerialize(result);
 
 				PrintWriter writer = response.getWriter();
 		        response.setContentType("text/plain");
@@ -103,7 +103,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 		    _LOGGER.warn("Exception while processing request: " + e.getMessage(), e);
-		    String out = idl.idlserialize(e);
+		    String out = idl.idlSerialize(e);
             //response.sendError(200, out);
 		    PrintWriter writer = response.getWriter();
 	        response.setContentType("text/plain");

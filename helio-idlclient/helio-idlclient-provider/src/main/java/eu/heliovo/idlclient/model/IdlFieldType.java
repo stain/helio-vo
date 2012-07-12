@@ -1,4 +1,4 @@
-package model;
+package eu.heliovo.idlclient.model;
 
 import eu.heliovo.clientapi.model.field.FieldType;
 

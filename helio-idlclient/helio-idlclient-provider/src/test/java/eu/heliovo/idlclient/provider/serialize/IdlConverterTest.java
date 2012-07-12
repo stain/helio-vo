@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import model.IdlHelioQueryResult;
-import model.IdlName;
 import net.ivoa.xml.votable.v1.VOTABLE;
 
 import org.junit.BeforeClass;
@@ -21,6 +19,8 @@ import org.junit.Test;
 
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.workerservice.JobExecutionException;
+import eu.heliovo.idlclient.model.IdlHelioQueryResult;
+import eu.heliovo.idlclient.model.IdlName;
 import eu.heliovo.shared.util.FileUtil;
 
 public class IdlConverterTest {

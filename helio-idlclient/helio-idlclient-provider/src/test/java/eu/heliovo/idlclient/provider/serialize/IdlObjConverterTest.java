@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
-import model.IdlHelioQueryResult;
 import net.ivoa.xml.votable.v1.VOTABLE;
 
 import org.junit.BeforeClass;
@@ -18,6 +17,7 @@ import org.junit.Test;
 
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.workerservice.JobExecutionException;
+import eu.heliovo.idlclient.model.IdlHelioQueryResult;
 
 public class IdlObjConverterTest {
 	
@@ -29,44 +29,44 @@ public class IdlObjConverterTest {
 
 	@Test public void testSerializeNull() {
 		
-		String ser = idl.idlserialize(null);
+		String ser = idl.idlSerialize(null);
 		assertEquals("function HELIOIDLAPI\nreturn, PTR_NEW()\nend", ser);
 	}
 	
 	@Test public void testSerializeString() {
 		
-		String ser = idl.idlserialize("Hello World");
+		String ser = idl.idlSerialize("Hello World");
 		assertEquals("function HELIOIDLAPI\nreturn, 'Hello World'\nend", ser);
 	}
 	
 	@Test public void testSerializeInt() {
 		
-		String ser = idl.idlserialize(5);
+		String ser = idl.idlSerialize(5);
 		assertEquals("function HELIOIDLAPI\nreturn, 5\nend", ser);
 	}
 	
 	@Test public void testSerializeFloat() {
 		
-		String ser = idl.idlserialize(4.22f);
+		String ser = idl.idlSerialize(4.22f);
 		assertEquals("function HELIOIDLAPI\nreturn, 4.22\nend", ser);
 	}
 	
 	@Test public void testSerializeDouble() {
 		
-		String ser = idl.idlserialize(8.123);
+		String ser = idl.idlSerialize(8.123);
 		assertEquals("function HELIOIDLAPI\nreturn, 8.123\nend", ser);
 	}
 	
 	@Test public void testSerializeStringArray() {
 		
-		String ser = idl.idlserialize(new String[]{"Hello", "World"});
+		String ser = idl.idlSerialize(new String[]{"Hello", "World"});
 		assertEquals("function HELIOIDLAPI\nreturn, [ 'Hello', 'World' ]\nend", ser);
 	}
 	
 	@Test public void testSerializeNullBean() {
 		Object bean = new NullBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function NullBean::init, null\nreturn_value = self->heliovo_framework::INIT()\nself.null = null\nreturn, 1\nend\n\n" +
 				"pro NullBean__define\nself = { NullBean, null : PTR_NEW(), inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('NullBean', PTR_NEW())\nend", ser);
@@ -81,7 +81,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeStringBean() {
 		Object bean = new StringBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function StringBean::init, name\nreturn_value = self->heliovo_framework::INIT()\nself.name = name\nreturn, 1\nend\n\n" +
 				"pro StringBean__define\nself = { StringBean, name : '', inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('StringBean', 'hello world')\nend", ser);
@@ -97,7 +97,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeIntBean() {
 		Object bean = new IntBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function IntBean::init, int\nreturn_value = self->heliovo_framework::INIT()\nself.int = int\nreturn, 1\nend\n\n" +
 				"pro IntBean__define\nself = { IntBean, int : 0L, inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('IntBean', 5)\nend", ser);
@@ -113,7 +113,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeFloatBean() {
 		Object bean = new FloatBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function FloatBean::init, float\nreturn_value = self->heliovo_framework::INIT()\nself.float = float\nreturn, 1\nend\n\n" +
 				"pro FloatBean__define\nself = { FloatBean, float : 0., inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('FloatBean', 1.5)\nend", ser);
@@ -129,7 +129,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeDoubleBean() {
 		Object bean = new DoubleBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function DoubleBean::init, double\nreturn_value = self->heliovo_framework::INIT()\nself.double = double\nreturn, 1\nend\n\n" +
 				"pro DoubleBean__define\nself = { DoubleBean, double : 0D, inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('DoubleBean', 6.22)\nend", ser);
@@ -145,7 +145,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeStringArrayBean() {
 		Object bean = new StringArrayBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function StringArrayBean::init, stringArray\nreturn_value = self->heliovo_framework::INIT()\nself.stringArray = stringArray\nreturn, 1\nend\n\n" +
 				"pro StringArrayBean__define\nself = { StringArrayBean, stringArray : ptr_new(), inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('StringArrayBean', ptr_new([ 'Hello', 'World' ]))\nend", ser);
@@ -161,7 +161,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeIntArrayBean() {
 		Object bean = new IntArrayBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function IntArrayBean::init, intArray\nreturn_value = self->heliovo_framework::INIT()\nself.intArray = intArray\nreturn, 1\nend\n\n" +
 				"pro IntArrayBean__define\nself = { IntArrayBean, intArray : ptr_new(), inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('IntArrayBean', ptr_new([ 3, 45 ]))\nend", ser);
@@ -176,7 +176,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeFloatArrayBean() {
 		Object bean = new FloatArrayBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function FloatArrayBean::init, floatArray\nreturn_value = self->heliovo_framework::INIT()\nself.floatArray = floatArray\nreturn, 1\nend\n\n" +
 				"pro FloatArrayBean__define\nself = { FloatArrayBean, floatArray : ptr_new(), inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('FloatArrayBean', ptr_new([ 1.5, 1.2 ]))\nend", ser);
@@ -191,7 +191,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeDoubleArrayBean() {
 		Object bean = new DoubleArrayBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function DoubleArrayBean::init, doubleArray\nreturn_value = self->heliovo_framework::INIT()\nself.doubleArray = doubleArray\nreturn, 1\nend\n\n" +
 				"pro DoubleArrayBean__define\nself = { DoubleArrayBean, doubleArray : ptr_new(), inherits heliovo_framework }\nend\n\n" +
 				"function HELIOIDLAPI\nreturn, obj_new('DoubleArrayBean', ptr_new([ 1.5, 1.2 ]))\nend", ser);
@@ -206,7 +206,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeObjectArrayBean() {
 		Object bean = new ObjectArrayBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function NullBean::init, null\nreturn_value = self->heliovo_framework::INIT()\nself.null = null\nreturn, 1\nend\n\n" +
 				"pro NullBean__define\nself = { NullBean, null : PTR_NEW(), inherits heliovo_framework }\nend\n\n" +
 				"function StringBean::init, name\nreturn_value = self->heliovo_framework::INIT()\nself.name = name\nreturn, 1\nend\n\n" +
@@ -231,7 +231,7 @@ public class IdlObjConverterTest {
 	@Test public void testSerializeCollectionBean() {
 		Object bean = new CollectionBean();
 		
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 		assertEquals("function NullBean::init, null\nreturn_value = self->heliovo_framework::INIT()\nself.null = null\nreturn, 1\nend\n\n" +
 				"pro NullBean__define\nself = { NullBean, null : PTR_NEW(), inherits heliovo_framework }\nend\n\n" +
 				"function StringBean::init, name\nreturn_value = self->heliovo_framework::INIT()\nself.name = name\nreturn, 1\nend\n\n" +
@@ -318,6 +318,6 @@ public class IdlObjConverterTest {
 				return null;
 			}
 		};
-		String ser = idl.idlserialize(bean);
+		String ser = idl.idlSerialize(bean);
 	}
 }

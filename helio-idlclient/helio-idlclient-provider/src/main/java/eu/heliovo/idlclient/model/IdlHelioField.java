@@ -1,9 +1,12 @@
-package model;
+package eu.heliovo.idlclient.model;
 
-import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
 
-
+/**
+ * Wrapper for a HELIO field that ought to be converted to IDL
+ * @author MarcoSoldati
+ *
+ */
 public class IdlHelioField {
 	
 	private HelioField<Object> helioField;
@@ -13,13 +16,8 @@ public class IdlHelioField {
 		this.helioField = helioField;
 	}
 	
-	/*public String getLabel()
-	{
-		return helioField.getLabel();
-	}*/
-	
 	@IdlName
-	public String Name()
+	public String name()
 	{
 		return "HelioField";
 	}

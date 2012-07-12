@@ -4,34 +4,38 @@
 
 <web-app>
   <display-name>IDL client service provider</display-name>
+  <listener>
+    <listener-class>eu.heliovo.idlclient.servlet.IdlClientStartupListener</listener-class>
+  </listener>
+  
   <servlet>
-  	<servlet-name>AsyncQueryServiceServlet</servlet-name>
-  	<display-name>AsyncQueryServiceServlet</display-name>
-  	<description></description>
-  	<servlet-class>eu.heliovo.idlclient.provider.servlet.AsyncQueryServiceServlet</servlet-class>
+    <servlet-name>AsyncQueryServiceServlet</servlet-name>
+    <display-name>AsyncQueryServiceServlet</display-name>
+    <description></description>
+    <servlet-class>eu.heliovo.idlclient.provider.servlet.AsyncQueryServiceServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>StaticCatalogRegistryServlet</servlet-name>
-  	<display-name>StaticCatalogRegistryServlet</display-name>
-  	<description></description>
-  	<servlet-class>eu.heliovo.idlclient.provider.servlet.StaticCatalogRegistryServlet</servlet-class>
+    <servlet-name>StaticCatalogRegistryServlet</servlet-name>
+    <display-name>StaticCatalogRegistryServlet</display-name>
+    <description></description>
+    <servlet-class>eu.heliovo.idlclient.provider.servlet.StaticCatalogRegistryServlet</servlet-class>
   </servlet>
   <servlet>
-  	<servlet-name>HelioServiceNameServlet</servlet-name>
-  	<display-name>HelioServiceNameServlet</display-name>
-  	<description></description>
-  	<servlet-class>eu.heliovo.idlclient.provider.servlet.HelioServiceNameServlet</servlet-class>
+    <servlet-name>HelioServiceNameServlet</servlet-name>
+    <display-name>HelioServiceNameServlet</display-name>
+    <description></description>
+    <servlet-class>eu.heliovo.idlclient.provider.servlet.HelioServiceNameServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-  	<servlet-name>AsyncQueryServiceServlet</servlet-name>
-  	<url-pattern>/AsyncQueryServiceServlet</url-pattern>
+    <servlet-name>AsyncQueryServiceServlet</servlet-name>
+    <url-pattern>/AsyncQueryServiceServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>StaticCatalogRegistryServlet</servlet-name>
-  	<url-pattern>/StaticCatalogRegistryServlet</url-pattern>
+    <servlet-name>StaticCatalogRegistryServlet</servlet-name>
+    <url-pattern>/StaticCatalogRegistryServlet</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-  	<servlet-name>HelioServiceNameServlet</servlet-name>
-  	<url-pattern>/HelioServiceNameServlet</url-pattern>
+    <servlet-name>HelioServiceNameServlet</servlet-name>
+    <url-pattern>/HelioServiceNameServlet</url-pattern>
   </servlet-mapping>
 </web-app>
