@@ -11,7 +11,8 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.springframework.security.core.codec.Base64;
+import org.springframework.security.crypto.codec.Base64;
+
 
 public class SecurityUtilities 
 {
