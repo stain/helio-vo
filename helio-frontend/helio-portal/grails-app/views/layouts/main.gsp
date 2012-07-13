@@ -24,10 +24,10 @@
 		</div>
 		<div>
 			<div id="headerbar-header-logo">
-				<a href="http://helio-vo.eu"><img src="${resource(dir:'images/background',file:'header_logo.png')}" /></a>
+				<a href="http://helio-vo.eu" target="_blank"><img src="${resource(dir:'images/background',file:'header_logo.png')}" /></a>
 			</div>
 			<div id="headerbar-glowlogo">
-				<img src="${resource(dir:'images/background',file:'glowlogo.png')}" />
+				<a href="http://ec.europa.eu/research/fp7/index_en.cfm?pg=capacities" target="_blank"><img src="${resource(dir:'images/background',file:'glowlogo.png')}" /></a>
 			</div>
 		</div>
 	</div>
