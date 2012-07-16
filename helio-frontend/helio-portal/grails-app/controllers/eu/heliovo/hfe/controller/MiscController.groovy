@@ -20,4 +20,12 @@ class MiscController {
     def changelog = {
             render (template: "/misc/changelog", model: []);
     }
+    
+    /**
+     * Show the changelog.
+     */
+    def help = {
+            render (view: "/misc/help", model: []);
+    }
+
 }
