@@ -202,6 +202,11 @@ img {
 	cursor: pointer;
 }
 
+span.external {
+    background: url(../images/externalLink.png) center right no-repeat;
+    padding-right: 17px;
+}
+
 /****************** data tables **********************/
 /**
  * select a row in a table

@@ -31,21 +31,6 @@ class DataCartController {
         // create cart if required
         if (dataCart == null) {
             dataCart = new DataCart()
-            def timeRanges = new TimeRangeParam(taskName: "eventlist", name : "X10+ flares")
-            timeRanges.addTimeRange(DateUtil.fromIsoDate("2001-04-15T13:19:00"), DateUtil.fromIsoDate("2001-04-15T13:55:00"))
-            timeRanges.addTimeRange(DateUtil.fromIsoDate("2003-10-28T09:51:00"), DateUtil.fromIsoDate("2003-10-28T11:24:00"))
-            timeRanges.addTimeRange(DateUtil.fromIsoDate("2003-10-29T20:37:00"), DateUtil.fromIsoDate("2003-10-29T21:01:00"))
-            timeRanges.addTimeRange(DateUtil.fromIsoDate("2005-09-07T17:17:00"), DateUtil.fromIsoDate("2005-09-07T18:03:00"))            
-            if (!timeRanges.validate()) {
-                throw new ValidationException("Failed to validate time ranges", timeRanges.errors);
-            }
-            dataCart.addToCartItems(timeRanges)
-
-            if (!dataCart.validate()) {
-                dataCart.errors.each {println it}
-                throw new ValidationException ("Unable to validate dataCart", dataCart.errors)
-            }
-
             dataCart.save(flush: true)
         }
         render dataCart as JSON

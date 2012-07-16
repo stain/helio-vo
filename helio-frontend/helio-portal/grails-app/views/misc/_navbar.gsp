@@ -3,9 +3,8 @@
     <li>
     	<a>Home</a>
     	<ul style="width: 13em;">
-    		<li><a id="misc_splash">Home Page</a></li>
+    		<li><a id="misc_splash">Entry Page</a></li>
     		<li><a id="misc_changelog">Changelog</a></li>
-    		<li class="separated"><a id="misc_help">Help</a></li>
     	</ul>
     </li>
     <li>
@@ -50,10 +49,15 @@
     <li>
     	<a>Links</a>
     	<ul>
-    		<li><a href="http://helio-vo.eu" target="_blank">Helio Main page</a></li>
-    		<li><a href="http://hec.ts.astro.it/hec/hec_gui.php" target="_blank">Helio Event Catalogue</a></li>
-    		<li><a href="http://voparis-helio.obspm.fr/hfc-gui/" target="_blank">Helio Feature Catalogue</a></li>
+    		<li><a href="http://helio-vo.eu" target="_blank"><span class="external">Helio Main page</span></a></li>
+    		<li><a href="http://hec.ts.astro.it/hec/hec_gui.php" target="_blank"><span class="external">Helio Event Catalogue</span></a></li>
+    		<li><a href="http://voparis-helio.obspm.fr/hfc-gui/" target="_blank"><span class="external">Helio Feature Catalogue</span></a></li>
     	</ul>
+    </li>
+    <li><a>Help</a>
+      <ul style="width: 6em;">
+        <li><a id="misc_help">Help</a></li>
+      </ul>
     </li>
   </ul>
   <g:if env="development">

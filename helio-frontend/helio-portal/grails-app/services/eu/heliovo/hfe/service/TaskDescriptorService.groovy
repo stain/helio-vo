@@ -287,7 +287,7 @@ class TaskDescriptorService implements InitializingBean {
              "paramSet" : [
                "plotType" : [label: "Plot type", description : "Choose the kind of GOES data to plot", 
                             type : eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType, 
-                            defaultValue : eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType.BOTH]]
+                            defaultValue : eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType.PROTON]]
             ],
             "outputParams" : [
               "url" : [id : "url", label: "GOES Plot", type : "url" ],

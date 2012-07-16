@@ -131,31 +131,10 @@ $(document).ready(function() {
             "taskConstructor" : function(taskName) { return new helio.DesTask(taskName); }
         },
     };
-
-    $('#misc_splash').click(function() {
-        $('#content').empty().load('misc/splash', function() {
-            // init splash buttons
-        });
-    });
-
-    $('#misc_changelog').click(function() {
-        $('#content').empty().load('misc/changelog');
-    });
     
-    $('#misc_help').click(function() {
-        // open help in new window
-    	var fenster = window.open("misc/help");
-    	function CheckOpen () {
-    	  if (fenster.open == true) {
-    		  fenster.focus();
-    	  };
-    	}
-    	
-    });
-
-    
-    var attachClickHandler = function(taskName, config) {
-        $("#task_"+taskName).click(function() {
+    // a generic click handler for most buttons and menu entries
+    var attachClickHandler = function(buttonSelector, taskName, config) {
+        $(buttonSelector).click(function() {
             $('#content').empty().load('./task/load?taskName=' + taskName, function() {
                 var task = helio.taskMap.findByName(taskName);
                 if (!task) {
@@ -167,28 +146,55 @@ $(document).ready(function() {
             });
         });
     };
+    
+    var initSplashButtons = function() {
+        attachClickHandler('#entry_screen_eventlist', 'eventlist', menuConfig['task_eventlist']);
+        attachClickHandler('#entry_screen_dataaccess', 'dataaccess', menuConfig['task_dataaccess']);
+        $('#entry_screen_featurelist').click(function() { alert('Searching for features is not yet active.');});
+    };
 
+    $('#misc_splash').click(function() {
+        $('#content').empty().load('misc/splash', function() {
+            // init splash buttons
+            initSplashButtons();
+            $('ul.sf-menu').hideSuperfishUl();
+        });
+    });
+    initSplashButtons();
+
+    $('#misc_changelog').click(function() {
+        $('#content').empty().load('misc/changelog');
+        $('ul.sf-menu').hideSuperfishUl();
+    });
+    
+    var helpWindow = null;
+    $('#misc_help').click(function() {
+        // open help in new window
+        $('ul.sf-menu').hideSuperfishUl();
+        if (helpWindow && !helpWindow.closed) {
+            helpWindow.focus();
+        } else {
+            helpWindow = window.open("misc/help", "_blank", "width=600,height=800,left=50,top=50,toolbar=0,location=0,menubar=0");            
+        }
+    });
+    
     // loop over config and fill menu object.
     for (var menuName in menuConfig) {
         var config = menuConfig[menuName];
         if (config.menuitems) {
             for (var taskName in config.menuitems) {
                 var subMenuItemConfig = config.menuitems[taskName];
-                attachClickHandler(taskName, subMenuItemConfig);
+                attachClickHandler("#task_" + taskName, taskName, subMenuItemConfig);
             }
         } else if (config.taskName) {
-            attachClickHandler(config.taskName, config);
+            attachClickHandler("#task_" + config.taskName, config.taskName, config);
         } else {
             throw "unknown menu config " + config;
         }
     }
-
-
 //    $("#advanced_tab").click();
 //    $("#task_plotservice_menu").click();
 //    $("#task_plotservice_parker").click();
     
     //$('#task_ics').click();
-    
-    
 });

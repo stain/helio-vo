@@ -3,7 +3,7 @@
 	<div id="entry-screen">
 		<div class="entry-screen">
 			<div class="entry_screen_box" >
-				<div class="entry_screen_button">
+				<div class="entry_screen_button" id="entry_screen_eventlist">
 					<table>
 						<tr>
 							<td width="70">
@@ -14,25 +14,26 @@
 					</table>
 				</div>
 				<div class="entry_screen_box_description">
-					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</p>
+					<p>Search for solar events in more than 50 events lists from all parts of the heliosphere.</p>
 				</div>
 			</div>
-			<div class="entry_screen_box" >
+			<div class="entry_screen_box" id="entry_screen_featurelist" >
 				<div class="entry_screen_button">
 					<table>
 						<tr>
 							<td width="70">
 								<img src="${resource(dir:'images/helio/',file:'big_feature3.png')}">
 							</td>
-							<td width="150">Search Features</td>
+							<td width="150">Search Features (disabled)</td>
 						</tr>
 					</table>
 				</div>
 				<div class="entry_screen_box_description">
-					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</p>
+					<p>Search for heliophysics features detected by HELIO feature recognition algorithms. 
+                       Supported features include filaments, coronal holes, sun spots, active regions and type III radio bursts.</p>
 				</div>
 			</div>
-			<div class="entry_screen_box" >
+			<div class="entry_screen_box" id="entry_screen_dataaccess" >
 				<div class="entry_screen_button">
 					<table>
 						<tr>
@@ -44,7 +45,7 @@
 					</table>
 				</div>
 				<div class="entry_screen_box_description">
-					<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut.</p>
+					<p>Search for data of more than 150 instruments from more than 40 observatories.</p>
 				</div>
 			</div>
 		</div>
