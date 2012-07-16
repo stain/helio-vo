@@ -99,7 +99,7 @@ img {
 	margin: 0;
 	overflow: visible;
 	background: url(../images/navbar/ulback_yellow_75.png) repeat-x;
-	height: 36px;7
+	height: 36px;
 }
 
 #menu,#login {
@@ -164,21 +164,32 @@ img {
 	background: rgba(228, 161, 12, 0.1);
 }
 
-#menu>li li.separated { /*background: rgba(228,161,12,0.2) !important;*/
-	
-}
-
-#menu>li li.separated.first {
+#menu>li li.separated {
 	border-top: 1px dotted black;
 }
 
-#menu>li li.mega:not (.first ) {
+#menu>li li.mega:not(.category) {
 	text-indent: 1em;
 	overflow: hidden;
 }
 
-#menu>li li.mega.first {
+#menu>li li.mega.category {
 	font-style: italic;
+}
+
+#menu>li li.mega.category a {
+	color: #111177;
+}
+
+#menu>li li.disabled {
+	cursor: default;
+}
+#menu>li li.disabled a {
+    color: #B8B8D6;
+}
+
+#menu>li li.disabled:hover {
+    background: rgba(228, 161, 12, 0.0);
 }
 
 #login li span#loginLink {

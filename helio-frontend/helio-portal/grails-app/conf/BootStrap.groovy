@@ -5,11 +5,9 @@ import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
 import eu.heliovo.clientapi.HelioClient
-import eu.heliovo.clientapi.model.catalog.HelioCatalogDao
-import eu.heliovo.clientapi.model.field.DomainValueDescriptor
-import eu.heliovo.clientapi.model.field.HelioField
+import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor;
 import eu.heliovo.clientapi.query.HelioQueryResult
-import eu.heliovo.clientapi.query.HelioQueryService
+import eu.heliovo.clientapi.query.QueryService
 import eu.heliovo.hfe.model.cart.DataCart
 import eu.heliovo.hfe.model.param.AbstractParam
 import eu.heliovo.hfe.model.param.EventListParam;
@@ -29,7 +27,7 @@ class BootStrap {
     
     def voTableService;
     
-    def dpasDao;
+    def instrumentDescriptorDao;
 
     /**
      * Auto-wire the helio client
@@ -49,9 +47,6 @@ class BootStrap {
             //org.hsqldb.util.DatabaseManager.main()
             case "production":
             // init descriptors
-                if (!servletContext.instrumentDescriptors) {
-                    servletContext.instrumentDescriptors = initDpasConfig(helioClient)
-                }
                 if (!servletContext.eventListModel) {
                     servletContext.eventListModel = initEventListModel(helioClient)
                 }
@@ -81,15 +76,6 @@ class BootStrap {
                 'tempUserFilter', SecurityFilterPosition.REMEMBER_ME_FILTER.order + 20)
     }
 
-    private def initDpasConfig(HelioClient helioClient) {
-        // init catalog list for DPAS GUI
-        if (dpasDao == null) {
-            throw new NullPointerException("dpasDao was not auto-wired")
-        }
-        HelioField<String> instrumentDescriptorsField = dpasDao.getCatalogById('dpas').getFieldById('instrument')
-        DomainValueDescriptor<String>[] instrumentDescriptors = instrumentDescriptorsField.getValueDomain()
-    }
-
     /**
      * Init the event list descriptors
      * @param servletContext the current servletContext
@@ -98,7 +84,7 @@ class BootStrap {
      */
     private def initEventListModel(HelioClient helioClient) {
         // init the HEC configuration
-        HelioQueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, null, ServiceCapability.SYNC_QUERY_SERVICE)
+        QueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, null, ServiceCapability.SYNC_QUERY_SERVICE)
         HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
                 Arrays.asList("hec_catalogue"), null, 0, 0, null)
 

@@ -11,7 +11,7 @@
   <body>
     <!-- Body Container -->
     <div id="container" >
-      <g:render template="/misc/taskSelectionArea" />
+      <!--  >g:render template="/misc/taskSelectionArea" /-->
     
       <div id="content-container">
         <%-- the data cart --%>

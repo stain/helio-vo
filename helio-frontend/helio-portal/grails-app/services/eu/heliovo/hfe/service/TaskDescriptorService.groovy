@@ -5,7 +5,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import eu.heliovo.clientapi.config.des.DesFunctionArgument;
 import eu.heliovo.clientapi.config.des.DesFunctionArgument.DesFunctionOperator;
-import eu.heliovo.clientapi.config.des.DesParam;
+import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor;
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
@@ -39,6 +39,12 @@ class TaskDescriptorService implements InitializingBean {
      * Auto wire the des configuration bean
      */
     def desConfiguration;
+    
+    /**
+     * Auto wire the instrument descriptor dao
+     */
+    def instrumentDescriptorDao;
+    
     
     def taskDescriptor;
     
@@ -86,7 +92,8 @@ class TaskDescriptorService implements InitializingBean {
             [label:"goes_flare_sep_event", value: "goes_flare_sep_event", description: "goes_flare_sep_event"]]
         
         def eventListModel = ServletContextHolder.servletContext.eventListModel
-        def instrumentDescriptor =  ServletContextHolder.servletContext.instrumentDescriptors
+        Set<InstrumentDescriptor> instrumentDescriptors = instrumentDescriptorDao.getDomainValues()
+
         
       /************* PROPAGATION MODEL *****************/
       this.taskDescriptor =
@@ -94,6 +101,7 @@ class TaskDescriptorService implements InitializingBean {
           "votableupload" : [
             "label" : "Upload VOTable",
             "description" : "Tool to uppload any valid VOTable",
+            "template" : "/task/votableupload"
           ],
           "datacart" : [
             "label" : "Data Cart",
@@ -105,7 +113,7 @@ class TaskDescriptorService implements InitializingBean {
                 "instruments" :  [
                     "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
                         defaultValue : [],
-                        selectionDescriptor: instrumentDescriptor]
+                        selectionDescriptor: instrumentDescriptors]
                 ]
             ]
           ],
@@ -420,7 +428,7 @@ class TaskDescriptorService implements InitializingBean {
                 "instruments" :  [
                     "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
                         defaultValue : [],
-                        selectionDescriptor: instrumentDescriptor]
+                        selectionDescriptor: instrumentDescriptors]
                 ]
             ],
             "outputParams" : [

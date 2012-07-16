@@ -146,12 +146,12 @@ helio.VOTableResult.prototype.init = function() {
             var containerName = 'table_' + resultId + '_' + tableIndex + '_plot';
             var additionalContainerName = 'table_' + resultId + '_' + tableIndex + '_plot_options';
             var chartTitleName = $(ui.panel).find('input[name="plotTitle"]').val();
-            
+            var catalogueName = chartTitleName.substring(4);
             // load plot data.
             $.ajax({
                 url : './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex
             }).done(function(jsonObject) {
-                createHELIOChart(containerName,additionalContainerName,chartTitleName,jsonObject);                
+                createHELIOChart(containerName, additionalContainerName, chartTitleName, jsonObject, catalogueName);                
             });
         }
     });

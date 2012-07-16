@@ -52,7 +52,9 @@ class DefaultsService {
     def loadTask(taskName) {
         // load previous task from database
         def user = User.get(springSecurityService.principal.id)
-        def task = Task.find("from " + Task.getSimpleName() + " AS t WHERE t.owner=:owner AND t.taskName=:taskName ORDER BY lastUpdated desc", [owner:user, taskName: taskName])
+        def task = Task.find(
+            "from " + Task.getSimpleName() + " AS t WHERE t.owner=:owner AND t.taskName=:taskName ORDER BY lastUpdated desc", 
+            [owner:user, taskName: taskName])
 
         // create a new temporary task to be used as model
         if (!task) {
@@ -61,17 +63,20 @@ class DefaultsService {
                 throw new RuntimeException("Unknown task: " + taskName); 
             }
             
-            def paramMap = [:]
-            taskDescriptor.inputParams.paramSet.each {
-                paramMap[it.key] = ""+it.value.defaultValue 
-            }
-            
-            def inputParams = [
-                timeRange: createDefaultTimeRange(taskName),
-                paramSet: newParamSet(taskName, paramMap)
-            ]
             task = new Task(taskName : taskName)
-            task.inputParams = inputParams
+            
+            if (taskDescriptor.inputParams) {
+                def paramMap = [:]
+                taskDescriptor.inputParams.paramSet.each {
+                    paramMap[it.key] = ""+it.value.defaultValue 
+                }
+                
+                def inputParams = [
+                    timeRange: createDefaultTimeRange(taskName),
+                    paramSet: newParamSet(taskName, paramMap)
+                ]
+                task.inputParams = inputParams
+            }
         }
         task
     }

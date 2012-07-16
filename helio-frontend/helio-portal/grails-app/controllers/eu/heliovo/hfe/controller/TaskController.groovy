@@ -9,9 +9,9 @@ import eu.heliovo.hfe.model.task.Task;
  *
  */
 class TaskController {
-    
+
     def taskDescriptorService
-    
+
     /**
      * Auto-wire the springSecurityService
      */
@@ -21,18 +21,10 @@ class TaskController {
      * Auto-wire the defaults service
      */
     def defaultsService
-    
+
     def index = {
     }
-
-    /**
-     * Task to upload a voTable.
-     * Requests are handled by the VoTableController 
-     */
-    def uploadVoTable = {
-        render (template: "/task/uploadVoTable", model: []);
-    }
-
+    
     /**
      * Load a specific task configuration.
      * Requests are handled by specific task controllers.
@@ -46,11 +38,17 @@ class TaskController {
 
         // load previous task from database
         Task task = defaultsService.loadTask(taskName)
-        def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
 
-        render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
+        // check for defined template
+        if (taskDescriptor.template) {
+            render (template: taskDescriptor.template, , model: [task:task, taskDescriptor: taskDescriptor])
+        } else {
+            //render the default template
+            def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
+            render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
+        }
     }
-    
+
     /**
      * Task to configure a call to the propagation model.
      * Requests are handled by the ProcessingController
@@ -62,11 +60,11 @@ class TaskController {
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }
-        
+
         // load previous task from database
         def task = defaultsService.loadTask(taskName)
         def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0];
-    
+
         render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }
 
@@ -81,11 +79,11 @@ class TaskController {
         if (!taskDescriptor) {
             throw new RuntimeException("Unknown task name " + taskName)
         }
-        
+
         // load previous task from database
         Task task = defaultsService.loadTask(taskName)
         def defaultTimeRange = defaultsService.createDefaultTimeRange(taskName).timeRanges[0]
-        
+
         render (template: "/task/task", model: [task:task, taskDescriptor: taskDescriptor, defaultTimeRange: defaultTimeRange])
     }
 }

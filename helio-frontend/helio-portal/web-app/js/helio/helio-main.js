@@ -36,61 +36,6 @@ this.helio = this.helio ||
    this.helio.TaskMap.prototype.put = function(taskName, task) {
        this.tasks[taskName] = task;
    };
-
-
-   helio.DropdownMenu = function(id, options) {
-       var THIS = this;
-       this.id = id;
-       this.options = options;
-       
-       // init the drop down menu
-       $("#" + this.id + "_menu").menu();
-       
-       // click handler
-       $("#" + this.id).button().click(function(e) {
-           $("#" + THIS.id + "_menu").toggle();
-           e.stopPropagation();
-       })
-       .next()
-       .button({
-           text: false,
-           icons: {
-               primary: "ui-icon-triangle-1-s"
-           }
-       })
-       .click(function(e) {
-           $("#" + THIS.id + "_menu").toggle();
-           e.stopPropagation();
-       })
-       .parent()
-       .buttonset();
-       
-       for(var menuItem in this.options) {
-           $("#" + menuItem)
-           .addClass('ui-state-default')
-           .hover(function() {$(this).addClass('ui-state-hover');}, function() {$(this).removeClass('ui-state-hover');});
-           $("#" + menuItem)
-           .click( (function(menuItem) {
-               return function() {
-                   $("#" + THIS.id + "_menu").hide();
-                   // change button text.
-                   var title = THIS.options[menuItem].title;
-                   $("#" + THIS.id + " span.ui-button-text").empty().html(title);
-                   
-                   // register click handler
-                   $("#" + THIS.id).unbind("click");
-                   var click = THIS.options[menuItem].click;
-                   $("#" + THIS.id).click(click);
-                   click.call(this);
-               };
-           }) (menuItem));
-       };
-       
-       // register a global handler to hide the menu if clicked outside.
-       $(document).click(function() {        
-           $("#" + THIS.id + "_menu").hide();
-       });
-   };
    
    // an extension to use JSON through a post request.
    jQuery.extend({
@@ -102,7 +47,11 @@ this.helio = this.helio ||
    jQuery.escapeHTML = function (text){
        return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
    };
-   
+
+   // decorate moments object with a custom to json method
+   moment.fn.toJSON = function() {
+       return this.format("YYYY-MM-DDTHH:mm:ss");
+   };
 })();      
 
 
@@ -112,10 +61,12 @@ this.helio = this.helio ||
  * project and provides some generic classes.
  */
 $(document).ready(function() {
-    // decorate moments object with a custom to json method
-    moment.fn.toJSON = function() {
-        return this.format("YYYY-MM-DDTHH:mm:ss");
-    };
+    jQuery('ul.sf-menu').superfish({
+        speed:  'fast',
+        delay:  '600',
+        autoArrows: false,
+        animation:  {opacity:'show'}
+    });
     
     //create and init the data cart
     helio.dataCart = new helio.DataCart();
@@ -129,27 +80,22 @@ $(document).ready(function() {
     // generic configuration of the menu
     var menuConfig = {
         "task_upload2" : {
-            "url"      : "./task/uploadVoTable",
             "taskName" : "votableupload",
             "taskConstructor" : function(taskName) { return new helio.VOTableUploadTask("votableupload"); }
         },
         "task_eventlist" : {
-            "url"      : "./task/load?taskName=eventlist",
             "taskName" : "eventlist",
             "taskConstructor" : function(taskName) { return new helio.EventListTask(taskName); }
         },
         "task_dataaccess" : {
-            "url"      : "./task/load?taskName=dataaccess",
             "taskName" : "dataaccess",
             "taskConstructor" : function(taskName) { return new helio.DataAccessTask(taskName); }
         },
         "task_ics" : {
-            "url"      : "./task/load?taskName=ics",
             "taskName" : "ics",
             "taskConstructor" : function(taskName) { return new helio.IcsTask(taskName); }
         },
         "task_ils" : {
-            "url"      : "./task/load?taskName=ils",
             "taskName" : "ils",
             "taskConstructor" : function(taskName) { return new helio.IlsTask(taskName); }
         },
@@ -181,52 +127,50 @@ $(document).ready(function() {
             }
         },
         "task_datamining" : {
-            "url"      : "./task/load?taskName=des",
             "taskName" : "des",
             "taskConstructor" : function(taskName) { return new helio.DesTask(taskName); }
         },
     };
+
+    $('#misc_splash').click(function() {
+        $('#content').empty().load('misc/splash', function() {
+            // init splash buttons
+        });
+    });
+
+    $('#misc_changelog').click(function() {
+        $('#content').empty().load('misc/changelog');
+    });
     
+    $('#misc_help').click(function() {
+        // open help in new window
+    });
+
+    
+    var attachClickHandler = function(taskName, config) {
+        $("#task_"+taskName).click(function() {
+            $('#content').empty().load('./task/load?taskName=' + taskName, function() {
+                var task = helio.taskMap.findByName(taskName);
+                if (!task) {
+                    task = config.taskConstructor.call(this, taskName);
+                    helio.taskMap.put(taskName, task);
+                }
+                task.init.call(task);
+                $('ul.sf-menu').hideSuperfishUl();
+            });
+        });
+    };
+
     // loop over config and fill menu object.
     for (var menuName in menuConfig) {
         var config = menuConfig[menuName];
         if (config.menuitems) {
-            var pmMenu = new Object();
-            for (var subMenuItem in config.menuitems) {
-                var subMenuItemConfig = config.menuitems[subMenuItem];
-                var subMenuItemName = menuName + "_" + subMenuItem; 
-                pmMenu[subMenuItemName] = { 
-                    "title": subMenuItemConfig.title,
-                    "click": (function(taskName, subMenuItemConfig) {
-                        return function() {
-                            $('#content').load('./task/load?taskName=' + taskName, function() {
-                                var task = helio.taskMap.findByName(taskName);
-                                if (!task) {
-                                    task = subMenuItemConfig.taskConstructor.call(this, taskName); 
-                                    helio.taskMap.put(taskName, task);
-                                }
-                                task.init.call(task);
-                            });
-                        };
-                    }) (subMenuItem, subMenuItemConfig)
-                };
+            for (var taskName in config.menuitems) {
+                var subMenuItemConfig = config.menuitems[taskName];
+                attachClickHandler(taskName, subMenuItemConfig);
             }
-            new helio.DropdownMenu(menuName, pmMenu);
         } else if (config.taskName) {
-            $("#" + menuName).button();
-            $("#" + menuName).click((function(config) {
-                return function() {
-                    $('#content').empty();
-                    $('#content').load(config.url, function() {
-                        var task = helio.taskMap.findByName(config.taskName);
-                        if (!task) {
-                            task = config.taskConstructor.call(this, config.taskName); 
-                            helio.taskMap.put(config.taskName, task);
-                        }
-                        task.init.call(task);
-                    });
-                };                
-            })(config));
+            attachClickHandler(config.taskName, config);
         } else {
             throw "unknown menu config " + config;
         }
@@ -241,13 +185,3 @@ $(document).ready(function() {
     
     
 });
-
-jQuery(function(){
-	jQuery('ul.sf-menu').superfish({
-		speed:	'fast',
-		delay:	'600',
-		animation:	{opacity:'show'}
-	});
-});
-
-
