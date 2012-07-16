@@ -144,6 +144,13 @@ $(document).ready(function() {
     
     $('#misc_help').click(function() {
         // open help in new window
+    	var fenster = window.open("misc/help");
+    	function CheckOpen () {
+    	  if (fenster.open == true) {
+    		  fenster.focus();
+    	  };
+    	}
+    	
     });
 
     
