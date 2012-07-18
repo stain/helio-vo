@@ -175,11 +175,11 @@ class VoTableService {
 
                         // init global table model actions
                         if (field.name == 'time_start' || field.name == 'time') {
-                            tableModel["actions"].add('extract')
+                            table["actions"].add('extract')
                         } else if (field.name == 'obsinst_key') {
-                            tableModel["actions"].add('extract_instrument')
+                            table["actions"].add('extract_instrument')
                         } else if (field['rendering_hint'] =='url') {
-                            tableModel['actions'].add('download');
+                            table['actions'].add('download');
                         }
                     }
 

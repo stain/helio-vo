@@ -23,21 +23,6 @@ Expected model:
                       title="Download the VOTable as a file for further processing in external applications." ><%-- 
                 --%><div class="toolbar-icon toolbar-icon-savevotable" ></div><%--
               --%></g:link>
-    
-            
-              <%-- download all actions --%>
-              <g:if test="${false && result.actions.contains('download')}">
-                <div id="download_selection_button" class="toolbar-icon toolbar-icon-downloadfiles" title="Open a dialog with all (selected) URLs.">
-                </div>
-              </g:if>
-              <g:if test="${result.actions.contains('extract')}">
-                <div id="extract_param_button" class="toolbar-icon toolbar-icon-extract" title="Extract the time ranges from the selected rows and add them to the data cart.">
-                </div>
-              </g:if>            
-              <g:if test="${result.actions.contains('extract_instrument')}">
-                <div id="extract_instrument_param_button" class="toolbar-icon toolbar-icon-extract" title="Extract the instrument labels from the selected rows and add them to the data cart.">
-                </div>
-              </g:if>
               <%--info action --%>
               <div style="width: 600px;" id="table_info_all" class="ok_dialog table_info" title="Common information about the table (for debugging)">
                 <g:if test="${result.actions.contains('info')}">
@@ -90,43 +75,58 @@ Expected model:
                   <li><a href="#tab_votable_plot_${result.id}_${h}">Show as plot</a></li>
                 </ul>
                 <div id="tab_votable_table_${result.id}_${h}">
-                  <div id="table_info_${h}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
-                    <g:if test="${table.infos.size() > 0}">
-                      <h2>Info Tags</h2>
-                      <br>
-                      <div><dl>
-                      <g:each in="${table.infos}" var="info">
-                        <dt title="${info.description}" ><b>${info.name}</b></dt>
-                        <dd class="indented">${info.value ? info.value : 'undefined value'}</dd>
-                      </g:each>
-                      </dl></div>
-                    </g:if>
-                    <g:if test="${table.params.size() > 0}">
-                      <h2>Param Tags</h2>
-                      <ul>
-                        <g:each in="${table.params}" status="paramNo" var="param" >
-                              <dt title="${param.description}" ><b>${param.name}</b></dt>
-                          <dd class="indented">${param.value ? param.value : 'undefined value'}</dd>        
-                        </g:each>
-                      </ul>
-                    </g:if>            
-                    <g:if test="${table.links.size() > 0}">
-                      <h2>Links</h2>
-                      <ul>
-                        <g:each in="${table.links}" status="linkNo" var="plink" >
-                            <li title="${link.description}"><a href="${link.href}">${link.handle ? link.handle : link.name? link.name : link.href}</a></li>        
-                        </g:each>
-                      </ul>
-                    </g:if>
-                  </div>
           
                   <%-- table actions --%>
-                  <g:if test="${table.actions.contains('info')}">
-                    <div id="votable_toolbar" class="toolbar candybox">
+                  <div id="votable_toolbar" class="toolbar candybox">
+                    <g:if test="${table.actions.contains('info')}">
                       <div id="table_info_${h}_button" class="table_info_button toolbar-icon toolbar-icon-info"
-                        title="Get advanced information about the retrieved VOTable"></div>
-                    </div>
-                  </g:if>
+                          title="Get advanced information about the retrieved VOTable"></div>
+                          
+                      <div id="table_info_${h}" class="ok_dialog table_info" title="Table info for ${table.name ? table.name :  'Un-named table' } (for debugging)">
+                        <g:if test="${table.infos.size() > 0}">
+                          <h2>Info Tags</h2>
+                          <br>
+                          <div><dl>
+                          <g:each in="${table.infos}" var="info">
+                            <dt title="${info.description}" ><b>${info.name}</b></dt>
+                            <dd class="indented">${info.value ? info.value : 'undefined value'}</dd>
+                          </g:each>
+                          </dl></div>
+                        </g:if>
+                        <g:if test="${table.params.size() > 0}">
+                          <h2>Param Tags</h2>
+                          <ul>
+                            <g:each in="${table.params}" status="paramNo" var="param" >
+                                  <dt title="${param.description}" ><b>${param.name}</b></dt>
+                              <dd class="indented">${param.value ? param.value : 'undefined value'}</dd>        
+                            </g:each>
+                          </ul>
+                        </g:if>            
+                        <g:if test="${table.links.size() > 0}">
+                          <h2>Links</h2>
+                          <ul>
+                            <g:each in="${table.links}" status="linkNo" var="plink" >
+                                <li title="${link.description}"><a href="${link.href}">${link.handle ? link.handle : link.name? link.name : link.href}</a></li>        
+                            </g:each>
+                          </ul>
+                        </g:if>
+                      </div>
+                    </g:if>
+                    <%-- extract actions --%>
+                    <g:if test="${table.actions.contains('extract')}">
+                      <div id="extract_param_${h}_button" class="extract_param_button toolbar-icon toolbar-icon-extract" title="Extract the time ranges from the selected rows and add them to the data cart.">
+                      </div>
+                    </g:if>            
+                    <g:if test="${table.actions.contains('extract_instrument')}">
+                      <div id="extract_instrument_param_${h}_button" class="extract_instrument_param_button toolbar-icon toolbar-icon-extract" title="Extract the instrument labels from the selected rows and add them to the data cart.">
+                      </div>
+                    </g:if>                  
+                    <%-- download selection action --%>
+                    <g:if test="${table.actions.contains('download')}">
+                      <div id="download_selection_${h}_button" class="download_selection_button toolbar-icon toolbar-icon-downloadfiles" title="Open a dialog with all (selected) URLs."></div>
+                    </g:if>
+                  </div>
+
                   <g:render template="/output/_votable" model="${[tableId:'table_' + result.id + '_' + h, table:table, tableName : 'initTable_' + taskDescriptor.serviceName, renderData:false]}"/>
                 </div>
                 <div id="tab_votable_plot_${result.id}_${h}">

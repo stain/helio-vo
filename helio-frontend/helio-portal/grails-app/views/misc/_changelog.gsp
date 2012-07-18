@@ -8,6 +8,10 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>18-Jul-2012: Download scripts for DPAS results.</li>
+            <li>18-Jul-2012: Merge the service menu into the main menu.</li>
+            <li>18-Jul-2012: Overhaul of the front page (should be less scary).</li>
+            <li>18-Jul-2012: Plotter is now configurable. Some configuration is still missing though.</li>
             <li>05-Jun-2012: Rework of the VOTable plotter, many smaller bug fixes.</li>
             <li>17-May-2012: Add time range inspector.</li>
             <li>11-May-2012: CSS cleanup. Various small bug fixes.</li>

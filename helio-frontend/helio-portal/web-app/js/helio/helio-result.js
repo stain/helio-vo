@@ -91,25 +91,24 @@ helio.VOTableResult.prototype.init = function() {
     $.collapsible(".votableResultHeader", "votableResult");
 
     // 5. connect table info buttons
-    
     $(".table_info_button").click(function() {
         var dialogId = "#" + this.id.substring(0, this.id.length - '_button'.length);
         $(dialogId).dialog('open');
     });
     
     // 6. download all/selection button
-    $("#download_selection_button").click(function() {
-        THIS._download.call(THIS);
+    $(".download_selection_button").click(function() {
+        THIS._download.call(THIS, this);
     });
     
     // 7. extract params button
-    $('#extract_param_button').click(function() {
-        THIS._extractParams.call(THIS);
+    $('.extract_param_button').click(function() {
+        THIS._extractParams.call(THIS, this);
     });
     
-    $('#extract_instrument_param_button').click(function() {
-        THIS._extractInstrumentParams.call(THIS);
-    });    
+    $('.extract_instrument_param_button').click(function() {
+        THIS._extractInstrumentParams.call(THIS, this);
+    });
 
     // 8. init result table when tab is first opened.
     $("#tabs_votables").bind('tabsselect', function(event, ui) {
@@ -291,95 +290,169 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
     }   
 };
 
+/**
+ * Download all/selected files
+ * @param {Node} source the source button that called this function
+ */
+helio.VOTableResult.prototype._download = function(source){
+    // get the data table
+    /(\d+)/.exec(source.id);
+    var id = RegExp.$1;
+    // get the data table
+    var dataTable = this._resultTables[id];
 
-helio.VOTableResult.prototype._download = function(){
-    var itr= 0;
-    $(".resultTable").each(function(){
-        itr++;
-    });
-    itr = itr/2;
-    var download_list = $("<ul></ul>");
-    var found = false;
+    var settings = dataTable.fnSettings();
     
-    for(var i = 0;i<itr;i++){
-        var dataTable =$("#resultTable"+i).dataTable();
-        var settings = dataTable.fnSettings();
-        var download_url = -1;
+    // search the url location
+    var downloadUrlPos = -1;
+    var instrumentNamePos = -1;
+    for(var j = 0;j< settings.aoColumns.length;j++){
+        if($.trim(settings.aoColumns[j].sTitle) == 'url'){
+            downloadUrlPos=j;
+        } else if($.trim(settings.aoColumns[j].sTitle) == 'instrument_name'){
+            instrumentNamePos=j;
+        }
+    }//end j
 
-        for(var j = 0;j< settings.aoColumns.length;j++){
-            if($.trim(settings.aoColumns[j].sTitle) == 'url'){
-                download_url=j;
+    var found = false;
+    var download_list = [];
+    var instrumentName = 'undefined_instrument';
+    if (downloadUrlPos >= 0) {
+        dataTable.find(".row_selected").each(function(){
+            download_list.push($(this).children().eq(downloadUrlPos).find('a').attr('href'));
+            if (instrumentNamePos >= 0) {
+                instrumentName = $(this).children().eq(instrumentNamePos).html();
             }
-        }//end j
-
-        if (download_url >= 0) {
-            $("#resultTable"+i+" .even_selected").each(function(){
-                download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
+            found = true;
+        });
+        
+        // add all, if nothing selected 
+        if(!found){
+            var nNodes = dataTable.fnGetNodes();
+            for(var node in nNodes){
+                download_list.push($(nNodes[node]).children().eq(downloadUrlPos).html());
                 found = true;
-            });
-            $("#resultTable"+i+" .odd_selected").each(function(){
-                download_list.append("<li>"+$(this).children().eq(download_url).html()+"</li>");
-                found = true;
-            });
-            if(download_list.html().indexOf('li') < 0){
-                var nNodes = dataTable.fnGetNodes();
-                for(var node in nNodes){
-                    download_list.append("<li>"+$(nNodes[node]).children().eq(download_url).html()+"</li>");
-                    found = true;
-                }
             }
         }
-    }//end i
-    
-    if (!found) {
-        download_list.append("<li>Nothing found to download</li>");
     }
     
-    var recipe =  window.open('','_blank','width=600,height=600');
-    var html = '<html><head><title>Helio Downloads</title></head><body><h1>List of URLs to dowload</h1><p>Use a download manager for your browser to download the links.</p><div id="links">' + download_list.html() + '</div></body></html>';
+    if (!found) {
+        download_list.push("Nothing found to download");
+    }
+    
+    var recipe =  window.open('','_blank','width=600,height=700,scrollbars=yes,location=no,status=no');
+    
+    var htmlHead = '<html><head><title>Helio Downloads</title>' +
+                   '<style type="text/css">' +
+                   'h1 {font-family:verdana,arial,sans-serif; font-size:14pt}' +
+                   '.script {background-color: #EEEEEE; border: 1px solid black; padding: 10px;}' +
+                   '</style>' +
+                   '</head><body>';
+    var htmlFoot = '</body></html>';
+    var urlList = '<h1>List of URLs to download</h1>' + 
+                  '<p>You can use a download manager to download the following links. </p><ul>' +
+                  '<li>For OS X Safari: <a href="http://www.igetter.net/" target="_blank">iGetter</a></li>' +
+                  '<li>For Firefox: <a href="http://www.downthemall.net/" target="_blank">DownThemAll</a></li>' +
+                  '<li>For Google Chrome: <a href="http://monadownloadmaster.blogspot.ch/" target="_blank">Download Master</a></li>' +
+                  '<li>For Internet Explorer: use the built-in download manager</li>' +
+                  '</ul><pre class="script">';
+    for (var i=0; i< download_list.length; i++) {
+        urlList += '<a href="' + download_list[i] + '" target="_blank">' + download_list[i] + '</a>\n'; 
+    } 
+    urlList += '</pre>\n';
+
+    // the curl script
+    var curlScript = '';
+    if (found) {
+        curlScript = '<h1><code>cURL</code> script for Mac OS X and Linux users</h1>' + 
+                     '<p>Copy and paste the following script to your OS X shell.</p>' + 
+                     '<pre class="script">' +
+                     'mkdir ' + instrumentName + '\n' +
+                     'cd ' + instrumentName + '\n' +
+                     'curl -O ' + download_list.join('\ncurl -O ') + '\n' +
+                     'cd ..' +
+                     '</pre>\n';
+    }
+    
+    // the wget script
+    var wgetScript = '';
+    if (found) {
+        wgetScript = '<h1><code>wget</code> script for Linux users</h1>' + 
+                     '<p>Copy and paste the following script to your Linux shell.</p>' + 
+                     '<pre class="script">' +
+                     'mkdir ' + instrumentName + '\n' +
+                     'cd ' + instrumentName + '\n' +
+                     'wget ' + download_list.join('\nwget ') + '\n' +
+                     'cd ..' +
+                     '</pre>\n';
+    }
+    
+    // Windows
+    var windowsScript = '';
+    if (found) {
+        windowsScript = '<h1>Guidance for Windows users</h1>' + 
+                     '<p>Microsoft Windows does not provide a suitable equivalent for wget or curl.</p>'+
+                     '<p>Thus we suggest to install <a href="http://gnuwin32.sourceforge.net/packages/wget.htm" target="_blank">wget for Windows</a>.</p>' + 
+                     '\n';
+    }
+
+    
     recipe.document.open();
-    recipe.document.write(html);
+    recipe.document.write(htmlHead);
+    recipe.document.write(urlList);
+    recipe.document.write(curlScript);
+    recipe.document.write(wgetScript);
+    recipe.document.write(windowsScript);
+    recipe.document.write(htmlFoot);
     recipe.document.close();
 };
 
-helio.VOTableResult.prototype._extractParams = function() {
+/**
+ * Extract selected time ranges.
+ * @param {Node} source the source button that called this function
+ */
+helio.VOTableResult.prototype._extractParams = function(source) {
     // create a new data object.
     var timeRanges = new helio.TimeRanges('datacart', 'extracted');
-
-    $.each(this._resultTables, function(){
-        var dataTable = this;
-        // find the position of the time range columns we are interested in.
-        var settings = dataTable.fnSettings();
-        var time_start = -1;
-        var time_end = -1;
-        
-        for(var j = 0;j< settings.aoColumns.length;j++){
-            var title = $.trim(settings.aoColumns[j].sTitle); 
-            if(title == 'time_start'){
-                time_start=j;
-            }
-            if(title == 'time_end'){
-                time_end=j;
-            } else if (title == 'time' && time_start == -1) {
-                time_start=j;
-            }
-        }//end j
-        if (time_start == -1) {
-            alert("Internal error: no column with name 'time_start' found");
-            return;
+    
+    // find the id of the currently selected resource table
+    /(\d+)/.exec(source.id);
+    var id = RegExp.$1;
+    
+    // get the data table
+    var dataTable = this._resultTables[id];
+    // find the position of the time range columns we are interested in.
+    var settings = dataTable.fnSettings();
+    var time_start = -1;
+    var time_end = -1;
+    
+    // get start and end end time position
+    for(var j = 0;j< settings.aoColumns.length;j++){
+        var title = $.trim(settings.aoColumns[j].sTitle); 
+        if(title == 'time_start'){
+            time_start=j;
         }
-        if (time_end == -1) {
-            time_end = time_start;
+        if(title == 'time_end'){
+            time_end=j;
+        } else if (title == 'time' && time_start == -1) {
+            time_start=j;
         }
-        
-        // loop over all selected rows
-        dataTable.find('.row_selected').each(function() {
-            // extract time range and add to timeranges.
-            var times = dataTable.fnGetData(this, time_start);
-            var timee = dataTable.fnGetData(this, time_end);
-     
-            timeRanges.timeRanges.push(new helio.TimeRange(times, timee));
-        });
+    }//end j
+    if (time_start == -1) {
+        alert("Internal error: no column with name 'time_start' found");
+        return;
+    }
+    if (time_end == -1) {
+        time_end = time_start;
+    }
+    
+    // loop over all selected rows
+    dataTable.find('.row_selected').each(function() {
+        // extract time range and add to timeranges.
+        var times = dataTable.fnGetData(this, time_start);
+        var timee = dataTable.fnGetData(this, time_end);
+ 
+        timeRanges.timeRanges.push(new helio.TimeRange(times, timee));
     });
 
     if (timeRanges.timeRanges.length == 0) {
@@ -407,40 +480,47 @@ helio.VOTableResult.prototype._showExtractParamsDialog = function(timeRanges, me
     });
 };
 
-helio.VOTableResult.prototype._extractInstrumentParams = function() {
+/**
+ * Extract selected instruments.
+ * @param {Node} source the source button that called this function
+ */
+helio.VOTableResult.prototype._extractInstrumentParams = function(source) {
     // create a new data object.
     var data = new helio.Instrument('datacart', 'extracted');
 
-    $.each(this._resultTables, function(){
-        var dataTable = this;
-        // find the position of the time range columns we are interested in.
-        var settings = dataTable.fnSettings();
-        var instrument = -1;
-        var longname = -1;
-        for(var j = 0;j< settings.aoColumns.length;j++){
-            var title = $.trim(settings.aoColumns[j].sTitle); 
-            if(title == 'obsinst_key'){
-                instrument=j;
-            }
-            if(title == 'longname'){
-                longname=j;
-            }
-        }//end j
-        if (instrument == -1) {
-            alert("Internal error: no column with name 'obsinst_key' found");
-            return;
+    // find the id of the currently selected resource table
+    /(\d+)/.exec(source.id);
+    var id = RegExp.$1;
+    
+    // get the data table
+    var dataTable = this._resultTables[id];
+    // find the position of the time range columns we are interested in.
+    var settings = dataTable.fnSettings();
+    var instrument = -1;
+    var longname = -1;
+    for(var j = 0;j< settings.aoColumns.length;j++){
+        var title = $.trim(settings.aoColumns[j].sTitle); 
+        if(title == 'obsinst_key'){
+            instrument=j;
         }
-        if (longname == -1) {
-            longname = instrument;
+        if(title == 'longname'){
+            longname=j;
         }
-        
-        // loop over all selected rows
-        dataTable.find('.row_selected').each(function() {
-            // extract time range and add to timeranges.
-            var instr = dataTable.fnGetData(this, instrument);
-            var instrLabel = dataTable.fnGetData(this, longname);
-            data.addInstrument(instr, instrLabel);
-        });
+    }//end j
+    if (instrument == -1) {
+        alert("Internal error: no column with name 'obsinst_key' found");
+        return;
+    }
+    if (longname == -1) {
+        longname = instrument;
+    }
+    
+    // loop over all selected rows
+    dataTable.find('.row_selected').each(function() {
+        // extract time range and add to timeranges.
+        var instr = dataTable.fnGetData(this, instrument);
+        var instrLabel = dataTable.fnGetData(this, longname);
+        data.addInstrument(instr, instrLabel);
     });
 
     if (data.instruments.length == 0) {
@@ -463,7 +543,6 @@ helio.VOTableResult.prototype._extractInstrumentParams = function() {
  */
 helio.VOTableResult.prototype._initTable_ICS = function(table) {
     this._resultFilterTimeout = {};
-    var THIS = this;
     
     // handle filtering
     $("#instrument_filter").tabs();

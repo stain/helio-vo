@@ -143,8 +143,7 @@ class DataCartController {
         
         dataCart.removeFromCartItems(param)
         dataCart.save(flush : true)        
-        
-        println "before to json"
+         
         render dataCart as JSON
     }
 }

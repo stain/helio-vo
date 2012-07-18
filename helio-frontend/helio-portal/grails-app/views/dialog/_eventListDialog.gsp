@@ -26,9 +26,7 @@ Expected variables:
           <tr>
             <td></td>
             <td colspan="2"><input id="checkAll" checked="checked" name="everything" type="checkbox"/> Show all</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="3"><%--input id="checkTimeRange" checked="checked" name="timeRange" type="checkbox"/> Show instruments active between <span name="startTime"></span> and <span name="endTime"></span> --%></td>
           </tr>
           <tr>
             <td></td>

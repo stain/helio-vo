@@ -77,10 +77,18 @@ class DialogController {
         
         def plots = []
         
-        def plotTasks = ['goesplot', 'flareplot', 'parkerplot']
+        def plotTasks = [
+            'goesplot_proton' : [taskName:'goesplot', query:'paramSet.plotType=PROTON', label:'GOES Proton Plot'], 
+            'goesplot_sxr' : [taskName:'goesplot', query:'paramSet.plotType=XRAY', label:'GOES SXR Plot'], 
+            'flareplot' : [taskName:'flareplot', title: ''], 
+            'parkerplot' : [taskName : 'parkerplot', title: '']]
         plotTasks.each {
-            def plotTask = taskDescriptorService.findTaskDescriptor(it)
-            plots.add([taskName: it, task : plotTask, startTime : startTime, endTime : endTime])
+            def plotTask = taskDescriptorService.findTaskDescriptor(it.value.taskName)
+            def label = it.value.label ?: plotTask.label
+            plots.add([plotName: it.key, label : label,  
+                taskName : it.value.taskName, task : plotTask, 
+                startTime : startTime, endTime : endTime, 
+                query:it.value.query])
         }
         
         def links = []

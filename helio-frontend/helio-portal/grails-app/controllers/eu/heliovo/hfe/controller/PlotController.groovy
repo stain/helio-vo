@@ -96,7 +96,7 @@ class PlotController {
 
         // handle plot params, if required
         if (taskDescriptor.inputParams.paramSet) {
-            def paramSet = new ParamSet(taskName: taskName)
+            def paramSet = new ParamSet(taskName: taskName, params: [:])
             params.each{ entry ->
                 if (entry.key.startsWith("paramSet.")) {
                     paramSet.params.put(entry.key.substring(9), entry.value)

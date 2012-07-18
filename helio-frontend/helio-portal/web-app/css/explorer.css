@@ -462,7 +462,7 @@ table.dialog_content_table td {
 }
 
 .dialog_tab_area {
-	min-height: 315px;
+	min-height: 500px;
 	overflow: auto;
 }
 
@@ -505,6 +505,11 @@ select.paramSetEntry {
 	text-overflow: ellipsis;
 	-o-text-overflow: ellipsis;
 	-ms-text-overflow: ellipsis;
+}
+
+.reload_link {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 /*************************** CSS related to result areas *************************/

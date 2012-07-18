@@ -943,7 +943,7 @@ helio.EventListDialog.prototype._dialogUrl = function() {
  */
 helio.EventListDialog.prototype._init = function() {
     var THIS = this;
-        
+    
     // 1. init table
     var table = $("#selectTableEventList").dataTable( {
         "bSort": false,
@@ -1532,6 +1532,8 @@ helio.TimeRangeDetailsDialog.prototype._init = function() {
  */
 helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {
     return {
+        width : 800,
+        height: 700,
         title : "Time Range inspector",
         dialogTitle : "Date range inspection.",
         helpText : "Adjust the date range on top and load plots to see if it covers what you need. " +

@@ -66,6 +66,21 @@ helio.AbstractTask.prototype._isValid = function() {
 };
 
 /**
+ * Lookup the first summary with  a given type
+ * @param typeName
+ * @returns
+ */
+helio.AbstractTask.prototype.getSummaryByTypeName = function(typeName) {
+    for(summary in this.summaries) {
+        if (typeName == summary.typeName) {
+            return summary;
+        }
+        return null;
+    }
+};
+
+
+/**
  * Submit the query to the server and handle result appropriately
  */
 helio.AbstractTask.prototype._submitQuery = function() {

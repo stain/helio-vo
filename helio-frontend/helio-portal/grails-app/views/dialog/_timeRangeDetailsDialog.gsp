@@ -45,7 +45,7 @@ Expected parameters:
         <div id="tabs_time_range_details">
           <ul>
             <g:each var="plot" in="${plots}">
-              <li><a href="#tab_${plot.taskName}">${plot.task.label}</a></li>
+              <li><a href="#tab_${plot.plotName}">${plot.label}</a></li>
             </g:each>
             <li><a href="#tab_external_pages">External links</a></li>
           </ul>
@@ -95,28 +95,31 @@ Expected parameters:
                       var a = $('<a href="' + plot.url +'" target="_blank"></a>');
                       div.append(a);
                       
-                      var img = $('<img id="plot_' + plot.id + '" class="task_output_plot" src="' + plot.url + '" title="' + plot.label + '. Click to enlarge." width="100%" />');
+                      var img = $('<img id="plot_' + plot.id + '" class="task_output_plot" src="' + plot.url + '" title="' + plot.label + '. Click to open in new window." width="100%" />');
                       a.append(img);              
                   }
               }
           
-              helio.plot = function(taskName) {
+              helio.plot = function(plotName, taskName) {
+                  var query = $("#query_" + plotName).val();
                   ${ remoteFunction (controller: 'plot', action: 'asyncplot',
-                     onSuccess: 'helio.plotSuccess($("#target_" + taskName), data)',
-                     onFailure: 'helio.plotError($("#target_" + taskName), XMLHttpRequest.responseText)',
-                     params: '"taskName=" + taskName + "&startTime=" + $("#inspectStartTime").val() + "&endTime="+$("#inspectEndTime").val()',
-                     onLoading : '$("#target_" + taskName).append("Loading ...");', 
-                     onLoaded  : '$("#target_" + taskName).empty();')
+                     onSuccess: 'helio.plotSuccess($("#target_" + plotName), data)',
+                     onFailure: 'helio.plotError($("#target_" + plotName), XMLHttpRequest.responseText)',
+                     params: '"taskName=" + taskName + "&startTime=" + $("#inspectStartTime").val() + "&endTime="+$("#inspectEndTime").val() + "&" + query',
+                     onLoading : '$("#target_" + plotName).append("Loading ...");', 
+                     onLoaded  : '$("#target_" + plotName).empty();',
+                     method : 'get')
                   }
               };
           </g:javascript>
           
           <g:each var="plot" in="${plots}">
-            <div id="tab_${plot.taskName}" class="dialog_tab_area">
+            <div id="tab_${plot.plotName}" class="dialog_tab_area">
+              <input id="query_${plot.plotName}" type="hidden" value="${plot.query ? plot.query:''}">
               Click to load or reload the
-              <a href="javascript:void(0)" onclick="helio.plot('${plot.taskName}');return false;">${plot.task.label}</a>
+              <a class="reload_link" onclick="helio.plot('${plot.plotName}', '${plot.taskName}');return false;">${plot.label}</a>
               <hr/>
-              <div id="target_${plot.taskName}"></div>
+              <div id="target_${plot.plotName}"></div>
             </div>
           </g:each>
           

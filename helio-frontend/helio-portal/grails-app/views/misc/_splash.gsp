@@ -40,12 +40,12 @@
 							<td width="70">
 								<img src="${resource(dir:'images/helio/',file:'big_data.png')}">
 							</td>
-							<td width="150">Search Data</td>
+							<td width="150">Search Observation Data</td>
 						</tr>
 					</table>
 				</div>
 				<div class="entry_screen_box_description">
-					<p>Search for data of more than 150 instruments from more than 40 observatories.</p>
+					<p>Search for observations made by more than 150 instruments from more than 40 observatories.</p>
 				</div>
 			</div>
 		</div>
