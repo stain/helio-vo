@@ -46,7 +46,7 @@ public class HelioFileUtil {
 	 * @return the home dir.
 	 */
 	public File getHelioHomeDir(String area) {
-		File homeDir = new File(System.getProperty("user.home"), ".helio_" + appId + File.separator + area);
+		File homeDir = new File(System.getProperty("user.home"), ".helio" + File.separator + appId + File.separator + area);
 		if (!homeDir.exists() && !homeDir.mkdirs()) {
 			throw new RuntimeException("Unable to create home dir: " + homeDir);
 		}
@@ -61,7 +61,7 @@ public class HelioFileUtil {
 	 * @return the temp dir
 	 */
 	public File getHelioTempDir(String area) {
-		File tempDir = new File(System.getProperty("java.io.tmpdir"), ".helio_" + appId + File.separator + area);
+		File tempDir = new File(System.getProperty("java.io.tmpdir"), ".helio" + File.separator + appId + File.separator + area);
 		if (!tempDir.exists() && !tempDir.mkdirs()) {
 			throw new RuntimeException("Unable to create temp dir: " + tempDir);
 		}
