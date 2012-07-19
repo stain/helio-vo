@@ -93,7 +93,6 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
         try {
             allServices = registry.getResourceList(keywordSearch(
                     new String[] { "*" }, false));
-            
             storeRegistryLocally(allServices);
         } catch (IOException e) {
             _LOGGER.warn("Unable to access remote registry: " + e.getMessage() + ". Trying locally persisted registry.", e);

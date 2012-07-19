@@ -23,6 +23,10 @@ public class XmlRegistryPersister implements RegistryPersister {
     @Override
     public void persistRegistry(List<BasicResource> allServices) throws IOException {
         File file = getRegistryFile();
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            file.createNewFile();
+        }
         OutputStream out = new FileOutputStream(file);
         XMLEncoder xmlEncoder = new XMLEncoder(out);
         xmlEncoder.writeObject(allServices);
@@ -44,7 +48,7 @@ public class XmlRegistryPersister implements RegistryPersister {
      * @return the registry file
      */
     private File getRegistryFile() {
-        return helioFileUtil.getHelioTempDir("persisted_registry");
+        return new File(helioFileUtil.getHelioTempDir("persisted_registry"), "registry.xml");
     }
 
 
