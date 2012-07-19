@@ -4,6 +4,9 @@ import java.util.HashSet;
 
 public class HELIORoles 
 {
+	/*
+	 * The 3 main roles of HELIO
+	 */
 	public 	static 	final	String simpleUser		=	"simpleUser";
 	public 	static 	final	String gridUser			=	"gridUser";
 	public 	static 	final	String administrator	=	"administrator";
