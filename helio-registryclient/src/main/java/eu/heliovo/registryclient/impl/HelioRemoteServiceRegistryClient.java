@@ -54,6 +54,11 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
 	 */
     private final String appId;
 
+    /**
+     * Optional registry persister bean. 
+     */
+    private RegistryPersister registryPersister;
+
 	/**
 	 * Create the registry impl and initialize it accordingly.
 	 */
@@ -88,9 +93,14 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
         try {
             allServices = registry.getResourceList(keywordSearch(
                     new String[] { "*" }, false));
+            
+            storeRegistryLocally(allServices);
         } catch (IOException e) {
-            throw new ServiceResolutionException("failed to access registry", e);
+            _LOGGER.warn("Unable to access remote registry: " + e.getMessage() + ". Trying locally persisted registry.", e);
+            allServices = getFromLocallyStoredRegistry();
         }
+        
+        
 
         // loop through all services and qualify them
         for (BasicResource r : allServices) {
@@ -130,6 +140,30 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
         }
     }
 
+
+    private void storeRegistryLocally(List<BasicResource> allServices) {
+        if (this.registryPersister != null) {
+            try {
+                this.registryPersister.persistRegistry(allServices);
+            } catch (IOException e) {
+                _LOGGER.warn("Unable to persist registry: " + e.getMessage(), e);
+            }
+        }
+    }
+
+    private List<BasicResource> getFromLocallyStoredRegistry() {
+        if (this.registryPersister != null) {
+            try {
+                return this.registryPersister.loadRegistry();
+            } catch (IOException e) {
+                _LOGGER.warn("Failed to load locally persisted registry: " + e.getMessage(), e);
+            }
+        } else {
+            _LOGGER.warn("No RegistryPersister has been registered with this bean.");            
+        }
+        throw new ServiceResolutionException("Unable to load local registry. See logs for more information");
+    }
+    
     /**
      * Check if a service registry client class has been defined in the properties file.
      * @return the registered or the default service registry client class.
