@@ -203,4 +203,18 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
         desc.delete(desc.length()-1, desc.length());
         return desc.toString();
     }
+
+    /**
+     * @return the registryPersister
+     */
+    public RegistryPersister getRegistryPersister() {
+        return registryPersister;
+    }
+
+    /**
+     * @param registryPersister the registryPersister to set
+     */
+    public void setRegistryPersister(RegistryPersister registryPersister) {
+        this.registryPersister = registryPersister;
+    }
 }
