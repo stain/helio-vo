@@ -12,13 +12,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.apache.log4j.Logger;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import eu.heliovo.clientapi.HelioClient;
 import eu.heliovo.clientapi.query.HelioQueryResult;
-import eu.heliovo.clientapi.query.syncquery.SyncQueryService;
+import eu.heliovo.clientapi.query.QueryService;
 import eu.heliovo.idlclient.model.IdlHelioQueryResult;
 import eu.heliovo.idlclient.model.IdlLogRecord;
 import eu.heliovo.idlclient.provider.serialize.IdlObjConverter;
@@ -31,18 +30,18 @@ import eu.heliovo.shared.util.AssertUtil;
  * Accept a query from IDL and pass it to the HELIO query.
  * Result is serialized for IDL and passed to IDL client.
  */
-public class AsyncQueryServiceServlet extends HttpServlet {
+public class QueryServiceServlet extends HttpServlet {
     /**
      * Happy little logger
      */
-    private static final Logger _LOGGER = Logger.getLogger(AsyncQueryServiceServlet.class);
+    private static final Logger _LOGGER = Logger.getLogger(QueryServiceServlet.class);
     
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AsyncQueryServiceServlet() {
+    public QueryServiceServlet() {
         super();
     }
 
@@ -84,7 +83,7 @@ public class AsyncQueryServiceServlet extends HttpServlet {
 
 	        GenericXmlApplicationContext context = new GenericXmlApplicationContext("classpath:spring/clientapi-main.xml");
 	        HelioClient helioClient = (HelioClient) context.getBean("helioClient");
-	        SyncQueryService queryService = (SyncQueryService)helioClient.getServiceInstance(HelioServiceName.valueOf(service.toUpperCase()), null, ServiceCapability.SYNC_QUERY_SERVICE);
+	        QueryService queryService = (QueryService)helioClient.getServiceInstance(HelioServiceName.valueOf(service.toUpperCase()), null, ServiceCapability.SYNC_QUERY_SERVICE);
 			
 			if (queryService == null) {
 			    throw new RuntimeException("Unable to find service with name " + service.toUpperCase());
