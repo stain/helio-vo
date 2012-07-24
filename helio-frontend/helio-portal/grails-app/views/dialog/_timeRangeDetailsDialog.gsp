@@ -106,7 +106,9 @@ Expected parameters:
                      onSuccess: 'helio.plotSuccess($("#target_" + plotName), data)',
                      onFailure: 'helio.plotError($("#target_" + plotName), XMLHttpRequest.responseText)',
                      params: '"taskName=" + taskName + "&startTime=" + $("#inspectStartTime").val() + "&endTime="+$("#inspectEndTime").val() + "&" + query',
-                     onLoading : '$("#target_" + plotName).append("Loading ...");', 
+                     onLoading : '$("#target_" + plotName).prepend(\'' +
+                                 '<img style="height:16px;width:16px;" src="' + resource(dir:'images/helio/',file:'load.gif') + '" alt="Loading..." /> '
+                                  + ' Loading ... \');', 
                      onLoaded  : '$("#target_" + plotName).empty();',
                      method : 'get')
                   }

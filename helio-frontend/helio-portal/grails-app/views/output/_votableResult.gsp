@@ -62,13 +62,12 @@ Expected model:
         <g:each var="table" in="${result.tables}" status="h">
           <div id="tab_votable_${h}" style="padding: 0.4em 0;">
             <g:if test="${table.type == 'empty_resource'}">
-               No data available. This is most likely because of an empty or invalid VOTable.
+               No data available.
             </g:if>
             <g:else>
               <g:if test="${taskDescriptor.resultfilter}">
                   <g:render template="/output/${taskDescriptor.resultfilter}" model="${[tableId:'table_' + result.id + '_' + h, table:table, taskDescriptor:taskDescriptor]}" />
               </g:if>
-              <!--div reference="resultTable${h}" id="resultSelectionSelectAll" class="custom_button" style="margin-right:10px;float:left;">Select All</div-->
               <div class="tabs_votable_result">
                 <ul>
                   <li><a href="#tab_votable_table_${result.id}_${h}">Show as table</a></li>
