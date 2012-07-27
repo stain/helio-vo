@@ -1,18 +1,14 @@
 <div id="menubar">
   <ul id="menu" class="sf-menu">
     <li>
-    	<a>Home</a>
-    	<ul style="width: 13em;">
-    		<li><a id="misc_splash">Home Page</a></li>
-    		<li><a id="misc_changelog">Changelog</a></li>
-    	</ul>
+    	<a id="misc_splash">Home</a>
     </li>
     <li>
     	<a>Search</a>
     	<ul>
     		<li><a id="task_eventlist">Events</a></li>
     		<li class="disabled"><a id="task_feature">Features</a></li>
-    		<li><a id="task_dataaccess">Data</a></li>
+    		<li><a id="task_dataaccess">Observation Data</a></li>
     		<li class="separated"><a id="task_ics">Instruments by Capability</a></li>
     		<li><a id="task_ils">Instruments/Planets by location/time</a></li>
     	</ul>
@@ -55,8 +51,9 @@
     	</ul>
     </li>
     <li><a>Help</a>
-      <ul style="width: 6em;">
+      <ul style="width: 10em;">
         <li><a href="<g:resource dir='help' file='hfe_tutorial_v0.1.pdf' />" target="_blank">Help</a></li>
+        <li><a id="misc_changelog">Changelog</a></li>
       </ul>
     </li>
   </ul>
