@@ -20,7 +20,7 @@
 		<wsdl>${basedir}/src/main/resources/wsdl/CisService.wsdl</wsdl>
 		<!-- Remote file <wsdl>http://cagnode58.cs.tcd.ie:8080/helio-hps-server/hpsService?wsdl</wsdl> -->
 		<cxf.version>2.2.6</cxf.version>
-		<spring-version>3.0.5.RELEASE</spring-version>
+		<spring-version>3.1.0.RELEASE</spring-version>
 		<commons-logging-version>1.1.1</commons-logging-version>
 	</properties>
 
