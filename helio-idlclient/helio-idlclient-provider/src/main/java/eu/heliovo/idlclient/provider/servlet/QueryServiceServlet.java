@@ -26,7 +26,7 @@ import eu.heliovo.registryclient.ServiceCapability;
 import eu.heliovo.shared.util.AssertUtil;
 
 /**
- * AsyncQueryServiceServlet for IDL Clients.
+ * QueryServiceServlet for IDL Clients.
  * Accept a query from IDL and pass it to the HELIO query.
  * Result is serialized for IDL and passed to IDL client.
  */
