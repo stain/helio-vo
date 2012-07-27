@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>27-Jul-2012: Upgraded plotting library with selection mode.</li>
             <li>24-Jul-2012: Some performance improvements in ICS/ILS/DPAS.</li>
             <li>18-Jul-2012: Download scripts for DPAS results.</li>
             <li>18-Jul-2012: Merge the service menu into the main menu.</li>
