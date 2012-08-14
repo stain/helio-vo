@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eu.heliovo.clientapi.HelioClient;
+import eu.heliovo.clientapi.config.AnnotatedBean;
 import eu.heliovo.clientapi.config.ConfigurablePropertyDescriptor;
 import eu.heliovo.clientapi.model.catalog.HelioCatalog;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
 import eu.heliovo.clientapi.model.field.FieldType;
 import eu.heliovo.clientapi.model.field.HelioField;
 import eu.heliovo.clientapi.model.service.HelioService;
-import eu.heliovo.clientapi.query.AnnotatedBean;
 import eu.heliovo.idlclient.model.IdlClass;
 import eu.heliovo.idlclient.model.IdlFieldType;
 import eu.heliovo.idlclient.model.IdlHelioCatalog;
