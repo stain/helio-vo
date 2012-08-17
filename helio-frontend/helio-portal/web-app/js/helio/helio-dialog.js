@@ -946,25 +946,36 @@ helio.EventListDialog.prototype._init = function() {
     
     // 1. init table
     var table = $("#selectTableEventList").dataTable( {
-        "bSort": false,
+        "bSort": true,
         "bInfo": true,
         "sScrollY": "220px",
         "bPaginate": false,
         "bJQueryUI": true,
         "sScrollX": "500px",
-        "sScrollXInner": "100%",
-        "sDom": '<"H">t<"F">'
+        "sScrollXInner": "99%",
+        "sDom": '<"H">t<"F">',
+        "aoColumnDefs": [
+            { "asSorting": [ ], "aTargets": [ 'type', 'status' ] },  // disable sorting for Type and Status
+        ]
     });
 
-    var visibleCols = ['description', 'timefrom', 'timeto', 'type', 'status'];
-    var idColName = 'name'; // name of the column that contains the identifier for this table
-    var labelColName = 'description'; // name of the column that contains the identifier for this table
+    var columnSettings = {
+        'Description' : { visible: true, sortable: true}, 
+        'From' : {visible: true, sortable: true}, 
+        'To' : {visible: true, sortable: true}, 
+        'Type' : {visible:true, sortable: false}, 
+        'Status' : {visible:true, sortable: false}
+    };
+    
+    var idColName = 'Name'; // name of the column that contains the identifier for this table
+    var labelColName = 'Description'; // name of the column that contains the identifier for this table
     
     var cols = table.fnSettings().aoColumns;
     
     for (var col in cols) {
-        var flag = $.inArray(cols[col].sTitle, visibleCols) >= 0;
-        table.fnSetColumnVis( col, flag );
+        var colSetting = columnSettings[cols[col].sTitle];
+        var visible = colSetting && colSetting.visible;
+        table.fnSetColumnVis( col, visible );
         if(cols[col].sTitle == idColName) {
             this._idCol = col;
         }
@@ -972,9 +983,9 @@ helio.EventListDialog.prototype._init = function() {
             this._labelCol = col;
         }
     }
-    
-    if (this._idCol < 0) throw "Internal Error: unable to find id col";
-    if (this._labelCol < 0) throw "Internal Error: unable to find label col";
+        
+    if (this._idCol < 0) throw "HELIO Internal Error: unable to find id col";
+    if (this._labelCol < 0) throw "HELIO Internal Error: unable to find label col";
     
     // 2. enable filters
     $(".checkFilter").change(function(){
@@ -1121,11 +1132,10 @@ helio.EventListDialog.prototype._init = function() {
     // 5. init row selection from previous values. 
     this._updateSelection(table);
 
-    // hack to format the headers of the datatables prooperly. not sure why this does not work initially.
-//    setTimeout(function() {
-//        $('#checkAll').click();
-//        $('#checkAll').click();
-//    }, 10);
+    // 6. hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        table.fnAdjustColumnSizing();
+    }, 1);
 };
 
 /**

@@ -1,11 +1,11 @@
 package eu.heliovo.hfe.service
 
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.InitializingBean
 
-import eu.heliovo.clientapi.config.des.DesFunctionArgument;
-import eu.heliovo.clientapi.config.des.DesFunctionArgument.DesFunctionOperator;
-import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor;
+import eu.heliovo.clientapi.config.des.DesFunctionArgument
+import eu.heliovo.clientapi.config.des.DesFunctionArgument.DesFunctionOperator
+import eu.heliovo.clientapi.model.field.descriptor.HecCatalogueDescriptor
+import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
@@ -45,6 +45,10 @@ class TaskDescriptorService implements InitializingBean {
      */
     def instrumentDescriptorDao;
     
+    /**
+     * Auto wire the hec event list descriptor dao
+     */
+    def hecCatalogueDescriptorDao;
     
     def taskDescriptor;
     
@@ -81,7 +85,7 @@ class TaskDescriptorService implements InitializingBean {
             [label:"Voyager2", value: "Voyager2", description: "Voyager2"]]
         
         def tav2283ValueDomain = [
-            [label:" goes_sxr_flare", value: "goes_sxr_flare", description: "goes_sxr_flare"],
+            [label:"goes_sxr_flare", value: "goes_sxr_flare", description: "goes_sxr_flare"],
             [label:"ngdc_halpha_flare", value: "ngdc_halpha_flare", description: "ngdc_halpha_flare"],
             [label:"noaa_energetic_event", value: "noaa_energetic_event", description: "noaa_energetic_event"],
             [label:"yohkoh_hxr_flare", value: "yohkoh_hxr_flare", description: "yohkoh_hxr_flare"],
@@ -91,8 +95,9 @@ class TaskDescriptorService implements InitializingBean {
             [label:"timed_see_flare", value: "timed_see_flare", description: "timed_see_flare"],
             [label:"goes_flare_sep_event", value: "goes_flare_sep_event", description: "goes_flare_sep_event"]]
         
-        def eventListModel = ServletContextHolder.servletContext.eventListModel
-        Set<InstrumentDescriptor> instrumentDescriptors = instrumentDescriptorDao.getDomainValues()
+        //def eventListModel = ServletContextHolder.servletContext.eventListModel
+        List<HecCatalogueDescriptor> eventListDescriptors = hecCatalogueDescriptorDao.getDomainValues()
+        List<InstrumentDescriptor> instrumentDescriptors = instrumentDescriptorDao.getDomainValues()
 
         
       /************* PROPAGATION MODEL *****************/
@@ -409,7 +414,7 @@ class TaskDescriptorService implements InitializingBean {
                 "eventList" :  [
                     "listNames" : [label : "Event List", description : "Name of the Event List", type : String[], 
                         defaultValue : [], 
-                        selectionTable: eventListModel]
+                        selectionDescriptor: eventListDescriptors]
                     ]
               ],
               "outputParams" : [

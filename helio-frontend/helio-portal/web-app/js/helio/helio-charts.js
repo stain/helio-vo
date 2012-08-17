@@ -58,6 +58,10 @@ function createHELIOChart(containerName,additionalContainerName,chartTitleName,j
 	var standardPlotType = helioConfObject.standardPlot;
 	chartObject.parseJSON(window['helioConfObject'][standardPlotType]['yAxisDefault'][0],window['helioConfObject'][standardPlotType]['xAxisDefault'][0],window['helioConfObject'][standardPlotType]['addInfo'],0);
 	
+	/////////////////////
+	// Create the menu //
+	/////////////////////
+	
 	// Create a checkbox menu to select the possible series
 	var yAxisDefault = window['helioConfObject'][standardPlotType]['yAxisDefault'];
 
@@ -147,6 +151,10 @@ function createHELIOChart(containerName,additionalContainerName,chartTitleName,j
 
 	// Set the menu into the additional container
 	document.getElementById(additionalContainerName).innerHTML = stringDropDown;
+	
+	////////////////////
+	// Draw the chart //
+	////////////////////
 	
 	// Display the chart within the given container
 	createScatterChart(chartContainer,additionalContainer,chartTitle,chartObject.dataStream,chartObject.yAxisArray);
@@ -536,6 +544,8 @@ function parseJSONhistogram(seriesName,xAxisName,xAxisArray,xAxisCategoryFunctio
 	var yAxisObjectTitleStyle = {};
 	// Set the title of the y-axis
 	yAxisObjectTitle.text = seriesName;
+	// Set the margin between the titel of the y-axis and the y-axis itself
+	yAxisObjectTitle.margin = 60;
 	// Set the color of the title
 	yAxisObjectTitleStyle.color = helioColors[yAxisNumber%9];
 	// Set the style of the title
@@ -811,7 +821,7 @@ function compareSeriesNames(stringToCompare,arrayOfSeriesNames) {
 * @param yAxisName Array containing the y-axis objects (used to search the correct index)
 * @param dividedArray Array containing the names of all plotted series which divide the y-axis into categories
 */
-function pointsInArrayDivided(array,lowX,highX,xAxisName,lowY,highY,yAxisName,dividedArray) {
+function pointsInArray(array,lowX,highX,xAxisName,lowY,highY,yAxisName,dividedArray) {
 	// Create an array containing the names of all y-axes
 	var yAxesNamesArray = [];
 	// Fill the array
@@ -956,15 +966,23 @@ function createScatterChart(containerName,additionalContainerName,chartTitle,dat
 					// Variables needed to enable 'Reset zoom' button
 					var min, max, ex2;
 					if(!chartObject.zoomEnabled){
-						if(event.xAxis){
+						if(event.xAxis){ // A selection has been done
+						// Do not zoom
 						event.preventDefault();
-						var selectedPointsArray = pointsInArrayDivided(chartObject.jsonObject,event.xAxis[0].min,event.xAxis[0].max,chartObject.xAxisValueName,event.yAxis[0].min,event.yAxis[0].max,chartObject.yAxisArray,chartObject.dividingSeries);
-						
+						// Get the selected points
+						var selectedPointsArray = pointsInArray(chartObject.jsonObject,event.xAxis[0].min,event.xAxis[0].max,chartObject.xAxisValueName,event.yAxis[0].min,event.yAxis[0].max,chartObject.yAxisArray,chartObject.dividingSeries);
+						// Call the callback function and pass the selected points as parameter
 						selectedPointsOnChart(selectedPointsArray);
+						// Set the min and max of the selected points to be displayed in the menu
+						min = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].min);
+						max = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].max);
 						} else {
+							min = '-';
+							max = '-';
 						}
 					} else {
-						if(event.xAxis){
+						if(event.xAxis){ // Zooming has been done
+							// Set the min and max of the new extract which is displayed. This values will be displayed in the menu
 							min = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].min);
 							max = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].max);
 						} else {
@@ -972,6 +990,7 @@ function createScatterChart(containerName,additionalContainerName,chartTitle,dat
 							max = '-';
 						}
 					}
+					// Display the min and max in the menu
 					var rangeString = '<b>Range:</b><br />Minimum: ';
 					rangeString += min;
 					rangeString += '<br />Maximum: ';
@@ -1012,7 +1031,7 @@ function createScatterChart(containerName,additionalContainerName,chartTitle,dat
 		},
 		plotOptions: {
 			series: {
-				turboThreshold: 50000,		// After reaching this number of items, only array values are accepted (no objects)
+				turboThreshold: 50000,		// After reaching this number of items, only array values are accepted (no objects) - so this is the maximum amount of points
 				cursor: 'pointer',			// Set the pointer to cursor to signal to the user that points can be clicked (cursor changes to hand when hovering a point)
 				events: {
 					click: function(event){ // Event listener for clicking a data point
@@ -1084,15 +1103,23 @@ function createColumnChart(containerName,additionalContainerName,chartTitle,data
 					// Variables needed to enable 'Reset zoom' button
 					var min, max, ex2;
 					if(!chartObject.zoomEnabled){
-						if(event.xAxis){
+						if(event.xAxis){ // A selection has been done
+						// Do not zoom
 						event.preventDefault();
-						var selectedPointsArray = pointsInArrayDivided(chartObject.jsonObject,event.xAxis[0].min,event.xAxis[0].max,chartObject.xAxisValueName,event.yAxis[0].min,event.yAxis[0].max,chartObject.yAxisArray,chartObject.dividingSeries);
-
+						// Get the selected points
+						var selectedPointsArray = pointsInArray(chartObject.jsonObject,event.xAxis[0].min,event.xAxis[0].max,chartObject.xAxisValueName,event.yAxis[0].min,event.yAxis[0].max,chartObject.yAxisArray,chartObject.dividingSeries);
+						// Call the callback function and pass the selected points as parameter
 						selectedPointsOnChart(selectedPointsArray);
+						// Set the min and max of the selected points to be displayed in the menu
+						min = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].min);
+						max = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].max);
 						} else {
+							min = '-';
+							max = '-';
 						}
 					} else {
-						if(event.xAxis){
+						if(event.xAxis){ // Zooming has been done
+						// Set the min and max of the new extract which is displayed. This values will be displayed in the menu
 							min = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].min);
 							max = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',event.xAxis[0].max);
 						} else {
@@ -1100,43 +1127,38 @@ function createColumnChart(containerName,additionalContainerName,chartTitle,data
 							max = '-';
 						}
 					}
+					
+					// Create the string in the menu to display the min and the max
 					var rangeString = '<b>Range:</b><br />Minimum: ';
 					rangeString += min;
 					rangeString += '<br />Maximum: ';
 					rangeString += max;
 					document.getElementById('range').innerHTML = rangeString;
 				},
-				load: function(){ // Add a fake button to change between zoom and selection
-					// Add the text which can be clicked
-					var zoomSelectionButtonText = this.renderer.text('Switch between zooming and selection',100,30)
-												.on('click',function(){
-													if(chartObject.zoomEnabled){ // Zooming is enabled
-														// Disable zooming
-														chartObject.zoomEnabled = false;
-														// Change text of the according div
-														document.getElementById('zoomSelect').innerHTML = '<b>Selection is enabled</b>';
-														this.textStr = 'Enable Zoom';
-													} else { // Selecting is enabled
-														// Disable selecting
-														chartObject.zoomEnabled = true;
-														// Change text of the according div
-														document.getElementById('zoomSelect').innerHTML = '<b>Zooming is enabled</b>';
-													}
-												})
-												.attr({zIndex:5})
-												.add();
-					// Get the bounding box
-					var zoomSelectionButtonBox = zoomSelectionButtonText.getBBox();
-					// Add the rectangle
-					this.renderer.rect(zoomSelectionButtonBox.x-5,zoomSelectionButtonBox.y-5,zoomSelectionButtonBox.width+10,zoomSelectionButtonBox.height+10,5)
-								.attr({
-									fill:'#999999',
-									stroke: 'gray',
-									'stroke-width':1,
-									zIndex:4
-								})
-								.add()
-				}
+				load: function() { // Add a fake button to change between zoom and selection
+			        var img = this.renderer.image('images/helio/plot_zoom.jpg',this.chartWidth-80,10,20,20); 
+			        img.add() ; 
+			        img.css({'cursor':'pointer'});
+			        img.attr({'title':'Toggle Select/Zoom: Zoom enabled'});
+			        img.attr({zIndex:5});
+			        img.on('click', function() {
+                        if(chartObject.zoomEnabled){ // Zooming is enabled
+                            // Disable zooming
+                            chartObject.zoomEnabled = false;
+                            this.href.baseVal = "images/helio/plot_select.jpg";
+                            $(this).attr({'title':'Toggle Select/Zoom: Select enabled'});
+                            // Change text of the according div
+                            document.getElementById('zoomSelect').innerHTML = '<b>Selection is enabled</b>';
+                        } else { // Selecting is enabled
+                            // Disable selecting
+                            chartObject.zoomEnabled = true;
+                            this.href.baseVal = "images/helio/plot_zoom.jpg";
+                            $(this).attr({'title':'Toggle Select/Zoom: Zoom enabled'});
+                            // Change text of the according div
+                            document.getElementById('zoomSelect').innerHTML = '<b>Zooming is enabled</b>';
+                        }
+			        });
+			     }
 			}
 		},
 		credits: {
@@ -1147,7 +1169,7 @@ function createColumnChart(containerName,additionalContainerName,chartTitle,data
 		},
 		plotOptions: {
 			series: {
-				turboThreshold: 50000,		// After reaching this number of items, only array values are accepted (no objects)
+				turboThreshold: 50000,		// After reaching this number of items, only array values are accepted (no objects) - so this is the maximum amount of points
 				cursor: 'pointer',			// Set the pointer to cursor to signal to the user that points can be clicked (cursor changes to hand when hovering a point)
 				events: {
 					click: function(event){ // Event listener for clicking a data point
@@ -1289,5 +1311,8 @@ function dataPointClicked(point){
 * @param arrayOfPoints An array containing all points (the data from the aaData object) which have been selected
 */
 function selectedPointsOnChart(arrayOfPoints){
+
+
+
 
 }

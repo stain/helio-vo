@@ -1,38 +1,33 @@
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit
-
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
-import eu.heliovo.clientapi.HelioClient
-import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor;
-import eu.heliovo.clientapi.query.HelioQueryResult
-import eu.heliovo.clientapi.query.QueryService
 import eu.heliovo.hfe.model.cart.DataCart
 import eu.heliovo.hfe.model.param.AbstractParam
-import eu.heliovo.hfe.model.param.EventListParam;
+import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.param.TimeRangeParam
-import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.security.Role
 import eu.heliovo.hfe.model.security.User
-import eu.heliovo.registryclient.HelioServiceName
-import eu.heliovo.registryclient.ServiceCapability
 import grails.converters.JSON
 import grails.util.GrailsUtil
 
 class BootStrap {
     
-    def voTableService;
-    
-    def instrumentDescriptorDao;
+//    def voTableService;
 
     /**
      * Auto-wire the helio client
      */
-    def helioClient;
+//    def helioClient;
+    
+    /**
+     * Auto wire the hec event list descriptor dao
+     * Used to warm up the system (i.e. to load the hec data from remote)
+     */
+    def hecCatalogueDescriptorDao;
+    
     
     def init = { servletContext ->
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -46,11 +41,6 @@ class BootStrap {
             case "development":
             //org.hsqldb.util.DatabaseManager.main()
             case "production":
-            // init descriptors
-                if (!servletContext.eventListModel) {
-                    servletContext.eventListModel = initEventListModel(helioClient)
-                }
-
                 break
             case "test":
                 def testUser = new User(username: "a.b@c.de",
@@ -59,6 +49,11 @@ class BootStrap {
                 SpringSecurityUtils.reauthenticate("a.b@c.de", "password.123")
                 break
         }
+        
+        // warmup system
+        hecCatalogueDescriptorDao.getDomainValues()
+        
+        
     }
     def destroy = {
     }
@@ -74,27 +69,6 @@ class BootStrap {
         // add temp user filter
         SpringSecurityUtils.clientRegisterFilter(
                 'tempUserFilter', SecurityFilterPosition.REMEMBER_ME_FILTER.order + 20)
-    }
-
-    /**
-     * Init the event list descriptors
-     * @param servletContext the current servletContext
-     * @param helioClient the helioClient
-     * @return
-     */
-    private def initEventListModel(HelioClient helioClient) {
-        // init the HEC configuration
-        QueryService service = helioClient.getServiceInstance(HelioServiceName.HEC, null, ServiceCapability.SYNC_QUERY_SERVICE)
-        HelioQueryResult hecQueryResult = service.query(Arrays.asList("1900-01-01T00:00:00"), Arrays.asList("3000-12-31T00:00:00"),
-                Arrays.asList("hec_catalogue"), null, 0, 0, null)
-
-        int timeout = 60
-
-        URL votableUrl = hecQueryResult.asURL(timeout, TimeUnit.SECONDS)
-        def model = voTableService.createVOTableModel(new RemoteVOTableResult(url: votableUrl.toString()))
-        assert model.tables[0], "Failed to load HEC list catalogue"
-        
-        model.tables[0]
     }
 
     private def initMarshallers() {

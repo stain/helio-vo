@@ -442,6 +442,7 @@ table.dialog_content_table td {
 	width: 250px;
 	height: 220px;
 	margin: 0;
+	overflow: auto;
 }
 
 .dialog_selection_area ul {
@@ -457,7 +458,7 @@ table.dialog_content_table td {
 
 .dialog_selection_area_text {
 	float: left;
-	width: 220px;
+	width: 210px;
 	min-height: 20px;
 }
 

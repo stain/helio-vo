@@ -31,25 +31,25 @@ Expected variables:
           <tr>
             <td></td>
             <td>Event type:</td>
-            <td><input class="checkFilter event" name="CME" title="Coronal Mass Ejection" column="7" type="checkbox" value="y"/> CME</td>
-            <td><input class="checkFilter event" name="Flare" title="Flare" title="Flare" column="6" type="checkbox" value="y"/> Flare</td>
-            <td><input class="checkFilter event" name="Solar Wind" title="Solar Wind" column="8" type="checkbox" value="y"/> Solar Wind </td>
-            <td><input class="checkFilter event" name="Particle" title="Particle" column="9" type="checkbox" value="y"/> Particle</td>
+            <td><input class="checkFilter event" name="CME" title="Coronal Mass Ejection" column="8" type="checkbox" value="true"/> CME</td>
+            <td><input class="checkFilter event" name="Flare" title="Flare" title="Flare" column="7" type="checkbox" value="true"/> Flare</td>
+            <td><input class="checkFilter event" name="Solar Wind" title="Solar Wind" column="9" type="checkbox" value="true"/> Solar Wind </td>
+            <td><input class="checkFilter event" name="Particle" title="Particle" column="8" type="checkbox" value="true"/> Particle</td>
           </tr>
           <tr>
             <td></td>
             <td>Location:</td>
-            <td><input class="checkFilter location" name="Solar" title="Solar" name="solar" column="11" type="checkbox" value="y"/> Solar</td>
-            <td><input class="checkFilter location" name="IPS" title="Interplanetary Space" column="12" type="checkbox" value="y"/> IPS</td>
-            <td><input class="checkFilter location" name="Geo" title="Geo" column="13" type="checkbox" value="y"/> Geo</td>
-            <td><input class="checkFilter location" name="Planet "title="Planet" column="14" type="checkbox" value="y"/> Planet</td>
+            <td><input class="checkFilter location" name="Solar" title="Solar" name="solar" column="12" type="checkbox" value="true"/> Solar</td>
+            <td><input class="checkFilter location" name="IPS" title="Interplanetary Space" column="13" type="checkbox" value="true"/> IPS</td>
+            <td><input class="checkFilter location" name="Geo" title="Geo" column="14" type="checkbox" value="true"/> Geo</td>
+            <td><input class="checkFilter location" name="Planet "title="Planet" column="15" type="checkbox" value="true"/> Planet</td>
           </tr>
           <tr>
             <td></td>
             <td>Obs. type:</td>
-            <td><input class="checkFilter observation" title="In situ" name="obsType" column="10" type="radio" value="I"/> In situ</td>
-            <td><input class="checkFilter observation" title="Remote" name="obsType" column="10" type="radio" value="r"/> Remote</td>
-            <td><input class="checkFilter observation" title="Both" name="obsType" id="obsBoth" checked="checked" column="10" type="radio" value="I|r"/> Both</td>
+            <td><input class="checkFilter observation" title="In situ" name="obsType" column="11" type="radio" value="I"/> In situ</td>
+            <td><input class="checkFilter observation" title="Remote" name="obsType" column="11" type="radio" value="r"/> Remote</td>
+            <td><input class="checkFilter observation" title="Both" name="obsType" id="obsBoth" checked="checked" column="11" type="radio" value="I|r"/> Both</td>
             <td></td>
           </tr>
         </table>
@@ -65,7 +65,10 @@ Expected variables:
         <table style="width:750">
           <tr>
             <td width="500" valign="top">
-              <g:render template="/output/_votable" model="${[tableId: 'selectTableEventList', tableName: 'selectTableEventList', table:taskDescriptor.inputParams.eventList.listNames.selectionTable, renderData:true]}"/>
+              <g:render template="/dialog/_catalogTable" 
+                  model="${[tableId: 'selectTableEventList', tableName: 'selectTableEventList', 
+                      rowDescriptors: taskDescriptor.inputParams.eventList.listNames.selectionDescriptor,
+                      columnDescriptors: taskDescriptor.inputParams.eventList.listNames.selectionDescriptor[0].beanInfo.propertyDescriptors]}"/>
             </td>
             <td width="250" valign="top">
                 <div id="summaryEventList" class="candybox dialog_selection_area"></div>

@@ -52,6 +52,51 @@ this.helio = this.helio ||
    moment.fn.toJSON = function() {
        return this.format("YYYY-MM-DDTHH:mm:ss");
    };
+   
+   this.helio.DataTableExt = this.helio.DataTableExt || 
+       { toString : function() {return 'package helio.DataTableExt';}};
+       
+   // a custom regex to detect xrayclasses
+   this.helio.DataTableExt.xrayclass = /(^[ABCMX])(\d+(?:\.\d+)?$)/;
+   
+//    /**
+//     * A custom datatables type for flare classes. 
+//     */
+//    jQuery.fn.dataTableExt.aTypes.push(function(sData) {
+//        console.log('sData', sData, helio.DataTableExt.xrayclass.test(sData));
+//        if (helio.DataTableExt.xrayclass.test(sData)) {
+//            return 'xrayclass';
+//        } 
+//        return null;
+//    });
+
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+        "xrayclass-pre": function ( value ) {
+            console.log('value', value);
+            var matcher = helio.DataTableExt.xrayclass.exec(value);
+            var key;
+            if (matcher) {
+                // insert additional 0 if X flare < 10.
+                if (matcher[1] == 'X' && parseInt(matcher[2]) < 10) {
+                    key = matcher[1] + "0" + matcher[2];
+                } else {
+                    key = matcher[0];
+                }
+            } else {
+                key = '!'; // first character in ascii alphabet
+            }
+            return key;
+        },
+        
+        "xrayclass-asc": function( a, b ) {
+            console.log('value', a, b);
+            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+        },
+    
+        "xrayclass-desc": function(a,b) {
+            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+        }
+    } );
 })();      
 
 

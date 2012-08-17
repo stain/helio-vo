@@ -15,11 +15,11 @@
 <%--plugins--%>
 <g:if env="prod">
   <g:javascript src="/plugins/jquery-ui-1.8.21.custom.min.js"/>
-  <g:javascript src="/plugins/jquery.dataTables-1.9.1.min.js" /> <%--the data tables use for presentation of votables --%>
+  <g:javascript src="/plugins/jquery.dataTables-1.9.3.min.js" /> <%--the data tables use for presentation of votables --%>
 </g:if>
 <g:else>
   <g:javascript src="/plugins/jquery-ui-1.8.21.custom.js"/>
-  <g:javascript src="/plugins/jquery.dataTables-1.9.1.js" /> <%--the data tables use for presentation of votables --%>
+  <g:javascript src="/plugins/jquery.dataTables-1.9.3.js" /> <%--the data tables use for presentation of votables --%>
 </g:else>
 
 <g:javascript src="/plugins/jquery-ui-timepicker-addon.js"/><%--Addon that expand the ui-datepicker into a time-datepicker --%>

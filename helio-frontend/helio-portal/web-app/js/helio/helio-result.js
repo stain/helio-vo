@@ -82,9 +82,11 @@ helio.VOTableResult.prototype.init = function() {
     $("#tabs_votables").tabs(); // tabs for multiple votables
     $(".tabs_votable_result").tabs(); // tab for plot/tabular view
     
-    // 3. enable ok-dialogs
-    $(".ok_dialog").dialog({ autoOpen: false, modal: true, width: 600,
-        buttons: { "Ok": function() { $(this).dialog("close"); }} 
+    // 3. enable ok-dialogs (but first destroy any existing dialog)
+    $(".ok_dialog")
+    .dialog('destroy')
+    .dialog({ autoOpen: false, modal: true, width: 600,
+        buttons: { "Ok": function() { $(this).dialog("close"); }},
     });
     
     // 4. make result area collapsible

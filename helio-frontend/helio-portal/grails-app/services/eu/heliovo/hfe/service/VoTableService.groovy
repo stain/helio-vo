@@ -234,6 +234,9 @@ class VoTableService {
             headerCell["unit"] = field.unit
             headerCell["utype"] = field.utype
             headerCell["xtype"] = field.xtype
+            if (isFlareClass(field)) {
+                headerCell["sType"] = 'xrayclass'
+            }
             tableModel.aoColumns.add(headerCell)
         }
         
@@ -368,5 +371,14 @@ class VoTableService {
         voMap["description"]= voElement.description
         // do we need to deal with getHandle()???
         return voMap
+    }
+    
+    /**
+     * Test if the given field is a flareclass type.
+     * @param field the field to check
+     * @return true if a flareclass, false otherwise.
+     */
+    private isFlareClass(field) {
+        field.ucd == 'meta.code.class;em.X-ray' || field.utype == 'helio:flare.magnitude.xray_class'
     }
 }

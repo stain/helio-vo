@@ -23,9 +23,9 @@ class CatalogController {
     def taskDescriptorService
     
     def catalogService
-        
+    
     def voTableService
-
+    
     def index = {
     }
     
