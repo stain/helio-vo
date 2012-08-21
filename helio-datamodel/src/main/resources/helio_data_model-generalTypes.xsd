@@ -168,9 +168,20 @@
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
+				<xs:element name="time_series" type="TimeSeriesCoordinate"/>
 			</xs:choice>
 		</xs:sequence>
 		<xs:attribute ref="coordinate_system" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="TimeSeriesCoordinate">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="x_time" type="Time"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="y_measurement" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>the physical mesurement which was done (e.g. MHz for frequency in radio)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:simpleType name="Count">
 		<xs:restriction base="xs:double">
@@ -239,10 +250,22 @@
 			<xs:element name="time_period" type="TimePeriod"/>
 			<xs:element name="time_peak" type="xs:dateTime"/>
 			<xs:element name="time_1au" type="xs:dateTime"/>
-			<xs:element name="time_observation" type="xs:dateTime"/>
-			<xs:element name="time_creation" type="xs:dateTime"/>
+			<xs:element name="time_observation" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>time when an observation was made</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="time_creation" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Date time when the data file where processed or captured</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="time" type="xs:dateTime"/>
-			<xs:element name="julian_time" type="JulianDate"/>
+			<xs:element name="julian_time" type="JulianDate">
+				<xs:annotation>
+					<xs:documentation>a time experessed as julian time; it should be used in connection with another time entry expressed in dateTime to specify the meaning</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:element name="time" type="Time"/>
@@ -255,10 +278,18 @@
 		<xs:restriction base="xs:integer"/>
 	</xs:simpleType>
 	<xs:simpleType name="URL">
-		<xs:restriction base="xs:string">
+		<xs:restriction base="xs:anyURI">
 			<xs:annotation>
-				<xs:documentation>Improve!</xs:documentation>
+				<xs:documentation>Any valid URL</xs:documentation>
 			</xs:annotation>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Email">
+		<xs:annotation>
+			<xs:documentation>any valid email address</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\w+([-+.&apos;]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:element name="instrument" type="ns1:instrument"/>
@@ -273,7 +304,7 @@
 	</xs:complexType>
 	<xs:complexType name="BoundingRectangle">
 		<xs:choice>
-			<xs:element maxOccurs="2" minOccurs="2" name="coord_image" type="Location">
+			<xs:element maxOccurs="4" minOccurs="2" name="coord_image" type="Location">
 				<xs:annotation>
 					<xs:documentation>2 coordinates (2 opposite corners) for a bounding rectangle on a 2D image</xs:documentation>
 				</xs:annotation>
@@ -283,7 +314,11 @@
 					<xs:documentation>4 coordinates (4 corners) for bounding rectangle on a sphere</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element maxOccurs="4" minOccurs="2" name="coord_time_series" type="xs:float"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:element name="externale_reference_id" type="ID"/>
+	<xs:simpleType name="CarringtonType">
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
 </xs:schema>

@@ -5,18 +5,26 @@
 	<xs:include schemaLocation="helio_data_model-generalTypes.xsd"/>
 	<xs:complexType name="SpatialScale">
 		<xs:sequence maxOccurs="1" minOccurs="1">
-			<xs:element maxOccurs="1" minOccurs="1" name="sptial_scale_x_arcsec" type="xs:double"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="sptial_scale_y_arcsec" type="xs:double"/>
+			<xs:choice maxOccurs="1" minOccurs="1">
+				<xs:element maxOccurs="1" minOccurs="1" name="spatial_scale_x_arcsec" type="xs:double"/>
+				<xs:element maxOccurs="1" name="spatial_scale_x_time"/>
+			</xs:choice>
+			<xs:choice maxOccurs="1" minOccurs="1">
+				<xs:element maxOccurs="1" minOccurs="1" name="spatial_scale_y_arcsec" type="xs:double"/>
+				<xs:element name="spatial_scale_y_measurement"/>
+			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="IntensityType">
 		<xs:choice>
 			<xs:element name="bz_magnetic_field_gauss" type="xs:double"/>
-			<xs:element name="bz_flux_unit" type="xs:double">
-				<xs:annotation>
-					<xs:documentation>change unit to unit</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="PhotoIntensityType">
+		<xs:choice maxOccurs="1" minOccurs="1">
+			<xs:element name="w_per_m2_per_hz" type="xs:double"/>
+			<xs:element name="jansky" type="xs:double"/>
+			<xs:element name="solar_flux_units" type="xs:double"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="ChainCodeType">
@@ -28,9 +36,9 @@
 	</xs:complexType>
 	<xs:complexType name="SkeletonType">
 		<xs:sequence>
-			<xs:element maxOccurs="unbounded" minOccurs="1" name="centre" type="Location"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="length_deg" type="xs:float"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="curvation" type="xs:float"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="centre" type="Location"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="length_deg" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="curvation" type="xs:float"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="chain_code" type="ChainCodeType"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -65,19 +73,29 @@
 					<xs:documentation>Area of the feature in square degrees</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="max_bz" type="IntensityType">
+			<xs:element maxOccurs="1" minOccurs="0" name="max_bz" type="IntensityType">
 				<xs:annotation>
 					<xs:documentation>Feature max. intensity value</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="min_bz" type="IntensityType">
+			<xs:element maxOccurs="1" minOccurs="0" name="min_bz" type="IntensityType">
 				<xs:annotation>
 					<xs:documentation>Feature min. intensity value</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="mean_bz" type="IntensityType">
+			<xs:element maxOccurs="1" minOccurs="0" name="mean_bz" type="IntensityType">
 				<xs:annotation>
 					<xs:documentation>Feature mean intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="total_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature total intensity value</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="abs_total_bz" type="IntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature total abs. line-of-sight intensity value</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="0" name="skew_bz" type="IntensityType">
@@ -96,6 +114,38 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="snapshot" type="URL"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="max_intensity" type="PhotoIntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature max. value, in units of the original observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="min_intensity" type="PhotoIntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature min. value, in units of the original observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="mean_intensity" type="PhotoIntensityType">
+				<xs:annotation>
+					<xs:documentation>Feature mean value, in units of the original observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="output_file_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Full path and name of ouput file used to fill feature table</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="source_file_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the data file used to fill the table</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="original_file_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the original file used to do the feature recognision</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="run_time" type="Time"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="quiet_sun_intensity" type="xs:int"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ImageType">
@@ -105,11 +155,35 @@
 					<xs:documentation>Date of observation</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_prev_obs" type="Time">
+				<xs:annotation>
+					<xs:documentation>Date of previouse image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="1" name="rot_carr" type="Location"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="spacial_scale" type="SpatialScale"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="bitpix" type="xs:integer">
+			<xs:element maxOccurs="1" minOccurs="1" name="bitpix">
 				<xs:annotation>
-					<xs:documentation>Number of bit per pixel</xs:documentation>
+					<xs:documentation>Number of bit per pixel (as in FITS header)</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="8"/>
+						<xs:enumeration value="16"/>
+						<xs:enumeration value="32"/>
+						<xs:enumeration value="-32"/>
+						<xs:enumeration value="-64"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="bscale" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>scale factor for data; his value should be multiplied by the data array values when reading the FITS file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="bzero" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>offset for data; this value should be added to the data array values when reading the FITS file</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="1" name="naxis_x" type="xs:integer">
@@ -174,14 +248,30 @@
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="diameter"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="diameter" type="Length"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="umbra_count"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="umbra_area"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="umbra_total_flux"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="umbra_abs_total_flux"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="umbra_max_flux"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="umbra_min_flux"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_area" type="Area"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_total_bz"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_abs_total_bz"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_max_bz"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_min_bz"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_mean_bz"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_max_intensity" type="IntensityType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_min_intensity" type="IntensityType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="umbra_mean_intensity" type="IntensityType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="umbra_diameter" type="Length"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="rs" type="RasterScanType"/>
 		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Length">
+		<xs:choice maxOccurs="1" minOccurs="1">
+			<xs:element name="degrees" type="xs:float"/>
+			<xs:element name="mega_meter" type="xs:float"/>
+			<xs:element name="arcsec" type="xs:float"/>
+			<xs:element name="km" type="xs:float"/>
+			<xs:element name="pix" type="xs:int"/>
+		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="FilamentType">
 		<xs:sequence>
@@ -194,6 +284,7 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="1" name="orientation"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="CHType">
@@ -220,21 +311,24 @@
 					<xs:documentation>size of CH</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="0" name="ch_group_id" type="xs:integer">
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="xs:integer">
 				<xs:annotation>
 					<xs:documentation>Pointing to group number</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="observation_eit_id" type="xs:integer">
-				<xs:annotation>
-					<xs:documentation>Pointing to observation in EIT</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="observation_mdi_id" type="xs:integer">
-				<xs:annotation>
-					<xs:documentation>Pointing to observation in MDI</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="coronal_hole_partof_group" type="CHType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FeatureList">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_name" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_description" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="caviats" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="list_type" type="HFCListType"/>
+			<xs:element maxOccurs="unbounded" minOccurs="1" name="instsrument" type="ns1:instrument"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="encoding_method" type="EMType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ARType">
@@ -286,6 +380,403 @@
 					<xs:documentation>NOAA Active Region number</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="noaa_solar_region_id" type="ID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProminenceType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="blob_count" type="Count">
+				<xs:annotation>
+					<xs:documentation>Number of blobs in the prominence (separate detection assigned to the same structure)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="blob_separator">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="lat_length" type="Length">
+				<xs:annotation>
+					<xs:documentation>Latitudinal extension</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="height" type="Length">
+				<xs:annotation>
+					<xs:documentation>Height of the prominence</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="max_intensity" type="ProminenceIntensityType">
+				<xs:annotation>
+					<xs:documentation>Max intensity of the feature by level (eg 995L1101L1299 max intensity of highest level is 1299)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="min_intensity" type="ProminenceIntensityType">
+				<xs:annotation>
+					<xs:documentation>Min intensity of the feature by level (eg 1021L1155L1433 min intensity of level 0 is 1021)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="mean_intensity" type="ProminenceIntensityType">
+				<xs:annotation>
+					<xs:documentation>Mean intensity of the feature by level</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="level_separator">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:length value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="intensity_level_count" type="Count"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="rs" type="RasterScanType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="ProminenceIntensityType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([0-9])+([A-Z](0-9)+)*"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="FeatureRecognisionCodeType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="0" name="feature_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the feature</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="code_id" type="ID">
+				<xs:annotation>
+					<xs:documentation>primary index</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="institute" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Institute responsible for running the fc code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="code_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>name of the feature recognision code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="version" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>version of the feature recognision code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="encoding" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>encoding method</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="person" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>person responsible for running the feature recognision code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="email" type="Email">
+				<xs:annotation>
+					<xs:documentation>email address of person responsible for running the feature recognision code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="reference" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>any reference to a document or article that describes the feature recognision code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RasterScanType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="raster_scan" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The string of the raster scan</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="raster_scan_length" type="Count"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ObservationType">
+		<xs:sequence>
+			<xs:element name="image" type="ImageType"/>
+			<xs:element name="carrington_rotation" type="CarringtonType">
+				<xs:annotation>
+					<xs:documentation>Carrington rotation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_period" type="TimePeriod">
+				<xs:annotation>
+					<xs:documentation>Date and time of the start and  end of the observation in UTC</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="exposure_time_s" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Exposure time (if available), in seconds and fractions of second</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="file_format" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Format of the original file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="original_file_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the original file</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID">
+				<xs:annotation>
+					<xs:documentation>Primary index</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="url_orig_file" type="URL">
+				<xs:annotation>
+					<xs:documentation>URL pointing to the original file path (when available)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="quick_look_file_name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>File name of the quick look image (when available)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="url_quick_look_file" type="URL">
+				<xs:annotation>
+					<xs:documentation>URL pointing to the quick look image (when available)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="quality">
+				<xs:annotation>
+					<xs:documentation>Quality of the original image (in terms of processing)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="local_file_path" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Full path of the original file on local disk</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ObservatoryType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="observatory" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the observatory (or spacecraft) that made the observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="instrument" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the instrument that made the observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="telescope" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Name of the sub-part (or receiver) that made the observation</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="observatory_instrument_id" type="ns1:instrument">
+				<xs:annotation>
+					<xs:documentation>observatory_instrument_id HELIO primary key for instruments as defined by the ICS</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="observatory_type">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Remote-sensing"/>
+						<xs:enumeration value="in situ"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="unit">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Gauss"/>
+						<xs:enumeration value="Counts"/>
+						<xs:enumeration value="dB above background"/>
+						<xs:enumeration value="SFU"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="spectral_name">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="Line_of_sight magnetic field"/>
+						<xs:enumeration value="Extreme ultraviolet"/>
+						<xs:enumeration value="Radio"/>
+						<xs:enumeration value="visible"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="wave_unit">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="nm"/>
+						<xs:enumeration value="MHz"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="wave_name" type="xs:string"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="wave_min" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="wave_max" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PreprocessingOutputType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="background_cleaning" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has background cleaning been</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="algebraic_error_pix" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Algebraic error (in pixels)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="bits_per_pixel" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Coding of the pre-processed image</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="division_to_normalise" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has division been used to normalise</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ellipse_fitting" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has ellipse fitting been used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ellipse" type="EllipseType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID">
+				<xs:annotation>
+					<xs:documentation>primary index</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="normalizing_parameter" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>normalizing parameter for division method</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="limb_darkening_removal" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has limb darkening removal</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="line_cleaning" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has line cleaning been used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="line_cleaning_direction_deg" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Main direction of line cleaning in degrees</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="image" type="ImageType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="standardisation" type="xs:boolean">
+				<xs:annotation>
+					<xs:documentation>Has standardisation been used</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="standard_deviation" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Standard deviation (in pixels)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="geometric_standard_deviation" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Standard deviation geometric (in pixels)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EllipseType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="angle" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="axis1" type="Length"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="axis2" type="Length"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="centre" type="Location"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="percent" type="xs:float">
+				<xs:annotation>
+					<xs:documentation>Used in ellipse fitting</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RadioType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="ellipse" type="EllipseType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TrackingType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="level_of_trust" type="LevelOfTrustType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="behaviour_code" type="xs:int"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="tracking_id" type="TrackingIDType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="previous_tracking_id" type="TrackingIDType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="feature" type="FeatureType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TrackingIDType">
+		<xs:restriction base="xs:int"/>
+	</xs:simpleType>
+	<xs:simpleType name="LevelOfTrustType">
+		<xs:restriction base="xs:int"/>
+	</xs:simpleType>
+	<xs:complexType name="TypeIIType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="level_of_trust" type="LevelOfTrustType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="rs" type="RasterScanType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="skeleton" type="SkeletonType"/>
+			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="drift" type="DriftType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TypeIIIType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="id" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="level_of_trust" type="LevelOfTrustType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="skeleton" type="SkeletonType"/>
+			<xs:element maxOccurs="1" minOccurs="1" name="number_of_components" type="xs:int"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="drift" type="DriftType"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="component">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="F">
+							<xs:annotation>
+								<xs:documentation>Fundamental</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="H">
+							<xs:annotation>
+								<xs:documentation>second harmonic</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+						<xs:enumeration value="NULL">
+							<xs:annotation>
+								<xs:documentation>not defined</xs:documentation>
+							</xs:annotation>
+						</xs:enumeration>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DriftType">
+		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="0" name="drift_rate_start" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="drift_rate_end" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="drift_rate_average" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="fitted_coefficient" type="xs:float"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="fitted_exponent" type="xs:float"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="HFCListType">
@@ -294,21 +785,10 @@
 			<xs:element maxOccurs="unbounded" name="coronal_hole" type="CHType"/>
 			<xs:element maxOccurs="unbounded" name="filament" type="FilamentType"/>
 			<xs:element maxOccurs="unbounded" name="sun_spot" type="SSType"/>
+			<xs:element maxOccurs="unbounded" name="prominence" type="ProminenceType"/>
+			<xs:element maxOccurs="unbounded" name="radio" type="RadioType"/>
 		</xs:choice>
 	</xs:complexType>
-	<xs:complexType name="FeatureList">
-		<xs:sequence>
-			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="list_id" type="ID"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="list_name" type="xs:string"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="list_description" type="xs:string"/>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="caviats" type="xs:string"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="list_type" type="HFCListType"/>
-			<xs:element maxOccurs="unbounded" minOccurs="1" name="instsrument" type="ns1:instrument"/>
-			<xs:element maxOccurs="1" minOccurs="1" name="encoding_method" type="EMType"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:element name="image" type="ImageType"/>
 	<xs:element name="feature" type="FeatureType"/>
 	<xs:element name="ar" type="ARType"/>
 	<xs:element name="hfc" type="FeatureList"/>
@@ -316,4 +796,17 @@
 	<xs:element name="ch_group" type="CHType"/>
 	<xs:element name="filament" type="FilamentType"/>
 	<xs:element name="sun_spot" type="SSType"/>
+	<xs:element name="hfc_radio" type="RadioType"/>
+	<xs:element name="type_II" type="TypeIIType"/>
+	<xs:element name="type_III" type="TypeIIIType"/>
+	<xs:element name="ar_tracking" type="TrackingType"/>
+	<xs:element name="filament_tracking" type="TrackingType"/>
+	<xs:element name="ch_tracking" type="TrackingType"/>
+	<xs:element name="image" type="ImageType"/>
+	<xs:element name="prominence" type="ProminenceType"/>
+	<xs:element name="feature_recognision_code" type="FeatureRecognisionCodeType"/>
+	<xs:element name="preprocessing_code" type="FeatureRecognisionCodeType"/>
+	<xs:element name="observation" type="ObservationType"/>
+	<xs:element name="hfc_observatory" type="ObservatoryType"/>
+	<xs:element name="preprocessing_output" type="PreprocessingOutputType"/>
 </xs:schema>

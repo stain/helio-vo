@@ -7,7 +7,7 @@
 			<xs:element maxOccurs="1" minOccurs="1" name="list_id" type="ID"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="list_name" type="xs:string"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="list_description" type="xs:string"/>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="caviats" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="caveats" type="xs:string"/>
 			<xs:element maxOccurs="unbounded" minOccurs="1" name="observatory_instrument_id" type="ns1:instrument"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="list_type" type="HECListType"/>
 		</xs:sequence>
@@ -16,7 +16,7 @@
 		<xs:choice maxOccurs="1" minOccurs="1">
 			<xs:element name="flare" type="FlareType"/>
 			<xs:element name="cme" type="CMEType"/>
-			<xs:element name="cme_insitu" type="InsituCMEType"/>
+			<xs:element name="cme_insitu" type="InterplanetaryCMEType"/>
 			<xs:element name="magnetic_storm" type="MagneticStormType"/>
 			<xs:element name="solar_energetic_proton" type="SolarEnergeticProtonType"/>
 			<xs:element name="solar_wind_transient" type="SolarWindTransientEvent"/>
@@ -31,13 +31,37 @@
 			<xs:element maxOccurs="1" minOccurs="1" ref="time_period"/>
 			<xs:element maxOccurs="1" minOccurs="1" name="time_peak" type="Time"/>
 			<xs:element maxOccurs="1" minOccurs="1" ref="location"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="nar" type="NAR"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="nar" type="NAR">
+				<xs:annotation>
+					<xs:documentation>NOAA active region index</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element maxOccurs="unbounded" minOccurs="1" name="magnitude" type="Magnitude"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="duration" type="DeltaTime"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="time_start_modifier" type="TimeModifier"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="time_end_modifier" type="TimeModifier"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="time_peak_modifier" type="TimeModifier"/>
-			<xs:element maxOccurs="1" minOccurs="0" name="rhessi_flare_number" type="ID"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="duration" type="DeltaTime">
+				<xs:annotation>
+					<xs:documentation>Duration of the flare in seconds</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_start_modifier" type="TimeModifier">
+				<xs:annotation>
+					<xs:documentation>Time modifier: E means Earlier U means Uncertain D means Later</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_end_modifier" type="TimeModifier">
+				<xs:annotation>
+					<xs:documentation>Time modifier: E means Earlier U means Uncertain D means Later</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_peak_modifier" type="TimeModifier">
+				<xs:annotation>
+					<xs:documentation>Time modifier: E means Earlier U means Uncertain D means Later</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="rhessi_flare_number" type="ID">
+				<xs:annotation>
+					<xs:documentation>An ID number, ymmddnn, e.g., 2042101 is the first flare found for 21-Apr-2002. These numbers are not time ordered, e.g., flare 2042129 occurred before 2042104. Also all sorts of problems have been noted since 2010 has started, and the energy range has been changed, resulting in more than 100 flares in certain days. Flare_ids for 2010 and beyond start with a 2 digit year, and there can be 3 digits for the flare number in a given day e.g., 100601102.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="0" name="noaa_flare_number" type="ID"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="phase_angle" type="xs:float"/>
 			<xs:element maxOccurs="unbounded" minOccurs="0" name="flag" type="FlareFlagType"/>
@@ -155,6 +179,11 @@
 			<xs:element maxOccurs="1" minOccurs="0" name="time_onset" type="Time"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_onset_not_valid" type="xs:boolean"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="time_1au" type="Time"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_1sr" type="Time">
+				<xs:annotation>
+					<xs:documentation>Time at which the backwards extrapolated time-height trajectory of the CME front is at 1 solar radius.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element maxOccurs="1" minOccurs="0" name="duration_lift_off_h" type="DeltaTime"/>
 			<xs:element maxOccurs="unbounded" minOccurs="1" name="velocity" type="Velocity"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="acceleration" type="AccelerationType"/>
@@ -288,6 +317,11 @@
 					<xs:documentation>The ratio of the velocity of fast mode waves to the Alfven velocity.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="1" name="v_1au">
+				<xs:annotation>
+					<xs:documentation>The ICME speed at 1AU.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:element name="velocity" type="Velocity"/>
@@ -302,7 +336,33 @@
 			<xs:element name="acceleration_ms-2"/>
 		</xs:choice>
 	</xs:complexType>
-	<xs:complexType name="InsituCMEType">
+	<xs:complexType name="ICMETimeOffset">
+		<xs:choice maxOccurs="unbounded" minOccurs="1">
+			<xs:element name="time_offset_start_sig">
+				<xs:annotation>
+					<xs:documentation>Estimated offset of the start of the compositional/charge state signatures in the vicinity of the ICME relative to the “ICME” start time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="time_offset_end_sig">
+				<xs:annotation>
+					<xs:documentation>Estimated offset of the end of the compositional/charge state signatures in the vicinity of the ICME relative to the “ICME” end time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="time_offset_start_mc">
+				<xs:annotation>
+					<xs:documentation>Time offset (in hours) of the magnetic leading boundary relative to the ICME boundary based primarily on the WIND magnetic cloud list. Additional events identified by Huttunen et al. (2005) in 1996 – 2003
+are also included.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="time_offset_end_mc">
+				<xs:annotation>
+					<xs:documentation>Time offset (in hours) of the magnetic trailing boundary relative to the ICME boundary based primarily on the WIND magnetic cloud list. Additional events identified by Huttunen et al. (2005) in 1996 – 2003
+are also included.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="InterplanetaryCMEType">
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="1" name="plasma_magnetic_field_strength" type="MagneticFieldType"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="plasma_magnetic_field_strength_error" type="MagneticFieldType"/>
@@ -335,6 +395,20 @@
 						<xs:element name="counts_max_mars"/>
 					</xs:choice>
 				</xs:complexType>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_offset_h" type="ICMETimeOffset"/>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_estimate_quality">
+				<xs:annotation>
+					<xs:documentation>indicates the overall “quality” of the ICME boundary time estimates, where ‘1’ is
+the most reliable.
+values 1 to 3</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:int">
+						<xs:minInclusive value="3"/>
+						<xs:maxInclusive value="3"/>
+					</xs:restriction>
+				</xs:simpleType>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -521,14 +595,14 @@
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="IcmeFlagType">
-		<xs:choice>
-			<xs:element name="icme_type" type="xs:string">
+		<xs:choice maxOccurs="unbounded" minOccurs="0">
+			<xs:element maxOccurs="1" minOccurs="0" name="icme_type" type="xs:string">
 				<xs:annotation>
 					<xs:documentation>? indicates an ambiguous event
 * indicates a hybrid event (i.e. Combined with another solar wind structure)</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="icme_group">
+			<xs:element maxOccurs="1" minOccurs="0" name="icme_group">
 				<xs:annotation>
 					<xs:documentation>In the hypothesis that all ICMEs have a central flux rope, these three groups of Pt profiles are due to different approach distances to the central flux rope.
 Group 1 includes events that appear to be traversed near the ICME center, showing an apparent enhanced central Pt
@@ -543,10 +617,68 @@ Group 2 includes events with intermediate signatures.</xs:documentation>
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="ace_wind_indicator">
+				<xs:annotation>
+					<xs:documentation>If a sudden commencement (SC) is reported this flag is not set. 
+If an SC is not reported, the time of shock passage at ACE (indicated by (A)) is given. 
+If there are no data at ACE, or a shock is not reported at that spacecraft, the shock time at WIND (W) is listed if a shock is reported.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_offset_start_sig">
+				<xs:annotation>
+					<xs:documentation>“ns” indicates that there is no compositional/charge state signature while 
+“nc” indicates that there is no change or there is no clear compositional/charge state change. 
+An absence of data is indicated by “nd ”. Close agreement between the ICME and composition/
+charge state boundaries (to within an hour or so, limited by the resolution of the SWICS
+data) is indicated by a “zero hour” offset. Different compositional/charge
+state changes may not coincide exactly though frequently there is a consensus. Typically
+the O7/O6 ratio is used as a reference.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_offset_end_sig">
+				<xs:annotation>
+					<xs:documentation>&quot;“ns” indicates that there is no compositional/charge state signature while “nc” indicates
+that there is no change or there is no clear compositional/charge state change. An
+absence of data is indicated by “nd ”. Close agreement between the ICME and composition/
+charge state boundaries (to within an hour or so, limited by the resolution of the SWICS
+data) is indicated by a “zero hour” offset. Different compositional/charge
+state changes may not coincide exactly though frequently there is a consensus. Typically
+the O7/O6 ratio is used as a reference.&quot;</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_ofset_start_mc">
+				<xs:annotation>
+					<xs:documentation>&quot;nd&quot; indicates an absence of data.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="time_offset_end_mc">
+				<xs:annotation>
+					<xs:documentation>&quot;nd&quot; indicates an absence of data. 
+&quot;2&quot; indicates that two magnetic clouds are identified in the interval of interest. The offsets are then estimated from the leading edge of the first magnetic
+cloud and the trailing edge of the second.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="bidir_flow_e">
+				<xs:annotation>
+					<xs:documentation>Indicates whether or not bidirectional suprathermal electrons were observed within the ICME (Y/N = yes/no), based on an assessment of the SWEPAM electron pitchangle plots from the ACE Science Center. For events before the launch of ACE, and events where SWEPAM observations are dominated by solar energetic particles, the 260 eV electron pitch-angle plots from the WIND 3DP instrument (http://sprg.ssl.berkeley.edu/wind3dp/) were examined. In a few cases, indicated by “SEP”, it was not possible to assess the presence of BDEs in either data set because of the presence of solar energetic particles. Overall, 67% of the ICMEs (205/308), where an assessment can be made, data show evidence of BDEs.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="bidir_flow_ion">
+				<xs:annotation>
+					<xs:documentation>&quot;Indicates the presence of bidirectional energetic ion flows (BIFs) observed by the IMP 8 GME (for the ICME commencing on 31 October 2003, the BIFs are reported by Malandraki et al. (2005)). Here, “. nd ” indicates that either there are no data for a given ICME, the available data cover a limited region of the ICME such that it is not possible to assess whether any bidirectional flows were present, particle counts are insufficient to be able to assess the particle flows, or IMP 8 was inside the bow shock. “Y” or “N” indicate that there is, or is no, evidence (in the available data, which may not extend throughout the
+ICME interval) of bidirectional flows. Overall, energetic ion flows can be examined for 114 ICMEs, of which 66 (58%) show evidence of BIFs.&quot;</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs="1" minOccurs="0" name="weak_event">
+				<xs:annotation>
+					<xs:documentation>“W” indicates a marginal event with weak ICME signatures.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="RadioType">
 		<xs:sequence>
+			<xs:element maxOccurs="1" minOccurs="1" name="time_period" type="TimePeriod"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="radio_245mhz" type="xs:integer"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="radio_10cm" type="xs:integer"/>
 			<xs:element maxOccurs="1" minOccurs="0" name="radio_seep_ii" type="xs:boolean"/>
@@ -666,6 +798,9 @@ Group 2 includes events with intermediate signatures.</xs:documentation>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ForbushDecrease">
+		<xs:annotation>
+			<xs:documentation>A Forbush decrease is a rapid decrease in the observed galactic cosmic ray intensity following a coronal mass ejection (CME). It occurs due to the magnetic field of the plasma solar wind sweeping some of the galactic cosmic rays away from Earth.</xs:documentation>
+		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs="1" minOccurs="1" name="time_start" type="Time"/>
 			<xs:element name="flag_ssc">
@@ -775,7 +910,7 @@ Group 2 includes events with intermediate signatures.</xs:documentation>
 	<xs:element name="flare" type="FlareType"/>
 	<xs:element name="radio" type="RadioType"/>
 	<xs:element name="cme" type="CMEType"/>
-	<xs:element name="icme" type="InsituCMEType"/>
+	<xs:element name="icme" type="InterplanetaryCMEType"/>
 	<xs:element name="proton_event" type="SolarEnergeticProtonType"/>
 	<xs:element name="magnetic_storm" type="MagneticStormType"/>
 	<xs:element name="eit" type="EITWaveType"/>
