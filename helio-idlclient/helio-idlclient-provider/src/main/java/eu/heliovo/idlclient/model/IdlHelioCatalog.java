@@ -1,7 +1,7 @@
 package eu.heliovo.idlclient.model;
 
 import eu.heliovo.clientapi.model.catalog.HelioCatalog;
-import eu.heliovo.clientapi.model.field.HelioField;
+import eu.heliovo.clientapi.model.field.HelioFieldDescriptor;
 
 public class IdlHelioCatalog {
 
@@ -30,7 +30,7 @@ public class IdlHelioCatalog {
 		return helioCatalog.getLabel();
 	}
 
-	public HelioField<?>[] getFields() {
+	public HelioFieldDescriptor<?>[] getFields() {
 		return helioCatalog.getFields();
 	}
 }

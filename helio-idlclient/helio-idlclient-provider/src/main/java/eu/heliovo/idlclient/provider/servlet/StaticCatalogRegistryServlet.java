@@ -19,7 +19,7 @@ import eu.heliovo.clientapi.config.ConfigurablePropertyDescriptor;
 import eu.heliovo.clientapi.model.catalog.HelioCatalog;
 import eu.heliovo.clientapi.model.field.DomainValueDescriptor;
 import eu.heliovo.clientapi.model.field.FieldType;
-import eu.heliovo.clientapi.model.field.HelioField;
+import eu.heliovo.clientapi.model.field.HelioFieldDescriptor;
 import eu.heliovo.clientapi.model.service.HelioService;
 import eu.heliovo.idlclient.model.IdlClass;
 import eu.heliovo.idlclient.model.IdlFieldType;
@@ -62,7 +62,7 @@ public class StaticCatalogRegistryServlet extends HttpServlet {
 		
 		IdlObjConverter idlConverter = IdlObjConverter.getInstance();
 		idlConverter.registerSerialisationHandler(HelioCatalog.class, IdlHelioCatalog.class);
-		idlConverter.registerSerialisationHandler(HelioField.class, IdlHelioField.class);
+		idlConverter.registerSerialisationHandler(HelioFieldDescriptor.class, IdlHelioField.class);
 		idlConverter.registerSerialisationHandler(FieldType.class, IdlFieldType.class);
 		idlConverter.registerSerialisationHandler(Class.class, IdlClass.class);
 		

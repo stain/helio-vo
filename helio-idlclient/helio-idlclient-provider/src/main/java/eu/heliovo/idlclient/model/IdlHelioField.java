@@ -1,6 +1,6 @@
 package eu.heliovo.idlclient.model;
 
-import eu.heliovo.clientapi.model.field.HelioField;
+import eu.heliovo.clientapi.model.field.HelioFieldDescriptor;
 
 /**
  * Wrapper for a HELIO field that ought to be converted to IDL
@@ -9,9 +9,9 @@ import eu.heliovo.clientapi.model.field.HelioField;
  */
 public class IdlHelioField {
 	
-	private HelioField<Object> helioField;
+	private HelioFieldDescriptor<Object> helioField;
 
-	public IdlHelioField(HelioField<Object> helioField)
+	public IdlHelioField(HelioFieldDescriptor<Object> helioField)
 	{
 		this.helioField = helioField;
 	}
