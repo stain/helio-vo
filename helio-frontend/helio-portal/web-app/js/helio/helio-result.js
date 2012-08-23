@@ -79,7 +79,7 @@ helio.VOTableResult.prototype.init = function() {
 //    $(".custom_button").button();
     
     // 2. result tabs
-    $("#tabs_votables").tabs(); // tabs for multiple votables
+    $("#tabs_votables").tabs({cache: false}); // tabs for multiple votables
     $(".tabs_votable_result").tabs(); // tab for plot/tabular view
     
     // 3. enable ok-dialogs (but first destroy any existing dialog)
@@ -132,7 +132,8 @@ helio.VOTableResult.prototype.init = function() {
             } 
         });
     });
-    
+   
+    // trigger selection of the first tab once the dialog is closed.
     var firstTab = $('#tabs_votables div').filter(':first');
     $("#tabs_votables").trigger('tabsselect', [{panel : firstTab }]);
     
@@ -147,7 +148,7 @@ helio.VOTableResult.prototype.init = function() {
             var containerName = 'table_' + resultId + '_' + tableIndex + '_plot';
             var additionalContainerName = 'table_' + resultId + '_' + tableIndex + '_plot_options';
             var chartTitleName = $(ui.panel).find('input[name="plotTitle"]').val();
-            var catalogueName = chartTitleName.substring(4);
+            var catalogueName = chartTitleName.split('-')[1];
             // load plot data.
             $.ajax({
                 url : './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex
@@ -170,55 +171,72 @@ helio.VOTableResult.prototype._formatTable = function(tableName) {
     
     // 1. format the table
     var dataTable = null;
-    dataTable =$("#"+tableName).dataTable({
-        "bJQueryUI": true,
-        "bAutoWidth": true,
+    
+    jQuery.ajax({
+        url : './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
+        dataType : 'json',
+        async : false,
+        success : function(data, textStatus, jqrXHR) {
+            dataTable =$("#"+tableName).dataTable(
+              jQuery.extend({
+                "bJQueryUI": true,
+                "bAutoWidth": true,
 
-        "bProcessing": true,
-        "sAjaxSource": './voTable/data?resultId=' + resultId + '&tableIndex=' + tableIndex,
-        "bDeferRender": true,
+                "bProcessing": true,
+                "bDeferRender": true,
 
-        "sScrollX": "100%",
-//        "iScrollLoadGap": 50,
-        "sScrollY": "500px",
-//        "bScrollInfinite": true,
-        "bScrollCollapse": true,
-//        "sDom": "frtiS",
-        
-        "bPaginate": true,
-        "sPaginationType": "full_numbers",
-        "iDisplayLength": 50,
-        "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-        
-        "fnDrawCallback": function() {
-            THIS._initCustomColumns.call(THIS, this, tableName);
-            var oSettings = this.fnSettings();
-            // FF hack to fix the problem of a scrolling bar appearing if only one row of data is shown.
-            oSettings.nTable.parentNode.style.height = ($(oSettings.nTable).height() + 17) + "px";
-        },
-        "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-            // do service specific row formatting, if required
-            var tableName = $(this).attr("name"); 
-            var functionName =  "_" + tableName + "_initRow";
-            // if there is a function with the functionName defined on this object
-            if (helio.VOTableResult.prototype[functionName]) {
-                // call the function
-                THIS[functionName].call(THIS, nRow, aData, iDataIndex);
-            }
+                "sScrollX": "100%",
+//                "iScrollLoadGap": 50,
+                "sScrollY": "500px",
+//                "bScrollInfinite": true,
+                "bScrollCollapse": true,
+//                "sDom": "frtiS",
+                
+                "bPaginate": true,
+                "sPaginationType": "full_numbers",
+                "iDisplayLength": 50,
+                "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                
+                "fnDrawCallback": function() {
+                    THIS._initCustomColumns.call(THIS, this, tableName);
+                    var oSettings = this.fnSettings();
+                    // FF hack to fix the problem of a scrolling bar appearing if only one row of data is shown.
+                    oSettings.nTable.parentNode.style.height = ($(oSettings.nTable).height() + 17) + "px";
+                },
+                "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+                    // do service specific row formatting, if required
+                    var tableName = $(this).attr("name"); 
+                    var functionName =  "_" + tableName + "_initRow";
+                    // if there is a function with the functionName defined on this object
+                    if (helio.VOTableResult.prototype[functionName]) {
+                        // call the function
+                        THIS[functionName].call(THIS, nRow, aData, iDataIndex);
+                    }
+                },
+                // add title to the table header. 
+                "fnHeaderCallback": function( nHead, aData, iStart, iEnd, aiDisplay ) {
+                    var cols = this.fnSettings().aoColumns;
+                    for (var col in cols) {
+                        var column = cols[col];
+                        if (column.sDescription) {
+                            var th = column.nTh;
+                            $(th).attr('title', column.sDescription);
+                        }
+                    }
+                }
+                //"sScrollXInner": "100%",
+              },
+              data
+            )
+          );
         }
-        //"sScrollXInner": "100%",
-     
     });
-        
-    // 2. init special columns
-    var cols = dataTable.fnSettings().aoColumns;
-    for (var col in cols) {
-        var th = $(cols[col].nTh); 
-        if (th.hasClass('hiddenRow')) {
-            dataTable.fnSetColumnVis( col, false);
-        }
-    }
-        
+    
+    // 6. hack to format the headers of the datatables prooperly. not sure why this does not work initially.
+    setTimeout(function() {
+        dataTable.fnAdjustColumnSizing();
+    }, 10);
+
     return dataTable;
 };
 
@@ -239,57 +257,51 @@ helio.VOTableResult.prototype._initCustomColumns = function(dataTable, tableName
     });    
 
     // 2. 
-    var cols = dataTable.fnSettings().aoColumns;
-    for (var col in cols) {
-      var th = $(cols[col].nTh); 
-      if (th.hasClass('th_examine_event')) {
-        dataTable.find('.examine_event').not(':has(img)').attr('title', 'Inspect the time range covered by this event')
-           .append('<img style="width:15px;heigth:15px" src="./images/search.png" />')
-           .click((function(dataTable) {
-             return function() {
-                var settings = dataTable.fnSettings();
-                var time_start = -1;
-                var time_end = -1;
-                for(var j = 0;j< settings.aoColumns.length;j++){
-                    var title = $.trim(settings.aoColumns[j].sTitle);
-                    if(title == 'time_start'){
-                        time_start=j;
-                    } else if(title == 'time_end'){
-                        time_end=j;
-                    } 
-                }//end j
-                
-                if (time_start == -1) {
-                    alert("No column with name 'time_start' or 'time' found");
-                    return;
+    dataTable.find('.examine_event').not(':has(img)').attr('title', 'Inspect the time range covered by this event')
+       .append('<img style="width:15px;heigth:15px" src="./images/search.png" />')
+       .click((function(dataTable) {
+         return function() {
+            var settings = dataTable.fnSettings();
+            var time_start = -1;
+            var time_end = -1;
+            for(var j = 0;j< settings.aoColumns.length;j++){
+                var title = $.trim(settings.aoColumns[j].sTitle);
+                if(title == 'time_start'){
+                    time_start=j;
+                } else if(title == 'time_end'){
+                    time_end=j;
+                } 
+            }//end j
+            
+            if (time_start == -1) {
+                alert("No column with name 'time_start' found");
+                return;
+            }
+            if (time_end == -1) {
+                time_end = time_start;
+            }
+            var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
+            var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
+            //sendExamineEvent(times,timee);
+            
+            // adjust times
+            var timeRange = new helio.TimeRange(times, timee);
+            timeRange.incStartTime("hours", -6);
+            timeRange.incEndTime("hours", 6);
+            var dialog = new helio.TimeRangeDetailsDialog(null, 'timeRangeDetails', timeRange);
+            dialog.show(function() {
+                if (dialog.data.timeStart != times ||
+                    dialog.data.timeEnd   != timee) {
+                    var timeRanges = new helio.TimeRanges('datacart', 'extracted');
+                    timeRanges.timeRanges.push(new helio.TimeRange(dialog.data.timeStart, dialog.data.timeEnd));
+                    THIS._showExtractParamsDialog.call(THIS, timeRanges, 
+                        "<p><b>You modified the time range.</b> Do you want to store it to the data cart? " +
+                        "Click <code>Ok</code> to store or <code>Cancel</code> to dismiss.</p>");
                 }
-                if (time_end == -1) {
-                    time_end = time_start;
-                }
-                var times = dataTable.fnGetData($(this).closest('tr')[0], time_start);
-                var timee = dataTable.fnGetData($(this).closest('tr')[0], time_end);
-                //sendExamineEvent(times,timee);
-                
-                // adjust times
-                var timeRange = new helio.TimeRange(times, timee);
-                timeRange.incStartTime("hours", -6);
-                timeRange.incEndTime("hours", 6);
-                var dialog = new helio.TimeRangeDetailsDialog(null, 'timeRangeDetails', timeRange);
-                dialog.show(function() {
-                    if (dialog.data.timeStart != times ||
-                        dialog.data.timeEnd   != timee) {
-                        var timeRanges = new helio.TimeRanges('datacart', 'extracted');
-                        timeRanges.timeRanges.push(new helio.TimeRange(dialog.data.timeStart, dialog.data.timeEnd));
-                        THIS._showExtractParamsDialog.call(THIS, timeRanges, 
-                            "<p><b>You modified the time range.</b> Do you want to store it to the data cart? " +
-                            "Click <code>Ok</code> to store or <code>Cancel</code> to dismiss.</p>");
-                    }
-                });
-                return false;
-            };
-        })(dataTable));
-      }
-    }   
+            });
+            return false;
+        };
+    })(dataTable));
 };
 
 /**

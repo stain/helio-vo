@@ -907,8 +907,6 @@ helio.ParamSetDialog.prototype.__dialogConfig = function() {
     };
 };
 
-
-
 /**
  * EventListDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
@@ -955,7 +953,13 @@ helio.EventListDialog.prototype._init = function() {
         "sScrollXInner": "99%",
         "sDom": '<"H">t<"F">',
         "aoColumnDefs": [
-            { "asSorting": [ ], "aTargets": [ 'type', 'status' ] },  // disable sorting for Type and Status
+            { "asSorting": [ ], "aTargets": [ 'type', 'status', 'infoUrl' ] },  // disable sorting for Type and Status
+            { 
+                "fnRender" : function(o, val) {
+                    var img = '<img width="16px" height="16px" class="hecInfo" src="./images/icons/info.png" alt="' + val + '"/>';
+                    return img;
+                }, "aTargets" : [ 'infoUrl'] 
+            }
         ]
     });
 
@@ -964,7 +968,8 @@ helio.EventListDialog.prototype._init = function() {
         'From' : {visible: true, sortable: true}, 
         'To' : {visible: true, sortable: true}, 
         'Type' : {visible:true, sortable: false}, 
-        'Status' : {visible:true, sortable: false}
+        'Status' : {visible:true, sortable: false},
+        'Info' : {visible:true, sortable: false}
     };
     
     var idColName = 'Name'; // name of the column that contains the identifier for this table
@@ -986,7 +991,7 @@ helio.EventListDialog.prototype._init = function() {
         
     if (this._idCol < 0) throw "HELIO Internal Error: unable to find id col";
     if (this._labelCol < 0) throw "HELIO Internal Error: unable to find label col";
-    
+
     // 2. enable filters
     $(".checkFilter").change(function(){
     	// remove "never appearing filter text"
@@ -1127,6 +1132,14 @@ helio.EventListDialog.prototype._init = function() {
             THIS.newdata.addList.apply(THIS.newdata, [id, label]);
             THIS._renderSummaryBox.call(THIS, table);
         };
+    });
+    
+    // 4a. Add hec info handler
+    $('.hecInfo').click(function() {
+        var url = $(this).attr('alt');
+        var hecInfoWindow = window.open(url, "hecInfo", "width=600,height=800,left=50,top=50,toolbar=0,location=0,menubar=0");
+        hecInfoWindow.focus();
+        return false;
     });
     
     // 5. init row selection from previous values. 

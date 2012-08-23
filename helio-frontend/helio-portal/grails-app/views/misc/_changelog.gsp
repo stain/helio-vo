@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>23-Aug-2012: Prepare for the PQL queries (backend is ready), bugfixes in HEC .</li>
             <li>17-Aug-2012: Event list selection overhaul. Some plotting upgrade, new version of datatables plugin.</li>
             <li>27-Jul-2012: Upgraded plotting library with selection mode.</li>
             <li>24-Jul-2012: Some performance improvements in ICS/ILS/DPAS.</li>

@@ -125,8 +125,8 @@ Expected model:
                       <div id="download_selection_${h}_button" class="download_selection_button toolbar-icon toolbar-icon-downloadfiles" title="Open a dialog with all (selected) URLs."></div>
                     </g:if>
                   </div>
-
-                  <g:render template="/output/_votable" model="${[tableId:'table_' + result.id + '_' + h, table:table, tableName : 'initTable_' + taskDescriptor.serviceName, renderData:false]}"/>
+                  <table cellpadding="0" cellspacing="0" border="0" class='resultTable' id="${'table_' + result.id + '_' + h}" name="${'initTable_' + taskDescriptor.serviceName}">
+                  </table>
                 </div>
                 <div id="tab_votable_plot_${result.id}_${h}">
                     <g:render template="/output/_votablePlot" model="${[tableId:'table_' + result.id + '_' + h, plotTitle : table.name ? table.name : taskDescriptor.label]}"/>

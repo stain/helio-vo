@@ -223,6 +223,14 @@ class VoTableService {
         ]
         
         // render header rows
+        for (def action : table.rowactions) {
+            def headerCell = [:]
+            headerCell["sType"] = 'string'
+            headerCell["bSortable"] = false
+            
+            tableModel.aoColumns.add(headerCell)
+        }
+
         for(def field : table.fields) {
             def headerCell = [:]
             headerCell["sTitle"] = field.name
@@ -234,6 +242,7 @@ class VoTableService {
             headerCell["unit"] = field.unit
             headerCell["utype"] = field.utype
             headerCell["xtype"] = field.xtype
+            headerCell["bVisible"] = !(field?.rendering_hint=='hidden')
             if (isFlareClass(field)) {
                 headerCell["sType"] = 'xrayclass'
             }

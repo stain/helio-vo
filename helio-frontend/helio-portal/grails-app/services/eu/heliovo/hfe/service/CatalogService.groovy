@@ -6,6 +6,7 @@ import java.util.logging.LogRecord
 
 import eu.heliovo.clientapi.HelioClient
 import eu.heliovo.clientapi.query.HelioQueryResult
+import eu.heliovo.clientapi.query.QueryService;
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.task.Task
@@ -26,7 +27,7 @@ class CatalogService {
         //get the task descriptor
         def taskDescriptor = task.findTaskDescriptor()
 
-        def catalogService = helioClient.getServiceInstance(
+        QueryService catalogService = helioClient.getServiceInstance(
                 taskDescriptor.serviceName,
                 taskDescriptor.serviceVariant,
                 taskDescriptor.serviceCapability)
@@ -56,11 +57,8 @@ class CatalogService {
         permuted = DateUtil.permuteLists(endTime,from)
         endTime = permuted[0];
         from  = permuted[1];
-
-        // where is currently not supported
-        def where = null;
         
-        log.info("queryService  ::" + task.taskName + ", " + startTime+", "+endTime+", "+from+", " + where);
+        //log.info("queryService  ::" + task.taskName + ", " + startTime+", "+endTime+", "+from+", " + where);
 
         // create the models for the template
         def model = [:]
@@ -68,7 +66,14 @@ class CatalogService {
         model.userLogs = []
 
         // execute the service
-        HelioQueryResult result = catalogService.query(startTime, endTime, from, where, 0, 0, null);
+        catalogService.startTime = startTime
+        catalogService.endTime = endTime
+        catalogService.from = from
+        //catalogService.whereClauses
+        catalogService.maxRecords = 0;
+        catalogService.startIndex = 0;
+        
+        HelioQueryResult result = catalogService.execute();
         try {
             // get the result
             def url = result.asURL(taskDescriptor.timeout ?: 120, TimeUnit.SECONDS);

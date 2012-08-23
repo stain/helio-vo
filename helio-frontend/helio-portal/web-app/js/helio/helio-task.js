@@ -193,10 +193,12 @@ helio.AbstractTask.prototype._clearResult = function(data) {
  */
 helio.AbstractTask.prototype._cleanResultArea = function() {
     $('#task_result_area .resultTable').each(function() {
-        var table = $(this).dataTable();
-        if (table) {
+       if ($(this).hasClass('dataTable') ) {
+          var table = $(this).dataTable();
+          if (table) {
             table.fnDestroy();
-        }
+          }
+       }
     });
     return $('#task_result_area').empty();
 };

@@ -487,6 +487,10 @@ table.dialog_content_table td {
 	font-size: 90%;
 }
 
+.hecInfo {
+	cursor: pointer;
+}
+
 #filterText {
 	font-size: 10px;
 	padding-left: 4px;
