@@ -1,6 +1,6 @@
 package eu.heliovo.idlclient.model;
 
-import eu.heliovo.clientapi.model.field.FieldType;
+import eu.heliovo.clientapi.model.field.type.FieldType;
 
 public class IdlFieldType {
 

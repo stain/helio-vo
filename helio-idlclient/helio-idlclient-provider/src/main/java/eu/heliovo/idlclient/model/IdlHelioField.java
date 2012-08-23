@@ -1,6 +1,6 @@
 package eu.heliovo.idlclient.model;
 
-import eu.heliovo.clientapi.model.field.HelioFieldDescriptor;
+import eu.heliovo.clientapi.model.field.descriptor.HelioFieldDescriptor;
 
 /**
  * Wrapper for a HELIO field that ought to be converted to IDL
