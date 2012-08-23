@@ -3,7 +3,6 @@ package eu.heliovo.idlclient.provider.serialize;
 import static org.junit.Assert.assertEquals;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,14 +13,12 @@ import java.util.logging.LogRecord;
 import net.ivoa.xml.votable.v1.VOTABLE;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import eu.heliovo.clientapi.query.HelioQueryResult;
 import eu.heliovo.clientapi.workerservice.JobExecutionException;
 import eu.heliovo.idlclient.model.IdlHelioQueryResult;
 import eu.heliovo.idlclient.model.IdlName;
-import eu.heliovo.shared.util.FileUtil;
 
 public class IdlConverterTest {
 	

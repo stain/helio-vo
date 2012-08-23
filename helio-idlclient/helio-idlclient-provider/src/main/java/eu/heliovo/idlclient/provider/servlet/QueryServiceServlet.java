@@ -90,7 +90,7 @@ public class QueryServiceServlet extends HttpServlet {
 			}
 			HelioQueryResult result;
 			
-			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), where, 100, 0, null);
+			result = queryService.query(Arrays.asList(startTimeArray), Arrays.asList(endTimeArray), Arrays.asList(fromArray), 100, 0, null);
 			if(result != null)
 			{
 				String out = idl.idlSerialize(result);
