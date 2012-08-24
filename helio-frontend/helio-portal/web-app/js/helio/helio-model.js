@@ -245,6 +245,7 @@ helio.EventList = function(taskName, name) {
     helio.AbstractModel.apply(this, [taskName, name, 'EventList']);
     this.name = name;
     this.listNames = [];           // the list names (use addList and removeList to modify)
+    this.listQueryOptions = [];    // the query options         
     this.config = { labels:[]};    // transient config object holding the names of the selected event lists.
     //this.filter = null;    // selected filters
 };
@@ -260,19 +261,33 @@ helio.EventList.prototype.constructor = helio.EventList;
  */
 helio.EventList.prototype.addList = function(listName, listLabel) {
     this.listNames.push(listName);
+    this.listQueryOptions.push(new helio.ParamSet(this.taskName, this.listName));
     this.config.labels.push(listLabel);
 };
 
 /**
- * Convenience method to remove a list name
+ * Remove a list from the event list set.
  * @param listName the name of the list
  */
 helio.EventList.prototype.removeList = function(listName) {
     var pos = $.inArray(listName, this.listNames);
     if (pos >= 0) {
         this.listNames.splice(pos, 1);
+        this.listQueryOptions.splice(pos, 1);
         this.config.labels.splice(pos, 1);
     }
+};
+
+/**
+ * Get the query options for a given list name
+ * @param listName the name of the list
+ */
+helio.EventList.prototype.getQueryOptions = function(listName) {
+    var pos = $.inArray(listName, this.listNames);
+    if (pos >= 0) {
+        return this.listQueryOptions[pos];
+    }
+    return null;
 };
 
 })();

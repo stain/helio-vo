@@ -108,23 +108,29 @@ class DialogController {
     
     def paramSetDialog = {
         def taskName = params.taskName
+        def listName = params.listName
         def taskDescriptor = taskDescriptorService.findTaskDescriptor(taskName)
         def initMode = InitMode.valueOf(params.init)
         
         def paramSet;
-        switch (initMode) {
-            case InitMode.none:
-                paramSet = new ParamSet(taskName : taskName);
-                break;
-            case InitMode.last_task:
-            case InitMode.default_mode: 
-                Task task = defaultsService.loadTask(taskName)
-                paramSet = task.inputParams.paramSet
-                if (paramSet == null) {
-                    paramSet = new ParamSet(taskName : taskName)
-                }
-                break;
-            default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+        
+        if (listName) { // handle list dialog
+            
+        } else {  // handle task paramset dialog
+            switch (initMode) {
+                case InitMode.none:
+                    paramSet = new ParamSet(taskName : taskName);
+                    break;
+                case InitMode.last_task:
+                case InitMode.default_mode: 
+                    Task task = defaultsService.loadTask(taskName)
+                    paramSet = task.inputParams.paramSet
+                    if (paramSet == null) {
+                        paramSet = new ParamSet(taskName : taskName)
+                    }
+                    break;
+                default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+            }
         }
         
         render (template: "/dialog/paramSetDialog", model: [ paramSet : paramSet, taskDescriptor : taskDescriptor])

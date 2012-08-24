@@ -1,4 +1,4 @@
-<div id="splash_screen" style="margin:20px">
+<div class="entry_screen" style="margin:20px">
   <h2 style="color:orange;padding-bottom:10px;border-bottom: 1px solid black">Welcome to the HELIO Front End</h2>
   <input id="task_name" name="taskName" type="hidden" value="splash"/>
 
@@ -8,6 +8,7 @@
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
         <ul>
+            <li>24-Aug-2012: Maintenance release to disable unstable catalog servers.</li>
             <li>23-Aug-2012: Prepare for the PQL queries (backend is ready), bugfixes in HEC .</li>
             <li>17-Aug-2012: Event list selection overhaul. Some plotting upgrade, new version of datatables plugin.</li>
             <li>27-Jul-2012: Upgraded plotting library with selection mode.</li>

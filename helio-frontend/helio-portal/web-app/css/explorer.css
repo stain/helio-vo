@@ -261,6 +261,14 @@ tr.even.row_selected td.sorting_3 {
 	margin:50px auto;
 }
 
+.entry_screen ul,ol {
+    padding-left: 25px;
+}
+
+.entry_screen li {
+    padding-left: 0px;
+}
+
 .entry_screen_button table{
 	height: 120px;
 	vertical-align:middle;
@@ -316,25 +324,6 @@ tr.even.row_selected td.sorting_3 {
 .entry_screen_box_description{
 	margin: 15px;
 	font: 12px  Arial, Helvetica, sans-serif;
-}
-
-/***************** Splash screen *********************/
-#splash_screen ul,ol {
-	padding-left: 25px;
-}
-
-#splash_screen li {
-	padding-left: 0px;
-}
-
-#extra_list_form li,#extra_list li {
-	font-size: 0.9em;
-	padding: 5px 0;
-	margin-bottom: 10px;
-	border-bottom: 1px dashed #333;
-	color: black;
-	list-style-type: none;
-	line-height: 1.6em;
 }
 
 /***************** CSS related to TASKS *********************/
@@ -515,6 +504,16 @@ select.paramSetEntry {
 .reload_link {
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+/** icon for catalogue options */
+.listOptions {
+    background-image: url("../images/helio/options.png");
+    background-repeat: no-repeat;
+    background-size:16px 16px;
+    background-position: center center;
+    padding: 0 16px 0 1em;
+    cursor: pointer;
 }
 
 /*************************** CSS related to result areas *************************/

@@ -4,8 +4,8 @@ import org.springframework.beans.factory.InitializingBean
 
 import eu.heliovo.clientapi.config.des.DesFunctionArgument
 import eu.heliovo.clientapi.config.des.DesFunctionArgument.DesFunctionOperator
-import eu.heliovo.clientapi.model.field.descriptor.HecCatalogueDescriptor
-import eu.heliovo.clientapi.model.field.descriptor.InstrumentDescriptor
+import eu.heliovo.clientapi.model.catalog.descriptor.EventListDescriptor;
+import eu.heliovo.clientapi.model.catalog.descriptor.InstrumentDescriptor;
 import eu.heliovo.clientapi.processing.context.SimpleParkerModelService.PlotType
 import eu.heliovo.clientapi.processing.context.impl.FlarePlotterServiceImpl
 import eu.heliovo.clientapi.processing.context.impl.GoesPlotterServiceImpl
@@ -48,7 +48,7 @@ class TaskDescriptorService implements InitializingBean {
     /**
      * Auto wire the hec event list descriptor dao
      */
-    def hecCatalogueDescriptorDao;
+    def eventListDescriptorDao;
     
     def taskDescriptor;
     
@@ -96,7 +96,7 @@ class TaskDescriptorService implements InitializingBean {
             [label:"goes_flare_sep_event", value: "goes_flare_sep_event", description: "goes_flare_sep_event"]]
         
         //def eventListModel = ServletContextHolder.servletContext.eventListModel
-        List<HecCatalogueDescriptor> eventListDescriptors = hecCatalogueDescriptorDao.getDomainValues()
+        List<EventListDescriptor> eventListDescriptors = eventListDescriptorDao.getDomainValues()
         List<InstrumentDescriptor> instrumentDescriptors = instrumentDescriptorDao.getDomainValues()
 
         

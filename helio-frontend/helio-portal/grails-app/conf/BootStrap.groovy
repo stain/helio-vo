@@ -26,7 +26,7 @@ class BootStrap {
      * Auto wire the hec event list descriptor dao
      * Used to warm up the system (i.e. to load the hec data from remote)
      */
-    def hecCatalogueDescriptorDao;
+    def eventListDescriptorDao;
     
     
     def init = { servletContext ->
@@ -51,7 +51,7 @@ class BootStrap {
         }
         
         // warmup system
-        hecCatalogueDescriptorDao.getDomainValues()
+        eventListDescriptorDao.getDomainValues()
         
         
     }

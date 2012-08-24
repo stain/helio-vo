@@ -380,6 +380,7 @@ helio.EventListSummary.prototype.constructor = helio.EventListSummary;
  * @returns the summary box.
  */
 helio.EventListSummary.prototype.renderSummary = function(eventList) {
+    var THIS = this;
     this.data = eventList;
     if (eventList) { // (re-)populate the summary section
         var table =$("<table></table>");
@@ -388,16 +389,45 @@ helio.EventListSummary.prototype.renderSummary = function(eventList) {
         }
 
         for (var i = 0; i < eventList.listNames.length; i++) {
+            var listName = eventList.listNames[i];
             var listLabel = eventList.config.labels[i];
             if (!listLabel) {
                 listLabel = eventList.listNames[i];
             }
-            table.append('<tr><td><b>' +listLabel + '</b></td></tr>');
+            var td = $('<tr><td></td></tr>');
+            table.append(td);
+            td.append('<b>' +listLabel + '</b>');
+            
+            // add the options label
+            var options = $('<span class="listOptions" title="click to select query options"></span>');
+            options.click(function(listName) {
+                return function() {
+                    THIS.queryOptionsDialog.call(THIS, listName);
+                    return false;
+                };
+            }(listName));
+            //td.append(options);
+            
+            // TODO: add the options summary text
         }        
         return table;
     } else {
         return null;
     }
+};
+
+helio.EventListSummary.prototype.queryOptionsDialog = function(listName) {
+    var listQueryOptions = this.data.getQueryOptions(listName);
+    if (listQueryOptions) {
+        var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, listQueryOptions, listName);
+        var okCallback = function() {
+            // TODO: re-render summary box
+        };
+        paramSetDialog.show(okCallback);
+    } else {
+        throw "HELIO internal error: Unable to find options for list: " + listName;
+    }
+    
 };
 
 /**
@@ -823,12 +853,14 @@ helio.TimeRangeDialog.prototype.__validateTimeRange = function(index) {
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
  * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
+ * @param {String} listName optional list name.
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.ParamSetDialog = function(task, taskName, /*helio.ParamSet*/ paramSet) {
+helio.ParamSetDialog = function(task, taskName, /*helio.ParamSet*/ paramSet, listName) {
     helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, paramSet]);
+    this.listName = listName;
     this.data = paramSet;
 };
 
@@ -841,7 +873,8 @@ helio.ParamSetDialog.prototype.constructor = helio.ParamSetDialog;
  */
 helio.ParamSetDialog.prototype._dialogUrl = function() {
     var init = "last_task"; // should the template be initialized on the server side.
-    return './dialog/paramSetDialog?init=' + init +'&taskName=' + this.taskName;
+    return './dialog/paramSetDialog?init=' + init +'&taskName=' + this.taskName + 
+        (this.listName ? '&listName=' + this.listName : '');
 };
 
 /**
