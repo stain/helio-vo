@@ -1,44 +1,25 @@
 package eu.heliovo.registryclient;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Properties;
-
-import eu.heliovo.shared.props.HelioFileUtil;
+import java.util.Map;
 
 /**
- * Properties for the HELIO registry
+ * The registry properties is just a simple map
  * @author MarcoSoldati
  *
  */
-public class RegistryProperties extends Properties {
+public interface RegistryProperties extends Map<String, String> {
     /**
-     * 
+     * Load a property value
+     * @param property the property key.
+     * @return the value or null if not found.
      */
-    private static final long serialVersionUID = -6794302295278644678L;
-
+    public String getProperty(String property);
+    
     /**
-     * the properties file of the registry.
+     * Load a property value
+     * @param property the property key
+     * @param defaultValue the default value if property cannot be found
+     * @return the value or the default value
      */
-    private static final String REGISTRY_FILE_NAME = "registry.properties";
-
-    /**
-     * Hide the default constructor
-     */
-    public RegistryProperties(String appId) {
-        File propertiesDir = new HelioFileUtil(appId).getHelioHomeDir("registry");
-        File propertiesFile = new File(propertiesDir, REGISTRY_FILE_NAME);
-        
-        if (propertiesFile.exists()) {
-            try {
-                this.load(new FileReader(propertiesFile));
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("Unable to load properties file " + e.getMessage(), e);
-            } catch (IOException e) {
-                throw new RuntimeException("Unable to load properties file " + e.getMessage(), e);
-            }            
-        }
-    }
+    public String getProperty(String property, String defaultValue);
 }

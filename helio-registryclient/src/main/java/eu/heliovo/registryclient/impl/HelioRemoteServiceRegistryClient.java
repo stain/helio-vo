@@ -49,21 +49,32 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
 	 */
 	private AbstractRegistryClient<BasicResource> registry;
 
-	/**
-	 * Id of the application. Used to qualify the temp and property directory.
-	 */
-    private final String appId;
-
     /**
      * Optional registry persister bean. 
      */
     private RegistryPersister registryPersister;
 
+    /**
+     * Properties of the registry.
+     */
+    private RegistryProperties registryProperties;
+    
+    /**
+     * Filter the registry entries.
+     */
+    private RegistryEntryFilter registryFilter;
+
 	/**
 	 * Create the registry impl and initialize it accordingly.
+	 * @param appId id of the application. Used to find the configuration directory
 	 */
 	public HelioRemoteServiceRegistryClient(String appId) {
-        this.appId = appId;
+        this.registryProperties = new DefaultRegistryProperties(appId);
+        
+        // create the registry filter
+        registryFilter = new BlacklistRegistryFilter();
+        ((BlacklistRegistryFilter)registryFilter).setRegistryProperties(registryProperties);
+        ((BlacklistRegistryFilter)registryFilter).init();
 	}
 	
 	/**
@@ -91,16 +102,13 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
         setRegistryURL(getRegistryLocation());
         List<BasicResource> allServices;
         try {
-            allServices = registry.getResourceList(keywordSearch(
-                    new String[] { "*" }, false));
+            allServices = registry.getResourceList(keywordSearch(new String[] { "*" }, false));
             storeRegistryLocally(allServices);
         } catch (IOException e) {
             _LOGGER.warn("Unable to access remote registry: " + e.getMessage() + ". Trying locally persisted registry.", e);
             allServices = getFromLocallyStoredRegistry();
         }
         
-        
-
         // loop through all services and qualify them
         for (BasicResource r : allServices) {
             if (_LOGGER.isTraceEnabled()) {
@@ -123,16 +131,18 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
                         }
                     }
                     
-                    AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
-                    
-                    if (accessInterfaceType == null) {
-                        accessInterfaceType = AccessInterfaceType.register(c.getXsiType(), c.getXsiType());
-                    }
-                    try {
-                        AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, cap, new URL(c.getAccessUrl()));
-                        registerServiceInstance(serviceDescriptor, accessInterface);
-                    } catch (MalformedURLException e) {
-                        _LOGGER.warn("Unable to register URL " + c.getAccessUrl() + " for " + serviceDescriptor + "::" + cap + ": " + e.getMessage(), e);
+                    if (registryFilter == null || !registryFilter.filterAccessUrl(c.getAccessUrl())) {
+                        AccessInterfaceType accessInterfaceType = AccessInterfaceType.findInterfaceTypeByXsiType(c.getXsiType());
+                        
+                        if (accessInterfaceType == null) {
+                            accessInterfaceType = AccessInterfaceType.register(c.getXsiType(), c.getXsiType());
+                        }
+                        try {
+                            AccessInterface accessInterface = new AccessInterfaceImpl(accessInterfaceType, cap, new URL(c.getAccessUrl()));
+                            registerServiceInstance(serviceDescriptor, accessInterface);
+                        } catch (MalformedURLException e) {
+                            _LOGGER.warn("Unable to register URL " + c.getAccessUrl() + " for " + serviceDescriptor + "::" + cap + ": " + e.getMessage(), e);
+                        }
                     }
                 }
             }
@@ -168,9 +178,8 @@ public class HelioRemoteServiceRegistryClient extends AbstractHelioServiceRegist
      * @return the registered or the default service registry client class.
      */
     private URL getRegistryLocation() {
-        RegistryProperties props = new RegistryProperties(appId);
-        if (props.containsKey(REGISTRY_LOCATION)) {
-            return FileUtil.asURL(props.getProperty(REGISTRY_LOCATION));
+        if (registryProperties.containsKey(REGISTRY_LOCATION)) {
+            return FileUtil.asURL(registryProperties.getProperty(REGISTRY_LOCATION));
         } else {
             return FileUtil.asURL(REGISTRY_AT_MSSL);
         }

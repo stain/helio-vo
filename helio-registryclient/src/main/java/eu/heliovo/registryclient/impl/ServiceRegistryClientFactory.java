@@ -1,6 +1,5 @@
 package eu.heliovo.registryclient.impl;
 
-import eu.heliovo.registryclient.RegistryProperties;
 import eu.heliovo.registryclient.ServiceRegistryClient;
 
 /**
@@ -39,7 +38,7 @@ public class ServiceRegistryClientFactory {
      */
     private static Class<? extends ServiceRegistryClient> getServiceRegistryClientClass() {
         Class<? extends ServiceRegistryClient> registryClientClass = HelioRemoteServiceRegistryClient.class;
-        RegistryProperties props = new RegistryProperties("deprecated");
+        DefaultRegistryProperties props = new DefaultRegistryProperties("deprecated");
         if (props.containsKey(REGISTRY_CLASS_KEY)) {
             String className = props.getProperty(REGISTRY_CLASS_KEY);
             try {
