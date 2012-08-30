@@ -83,12 +83,12 @@ public class StaticCatalogRegistryServlet extends HttpServlet {
 			
 			ConfigurablePropertyDescriptor<String> fromPropertyDescriptor = findFromPropertyDescriptor(syncService);
 			if (fromPropertyDescriptor != null) {
-    			Collection<DomainValueDescriptor<String>> valueDomain = fromPropertyDescriptor.getValueDomain();
+    			Collection<? extends DomainValueDescriptor<Object>> valueDomain = fromPropertyDescriptor.getValueDomain();
     			
     			ArrayList<HelioCatalog> catList = new ArrayList<HelioCatalog>();
-    			for (DomainValueDescriptor<String> currentDomainValue : valueDomain) {
+    			for (DomainValueDescriptor<?> currentDomainValue : valueDomain) {
     				if(catalogParam != null) {
-    					if(currentDomainValue.getValue().equalsIgnoreCase(catalogParam)) {
+    					if(currentDomainValue.getValue().equals(catalogParam)) {
     						writer.println(idlConverter.idlSerialize(currentDomainValue));
     						return;
     					}
