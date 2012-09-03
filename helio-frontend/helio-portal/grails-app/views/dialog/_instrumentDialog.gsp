@@ -31,13 +31,21 @@ Expected variables:
               <table id="selectInstrument" class="resultTable" >
                 <thead>
                   <tr>
+                    <th>Observatory</th>
+                    <th>Instrument</th>
                     <th>Label</th>
                     <th>Internal Name</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <g:each in="${taskDescriptor.inputParams.instruments.instruments.selectionDescriptor}" status="i" var="rows">
+                  <g:each in="${taskDescriptor.inputParams.instruments.instruments.valueDomain}" status="i" var="rows">
                     <tr id="selectInstrument_row_${i}">
+                      <td>
+                        ${rows.observatoryName}
+                      </td>
+                      <td>
+                        ${rows.name}
+                      </td>
                       <td>
                         ${rows.label}
                       </td>

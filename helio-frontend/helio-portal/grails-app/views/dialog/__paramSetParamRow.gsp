@@ -8,6 +8,16 @@
     <b>${paramDescriptor.label}&nbsp;</b>
   </td>
   <td valign="top">
+    <g:if test="${paramDescriptor.type.operatorDomain && paramDescriptor.type?.operatorDomain.size() > 1}">
+      <select id="op_${paramName}" name="op_${paramName}" class="paramSetEntryOperator" >
+          <g:each var="opt" in="${paramDescriptor.type.operatorDomain}">
+              <option value="${opt.toString()}" title="${opt.toString()}" >${opt.symbol}</option>
+          </g:each>
+      </select>
+    </g:if>
+    <g:else></g:else>
+  </td>
+  <td valign="top">
     <g:if test="${paramDescriptor.valueDomain}" >
       <select id="${paramName}" name="${paramName}" class="paramSetEntry" 
           title="${paramDescriptor.label}" >
@@ -16,14 +26,14 @@
           </g:each>
       </select>
     </g:if>
-    <g:elseif test="${paramDescriptor.type.isEnum()}" >
-      <g:each var="type" in="${paramDescriptor.type.values()}">
+    <g:elseif test="${paramDescriptor.type.javaType.isEnum()}" >
+      <g:each var="type" in="${paramDescriptor.type.javaType.values()}">
         <g:radio class="paramSetEntry" name="${paramName}" value="${type.toString()}" checked="${type.toString() == value.toString()}" title="${paramDescriptor.label}"/>
         <g:message code="${type.label}" /><br/>
       </g:each>
     </g:elseif>
     <g:else>
-      <input size="7" type="text" class="paramSetEntry" name="${paramName}" title="${paramDescriptor.label}" value="${value.toString()}" />
+      <input size="7" type="text" class="paramSetEntry" name="${paramName}" title="${paramDescriptor.label}" value="${value != null ? value.toString() : ''}" />
     </g:else>
   </td>
   <td valign="top">

@@ -24,6 +24,11 @@ helio.AbstractModel = function(taskName, name, type) {
     }
 };
 
+
+helio.AbstractModel.prototype.getConfig = function(paramName) {
+    throw "subclasses should overload method getConfig.";
+};
+
 /**
  * Data object to store a time range. If startTime == endTime the object stores a point in time rather than a time range.
  * @param startTime the start time either as Date object or as a string in format YYYY-MM-DDTHH:mm:ss. Defaults to the current time.
@@ -166,21 +171,89 @@ helio.TimeRanges = function(taskName, name) {
 helio.TimeRanges.prototype = new helio.AbstractModel;
 helio.TimeRanges.prototype.constructor = helio.TimeRanges;
 
-
 /**
  * Data object to store a collection of parameters for a specific task
  * @param {String} taskName the name of the task. Mandatory
- * @param {String} name the name of the params.
+ * @param {String} name the name of the ParamSet.
+ * @param {String} subtype additional type qualifier for a parameter set. Defaults to taskName if not set.
  */
-helio.ParamSet = function(taskName, name) {
+helio.ParamSet = function(taskName, name, subtype) {
     helio.AbstractModel.apply(this, [taskName, name, 'ParamSet']);
-    this.subtype = taskName; 
-    this.params = new Object(); // object will be used as associative array.
+    this.subtype = subtype ? subtype : taskName; 
+    this.entries = []; // the array holds ParamSetEntry objects.
 };
 
 //create ParamSet subclass of AbstractModel
 helio.ParamSet.prototype = new helio.AbstractModel;
 helio.ParamSet.prototype.constructor = helio.ParamSet;
+
+/**
+ * Overwrite or append a new parameter to the paramSet.
+ * @param paramName the name of the param.
+ * @param operator the operator.
+ * @param paramValue the paramValue.
+ * @param paramLabel the corresponding label.
+ */
+helio.ParamSet.prototype.setParamSetEntry = function(paramName, operator, paramValue) {
+    // check for an existing entry to update
+    for (var i = 0; i < this.entries.length; i++) {
+        var entry = this.entries[i];
+        if (entry.paramName == paramName) {
+            this.entries[i] = new helio.ParamSetEntry(this, paramName, operator, paramValue);
+            return;
+        }
+    }
+    // add new entry
+    this.entries.push(new helio.ParamSetEntry(this, paramName, operator, paramValue));
+};
+
+/**
+ * Clear the entries of the paramset
+ */
+helio.ParamSet.prototype.clear = function() {
+    this.entries = [];
+};
+
+/**
+ * Data object to store a single param set entry
+ * @param {String} paramSetTask the parent task of this ParamSetEntry. Must not be null.
+ * @param {String} paramName name of the parameter.
+ * @param {String} operator the operator.
+ * @param {String} paramValue the value of the operation.
+ */
+helio.ParamSetEntry = function(paramSetTask, paramName, operator, paramValue) {
+    this.type='ParamSetEntry';
+    this.paramSetTask = paramSetTask;
+    this.paramName=paramName;
+    this.operator=operator;
+    this.paramValue=paramValue;
+};
+
+/**
+ * Get the label for the current paramName
+ * @returns the label or the paramName if not found.
+ */
+helio.ParamSetEntry.prototype.getLabel = function() {
+    var config = helio.config[this.paramSetTask.type][this.paramSetTask.subtype][this.paramName];
+    if (config) {
+        return config.label;
+    }
+    return this.paramName;
+};
+
+/**
+ * String representation of the the param set
+ */
+helio.ParamSetEntry.prototype.toString = function() {
+    return this.paramName + helio.config.Operator[this.operator] + this.paramValue;
+};
+
+/**
+ * Make sure to skip the paramSetTask in the JSON representation
+ */
+helio.ParamSetEntry.prototype.toJSON = function() {
+    return {paramName : this.paramName, operator : this.operator, paramValue : this.paramValue };
+};
 
 /**
  * Data object to hold an instrument.
@@ -190,37 +263,89 @@ helio.ParamSet.prototype.constructor = helio.ParamSet;
 helio.Instrument = function(taskName, name) {
     helio.AbstractModel.apply(this, [taskName, name, 'Instrument']);
     this.name = name;
-    this.instruments = []; // list of instrument keys.
-    this.config = { labels:[]};    // transient config object holding the names of the selected instrument.
-
+    this.instruments = {}; // map of instrumentEntries, use setInstrument and removeInstrument to modify.
 };
 
 //create Instrument subclass of AbstractModel
 helio.Instrument.prototype = new helio.AbstractModel;
 helio.Instrument.prototype.constructor = helio.Instrument;
 
-
 /**
- * Convenience method to add a list name. Use this method whenever possible.
+ * Add or update an instrument to this object.
  * @param instrument the name of the instrument
- * @param instLabel the label of the instrument
  */
-helio.Instrument.prototype.addInstrument = function(instrument, instLabel) {
-    this.instruments.push(instrument);
-    this.config.labels.push(instLabel);
+helio.Instrument.prototype.setInstrument = function(instrument) {
+    this.instruments[instrument] = new helio.InstrumentEntry(instrument);
 };
 
 /**
- * Convenience method to remove an instrument
+ * Remove an instrument from the list
  * @param instrument the name of the instrument
  */
 helio.Instrument.prototype.removeInstrument = function(instrument) {
-    var pos = $.inArray(instrument, this.instruments);
-    if (pos >= 0) {
-        this.instruments.splice(pos, 1);
-        this.config.labels.splice(pos, 1);
-    }
+    delete this.instruments[instrument];
 };
+
+/**
+ * Get the instrumentEntry for a given instrument name.
+ * @param instrument the instrument name to get
+ * @returns {helio.InstrumentEntry} the InstrumentEntry or undefined if not specified.
+ */
+helio.Instrument.prototype.getInstrumentEntry = function(instrument) {
+    return this.instruments[instrument];
+};
+
+/**
+ * Get the number of currently defined instrument entries.
+ * @returns {Number} the number of instrument entries.
+ */
+helio.Instrument.prototype.length = function() {
+    var len = 0;
+    for (var entry in this.instruments) {
+        if (this.instruments.hasOwnProperty(entry)) {
+            len++;
+        }
+    }
+    return len;
+};
+
+
+
+/**
+ * Object to hold one selected list.
+ * @param {String} instrumentName the unique id of the list.
+ * @returns {helio.InstrumentEntry} new instance of an entry.
+ */
+helio.InstrumentEntry = function(instrumentName) {
+    this.type = 'InstrumentEntry';
+    this.instrumentName = instrumentName;
+};
+
+/**
+ * Get the label of the current entry.
+ * @returns the instrument label.
+ */
+helio.InstrumentEntry.prototype.getLabel = function() {
+    var config = helio.config.Instrument[this.instrumentName];
+    if (config) {
+        return config.label;
+    }
+    return this.instrumentName;
+};
+
+/**
+ * Check if the current instrument is in the PAT.
+ * @returns {Boolean} true if the instrument is listed in the PAT. 
+ */
+helio.InstrumentEntry.prototype.isInPat = function() {
+    var config = helio.config.Instrument[this.instrumentName];
+    if (config) {
+        return config.isInPat;
+    }
+    return false;
+};
+
+
 
 /**
  * Data object to hold an observatory.
@@ -237,17 +362,14 @@ helio.Observatory.prototype = new helio.AbstractModel;
 helio.Observatory.prototype.constructor = helio.Observatory;
 
 /**
- * Data object to hold an event list.
+ * Data object to hold several event lists.
  * @param {String} name of the event lists param. optional.
  * @returns {helio.EventList}
  */
 helio.EventList = function(taskName, name) {
     helio.AbstractModel.apply(this, [taskName, name, 'EventList']);
     this.name = name;
-    this.listNames = [];           // the list names (use addList and removeList to modify)
-    this.listQueryOptions = [];    // the query options         
-    this.config = { labels:[]};    // transient config object holding the names of the selected event lists.
-    //this.filter = null;    // selected filters
+    this.entries = {};   // Map of EventListEntries (use addEntry and removeEntry to modify)
 };
 
 //create EventList subclass of AbstractModel
@@ -257,37 +379,44 @@ helio.EventList.prototype.constructor = helio.EventList;
 /**
  * Convenience method to add a list name. Use this method whenever possible.
  * @param listName the name of the list
- * @param listLabel the label of the list
  */
-helio.EventList.prototype.addList = function(listName, listLabel) {
-    this.listNames.push(listName);
-    this.listQueryOptions.push(new helio.ParamSet(this.taskName, this.listName));
-    this.config.labels.push(listLabel);
+helio.EventList.prototype.addEntry = function(listName) {
+    this.entries[listName] = new helio.EventListEntry(listName, new helio.ParamSet(this.taskName, null, listName));
 };
 
 /**
  * Remove a list from the event list set.
  * @param listName the name of the list
  */
-helio.EventList.prototype.removeList = function(listName) {
-    var pos = $.inArray(listName, this.listNames);
-    if (pos >= 0) {
-        this.listNames.splice(pos, 1);
-        this.listQueryOptions.splice(pos, 1);
-        this.config.labels.splice(pos, 1);
-    }
+helio.EventList.prototype.removeEntry = function(listName) {
+    delete this.entries[listName];
 };
 
 /**
  * Get the query options for a given list name
  * @param listName the name of the list
+ * @return {helio.EventListEntry} the helio.EventListEntry object or nothing if not found.
  */
-helio.EventList.prototype.getQueryOptions = function(listName) {
-    var pos = $.inArray(listName, this.listNames);
-    if (pos >= 0) {
-        return this.listQueryOptions[pos];
-    }
-    return null;
+helio.EventList.prototype.getEventListEntry = function(listName) {
+    return this.entries[listName];
 };
+
+/**
+ * Object to hold one selected list.
+ * @param {String} listName the unique id of the list.
+ * @param {ParamSet} whereClause a param set holding the query parameters.
+ * @param {Object} config a configuration object.
+ * @returns {helio.EventListEntry} new instance of an entry.
+ */
+helio.EventListEntry = function(listName, whereClause) {
+    this.type = 'EventListEntry';
+    this.listName = listName;
+    this.whereClause = whereClause;
+};
+
+helio.EventListEntry.prototype.getLabel = function() {
+    return helio.config.EventList[this.listName].label;
+};
+
 
 })();

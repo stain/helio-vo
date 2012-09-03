@@ -97,6 +97,21 @@ this.helio = this.helio ||
             return ((a < b) ? 1 : ((a > b) ? -1 : 0));
         }
     } );
+    
+    
+//    $.fn.dataTableExt.afnFiltering.push(
+//        function( oSettings, aData, iDataIndex ) {
+//            // check if filtering is enabled
+//            if (!oSettings.bFilterSelected) {
+//                return true;
+//            }
+//            var tr = oSettings.aoData[iDataIndex].nTr;
+//            if ($(tr).hasClass('row_selected')) {
+//                return true;
+//            }
+//            return false;
+//        }
+//    );
 })();      
 
 
@@ -118,6 +133,9 @@ $(document).ready(function() {
 
     // provde global access to the task map
     helio.taskMap = new helio.TaskMap();
+
+    // create and load the helio config
+    $.getJSON('./config').done(function(data) {helio.config = data; });
 
     // init menu tabs
     $( "#tabs" ).tabs();//inits the main task selector

@@ -3,7 +3,9 @@ package eu.heliovo.hfe.controller
 import java.util.logging.Level
 import java.util.logging.LogRecord
 
+import eu.heliovo.clientapi.model.field.Operator
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.ParamSetEntry
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.shared.util.DateUtil
@@ -45,12 +47,12 @@ class ProcessingController {
         }
 		timeRanges.save()
         
-        // map 
-        def inParams = [:]
-		jsonBindings.inputParams.paramSet.params.each{inParams.put(it.key, it.value)}
-		
+        // map 		
         def paramSet = new ParamSet(name : jsonBindings.inputParams.paramSet.name, taskName : taskName)
-        paramSet.params = inParams 
+        jsonBindings.inputParams.paramSet.entries.each{ entry ->
+            paramSet.addToEntries(new ParamSetEntry(paramName : entry.paramName, operator : Operator.EQUALS, paramValue : entry.paramValue))
+        }
+
         if (!paramSet.validate()) {
             throw new ValidationException ("Invalid param set", paramSet.errors)
         }

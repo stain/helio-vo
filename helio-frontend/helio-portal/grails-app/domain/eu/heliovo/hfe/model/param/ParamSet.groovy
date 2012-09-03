@@ -1,5 +1,6 @@
 package eu.heliovo.hfe.model.param
 
+import java.util.Map;
 import eu.heliovo.hfe.model.security.User
 
 
@@ -15,22 +16,22 @@ class ParamSet extends AbstractParam {
     transient springSecurityService
     
     transient taskDescriptorService
-   
-    /**
-     * Hold the params
-     */
-    Map<String, String> params
-        
+    
     static constraints = {
     }
 	
 	static hasMany = [
-		params : String
+		entries : ParamSetEntry
 	]
 
     static transients = [
         'config'
     ]
+    
+    static mapping = {
+        tablePerHierarchy false
+        entries cascade: "all-delete-orphan"
+    }
     
     /**
      * Load the task descriptor config.
@@ -51,10 +52,22 @@ class ParamSet extends AbstractParam {
         taskDescriptorService.taskDescriptor[this.taskName]
     }
     
-    
+    /**
+     * Find the ParamSetEntry by its name.
+     * @param entryName the name of the entry
+     * @return the found entry.
+     */
+    def ParamSetEntry findEntryByName(String entryName) {
+        for (ParamSetEntry entry : entries) {
+            if (entryName == entry.paramName) {
+                return entry
+            }
+        }
+        return null;
+    }
     
     def String toString() {
-        "ParamSet [taskName: " + taskName + ", params: " + params +"]"
+        "ParamSet [taskName: " + taskName + ", entries: " + entries +"]"
     }
     
     /**

@@ -2,6 +2,7 @@ package eu.heliovo.hfe.service
 
 
 
+import eu.heliovo.registryclient.HelioServiceName;
 import grails.test.mixin.*
 import org.junit.*
 
@@ -10,8 +11,10 @@ import org.junit.*
  */
 @TestFor(TaskDescriptorService)
 class TaskDescriptorServiceTests {
-
-    void testSomething() {
-        fail "Implement me"
+    def taskDescriptorService
+    
+    void testFindByServiceName() {
+//        def tasks = taskDescriptorService.findTaskDescriptorByServiceName(HelioServiceName.HPS)
+//        assertEquals(6, tasks.size())
     }
 }

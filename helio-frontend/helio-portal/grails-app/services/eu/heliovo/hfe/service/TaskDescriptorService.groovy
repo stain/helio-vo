@@ -40,17 +40,14 @@ class TaskDescriptorService implements InitializingBean {
      */
     def desConfiguration;
     
-    /**
-     * Auto wire the instrument descriptor dao
-     */
-    def instrumentDescriptorDao;
-    
-    /**
-     * Auto wire the hec event list descriptor dao
-     */
-    def eventListDescriptorDao;
     
     def taskDescriptor;
+
+    /**
+     * Use the configuration manager to get the DPAS instruments.    
+     */
+    def transient configurationManager
+    
     
     /**
      * Create task descriptors, if required.
@@ -96,9 +93,8 @@ class TaskDescriptorService implements InitializingBean {
             [label:"goes_flare_sep_event", value: "goes_flare_sep_event", description: "goes_flare_sep_event"]]
         
         //def eventListModel = ServletContextHolder.servletContext.eventListModel
-        List<EventListDescriptor> eventListDescriptors = eventListDescriptorDao.getDomainValues()
-        List<InstrumentDescriptor> instrumentDescriptors = instrumentDescriptorDao.getDomainValues()
-
+        List<EventListDescriptor> eventListDescriptors = configurationManager.getCatalogueDescriptors(HelioServiceName.HEC, null)
+        List<InstrumentDescriptor> instrumentDescriptors = configurationManager.getCatalogueDescriptors(HelioServiceName.DPAS, null)
         
       /************* PROPAGATION MODEL *****************/
       this.taskDescriptor =
@@ -118,7 +114,7 @@ class TaskDescriptorService implements InitializingBean {
                 "instruments" :  [
                     "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
                         defaultValue : [],
-                        selectionDescriptor: instrumentDescriptors]
+                        valueDomain: instrumentDescriptors]
                 ]
             ]
           ],
@@ -129,13 +125,14 @@ class TaskDescriptorService implements InitializingBean {
             "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
             "serviceVariant" : CmePropagationModelImpl.SERVICE_VARIANT,
             "helpImage" : "exp_cme.png",
+            "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
             "inputParams" : [
                 "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                 "paramSet" : [
-                    "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : Float, defaultValue : 0],
-                    "width" : [label : "Width", description : "Longitudinal width of the CME in degrees", type : Float, defaultValue : 45.0],
-                    "speed" : [label : "Speed", description : "CME speed in km/s", type : Float, defaultValue : 800],
-                    "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : Float, defaultValue : 0]
+                    "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : [javaType: Float], defaultValue : 0],
+                    "width" : [label : "Width", description : "Longitudinal width of the CME in degrees", type : [javaType: Float], defaultValue : 45.0],
+                    "speed" : [label : "Speed", description : "CME speed in km/s", type : [javaType: Float], defaultValue : 800],
+                    "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : [javaType: Float], defaultValue : 0]
                 ]
             ],
             "outputParams" : [
@@ -152,14 +149,15 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CmeBackwardPropagationModelImpl.SERVICE_VARIANT,
               "helpImage" : "exp_cme.png",
+              "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                   "paramSet" : [
-                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : String, defaultValue : "Earth", 
+                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth", 
                           valueDomain : hitObjectDomain],
-                      "speed" : [label : "Speed", description : "CME speed in km/s", type : Float, defaultValue : 800],
-                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : Float, defaultValue : 0],
-                      "width" : [label : "Width", description : "Longitudinal width of the CME in degrees", type : Float, defaultValue : 45.0],
+                      "speed" : [label : "Speed", description : "CME speed in km/s", type : [javaType: Float], defaultValue : 800],
+                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : [javaType: Float], defaultValue : 0],
+                      "width" : [label : "Width", description : "Longitudinal width of the CME in degrees", type : [javaType: Float], defaultValue : 45.0],
                   ]
               ],
               "outputParams" : [
@@ -176,12 +174,13 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CirPropagationModelImpl.SERVICE_VARIANT,
               "helpImage" : "exp_sw.png",
+              "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                   "paramSet" : [
-                      "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the most-west edge of a Coronal hole)", type : Float, defaultValue : 0],
-                      "speed" : [label : "Speed", description : "The speed of the Solar Wind in km/s", type : Float, defaultValue : 600],
-                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : Float, defaultValue : 0],
+                      "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the most-west edge of a Coronal hole)", type : [javaType: Float], defaultValue : 0],
+                      "speed" : [label : "Speed", description : "The speed of the Solar Wind in km/s", type : [javaType: Float], defaultValue : 600],
+                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : [javaType: Float], defaultValue : 0],
                   ]
               ],
               "outputParams" : [
@@ -197,13 +196,14 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CirBackwardPropagationModelImpl.SERVICE_VARIANT,
               "helpImage" : "exp_sw.png",
+              "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                   "paramSet" : [
-                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : String, defaultValue : "Earth",
+                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth",
                           valueDomain : hitObjectDomain],
-                      "speed" : [label : "Speed", description : "The speed of the Solar Wind in km/s", type : Float, defaultValue : 600],
-                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : Float, defaultValue : 0],
+                      "speed" : [label : "Speed", description : "The speed of the Solar Wind in km/s", type : [javaType: Float], defaultValue : 600],
+                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed in km/s", type : [javaType: Float], defaultValue : 0],
                   ]
               ],
               "outputParams" : [
@@ -219,13 +219,14 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : SepPropagationModelImpl.SERVICE_VARIANT,
               "helpImage" : "exp_sep.png",
+              "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                   "paramSet" : [
-                      "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : Float, defaultValue : 0],
-                      "speed" : [label : "Speed", description : "Speed of the ambient solar wind in km/s", type : Float, defaultValue : 600],
-                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed of the solar wind in km/s", type : Float, defaultValue : 0],
-                      "beta" : [label : "Beta", description : "Fraction of lightspeed", type : Float, defaultValue : 0.9],
+                      "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : [javaType: Float], defaultValue : 0],
+                      "speed" : [label : "Speed", description : "Speed of the ambient solar wind in km/s", type : [javaType: Float], defaultValue : 600],
+                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed of the solar wind in km/s", type : [javaType: Float], defaultValue : 0],
+                      "beta" : [label : "Beta", description : "Fraction of lightspeed", type : [javaType: Float], defaultValue : 0.9],
                   ]
               ],
               "outputParams" : [
@@ -241,14 +242,15 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : SepBackwardPropagationModelImpl.SERVICE_VARIANT,
               "helpImage" : "exp_sep.png",
+              "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
                   "paramSet" : [
-                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : String, defaultValue : "Earth",
+                      "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth",
                           valueDomain : hitObjectDomain],
-                      "speed" : [label : "Speed", description : "Speed of the ambient solar wind in km/s", type : Float, defaultValue : 600],
-                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed of the solar wind in km/s", type : Float, defaultValue : 0],
-                      "beta" : [label : "Beta", description : "Fraction of lightspeed", type : Float, defaultValue : 0.9],
+                      "speed" : [label : "Speed", description : "Speed of the ambient solar wind in km/s", type : [javaType: Float], defaultValue : 600],
+                      "speedError" : [label : "SpeedError &plusmn;", description : "Error in the speed of the solar wind in km/s", type : [javaType: Float], defaultValue : 0],
+                      "beta" : [label : "Beta", description : "Fraction of lightspeed", type : [javaType: Float], defaultValue : 0.9],
                   ]
               ],
               "outputParams" : [
@@ -267,12 +269,12 @@ class TaskDescriptorService implements InitializingBean {
             "inputParams" : [
                 "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
                 "paramSet" : [
-                    "catalogue1" : [label : "Catalogue 1", description : "1st Event list (not all HEC lists are supported)", type : String, defaultValue : "goes_sxr_flare", 
+                    "catalogue1" : [label : "Catalogue 1", description : "1st Event list (not all HEC lists are supported)", type : [javaType: String], defaultValue : "goes_sxr_flare", 
                         valueDomain: tav2283ValueDomain],
-                    "catalogue2" : [label : "Catalogue 2", description : "2nd Event list", type : String, defaultValue : "ngdc_halpha_flare",
+                    "catalogue2" : [label : "Catalogue 2", description : "2nd Event list", type : [javaType: String], defaultValue : "ngdc_halpha_flare",
                         valueDomain: tav2283ValueDomain],
-                    "timeDelta" : [label : "Time delta", description : "Max time delta between the two lists in seconds", type : Integer, defaultValue : 0],
-                    "locationDelta" : [label : "Location delta", description : "Max delta in degrees", type : Double, defaultValue : 1.5d],
+                    "timeDelta" : [label : "Time delta", description : "Max time delta between the two lists in seconds", type : [javaType: Integer], defaultValue : 0],
+                    "locationDelta" : [label : "Location delta", description : "Max delta in degrees", type : [javaType: Double], defaultValue : 1.5d],
                 ]
             ],
             "outputParams" : [
@@ -291,7 +293,7 @@ class TaskDescriptorService implements InitializingBean {
              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
              "paramSet" : [
                "plotType" : [label: "Plot type", description : "Choose the kind of GOES data to plot", 
-                            type : eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType, 
+                            type : [javaType: eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType], 
                             defaultValue : eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType.PROTON]]
             ],
             "outputParams" : [
@@ -322,9 +324,9 @@ class TaskDescriptorService implements InitializingBean {
             "inputParams" : [
               "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
               "paramSet" : [
-                "velocity" : [label : "Velocity", description : "Velocity in km/s (would speed be the better term?)", type : int, defaultValue : 400],
+                "velocity" : [label : "Velocity", description : "Velocity in km/s (would speed be the better term?)", type : [javaType: int], defaultValue : 400],
                 "plotType" : [label : "Area to plot", description : "Plot inner or outer planets", 
-                              type : PlotType, 
+                              type : [javaType: PlotType], 
                               defaultValue : PlotType.INNER]
               ]
             ],
@@ -412,9 +414,9 @@ class TaskDescriptorService implements InitializingBean {
               "inputParams" : [
                 "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'multi_time_range']],
                 "eventList" :  [
-                    "listNames" : [label : "Event List", description : "Name of the Event List", type : String[], 
+                    "listNames" : [label : "Event List", description : "Name of the Event List", type : [javaType: String][], 
                         defaultValue : [], 
-                        selectionDescriptor: eventListDescriptors]
+                        valueDomain: eventListDescriptors]
                     ]
               ],
               "outputParams" : [
@@ -433,7 +435,7 @@ class TaskDescriptorService implements InitializingBean {
                 "instruments" :  [
                     "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
                         defaultValue : [],
-                        selectionDescriptor: instrumentDescriptors]
+                        valueDomain: instrumentDescriptors]
                 ]
             ],
             "outputParams" : [
@@ -481,39 +483,39 @@ class TaskDescriptorService implements InitializingBean {
               "inputParams" : [
                   "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
                   "paramSet" : [
-                      "mission" : [label : "Mission", description : "Select a mission", type : String, defaultValue : "ACE", 
-                          valueDomain: desConfiguration.missions],
+                      "mission" : [label : "Mission", description : "Select a mission", type : [javaType: String], defaultValue : "ACE", 
+                          valueDomain: desConfiguration?.missions],
                       "function" : [label : "Function", 
                           description : "Select the function to apply to the data of the selected mission. Hover your mouse over the selection items to get more information.", 
-                          type : String, 
+                          type : [javaType: String], 
                           defaultValue : "DERRIV",
-                          valueDomain: desConfiguration.functions],
+                          valueDomain: desConfiguration?.functions],
                       "parameter_param" : [label : "Parameter",
                           description : "Select the parameter to analyze by the function",
-                          type : String, 
+                          type : [javaType: String], 
                           defaultValue : "",
-                          valueDomain: desConfiguration.params,
-                          template : "/dialog/_desParamSetParamRow"],
+                          valueDomain: desConfiguration?.params,
+                          /*template : "/dialog/_desParamSetParamRow"*/],
                       "parameter_operator" : [ label : "Operator",
                           description : "operator of the param",
-                          type : DesFunctionOperator,
+                          type : [javaType: DesFunctionOperator],
                           defaultValue : DesFunctionOperator.GT,
                           render : false],
                       "parameter_value" : [label : "Value",
                           description : "Value for a specific parameter",
-                          type : Double,
+                          type : [javaType: Double],
                           defaultValue : 0,
                           render : false
                           ],
                       "parameter_avaragetime" : [label : "Average time",
                           description : "Average/Sampling time resolution - by default 600 sec",
-                          type : Double,
+                          type : [javaType: Double],
                           defaultValue : 0,
                           render : true
                           ],
                       "parameter_samplingwindow" : [label : "Sampling window",
                           description : "Average sampling window size",
-                          type : Double,
+                          type : [javaType: Double],
                           defaultValue : 60,
                           render : true
                           ],
@@ -527,7 +529,7 @@ class TaskDescriptorService implements InitializingBean {
       ]
     }
     
-    /**
+   /**
     * Find a task descriptor by name
     * @param taskName
     * @return
@@ -535,6 +537,28 @@ class TaskDescriptorService implements InitializingBean {
    def findTaskDescriptor(taskName) {
        taskDescriptor[taskName]
    }
-
- 
+   
+   /**
+    * Find all tasks that implement the same service
+    * @param serviceName the name of the service
+    * @return collection of tasks with the given serviceName
+    */
+   def findTaskDescriptorByServiceName(serviceName) {
+       taskDescriptor.find{ it.value?.serviceName == serviceName }
+   }
+   
+   /**
+    * Find a task descriptor 
+    * @param taskName
+    * @return
+    */
+   def findParamSetConfig() {
+       def ret = [:]
+       taskDescriptor.each{ 
+           if (it.value.inputParams && it.value.inputParams.paramSet ) {
+               ret[it.key] = it.value.inputParams.paramSet
+           }
+       }
+       ret
+   }
 }

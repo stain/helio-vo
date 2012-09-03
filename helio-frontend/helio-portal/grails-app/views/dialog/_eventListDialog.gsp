@@ -67,8 +67,8 @@ Expected variables:
             <td width="500" valign="top">
               <g:render template="/dialog/_catalogTable" 
                   model="${[tableId: 'selectTableEventList', tableName: 'selectTableEventList', 
-                      rowDescriptors: taskDescriptor.inputParams.eventList.listNames.selectionDescriptor,
-                      columnDescriptors: taskDescriptor.inputParams.eventList.listNames.selectionDescriptor[0].beanInfo.propertyDescriptors]}"/>
+                      rowDescriptors: taskDescriptor.inputParams.eventList.listNames.valueDomain,
+                      columnDescriptors: taskDescriptor.inputParams.eventList.listNames.valueDomain[0].beanInfo.propertyDescriptors]}"/>
             </td>
             <td width="250" valign="top">
                 <div id="summaryEventList" class="candybox dialog_selection_area"></div>

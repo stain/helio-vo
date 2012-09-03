@@ -13,7 +13,7 @@ Expected params:
             <img id="img${paramName}Summary" class="paramDraggable paramDraggable${paramName}"  style="margin:11px" src="${resource(dir:'images/helio',file:'circle_' + paramName + '_grey.png')}" />
           </div>
         </td>
-        <td rowspan="2" id="text${paramName}Summary" class="candybox showDialog show${paramName}Dialog" >
+        <td rowspan="2" id="text${paramName}Summary" class="candybox summaryBox showDialog show${paramName}Dialog" >
         </td>
         <td rowspan="2">
            <div class="button${paramName} clear${paramName}Summary">Clear</div>

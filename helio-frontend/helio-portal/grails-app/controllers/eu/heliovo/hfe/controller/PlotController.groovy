@@ -1,6 +1,8 @@
 package eu.heliovo.hfe.controller
 
+import eu.heliovo.clientapi.model.field.Operator
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.ParamSetEntry
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.task.Task
 import eu.heliovo.shared.util.DateUtil
@@ -44,10 +46,12 @@ class PlotController {
         
         // handle plot params, if required
         if (taskDescriptor.inputParams.paramSet) {
-            def paramSet = new ParamSet(jsonBindings.inputParams.paramSet)
-            jsonBindings.inputParams.paramSet.params?.each{ entry ->
-                paramSet.params.put(entry.key, entry.value)
+            def paramSet = new ParamSet()
+            bindData(paramSet, jsonBindings.inputParams.paramSet, [exclude :['entries']])
+            jsonBindings.inputParams.paramSet.entries?.each{ entry ->
+                paramSet.addToEntries(new ParamSetEntry(paramName : entry.paramName, operator : Operator.EQUALS, paramValue : entry.paramValue))
             }
+    
             if (!paramSet.validate()) {
                 throw new ValidationException ("Invalid param set", paramSet.errors)
             }
@@ -99,9 +103,10 @@ class PlotController {
             def paramSet = new ParamSet(taskName: taskName, params: [:])
             params.each{ entry ->
                 if (entry.key.startsWith("paramSet.")) {
-                    paramSet.params.put(entry.key.substring(9), entry.value)
+                    paramSet.addToEntries(new ParamSetEntry(paramName : entry.key.substring(9), operator : Operator.EQUALS, paramValue : entry.value))
                 }
             }
+
             if (!paramSet.validate()) {
                 throw new ValidationException ("Invalid param set", paramSet.errors)
             }

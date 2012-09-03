@@ -20,6 +20,8 @@ Expected parameters:
                 Parameter
               </th>
               <th align="left" valign="top">
+              </th>
+              <th align="left" valign="top">
                 Value
               </th>
               <th valign="top"></th>
@@ -28,17 +30,15 @@ Expected parameters:
           <tbody>
             <g:each var="paramDescriptorEntry" in="${paramSet.config}" status="i">
               <g:set var="paramName" value="${paramDescriptorEntry.key}" />
-              <g:set var="param" value="${paramSet.params[paramName]}" />
+              <g:set var="param" value="${paramSet.findEntryByName(paramName)}" />
               <g:set var="paramDescriptor" value="${paramDescriptorEntry.value}" />
-              <g:set var="value" value="${param?.value ?:paramDescriptor.defaultValue}" />
-              <g:set var="template" value="${paramDescriptor.template ?: '/dialog/_paramSetParamRow'}" />
-              <g:if test="${paramDescriptor.render == null || paramDescriptor.render == true}">
-                <g:render template="${template}" model="[paramName : paramName, param : param, paramDescriptor : paramDescriptor, value : value, paramSet : paramSet]"></g:render>
-              </g:if>
+              <g:set var="value" value="${param?.paramValue ?: paramDescriptor.defaultValue}" />
+              <g:set var="template" value="/dialog/_paramSetParamRow" />
+              <g:render template="${template}" model="[paramName : paramName, param : param, paramDescriptor : paramDescriptor, value : value, paramSet : paramSet]"></g:render>
             </g:each>
             <g:if test="${taskDescriptor.helpImage}" >
               <tr>
-                <td colspan="3" > 
+                <td colspan="4" > 
                   <img src="${resource(dir:'images/helio/hps', file:taskDescriptor.helpImage)}" style="height:220px; margin-top:10px"/>
                 </td>
               </tr>

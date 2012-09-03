@@ -69,7 +69,7 @@ helio.DataCart.prototype.addItem = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
         './dataCart/create',
-        {data : JSON.stringify(dataItem)},
+        {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
             THIS.render.call(THIS);
@@ -85,12 +85,12 @@ helio.DataCart.prototype.addItem = function(dataItem) {
 helio.DataCart.prototype.update = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
-            './dataCart/update',
-            {id : dataItem.id, data : JSON.stringify(dataItem)},
-            function(data, textStatus, jqXHR) {
-                THIS.data = data;
-                THIS.render.call(THIS);
-            }
+        './dataCart/update',
+        {id : dataItem.id, data : JSON.stringify(dataItem, this._jsonReplacer)},
+        function(data, textStatus, jqXHR) {
+            THIS.data = data;
+            THIS.render.call(THIS);
+        }
     );
 };
 
@@ -103,13 +103,27 @@ helio.DataCart.prototype.deleteItem = function(dataItem) {
     var THIS = this;
     this.data = $.getJSON(
         './dataCart/delete',
-        {data : JSON.stringify(dataItem)},
+        {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
             THIS.data = data;
             THIS.render.call(THIS);
         }
     );
 };
+
+/**
+ * Custom JSON rendering. Filter the config params.
+ * @param key the key to render as JSON
+ * @param value the value to render as JSON
+ * @returns the filtered value. Nothing to skip a value.
+ */
+helio.DataCart.prototype._jsonReplacer = function(key, value) {
+    if (key == 'config') {
+        return undefined;
+    }
+    return value;
+};
+
 
 /**
  * Render / re-render the content of the data cart.
@@ -149,8 +163,10 @@ helio.DataCart.prototype.render = function() {
                 break;
             case 'eu.heliovo.hfe.model.param.ParamSet':
                 dataObject = new helio.ParamSet(cartItem.taskName, cartItem.name);
-                dataObject.params = cartItem.params;
-                dataObject.config = cartItem.config;
+                for (var i = 0; i < cartItem.entries.length; i++) {
+                    var entry = cartItem.entries[i];
+                    dataObject.setParamSetEntry(entry.paramName, entry.operator.name, entry.paramValue); 
+                }
                 taskName = cartItem.taskName != null ? cartItem.taskName : taskName;
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
@@ -162,7 +178,10 @@ helio.DataCart.prototype.render = function() {
                 break;
             case 'eu.heliovo.hfe.model.param.InstrumentParam':
                 dataObject = new helio.Instrument(taskName, cartItem.name);
-                dataObject.instruments = cartItem.instruments;
+                for (var i = 0; i < cartItem.instruments.length; i++) {
+                    var instr = cartItem.instruments[i];
+                    dataObject.setInstrument(instr); 
+                }
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
                     return function() {
@@ -172,7 +191,9 @@ helio.DataCart.prototype.render = function() {
                 break;                
             case 'eu.heliovo.hfe.model.param.EventListParam':
                 dataObject = new helio.EventList(cartItem.taskName, cartItem.name);
-                dataObject.listNames = cartItem.listNames;
+                for (var i = 0; i < cartItem.listNames.length; i++) {
+                    dataObject.addEntry(cartItem.listNames[i]);
+                }
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
                     return function() {

@@ -1,6 +1,8 @@
 package eu.heliovo.hfe.service
 
+import eu.heliovo.clientapi.model.field.Operator
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.ParamSetEntry
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.model.task.Task
@@ -36,13 +38,13 @@ class DefaultsService {
     /**
      * Create a new param set instance but do not save it to the database.
      * @param taskName the name of the task this paramSet belongs to.
-     * @param params the default params of this set
+     * @param entries the default entries of this set
      * @return the created paramSet
      * @throws ValidationException in case the created params object is not valid.
      */
-    def newParamSet(taskName, params) throws ValidationException {
+    def newParamSet(taskName, entries) throws ValidationException {
         def paramSet = new ParamSet(taskName: taskName)
-        paramSet.params = params
+        paramSet.entries = entries
         if (!paramSet.validate()) {
             throw new ValidationException("ParamSet is not valid", paramSet.errors)
         }
@@ -66,14 +68,14 @@ class DefaultsService {
             task = new Task(taskName : taskName)
             
             if (taskDescriptor.inputParams) {
-                def paramMap = [:]
+                def entries = []
                 taskDescriptor.inputParams.paramSet.each {
-                    paramMap[it.key] = ""+it.value.defaultValue 
+                    entries.add(new ParamSetEntry(paramName : it.key, operator : Operator.EQUALS, paramValue : it.value.defaultValue.toString()));
                 }
                 
                 def inputParams = [
                     timeRange: createDefaultTimeRange(taskName),
-                    paramSet: newParamSet(taskName, paramMap)
+                    paramSet: newParamSet(taskName, entries)
                 ]
                 task.inputParams = inputParams
             }

@@ -1,11 +1,13 @@
 import org.codehaus.groovy.grails.plugins.springsecurity.SecurityFilterPosition
 import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
 
+import eu.heliovo.clientapi.model.field.Operator;
 import eu.heliovo.hfe.model.cart.DataCart
 import eu.heliovo.hfe.model.param.AbstractParam
 import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.ParamSetEntry;
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.param.TimeRangeParam
 import eu.heliovo.hfe.model.security.Role
@@ -97,8 +99,15 @@ class BootStrap {
         }
         JSON.registerObjectMarshaller ParamSet, {
             def returnArray = marshalAbstractParam([:], it)
-            returnArray['params'] = it.params
-            returnArray['config'] = it.config
+                    returnArray['entries'] = it.entries
+                    returnArray['config'] = it.config
+                    return returnArray
+        }
+        JSON.registerObjectMarshaller ParamSetEntry, {
+            def returnArray = [:]
+            returnArray['paramName'] = it.paramName
+            returnArray['operator'] = it.operator
+            returnArray['paramValue'] = it.paramValue
             return returnArray
         }
         JSON.registerObjectMarshaller EventListParam, {

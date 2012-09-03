@@ -326,6 +326,26 @@ tr.even.row_selected td.sorting_3 {
 	font: 12px  Arial, Helvetica, sans-serif;
 }
 
+/****************** changelog *****************/
+
+table.changelog {
+	border-collapse: collapse; 
+	padding: 5px;
+}
+
+table.changelog tr th {
+	vertical-align: top;
+	border: 1px solid #C3C6CA;
+	text-align: left;
+}
+
+table.changelog tr td {
+	vertical-align: top;
+	border: 1px solid #C3C6CA;
+	padding: 5px;
+}
+
+
 /***************** CSS related to TASKS *********************/
 /**
  * Format the main area of a task
@@ -487,6 +507,7 @@ table.dialog_content_table td {
 	white-space: nowrap;
 	display: inline-block;
 	max-width: 500px;
+	margin-top: 5px;
 }
 
 .filterInstrumentsText {
@@ -500,6 +521,16 @@ select.paramSetEntry {
 	-o-text-overflow: ellipsis;
 	-ms-text-overflow: ellipsis;
 }
+
+.summaryBox table td {
+	max-width:280px;
+    white-space: nowrap;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+}
+
 
 .reload_link {
 	text-decoration: underline;
@@ -573,6 +604,7 @@ select.paramSetEntry {
 	background-image: url(../images/helio/toolbar_med.png);
 	display: inline-block;
 	position: relative;
+	cursor: pointer;
 }
 
 .toolbar-icon.toolbar-icon-info {
@@ -593,6 +625,13 @@ select.paramSetEntry {
 
 .toolbar-icon.toolbar-icon-selectall {
 	background-position: -120px 0
+}
+
+.toolbar-icon.toolbar-icon-extract-instrument {
+	background-position: -151px 0
+}
+.toolbar-icon.toolbar-icon-extract-time {
+	background-position: -182px 0
 }
 
 div.tabs_votable_result .ui-tabs-panel {
@@ -701,4 +740,5 @@ details_link {
 
 .paramDraggable {
 	cursor: move;
+	opacity: 1.0;
 }

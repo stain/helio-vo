@@ -19,7 +19,7 @@ class EventListParam extends AbstractParam {
    /**
     * The query terms are mapped to the list names
     */
-   Map<String, ParamSet> queryTerms
+   Map<String, QueryParamSet> queryTerms
    
    /**
     * The filter is stored in a JSON string as it will be required on the client side only. 

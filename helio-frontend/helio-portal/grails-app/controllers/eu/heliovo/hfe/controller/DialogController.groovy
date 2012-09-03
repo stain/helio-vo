@@ -1,8 +1,11 @@
 package eu.heliovo.hfe.controller
 
+import eu.heliovo.clientapi.model.field.descriptor.HelioFieldDescriptor
 import eu.heliovo.hfe.model.param.EventListParam
 import eu.heliovo.hfe.model.param.InstrumentParam
 import eu.heliovo.hfe.model.param.ParamSet
+import eu.heliovo.hfe.model.param.ParamSetEntry
+import eu.heliovo.hfe.model.param.QueryParamSet
 import eu.heliovo.hfe.model.param.TimeRange
 import eu.heliovo.hfe.model.result.HelioResult
 import eu.heliovo.hfe.model.task.Task
@@ -32,6 +35,11 @@ class DialogController {
      * Auto wire the extractParamsService    
      */
     def extractParamsService
+    
+    /**
+     * Factory to create an empty where clause
+     */
+    def whereClauseFactoryBean
     
     def index = { }
     
@@ -114,8 +122,13 @@ class DialogController {
         
         def paramSet;
         
-        if (listName) { // handle list dialog
-            
+        if (listName) { // handle event list dialog
+            def whereClause = whereClauseFactoryBean.createWhereClause(taskDescriptor.serviceName, listName)
+            List<HelioFieldDescriptor<?>> fieldDescriptors = whereClause.getFieldDescriptors()
+            paramSet = new QueryParamSet(taskName : taskName, listName : listName)
+            fieldDescriptors.each { 
+                paramSet.addToEntries(new ParamSetEntry(paramName : it.name, operator: it.type.operatorDomain[0], paramValue : it.defaultValue))
+            }
         } else {  // handle task paramset dialog
             switch (initMode) {
                 case InitMode.none:
@@ -153,7 +166,7 @@ class DialogController {
                 if (eventList == null)
                     eventList = new EventListParam(taskName : taskName);
                 break;
-            default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
+            default: throw new IllegalStateException("Unknown init mode " + initMode + " (params.init=" + params.init +").")
         }
         //println taskDescriptor
         render (template: "/dialog/eventListDialog", model: [ eventList : eventList, taskDescriptor : taskDescriptor])
@@ -178,7 +191,7 @@ class DialogController {
             break;
         default: throw "Unknown init mode " + initMode + " (params.init=" + params.init +")."
         }
-        //println taskDescriptor.inputParams.instruments.instruments.selectionDescriptor
+        //println taskDescriptor.inputParams.instruments.instruments.valueDomain
         render (template: "/dialog/instrumentDialog", model: [ instrument : instrumentParam, taskDescriptor : taskDescriptor])
     }
 

@@ -11,6 +11,7 @@ import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.result.RemotePlotResult
 import eu.heliovo.hfe.model.result.RemoteVOTableResult
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.hfe.utils.BeanPopulationUtil;
 
 class ProcessingService {
 
@@ -32,23 +33,7 @@ class ProcessingService {
             taskDescriptor.serviceVariant,
             taskDescriptor.serviceCapability)
 
-        def timeRanges = task.inputParams.timeRanges.timeRanges
-
-        // populate the propagationService (start time is hardcoded)
-		BeanWrapper beanWrapper = new BeanWrapperImpl(propagationService)
-        if (beanWrapper.isWritableProperty("startTime")) {
-            beanWrapper.setPropertyValue("startTime", timeRanges[0].startTime)
-        }
-        if (beanWrapper.isWritableProperty("date")) {
-            beanWrapper.setPropertyValue("date", timeRanges[0].startTime)
-        }
-        if (beanWrapper.isWritableProperty("endTime")) {
-            beanWrapper.setPropertyValue("endTime", timeRanges[0].endTime)
-        }
-        if (taskDescriptor.inputParams.paramSet) {
-            def paramSet = task.inputParams.paramSet.params
-            beanWrapper.setPropertyValues(paramSet)
-        }
+        BeanPopulationUtil.populateService(propagationService, task);
         
         // create the models for the template
         def model = [:]
@@ -61,7 +46,7 @@ class ProcessingService {
             // get the result
             def resultObject = result.asResultObject(60, TimeUnit.SECONDS);
             // wrap the resultObject ...
-            beanWrapper = new BeanWrapperImpl(resultObject)
+            def beanWrapper = new BeanWrapperImpl(resultObject)
     
             
             // ... and add the results to the task

@@ -56,25 +56,25 @@ Expected model:
       <div id="tabs_votables">
         <ul>
           <g:each var="table" in="${result.tables}" status="h">
-            <li><a href="#tab_votable_${h}">${table.name ? table.name.replaceAll('/', '') : 'Un-named table'} (${table.data.rowCount})</a></li>
+            <li><a href="#tab_votable_${h}">${table.name ? table.name.replaceAll('/', '') : 'Unknown table'} (${table.data?.rowCount})</a></li>
           </g:each>
         </ul>
         <g:each var="table" in="${result.tables}" status="h">
           <div id="tab_votable_${h}" style="padding: 0.4em 0;">
             <g:if test="${table.type == 'empty_resource'}">
-               No data available.
+               No data available. ${table.descriptions ? '<br>Message from source VOTable: ' + table.descriptions : ''}
             </g:if>
             <g:else>
-              <g:if test="${taskDescriptor.resultfilter}">
-                  <g:render template="/output/${taskDescriptor.resultfilter}" model="${[tableId:'table_' + result.id + '_' + h, table:table, taskDescriptor:taskDescriptor]}" />
-              </g:if>
               <div class="tabs_votable_result">
                 <ul>
                   <li><a href="#tab_votable_table_${result.id}_${h}">Show as table</a></li>
                   <li><a href="#tab_votable_plot_${result.id}_${h}">Show as plot</a></li>
                 </ul>
                 <div id="tab_votable_table_${result.id}_${h}">
-          
+                  <g:if test="${taskDescriptor.resultfilter}">
+                    <g:render template="/output/${taskDescriptor.resultfilter}" model="${[tableId:'table_' + result.id + '_' + h, table:table, taskDescriptor:taskDescriptor]}" />
+                  </g:if>
+            
                   <%-- table actions --%>
                   <div id="votable_toolbar" class="toolbar candybox">
                     <g:if test="${table.actions.contains('info')}">
@@ -113,11 +113,11 @@ Expected model:
                     </g:if>
                     <%-- extract actions --%>
                     <g:if test="${table.actions.contains('extract')}">
-                      <div id="extract_param_${h}_button" class="extract_param_button toolbar-icon toolbar-icon-extract" title="Extract the time ranges from the selected rows and add them to the data cart.">
+                      <div id="extract_param_${h}_button" class="extract_param_button toolbar-icon toolbar-icon-extract-time" title="Extract the time ranges from the selected rows and add them to the data cart.">
                       </div>
                     </g:if>            
                     <g:if test="${table.actions.contains('extract_instrument')}">
-                      <div id="extract_instrument_param_${h}_button" class="extract_instrument_param_button toolbar-icon toolbar-icon-extract" title="Extract the instrument labels from the selected rows and add them to the data cart.">
+                      <div id="extract_instrument_param_${h}_button" class="extract_instrument_param_button toolbar-icon toolbar-icon-extract-instrument" title="Extract the instrument labels from the selected rows and add them to the data cart.">
                       </div>
                     </g:if>                  
                     <%-- download selection action --%>

@@ -45,8 +45,9 @@ grails.project.dependency.resolution = {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 		provided 'javax.servlet:servlet-api:2.5'
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
-            excludes 'slf4j-log4j12', 'slf4j-api', 'hibernate-commons-annotations'    
+            excludes 'slf4j-log4j12', 'slf4j-api', 'hibernate-commons-annotations', 'spring-security-core'    
         }
+        
 	}
     // force grails to fetch the latest versions from the maven repo rather than from the ivy cache.
     changing = true
@@ -62,5 +63,5 @@ grails.war.resources = { stagingDir, args ->
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.5.2.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-api-1.6.1.jar")
 	delete(file:"${stagingDir}/WEB-INF/lib/slf4j-log4j12-1.6.1.jar")    
-	delete(file:"${stagingDir}/WEB-INF/lib/hsqldb-1.8.0.10.jar")    
+	delete(file:"${stagingDir}/WEB-INF/lib/hsqldb-1.8.0.10.jar")
 }

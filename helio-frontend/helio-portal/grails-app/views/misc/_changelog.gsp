@@ -1,39 +1,130 @@
-<div class="entry_screen" style="margin:20px">
-  <h2 style="color:orange;padding-bottom:10px;border-bottom: 1px solid black">Welcome to the HELIO Front End</h2>
-  <input id="task_name" name="taskName" type="hidden" value="splash"/>
-
-  <table style="margin-top:20px;">
+<div class="task candybox">
+  <div class="task_header_area viewerHeader">
+    <h1>HELIO Front End Changelog</h1>
+  </div>
+  <table style="margin-top:20px; padding:10px">
     <tr>
       <td>
         <h3 style="padding-bottom: 10px">Release 5.5-Snapshot</h3>
         <h4 style="margin-top:10px;">What's new</h4>
-        <ul>
-            <li>24-Aug-2012: Maintenance release to disable unstable catalog servers.</li>
-            <li>23-Aug-2012: Prepare for the PQL queries (backend is ready), bugfixes in HEC .</li>
-            <li>17-Aug-2012: Event list selection overhaul. Some plotting upgrade, new version of datatables plugin.</li>
-            <li>27-Jul-2012: Upgraded plotting library with selection mode.</li>
-            <li>24-Jul-2012: Some performance improvements in ICS/ILS/DPAS.</li>
-            <li>18-Jul-2012: Download scripts for DPAS results.</li>
-            <li>18-Jul-2012: Merge the service menu into the main menu.</li>
-            <li>18-Jul-2012: Overhaul of the front page (should be less scary).</li>
-            <li>18-Jul-2012: Plotter is now configurable. Some configuration is still missing though.</li>
-            <li>05-Jun-2012: Rework of the VOTable plotter, many smaller bug fixes.</li>
-            <li>17-May-2012: Add time range inspector.</li>
-            <li>11-May-2012: CSS cleanup. Various small bug fixes.</li>
-            <li>10-May-2012: Upgrade to Grails 2.0.3.</li>
-            <li>29-Feb-2012: Removing unused code. Reworking the event details dialog. Lots of housekeeping.</li>
-            <li>07-Feb-2012: Added new ICS/ILS GUIS. Changed the way to process VOTables: can handle up to 50'000 records now.</li>
-            <li>06-Feb-2012: Changed DPAS dialog to new style.</li>
-            <li>05-Feb-2012: Added extract-button.</li>
-            <li>05-Feb-2012: Rework of the "Search Event" task. Swapping the data cart.</li>
-            <li>30-Jan-2012: Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</li>
-            <li>27-Jan-2012: Several smaller bug fixes.</li>
-            <li>26-Jan-2012: Addition of Taverna workflow. 
-            Minor fixes in SolarWind PM and Parker Spiral plot.</li>
-            <li>25-Jan-2012: Speed improvements on query services, some cleaning up</li>
-            <li>24-Jan-2012: Propagation Models - "See Advanced-Propagation Model".</li>
-            <li>23-Jan-2012: DES plots - see "Advanced-Plot".</li>
-        </ul>
+        <table class="changelog">
+          <thead>
+            <tr>
+              <th>Release Date</th>
+              <th>Changes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%-- template for new rows
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+             --%>
+            <tr>
+                <td>03-Sep-2012</td>
+                <td>
+                  Cleanup-release for CDAW
+                  <ul>
+                    <li>New DPAS Instrument selection dialog</li>
+                    <li>Refactoring of client side data model: Users will see the proper names of instruments, event lists, etc. rather than internal IDs.</li>
+                    <li>Addition of HELIO screen cast to HELP menu.</li>
+                    <li>Propagation model allows to hide missed objects</li>
+                    <li>Cookie-based user management. From the same browser you should always get back your saved data.</li>
+                    <li>Many bug fixes</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>24-Aug-2012</td>
+                <td>Maintenance release to disable unstable catalog servers.</td>
+            </tr>
+            <tr>
+                <td>23-Aug-2012</td>
+                <td>Prepare for the PQL queries (back-end is ready), bugfixes in HEC</td>
+            </tr>
+            <tr>
+                <td>17-Aug-2012</td>
+                <td>
+                  <ul>
+                    <li>Event list selection overhaul.</li>
+                    <li>Plotter upgrade<>li>
+                    <li>New version of datatables plugin.</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>27-Jul-2012</td>
+                <td>Upgraded plotting library with selection mode.</td>
+            </tr>
+            <tr>
+                <td>24-Jul-2012</td>
+                <td>Some performance improvements in ICS/ILS/DPAS.</td>
+            </tr>
+            <tr>
+                <td>18-Jul-2012</td>
+                <td>
+                  <ul>
+                    <li>Overhaul of the front page (hopefully less scary now ;-) ).</li>
+                    <li>Merge the service menu into the main menu.</li>
+                    <li>Download scripts for DPAS results.</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>05-Jun-2012</td>
+                <td>
+                  <ul>
+                    <li>Added the prototype VOTable plotter.</li>
+                    <li>Many bugfixed and cleanup.</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>17-May-2012</td>
+                <td>Add time range inspector.</td>
+            </tr>
+            <tr>
+                <td>11-May-2012</td>
+                <td>
+                  <ul>
+                    <li>CSS cleanup. Various small bug fixes.</li>
+                    <li>Upgrade to Grails 2.0.3.</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>29-Feb-2012</td>
+                <td>Removing unused code. Reworking the event details dialog. Lots of housekeeping.</td>
+            </tr>
+            <tr>
+                <td>07-Feb-2012</td>
+                <td>Added new ICS/ILS GUIS. Changed the way to process VOTables: can handle up to 50'000 records now.</td>
+            </tr>
+            <tr>
+                <td>06-Feb-2012</td>
+                <td>Changed DPAS dialog to new style.</td>
+            </tr>
+            <tr>
+                <td>05-Feb-2012</td>
+                <td>
+                  <ul>
+                    <li>Rework of the "Search Event" task. Swapping the data cart.</li>
+                    <li>Added extract time and instruments buttons.</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>30-Jan-2012</td>
+                <td>Added new propagation model. Plot options for GOES plot. TimeRangeDialog shows start time or single time range, if required.</td>
+            </tr>
+            <tr>
+                <td>26-Jan-2012</td>
+                <td>Addition of Taverna workflow.</td>
+            </tr>
+            
+          </tbody>
+        </table>
                 
         <h4 style="margin-top:10px;">How to use this interface</h4>
         The HELIO user interface follows this very generic pattern:

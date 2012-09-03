@@ -122,12 +122,20 @@ class VoTableService {
                 def info = handleInfoElement(infoElement, [:])
                 infos.add(info)
             }
+            
+            def descs = [];
+            descriptions = resource.getChildrenByName("DESCRIPTION")
+            for (VOElement descElement : descriptions) {
+                descs += descElement.getTextContent()
+            }
+            
             TableElement[] tables = resource.getChildrenByName( "TABLE" );
             if (tables.size() == 0) {
                 // a resource without any tables in it.
                 def table = [:];
                 table["type"] = "empty_resource" // just a resource
                 table["infos"] = infos // the info of the parent resource.
+                table["descriptions"] = descs // the info of the parent resource.
                 tableList.add(table);
             } else {
                 for (TableElement tableElement : tables) {
@@ -144,7 +152,7 @@ class VoTableService {
                     if (infos.size() > 0) {
                         table['actions'].add('info')
                     }
-
+                    
                     // extract fields
                     table["fields"] = []
 

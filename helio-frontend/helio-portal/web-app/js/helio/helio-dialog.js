@@ -170,13 +170,14 @@ helio.AbstractSummary.prototype.init = function() {
     // 1, format the buttons
     $(".button" + this.typeName).button();
     
-    // 2. click handler for time range dialogs
+    // 2. click handler for corresponding dialog
     $(".show" + this.typeName + 'Dialog').click(function() {
         var dialogConstructor = 'new helio.' + THIS.typeName + 'Dialog(THIS.task, THIS.taskName, THIS.data)'; 
         var dialog = eval(dialogConstructor);
         
         var okCallback = function() {
-            THIS.render(dialog.data);
+            THIS.data = dialog.data;
+            THIS.__render(dialog.data);
         };
         dialog.show(okCallback);
     });
@@ -185,7 +186,7 @@ helio.AbstractSummary.prototype.init = function() {
     $('.clear' + this.typeName + 'Summary').click(function() {THIS.clear.call(THIS);});
     
     // 5. populate summary
-    this.render(this.data);
+    this.__render(this.data);
     
     // 6. init the droppable
     $(".paramDroppable" + this.typeName).droppable({
@@ -194,7 +195,8 @@ helio.AbstractSummary.prototype.init = function() {
         hoverClass: "paramDroppableHover",
         drop: function( event, ui ) {
            if( ui.draggable.data('data') != null){
-                THIS.render(ui.draggable.data('data'));
+                THIS.data = ui.draggable.data('data');
+                THIS.__render(ui.draggable.data('data'));
             }
         }
     });
@@ -220,13 +222,11 @@ helio.AbstractSummary.prototype.init = function() {
  * Render the content of the summary text box, init the handlers and 
  * @param data the data to render.
  */
-helio.AbstractSummary.prototype.render = function(data) {
-    var summary = this.renderSummary(data);
+helio.AbstractSummary.prototype.__render = function(data) {
+    var summary = this._renderSummary(data);
     if (summary != null) { // (re-)populate the summary section
         $("#text" + this.typeName + "Summary").empty().html(summary);
 
-        this.data = data;
-        
         $("#img" +  this.typeName + "Summary").attr('src','./images/helio/circle_' + this.typeName + '.png');
         $(".paramDraggable" + this.typeName).draggable("option", "disabled", false );
 
@@ -237,12 +237,14 @@ helio.AbstractSummary.prototype.render = function(data) {
 };
 
 /**
- * Render the content of the summary and return as a dom node.
+ * Render the content of the summary into a dom node.
  * Subclasses must implement this method.
  * @param data the data object to render.
  * @return DOM node containing the summary or null if no summary is rendered.
  */
-helio.AbstractSummary.prototype.renderSummary = undefined;
+helio.AbstractSummary.prototype._renderSummary = function() {
+    throw "Please overload method '_renderSummary'";
+};
 
 /**
  * Clear the current summary section.
@@ -280,7 +282,7 @@ helio.TimeRangeSummary.prototype.constructor = helio.TimeRangeSummary;
  * Render the summary and return a DOM node containing the summary
  * or null if nothing has been rendered
  */
-helio.TimeRangeSummary.prototype.renderSummary = function(timeRanges) {
+helio.TimeRangeSummary.prototype._renderSummary = function(timeRanges) {
     if (timeRanges) { // (re-)populate the summary section
         var table =$("<table></table>");
         if (timeRanges.name) {
@@ -313,46 +315,16 @@ helio.ParamSetSummary.prototype = new helio.AbstractSummary;
 helio.ParamSetSummary.prototype.constructor = helio.ParamSetSummary;
 
 
-helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
+helio.ParamSetSummary.prototype._renderSummary = function(paramSet) {
     if (paramSet) { // (re-)populate the summary section
         var table =$("<table></table>");
         if (paramSet.name) {
             table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
         }
         // loop over the data
-        for(var param in paramSet.params) {
-                table.append('<tr><td><b>' + paramSet.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params[param] + '</td></tr>');
-        }
-        return table;
-    } else {
-        return null;
-    }
-};
-
-/**
- * DesParamSetSummary class
- * @param {helio.DesTask} task the task this summary is associated with.  
- * @param {String} taskName the name of the task to send.  
- * 
- */
-helio.DesParamSetSummary = function(task, taskName, data) {
-    helio.ParamSetSummary.apply(this, [task, taskName, 'DesParamSet', data]);
-};
-
-//create ParamSetSummry as subclass of AbstractSummry
-helio.DesParamSetSummary.prototype = new helio.ParamSetSummary;
-helio.DesParamSetSummary.prototype.constructor = helio.ParamSetSummary;
-
-
-helio.ParamSetSummary.prototype.renderSummary = function(paramSet) {
-    if (paramSet) { // (re-)populate the summary section
-        var table =$("<table></table>");
-        if (paramSet.name) {
-            table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
-        }
-        // loop over the data
-        for(var param in paramSet.params) {
-            table.append('<tr><td><b>' + paramSet.config[param].label + '</b>&nbsp;&nbsp;</td><td>' + paramSet.params[param] + '</td></tr>');
+        for(var param in paramSet.entries) {
+            var entry = paramSet.entries[param];
+            table.append('<tr><td><b>' + entry.getLabel() + '</b>&nbsp;&nbsp;</td><td>' + entry.paramValue + '</td></tr>');
         }
         return table;
     } else {
@@ -379,7 +351,7 @@ helio.EventListSummary.prototype.constructor = helio.EventListSummary;
  * @param eventList the eventlist to render.
  * @returns the summary box.
  */
-helio.EventListSummary.prototype.renderSummary = function(eventList) {
+helio.EventListSummary.prototype._renderSummary = function(eventList) {
     var THIS = this;
     this.data = eventList;
     if (eventList) { // (re-)populate the summary section
@@ -388,27 +360,38 @@ helio.EventListSummary.prototype.renderSummary = function(eventList) {
             table.append('<tr><td><b>Name</b> ' + eventList.name + '</td></tr>');
         }
 
-        for (var i = 0; i < eventList.listNames.length; i++) {
-            var listName = eventList.listNames[i];
-            var listLabel = eventList.config.labels[i];
-            if (!listLabel) {
-                listLabel = eventList.listNames[i];
-            }
-            var td = $('<tr><td></td></tr>');
-            table.append(td);
+        for (var listName in eventList.entries) {
+            var listEntry = eventList.getEventListEntry(listName);
+            var listLabel = listEntry.getLabel();
+            
+            var tr = $("<tr></tr>");
+            table.append(tr);
+            var td = $('<td></td>');
+            tr.append(td);
             td.append('<b>' +listLabel + '</b>');
             
-            // add the options label
+            // add the query options button (aka whereClause)
             var options = $('<span class="listOptions" title="click to select query options"></span>');
             options.click(function(listName) {
                 return function() {
-                    THIS.queryOptionsDialog.call(THIS, listName);
+                    THIS.__queryOptionsDialog.call(THIS, listName);
                     return false;
                 };
             }(listName));
             //td.append(options);
-            
-            // TODO: add the options summary text
+
+            // now render the current content of the where clause
+            var optionsText = '';
+            var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+            if (whereClause) {
+                for (var i = 0; i < whereClause.entries.length; i++) {
+                    if (i != 0) {
+                        optionsText += ',';
+                    }
+                    optionsText += whereClause.entries[i].toString();
+                }
+                td.append(optionsText);
+            }
         }        
         return table;
     } else {
@@ -416,18 +399,15 @@ helio.EventListSummary.prototype.renderSummary = function(eventList) {
     }
 };
 
-helio.EventListSummary.prototype.queryOptionsDialog = function(listName) {
-    var listQueryOptions = this.data.getQueryOptions(listName);
-    if (listQueryOptions) {
-        var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, listQueryOptions, listName);
-        var okCallback = function() {
-            // TODO: re-render summary box
-        };
-        paramSetDialog.show(okCallback);
-    } else {
-        throw "HELIO internal error: Unable to find options for list: " + listName;
-    }
-    
+helio.EventListSummary.prototype.__queryOptionsDialog = function(listName) {
+    var listEntry = this.data.getEventListEntry(listName);
+    var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+    var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, whereClause, listName);
+    var okCallback = function() {
+        debugger;
+        // TODO: re-render summary box
+    };
+    paramSetDialog.show(okCallback);
 };
 
 /**
@@ -440,7 +420,7 @@ helio.InstrumentSummary = function(task, taskName) {
     helio.AbstractSummary.apply(this, [task, taskName, 'Instrument']);
 };
 
-//create InstrumentSummry as subclass of AbstractSummry
+//create InstrumentSummary as subclass of AbstractSummry
 helio.InstrumentSummary.prototype = new helio.AbstractSummary;
 helio.InstrumentSummary.prototype.constructor = helio.InstrumentSummary;
 
@@ -449,21 +429,17 @@ helio.InstrumentSummary.prototype.constructor = helio.InstrumentSummary;
  * @param instrument the instrument to render.
  * @returns the summary box.
  */
-helio.InstrumentSummary.prototype.renderSummary = function(instrument) {
+helio.InstrumentSummary.prototype._renderSummary = function(instrument) {
     this.data = instrument;
     if (instrument) { // (re-)populate the summary section
         var table =$("<table></table>");
         if (instrument.name) {
             table.append('<tr><td><b>Name</b> ' + instrument.name + '</td></tr>');
         }
-        
-        for (var i = 0; i < instrument.instruments.length; i++) {
-            var instLabel = instrument.config.labels[i];
-            if (!instLabel) {
-                instLabel = instrument.instruments[i];
-            }
-            table.append('<tr><td><b>' +instLabel + '</b></td></tr>');
-        }        
+        for (var instrumentName in instrument.instruments) {
+            var entry = instrument.getInstrumentEntry(instrumentName);
+            table.append('<tr><td><b>' + entry.getLabel() + '</b></td></tr>');
+        }
         return table;
     } else {
         return null;
@@ -509,13 +485,24 @@ helio.AbstractDialog = function(options, task, taskName, data) {
                 $(this).remove();
             },
             Ok: function() {
-                if(THIS.__updateDataModel.call(THIS)) {
+                var flag = false;
+                var error = false;
+                try {
+                    flag = THIS._updateDataModel.call(THIS);
+                } catch (e) {
+                    alert("Internal error: " + e);
+                    flag = true;
+                    error = true;
+                }
+                if(flag) {
                     // close the dialog
                     $(this).dialog( "close" );
                     THIS.__active = false;
                     $(this).remove();
                     // and notify the registered okCallback
-                    THIS.okCallback.call(THIS);
+                    if (!error) {
+                        THIS.okCallback.call(THIS);
+                    }
                 }
             }
         };
@@ -578,8 +565,8 @@ helio.AbstractDialog.prototype._init = function() {
  * @return {boolean} if true the dialog will be closed, if false it's up to the implementation
  * to show to the user why the model cannot be updated.
  */
-helio.AbstractDialog.prototype.__updateDataModel = function() {
-    throw "Please overload method '__updateDataModel'";
+helio.AbstractDialog.prototype._updateDataModel = function() {
+    throw "Please overload method '_updateDataModel'";
 };
 
 
@@ -684,9 +671,8 @@ helio.TimeRangeDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.TimeRangeDialog.prototype.__updateDataModel = function() {
+helio.TimeRangeDialog.prototype._updateDataModel = function() {
     var THIS = this;
-    
     //Validate date ranges and if error is found, notify the user and stop thread
     var flag = true;
     var timeRanges = $('.input_time_range');
@@ -882,18 +868,19 @@ helio.ParamSetDialog.prototype._dialogUrl = function() {
  */
 helio.ParamSetDialog.prototype._init = function() {
     if (this.data) {
-        for (var paramName in this.data.params) {
+        for (var entry in this.data.entries) {
+            var paramName = this.data.entries[entry].paramName;
             var input = $("input[name='"+paramName+"']");
             // handle radio buttons
             if (input.length) {
                 if (input.attr("type") == 'radio') {
-                    $("input[value='"+this.data.params[paramName]+"']").prop('checked', true);
+                    $("input[value='"+this.data.entries[entry].paramValue+"']").prop('checked', true);
                 } else {
-                    input.val(this.data.params[paramName]);
+                    input.val(this.data.entries[entry].paramValue);
                 }
             } else {
                 // try to set select box
-                $("select[name='"+paramName+"'] option[value='"+this.data.params[paramName]+"']").prop('selected', true);
+                $("select[name='"+paramName+"'] option[value='"+this.data.entries[entry].paramValue+"']").prop('selected', true);
             }
         }
         $("#param_set_name").val(this.data.name); 
@@ -905,22 +892,19 @@ helio.ParamSetDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.ParamSetDialog.prototype.__updateDataModel = function() {
+helio.ParamSetDialog.prototype._updateDataModel = function() {
     var THIS = this;
-    
     // fill paramSet with updated values
     if(!this.data) {
-        this.data = new helio.ParamSet(this.taskName);
+        this.data = new helio.ParamSet(this.taskName, $("#param_set_name").val());
     }
 
     // fill the param set object
-    this.data.config = this.data.config ? this.data.config : new Object();
-    this.data.params = this.data.params ? this.data.params : new Object();
+    this.data.entries = this.data.entries ? this.data.entries : [];
     this.data.taskName = this.data.taskName;
     $(".paramSetEntry").each(function() {
         if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
-            THIS.data["params"][$(this).attr('name')] = $(this).val();
-            THIS.data["config"][$(this).attr('name')] = {label:$(this).attr('title')};
+            THIS.data.setParamSetEntry($(this).attr('name'), '=', $(this).val(), $(this).attr('title'));
         }
     });
     
@@ -944,17 +928,17 @@ helio.ParamSetDialog.prototype.__dialogConfig = function() {
  * EventListDialog class
  * @param {helio.Task} task the task this dialog is assigned to.
  * @param {String} taskName the task variant of this dialog.
- * @param {helio.ParamSet} helio.ParamSet the param set used to populate the dialog. 
+ * @param {helio.EventList} eventList the eventlist assigend with this dialog. 
  * When the dialog gets closed it is filled with the current values.
  * Note: The object is not touched while the dialog entries are modified.  
  * 
  */
-helio.EventListDialog = function(task, taskName, /*helio.ParamSet*/ eventList) {
+helio.EventListDialog = function(task, taskName, /*helio.EventList*/ eventList) {
     helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, eventList]);
     // create an object to keep the entered data. if ok is pressed and validation passed it will replace this.data.
     this.newdata = eventList ? $.extend(true, {}, eventList) : new helio.EventList(taskName);
     this._idCol = -1;     // number of the column that contains the id (will be set in init()).
-    this._labelCol = -1;  // number of the column that contains the label.
+    this._labelCol = -1;  // number of the column that contains the label (TODO: remove as not used anymore).
 };
 
 //create EventListDialog as subclass of AbstractDialog
@@ -1154,15 +1138,14 @@ helio.EventListDialog.prototype._init = function() {
      // 4. the row selection listener
     $('#selectTableEventList tr').click( function() {
         var id = table.fnGetData(this, THIS._idCol);    // id of the selected event list
-        var label = table.fnGetData(this, THIS._labelCol);
         
         if ( $(this).hasClass('row_selected') ){
             $(this).removeClass('row_selected');
-            THIS.newdata.removeList.call(THIS.newdata, id);
+            THIS.newdata.removeEntry.call(THIS.newdata, id);
             THIS._renderSummaryBox.call(THIS, table);
         } else {
             $(this).addClass('row_selected');
-            THIS.newdata.addList.apply(THIS.newdata, [id, label]);
+            THIS.newdata.addEntry.call(THIS.newdata, id);
             THIS._renderSummaryBox.call(THIS, table);
         };
     });
@@ -1187,8 +1170,8 @@ helio.EventListDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.EventListDialog.prototype.__updateDataModel = function() {
-    if (this.newdata.listNames.length == 0) {
+helio.EventListDialog.prototype._updateDataModel = function() {
+    if (this.newdata.entries.length == 0) {
         alert("Please select at least one event list");
         return false;
     }
@@ -1217,13 +1200,8 @@ helio.EventListDialog.prototype._updateSelection = function(table) {
     var THIS = this;
     var trNodes = table.fnGetNodes();
     $.each(trNodes, function(index, tr) {
-        var pos = $.inArray(table.fnGetData(tr, THIS._idCol), THIS.newdata.listNames);
-        var flag = pos >= 0;
-        if (flag) {
-            if (!THIS.newdata.config.labels[pos]) {
-                var label = table.fnGetData(tr, THIS._labelCol);
-                THIS.newdata.config.labels[pos] = label;
-            }
+        var listEntry = THIS.newdata.getEventListEntry(table.fnGetData(tr, THIS._idCol));
+        if (listEntry) {
             $(tr).addClass('row_selected');                
         } else {
             $(tr).removeClass('row_selected');                
@@ -1243,9 +1221,9 @@ helio.EventListDialog.prototype._renderSummaryBox = function(table) {
     var ul = $("<ul></ul>");
     $("#summaryEventList").append(ul);
     
-    for (var i = 0; i < this.newdata.listNames.length; i++) {
-        var listName = this.newdata.listNames[i];
-        var listLabel = this.newdata.config.labels[i];
+    for (var listName in this.newdata.entries) {
+        var listEntry = this.newdata.getEventListEntry(listName);
+        var listLabel = listEntry.getLabel();
         var li = $('<li id="sel_' + listName + '"></li>');
         ul.append(li);
         
@@ -1256,7 +1234,7 @@ helio.EventListDialog.prototype._renderSummaryBox = function(table) {
         
         removeButton.click((function(listName) {
             return function() {
-                THIS.newdata.removeList.call(THIS.newdata, listName);
+                THIS.newdata.removeEntry.call(THIS.newdata, listName);
                 THIS._updateSelection.call(THIS, table); // notify the data table about the change.
             };
         })(listName));
@@ -1312,7 +1290,7 @@ helio.InstrumentDialog.prototype._init = function() {
         "sScrollXInner": "100%",
         "sDom": '<"H">t<"F">'
     });
-    var visibleCols = ['Label', 'Internal Name'];
+    var visibleCols = ['Observatory', 'Instrument', 'Label'];
     var idColName = 'Internal Name'; // name of the column that contains the identifier for this table
     var labelColName = 'Label'; // name of the column that contains the identifier for this table
     
@@ -1343,7 +1321,6 @@ helio.InstrumentDialog.prototype._init = function() {
      // 4. the row selection listener
     $('#selectInstrument tr').click( function() {
         var id = table.fnGetData(this, THIS._idCol);    // id of the selected instrument list
-        var label = table.fnGetData(this, THIS._labelCol);
         
         if ( $(this).hasClass('row_selected') ){
             $(this).removeClass('row_selected');
@@ -1351,7 +1328,7 @@ helio.InstrumentDialog.prototype._init = function() {
             THIS._renderSummaryBox.call(THIS, table);
         } else {
             $(this).addClass('row_selected');
-            THIS.newdata.addInstrument.apply(THIS.newdata, [id, label]);
+            THIS.newdata.setInstrument.call(THIS.newdata, id);
             THIS._renderSummaryBox.call(THIS, table);
         };
     });
@@ -1369,8 +1346,8 @@ helio.InstrumentDialog.prototype._init = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.InstrumentDialog.prototype.__updateDataModel = function() {
-    if (this.newdata.instruments.length == 0) {
+helio.InstrumentDialog.prototype._updateDataModel = function() {
+    if (this.newdata.length() == 0) {
         alert("Please select at least one instrument");
         return false;
     }
@@ -1399,14 +1376,9 @@ helio.InstrumentDialog.prototype._updateSelection = function(table) {
     var THIS = this;
     var trNodes = table.fnGetNodes();
     $.each(trNodes, function(index, tr) {
-        var pos = $.inArray(table.fnGetData(tr, THIS._idCol), THIS.newdata.instruments);
-        var flag = pos >= 0;
-        if (flag) {
-            if (!THIS.newdata.config.labels[pos]) {
-                var label = table.fnGetData(tr, THIS._labelCol);
-                THIS.newdata.config.labels[pos] = label;
-            }
-            $(tr).addClass('row_selected');                
+        var entry = THIS.newdata.getInstrumentEntry(table.fnGetData(tr, THIS._idCol));
+        if (entry) {
+            $(tr).addClass('row_selected');                            
         } else {
             $(tr).removeClass('row_selected');                
         }
@@ -1424,11 +1396,10 @@ helio.InstrumentDialog.prototype._renderSummaryBox = function(table) {
     $("#summaryInstrument").empty();
     var ul = $("<ul></ul>");
     $("#summaryInstrument").append(ul);
-    
-    for (var i = 0; i < this.newdata.instruments.length; i++) {
-        var instrument = this.newdata.instruments[i];
-        var instLabel = this.newdata.config.labels[i];
-        var li = $('<li id="sel_' + instrument + '"></li>');
+
+    for (var instrumentName in this.newdata.instruments) {
+        var entry = this.newdata.getInstrumentEntry(instrumentName);
+        var li = $('<li id="sel_' + instrumentName + '"></li>');
         ul.append(li);
         
         var removeButton =
@@ -1441,10 +1412,12 @@ helio.InstrumentDialog.prototype._renderSummaryBox = function(table) {
                 THIS.newdata.removeInstrument.call(THIS.newdata, instrument);
                 THIS._updateSelection.call(THIS, table); // notify the data table about the change.
             };
-        })(instrument));
+        })(instrumentName));
         
         li.append(removeButton);
-        li.append('<div class="dialog_selection_area_text" >' + instLabel + '<div>');
+        li.append('<div class="dialog_selection_area_text' + 
+                (entry.isInPat() ? '' : ' item_missing') + '">' +
+                entry.getLabel() + '<div>');
     }
 };
 
@@ -1600,7 +1573,7 @@ helio.TimeRangeDetailsDialog.prototype.__dialogConfig = function() {
 /**
  * The action to be executed when the Ok button is pressed.
  */
-helio.TimeRangeDetailsDialog.prototype.__updateDataModel = function() {
+helio.TimeRangeDetailsDialog.prototype._updateDataModel = function() {
     this.data.setStartTime($("#inspectStartTime").val());
     this.data.setEndTime($("#inspectEndTime").val());
     return true;

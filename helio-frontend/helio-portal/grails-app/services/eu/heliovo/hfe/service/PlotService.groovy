@@ -11,6 +11,7 @@ import eu.heliovo.clientapi.HelioClient
 import eu.heliovo.clientapi.workerservice.HelioWorkerServiceHandler
 import eu.heliovo.hfe.model.result.RemotePlotResult
 import eu.heliovo.hfe.model.task.Task
+import eu.heliovo.hfe.utils.BeanPopulationUtil;
 import eu.heliovo.registryclient.AccessInterface
 import eu.heliovo.registryclient.AccessInterfaceType
 import eu.heliovo.registryclient.ServiceCapability
@@ -37,24 +38,8 @@ class PlotService {
             taskDescriptor.serviceVariant,
             taskDescriptor.serviceCapability)
         
-        def timeRanges = task.inputParams.timeRanges.timeRanges
-
-        // populate the plot service
-        BeanWrapper beanWrapper = new BeanWrapperImpl(plotService)
-        if (beanWrapper.isWritableProperty("startTime")) {
-            beanWrapper.setPropertyValue("startTime", timeRanges[0].startTime)
-        }
-        if (beanWrapper.isWritableProperty("date")) {
-            beanWrapper.setPropertyValue("date", timeRanges[0].startTime)
-        }
-        if (beanWrapper.isWritableProperty("endTime")) {
-            beanWrapper.setPropertyValue("endTime", timeRanges[0].endTime)
-        }
-        if (taskDescriptor.inputParams.paramSet) {
-            def paramSet = task.inputParams.paramSet.params
-            beanWrapper.setPropertyValues(paramSet)
-        }
-
+        BeanPopulationUtil.populateService(plotService, task);
+        
         // create the models for the template
         def model = [:]
         model.plotResults = []
@@ -65,7 +50,7 @@ class PlotService {
             def resultObject = result.asResultObject(taskDescriptor.timeout, TimeUnit.SECONDS);
             
             // wrap the resultObject ...
-            beanWrapper = new BeanWrapperImpl(resultObject)
+            def beanWrapper = new BeanWrapperImpl(resultObject)
             
             // ... and add the results to the task
             taskDescriptor.outputParams.each {

@@ -26,6 +26,8 @@ class CatalogController {
     
     def voTableService
     
+    def jsonToGormBindingService
+    
     def index = {
     }
     
@@ -57,11 +59,7 @@ class CatalogController {
         
         // handle eventlist params, if required
         if (taskDescriptor.inputParams.eventList) {
-            def eventList = new EventListParam(jsonBindings.inputParams.eventList)
-            if (!eventList.validate()) {
-                throw new ValidationException ("Invalid param set", eventList.errors)
-            }
-            eventList.save()
+            def eventList = jsonToGormBindingService.bindEventList(jsonBindings.inputParams.eventList, null) 
             task.inputParams.put("eventList", eventList)
         }
         
@@ -122,11 +120,7 @@ class CatalogController {
         
         // handle instrument params, if required
         if (taskDescriptor.inputParams.instruments) {
-            def instrumentParam = new InstrumentParam(jsonBindings.inputParams.instruments)
-            if (!instrumentParam.validate()) {
-                throw new ValidationException ("Invalid param set", instrumentParam.errors)
-            }
-            instrumentParam.save()
+            def instrumentParam = jsonToGormBindingService.bindInstrument(jsonBindings.inputParams.instruments, null)
             task.inputParams.put("instruments", instrumentParam)
         }
         

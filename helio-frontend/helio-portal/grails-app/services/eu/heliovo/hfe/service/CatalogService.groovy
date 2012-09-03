@@ -66,12 +66,12 @@ class CatalogService {
         model.userLogs = []
 
         // execute the service
-        catalogService.startTime = startTime
-        catalogService.endTime = endTime
-        catalogService.from = from
+        catalogService.setStartTime(startTime)
+        catalogService.setEndTime(endTime)
+        catalogService.setFrom(from)
         //catalogService.whereClauses
-        catalogService.maxRecords = 0;
-        catalogService.startIndex = 0;
+        catalogService.setMaxRecords(0)
+        catalogService.setStartIndex(0)
         
         HelioQueryResult result = catalogService.execute();
         try {
