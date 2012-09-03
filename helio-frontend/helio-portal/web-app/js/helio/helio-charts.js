@@ -447,7 +447,7 @@ function parseJSON(seriesName,xAxisValue,arrayAddInfo,yAxisNumber){
 		// Create a new dataObject
 		var dataObject = {};
 		// Get the new date for the x value
-		var xValueDate = parseDateFormat(aaDataObject[j][xValueIndex+1]); // Add 1 to the xValueIndex as the first (0) value is not described in the aoColumns object
+		var xValueDate = parseDateFormat(aaDataObject[j][xValueIndex]); 
 		// Set the x value
 		dataObject.x = xValueDate;
 		// Set the y value
@@ -455,7 +455,7 @@ function parseJSON(seriesName,xAxisValue,arrayAddInfo,yAxisNumber){
 		if(seriesName == 'Events') {
 			dataObject.y = yAxisNumber + 1;
 		} else { // Set the correct y value
-			dataObject.y = aaDataObject[j][yValueIndex+1]; // Add 1 to the yValueIndex as the first (0) value is not described in the aoColumns object
+			dataObject.y = aaDataObject[j][yValueIndex];
 		}
 		// Set the name of the x value
 		dataObject.xName = xAxisValue;
@@ -475,7 +475,7 @@ function parseJSON(seriesName,xAxisValue,arrayAddInfo,yAxisNumber){
 				additionalDataString += '-'; // Write '-' as the value isn't available
 				additionalDataString += '; ';
 			} else {
-				additionalDataString += aaDataObject[j][addValueIndex+1]; // Add 1 to the addValueIndex as the first (0) value is not described in the aoColumns object
+				additionalDataString += aaDataObject[j][addValueIndex];
 				additionalDataString += '; ';
 			}
 			// Only 3 different information on one line
@@ -580,7 +580,7 @@ function parseJSONhistogram(seriesName,xAxisName,xAxisArray,xAxisCategoryFunctio
 	// Loop over every entry in the aaDataObject
 	for(var actualIndex=0;actualIndex<numberOfEntries;actualIndex++){
 		// Get the category of the actual item
-		var categoryItem = xAxisCategoryFunction(aaDataObject[actualIndex][yValueIndex+1]);
+		var categoryItem = xAxisCategoryFunction(aaDataObject[actualIndex][yValueIndex]);
 		// Loop over every category
 		for(var actualCategory=0;actualCategory<numberXAxisCategories;actualCategory++){
 			// Check if the category of the actual item is equal to the actual category
@@ -688,12 +688,12 @@ function parseJSONdividedScatter(yAxisNames,yAxisDesc,xAxisName,arrayAddInfo,yAx
 		var actualItem = aaDataObject[j];
 		
 		// Get the new date for the x value
-		var xValueDate = parseDateFormat(actualItem[xValueIndex+1]); // Add 1 to the xValueIndex as the first (0) value is not described in the aoColumns object
+		var xValueDate = parseDateFormat(actualItem[xValueIndex]);
 		// Set the x value
 		dataObject.x = xValueDate;
 		
 		// Set the y value
-		var yValue = actualItem[yValueIndex+1]; // Add 1 to the yValueIndex as the first (0) value is not described in the aoColumns object
+		var yValue = actualItem[yValueIndex];
 		// Set the correct y value
 		dataObject.y = yAxisNames.indexOf(yValue);
 		
@@ -715,7 +715,7 @@ function parseJSONdividedScatter(yAxisNames,yAxisDesc,xAxisName,arrayAddInfo,yAx
 				additionalDataString += '-'; // Write '-' as the value isn't available
 				additionalDataString += '; ';
 			} else {
-				additionalDataString += aaDataObject[j][addValueIndex+1]; // Add 1 to the addValueIndex as the first (0) value is not described in the aoColumns object
+				additionalDataString += aaDataObject[j][addValueIndex]; 
 				additionalDataString += '; ';
 			}
 			// Only 3 different information on one line
@@ -883,7 +883,7 @@ function pointsInArray(array,lowX,highX,xAxisName,lowY,highY,yAxisName,dividedAr
 */
 function singlePointInArray(array,hecId) {
 	// Get the index of the hec_id
-	var hecIndex = getIndexInAoColumns(array.aoColumns,'hec_id') + 1; // Add 1 as the aaData starts with an unused field
+	var hecIndex = getIndexInAoColumns(array.aoColumns,'hec_id');
 	// Loop over all the objects
 	for(var i=0;i<array.aaData.length;i++){
 		// Get the actual item

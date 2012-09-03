@@ -56,7 +56,7 @@ Expected model:
       <div id="tabs_votables">
         <ul>
           <g:each var="table" in="${result.tables}" status="h">
-            <li><a href="#tab_votable_${h}">${table.name ? table.name.replaceAll('/', '') : 'Unknown table'} (${table.data?.rowCount})</a></li>
+            <li><a href="#tab_votable_${h}">${table.name ? table.name.replaceAll('/', '') : 'Unknown table'} ${table.data?.rowCount ? '('+ table.data.rowCount + ')' : ''}</a></li>
           </g:each>
         </ul>
         <g:each var="table" in="${result.tables}" status="h">
