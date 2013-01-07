@@ -82,6 +82,24 @@ public class HelioFileUtil {
 		File cacheFile = cacheDir == null ? null : new File(cacheDir, cacheFileName);
 		//System.out.println(cacheFile);
 		// try to get the File from remote
+		tryLoadRemoteUrlToFile(remoteURL, cacheFile);
+
+		if (!cacheFile.exists()) {
+			return null;
+		}
+		try {
+            return cacheFile.toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Unable to convert file path to URL: " + e.getMessage(), e);
+        }
+	}
+
+	/**
+	 * 
+	 * @param remoteURL
+	 * @param cacheFile
+	 */
+	private void tryLoadRemoteUrlToFile(URL remoteURL, File cacheFile) {
 		InputStream remoteInputStream;
 		try {
 			URLConnection conn = remoteURL.openConnection();
@@ -102,14 +120,5 @@ public class HelioFileUtil {
 		} catch (IOException e) {
 			_LOGGER.info("Unable to load cached file from remote URL: " + remoteURL + ": " + e.getMessage() + ". Trying to get local copy");
 		}
-
-		if (!cacheFile.exists()) {
-			return null;
-		}
-		try {
-            return cacheFile.toURI().toURL();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException("Unable to convert file path to URL: " + e.getMessage(), e);
-        }
 	}
 }
