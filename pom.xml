@@ -136,7 +136,7 @@
 		</dependency>
 	</dependencies>
 	<modules>
-      <module>helio-datamodel</module>
+      <!-- module>helio-datamodel</module-->
       <module>helio-shared</module>
       <module>helio-queryservice</module>
       <module>helio-registryclient</module>
