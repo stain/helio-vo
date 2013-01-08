@@ -47,8 +47,12 @@ grails.project.dependency.resolution = {
         compile ('eu.heliovo:helio-clientapi:5.0-SNAPSHOT', 'eu.heliovo:helio-cis-client:5.0-SNAPSHOT') {
             excludes 'slf4j-log4j12', 'slf4j-api', 'hibernate-commons-annotations', 'spring-security-core'    
         }
-		build "org.grails:grails-plugin-tomcat:$grailsVersion"
 	}
+	
+	plugins {
+		build ":tomcat:$grailsVersion"
+	}
+	
     // force grails to fetch the latest versions from the maven repo rather than from the ivy cache.
     changing = true
 }
