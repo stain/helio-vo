@@ -49,7 +49,7 @@ Expected variables:
     </g:if>
     <%-- label management --%>
     <tr valign="top" align="left" height="20" >
-      <td colspan="2" style="padding:5px; border-top:2px solid grey" title="Assign a name to the current date range.">Name: <input tabindex="-1" id="time_range_name" name="time_range_name" type="text" tabindex="1" value="${timeRange.name}"/>
+      <td colspan="2" style="padding:5px; border-top:2px solid grey" title="Assign a name to the current date range.">Name: <input id="time_range_name" name="time_range_name" type="text" value="${timeRange.name}"/>
       <div class="message" style="display:inline; float:right; margin:0px; padding:3px">Provide a name to add this date range to your <i>Data Cart</i>.</div>
     </tr>
   </table>

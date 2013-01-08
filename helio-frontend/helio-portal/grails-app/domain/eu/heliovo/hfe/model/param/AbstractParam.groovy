@@ -6,11 +6,13 @@ import eu.heliovo.hfe.model.security.User
 import eu.heliovo.hfe.model.task.Task
 
 /**
- * Abstract base class of any input parameter
+ * Abstract base class of any input parameter.
+ * The class is not marked abstract as Grails should create a 
+ * table for it.
  * @author MarcoSoldati
  *
  */
-abstract class AbstractParam {
+class AbstractParam {
     /**
      * Wire the spring security service.
      */

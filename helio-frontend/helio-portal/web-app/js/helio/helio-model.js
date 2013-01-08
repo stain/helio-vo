@@ -19,7 +19,6 @@ helio.AbstractModel = function(taskName, name, type) {
     this.subtype = null;  // a subtype if required (e.g. for ParamSet)
     
     if (type && !taskName) {
-        debugger;
         throw "Argument 'taskName' must not be null";
     }
 };
@@ -39,7 +38,7 @@ helio.AbstractModel.prototype.getConfig = function(paramName) {
 helio.TimeRange = function(/*Date*/ startTime, /*Date*/ endTime, autoAdjust) {
     this.startTime = null;
     this.endTime = null;
-    this.autoAdjust = autoAdjust ? autoAdjust : -1;
+    this.autoAdjust = autoAdjust != undefined ? autoAdjust : -1;
     this.setStartTime(startTime);
     this.setEndTime(endTime);
 };
@@ -141,16 +140,19 @@ helio.TimeRange.prototype.__adjust = function(toAdjust) {
     if (this.autoAdjust >= 0) {
         var tmpEndTime = moment(this.endTime);
         var tmpStartTime = moment(this.startTime);
-        tmpEndTime.add("minutes", this.autoAdjust);
+        if (!tmpStartTime || !tmpEndTime) {
+            return;
+        }
         
-        if (tmpEndTime.diff(tmpStartTime) < 0) {
+        if (tmpEndTime.diff(tmpStartTime) < this.autoAdjust) {
              
             // we have to adjust
             if (toAdjust == "startTime") {
-                tmpEndTime = moments(this.endTime);  // reset end time
-                this.startTime == tmpEndTime.add("minutes", -this.autoAdjust);
+                this.startTime = moment(this.endTime);  // reset end time
+                this.startTime.add("minutes", -this.autoAdjust);
             } else if (toAdjust == "endTime") {
-                this.endTime == tmpStartTime.add("minutes", this.autoAdjust);                
+                this.endTime = moment(this.startTime);
+                this.endTime.add("minutes", this.autoAdjust);                
             } else {
                 throw "Internal Error: unknown value for argument 'toAdjust': " + toAdjust;
             }
@@ -215,16 +217,27 @@ helio.ParamSet.prototype.clear = function() {
 };
 
 /**
+ * Get the entries
+ * @returns {Array} the entries as array of objects.
+ */
+helio.ParamSet.prototype.getEntries = function() {
+	return this.entries;
+};
+
+/**
  * Data object to store a single param set entry
- * @param {String} paramSetTask the parent task of this ParamSetEntry. Must not be null.
+ * @param {String} paramSet the parent paramSet of this ParamSetEntry. Must not be null.
  * @param {String} paramName name of the parameter.
  * @param {String} operator the operator.
  * @param {String} paramValue the value of the operation.
  */
-helio.ParamSetEntry = function(paramSetTask, paramName, operator, paramValue) {
+helio.ParamSetEntry = function(paramSet, paramName, operator, paramValue) {
     this.type='ParamSetEntry';
-    this.paramSetTask = paramSetTask;
+    this.paramSet = paramSet;
     this.paramName=paramName;
+    if (!helio.config.Operator[operator]) {
+        throw "Error: invalid value for operator: " + operator; 
+    }
     this.operator=operator;
     this.paramValue=paramValue;
 };
@@ -234,7 +247,7 @@ helio.ParamSetEntry = function(paramSetTask, paramName, operator, paramValue) {
  * @returns the label or the paramName if not found.
  */
 helio.ParamSetEntry.prototype.getLabel = function() {
-    var config = helio.config[this.paramSetTask.type][this.paramSetTask.subtype][this.paramName];
+    var config = helio.config[this.paramSet.type][this.paramSet.subtype][this.paramName];
     if (config) {
         return config.label;
     }
@@ -245,11 +258,11 @@ helio.ParamSetEntry.prototype.getLabel = function() {
  * String representation of the the param set
  */
 helio.ParamSetEntry.prototype.toString = function() {
-    return this.paramName + helio.config.Operator[this.operator] + this.paramValue;
+    return this.paramName + helio.config.Operator[this.operator].symbol + this.paramValue;
 };
 
 /**
- * Make sure to skip the paramSetTask in the JSON representation
+ * Make sure to skip the parent paramSet in the JSON representation
  */
 helio.ParamSetEntry.prototype.toJSON = function() {
     return {paramName : this.paramName, operator : this.operator, paramValue : this.paramValue };
@@ -308,8 +321,6 @@ helio.Instrument.prototype.length = function() {
     }
     return len;
 };
-
-
 
 /**
  * Object to hold one selected list.
@@ -377,11 +388,15 @@ helio.EventList.prototype = new helio.AbstractModel;
 helio.EventList.prototype.constructor = helio.EventList;
 
 /**
- * Convenience method to add a list name. Use this method whenever possible.
+ * Add a list name and the corresponding where clause.
  * @param listName the name of the list
+ * @param whereClause where clause to add as paramset, if nothing an empty paramset will be reated
  */
-helio.EventList.prototype.addEntry = function(listName) {
-    this.entries[listName] = new helio.EventListEntry(listName, new helio.ParamSet(this.taskName, null, listName));
+helio.EventList.prototype.addEntry = function(listName, whereClause) {
+	if (!whereClause) {
+		whereClause = new helio.ParamSet(this.taskName, "whereClause", listName);
+	}
+	this.entries[listName] = new helio.EventListEntry(listName, whereClause);
 };
 
 /**
@@ -400,6 +415,21 @@ helio.EventList.prototype.removeEntry = function(listName) {
 helio.EventList.prototype.getEventListEntry = function(listName) {
     return this.entries[listName];
 };
+
+/**
+ * Get the number of currently defined entries.
+ * @returns {Number} the number of entries.
+ */
+helio.EventList.prototype.length = function() {
+    var len = 0;
+    for (var entry in this.entries) {
+        if (this.entries.hasOwnProperty(entry)) {
+            len++;
+        }
+    }
+    return len;
+};
+
 
 /**
  * Object to hold one selected list.

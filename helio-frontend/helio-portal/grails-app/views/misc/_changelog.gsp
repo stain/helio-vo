@@ -22,6 +22,16 @@
             </tr>
              --%>
             <tr>
+                <td>07-Jan-2013</td>
+                <td>
+                  <ul>
+                    <li>Online Help (tutorials).</li>
+                    <li>PQL queries for HEC.</li>
+                    <li>Many bug fixes</li>
+                  </ul>
+                </td>
+            </tr>
+            <tr>
                 <td>03-Sep-2012</td>
                 <td>
                   Cleanup-release for CDAW

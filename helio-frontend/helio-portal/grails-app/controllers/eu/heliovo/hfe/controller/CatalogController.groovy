@@ -42,23 +42,14 @@ class CatalogController {
         
         // create timeRanges
         if (taskDescriptor.inputParams.timeRanges) {
-            def timeRanges = new TimeRangeParam();
-            bindData(timeRanges, jsonBindings.inputParams.timeRanges, [exclude :['timeRanges']])
-            // bind time ranges
-            jsonBindings.inputParams.timeRanges.timeRanges?.each{ tr->
-                timeRanges.addTimeRange(DateUtil.fromIsoDate(tr.startTime), DateUtil.fromIsoDate(tr.endTime))
-            }
-            if (!timeRanges.validate()) {
-                throw new ValidationException ("Invalid time ranges", timeRanges.errors)
-            }
-            timeRanges.save()
-            
+            def timeRangeParam = jsonToGormBindingService.bindTimeRange(jsonBindings.inputParams.timeRanges, null)
             // add to current task
-            task.inputParams.put("timeRanges", timeRanges)
+            task.inputParams.put("timeRanges", timeRangeParam)
         }
         
         // handle eventlist params, if required
         if (taskDescriptor.inputParams.eventList) {
+            println jsonBindings.inputParams.eventList
             def eventList = jsonToGormBindingService.bindEventList(jsonBindings.inputParams.eventList, null) 
             task.inputParams.put("eventList", eventList)
         }

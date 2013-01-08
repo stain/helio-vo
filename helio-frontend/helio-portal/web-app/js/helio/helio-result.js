@@ -348,9 +348,7 @@ helio.VOTableResult.prototype._download = function(source){
     if (!found) {
         download_list.push("Nothing found to download");
     }
-    
-    var recipe =  window.open('','_blank','width=600,height=700,scrollbars=yes,location=no,status=no');
-    
+        
     var htmlHead = '<html><head><title>Helio Downloads</title>' +
                    '<style type="text/css">' +
                    'h1 {font-family:verdana,arial,sans-serif; font-size:14pt}' +
@@ -399,21 +397,24 @@ helio.VOTableResult.prototype._download = function(source){
     // Windows
     var windowsScript = '';
     if (found) {
-        windowsScript = '<h1>Guidance for Windows users</h1>' + 
-                     '<p>Microsoft Windows does not provide a suitable equivalent for wget or curl.</p>'+
-                     '<p>Thus we suggest to install <a href="http://gnuwin32.sourceforge.net/packages/wget.htm" target="_blank">wget for Windows</a>.</p>' + 
-                     '\n';
+        windowsScript = 
+            '<h1>Guidance for Windows users</h1>' + 
+            '<p>Microsoft Windows does not provide a suitable equivalent for wget or curl.</p>'+
+            '<p>Thus we suggest to install <a href="http://gnuwin32.sourceforge.net/packages/wget.htm" target="_blank">wget for Windows</a>.</p>' + 
+            '\n';
     }
 
-    
-    recipe.document.open();
-    recipe.document.write(htmlHead);
-    recipe.document.write(urlList);
-    recipe.document.write(curlScript);
-    recipe.document.write(wgetScript);
-    recipe.document.write(windowsScript);
-    recipe.document.write(htmlFoot);
-    recipe.document.close();
+    var downloadWin =  window.open('','_blank','width=600,height=700,scrollbars=yes,location=no,status=no');
+    downloadWin.document.open();
+    downloadWin.document.write(htmlHead);
+    downloadWin.document.write(urlList);
+    downloadWin.document.write(curlScript);
+    downloadWin.document.write(wgetScript);
+    downloadWin.document.write(windowsScript);
+    downloadWin.document.write(htmlFoot);
+    downloadWin.document.close();
+    downloadWin.focus();
+
 };
 
 /**

@@ -10,4 +10,6 @@ beans = {
     
     conversionService (org.springframework.context.support.ConversionServiceFactoryBean){
     }
+	
+	springConfig.addAlias 'hibernateDatastoreclientapiSessionFactory', 'hibernateDatastore'	
 }

@@ -116,14 +116,11 @@ helio.TimeRangeSelector.prototype._init = function(){
     formatMinDate.onClose = function(selectedDate) {
         $(this).blur();
         var endTimeTextBox = $(THIS.endTimeField);
-        if (endTimeTextBox && endTimeTextBox.val() != '') {
-            var testStartTime = new Date(selectedDate);
-            var testEndTime = new Date(endTimeTextBox.val());
-            if (testStartTime > testEndTime)
-                endTimeTextBox.val(selectedDate);
-        }
-        else {
-            endTimeTextBox.val(selectedDate);
+        if (endTimeTextBox) {
+            var timeRange = new helio.TimeRange(null, null, 0);
+            timeRange.setEndTime(endTimeTextBox.val());
+            timeRange.setStartTime(selectedDate);  // adjust the end date if required.
+            endTimeTextBox.val(timeRange.timeAsString()[1]);
         }
     };
     
@@ -131,19 +128,16 @@ helio.TimeRangeSelector.prototype._init = function(){
     formatMaxDate.onClose = function(selectedDate) {
         $(this).blur();
         var startTimeTextBox = $(THIS.startTimeField);
-        if (startTimeTextBox.val() != '') {
-            var testStartTime = new Date(startTimeTextBox.val());
-            var testEndTime = new Date(selectedDate);
-            if (testStartTime > testEndTime)
-                startTimeTextBox.val(selectedDate);
-        }
-        else {
-            startTimeTextBox.val(selectedDate);
+        if (startTimeTextBox) {
+            var timeRange = new helio.TimeRange(null, null, 0);
+            timeRange.setStartTime(startTimeTextBox.val());
+            timeRange.setEndTime(selectedDate);   // adjust the start date if required.
+            startTimeTextBox.val(timeRange.timeAsString()[0]);
         }
     };
     
     $(this.startTimeField).datetimepicker(formatMinDate);
-    $(this.endTimeField).datetimepicker(formatMaxDate);
+    $(this.endTimeField).datetimepicker(formatMaxDate);    
 };
 
 /***************************** DATA SUMMARY AND DIALOG ************************************/
@@ -242,7 +236,7 @@ helio.AbstractSummary.prototype.__render = function(data) {
  * @param data the data object to render.
  * @return DOM node containing the summary or null if no summary is rendered.
  */
-helio.AbstractSummary.prototype._renderSummary = function() {
+helio.AbstractSummary.prototype._renderSummary = function(data) {
     throw "Please overload method '_renderSummary'";
 };
 
@@ -262,7 +256,7 @@ helio.AbstractSummary.prototype.clear = function() {
  * @returns {Boolean} true if there is data around.
  */
 helio.AbstractSummary.prototype.isValid = function() {
-    return this.data != null;
+    return this.data != null && (!$.isArray(this.data) || this.data.length > 0);
 };
 
 /**
@@ -322,8 +316,8 @@ helio.ParamSetSummary.prototype._renderSummary = function(paramSet) {
             table.append('<tr><td><b>Name</b> </td><td>' + paramSet.name + '</td></tr>');
         }
         // loop over the data
-        for(var param in paramSet.entries) {
-            var entry = paramSet.entries[param];
+        for(var param in paramSet.getEntries()) {
+            var entry = paramSet.getEntries()[param];
             table.append('<tr><td><b>' + entry.getLabel() + '</b>&nbsp;&nbsp;</td><td>' + entry.paramValue + '</td></tr>');
         }
         return table;
@@ -340,6 +334,7 @@ helio.ParamSetSummary.prototype._renderSummary = function(paramSet) {
  */
 helio.EventListSummary = function(task, taskName, data) {
     helio.AbstractSummary.apply(this, [task, taskName, 'EventList', data]);
+    this.data = data;
 };
 
 //create EventListSummry as subclass of AbstractSummry
@@ -378,17 +373,17 @@ helio.EventListSummary.prototype._renderSummary = function(eventList) {
                     return false;
                 };
             }(listName));
-            //td.append(options);
+            td.append(options);
 
             // now render the current content of the where clause
-            var optionsText = '';
             var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
             if (whereClause) {
-                for (var i = 0; i < whereClause.entries.length; i++) {
+                var optionsText = '';
+                for (var i = 0; i < whereClause.getEntries().length; i++) {
                     if (i != 0) {
-                        optionsText += ',';
+                        optionsText += ', ';
                     }
-                    optionsText += whereClause.entries[i].toString();
+                    optionsText += whereClause.getEntries()[i].toString();
                 }
                 td.append(optionsText);
             }
@@ -400,12 +395,12 @@ helio.EventListSummary.prototype._renderSummary = function(eventList) {
 };
 
 helio.EventListSummary.prototype.__queryOptionsDialog = function(listName) {
+    var THIS = this;
     var listEntry = this.data.getEventListEntry(listName);
     var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
     var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, whereClause, listName);
     var okCallback = function() {
-        debugger;
-        // TODO: re-render summary box
+        THIS.__render.call(THIS, THIS.data);
     };
     paramSetDialog.show(okCallback);
 };
@@ -525,6 +520,7 @@ helio.AbstractDialog.defaults = {
     open: null,
     focus: null,
     close: null,
+    closeOnEscape: false,
     
     buttons : null
 };
@@ -538,9 +534,20 @@ helio.AbstractDialog.prototype.show = function(okCallback) {
     this.okCallback = okCallback;
     if (this.dialog === null) {
         $('#dialog_placeholder').empty();
-        this.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').load(this._dialogUrl(), function() {THIS.__onLoad.call(THIS);});
+        
+        $.ajax({
+            url: this._dialogUrl(), 
+            async: false,
+            error: function(error) { alert('HELIO Internal Error: Unable to load dialog: ' + error); },
+            success: function(data) { 
+                THIS.dialog = $('<div id="dialog_placeholder" style="display:none"></div>').append(data);
+                THIS.__onLoad.call(THIS);
+            },
+            complete: function(status) {
+            }
+        });
     } else {
-        THIS.__onLoad.call(THIS);
+        this.__onLoad();
     }
 };
 
@@ -615,6 +622,7 @@ helio.AbstractDialog.prototype.__showDialog = function() {
 helio.TimeRangeDialog = function(task, taskName, /*helio.TimeRanges*/ timeRanges, /*String*/ message) {
     helio.AbstractDialog.apply(this, [this.__dialogConfig(), task, taskName, timeRanges]);
     this.message = message;
+    this.__tabOrder = [];  // order of the tabs is stored here.
 };
 
 //create TimeRangeDialog as subclass of AbstractDialog
@@ -706,8 +714,14 @@ helio.TimeRangeDialog.prototype._updateDataModel = function() {
  * A configuration object for the time range dialog
  */
 helio.TimeRangeDialog.prototype.__dialogConfig = function() {
+    var THIS = this;
     return {
-        title : "Select date and time ranges"
+        title : "Select date and time ranges",
+        open : function() {
+            THIS.__initTabOrder.call(THIS);
+            // HACK: hide date time picker on init
+            $('#minDate_1').datetimepicker("hide");
+        }
     };
 };
 
@@ -785,7 +799,10 @@ helio.TimeRangeDialog.prototype.__initTimeRange = function(/*int*/ index) {
     
     // disable/enable the delete buttons
     var timeRanges = $('.input_time_range'); 
-    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);    
+    $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+    
+    // setup the tab order buttons
+    this.__initTabOrder();
 };
 
 /**
@@ -817,7 +834,59 @@ helio.TimeRangeDialog.prototype.__removeTimeRange = function(caller, index) {
     
     // disable/enable the delete button
     $(".input_time_range_remove").button( "option", "disabled", timeRanges.size()==2);
+    this.__initTabOrder();
 };
+
+
+/**
+ * Properly set the order when the tab key is pressed.
+ * Any old setting will be overwritten by this method.
+ */
+helio.TimeRangeDialog.prototype.__initTabOrder = function() {
+    var THIS = this;
+    
+    // setup the tab key sequence
+    this.__tabOrder = $('#timeRangeDialog input, button').filter(":visible");
+//    console.log(this.__tabOrder);
+    
+    // update the tab-key bindings.
+    this.__tabOrder.unbind('keydown').keydown(function(event) {
+        if (event.which == 9) { // TAB key
+            
+            var next = THIS.__nextInputField.call(THIS, this, event.shiftKey ? -1 : 1);
+            //console.log(this, next);
+            if (next) {
+                if ($(this).hasClass("hasDatepicker")) {
+                    $(this).datetimepicker("hide");
+                }
+                this.blur();
+                next.focus();
+                event.preventDefault();
+            }
+        }
+    });
+};
+
+/**
+ * Set compute the next field in the tab order sequence.
+ * @param {Node} currentField the current field
+ * @param {Number} direction: 1 for forward, -1 for backward.
+ * @return the next field or null if not found.
+ */
+helio.TimeRangeDialog.prototype.__nextInputField = function(currentField, direction) {
+    var nextInputPos = $.inArray(currentField, this.__tabOrder);
+    if (nextInputPos >= 0) {
+        if (direction == 1) {
+            nextInputPos = nextInputPos == this.__tabOrder.length-1 ? 0 : nextInputPos +1;                 
+        } else if (direction == -1) {                
+            nextInputPos = nextInputPos == 0 ? this.__tabOrder.length-1 : nextInputPos - 1;                 
+        }
+        return this.__tabOrder[nextInputPos];
+    }
+    return null;
+};
+
+
 
 /**
  * Helper function to validate correct date input in date selectors, 
@@ -871,22 +940,25 @@ helio.ParamSetDialog.prototype._init = function() {
         for (var entry in this.data.entries) {
             var paramName = this.data.entries[entry].paramName;
             var input = $("input[name='"+paramName+"']");
-            // handle radio buttons
-            if (input.length) {
+            if (input.length) {  // if there is content
+                // handle radio buttons
                 if (input.attr("type") == 'radio') {
                     $("input[value='"+this.data.entries[entry].paramValue+"']").prop('checked', true);
                 } else {
+                    // handle input fields
                     input.val(this.data.entries[entry].paramValue);
                 }
             } else {
-                // try to set select box
+                // try to handle select box, if any
                 $("select[name='"+paramName+"'] option[value='"+this.data.entries[entry].paramValue+"']").prop('selected', true);
             }
+            // try to set the operator
+            $("select[name='op_"+paramName+"'] option[value='"+this.data.entries[entry].operator+"']").prop('selected', true);
         }
         $("#param_set_name").val(this.data.name); 
     } else {
-        // just keep the values set on the server side.
-    }    
+        // just keep the values coming from the server side.
+    }
 };
 
 /**
@@ -900,11 +972,15 @@ helio.ParamSetDialog.prototype._updateDataModel = function() {
     }
 
     // fill the param set object
-    this.data.entries = this.data.entries ? this.data.entries : [];
+    this.data.clear();
     this.data.taskName = this.data.taskName;
     $(".paramSetEntry").each(function() {
         if ($(this).attr('type') != 'radio' || ($(this).attr("checked") != "undefined" && $(this).attr('checked') == 'checked')) {
-            THIS.data.setParamSetEntry($(this).attr('name'), '=', $(this).val(), $(this).attr('title'));
+            if ($(this).val() && $(this).val() != undefined) {
+                var op = $('#op_' +$(this).attr('name'));  // get operator field (has an op_ prefixed)
+                var opVal = (op && op.val() && op.val() != '')? op.val() : 'EQUALS';
+                THIS.data.setParamSetEntry($(this).attr('name'), opVal, $(this).val(), $(this).attr('title'));                
+            }
         }
     });
     
@@ -1171,7 +1247,7 @@ helio.EventListDialog.prototype._init = function() {
  * The action to be executed when the Ok button is pressed.
  */
 helio.EventListDialog.prototype._updateDataModel = function() {
-    if (this.newdata.entries.length == 0) {
+    if (this.newdata.length() == 0) {
         alert("Please select at least one event list");
         return false;
     }

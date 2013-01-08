@@ -52,7 +52,7 @@
     </li>
     <li><a>Help</a>
       <ul style="width: 10em;">
-        <li><a href="<g:resource dir='help' file='hfe_tutorial_v0.1.pdf' />" target="_blank">Help</a></li>
+        <li><a id="misc_help">Help</a></li>
     	<li><a href="http://www.youtube.com/watch?v=N6IxgPFKOcA" target="_blank"><span class="external">Screen cast</span></a></li>
         <li><a id="misc_changelog">Changelog</a></li>
       </ul>

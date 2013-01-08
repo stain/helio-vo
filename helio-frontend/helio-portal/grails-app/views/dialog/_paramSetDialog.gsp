@@ -36,12 +36,8 @@ Expected parameters:
               <g:set var="template" value="/dialog/_paramSetParamRow" />
               <g:render template="${template}" model="[paramName : paramName, param : param, paramDescriptor : paramDescriptor, value : value, paramSet : paramSet]"></g:render>
             </g:each>
-            <g:if test="${taskDescriptor.helpImage}" >
-              <tr>
-                <td colspan="4" > 
-                  <img src="${resource(dir:'images/helio/hps', file:taskDescriptor.helpImage)}" style="height:220px; margin-top:10px"/>
-                </td>
-              </tr>
+            <g:if test="${taskDescriptor.help?.position == 'bottom'}" >
+           	  <g:render template="${taskDescriptor.help.template}" model="${taskDescriptor.help.model}"></g:render>
             </g:if>
           </tbody>
         </table>

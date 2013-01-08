@@ -22,7 +22,7 @@
   <g:javascript src="/plugins/jquery.dataTables-1.9.3.js" /> <%--the data tables use for presentation of votables --%>
 </g:else>
 
-<g:javascript src="/plugins/jquery-ui-timepicker-addon.js"/><%--Addon that expand the ui-datepicker into a time-datepicker --%>
+<g:javascript src="/plugins/jquery-ui-timepicker-addon-1.0.2.js"/><%--Addon that expand the ui-datepicker into a time-datepicker --%>
 <g:javascript src="/plugins/jquery.tools.min.js"/> <%--Support libraries for jquery with capabilities extended for tabs and tooltips--%>
 <g:javascript src="/plugins/cookies.js"/> <%--support for cookies --%>
 <g:javascript src="/plugins/jquery.form.js"/><%--used for file uploads--%>

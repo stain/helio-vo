@@ -26,6 +26,6 @@ class ParamSetEntry {
     static belongsTo = [ paramSet : ParamSet ]
     
     def String toString() {
-        paramName + operator.symbol + paramValue + '(' + id + ')'
+        paramName + operator.symbol + paramValue
     }
 }

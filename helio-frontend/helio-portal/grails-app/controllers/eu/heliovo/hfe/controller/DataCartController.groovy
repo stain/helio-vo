@@ -51,40 +51,38 @@ class DataCartController {
         def data = JSON.parse(params.data)
         
         // create new data item
-        def param;
+        def newParam;
         if (data.type =='TimeRange') {
-            param = new TimeRangeParam()
+            newParam = new TimeRangeParam()
             // parse data item
-            bindData(param, data)
+            bindData(newParam, data)
     
             // bind time ranges
             data.timeRanges?.each{ timeRange->
-                param.addTimeRange(DateUtil.fromIsoDate(timeRange.startTime), DateUtil.fromIsoDate(timeRange.endTime))
+                newParam.addTimeRange(DateUtil.fromIsoDate(timeRange.startTime), DateUtil.fromIsoDate(timeRange.endTime))
             }
         } else if (data.type == 'ParamSet') {
-            param = new ParamSet()
+            newParam = new ParamSet()
             // parse data item
-            bindData(param, data, [exclude:['entries']])
+            bindData(newParam, data, [exclude:['entries']])
             
             // bind paramSet
             data.entries?.each{
-                param.addToEntries(
+                newParam.addToEntries(
                     new ParamSetEntry(paramName : it.paramName, operator : Operator.EQUALS, paramValue : it.paramValue)
                 )
             }
         } else if (data.type == 'EventList') {
-            param = jsonToGormBindingService.bindEventList(data, null)
+            newParam = jsonToGormBindingService.bindEventList(data, null)
         } else if (data.type == 'Instrument') {
-            println params.data
-            println data
-            param = jsonToGormBindingService.bindInstrument(data, null)
+            newParam = jsonToGormBindingService.bindInstrument(data, null)
         } else {
             throw new RuntimeException("Internal error: unknown parameter added to data cart: " + data)
         }
 
-        param.save()
+        newParam.save()
         // add to data cart
-        dataCart.addToCartItems(param)
+        dataCart.addToCartItems(newParam)
 
         // and save
         if (!dataCart.validate()) {
@@ -106,10 +104,10 @@ class DataCartController {
 
         // parse data item
         def data = JSON.parse(params.data)
-        def param = AbstractParam.get(data.id);
-        assert param != null, "Cannot find param with id " + data.id;
-        assert dataCart.cartItems.contains(param), "Param must be in DataCart of current user"
 
+        def param = AbstractParam.get(data.id)
+        assertParamInDataCart(param, dataCart, data.id)
+		
         // parse data item
         bindData(param, data, [exclude : ['timeRanges', 'entries']]);
         
@@ -151,6 +149,11 @@ class DataCartController {
 
         render dataCart as JSON
     }
+
+	private void assertParamInDataCart(AbstractParam param, DataCart dataCart, int paramId) {
+		assert param != null, "Cannot find param with id " + paramId;
+		assert dataCart.cartItems.contains(param), "Param must be in DataCart of current user"
+	}
 
     /**
      * Remove a data item from the data cart.

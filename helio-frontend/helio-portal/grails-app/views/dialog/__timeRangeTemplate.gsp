@@ -9,11 +9,11 @@ Expected variables:
     # ${i}
   </td>
   <td align="center" valign="middle">
-    <input style="width:150px" type="text" tabindex="-1" id="minDate_${i}" name="minDate" value="${g.formatDate(date:timeRange.startTime, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
+    <input style="width:150px" type="text" id="minDate_${i}" name="minDate" value="${g.formatDate(date:timeRange.startTime, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
   </td>
   <td align="center" valign="middle">
     <g:if test="${!paramDescriptor.restriction || !paramDescriptor.restriction.contains('start_time')}">
-      <input style="width:150px" type="text" tabindex="-1" id="maxDate_${i}" name="maxDate" value="${g.formatDate(date:timeRange.endTime, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
+      <input style="width:150px" type="text" id="maxDate_${i}" name="maxDate" value="${g.formatDate(date:timeRange.endTime, format:'yyyy-MM-dd\'T\'HH:mm:ss')}"/>
     </g:if>
   </td>
   <td>

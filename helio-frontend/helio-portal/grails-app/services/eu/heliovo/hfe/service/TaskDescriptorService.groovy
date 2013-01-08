@@ -124,10 +124,11 @@ class TaskDescriptorService implements InitializingBean {
             "serviceName" : HelioServiceName.HPS,
             "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
             "serviceVariant" : CmePropagationModelImpl.SERVICE_VARIANT,
-            "helpImage" : "exp_cme.png",
+			"help" : [ position: "bottom", template: "/dialog/paramSetHelpImage", 
+				model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_cme.png"]],
             "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
             "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                 "paramSet" : [
                     "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : [javaType: Float], defaultValue : 0],
                     "width" : [label : "Width", description : "Longitudinal width of the CME in degrees", type : [javaType: Float], defaultValue : 45.0],
@@ -148,10 +149,11 @@ class TaskDescriptorService implements InitializingBean {
               "serviceName" : HelioServiceName.HPS,
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CmeBackwardPropagationModelImpl.SERVICE_VARIANT,
-              "helpImage" : "exp_cme.png",
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpImage",
+				  model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_cme.png"]],
               "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                   "paramSet" : [
                       "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth", 
                           valueDomain : hitObjectDomain],
@@ -173,10 +175,11 @@ class TaskDescriptorService implements InitializingBean {
               "serviceName" : HelioServiceName.HPS,
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CirPropagationModelImpl.SERVICE_VARIANT,
-              "helpImage" : "exp_sw.png",
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpImage",
+				  model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_sw.png"]],
               "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                   "paramSet" : [
                       "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the most-west edge of a Coronal hole)", type : [javaType: Float], defaultValue : 0],
                       "speed" : [label : "Speed", description : "The speed of the Solar Wind in km/s", type : [javaType: Float], defaultValue : 600],
@@ -195,10 +198,11 @@ class TaskDescriptorService implements InitializingBean {
               "serviceName" : HelioServiceName.HPS,
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : CirBackwardPropagationModelImpl.SERVICE_VARIANT,
-              "helpImage" : "exp_sw.png",
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpImage",
+				  model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_sw.png"]],
               "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                   "paramSet" : [
                       "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth",
                           valueDomain : hitObjectDomain],
@@ -218,10 +222,11 @@ class TaskDescriptorService implements InitializingBean {
               "serviceName" : HelioServiceName.HPS,
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : SepPropagationModelImpl.SERVICE_VARIANT,
-              "helpImage" : "exp_sep.png",
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpImage",
+				  model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_sep.png"]],
               "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                   "paramSet" : [
                       "longitude" : [label : "Longitude", description : "Heliographic longitude in degrees (e.g., the position of a flare)", type : [javaType: Float], defaultValue : 0],
                       "speed" : [label : "Speed", description : "Speed of the ambient solar wind in km/s", type : [javaType: Float], defaultValue : 600],
@@ -241,10 +246,11 @@ class TaskDescriptorService implements InitializingBean {
               "serviceName" : HelioServiceName.HPS,
               "serviceCapability" : ServiceCapability.HELIO_PROCESSING_SERVICE,
               "serviceVariant" : SepBackwardPropagationModelImpl.SERVICE_VARIANT,
-              "helpImage" : "exp_sep.png",
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpImage",
+				  model : ["imageDir" : "images/helio/hps", "helpImage" : "exp_sep.png"]],
               "resultfilter" : "hpsfilter", // name and id of the gsp page to use as result filter
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
                   "paramSet" : [
                       "hitObject" : [label : "Object", description : "Planet or Satellite hit by the CME", type : [javaType: String], defaultValue : "Earth",
                           valueDomain : hitObjectDomain],
@@ -267,7 +273,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceCapability" : ServiceCapability.TAVERNA_SERVER,
             "serviceVariant" : TavernaWorkflow2283.SERVICE_VARIANT,
             "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]],
                 "paramSet" : [
                     "catalogue1" : [label : "Catalogue 1", description : "1st Event list (not all HEC lists are supported)", type : [javaType: String], defaultValue : "goes_sxr_flare", 
                         valueDomain: tav2283ValueDomain],
@@ -290,7 +296,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : GoesPlotterServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,  // timeout in seconds.
             "inputParams" : [
-             "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+             "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]],
              "paramSet" : [
                "plotType" : [label: "Plot type", description : "Choose the kind of GOES data to plot", 
                             type : [javaType: eu.heliovo.clientapi.processing.context.GoesPlotterService.PlotType], 
@@ -308,7 +314,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : FlarePlotterServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,
             "inputParams" : [
-              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']]
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]]
             ],
             "outputParams" : [
               "url" : [id : "url", label: "Flare Plot", type : "url" ],
@@ -322,7 +328,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : SimpleParkerModelServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,
             "inputParams" : [
-              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_start_time']],
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_start_time"]],
               "paramSet" : [
                 "velocity" : [label : "Velocity", description : "Velocity in km/s (would speed be the better term?)", type : [javaType: int], defaultValue : 400],
                 "plotType" : [label : "Area to plot", description : "Plot inner or outer planets", 
@@ -342,7 +348,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : AcePlotterServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,
             "inputParams" : [
-              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]]
             ],
             "outputParams" : [
                 "url" : [id : "url", label: "ACE Plot", type : "url" ],
@@ -356,7 +362,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : StaPlotterServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,
             "inputParams" : [
-              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]]
             ],
             "outputParams" : [
               "url" : [id : "url", label: "STEREO-A Plot", type : "url" ],
@@ -370,7 +376,7 @@ class TaskDescriptorService implements InitializingBean {
               "serviceVariant" : StbPlotterServiceImpl.SERVICE_VARIANT,
               "timeout" : 60,
               "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]]
               ],
               "outputParams" : [
                 "url" : [id : "url", label: "STEREO-B Plot", type : "url" ],
@@ -384,7 +390,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : UlyssesPlotterServiceImpl.SERVICE_VARIANT,
             "timeout" : 60,
             "inputParams" : [
-              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+              "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]]
             ],
             "outputParams" : [
               "url" : [id : "url", label: "Ulysses Plot", type : "url" ],
@@ -398,7 +404,7 @@ class TaskDescriptorService implements InitializingBean {
               "serviceVariant" : WindPlotterServiceImpl.SERVICE_VARIANT,
               "timeout" : 60,
               "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']]
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]]
               ],
               "outputParams" : [
                 "url" : [id : "url", label: "WIND Plot", type : "url" ],
@@ -411,13 +417,15 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.SYNC_QUERY_SERVICE,
               "serviceVariant" : null,
               "timeout" : 120,
+			  "help" : [ position: "bottom", template: "/dialog/paramSetHelpHEC"],
               "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'multi_time_range']],
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "multi_time_range"]],
                 "eventList" :  [
                     "listNames" : [label : "Event List", description : "Name of the Event List", type : [javaType: String][], 
                         defaultValue : [], 
                         valueDomain: eventListDescriptors]
-                    ]
+                    ],
+				"paramSet" : [:]  /* dynamically populated */ 
               ],
               "outputParams" : [
                 "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
@@ -431,7 +439,7 @@ class TaskDescriptorService implements InitializingBean {
             "serviceVariant" : null,
             "timeout" : 180,
             "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'multi_time_range']],
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "multi_time_range"]],
                 "instruments" :  [
                     "instruments" : [label : "Instruments", description : "Name of the Instrument", type : String[],
                         defaultValue : [],
@@ -452,7 +460,7 @@ class TaskDescriptorService implements InitializingBean {
             "resultfilter" : "ilsfilter", // name and id of the gsp page to use as result filter
             "timeout" : 180,
             "inputParams" : [
-                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+                "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]],
             ],
             "outputParams" : [
                 "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
@@ -468,7 +476,7 @@ class TaskDescriptorService implements InitializingBean {
               "resultfilter" : "icsfilter", // name and id of the gsp page to use as result filter
               "timeout" : 180,
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]],
               ],
               "outputParams" : [
                   "voTableUrl" : [id : "voTableUrl", label: "VOTable", type : "votable" ],
@@ -481,7 +489,7 @@ class TaskDescriptorService implements InitializingBean {
               "serviceCapability" : ServiceCapability.ASYNC_QUERY_SERVICE,
               "timeout" : 180,
               "inputParams" : [
-                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: 'single_time_range']],
+                  "timeRanges" : ["timeRanges" : [type : TimeRange.class, restriction: "single_time_range"]],
                   "paramSet" : [
                       "mission" : [label : "Mission", description : "Select a mission", type : [javaType: String], defaultValue : "ACE", 
                           valueDomain: desConfiguration?.missions],

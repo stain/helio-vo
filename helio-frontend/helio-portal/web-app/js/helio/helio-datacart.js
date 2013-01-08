@@ -18,7 +18,7 @@ helio.DataCart = function() {
  */
 helio.DataCart.prototype._init = function() {
     var THIS = this;
-    $.getJSON(
+    $.postJSON(
         './dataCart/load',
         function(data, textStatus, jqXHR) {
             THIS.data = data;
@@ -33,7 +33,6 @@ helio.DataCart.prototype._init = function() {
         slide: THIS._handleSliderSlide
     });
 };
-
 
 /**
  * Helper function to enable scrolling slider in the datacart
@@ -67,7 +66,7 @@ helio.DataCart.prototype._handleSliderSlide = function(event, ui) {
  */
 helio.DataCart.prototype.addItem = function(dataItem) {
     var THIS = this;
-    this.data = $.getJSON(
+    this.data = $.postJSON(
         './dataCart/create',
         {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
@@ -84,7 +83,7 @@ helio.DataCart.prototype.addItem = function(dataItem) {
  */
 helio.DataCart.prototype.update = function(dataItem) {
     var THIS = this;
-    this.data = $.getJSON(
+    this.data = $.postJSON(
         './dataCart/update',
         {id : dataItem.id, data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
@@ -101,7 +100,7 @@ helio.DataCart.prototype.update = function(dataItem) {
  */
 helio.DataCart.prototype.deleteItem = function(dataItem) {
     var THIS = this;
-    this.data = $.getJSON(
+    this.data = $.postJSON(
         './dataCart/delete',
         {data : JSON.stringify(dataItem, this._jsonReplacer)},
         function(data, textStatus, jqXHR) {
@@ -162,11 +161,8 @@ helio.DataCart.prototype.render = function() {
                 
                 break;
             case 'eu.heliovo.hfe.model.param.ParamSet':
-                dataObject = new helio.ParamSet(cartItem.taskName, cartItem.name);
-                for (var i = 0; i < cartItem.entries.length; i++) {
-                    var entry = cartItem.entries[i];
-                    dataObject.setParamSetEntry(entry.paramName, entry.operator.name, entry.paramValue); 
-                }
+            	dataObject = THIS._newParamSet(cartItem.taskName, cartItem.name, cartItem.entries);
+            	
                 taskName = cartItem.taskName != null ? cartItem.taskName : taskName;
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
@@ -191,8 +187,16 @@ helio.DataCart.prototype.render = function() {
                 break;                
             case 'eu.heliovo.hfe.model.param.EventListParam':
                 dataObject = new helio.EventList(cartItem.taskName, cartItem.name);
-                for (var i = 0; i < cartItem.listNames.length; i++) {
-                    dataObject.addEntry(cartItem.listNames[i]);
+                // loop over event lists
+                for (var i = 0; i < cartItem.entries.length; i++) {
+                	var eventListEntry = cartItem.entries[i];
+                	
+                	// find according param set
+                	var paramSet = undefined;
+                	if (eventListEntry.whereClause) {
+                		paramSet = THIS._newParamSet.call(THIS, cartItem.taskName, "whereClause", eventListEntry.whereClause.entries);
+                	}
+                	dataObject.addEntry(eventListEntry.listName, paramSet);
                 }
                 dataObject.id = cartItem.id;
                 dialogFactory = (function(task, taskName, dataObject) { 
@@ -301,6 +305,21 @@ helio.DataCart.prototype.render = function() {
             }
         }
     });
+};
+
+/**
+ * Create a new param set
+ * @param {String} taskName the name of the parent task
+ * @param {String} paramSetName the name of the param set
+ * @param {Array} list of Objects consisting of a paramName-operator-paramValue triple.
+ */
+helio.DataCart.prototype._newParamSet = function(taskName, paramSetName, entries) {
+	var paramSet = new helio.ParamSet(taskName, paramSetName);
+	for (var i = 0; i < entries.length; i++) {
+	    var entry = entries[i];
+	    paramSet.setParamSetEntry(entry.paramName, entry.operator.name, entry.paramValue); 
+	}
+	return paramSet;
 };
 
 })();
