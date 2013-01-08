@@ -467,10 +467,11 @@ table.dialog_content_table td {
 }
 
 .dialog_selection_area {
-	width: 250px;
-	height: 220px;
-	margin: 0;
-	overflow: auto;
+    height: 240px;
+    width: 260px;
+    margin: 0;
+    overflow: auto;
+    padding: 0 5px 5px;
 }
 
 .dialog_selection_area ul {
@@ -486,7 +487,7 @@ table.dialog_content_table td {
 
 .dialog_selection_area_text {
 	float: left;
-	width: 210px;
+	width: 200px;
 	min-height: 20px;
 }
 
@@ -535,14 +536,21 @@ select.paramSetEntry {
 	cursor: pointer;
 }
 
-/** icon for catalogue options */
-.listOptions {
-	background-image: url("../images/helio/options.png");
-	background-repeat: no-repeat;
-	background-size: 16px 16px;
-	background-position: center center;
-	padding: 0 16px 0 1em;
+.list-options {
+	background-image: url(../images/helio/options.png);
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	position: relative;
 	cursor: pointer;
+}
+
+.list-options.list-options-inactive {
+	background-position: 0 0
+}
+
+.list-options.list-options-active {
+	background-position: -16px 0
 }
 
 /*********************** time picker addon *************************/

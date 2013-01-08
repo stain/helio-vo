@@ -358,6 +358,7 @@ helio.EventListSummary.prototype._renderSummary = function(eventList) {
         for (var listName in eventList.entries) {
             var listEntry = eventList.getEventListEntry(listName);
             var listLabel = listEntry.getLabel();
+            var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
             
             var tr = $("<tr></tr>");
             table.append(tr);
@@ -366,7 +367,10 @@ helio.EventListSummary.prototype._renderSummary = function(eventList) {
             td.append('<b>' +listLabel + '</b>');
             
             // add the query options button (aka whereClause)
-            var options = $('<span class="listOptions" title="click to select query options"></span>');
+            var iconStatus = whereClause && whereClause.entries.length > 0  ? "active" : "inactive";
+            var options = $('<span style="margin: 0 1px 0 3px; top: 3px; position:relative;">' +
+            		'<span class="list-options list-options-' + iconStatus + 
+            		'" title="click to select query options"></span></span>');
             options.click(function(listName) {
                 return function() {
                     THIS.__queryOptionsDialog.call(THIS, listName);
@@ -376,7 +380,6 @@ helio.EventListSummary.prototype._renderSummary = function(eventList) {
             td.append(options);
 
             // now render the current content of the where clause
-            var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
             if (whereClause) {
                 var optionsText = '';
                 for (var i = 0; i < whereClause.getEntries().length; i++) {
@@ -1314,11 +1317,42 @@ helio.EventListDialog.prototype._renderSummaryBox = function(table) {
                 THIS._updateSelection.call(THIS, table); // notify the data table about the change.
             };
         })(listName));
-        
         li.append(removeButton);
+        
+        // add the query options button (aka whereClause)
+        var iconStatus = listEntry.whereClause && listEntry.whereClause.entries.length > 0 ? "active" : "inactive";
+        var options = 
+        	$('<div style="float:left; height:16px; width:16px; margin-right:3px;"  class="ui-state-default ui-corner-all">' +
+        		'<span class="list-options list-options-' + iconStatus + '" title="click to select query options"></span>' + 
+        	'</span>');
+        
+        options.click(function(listName) {
+            return function() {
+                THIS.__queryOptionsDialog.call(THIS, listName);
+                return false;
+            };
+        }(listName));
+        li.append(options);
+        
         li.append('<div class="dialog_selection_area_text" >' + listLabel + '<div>');
     }
 };
+
+/**
+ * Show the param set dialog for a given eventlist.
+ * @param listName the name of the list.
+ */
+helio.EventListDialog.prototype.__queryOptionsDialog = function(listName) {
+    var THIS = this;
+    var listEntry = this.newdata.getEventListEntry(listName);
+    var whereClause = listEntry.whereClause;  // this is a helio.ParamSet
+    var paramSetDialog = new helio.ParamSetDialog(this.task, this.taskName, whereClause, listName);
+    var okCallback = function() {
+        THIS._renderSummaryBox.call(THIS, THIS.newdata);
+    };
+    paramSetDialog.show(okCallback);
+};
+
 
 /**
  * InstrumentDialog class
