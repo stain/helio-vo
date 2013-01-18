@@ -104,6 +104,7 @@ public class HelioFileUtil {
 		try {
 			URLConnection conn = remoteURL.openConnection();
 			conn.setUseCaches(false);
+			conn.setConnectTimeout(1000);
 			remoteInputStream = conn.getInputStream();
 			if (remoteInputStream.available() > 0) { 
 				// and update the cache.
