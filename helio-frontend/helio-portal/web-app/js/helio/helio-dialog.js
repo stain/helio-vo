@@ -1696,7 +1696,7 @@ helio.TimeRangeDetailsDialog.prototype._updateDataModel = function() {
  * @return adjusted time as ISO string.
  */
 helio.TimeRangeDetailsDialog.prototype._incTime = function(/*String*/ time, /*number*/ inc) {
-    var date = moment(time, "YYYY-MM-DDTHH:mm:ss");
+    var date = moment(time, ["YYYY-MM-DDTHH:mm:ss.SSS", "YYYY-MM-DD HH:mm:ss.SSS"]);
     date.add("hours", inc);
     return date.format("YYYY-MM-DDTHH:mm:ss");
 };

@@ -28,7 +28,7 @@
 <g:javascript src="/plugins/jquery.form.js"/><%--used for file uploads--%>
 <g:javascript src="/plugins/jquery.collapsible.min.js" /> <%-- enable collapsible sections --%>
 <g:javascript src="/plugins/jquery.blockUI.js"/> <%--block the full ui to display help texts --%>
-<g:javascript src="/plugins/moment-1.4.0.min.js"/> <%-- a date parsing and formatting utility --%>
+<g:javascript src="/plugins/moment-1.7.2.min.js"/> <%-- a date parsing and formatting utility --%>
 <g:javascript src="/plugins/highcharts-2.2.3.min.js"/> <%-- a charting library --%>
 <g:javascript src="/plugins/highcharts-exporting-2.2.3.min.js"/> <%-- an extension for highcharts --%>
 <g:javascript src="/plugins/superfish-1.4.8.js"/> <%-- plugin to create a dropdown menu --%>
