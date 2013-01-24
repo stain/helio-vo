@@ -69,7 +69,7 @@ helio.TimeRange.prototype.isRange = function() {
  */
 helio.TimeRange.prototype.setStartTime = function(startTime) {
     this.startTime = startTime ? (
-            typeof startTime === 'string' ? moment(startTime, "YYYY-MM-DDTHH:mm:ss") :
+            typeof startTime === 'string' ? moment(startTime, ["YYYY-MM-DDTHH:mm:ss", "YYYY-MM-DD HH:mm:ss"]) :
                 moment(startTime)
             )
             : moment();
@@ -84,7 +84,7 @@ helio.TimeRange.prototype.setStartTime = function(startTime) {
  */
 helio.TimeRange.prototype.setEndTime = function(endTime) {
     this.endTime = endTime ? (
-            typeof endTime === 'string' ? moment(endTime, "YYYY-MM-DDTHH:mm:ss") :
+            typeof endTime === 'string' ? moment(endTime, ["YYYY-MM-DDTHH:mm:ss", "YYYY-MM-DD HH:mm:ss"]) :
                 moment(endTime)
         )
         : moment();
