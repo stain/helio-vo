@@ -69,7 +69,9 @@ class ConfigController {
         descriptor['id'] = desc.value;
         descriptor['label'] = desc.label;
         descriptor['description'] = desc.description;
-        descriptor += desc.fieldDescriptors.collectEntries{[it.id, getFieldDescriptor(it)]}
+		if (desc.fieldDescriptors) {
+			descriptor += desc.fieldDescriptors.collectEntries{[it.id, getFieldDescriptor(it)]}
+		}
         return descriptor;
     }
     
