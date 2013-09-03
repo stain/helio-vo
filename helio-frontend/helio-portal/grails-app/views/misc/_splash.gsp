@@ -24,7 +24,7 @@
 							<td width="70">
 								<img src="${resource(dir:'images/helio/',file:'big_feature3.png')}">
 							</td>
-							<td width="150">Search Features (disabled)</td>
+							<td width="150">Search Features</td>
 						</tr>
 					</table>
 				</div>

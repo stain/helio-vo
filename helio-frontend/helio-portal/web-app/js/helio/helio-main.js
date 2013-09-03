@@ -207,7 +207,10 @@ $(document).ready(function() {
 	var initSplashButtons = function() {
 		attachClickHandler('#entry_screen_eventlist', 'eventlist', menuConfig['task_eventlist']);
 		attachClickHandler('#entry_screen_dataaccess', 'dataaccess', menuConfig['task_dataaccess']);
-		$('#entry_screen_featurelist').click(function() { alert('Searching for features is not yet active.');});
+		$('#entry_screen_featurelist').click(function() {   
+			window.open('http://voparis-helio.obspm.fr/hfc-gui/', 'hfc');
+		    return false; 
+		});
 	};
 
 	$('#misc_splash').click(function() {
