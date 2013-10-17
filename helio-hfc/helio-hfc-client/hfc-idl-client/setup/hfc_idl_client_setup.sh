@@ -1,8 +1,8 @@
 #! /bin/sh
 
 # Script to load environment variables 
-# required by the hfc client software.
-# Must be placed in the hfc_client/setup sub-directory. 
+# required by the hfc idl client software.
+# Must be placed in the hfc_idl_client/setup sub-directory. 
 #
 # To load this script:
 # >source hfc_idl_client_setup.sh
@@ -16,6 +16,6 @@ cd `dirname $ARGS`/..
 export HFC_IDL_CLIENT_DIR=`pwd`
 cd $CURRENT_DIR
 
-# Append hfc client idl library path to $IDL_PATH
+# Append hfc idl client library path to $IDL_PATH
 IDL_PATH=$IDL_PATH:+$HFC_IDL_CLIENT_DIR/src
 export IDL_PATH

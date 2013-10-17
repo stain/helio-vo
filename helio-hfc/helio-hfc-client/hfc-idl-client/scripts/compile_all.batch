@@ -1,4 +1,4 @@
-; IDL batch file to compile the hfc client routines
+; IDL batch file to compile the hfc idl client routines
 ;
 ; Usage: idl>@compile_all.batch
 ;
